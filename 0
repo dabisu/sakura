@@ -1,0 +1,776 @@
+#! /bin/sh
+#
+# My Own Building System main script.
+# $Id: 0 42 2005-10-02 10:37:03Z DervishD $
+#
+#   Copyright (C) 2005 Raúl Núñez de Arenas Coronado
+#   Report bugs to Raúl Núñez de Arenas Coronado <bugs@dervishd.net>
+#
+#       This program is free software; you can redistribute it and/or
+#        modify it under the terms of the GNU General Public License
+#               as published by the Free Software Foundation;
+#                     either version 2 of the License,
+#                  or (at your option) any later version.
+#
+#      This program is distributed in the hope that it will be useful,
+#        but WITHOUT ANY WARRANTY; without even the implied warranty
+#          of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#           See the GNU General Public License for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#            ('GPL') along with this program; if not, write to:
+#
+#                      Free Software Foundation, Inc.
+#                        59 Temple Place, Suite 330
+#                        Boston, MA 02111-1307  USA
+################
+(
+# Some variables we need for proper functioning
+export LC_ALL=C
+export LANG=C
+export LANGUAGE=C
+COPYRIGHT="Copyright (C) 2005 Raúl Núñez de Arenas Coronado"
+
+# This is for fixing non SUSv3 behaviour on some shells
+eval ${ZSH_VERSION:+emulate sh; export NULLCMD=":"}
+eval ${BASH_VERSION:+set -o posix}
+
+
+# Clean if 0 exits with nonzero return code
+trap '[ $? -ne 0 ] && rm -rf Makefile config.mk config.h > /dev/null 2>&1' EXIT
+
+# Clean in case we receive certain signals
+trap 'rm -rf Makefile config.mk config.h > /dev/null 2>&1 ; exit 1}' HUP INT PIPE QUIT TERM
+
+
+#   First of all, check whether '0.conf' and 'Makefile.in' exist.
+[ -r "0.conf" ] || {
+    printf -- "*** '0.conf' doesn't exist. You must create one.\n" >&2
+    false; exit
+}
+
+[ -r "Makefile.in" ] || {
+    printf -- "*** 'Makefile.in' doesn't exist. You must create one.\n" >&2
+    false; exit
+}
+
+#   Now read and validate '0.conf'. This means that if the file
+# contents are invalid, not even '--help' or '--version' will work,
+# but this is harmless since the end user should *NOT* receive a
+# project whose '0.conf' has flaws.
+#
+#   In addition to this, processing '0.conf' at the very beginning of
+# this script gives the opportunity of showing more information in
+# '--help', for example.
+
+# Read project name, version and author identity '0.conf'.
+# NOTE: '0' picks the FIRST ocurrence of the tags...
+zero_project="`sed -ne '
+/^PROJECT/ {
+    s/[[:cntrl:]]/ /g
+    s/^PROJECT[[:space:]]\+\(.*\)$/\1/p
+    q
+}' 0.conf`"
+# Remove trailing whitespace.
+zero_tmp=${zero_project##*[^ ]}
+zero_project=${zero_project%$zero_tmp}
+
+zero_version="`sed -ne '
+/^VERSION/ {
+    s/[[:cntrl:]]/ /g
+    s/^VERSION[[:space:]]\+\(.*\)$/\1/p
+    q
+}' 0.conf`"
+# Remove trailing whitespace.
+zero_tmp=${zero_version##*[^ ]}
+zero_version=${zero_version%$zero_tmp}
+
+zero_author="`sed -ne '
+/^AUTHOR/ {
+    s/[[:cntrl:]]/ /g
+    s/^AUTHOR[[:space:]]\+\(.*\)$/\1/
+    s/[\\]"/"/g
+    s/"/\\\\"/g
+    p
+    q
+}' 0.conf`"
+# Remove trailing whitespace.
+zero_tmp=${zero_author##*[^ ]}
+zero_author=${zero_author%$zero_tmp}
+
+
+#   NOTE: The validation for the AUTHOR tag is... picky. If we validate
+# using the C locale, then the author won't be able to use any local
+# characters, but since we don't know which locale is being used in
+# the end user environment, we cannot use a locale different from the
+# 'C' locale! So we won't do any validation and expect AUTHOR to be a
+# properly quoted valid C string literal.
+
+# Validate the project name.
+[ -z "$zero_project" ] && {
+    printf -- "*** Project name cannot be empty, check '0.conf'.\n" >&2
+    false; exit
+}
+zero_tmp=`expr "x$zero_project" : 'x\([[:alnum:]]\([-_\.[:alnum:]][[:alnum:]]\{1,\}\)*\)'`
+[ ${#zero_tmp} -lt ${#zero_project} ] && {
+    printf -- "*** Invalid project name '%s', check '0.conf'.\n" "$zero_project" >&2
+    false; exit
+}
+
+# Validate the project version.
+[ -z "$zero_version" ] && {
+    printf -- "*** Project version cannot be empty, check '0.conf'.\n" >&2
+    false; exit
+}
+zero_tmp=`expr "x$zero_version" : 'x\([[:digit:]][[:alnum:]]*\(\.[[:digit:]][[:alnum:]]*\)*\(-[[:alnum:]]\{1,\}\)\{0,1\}\)'`
+[ ${#zero_tmp} -lt ${#zero_version} ] && {
+    printf -- "*** Invalid version code '%s', check '0.conf'.\n" "$zero_version" >&2
+    false; exit
+}
+
+
+# Build a list of valid features, if any
+zero_vfeatures="`sed -ne '
+/^FEATURE/{
+    s/[[:cntrl:]]/ /g
+    s/^FEATURE[[:space:]]\+\([^[:space:]]\+\)\([[:space:]]\+.*\)\{0,1\}/\1/p
+}' 0.conf`"
+zero_vfeatures="`printf -- "%s\n%s" "debug" "$zero_vfeatures" | sort | uniq`"
+for zero_feature in $zero_vfeatures
+do
+    zero_tmp="`expr "x$zero_feature" : "x[_[:lower:][:digit:]]\{1,\}"`"
+    [ $zero_tmp -le ${#zero_feature} ] && {
+        [ $zero_tmp -eq 0 ] && zero_tmp=1
+        printf -- "*** Invalid character '%c' in feature name '%s', check '0.conf'.\n" \
+                  "`expr "x$zero_feature" : ".\{$zero_tmp\}\(.\)"`" \
+                  "$zero_feature" >&2
+        false; exit
+    }
+    [ ${#zero_feature} -gt 20 ] && {
+        printf -- "*** Feature name '%s' is too long, check '0.conf'.\n" \
+                  "$zero_feature" >&2
+        false; exit
+    }
+done
+
+# Build a list of valid parameters, if any
+zero_vparams="`sed -ne '
+/^PARAM/{
+    s/[[:cntrl:]]/ /g
+    s/^PARAM[[:space:]]\+\([^[:space:]]\+\)\([[:space:]]\+.*\)\{0,1\}/\1/p
+}' 0.conf`"
+zero_vparams="`printf -- "%s" "$zero_vparams" | sort | uniq`"
+for zero_param in $zero_vparams
+do
+    zero_tmp="`expr "x$zero_param" : "x[_[:lower:][:digit:]]\{1,\}"`"
+    [ $zero_tmp -le ${#zero_param} ] && {
+        [ $zero_tmp -eq 0 ] && zero_tmp=1
+        printf -- "*** Invalid character '%c' in parameter name '%s', check '0.conf'.\n" \
+                  "`expr "x$zero_param" : ".\{$zero_tmp\}\(.\)"`" \
+                  "$zero_param" >&2
+        false; exit
+    }
+    [ ${#zero_param} -gt 20 ] && {
+        printf -- "*** Parameter name '%s' is too long, check '0.conf'.\n" \
+                  "$zero_param" >&2
+        false; exit
+    }
+done
+
+
+# Check for 'special' parameters '--help' and '--version'.
+for zero_parameter
+do
+    [ "x$zero_parameter" = "x--help" ] && {
+        cat << EOF
+This script configures the project:
+    ${zero_project} ${zero_version}
+
+Usage: $0 [OPTION]... | --help | --version
+
+  --help                Shows this help and exits.
+  --version             Shows version and exits.
+
+OPTIONs are:
+  --prefix=PREFIX       Installation prefix is "PREFIX".
+  --bindir=DIRECTORY    Place user binaries in "DIRECTORY".
+  --sbindir=DIRECTORY   Place system binaries in "DIRECTORY".
+  --xbindir=DIRECTORY   Place program binaries in "DIRECTORY".
+  --confdir=DIRECTOR    Place configuration files in "DIRECTORY".
+  --datadir=DIRECTORY   Place static data files in "DIRECTORY".
+  --infodir=DIRECTORY   Place TeXinfo files in "DIRECTORY".
+  --mandir=DIRECTORY    Place manpages in "DIRECTORY".
+  --docdir=DIRECTORY    Place misc documentation in "DIRECTORY".
+  --libdir=DIRECTORY    Place libraries in "DIRECTORY".
+  --incdir=DIRECTORY    Place header files in "DIRECTORY".
+  --statedir=DIRECTORY  Place program status files in "DIRECTORY".
+  --spooldir=DIRECTORY  Place spool files in "DIRECTORY".
+
+  --enable-FEATURE      Enable package feature "FEATURE".
+  --disable-FEATURE     Disable package feature "FEATURE".
+  --with-PARAM=VALUE    Set package parameter "PARAM" to "VALUE".
+EOF
+
+        [ ! -z "$zero_vfeatures" ] && {
+            printf -- "\n%s\n" "Valid FEATURE's for ${zero_project} ${zero_version} are:"
+            for zero_feature in $zero_vfeatures
+            do
+                zero_tmp=""
+                if [ "$zero_feature" = "debug" ]
+                then zero_tmp="Enable or disable debugging support."
+                else zero_tmp="`sed -ne '
+                    s/[[:cntrl:]]/ /g
+                    /^FEATURE[[:space:]]\+'${zero_feature}'/ {
+                        s/^FEATURE[[:space:]]\+'${zero_feature}'[[:space:]]\+\(.*\)$/\1./p
+                        q
+                    }' 0.conf`"
+                fi
+                if [ -z $COLUMNS -o $COLUMNS -le 23 ]
+                then
+                    printf -- "  %-22s%s\n" "$zero_feature" "$zero_tmp"
+                else
+                    printf -- "%s\n" "$zero_tmp" | fold -w $(($COLUMNS-23)) -s | while read line
+                    do
+                        printf -- "  %-22s%.$(($COLUMNS-23))s\n" "$zero_feature" "$line"
+                        zero_feature=" "
+                    done
+                fi
+            done
+        } ; true 
+    
+        [ ! -z "$zero_vparams" ] && {
+            printf -- "\n%s\n" "Valid PARAM's for ${zero_project} ${zero_version} are:"
+            for zero_param in $zero_vparams
+            do
+                zero_tmp="`sed -ne '
+                    s/[[:cntrl:]]/ /g
+                    /^PARAM[[:space:]]\+'${zero_param}'/ {
+                        s/^PARAM[[:space:]]\+'${zero_param}'[[:space:]]\+\(.*\)$/\1./p
+                        q
+                    }' 0.conf`"
+                if [ -z $COLUMNS -o $COLUMNS -le 23 ]
+                then
+                    printf -- "  %-22s%s\n" "$zero_param" "$zero_tmp"
+                else
+                    printf -- "%s\n" "$zero_tmp" | fold -w $(($COLUMNS-23)) -s | while read line
+                    do
+                        printf -- "  %-22s%.$(($COLUMNS-23))s\n" "$zero_param" "$line"
+                        zero_param=" "
+                    done
+                fi
+            done
+        } ; true
+
+        printf -- "\n  Report bugs to Raúl Núñez de Arenas Coronado <bugs@dervishd.net>\n"
+        exit 0
+    }
+    [ "x$zero_parameter" = "x--version" ] && {
+        printf -- "This is the '%s' [%s] script for '%s'\n"\
+                  "`basename $0`"\
+                  "`date +%Y%m%d`"\
+                  "${zero_project}-${zero_version}"
+        exit 0
+    }
+done
+
+
+# FIXME: This doesn't work for VPATH builds :( Do we want VPATH builds?
+# Ensure we are on the proper directory
+cd "`dirname $0`"
+
+# Test if we can write to the current directory.
+# NOTE: It doesn't matter if this test passes, we must check for errors
+#       every time we create a file because the current directory can go
+#       write-protect between now and the moment of file creation.
+[ -w . ] || {
+    printf -- "*** Cannot write to current directory, what's up?\n" >&2
+    false; exit
+}
+
+
+# Evaluate OPTIONs
+for zero_option
+do
+    # Translate 'problematic' options and arguments ;)
+    zero_option=`printf -- "%s" "$zero_option" | tr "[:cntrl:]" " "`
+    
+    # Separate option and argument
+    zero_argument=`expr "x$zero_option" : 'x[^=]*=\(.*\)'`
+    zero_option=${zero_option%"$zero_argument"}
+    zero_option=${zero_option%\=}
+
+
+    case "$zero_option" in
+
+    --prefix|\
+    --bindir|--sbindir|--xbindir|\
+    --confdir|--datadir|\
+    --infodir|--mandir|--docdir|\
+    --libdir|--incdir|\
+    --statedir|--spooldir)
+        zero_argument=${zero_argument#\=}
+        [ -z "$zero_argument" ] && {
+            printf -- "*** Missing directory in '%s'.\n" "$zero_option" >&2
+            false; exit
+        }
+        #   Validate and normalize the directory name
+        #   First, make sure the directory names doesn't
+        # contain the forbidden char (currently '|')
+        zero_tmp=`expr "x$zero_argument" : "x[^|]*"`
+        [ $zero_tmp -le ${#zero_argument} ] && {
+            [ $zero_tmp -eq 0 ] && zero_tmp=1
+            printf -- "*** Invalid character '%c' in directory name '%s'.\n" \
+            "`expr "x$zero_argument" : ".\{$zero_tmp\}\(.\)"`" \
+            "$zero_argument" >&2
+            false; exit
+        }
+        
+        # First normalization: leading and trailing '/'
+        case $zero_argument in
+        /* ) zero_argument="$zero_argument/";;
+        *)   zero_argument="`pwd`/$zero_argument/" ;;
+        esac
+
+        # Second normalization:
+        #   - Dereference relative path elements
+        #   - Change multiple '/' to one
+        #   - Delete trailing '/'
+        zero_argument=`printf -- "%s" "$zero_argument" | sed -n '
+            :again
+            s|//|/|
+            t again
+            s|/\./|/|
+            t again
+            s|^/\.\./|/|
+            t again
+            s|/[^/]*/\.\./|/|
+            t again
+            s|^/$|//|
+            s|/$||
+            p
+        '`
+        # Well, now validate with 'expr'
+        zero_tmp=`expr "x$zero_argument" : "x[-[:alnum:]./_,;:~@]\{1,\}"`
+        [ $zero_tmp -le ${#zero_argument} ] && {
+            [ $zero_tmp -eq 0 ] && zero_tmp=1
+            printf -- "*** Invalid character '%c' in directory name '%s'.\n" \
+                "`expr "x$zero_argument" : ".\{$zero_tmp\}\(.\)"`" \
+                "$zero_argument" >&2
+            false; exit
+        }
+        zero_option=${zero_option#--}
+        eval zero_$zero_option=\"\$zero_argument\"
+    ;;
+
+    --enable-* | --disable-*)
+        [ ! -z "$zero_argument" ] && {
+            printf -- "*** You cannot assign a value to a FEATURE.\n" >&2
+            false; exit
+        }
+
+        # Save the 'feature' in $zero_argument
+        zero_argument=${zero_option#--*able}
+        zero_argument=${zero_argument#-}
+
+        zero_option=${zero_option%-*}
+        zero_option=${zero_option#--}
+            
+        [ -z "$zero_argument" ] && {
+            printf -- "*** Missing feature in '--%s' switch.\n" \
+                "$zero_option" >&2
+            false; exit
+        }
+
+        zero_tmp=""
+        for zero_feature in $zero_vfeatures
+        do
+            [ "$zero_argument" = "$zero_feature" ] && zero_tmp="$zero_feature"
+        done
+        [ -z "$zero_tmp" ] && {
+            printf -- "*** Invalid feature '%s'.\n" "$zero_argument" >&2
+            printf -- "*** Valid package features are:\n" >&2
+            for zero_feature in $zero_vfeatures
+            do
+                printf -- "\t%s\n" "$zero_feature" >&2
+            done
+            false; exit
+        }
+
+        #   A new parameter named zero_f_<FEATURE> is created for every
+        # --enable/--disable-FEATURE option given, and a value of 'enable'
+        # or 'disable' is assigned to it. Afterwards, that parameter is
+        # added to a list that will be sort'd and uniq'd so the list at
+        # the end has only ONE copy of each zero_f_<FEATURE> with a value
+        # showing whether it was enabled or disabled in the command line.
+        eval zero_f_$zero_argument=${zero_option}
+        zero_features="$zero_features zero_f_$zero_argument"
+    ;;
+
+    --with-*)
+        # Save the 'parameter' in $zero_option
+        zero_option=${zero_option#--with-}
+
+        # Validate parameter name        
+        zero_tmp=""
+        for zero_param in $zero_vparams
+        do
+            [ "$zero_option" = "$zero_param" ] && zero_tmp="$zero_param"
+        done
+        [ -z $zero_tmp ] && {
+            printf -- "*** Invalid parameter '%s'.\n" "$zero_option" >&2
+            printf -- "*** Valid parameters are:\n" >&2
+            for zero_param in $zero_vparams
+            do
+                printf -- "\t%s\n" "$zero_param" >&2
+            done
+            false; exit
+        }
+
+        # Missing value for a valid parameter?
+        [ -z "$zero_argument" ] && {
+            printf -- "*** Missing value in parameter '%s'.\n" "$zero_option" >&2
+            false; exit
+        }
+
+        # Validate the parameter's value.
+        # Use 'expr' for that and just forbid characters.
+        zero_argument=`printf -- "%s" "$zero_argument" | tr "[:cntrl:]" " "`
+        zero_tmp=`expr "x$zero_argument" : "x[[:alnum:]./_~]\{1,\}"`
+        [ $zero_tmp -le ${#zero_argument} ] && {
+            [ $zero_tmp -eq 0 ] && zero_tmp=1
+            printf -- "*** Invalid character '%c' in parameter value '%s'.\n" \
+                "`expr "x$zero_argument" : ".\{$zero_tmp\}\(.\)"`" \
+                "$zero_argument" >&2
+            false; exit
+        }
+        
+        #   A new parameter named zero_p_<PARAMETER> is created for every
+        # --with-PARAMETER=VALUE option given, and it is assigned 'VALUE'.
+        # Afterwards, that parameter is added to a list that will be sort'd
+        # and uniq'd so the list has only ONE copy of each '--with' option
+        # given in the command line with the last 'VALUE'.
+        eval zero_p_$zero_option="${zero_argument}"
+        zero_params="$zero_params zero_p_$zero_option"
+    ;;
+
+    *)  printf -- "*** Unknown option '%s', dammit!\n" "$zero_option" >&2
+        printf -- "\n" >&2
+        printf -- "Use '$0 --help' to show usage, please.\n" >&2
+        false; exit
+    ;;
+    esac
+done
+
+
+# FIXME: I'm not sure whether we should carry some kind of validation
+#        in the zero_ variables after running the hook. It is very difficult
+#        because it would imply duplicating validation code or using shell
+#        functions, which is not very portable. OTOH, leaving the variables
+#        "as-is", without validation, may cause lots of problems.
+#        The worst part is that if we do validation, the developer cannot
+#        be sure about the validity! If he messes with some (valid) command
+#        line value, it may happen that sometimes the produced result is valid
+#        whereas sometimes it is not, so he cannot debug the validity of his
+#        code. It's much safer not to mess with zero_ variables, but in this
+#        case I think is a good idea to give the developer enough rope to be
+#        able to shoot himself in the foot.
+# Run the hook
+[ -f "0.hook" ] && { printf -- "Running hook...\n"; . ./0.hook; }
+
+
+#   Process lists of FEATURE's and PARAM's so they are sorted and
+# don't contain multiple copies of any FEATURE or PARAM.
+zero_features=$(printf -- "$zero_features"|tr -s ' ' '\n'|sort|uniq|tr -s '\n' ' ')
+zero_params=$(printf -- "$zero_params"|tr -s ' ' '\n'|sort|uniq|tr -s '\n' ' ')
+
+# Just in case, a quite usual default prefix...
+zero_prefix="${zero_prefix:-/usr/local}"
+
+# This is for a '/usr' install ;)
+if [ "$zero_prefix" = "/usr" ]
+then
+    : ${zero_confdir:=/etc}
+    : ${zero_statedir:=/var/lib/$zero_project}
+    : ${zero_spooldir:=/var/spool/$zero_project}
+fi
+
+# And this for a root install ;)
+if [ "$zero_prefix" = "/" ]
+then
+    :  ${zero_xbindir:=/usr/lib/$zero_project}
+    :  ${zero_datadir:=/usr/share/$zero_project}
+    :  ${zero_infodir:=/usr/share/info}
+    :   ${zero_mandir:=/usr/share/man}
+    :   ${zero_docdir:=/usr/share/doc/$zero_project}
+    :   ${zero_libdir:=/usr/lib}
+    :   ${zero_incdir:=/usr/include/$zero_project}
+
+fi
+
+# Now set default values for unset installation variables
+[ "$zero_prefix" = "/" ] && zero_prefix=""
+:   ${zero_bindir:=$zero_prefix/bin}
+:  ${zero_sbindir:=$zero_prefix/sbin}
+:  ${zero_xbindir:=$zero_prefix/lib/$zero_project}
+:  ${zero_confdir:=$zero_prefix/etc}
+:  ${zero_datadir:=$zero_prefix/share/$zero_project}
+:  ${zero_infodir:=$zero_prefix/share/info}
+:   ${zero_mandir:=$zero_prefix/share/man}
+:   ${zero_docdir:=$zero_prefix/share/doc/$zero_project}
+:   ${zero_libdir:=$zero_prefix/lib}
+:   ${zero_incdir:=$zero_prefix/include/$zero_project}
+: ${zero_statedir:=$zero_prefix/var/lib/$zero_project}
+: ${zero_spooldir:=$zero_prefix/var/spool/$zero_project}
+[ "$zero_prefix" = "" ] && zero_prefix="/"
+
+#   NOTE: There's a race condition in the generation of the files,
+# very weird and pretty harmless, but ugly... and unavoidable. If
+# any of the generated files is write protected while it is dumped
+# the shell will complain. Since I need to generate the file using
+# a redirection, this is unavoidable, as the user always can change
+# the permissions of the generated file *while it is being generated*
+# no matter if the name is known or random. This is very weird, since
+# I can't think of a reason for doing that, taking into account that
+# no harm can be done. Anyway, this note is just a reminder...
+
+# Create generated files:
+: > Makefile || {
+    printf -- "*** Cannot create 'Makefile'.\n" >&2
+}
+: > config.h || {
+    printf -- "*** Cannot create 'config.h'.\n" >&2
+    false; exit
+}
+: > config.mk || {
+    printf -- "*** Cannot create 'config.mk'.\n" >&2
+    false; exit
+}
+
+
+# Dump 'config.mk'
+printf -- "Generating 'config.mk'... "
+{
+cat << EOF
+# config.mk - mobs automatically generated makefile.
+# This file will be overwritten, DO NOT EDIT!
+#
+# $COPYRIGHT
+#
+# This makefile is free (as in speech) software;
+# the copyright holder gives unlimited permission
+# to copy, distribute and modify it.
+#
+# This makefile is distributed in the hope that it
+# will be useful, but WITHOUT ANY WARRANTY; without
+# even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.
+################
+
+EOF
+printf -- "##### Project information\n"
+printf -- "override PROJECT:=%s\n"  "$zero_project"
+printf -- "override VERSION:=%s\n"  "$zero_version"
+printf -- "\n"
+printf -- "##### User configurable directories\n"
+printf -- "override   PREFIX:=\"\$(DESTDIR)%s\"\n"   "$zero_prefix"
+printf -- "override   BINDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_bindir"
+printf -- "override  SBINDIR:=\"\$(DESTDIR)%s\"\n"  "$zero_sbindir"
+printf -- "override  XBINDIR:=\"\$(DESTDIR)%s\"\n"  "$zero_xbindir"
+printf -- "override  CONFDIR:=\"\$(DESTDIR)%s\"\n"  "$zero_confdir"
+printf -- "override  DATADIR:=\"\$(DESTDIR)%s\"\n"  "$zero_datadir"
+printf -- "override  INFODIR:=\"\$(DESTDIR)%s\"\n"  "$zero_infodir"
+printf -- "override   MANDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_mandir"
+printf -- "override   DOCDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_docdir"
+printf -- "override   LIBDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_libdir"
+printf -- "override   INCDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_incdir"
+printf -- "override STATEDIR:=\"\$(DESTDIR)%s\"\n" "$zero_statedir"
+printf -- "override SPOOLDIR:=\"\$(DESTDIR)%s\"\n" "$zero_spooldir"
+printf -- "\n"
+
+# Process requested features and dump them
+[ ! -z "$zero_features" ] && {
+    printf -- "##### Package features\n"
+    for zero_feature in $zero_features
+    do
+        eval zero_tmp="\${${zero_feature}}_${zero_feature#zero_f_}"
+        printf -- "override "
+        printf -- "%s:=1\n" "$zero_tmp" | tr '[:lower:]' '[:upper:]'
+        eval zero_tmp="\$$zero_feature"
+        printf -- "override "
+        printf -- "F_%s" "${zero_feature#zero_f_}" | tr '[:lower:]' '[:upper:]'
+        printf -- ":=%sd\n" "$zero_tmp"
+    done
+    printf -- "\n"
+} ; true
+
+[ ! -z "$zero_params" ] && {
+    printf -- "##### Package parameters\n"
+    for zero_param in $zero_params
+    do
+        printf -- "override "
+        printf -- "P_%s:=" ${zero_param#zero_p_} | tr '[:lower:]' '[:upper:]'
+        eval zero_tmp="\$$zero_param"
+        printf -- "\"%s\"\n" "$zero_tmp"
+    done
+    printf -- "\n"
+} ; true
+} > config.mk || {
+    printf -- "ERROR!\n"
+    printf -- "*** Cannot write to 'config.mk'.\n" >&2
+    false; exit
+}
+printf -- "done.\n"
+
+
+# Dump the configuration header 'config.h'
+printf -- "Generating 'config.h'... "
+{
+cat << EOF
+/*  config.h - mobs automatically generated header.
+ *  This file will be overwritten, DO NOT EDIT!
+ *
+ *  $COPYRIGHT
+ *
+ *  This header is free (as in speech) software;
+ *  the copyright holder gives unlimited permission
+ *  to copy, distribute and modify it.
+ *
+ *  This makefile is distributed in the hope that it
+ *  will be useful, but WITHOUT ANY WARRANTY; without
+ *  even the implied warranty of MERCHANTABILITY or
+ *  FITNESS FOR A PARTICULAR PURPOSE.
+ ***************/
+
+#ifndef MOBS_CONFIG_H
+#define MOBS_CONFIG_H
+
+EOF
+
+printf -- "\n/* Project information */\n"
+printf -- "#define PROJECT \"%s\"\n" "$zero_project"
+printf -- "#define VERSION \"%s\"\n" "$zero_version"
+[ -z "$mobs_author" ] && printf -- "#define AUTHOR  \"%s\"\n" "$zero_author"
+
+printf -- "\n/* User configurable directories */\n"
+printf -- "#define XBINDIR  \"%s\"\n" "$zero_xbindir"
+printf -- "#define CONFDIR  \"%s\"\n" "$zero_confdir"
+printf -- "#define DATADIR  \"%s\"\n" "$zero_datadir"
+printf -- "#define STATEDIR \"%s\"\n" "$zero_statedir"
+printf -- "#define SPOOLDIR \"%s\"\n" "$zero_spooldir"
+
+[ ! -z "$zero_features" ] && {
+    printf -- "\n/* Package features */\n"
+    for zero_feature in $zero_features
+    do
+        eval zero_tmp="\${$zero_feature}_${zero_feature#zero_f_}"
+        printf -- "#define "
+        printf -- "%s\n" "$zero_tmp" | tr '[:lower:]' '[:upper:]'
+    done
+} ; true
+
+[ ! -z "$zero_params" ] && {
+    printf -- "\n/* Package parameters */\n"
+    for zero_param in $zero_params
+    do
+        eval zero_tmp="\$$zero_param"
+        printf -- "#define "
+        printf -- "P_%s " "${zero_param#zero_p_}" | tr '[:lower:]' '[:upper:]'
+        printf -- "%s\n" "$zero_tmp"
+        printf -- "#define "
+        printf -- "S_%s " "${zero_param#zero_p_}" | tr '[:lower:]' '[:upper:]'
+        printf -- "\"%s\"\n" "$zero_tmp"
+        
+    done
+} ; true
+
+printf -- "\n#endif\n" 
+
+} > config.h || {
+    printf -- "ERROR!\n"
+    printf -- "*** Cannot write to 'config.h'.\n" >&2
+    false; exit
+}
+printf -- "done.\n"
+
+
+#   We have to process Makefile.in *before* sourcing 0.hook.
+# This way the hook can access the processed Makefile directly
+# without having to mess with Makefile.in and the like.
+
+#   By now, we just copy 'Makefile.in' into 'Makefile' and add some code
+# at the head and the tail. In the future more processing may be done.
+printf -- "Generating 'Makefile'... "
+{
+cat << EOF
+# Makefile - mobs automatically generated Makefile.
+# This file will be overwritten, DO NOT EDIT!
+#
+# This makefile is distributed under the same terms
+# than the file 'Makefile.in'. The copyright holder
+# of 'Makefile.in' is considered to be the copyright
+# holder of this file. See 'Makefile.in' for details.
+#
+###################
+include mobs.mk   #
+include config.mk #
+###################
+EOF
+cat Makefile.in
+cat << 'EOF'
+
+##### Dependency handling
+ifneq ($(DEPENDENCIES),)
+-include $(sort $(DEPENDENCIES))
+endif
+EOF
+} > Makefile || {
+    printf -- "ERROR!\n"
+    printf -- "*** Cannot write to 'Makefile'.\n" >&2
+    false; exit
+}
+printf -- "done.\n"
+
+
+# Oh, the end...
+printf -- "\n"
+printf -- "Your installation directories are:\n"
+printf -- "    PREFIX "%s"\n" "$zero_prefix"
+printf -- "    BINDIR "%s"\n" "$zero_bindir"
+printf -- "   SBINDIR "%s"\n" "$zero_sbindir"
+printf -- "   XBINDIR "%s"\n" "$zero_xbindir"
+printf -- "   CONFDIR "%s"\n" "$zero_confdir"
+printf -- "   DATADIR "%s"\n" "$zero_datadir"
+printf -- "   INFODIR "%s"\n" "$zero_infodir"
+printf -- "    MANDIR "%s"\n" "$zero_mandir"
+printf -- "    DOCDIR "%s"\n" "$zero_docdir"
+printf -- "    LIBDIR "%s"\n" "$zero_libdir"
+printf -- "    INCDIR "%s"\n" "$zero_incdir"
+printf -- "  STATEDIR "%s"\n" "$zero_statedir"
+printf -- "  SPOOLDIR "%s"\n" "$zero_spooldir"
+printf -- "\n"
+
+[ ! -z "$zero_features" ] && {
+    printf -- "Your package features are:\n"
+    for zero_feature in $zero_features
+    do
+        eval zero_tmp="\$$zero_feature"
+        printf -- "  %-22s%sd\n" "${zero_feature#zero_f_}" "$zero_tmp"
+    done
+    printf -- "\n"
+} ; true
+
+[ ! -z "$zero_params" ] && {
+    printf -- "Your package parameters are:\n"
+    for zero_param in $zero_params
+    do
+        eval zero_tmp="\$$zero_param"
+        printf -- "  %-22s%s\n" "${zero_param#zero_p_}" "$zero_tmp"
+    done
+    printf -- "\n"
+} ; true
+
+# FIXME: Is this useful?
+#printf -- "  Re-run '$0' if you want to change any of these,\n"
+#printf -- "and use '$0 --help' if you need some help ;)\n"
+exit 0
+)
