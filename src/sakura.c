@@ -1,5 +1,7 @@
 #include "mobs.h"
 
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <vte/vte.h>
@@ -7,9 +9,18 @@
 static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
+	GArray *terminals;
 	gchar *font;
 	gint size;
 } sakura;
+
+struct terminal {
+	GtkWidget* vte;		/* Reference to VTE terminal */
+	pid_t pid;			/* pid of the forked proccess */
+};
+
+#define DEFAULT_FONT "Bitstream Vera Sans Mono"
+#define DEFAULT_FONT_SIZE 14
 
 /* Callbacks */
 static void sakura_increase_font (GtkWidget *, void *);
@@ -38,29 +49,46 @@ static void sakura_decrease_font (GtkWidget *widget, void *data)
 
 static void sakura_child_exited (GtkWidget *widget, void *data)
 {
-	SAY("Child exited.Who knows what child...");
+	int status, page;
+	struct terminal term;
+		
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal,  page);
 
+	SAY("waiting for terminal pid %d", term.pid);
+	
+	waitpid(term.pid, &status, WNOHANG);
+	/* TODO: check wait return */	
+
+	/* Remove the array element before removing the notebook page */
+	g_array_remove_index(sakura.terminals, page);
+			
     if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 		/* Last terminal was closes so...*/
 		sakura_destroy();
 	} else {
 		sakura_del_tab();
-	}	
+	}
+
 }
 
 static void sakura_init()
 {
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	sakura.notebook=gtk_notebook_new();
-	sakura.font=g_strdup("Bitstream Vera Sans Mono");
-	sakura.size=13;
+	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
+	sakura.font=g_strdup(DEFAULT_FONT);
+	sakura.size=DEFAULT_FONT_SIZE;
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 }
 
 static void sakura_destroy()
 {
-	/* TODO: ¿Destroy terminal? */
+	/* Destroy the last notebook page */
+	sakura_del_tab();
+
+	g_array_destroy(sakura.terminals);
 	gtk_widget_destroy(sakura.main_window);
 	g_free(sakura.font);
 
@@ -81,12 +109,12 @@ static void sakura_set_font()
 
 static void sakura_add_tab()
 {
-	GtkWidget *terminal;
+	struct terminal term;
 
-	terminal=vte_terminal_new();
+	term.vte=vte_terminal_new();
 	/*TODO: Get real user shell. Check parameters */
-	vte_terminal_fork_command(VTE_TERMINAL(terminal), "/bin/zsh", NULL, NULL, NULL, TRUE, TRUE,TRUE);
-	gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), terminal, NULL);
+	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), "/bin/zsh", NULL, NULL, NULL, TRUE, TRUE,TRUE);
+	gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.vte, NULL);
 
     if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
@@ -95,9 +123,10 @@ static void sakura_add_tab()
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 	}
 
-	g_signal_connect(G_OBJECT(terminal), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
-	g_signal_connect(G_OBJECT(terminal), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
-	g_signal_connect(G_OBJECT(terminal), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
+	g_array_append_val(sakura.terminals, term);
+	g_signal_connect(G_OBJECT(term.vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
+	g_signal_connect(G_OBJECT(term.vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
+	g_signal_connect(G_OBJECT(term.vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
 }
 
 static void sakura_del_tab()
