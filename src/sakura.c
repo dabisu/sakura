@@ -39,6 +39,8 @@ static void sakura_kill_child();
 
 static gboolean sakura_key_press    (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
+	unsigned int topage=0;
+
 	if ( (event->state==GDK_CONTROL_MASK) && (event->type==GDK_KEY_PRESS)) {
 		if (event->keyval==GDK_t) {
 			sakura_add_tab();
@@ -47,6 +49,25 @@ static gboolean sakura_key_press    (GtkWidget *widget, GdkEventKey *event, gpoi
 			sakura_kill_child();
 			sakura_del_tab();
 			return TRUE;
+		}
+	}
+	
+	if ( (event->state==GDK_MOD1_MASK) && (event->type==GDK_KEY_PRESS)) {
+		if ((event->keyval>=GDK_1) && (event->keyval<=GDK_9)) {
+				switch(event->keyval) {
+					case GDK_1: topage=0; break;
+					case GDK_2: topage=1; break;
+					case GDK_3: topage=2; break;
+					case GDK_4: topage=3; break;
+					case GDK_5: topage=4; break;
+					case GDK_6: topage=5; break;
+					case GDK_7: topage=6; break;
+					case GDK_8: topage=7; break;
+					case GDK_9: topage=8; break;
+				}
+			    if (topage <= gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))) 
+					gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
+				return TRUE;
 		}
 	}
 	
