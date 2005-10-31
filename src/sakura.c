@@ -197,6 +197,9 @@ static void sakura_del_tab()
 	} else {
 		gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook),
 		                                      gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)));
+		if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		}
 	}
 }
 
