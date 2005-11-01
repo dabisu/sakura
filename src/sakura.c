@@ -44,6 +44,7 @@ static gboolean sakura_key_press    (GtkWidget *widget, GdkEventKey *event, gpoi
 	if ( (event->state==GDK_CONTROL_MASK) && (event->type==GDK_KEY_PRESS)) {
 		if (event->keyval==GDK_t) {
 			sakura_add_tab();
+			sakura_set_font();
 			return TRUE;
 		} else if (event->keyval==GDK_w) {
 			sakura_kill_child();
@@ -106,10 +107,41 @@ static void sakura_child_exited (GtkWidget *widget, void *data)
 
 }
 
+static void sakura_eof (GtkWidget *widget, void *data)
+{
+	int status, page;
+	struct terminal term;
+	
+	SAY("Got EOF signal");
+
+	/* Workaround for libvte strange behaviour. Check with
+	   libvte authors about child-exited/eof signals */
+	if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
+		
+		page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+		term=g_array_index(sakura.terminals, struct terminal,  page);
+
+		SAY("waiting for terminal pid (in eof) %d", term.pid);
+		
+		waitpid(term.pid, &status, WNOHANG);
+		/* TODO: check wait return */	
+
+		/* Remove the array element before removing the notebook page */
+		g_array_remove_index(sakura.terminals, page);
+				
+		sakura_del_tab();
+	}
+}
+	
+static gboolean sakura_delete_window (GtkWidget *widget, void *data)
+{
+	/*TODO: Show dialog if there're several tabs opened */
+	SAY("GOT delete-event");
+	return FALSE;
+}
 
 static void sakura_destroy_window (GtkWidget *widget, void *data)
 {
-	/*TODO: Show dialog if there're several tabs opened */
 	sakura_destroy();
 }
 
@@ -125,15 +157,19 @@ static void sakura_init()
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 	
-	g_signal_connect(G_OBJECT(sakura.main_window), "destroy-event", G_CALLBACK(sakura_destroy_window), NULL);
+	/* Init notebook */
+	gtk_notebook_set_scrollable(GTK_NOTEBOOK(sakura.notebook), TRUE);
+
+	g_signal_connect(G_OBJECT(sakura.main_window), "delete_event", G_CALLBACK(sakura_delete_window), NULL);
+	g_signal_connect(G_OBJECT(sakura.main_window), "destroy", G_CALLBACK(sakura_destroy_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
 
 }
 
 static void sakura_destroy()
 {
+	SAY("Destroying window");
 	g_array_free(sakura.terminals, TRUE);
-	gtk_widget_destroy(sakura.main_window);
 	g_free(sakura.font);
 
 	gtk_main_quit();
@@ -162,29 +198,28 @@ static void sakura_add_tab()
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term.vte), SCROLL_LINES);
 	
 	/*TODO: Get real user shell. Check parameters */
-	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), "/bin/zsh", NULL, NULL, NULL, TRUE, TRUE,TRUE);
+	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"), NULL, NULL, g_getenv("HOME"), TRUE, TRUE,TRUE);
 	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.vte, NULL))==-1) {
-		SAY("Cannot create a new tab");
+		SAY("Cannot create a new tab"); BUG();
 		return;
-	}
-
-    if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
-		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
-	} else {
-		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 	}
 
 	g_array_append_val(sakura.terminals, term);
 	g_signal_connect(G_OBJECT(term.vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
+	g_signal_connect(G_OBJECT(term.vte), "eof", G_CALLBACK(sakura_eof), NULL);
 	
-	gtk_widget_show_all(sakura.main_window);
+    if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
+	} else {
+		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
+		gtk_widget_show_all(sakura.main_window);
+	}
 
 	/* Select the current page _after_ the tab is visible. GTK sucks hard */
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
-	sakura_set_font();
 }
 
 static void sakura_del_tab()
