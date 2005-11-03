@@ -133,12 +133,29 @@ static void sakura_eof (GtkWidget *widget, void *data)
 	}
 }
 	
+
 static gboolean sakura_delete_window (GtkWidget *widget, void *data)
 {
-	/*TODO: Show dialog if there're several tabs opened */
-	SAY("GOT delete-event");
+	GtkWidget *dialog;
+	guint response;
+
+	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))>1) {
+		dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+									  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+									  "There are several tabs opened. Do you really want to close Sakura?");
+		
+		response=gtk_dialog_run(GTK_DIALOG(dialog));
+		gtk_widget_destroy(dialog);
+
+		if (response==GTK_RESPONSE_YES) 
+			return FALSE;
+		else
+			return TRUE;
+	}
+
 	return FALSE;
 }
+
 
 static void sakura_destroy_window (GtkWidget *widget, void *data)
 {
