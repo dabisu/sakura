@@ -2,9 +2,11 @@
 
 #include <sys/types.h>
 #include <sys/wait.h>
+
 #include <glib.h>
-#include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
+#include <pango/pango.h>
 #include <vte/vte.h>
 
 static struct {
@@ -13,8 +15,7 @@ static struct {
 	GArray *terminals;
 	GtkWidget *menu;
 	GtkWidget *im_menu;
-	gchar *font;
-	gint size;
+	PangoFontDescription *font;
 } sakura;
 
 struct terminal {
@@ -22,8 +23,7 @@ struct terminal {
 	pid_t pid;			/* pid of the forked proccess */
 };
 
-#define DEFAULT_FONT "Bitstream Vera Sans Mono"
-#define DEFAULT_FONT_SIZE 14
+#define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
 
 /* Callbacks */
@@ -77,15 +77,25 @@ static gboolean sakura_key_press    (GtkWidget *widget, GdkEventKey *event, gpoi
 	return FALSE;
 }
 
+
 static void sakura_increase_font (GtkWidget *widget, void *data)
 {
-	sakura.size += 1;
+	gint size;
+	
+	size=pango_font_description_get_size(sakura.font);
+	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)+1) * PANGO_SCALE);
+	
 	sakura_set_font();
 }
 
+
 static void sakura_decrease_font (GtkWidget *widget, void *data)
 {
-	sakura.size -= 1;
+	gint size;
+	
+	size=pango_font_description_get_size(sakura.font);
+	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)-1) * PANGO_SCALE);
+	
 	sakura_set_font();
 }
 
@@ -197,20 +207,21 @@ static void sakura_font_dialog (GtkWidget *widget, void *data)
 	gtk_widget_destroy(font_dialog);
 	
 	if (response==GTK_RESPONSE_OK) {
-		/* TODO: setfont */
+		pango_font_description_free(sakura.font);
+		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(font_dialog));
+	    sakura_set_font();
 	}
 }
 
 
 static void sakura_init()
 {
-	GtkWidget *item1, *item2;
+	GtkWidget *item1, *item2, *separator;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
-	sakura.font=g_strdup(DEFAULT_FONT);
-	sakura.size=DEFAULT_FONT_SIZE;
+	sakura.font=pango_font_description_from_string(DEFAULT_FONT);
 	sakura.menu=gtk_menu_new();
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
@@ -220,8 +231,10 @@ static void sakura_init()
 
 	/* Init popup menu*/
 	item1=gtk_menu_item_new_with_label("Select font...");
+	separator=gtk_separator_menu_item_new();
 	item2=gtk_menu_item_new_with_label("Input methods");
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item1);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item2);
 	sakura.im_menu=gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item2), sakura.im_menu);
@@ -251,12 +264,9 @@ static void sakura_destroy()
 static void sakura_set_font()
 {
 	int page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	gchar *fontstring;
 	
-	fontstring=g_strdup_printf("%s %d", sakura.font, sakura.size);
-	vte_terminal_set_font_from_string(VTE_TERMINAL(gtk_notebook_get_nth_page(GTK_NOTEBOOK(sakura.notebook),
-			   						  page)), fontstring);
-	g_free(fontstring);
+	vte_terminal_set_font(VTE_TERMINAL(gtk_notebook_get_nth_page(GTK_NOTEBOOK(sakura.notebook), page)),
+		                  sakura.font);
 }
 
 
@@ -334,8 +344,6 @@ int main(int argc, char **argv)
     /* Fill Input Methods menu */
 	term=g_array_index(sakura.terminals, struct terminal, 0);
 	vte_terminal_im_append_menuitems(VTE_TERMINAL(term.vte), GTK_MENU_SHELL(sakura.im_menu));
-	/* Set default font */
-	//sakura_set_font();
 
 	gtk_main();
 
