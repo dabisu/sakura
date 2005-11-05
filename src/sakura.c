@@ -11,6 +11,8 @@ static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
 	GArray *terminals;
+	GtkWidget *menu;
+	GtkWidget *im_menu;
 	gchar *font;
 	gint size;
 } sakura;
@@ -163,19 +165,69 @@ static void sakura_destroy_window (GtkWidget *widget, void *data)
 }
 
 
+static gboolean sakura_popup (GtkWidget *widget, GdkEvent *event)
+{
+	GtkMenu *menu;
+	GdkEventButton *event_button;
+
+	menu = GTK_MENU (widget);
+
+	if (event->type == GDK_BUTTON_PRESS) {
+		event_button = (GdkEventButton *) event;
+		if (event_button->button == 3) {
+			gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 
+			  			    event_button->button, event_button->time);
+		   return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+
+
+static void sakura_font_dialog (GtkWidget *widget, void *data)
+{
+	GtkWidget *font_dialog;
+	gint response;
+
+	font_dialog=gtk_font_selection_dialog_new("Select font");
+
+	response=gtk_dialog_run(GTK_DIALOG(font_dialog));
+	gtk_widget_destroy(font_dialog);
+	
+	if (response==GTK_RESPONSE_OK) {
+		/* TODO: setfont */
+	}
+}
+
 
 static void sakura_init()
 {
+	GtkWidget *item1, *item2;
+
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 	sakura.font=g_strdup(DEFAULT_FONT);
 	sakura.size=DEFAULT_FONT_SIZE;
+	sakura.menu=gtk_menu_new();
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 	
 	/* Init notebook */
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK(sakura.notebook), TRUE);
+
+	/* Init popup menu*/
+	item1=gtk_menu_item_new_with_label("Select font...");
+	item2=gtk_menu_item_new_with_label("Input methods");
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item1);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item2);
+	sakura.im_menu=gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item2), sakura.im_menu);
+	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_font_dialog), NULL);
+
+	gtk_widget_show_all(sakura.menu);
 
 	g_signal_connect(G_OBJECT(sakura.main_window), "delete_event", G_CALLBACK(sakura_delete_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "destroy", G_CALLBACK(sakura_destroy_window), NULL);
@@ -185,7 +237,11 @@ static void sakura_init()
 
 static void sakura_destroy()
 {
-	SAY("Destroying window");
+	SAY("Destroying sakura");
+
+	while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) > 1) {
+		sakura_del_tab();
+	}
 	g_array_free(sakura.terminals, TRUE);
 	g_free(sakura.font);
 
@@ -220,23 +276,28 @@ static void sakura_add_tab()
 		SAY("Cannot create a new tab"); BUG();
 		return;
 	}
-
+		
 	g_array_append_val(sakura.terminals, term);
 	g_signal_connect(G_OBJECT(term.vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "eof", G_CALLBACK(sakura_eof), NULL);
+	g_signal_connect_swapped(G_OBJECT(term.vte), "button-press-event", G_CALLBACK(sakura_popup), sakura.menu);
 	
-    if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+	/* Show all the first time after creating a terminal. Unrationale: im_append and set_current_page fails
+	   if the window isn't visible */
+	if  ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		sakura_set_font();
+		gtk_widget_show_all(sakura.main_window);
 	} else {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		gtk_widget_show_all(sakura.main_window);
 	}
-
-	/* Select the current page _after_ the tab is visible. GTK sucks hard */
+	
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
+	
 }
 
 static void sakura_del_tab()
@@ -262,16 +323,20 @@ static void sakura_kill_child()
 
 int main(int argc, char **argv)
 {
+	struct terminal term;
+	
 	gtk_init(&argc, &argv);
 
 	/* Init stuff */
 	sakura_init();
-
 	/* Add first tab */
 	sakura_add_tab();
-	sakura_set_font();
+    /* Fill Input Methods menu */
+	term=g_array_index(sakura.terminals, struct terminal, 0);
+	vte_terminal_im_append_menuitems(VTE_TERMINAL(term.vte), GTK_MENU_SHELL(sakura.im_menu));
+	/* Set default font */
+	//sakura_set_font();
 
-	gtk_widget_show_all(sakura.main_window);
 	gtk_main();
 
 	return 0;
