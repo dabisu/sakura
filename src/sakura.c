@@ -27,9 +27,16 @@ struct terminal {
 #define SCROLL_LINES 4096
 
 /* Callbacks */
+static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
 static void sakura_increase_font (GtkWidget *, void *);
 static void sakura_decrease_font (GtkWidget *, void *);
 static void sakura_child_exited (GtkWidget *, void *);
+static void sakura_eof (GtkWidget *, void *);
+static gboolean sakura_delete_window (GtkWidget *, void *);
+static void sakura_destroy_window (GtkWidget *, void *);
+static gboolean sakura_popup (GtkWidget *, GdkEvent *);
+static void sakura_font_dialog (GtkWidget *, void *);
+static void sakura_new_tab (GtkWidget *, void *);
 
 /* Functions */	
 static void sakura_init();
@@ -39,14 +46,13 @@ static void sakura_del_tab();
 static void sakura_set_font();
 static void sakura_kill_child();
 
-static gboolean sakura_key_press    (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+static gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	unsigned int topage=0;
 
 	if ( (event->state==GDK_CONTROL_MASK) && (event->type==GDK_KEY_PRESS)) {
 		if (event->keyval==GDK_t) {
 			sakura_add_tab();
-			sakura_set_font();
 			return TRUE;
 		} else if (event->keyval==GDK_w) {
 			sakura_kill_child();
@@ -214,9 +220,14 @@ static void sakura_font_dialog (GtkWidget *widget, void *data)
 }
 
 
+static void sakura_new_tab (GtkWidget *widget, void *data)
+{
+	sakura_add_tab();
+}
+
 static void sakura_init()
 {
-	GtkWidget *item1, *item2, *separator;
+	GtkWidget *item1, *item2, *item3, *separator;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	sakura.notebook=gtk_notebook_new();
@@ -230,15 +241,20 @@ static void sakura_init()
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK(sakura.notebook), TRUE);
 
 	/* Init popup menu*/
-	item1=gtk_menu_item_new_with_label("Select font...");
+	item1=gtk_menu_item_new_with_label("New tab");
+	item2=gtk_menu_item_new_with_label("Select font...");
+	item3=gtk_menu_item_new_with_label("Input methods");
 	separator=gtk_separator_menu_item_new();
-	item2=gtk_menu_item_new_with_label("Input methods");
+	//separator2=gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item1);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item2);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3);
 	sakura.im_menu=gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item2), sakura.im_menu);
-	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_font_dialog), NULL);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item3), sakura.im_menu);
+	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
+	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 
 	gtk_widget_show_all(sakura.menu);
 
@@ -304,9 +320,9 @@ static void sakura_add_tab()
 	} else {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		gtk_widget_show_all(sakura.main_window);
+	    gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
+		sakura_set_font();
 	}
-	
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 	
 }
 
