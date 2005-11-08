@@ -46,6 +46,7 @@ static void sakura_del_tab();
 static void sakura_set_font();
 static void sakura_kill_child();
 
+
 static gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	unsigned int topage=0;
@@ -105,6 +106,7 @@ static void sakura_decrease_font (GtkWidget *widget, void *data)
 	sakura_set_font();
 }
 
+
 static void sakura_child_exited (GtkWidget *widget, void *data)
 {
 	int status, page;
@@ -124,6 +126,7 @@ static void sakura_child_exited (GtkWidget *widget, void *data)
 	sakura_del_tab();
 
 }
+
 
 static void sakura_eof (GtkWidget *widget, void *data)
 {
@@ -201,7 +204,6 @@ static gboolean sakura_popup (GtkWidget *widget, GdkEvent *event)
 }
 
 
-
 static void sakura_font_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *font_dialog;
@@ -245,7 +247,6 @@ static void sakura_init()
 	item2=gtk_menu_item_new_with_label("Select font...");
 	item3=gtk_menu_item_new_with_label("Input methods");
 	separator=gtk_separator_menu_item_new();
-	//separator2=gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item1);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item2);
@@ -296,7 +297,6 @@ static void sakura_add_tab()
 	/* Init vte */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term.vte), SCROLL_LINES);
 	
-	/*TODO: Get real user shell. Check parameters */
 	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"), NULL, NULL, g_getenv("HOME"), TRUE, TRUE,TRUE);
 	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.vte, NULL))==-1) {
 		SAY("Cannot create a new tab"); BUG();
@@ -310,8 +310,8 @@ static void sakura_add_tab()
 	g_signal_connect(G_OBJECT(term.vte), "eof", G_CALLBACK(sakura_eof), NULL);
 	g_signal_connect_swapped(G_OBJECT(term.vte), "button-press-event", G_CALLBACK(sakura_popup), sakura.menu);
 	
-	/* Show all the first time after creating a terminal. Unrationale: im_append and set_current_page fails
-	   if the window isn't visible */
+	/* Show everything the first time after creating a terminal. Unrationale:
+	   im_append and set_current_page fails if the window isn't visible */
 	if  ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
