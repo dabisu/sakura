@@ -215,13 +215,14 @@ static void sakura_font_dialog (GtkWidget *widget, void *data)
 	font_dialog=gtk_font_selection_dialog_new("Select font");
 
 	response=gtk_dialog_run(GTK_DIALOG(font_dialog));
-	gtk_widget_destroy(font_dialog);
 	
 	if (response==GTK_RESPONSE_OK) {
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
 	    sakura_set_font();
 	}
+
+	gtk_widget_destroy(font_dialog);
 }
 
 
