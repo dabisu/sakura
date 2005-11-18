@@ -17,6 +17,9 @@ static struct {
 	GtkWidget *menu;
 	GtkWidget *im_menu;
 	PangoFontDescription *font;
+	GtkWidget *open_link_item;
+	GtkWidget *open_link_separator;
+	char *current_match;
 } sakura;
 
 struct terminal {
@@ -26,6 +29,7 @@ struct terminal {
 
 #define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
+#define HTTP_REGEXP "http://[-a-zA-Z0-9.?$%&/=_]*"
 
 /* Callbacks */
 static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
@@ -39,6 +43,7 @@ static gboolean sakura_popup (GtkWidget *, GdkEvent *);
 static void sakura_font_dialog (GtkWidget *, void *);
 static void sakura_new_tab (GtkWidget *, void *);
 static void sakura_background_selection (GtkWidget *, void *);
+static void sakura_open_url (GtkWidget *, void *);
 
 /* Functions */	
 static void sakura_init();
@@ -191,11 +196,36 @@ static gboolean sakura_popup (GtkWidget *widget, GdkEvent *event)
 {
 	GtkMenu *menu;
 	GdkEventButton *event_button;
+	struct terminal term;
+	glong column, row;
+	int page, tag;
 
 	menu = GTK_MENU (widget);
 
 	if (event->type == GDK_BUTTON_PRESS) {
+		
 		event_button = (GdkEventButton *) event;
+		
+		page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+		term=g_array_index(sakura.terminals, struct terminal,  page);
+		
+		/* Find out if cursor it's over a matched expression...*/
+
+		/* Get the column and row relative to pointer position */
+		column=((glong)(event_button->x) / vte_terminal_get_char_width(VTE_TERMINAL(term.vte)));
+		row=((glong)(event_button->y) / vte_terminal_get_char_height(VTE_TERMINAL(term.vte)));
+		sakura.current_match=vte_terminal_match_check(VTE_TERMINAL(term.vte), column, row, &tag);
+
+		if (sakura.current_match) {
+			/* Show the extra options in the menu */
+			gtk_widget_show(sakura.open_link_item);
+			gtk_widget_show(sakura.open_link_separator);
+		} else {
+			/* Hide all the options */
+			gtk_widget_hide(sakura.open_link_item);
+			gtk_widget_hide(sakura.open_link_separator);
+		}
+		
 		if (event_button->button == 3) {
 			gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 
 			  			    event_button->button, event_button->time);
@@ -251,6 +281,32 @@ static void sakura_background_selection (GtkWidget *widget, void *data)
 }
 
 
+static void sakura_open_url (GtkWidget *widget, void *data)
+{
+	GError *error=NULL;
+	gchar *cmd;
+	const gchar *browser=NULL;
+	
+	browser=g_getenv("BROWSER");
+
+	if (browser) {
+		cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
+	} else {
+		cmd=g_strdup_printf("firefox %s", sakura.current_match);
+	}
+	
+	if (!g_spawn_command_line_async(cmd, &error)) {
+		SAY("Couldn't exec %s", cmd);
+	}
+
+	g_free(cmd);
+}
+
+
+
+
+/* Functions */
+
 static void sakura_new_tab (GtkWidget *widget, void *data)
 {
 	sakura_add_tab();
@@ -273,12 +329,16 @@ static void sakura_init()
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK(sakura.notebook), TRUE);
 
 	/* Init popup menu*/
+	sakura.open_link_item=gtk_menu_item_new_with_label("Open link...");
+	sakura.open_link_separator=gtk_separator_menu_item_new();
 	item1=gtk_menu_item_new_with_label("New tab");
 	item2=gtk_menu_item_new_with_label("Select font...");
 	item3=gtk_menu_item_new_with_label("Set background...");
 	item4=gtk_menu_item_new_with_label("Input methods");
 	separator=gtk_separator_menu_item_new();
 	separator2=gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item1);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item2);
@@ -291,6 +351,7 @@ static void sakura_init()
 	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
 	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(item3), "activate", G_CALLBACK(sakura_background_selection), NULL);	
+	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
 
 	gtk_widget_show_all(sakura.menu);
 
@@ -333,6 +394,7 @@ static void sakura_add_tab()
 
 	/* Init vte */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term.vte), SCROLL_LINES);
+	vte_terminal_match_add(VTE_TERMINAL(term.vte), HTTP_REGEXP);
 	
 	/*TODO: Check parameters */
 	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"), NULL, NULL, g_getenv("HOME"), TRUE, TRUE,TRUE);
