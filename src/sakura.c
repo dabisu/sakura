@@ -44,6 +44,7 @@ static void sakura_font_dialog (GtkWidget *, void *);
 static void sakura_new_tab (GtkWidget *, void *);
 static void sakura_background_selection (GtkWidget *, void *);
 static void sakura_open_url (GtkWidget *, void *);
+static void sakura_make_transparent (GtkWidget *, void *);
 
 /* Functions */	
 static void sakura_init();
@@ -302,7 +303,21 @@ static void sakura_open_url (GtkWidget *widget, void *data)
 	g_free(cmd);
 }
 
+static void sakura_make_transparent (GtkWidget *widget, void *data)
+{
+	/* tjb Do some transparency magic/hacking */
+	/* tjb probably need to do some checking here and  in sakura_set_bgimage for transparency */
+	/* tjb among other things already being set. */
+	int page;
+	struct terminal term;
+	
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal,  page);	
 
+	SAY("setting term.pid: %d to transparent...",term.pid);
+	vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),TRUE);
+	vte_terminal_set_background_saturation(VTE_TERMINAL (term.vte),TRUE);
+}
 
 
 /* Functions */
@@ -315,7 +330,7 @@ static void sakura_new_tab (GtkWidget *widget, void *data)
 
 static void sakura_init()
 {
-	GtkWidget *item1, *item2, *item3, *item4, *separator, *separator2;
+	GtkWidget *item1, *item2, *item3, *item3b, *item4, *separator, *separator2;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	sakura.notebook=gtk_notebook_new();
@@ -334,6 +349,7 @@ static void sakura_init()
 	item1=gtk_menu_item_new_with_label("New tab");
 	item2=gtk_menu_item_new_with_label("Select font...");
 	item3=gtk_menu_item_new_with_label("Set background...");
+	item3b=gtk_menu_item_new_with_label("Make transparent...");
 	item4=gtk_menu_item_new_with_label("Input methods");
 	separator=gtk_separator_menu_item_new();
 	separator2=gtk_separator_menu_item_new();
@@ -343,6 +359,7 @@ static void sakura_init()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item2);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3b);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator2);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item4);		
 	sakura.im_menu=gtk_menu_new();
@@ -351,6 +368,7 @@ static void sakura_init()
 	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
 	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(item3), "activate", G_CALLBACK(sakura_background_selection), NULL);	
+	g_signal_connect(G_OBJECT(item3b), "activate", G_CALLBACK(sakura_make_transparent), NULL);	
 	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
 
 	gtk_widget_show_all(sakura.menu);
@@ -470,9 +488,9 @@ static void sakura_set_bgimage(char *infile)
 	 	SAY("Frick: %s\n", gerror->message);
 	 	SAY("Frick: not using image file...\n");
 	} else {
-	 	vte_terminal_set_background_image(VTE_TERMINAL(term.vte), pixbuf);
-	 	vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), 50);
-	 	// frick vte_terminal_set_background_transparent(term.vte,TRUE);
+		vte_terminal_set_background_image(VTE_TERMINAL(term.vte), pixbuf);
+	 	vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), TRUE);
+		vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte),FALSE);
 	 }
 }
 
