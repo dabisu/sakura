@@ -1,0 +1,25 @@
+#!/bin/sh
+echo -n "Checking for pkg-config..."
+which pkg-config > /dev/null 2>&1
+if [ $? -eq 1 ]; then
+	echo; echo "What kind of old system do you have? Please upgrade and use pkg-config..."
+	exit 1;
+else
+	echo " found"
+fi
+
+echo -n "Checking for gtk libraries..."
+if [ `pkg-config --exists gtk+-2.0` ]; then
+	echo; echo "You don't seem to have gtk 2.x developtment libraries installed..."
+	exit 1
+else
+	echo " found"
+fi
+ 
+echo -n "Checking for vte library..."
+if [ `pkg-config --exists vte-2.0` ]; then
+	echo; echo "You don't seem to have vte developtment libraries installed..."
+	exit 1
+else
+	echo " found"
+fi 
