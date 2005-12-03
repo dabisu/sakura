@@ -2,7 +2,7 @@
 echo -n "Checking for pkg-config..."
 which pkg-config > /dev/null 2>&1
 if [ $? -eq 1 ]; then
-	echo; echo "What kind of old system do you have? Please upgrade and use pkg-config..."
+	echo; echo "Sakura uses pkg-config to detect libraries, please install it..."
 	exit 1;
 else
 	echo " found"

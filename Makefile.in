@@ -11,19 +11,28 @@ override _CPPFLAGS=-DNDEBUG
 override _CFLAGS+=-O2
 endif
 
+SAKURA_SOURCES=$(wildcard src/*.c)
 SAKURA_OBJECTS=$(patsubst %.c,%.o,$(wildcard src/*.c))
 DEPENDENCIES=$(patsubst %.o,%.d,$(SAKURA_OBJECTS))
+POFILES=$(wildcard po/*.po)
 
-all: src/sakura
+all: src/sakura localize
 
 src/sakura: $(SAKURA_OBJECTS)
 	$(MAKE.binary) $(SAKURA_OBJECTS)
 
 clean:
-	@rm -rf $(SAKURA_OBJECTS) $(DEPENDENCIES) src/sakura 
+	@rm -rf $(SAKURA_OBJECTS) $(DEPENDENCIES) src/sakura po/*.mo po/*.pot
 
 distclean: clean
-	@rm -rf Makefile config.mk config.h
+	@rm -rf Makefile config.mk config.h 
+
+localize:
+	@xgettext -o po/sakura.pot --keyword=_ $(SAKURA_SOURCES)
+	@for i in $(POFILES); do \
+		msgmerge -U $$i po/sakura.pot; \
+		msgfmt -o $${i%*.po}.mo $$i; \
+	done \
 
 DIRMODE="a+rx,u+w"
 install: all

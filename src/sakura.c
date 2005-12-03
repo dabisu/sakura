@@ -3,12 +3,14 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include <libintl.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <pango/pango.h>
 #include <vte/vte.h>
 
+#define _(String) gettext(String)
 
 static struct {
 	GtkWidget *main_window;
@@ -41,6 +43,7 @@ static gboolean sakura_delete_window (GtkWidget *, void *);
 static void sakura_destroy_window (GtkWidget *, void *);
 static gboolean sakura_popup (GtkWidget *, GdkEvent *);
 static void sakura_font_dialog (GtkWidget *, void *);
+static void sakura_set_name_dialog (GtkWidget *, void *);
 static void sakura_new_tab (GtkWidget *, void *);
 static void sakura_background_selection (GtkWidget *, void *);
 static void sakura_open_url (GtkWidget *, void *);
@@ -172,7 +175,7 @@ static gboolean sakura_delete_window (GtkWidget *widget, void *data)
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))>1) {
 		dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 									  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-									  "There are several tabs opened. Do you really want to close Sakura?");
+									  _("There are several tabs opened. Do you really want to close Sakura?"));
 		
 		response=gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
@@ -243,7 +246,7 @@ static void sakura_font_dialog (GtkWidget *widget, void *data)
 	GtkWidget *font_dialog;
 	gint response;
 
-	font_dialog=gtk_font_selection_dialog_new("Select font");
+	font_dialog=gtk_font_selection_dialog_new(_("Select font"));
 
 	response=gtk_dialog_run(GTK_DIALOG(font_dialog));
 	
@@ -257,13 +260,42 @@ static void sakura_font_dialog (GtkWidget *widget, void *data)
 }
 
 
+static void sakura_set_name_dialog (GtkWidget *widget, void *data)
+{
+	GtkWidget *input_dialog;
+	GtkWidget *entry;
+	gint response;
+	int page;
+	GtkWidget *npage;
+	
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	npage=gtk_notebook_get_nth_page(GTK_NOTEBOOK(sakura.notebook), page);	
+
+	input_dialog=gtk_dialog_new_with_buttons(_("Set name"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+											 GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
+										     GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
+	entry=gtk_entry_new();
+	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
+	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(input_dialog)->vbox), entry);
+
+	gtk_widget_show(entry);
+
+	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
+	if (response==GTK_RESPONSE_ACCEPT) {
+		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), npage, gtk_entry_get_text(GTK_ENTRY(entry)));
+	}
+	gtk_widget_destroy(input_dialog);
+}
+
+
 static void sakura_background_selection (GtkWidget *widget, void *data)
 {
 	GtkWidget *dialog;
 	gint response;
 	gchar *filename;
 	
-	dialog = gtk_file_chooser_dialog_new ("Select a background file", GTK_WINDOW(sakura.main_window),
+	dialog = gtk_file_chooser_dialog_new (_("Select a background file"), GTK_WINDOW(sakura.main_window),
 								  	      GTK_FILE_CHOOSER_ACTION_OPEN,
 										  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 										  GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
@@ -272,7 +304,6 @@ static void sakura_background_selection (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(dialog));
 	if (response == GTK_RESPONSE_ACCEPT) {
-
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 		sakura_set_bgimage(filename);
 		g_free(filename);
@@ -330,7 +361,7 @@ static void sakura_new_tab (GtkWidget *widget, void *data)
 
 static void sakura_init()
 {
-	GtkWidget *item1, *item2, *item3, *item3b, *item4, *separator, *separator2;
+	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *separator, *separator2;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	sakura.notebook=gtk_notebook_new();
@@ -344,31 +375,34 @@ static void sakura_init()
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK(sakura.notebook), TRUE);
 
 	/* Init popup menu*/
-	sakura.open_link_item=gtk_menu_item_new_with_label("Open link...");
+	sakura.open_link_item=gtk_menu_item_new_with_label(_("Open link..."));
 	sakura.open_link_separator=gtk_separator_menu_item_new();
-	item1=gtk_menu_item_new_with_label("New tab");
-	item2=gtk_menu_item_new_with_label("Select font...");
-	item3=gtk_menu_item_new_with_label("Set background...");
-	item3b=gtk_menu_item_new_with_label("Make transparent...");
-	item4=gtk_menu_item_new_with_label("Input methods");
+	item1=gtk_menu_item_new_with_label(_("New tab"));
+	item2=gtk_menu_item_new_with_label(_("Set name..."));
+	item3=gtk_menu_item_new_with_label(_("Select font..."));
+	item4=gtk_menu_item_new_with_label(_("Set background..."));
+	item5=gtk_menu_item_new_with_label(_("Make transparent..."));
+	item6=gtk_menu_item_new_with_label(_("Input methods"));
 	separator=gtk_separator_menu_item_new();
 	separator2=gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item1);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item2);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3b);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item4);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item5);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator2);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item4);		
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item6);		
 	sakura.im_menu=gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item4), sakura.im_menu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item6), sakura.im_menu);
 	
 	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
-	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_font_dialog), NULL);
-	g_signal_connect(G_OBJECT(item3), "activate", G_CALLBACK(sakura_background_selection), NULL);	
-	g_signal_connect(G_OBJECT(item3b), "activate", G_CALLBACK(sakura_make_transparent), NULL);	
+	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
+	g_signal_connect(G_OBJECT(item3), "activate", G_CALLBACK(sakura_font_dialog), NULL);
+	g_signal_connect(G_OBJECT(item4), "activate", G_CALLBACK(sakura_background_selection), NULL);	
+	g_signal_connect(G_OBJECT(item5), "activate", G_CALLBACK(sakura_make_transparent), NULL);	
 	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
 
 	gtk_widget_show_all(sakura.menu);
@@ -413,6 +447,7 @@ static void sakura_add_tab()
 	/* Init vte */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term.vte), SCROLL_LINES);
 	vte_terminal_match_add(VTE_TERMINAL(term.vte), HTTP_REGEXP);
+	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term.vte), TRUE);
 	
 	/*TODO: Check parameters */
 	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"), NULL, NULL, g_getenv("HOME"), TRUE, TRUE,TRUE);
