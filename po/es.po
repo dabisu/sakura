@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-12-03 21:58+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/sakura.c:178
+msgid "There are several tabs opened. Do you really want to close Sakura?"
+msgstr ""
+
+#: src/sakura.c:249
+msgid "Select font"
+msgstr "Seleccionar fuente"
+
+#: src/sakura.c:274
+msgid "Set name"
+msgstr "Elegir nombre"
+
+#: src/sakura.c:298
+msgid "Select a background file"
+msgstr ""
+
+#: src/sakura.c:378
+msgid "Open link..."
+msgstr "Abrir enlace..."
+
+#: src/sakura.c:380
+msgid "New tab"
+msgstr "Nueva pestaña"
+
+#: src/sakura.c:381
+msgid "Set name..."
+msgstr "Elegir nombre"
+
+#: src/sakura.c:382
+msgid "Select font..."
+msgstr "Seleccionar fuente..."
+
+#: src/sakura.c:383
+msgid "Set background..."
+msgstr "Seleccionar fondo..."
+
+#: src/sakura.c:384
+msgid "Make transparent..."
+msgstr "Hacer transparente"
+
+#: src/sakura.c:385
+msgid "Input methods"
+msgstr "Métodos de entrada"
