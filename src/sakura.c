@@ -63,18 +63,22 @@ static gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointe
 {
 	unsigned int topage=0;
 
-	if ( (event->state==GDK_CONTROL_MASK) && (event->type==GDK_KEY_PRESS)) {
-		if (event->keyval==GDK_t) {
+	if (event->type!=GDK_KEY_PRESS) return FALSE;
+	
+	/* Ctrl-Shift-[T/W] pressed */
+	if ( (event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)==(GDK_CONTROL_MASK|GDK_SHIFT_MASK)) ) { 
+		if (event->keyval==GDK_t || event->keyval==GDK_T) {
 			sakura_add_tab();
 			return TRUE;
-		} else if (event->keyval==GDK_w) {
+		} else if (event->keyval==GDK_w || event->keyval==GDK_W) {
 			sakura_kill_child();
 			sakura_del_tab();
 			return TRUE;
 		}
 	}
 	
-	if ( (event->state==GDK_MOD1_MASK) && (event->type==GDK_KEY_PRESS)) {
+	/* Alt + number pressed */
+	if ( (event->state & GDK_MOD1_MASK) == GDK_MOD1_MASK ) {
 		if ((event->keyval>=GDK_1) && (event->keyval<=GDK_9)) {
 				switch(event->keyval) {
 					case GDK_1: topage=0; break;
