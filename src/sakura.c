@@ -29,7 +29,7 @@ struct terminal {
 	pid_t pid;			/* pid of the forked proccess */
 };
 
-#define DEFAULT_FONT "Bitstream Vera Sans Mono Bold 14"
+#define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
 #define HTTP_REGEXP "http://[-a-zA-Z0-9.?$%&/=_]*"
 
