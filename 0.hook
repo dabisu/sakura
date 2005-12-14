@@ -9,7 +9,8 @@ else
 fi
 
 echo -n "Checking for gtk libraries..."
-if [ `pkg-config --exists gtk+-2.0` ]; then
+pkg-config --exists gtk+-2.0
+if [ $? -eq 1 ]; then
 	echo; echo "You don't seem to have gtk 2.x developtment libraries installed..."
 	exit 1
 else
@@ -17,7 +18,8 @@ else
 fi
  
 echo -n "Checking for vte library..."
-if [ `pkg-config --exists vte-2.0` ]; then
+pkg-config --exists vte
+if [ $? -eq 1 ]; then
 	echo; echo "You don't seem to have vte developtment libraries installed..."
 	exit 1
 else
