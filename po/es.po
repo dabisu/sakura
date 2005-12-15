@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-12 20:57+0100\n"
+"POT-Creation-Date: 2005-12-15 21:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,30 +32,30 @@ msgstr "Elegir nombre"
 msgid "Select a background file"
 msgstr ""
 
-#: src/sakura.c:382
+#: src/sakura.c:383
 msgid "Open link..."
 msgstr "Abrir enlace..."
 
-#: src/sakura.c:384
+#: src/sakura.c:385
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:385
+#: src/sakura.c:386
 msgid "Set name..."
 msgstr "Elegir nombre"
 
-#: src/sakura.c:386
+#: src/sakura.c:387
 msgid "Select font..."
 msgstr "Seleccionar fuente..."
 
-#: src/sakura.c:387
+#: src/sakura.c:388
 msgid "Set background..."
 msgstr "Seleccionar fondo..."
 
-#: src/sakura.c:388
+#: src/sakura.c:389
 msgid "Make transparent..."
 msgstr "Hacer transparente"
 
-#: src/sakura.c:389
+#: src/sakura.c:390
 msgid "Input methods"
 msgstr "Métodos de entrada"

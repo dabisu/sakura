@@ -368,6 +368,7 @@ static void sakura_init()
 	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *separator, *separator2;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 	sakura.font=pango_font_description_from_string(DEFAULT_FONT);
