@@ -25,8 +25,10 @@ static struct {
 } sakura;
 
 struct terminal {
+	GtkWidget* hbox;
 	GtkWidget* vte;		/* Reference to VTE terminal */
 	pid_t pid;			/* pid of the forked proccess */
+	GtkWidget *scrollbar;
 };
 
 #define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
@@ -270,10 +272,10 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 	GtkWidget *entry;
 	gint response;
 	int page;
-	GtkWidget *npage;
+	struct terminal term;
 	
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	npage=gtk_notebook_get_nth_page(GTK_NOTEBOOK(sakura.notebook), page);	
+	term=g_array_index(sakura.terminals, struct terminal,  page);	
 
 	input_dialog=gtk_dialog_new_with_buttons(_("Set name"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 											 GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
@@ -281,13 +283,13 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
 	entry=gtk_entry_new();
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(input_dialog)->vbox), entry);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 10);
 
 	gtk_widget_show(entry);
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
-		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), npage, gtk_entry_get_text(GTK_ENTRY(entry)));
+		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term.vte, gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(input_dialog);
 }
@@ -435,10 +437,19 @@ static void sakura_destroy()
 
 static void sakura_set_font()
 {
-	int page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	
-	vte_terminal_set_font(VTE_TERMINAL(gtk_notebook_get_nth_page(GTK_NOTEBOOK(sakura.notebook), page)),
-		                  sakura.font);
+	guint page; 
+	struct terminal term;
+
+	/* *sigh*... if the notebook is not visible values are not properly 
+	   initialized and curent_page return garbage */
+	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+		term=g_array_index(sakura.terminals, struct terminal, 0);	
+	} else {
+		page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+		term=g_array_index(sakura.terminals, struct terminal, page);	
+	}
+
+	vte_terminal_set_font(VTE_TERMINAL(term.vte), sakura.font);
 }
 
 
@@ -447,20 +458,26 @@ static void sakura_add_tab()
 	struct terminal term;
 	int index;
 	
+	term.hbox=gtk_hbox_new(FALSE, 0);
 	term.vte=vte_terminal_new();
-
+	
 	/* Init vte */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term.vte), SCROLL_LINES);
 	vte_terminal_match_add(VTE_TERMINAL(term.vte), HTTP_REGEXP);
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term.vte), TRUE);
 	
+	term.scrollbar=gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(term.vte)));
+
+	gtk_box_pack_start(GTK_BOX(term.hbox), term.vte, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(term.hbox), term.scrollbar, FALSE, FALSE, 0);
+
 	/*TODO: Check parameters */
 	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"), NULL, NULL, g_getenv("HOME"), TRUE, TRUE,TRUE);
-	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.vte, NULL))==-1) {
+	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.hbox, NULL))==-1) {
 		SAY("Cannot create a new tab"); BUG();
 		return;
 	}
-		
+
 	g_array_append_val(sakura.terminals, term);
 	g_signal_connect(G_OBJECT(term.vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
