@@ -22,6 +22,7 @@ static struct {
 	GtkWidget *open_link_item;
 	GtkWidget *open_link_separator;
 	char *current_match;
+	gboolean keep_above;
 } sakura;
 
 struct terminal {
@@ -50,6 +51,7 @@ static void sakura_new_tab (GtkWidget *, void *);
 static void sakura_background_selection (GtkWidget *, void *);
 static void sakura_open_url (GtkWidget *, void *);
 static void sakura_make_transparent (GtkWidget *, void *);
+static void sakura_toggle_keep_above (GtkWidget *, void *);
 
 /* Functions */	
 static void sakura_init();
@@ -356,6 +358,23 @@ static void sakura_make_transparent (GtkWidget *widget, void *data)
 	vte_terminal_set_background_saturation(VTE_TERMINAL (term.vte),TRUE);
 }
 
+static void sakura_toggle_keep_above (GtkWidget *widget, void *data)
+{
+	// tjb 12.16.05
+	// Wonder if i should (or if there's a way) to just be look
+	// to see what the current status of the menu item "Keep On Top" is,
+	// then set_keep_above accordingly?
+	SAY("Checking keep_above status...");
+	if (sakura.keep_above == FALSE) {
+		gtk_window_set_keep_above(GTK_WINDOW(sakura.main_window),TRUE);
+		sakura.keep_above = TRUE;
+		SAY("Enabling Keep Above...\n");
+	} else {
+		gtk_window_set_keep_above(GTK_WINDOW(sakura.main_window),FALSE);
+		sakura.keep_above = FALSE;
+		SAY("Disabling Keep Above...\n");
+	}
+}
 
 /* Functions */
 
@@ -367,7 +386,7 @@ static void sakura_new_tab (GtkWidget *widget, void *data)
 
 static void sakura_init()
 {
-	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *separator, *separator2;
+	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *separator, *separator2;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
@@ -375,6 +394,7 @@ static void sakura_init()
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 	sakura.font=pango_font_description_from_string(DEFAULT_FONT);
 	sakura.menu=gtk_menu_new();
+	sakura.keep_above=FALSE;
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 	
@@ -388,8 +408,10 @@ static void sakura_init()
 	item2=gtk_menu_item_new_with_label(_("Set name..."));
 	item3=gtk_menu_item_new_with_label(_("Select font..."));
 	item4=gtk_menu_item_new_with_label(_("Set background..."));
-	item5=gtk_menu_item_new_with_label(_("Make transparent..."));
-	item6=gtk_menu_item_new_with_label(_("Input methods"));
+	item5=gtk_check_menu_item_new_with_label(_("Make transparent..."));
+	item6=gtk_check_menu_item_new_with_label(_("Keep On Top"));
+	item7=gtk_menu_item_new_with_label(_("Input methods"));
+
 	separator=gtk_separator_menu_item_new();
 	separator2=gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_item);
@@ -400,16 +422,18 @@ static void sakura_init()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item4);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item5);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item6);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator2);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item6);		
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item7);		
 	sakura.im_menu=gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item6), sakura.im_menu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item7), sakura.im_menu);
 	
 	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
 	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
 	g_signal_connect(G_OBJECT(item3), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(item4), "activate", G_CALLBACK(sakura_background_selection), NULL);	
 	g_signal_connect(G_OBJECT(item5), "activate", G_CALLBACK(sakura_make_transparent), NULL);	
+	g_signal_connect(G_OBJECT(item6), "activate", G_CALLBACK(sakura_toggle_keep_above), NULL);	
 	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
 
 	gtk_widget_show_all(sakura.menu);
@@ -565,7 +589,7 @@ int main(int argc, char **argv)
     /* Fill Input Methods menu */
 	term=g_array_index(sakura.terminals, struct terminal, 0);
 	vte_terminal_im_append_menuitems(VTE_TERMINAL(term.vte), GTK_MENU_SHELL(sakura.im_menu));
-
+	
 	gtk_main();
 
 	return 0;
