@@ -275,6 +275,7 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gint response;
 	int page;
 	struct terminal term;
+	GtkWidget *child;
 	
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
@@ -291,7 +292,8 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
-		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term.vte, gtk_entry_get_text(GTK_ENTRY(entry)));
+		child=gtk_notebook_get_nth_page(GTK_NOTEBOOK(sakura.notebook), page);
+		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), child, gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(input_dialog);
 }
