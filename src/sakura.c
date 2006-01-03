@@ -34,8 +34,8 @@ struct terminal {
 
 #define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
-#define HTTP_REGEXP "http://[-a-zA-Z0-9.?$%&/=_]*"
-
+#define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_]*"
+	
 /* Callbacks */
 static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
 static void sakura_increase_font (GtkWidget *, void *);
@@ -190,8 +190,9 @@ static gboolean sakura_delete_window (GtkWidget *widget, void *data)
 
 		if (response==GTK_RESPONSE_YES) 
 			return FALSE;
-		else
+		else {
 			return TRUE;
+		}
 	}
 
 	return FALSE;
