@@ -34,7 +34,7 @@ struct terminal {
 
 #define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
-#define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_]*"
+#define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_~]*"
 	
 /* Callbacks */
 static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
@@ -356,9 +356,14 @@ static void sakura_make_transparent (GtkWidget *widget, void *data)
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
 
-	SAY("setting term.pid: %d to transparent...",term.pid);
-	vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),TRUE);
-	vte_terminal_set_background_saturation(VTE_TERMINAL (term.vte),TRUE);
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		SAY("setting term.pid: %d to transparent...",term.pid);
+		vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),TRUE);
+		vte_terminal_set_background_saturation(VTE_TERMINAL (term.vte),TRUE);
+	} else {
+		vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),FALSE);
+	}	
+		
 }
 
 static void sakura_toggle_keep_above (GtkWidget *widget, void *data)
@@ -389,7 +394,8 @@ static void sakura_new_tab (GtkWidget *widget, void *data)
 
 static void sakura_init()
 {
-	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *separator, *separator2;
+	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9;
+	GtkWidget *separator, *separator2, *separator3;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
@@ -409,24 +415,31 @@ static void sakura_init()
 	sakura.open_link_separator=gtk_separator_menu_item_new();
 	item1=gtk_menu_item_new_with_label(_("New tab"));
 	item2=gtk_menu_item_new_with_label(_("Set name..."));
-	item3=gtk_menu_item_new_with_label(_("Select font..."));
+	item8=gtk_image_menu_item_new_from_stock(GTK_STOCK_COPY, NULL);
+	item9=gtk_image_menu_item_new_from_stock(GTK_STOCK_PASTE, NULL);
+	item3=gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_FONT, NULL);
 	item4=gtk_menu_item_new_with_label(_("Set background..."));
 	item5=gtk_check_menu_item_new_with_label(_("Make transparent..."));
-	item6=gtk_check_menu_item_new_with_label(_("Keep On Top"));
+	item6=gtk_check_menu_item_new_with_label(_("Keep on top"));
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
 
 	separator=gtk_separator_menu_item_new();
 	separator2=gtk_separator_menu_item_new();
+	separator3=gtk_separator_menu_item_new();
+	
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item1);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item2);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item8);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item9);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator2);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item4);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item5);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item6);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator2);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item7);		
 	sakura.im_menu=gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item7), sakura.im_menu);
