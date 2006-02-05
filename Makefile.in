@@ -35,4 +35,13 @@ localize:
 	done \
 
 DIRMODE="a+rx,u+w"
+
 install: all
+	@cp -f $(CONFDIR)/pawm.conf $(CONFDIR)/pawm.conf~ ; true
+	@$(call makedir,$(BINDIR),$(DIRMODE))
+	@$(call install_files,src/sakura,$(BINDIR),a=rx)
+# check why these don't work
+#	@$(call makedir, "/usr/share/pixmaps", $(DIRMODE))
+#	@$(call install_files, "./terminal-tango.png", /usr/share/pixmaps ,a=rx)
+	@cp -f terminal-tango.png /usr/share/pixmaps ; true
+	

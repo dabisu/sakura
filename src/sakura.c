@@ -32,6 +32,7 @@ struct terminal {
 	GtkWidget *scrollbar;
 };
 
+#define ICON_DIR "/usr/share/pixmaps"
 #define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_~]*"
@@ -396,9 +397,12 @@ static void sakura_init()
 {
 	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9;
 	GtkWidget *separator, *separator2, *separator3;
+	GList *ilist; GdkPixbuf *pixbuf=NULL; GError *gerror=NULL;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
+	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
+	
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 	sakura.font=pango_font_description_from_string(DEFAULT_FONT);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-15 21:35+0100\n"
+"POT-Creation-Date: 2006-02-05 13:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,46 +16,49 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/sakura.c:182
+#: src/sakura.c:187
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr ""
 
-#: src/sakura.c:253
+#: src/sakura.c:259
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
-#: src/sakura.c:278
+#: src/sakura.c:285
 msgid "Set name"
 msgstr "Elegir nombre"
 
-#: src/sakura.c:302
+#: src/sakura.c:310
 msgid "Select a background file"
 msgstr ""
 
-#: src/sakura.c:383
+#: src/sakura.c:423
 msgid "Open link..."
 msgstr "Abrir enlace..."
 
-#: src/sakura.c:385
+#: src/sakura.c:425
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:386
+#: src/sakura.c:426
 msgid "Set name..."
 msgstr "Elegir nombre"
 
-#: src/sakura.c:387
-msgid "Select font..."
-msgstr "Seleccionar fuente..."
-
-#: src/sakura.c:388
+#: src/sakura.c:430
 msgid "Set background..."
 msgstr "Seleccionar fondo..."
 
-#: src/sakura.c:389
+#: src/sakura.c:431
 msgid "Make transparent..."
 msgstr "Hacer transparente"
 
-#: src/sakura.c:390
+#: src/sakura.c:432
+msgid "Keep on top"
+msgstr ""
+
+#: src/sakura.c:433
 msgid "Input methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Select font..."
+#~ msgstr "Seleccionar fuente..."
