@@ -397,7 +397,7 @@ static void sakura_init()
 {
 	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9;
 	GtkWidget *separator, *separator2, *separator3;
-	GList *ilist; GdkPixbuf *pixbuf=NULL; GError *gerror=NULL;
+	GError *gerror=NULL;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
