@@ -1,24 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Copyright (C) 2006
+# This file is distributed under the same license as the sakura package.
+# David Gómez <david@pleyades.net>
+
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-05 13:28+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2006-02-22 17:25+0100\n"
+"Last-Translator: David Gómez <david@pleyades.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/sakura.c:187
 msgid "There are several tabs opened. Do you really want to close Sakura?"
-msgstr ""
+msgstr "Hay varias pestañas abiertas. ¿Quiere cerrar Sakura?"
 
 #: src/sakura.c:259
 msgid "Select font"
@@ -26,39 +23,37 @@ msgstr "Seleccionar fuente"
 
 #: src/sakura.c:285
 msgid "Set name"
-msgstr "Elegir nombre"
+msgstr "Cambiar nombre"
 
 #: src/sakura.c:310
 msgid "Select a background file"
-msgstr ""
+msgstr "Seleccionar fichero de fondo"
 
-#: src/sakura.c:423
+#: src/sakura.c:418
 msgid "Open link..."
 msgstr "Abrir enlace..."
 
-#: src/sakura.c:425
+#: src/sakura.c:420
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:426
+#: src/sakura.c:421
 msgid "Set name..."
 msgstr "Elegir nombre"
 
-#: src/sakura.c:430
-msgid "Set background..."
+#: src/sakura.c:425
+msgid "Select background..."
 msgstr "Seleccionar fondo..."
 
-#: src/sakura.c:431
+#: src/sakura.c:426
 msgid "Make transparent..."
 msgstr "Hacer transparente"
 
-#: src/sakura.c:432
+#: src/sakura.c:427
 msgid "Keep on top"
-msgstr ""
+msgstr "Mantener visible"
 
-#: src/sakura.c:433
+#: src/sakura.c:428
 msgid "Input methods"
 msgstr "Métodos de entrada"
 
-#~ msgid "Select font..."
-#~ msgstr "Seleccionar fuente..."
