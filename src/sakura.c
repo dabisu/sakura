@@ -422,7 +422,7 @@ static void sakura_init()
 	item8=gtk_image_menu_item_new_from_stock(GTK_STOCK_COPY, NULL);
 	item9=gtk_image_menu_item_new_from_stock(GTK_STOCK_PASTE, NULL);
 	item3=gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_FONT, NULL);
-	item4=gtk_menu_item_new_with_label(_("Set background..."));
+	item4=gtk_menu_item_new_with_label(_("Select background..."));
 	item5=gtk_check_menu_item_new_with_label(_("Make transparent..."));
 	item6=gtk_check_menu_item_new_with_label(_("Keep on top"));
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
@@ -481,19 +481,17 @@ static void sakura_destroy()
 
 static void sakura_set_font()
 {
-	guint page; 
+	gint page_num;
 	struct terminal term;
+	int i;
 
-	/* *sigh*... if the notebook is not visible values are not properly 
-	   initialized and curent_page return garbage */
-	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-		term=g_array_index(sakura.terminals, struct terminal, 0);	
-	} else {
-		page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-		term=g_array_index(sakura.terminals, struct terminal, page);	
+	page_num=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	
+	/* Set the font for all tabs */
+	for (i=0; i<page_num; i++) {
+		term=g_array_index(sakura.terminals, struct terminal, i);	
+		vte_terminal_set_font(VTE_TERMINAL(term.vte), sakura.font);
 	}
-
-	vte_terminal_set_font(VTE_TERMINAL(term.vte), sakura.font);
 }
 
 
