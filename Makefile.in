@@ -37,7 +37,6 @@ localize:
 DIRMODE="a+rx,u+w"
 
 install: all
-	@cp -f $(CONFDIR)/pawm.conf $(CONFDIR)/pawm.conf~ ; true
 	@$(call makedir,$(BINDIR),$(DIRMODE))
 	@$(call install_files,src/sakura,$(BINDIR),a=rx)
 # check why these don't work
