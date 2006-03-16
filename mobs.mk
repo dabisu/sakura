@@ -1,8 +1,8 @@
-#   $Id: mobs.mk 38 2005-06-05 13:54:25Z DervishD $
+#   $Revision: 52 $
 #   This file contains helpers for building a makefile.
 #
-#   Copyright (C) 2005 Raúl Núñez de Arenas Coronado
-#   Report bugs to Raúl Núñez de Arenas Coronado <bugs@dervishd.net>
+#   Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
+#   Report bugs to DervishD <bugs@dervishd.net>
 #
 #       This program is free software; you can redistribute it and/or
 #        modify it under the terms of the GNU General Public License
@@ -122,71 +122,71 @@ override install_files={\
 
 # Recipes and builtin rules for C and C++ files (non-shared objects)
 override define MAKE.o.C
-    @rm -f "$*.d" > /dev/null 2>&1 || printf -- "* Warning: cannot delete old dependency file!\n" >&2; true
-    $(strip DEPENDENCIES_OUTPUT="$*.d $@" $(GCC) -I. $(_CPPFLAGS) $(CPPFLAGS) $(_CFLAGS) $(CFLAGS) -DOBJNAME=\"$(basename $(notdir $@))\" -c -o $@ $<)
+    @rm -f $(basename $@).d > /dev/null 2>&1 || printf -- "* Warning: cannot delete old dependency file '%s'!\n" $(basename $@).d >&2; true
+    $(strip DEPENDENCIES_OUTPUT="$(basename $@).d $@" $(GCC) -I. $(_CPPFLAGS) $(CPPFLAGS) $(_CFLAGS) $(CFLAGS) -DOBJNAME=\"$(basename $(notdir $@))\" -c -o)
 endef
 override define MAKE.o.C++
-    @rm -f "$*.d" > /dev/null 2>&1 || printf -- "* Warning: cannot delete old dependency file!\n" >&2; true
-    $(strip DEPENDENCIES_OUTPUT="$*.d $@" $(GXX) -I. $(_CPPFLAGS) $(CPPFLAGS) $(_CXXFLAGS) $(CXXFLAGS) -DOBJNAME=\"$(basename $(notdir $@))\" -c -o $@ $<)
+    @rm -f $(basename $@).d > /dev/null 2>&1 || printf -- "* Warning: cannot delete old dependency file '%s'!\n" $(basename $@).d >&2; true
+    $(strip DEPENDENCIES_OUTPUT="$(basename $@).d $@" $(GXX) -I. $(_CPPFLAGS) $(CPPFLAGS) $(_CXXFLAGS) $(CXXFLAGS) -DOBJNAME=\"$(basename $(notdir $@))\" -c -o)
 endef
-%.o : %.c   Makefile ;$(MAKE.o.C)
-%.o : %.c++ Makefile ;$(MAKE.o.C++)
-%.o : %.C   Makefile ;$(MAKE.o.C++)
-%.o : %.cc  Makefile ;$(MAKE.o.C++)
-%.o : %.cxx Makefile ;$(MAKE.o.C++)
-%.o : %.cpp Makefile ;$(MAKE.o.C++)
-%.o : %.cp  Makefile ;$(MAKE.o.C++)
+%.o : %.c   Makefile ;$(MAKE.o.C) $@ $<
+%.o : %.c++ Makefile ;$(MAKE.o.C++) $@ $<
+%.o : %.C   Makefile ;$(MAKE.o.C++) $@ $<
+%.o : %.cc  Makefile ;$(MAKE.o.C++) $@ $<
+%.o : %.cxx Makefile ;$(MAKE.o.C++) $@ $<
+%.o : %.cpp Makefile ;$(MAKE.o.C++) $@ $<
+%.o : %.cp  Makefile ;$(MAKE.o.C++) $@ $<
 
 # Recipes and builtin rules for C and C++ files (shared objects)
 override define MAKE.lo.C
-    @rm -f "$*.d" > /dev/null 2>&1 || printf -- "* Warning: cannot delete old dependency file!\n" >&2; true
-    $(strip DEPENDENCIES_OUTPUT="$*.d $@" $(GCC) -I. $(_CPPFLAGS) $(CPPFLAGS) $(_CFLAGS) $(CFLAGS) -DPIC -fPIC -DOBJNAME=\"$(basename $(notdir $@))\" -c -o $@ $<)
+    @rm -f $(basename $@).d > /dev/null 2>&1 || printf -- "* Warning: cannot delete old dependency file '%s'!\n" $(basename $@).d >&2; true
+    $(strip DEPENDENCIES_OUTPUT="$(basename $@).d $@" $(GCC) -I. $(_CPPFLAGS) $(CPPFLAGS) $(_CFLAGS) $(CFLAGS) -DPIC -fPIC -DOBJNAME=\"$(basename $(notdir $@))\" -c -o)
 endef
 override define MAKE.lo.C++
-    @rm -f "$*.d" > /dev/null 2>&1 || printf -- "* Warning: cannot delete old dependency file!\n" >&2; true
-    $(strip DEPENDENCIES_OUTPUT="$*.d $@" $(GXX) -I. $(_CPPFLAGS) $(CPPFLAGS) $(_CXXFLAGS) $(CXXFLAGS) -DPIC -fPIC -DOBJNAME=\"$(basename $(notdir $@))\" -c -o $@ $<)
+    @rm -f $(basename $@).d > /dev/null 2>&1 || printf -- "* Warning: cannot delete old dependency file '%s'!\n" $(basename $@).d >&2; true
+    $(strip DEPENDENCIES_OUTPUT="$(basename $@).d $@" $(GXX) -I. $(_CPPFLAGS) $(CPPFLAGS) $(_CXXFLAGS) $(CXXFLAGS) -DPIC -fPIC -DOBJNAME=\"$(basename $(notdir $@))\" -c -o)
 endef
-%.lo : %.c   Makefile ;$(MAKE.lo.C)
-%.lo : %.c++ Makefile ;$(MAKE.lo.C++)
-%.lo : %.C   Makefile ;$(MAKE.lo.C++)
-%.lo : %.cc  Makefile ;$(MAKE.lo.C++)
-%.lo : %.cxx Makefile ;$(MAKE.lo.C++)
-%.lo : %.cpp Makefile ;$(MAKE.lo.C++)
-%.lo : %.cp  Makefile ;$(MAKE.lo.C++)
+%.lo : %.c   Makefile ;$(MAKE.lo.C) $@ $<
+%.lo : %.c++ Makefile ;$(MAKE.lo.C++) $@ $<
+%.lo : %.C   Makefile ;$(MAKE.lo.C++) $@ $<
+%.lo : %.cc  Makefile ;$(MAKE.lo.C++) $@ $<
+%.lo : %.cxx Makefile ;$(MAKE.lo.C++) $@ $<
+%.lo : %.cpp Makefile ;$(MAKE.lo.C++) $@ $<
+%.lo : %.cp  Makefile ;$(MAKE.lo.C++) $@ $<
 
 # Recipes for TeXinfo files
-override MAKE.info.texi    =$(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) $< -o $@
-override MAKE.html.texi    =$(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) --html $< -o $@
-override MAKE.docbook.texi =$(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) --docbook $< -o $@
-override MAKE.xml.texi     =$(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) --xml $< -o $@
-override MAKE.txt.texi     =$(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) --plaintext $< -o $@
-%.info:    %.texi Makefile ;$(MAKE.info.texi)
-%.html:    %.texi Makefile ;$(MAKE.html.texi)
-%.docbook: %.texi Makefile ;$(MAKE.docbook.texi)
-%.xml:     %.texi Makefile ;$(MAKE.xml.texi)
-%.txt:     %.texi Makefile ;$(MAKE.txt.texi)
+override MAKE.info.texi    =$(strip $(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) -o)
+override MAKE.html.texi    =$(strip $(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) --html -o)
+override MAKE.docbook.texi =$(strip $(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) --docbook -o)
+override MAKE.xml.texi     =$(strip $(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) --xml -o)
+override MAKE.txt.texi     =$(strip $(MAKEINFO) $(_TEXIFLAGS) $(TEXIFLAGS) --plaintext -o)
+%.info:    %.texi Makefile ;$(MAKE.info.texi) $@ $<
+%.html:    %.texi Makefile ;$(MAKE.html.texi) $@ $<
+%.docbook: %.texi Makefile ;$(MAKE.docbook.texi) $@ $<
+%.xml:     %.texi Makefile ;$(MAKE.xml.texi) $@ $<
+%.txt:     %.texi Makefile ;$(MAKE.txt.texi) $@ $<
 
 # Recipes for Bison (yacc) files
-override MAKE.C.yacc=$(YACC) $(_YFLAGS) $(YFLAGS) -o $@ $<
-%.c   : %.y   Makefile ; $(MAKE.C.yacc)
-%.c++ : %.y++ Makefile ; $(MAKE.C.yacc)
-%.C   : %.Y   Makefile ; $(MAKE.C.yacc)
-%.cc  : %.yy  Makefile ; $(MAKE.C.yacc)
-%.cxx : %.yxx Makefile ; $(MAKE.C.yacc)
-%.cpp : %.ypp Makefile ; $(MAKE.C.yacc)
-%.cp  : %.yp  Makefile ; $(MAKE.C.yacc)
+override MAKE.C.yacc=$(strip $(YACC) $(_YFLAGS) $(YFLAGS) -o)
+%.c   : %.y   Makefile ; $(MAKE.C.yacc) $@ $<
+%.c++ : %.y++ Makefile ; $(MAKE.C.yacc) $@ $<
+%.C   : %.Y   Makefile ; $(MAKE.C.yacc) $@ $<
+%.cc  : %.yy  Makefile ; $(MAKE.C.yacc) $@ $<
+%.cxx : %.yxx Makefile ; $(MAKE.C.yacc) $@ $<
+%.cpp : %.ypp Makefile ; $(MAKE.C.yacc) $@ $<
+%.cp  : %.yp  Makefile ; $(MAKE.C.yacc) $@ $<
 
 # Recipes for Flex (lex) files
-override MAKE.C.lex=$(LEX) $(_LFLAGS) $(LFLAGS) -o $@ $<
-%.c   : %.l Makefile ; $(MAKE.C.lex)
-%.c++ : %.l Makefile ; $(MAKE.C.lex)
-%.C   : %.l Makefile ; $(MAKE.C.lex)
-%.cc  : %.l Makefile ; $(MAKE.C.lex)
-%.cxx : %.l Makefile ; $(MAKE.C.lex)
-%.cpp : %.l Makefile ; $(MAKE.C.lex)
-%.cp  : %.l Makefile ; $(MAKE.C.lex)
+override MAKE.C.lex=$(strip $(LEX) $(_LFLAGS) $(LFLAGS) -o)
+%.c   : %.l Makefile ; $(MAKE.C.lex) $@ $<
+%.c++ : %.l Makefile ; $(MAKE.C.lex) $@ $<
+%.C   : %.l Makefile ; $(MAKE.C.lex) $@ $<
+%.cc  : %.l Makefile ; $(MAKE.C.lex) $@ $<
+%.cxx : %.l Makefile ; $(MAKE.C.lex) $@ $<
+%.cpp : %.l Makefile ; $(MAKE.C.lex) $@ $<
+%.cp  : %.l Makefile ; $(MAKE.C.lex) $@ $<
 
 # Recipes for static libraries, shared libraries and binaries
-override MAKE.static=$(AR) $(_ARFLAGS) $(ARFLAGS) -rucs $@ $^
-override MAKE.shared=$(LD) $(_LDFLAGS) $(LDFLAGS) -o $@ -shared -Xlinker -soname -Xlinker
-override MAKE.binary=$(LD) $(_LDFLAGS) $(LDFLAGS) -o $@
+override MAKE.static=$(strip $(AR) $(_ARFLAGS) $(ARFLAGS) -rucs)
+override MAKE.shared=$(strip $(LD) $(_LDFLAGS) $(LDFLAGS) -shared -Xlinker -soname -Xlinker -o)
+override MAKE.binary=$(strip $(LD) $(_LDFLAGS) $(LDFLAGS) -o)
