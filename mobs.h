@@ -1,8 +1,8 @@
-/*  $Id: mobs.h 27 2005-05-13 10:57:20Z DervishD $
+/*  $Revision: 52 $
     This file contains development & diagnostic helpers
     
-    Copyright (C) 2005 Raúl Núñez de Arenas Coronado
-    Report bugs to Raúl Núñez de Arenas Coronado <bugs@dervishd.net>
+    Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
+    Report bugs to DervishD <bugs@dervishd.net>
 
        This program is free software; you can redistribute it and/or
         modify it under the terms of the GNU General Public License
@@ -31,7 +31,30 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include "config.h"
+#endif
+
+
+/*
+    This is the error handling structure.
+    By now it is considered to be in alpha stage, so use it
+at your own risk. It won't break anything, but may pollute the
+namespace and the fields may change without notice.
+
+FIXME: We need an EASY way of initialize the structure to all 0's.
+*/
+#ifndef __mobs_ehstruct
+#define __mobs_ehstruct
+typedef struct {
+    unsigned int code;
+    unsigned char *msg;
+
+    uintmax_t natural;
+    intmax_t integer;
+    long double real;
+    void *pointer;
+} Error;
 #endif
 
 
@@ -47,7 +70,7 @@ I think that "(?)" is a sane default if it has not.
 /*
     This macro should have been set by the developer to
 the project's name. Otherwise we complain, the project
-MUST have a name. It's the tao.
+MUST have a name. It's the Tao.
 */
 #ifndef PROJECT
 #error "'PROJECT' is undefined, and 'mobs.h' needs it!"
@@ -57,11 +80,26 @@ MUST have a name. It's the tao.
 /*
     This macro should have been set by the developer to
 the project's version. Otherwise we complain, because the
-project should have a version. This is also the tao...
+project should have a version. This is also the Tao...
 */
 #ifndef VERSION
 #error "'VERSION' is undefined, and 'mobs.h' needs it!"
 #endif
+
+
+/*
+    This macro just stringifies its argument, no matter if it
+is a literal or another macro. It's because of that it needs
+the additional level of indirection. Only 'STRFY()' is meant
+to be used. The other macro is just a helper.
+*/
+#ifndef STRFY
+#define STRFY(mobs_expression) __MOBS_H_STRFY(mobs_expression)
+    #ifndef __MOBS_H_STRFY
+    #define __MOBS_H_STRFY(mobs_expression) #mobs_expression
+    #endif
+#endif
+
 
 /*
     This macro does the same that 'BUG()', but with the semantics of

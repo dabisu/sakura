@@ -19,7 +19,7 @@ POFILES=$(wildcard po/*.po)
 all: src/sakura localize
 
 src/sakura: $(SAKURA_OBJECTS)
-	$(MAKE.binary) $(SAKURA_OBJECTS)
+	$(MAKE.binary) $@ $^
 
 clean:
 	@rm -rf $(SAKURA_OBJECTS) $(DEPENDENCIES) src/sakura po/*.mo po/*.pot

@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # My Own Building System main script.
-# $Revision: 54 $
+# $Revision: 55 $
 #
 #   Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
 #   Report bugs to DervishD <bugs@dervishd.net>
@@ -1089,7 +1089,7 @@ printf -- "=H\n" >&2
     (exit 0); exit 0
 }
 zero_tmp=$?
-printf -- "** Error running hook!\n"
+printf -- "*** Error running hook!\n"
 printf -- "=H\n" >&2
 printf -- "=E Hook returned error '%d'.\n" $zero_tmp >&2
 

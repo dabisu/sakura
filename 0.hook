@@ -25,3 +25,8 @@ if [ $? -eq 1 ]; then
 else
 	echo " found"
 fi 
+
+printf -- "\n"
+printf -- "$PROJECT binary will be installed in: \t'%s'\n" "$BINDIR"
+printf -- "$PROJECT icons will be installed in: \t'%s'\n" "$DATADIR"
+
