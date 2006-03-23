@@ -1,5 +1,6 @@
 #include "mobs.h"
 
+#include <stdbool.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -22,7 +23,9 @@ static struct {
 	GtkWidget *open_link_item;
 	GtkWidget *open_link_separator;
 	char *current_match;
-	gboolean keep_above;
+	bool resized;			/* Keep user window size */
+	guint width;
+	guint height;
 } sakura;
 
 struct terminal {
@@ -52,7 +55,7 @@ static void sakura_new_tab (GtkWidget *, void *);
 static void sakura_background_selection (GtkWidget *, void *);
 static void sakura_open_url (GtkWidget *, void *);
 static void sakura_make_transparent (GtkWidget *, void *);
-static void sakura_toggle_keep_above (GtkWidget *, void *);
+static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
 
 /* Functions */	
 static void sakura_init();
@@ -367,23 +370,17 @@ static void sakura_make_transparent (GtkWidget *widget, void *data)
 		
 }
 
-static void sakura_toggle_keep_above (GtkWidget *widget, void *data)
+
+static gboolean sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
-	// tjb 12.16.05
-	// Wonder if i should (or if there's a way) to just be look
-	// to see what the current status of the menu item "Keep On Top" is,
-	// then set_keep_above accordingly?
-	SAY("Checking keep_above status...");
-	if (sakura.keep_above == FALSE) {
-		gtk_window_set_keep_above(GTK_WINDOW(sakura.main_window),TRUE);
-		sakura.keep_above = TRUE;
-		SAY("Enabling Keep Above...\n");
-	} else {
-		gtk_window_set_keep_above(GTK_WINDOW(sakura.main_window),FALSE);
-		sakura.keep_above = FALSE;
-		SAY("Disabling Keep Above...\n");
+	if (event->width!=sakura.width || event->height!=sakura.height) {
+		/* User has resized the application */
+		sakura.resized=true;
 	}
+
+	return FALSE;
 }
+
 
 /* Functions */
 
@@ -395,19 +392,21 @@ static void sakura_new_tab (GtkWidget *widget, void *data)
 
 static void sakura_init()
 {
-	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9;
+	GtkWidget *item1, *item2, *item3, *item4, *item5, /*item6*/ *item7, *item8, *item9;
 	GtkWidget *separator, *separator2, *separator3;
 	GError *gerror=NULL;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
+	/* Minimum size*/
+	gtk_widget_set_size_request(sakura.main_window, 100, 50);
 	
+	sakura.resized=false;
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 	sakura.font=pango_font_description_from_string(DEFAULT_FONT);
 	sakura.menu=gtk_menu_new();
-	sakura.keep_above=FALSE;
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 	
@@ -424,7 +423,7 @@ static void sakura_init()
 	item3=gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_FONT, NULL);
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
 	item5=gtk_check_menu_item_new_with_label(_("Make transparent..."));
-	item6=gtk_check_menu_item_new_with_label(_("Keep on top"));
+	//item6=gtk_check_menu_item_new_with_label(_("Keep on top"));
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
 
 	separator=gtk_separator_menu_item_new();
@@ -442,7 +441,6 @@ static void sakura_init()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item4);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item5);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item6);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item7);		
 	sakura.im_menu=gtk_menu_new();
@@ -453,7 +451,6 @@ static void sakura_init()
 	g_signal_connect(G_OBJECT(item3), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(item4), "activate", G_CALLBACK(sakura_background_selection), NULL);	
 	g_signal_connect(G_OBJECT(item5), "activate", G_CALLBACK(sakura_make_transparent), NULL);	
-	g_signal_connect(G_OBJECT(item6), "activate", G_CALLBACK(sakura_toggle_keep_above), NULL);	
 	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
 
 	gtk_widget_show_all(sakura.menu);
@@ -461,6 +458,7 @@ static void sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "delete_event", G_CALLBACK(sakura_delete_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "destroy", G_CALLBACK(sakura_destroy_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
+	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
 
 }
 
@@ -469,7 +467,7 @@ static void sakura_destroy()
 {
 	SAY("Destroying sakura");
 
-	while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) > 1) {
+	while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) >= 1) {
 		sakura_del_tab();
 	}
 	g_array_free(sakura.terminals, TRUE);
@@ -491,6 +489,11 @@ static void sakura_set_font()
 	for (i=0; i<page_num; i++) {
 		term=g_array_index(sakura.terminals, struct terminal, i);	
 		vte_terminal_set_font(VTE_TERMINAL(term.vte), sakura.font);
+		sakura.width=vte_terminal_get_char_width(VTE_TERMINAL(term.vte))*80;
+		sakura.height=vte_terminal_get_char_height(VTE_TERMINAL(term.vte))*24;
+	}
+	if (!sakura.resized) {
+		gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
 	}
 }
 
@@ -520,6 +523,11 @@ static void sakura_add_tab()
 		return;
 	}
 
+#if (GTK_MAJOR_VERSION >= 2 && GTK_MINOR_VERSION >=9)
+	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(sakura.notebook), term.hbox, TRUE);
+	gtk_notebook_set_tab_detachable(GTK_NOTEBOOK(sakura.notebook), term.hbox, TRUE);
+#endif
+
 	g_array_append_val(sakura.terminals, term);
 	g_signal_connect(G_OBJECT(term.vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
@@ -530,7 +538,7 @@ static void sakura_add_tab()
 	/* Show everything the first time after creating a terminal. Unrationale:
 	   im_append and set_current_page fails if the window isn't visible */
 	if  ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		//gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
 		gtk_widget_show_all(sakura.main_window);
