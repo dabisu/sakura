@@ -58,6 +58,8 @@ static void sakura_open_url (GtkWidget *, void *);
 static void sakura_make_transparent (GtkWidget *, void *);
 static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
 static void sakura_setname_entry_changed(GtkWidget *, void *);
+static void sakura_copy(GtkWidget *, void *);
+static void sakura_paste(GtkWidget *, void *);
 
 /* Functions */	
 static void sakura_init();
@@ -289,7 +291,10 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 	input_dialog=gtk_dialog_new_with_buttons(_("Set name"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 											 GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
 										     GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
+	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
+
 	entry=gtk_entry_new();
 	/* Set tab label as entry default text */
 	gtk_entry_set_text(GTK_ENTRY(entry), gtk_notebook_get_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term.hbox));
@@ -399,6 +404,32 @@ static void sakura_setname_entry_changed (GtkWidget *widget, void *data)
 }
 
 
+static void sakura_copy (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal term;
+	
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal,  page);	
+	
+	vte_terminal_copy_clipboard(VTE_TERMINAL(term.vte));
+	vte_terminal_copy_primary(VTE_TERMINAL(term.vte));
+}
+
+
+static void sakura_paste (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal term;
+	
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal,  page);	
+	
+	vte_terminal_paste_clipboard(VTE_TERMINAL(term.vte));
+	vte_terminal_paste_primary(VTE_TERMINAL(term.vte));
+}
+
+
 /* Functions */
 
 static void sakura_new_tab (GtkWidget *widget, void *data)
@@ -440,7 +471,6 @@ static void sakura_init()
 	item3=gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_FONT, NULL);
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
 	item5=gtk_check_menu_item_new_with_label(_("Make transparent..."));
-	//item6=gtk_check_menu_item_new_with_label(_("Keep on top"));
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
 
 	separator=gtk_separator_menu_item_new();
@@ -468,6 +498,8 @@ static void sakura_init()
 	g_signal_connect(G_OBJECT(item3), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(item4), "activate", G_CALLBACK(sakura_background_selection), NULL);	
 	g_signal_connect(G_OBJECT(item5), "activate", G_CALLBACK(sakura_make_transparent), NULL);	
+	g_signal_connect(G_OBJECT(item8), "activate", G_CALLBACK(sakura_copy), NULL);	
+	g_signal_connect(G_OBJECT(item9), "activate", G_CALLBACK(sakura_paste), NULL);	
 	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
 
 	gtk_widget_show_all(sakura.menu);
@@ -527,7 +559,6 @@ static void sakura_add_tab()
 	
 	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
-	SAY("%d", npages);
 	if (npages < 1) {
 		label_text=g_strdup("Terminal 1");
 	} else {
@@ -560,6 +591,8 @@ static void sakura_add_tab()
 #endif
 
 	g_array_append_val(sakura.terminals, term);
+
+	/* vte signals */
 	g_signal_connect(G_OBJECT(term.vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
