@@ -56,6 +56,7 @@ static void sakura_background_selection (GtkWidget *, void *);
 static void sakura_open_url (GtkWidget *, void *);
 static void sakura_make_transparent (GtkWidget *, void *);
 static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
+static void sakura_setname_entry_changed(GtkWidget *, void *);
 
 /* Functions */	
 static void sakura_init();
@@ -292,6 +293,9 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 	entry=gtk_entry_new();
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 10);
+	/* Disable accept button until some text is entered */
+	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), input_dialog);
+	gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
 
 	gtk_widget_show(entry);
 
@@ -379,6 +383,18 @@ static gboolean sakura_resized_window (GtkWidget *widget, GdkEventConfigure *eve
 	}
 
 	return FALSE;
+}
+
+
+static void sakura_setname_entry_changed (GtkWidget *widget, void *data)
+{
+	GtkDialog *input_dialog=(GtkDialog *)data;
+
+	if (strcmp(gtk_entry_get_text(GTK_ENTRY(widget)), "")==0) {
+		gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
+	} else {
+		gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, TRUE);
+	}
 }
 
 
