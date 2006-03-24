@@ -33,6 +33,7 @@ struct terminal {
 	GtkWidget* vte;		/* Reference to VTE terminal */
 	pid_t pid;			/* pid of the forked proccess */
 	GtkWidget *scrollbar;
+	GtkWidget *label;
 };
 
 #define ICON_DIR "/usr/share/pixmaps"
@@ -281,7 +282,6 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gint response;
 	int page;
 	struct terminal term;
-	GtkWidget *child;
 	
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
@@ -291,6 +291,8 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 										     GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
 	entry=gtk_entry_new();
+	/* Set tab label as entry default text */
+	gtk_entry_set_text(GTK_ENTRY(entry), gtk_notebook_get_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term.hbox));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 10);
 	/* Disable accept button until some text is entered */
@@ -301,8 +303,7 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
-		child=gtk_notebook_get_nth_page(GTK_NOTEBOOK(sakura.notebook), page);
-		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), child, gtk_entry_get_text(GTK_ENTRY(entry)));
+		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term.hbox, gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(input_dialog);
 }
@@ -518,9 +519,23 @@ static void sakura_add_tab()
 {
 	struct terminal term;
 	int index;
+	int npages;
+	gchar *label_text;
 	
 	term.hbox=gtk_hbox_new(FALSE, 0);
 	term.vte=vte_terminal_new();
+	
+	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
+	SAY("%d", npages);
+	if (npages < 1) {
+		label_text=g_strdup("Terminal 1");
+	} else {
+		label_text=g_strdup_printf("Terminal %d", npages+1);
+	}
+		
+	term.label=gtk_label_new(label_text);
+	g_free(label_text);
 	
 	/* Init vte */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term.vte), SCROLL_LINES);
@@ -534,7 +549,7 @@ static void sakura_add_tab()
 
 	/*TODO: Check parameters */
 	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"), NULL, NULL, g_getenv("HOME"), TRUE, TRUE,TRUE);
-	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.hbox, NULL))==-1) {
+	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.hbox, term.label))==-1) {
 		SAY("Cannot create a new tab"); BUG();
 		return;
 	}
