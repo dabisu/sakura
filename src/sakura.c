@@ -74,6 +74,7 @@ static void sakura_set_bgimage();
 static gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	unsigned int topage=0;
+	gint npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	if (event->type!=GDK_KEY_PRESS) return FALSE;
 	
@@ -89,24 +90,43 @@ static gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointe
 		}
 	}
 	
-	/* Alt + number pressed */
+	/* Alt + number pressed / Alt+ Left-Right cursor */
 	if ( (event->state & GDK_MOD1_MASK) == GDK_MOD1_MASK ) {
 		if ((event->keyval>=GDK_1) && (event->keyval<=GDK_9)) {
-				switch(event->keyval) {
-					case GDK_1: topage=0; break;
-					case GDK_2: topage=1; break;
-					case GDK_3: topage=2; break;
-					case GDK_4: topage=3; break;
-					case GDK_5: topage=4; break;
-					case GDK_6: topage=5; break;
-					case GDK_7: topage=6; break;
-					case GDK_8: topage=7; break;
-					case GDK_9: topage=8; break;
-				}
-			    if (topage <= gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))) 
-					gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
-				return TRUE;
+			switch(event->keyval) {
+				case GDK_1: topage=0; break;
+				case GDK_2: topage=1; break;
+				case GDK_3: topage=2; break;
+				case GDK_4: topage=3; break;
+				case GDK_5: topage=4; break;
+				case GDK_6: topage=5; break;
+				case GDK_7: topage=6; break;
+				case GDK_8: topage=7; break;
+				case GDK_9: topage=8; break;
+			}
+			if (topage <= gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))) 
+				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
+			return TRUE;
+		} else if (event->keyval==GDK_Left) {
+			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
+				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), npages-1);
+			} else {
+				gtk_notebook_prev_page(GTK_NOTEBOOK(sakura.notebook));
+			}
+			return TRUE;
+		} else if (event->keyval==GDK_Right) {
+			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==(npages-1)) {
+				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), 0);
+			} else {
+				gtk_notebook_next_page(GTK_NOTEBOOK(sakura.notebook));
+			}
+			return TRUE;
 		}
+	}
+
+	/* This seems to have been added in recent GTK versions, ignore it */
+	if (event->keyval==GDK_Right||event->keyval==GDK_Left) {
+		return TRUE;
 	}
 	
 	return FALSE;
@@ -607,7 +627,7 @@ static void sakura_add_tab()
 	/* Show everything the first time after creating a terminal. Unrationale:
 	   im_append and set_current_page fails if the window isn't visible */
 	if  ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-		//gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
 		gtk_widget_show_all(sakura.main_window);
