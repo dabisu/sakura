@@ -440,8 +440,8 @@ static void sakura_new_tab (GtkWidget *widget, void *data)
 
 static void sakura_init()
 {
-	GtkWidget *item1, *item2, *item3, *item4, *item5, /*item6*/ *item7, *item8, *item9;
-	GtkWidget *separator, *separator2, *separator3;
+	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9;
+	GtkWidget *separator, *separator2, *separator3, *separator4;
 	GError *gerror=NULL;
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -466,6 +466,7 @@ static void sakura_init()
 	sakura.open_link_separator=gtk_separator_menu_item_new();
 	item1=gtk_menu_item_new_with_label(_("New tab"));
 	item2=gtk_menu_item_new_with_label(_("Set name..."));
+	item6=gtk_menu_item_new_with_label(_("Close tab"));
 	item8=gtk_image_menu_item_new_from_stock(GTK_STOCK_COPY, NULL);
 	item9=gtk_image_menu_item_new_from_stock(GTK_STOCK_PASTE, NULL);
 	item3=gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_FONT, NULL);
@@ -476,12 +477,15 @@ static void sakura_init()
 	separator=gtk_separator_menu_item_new();
 	separator2=gtk_separator_menu_item_new();
 	separator3=gtk_separator_menu_item_new();
+	separator4=gtk_separator_menu_item_new();
 	
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item1);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item2);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item6);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator4);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item8);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item9);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator2);
@@ -495,6 +499,7 @@ static void sakura_init()
 	
 	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
 	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
+	g_signal_connect(G_OBJECT(item6), "activate", G_CALLBACK(sakura_del_tab), NULL);
 	g_signal_connect(G_OBJECT(item3), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(item4), "activate", G_CALLBACK(sakura_background_selection), NULL);	
 	g_signal_connect(G_OBJECT(item5), "activate", G_CALLBACK(sakura_make_transparent), NULL);	
