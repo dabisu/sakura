@@ -124,11 +124,6 @@ static gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointe
 		}
 	}
 
-	/* This seems to have been added in recent GTK versions, ignore it */
-	if (event->keyval==GDK_Right||event->keyval==GDK_Left) {
-		return TRUE;
-	}
-	
 	return FALSE;
 }
 
