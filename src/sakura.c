@@ -52,6 +52,7 @@ static void sakura_destroy_window (GtkWidget *, void *);
 static gboolean sakura_popup (GtkWidget *, GdkEvent *);
 static void sakura_font_dialog (GtkWidget *, void *);
 static void sakura_set_name_dialog (GtkWidget *, void *);
+static void sakura_color_dialog (GtkWidget *, void *);
 static void sakura_new_tab (GtkWidget *, void *);
 static void sakura_background_selection (GtkWidget *, void *);
 static void sakura_open_url (GtkWidget *, void *);
@@ -329,6 +330,61 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 }
 
 
+static void sakura_color_dialog (GtkWidget *widget, void *data)
+{
+	GtkWidget *color_dialog;
+	GtkWidget *label1, *label2;
+	GtkWidget *buttonfore, *buttonback;
+	GtkWidget *vbox, *hbox_fore, *hbox_back;
+	GdkColor forecolor, backcolor;
+	gint response;
+	int page;
+	struct terminal term;
+	
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal,  page);	
+
+	forecolor.red=0xc0ff; forecolor.blue=0xc0ff; forecolor.green=0xc0ff;
+	backcolor.red=0; backcolor.blue=0; backcolor.green=0;
+
+	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+											 GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
+										     GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	
+	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
+	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
+
+	vbox=gtk_vbox_new(FALSE, 0);
+	hbox_fore=gtk_hbox_new(FALSE, 0);
+	hbox_back=gtk_hbox_new(FALSE, 0);
+	label1=gtk_label_new("Select foreground color:");
+	label2=gtk_label_new("Select background color:");
+	buttonfore=gtk_color_button_new_with_color(&forecolor);
+	buttonback=gtk_color_button_new_with_color(&backcolor);
+	
+	gtk_container_add(GTK_CONTAINER(hbox_fore), label1);
+	gtk_container_add(GTK_CONTAINER(hbox_fore), buttonfore);
+	gtk_container_add(GTK_CONTAINER(hbox_back), label2);
+	gtk_container_add(GTK_CONTAINER(hbox_back), buttonback);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox_fore, FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox_back, FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(color_dialog)->vbox), vbox, FALSE, FALSE, 10);
+
+	gtk_widget_show_all(vbox);
+	
+	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
+	
+	if (response==GTK_RESPONSE_ACCEPT) {
+		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &forecolor);
+		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &backcolor);
+		vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &forecolor);
+		vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &backcolor);
+	}
+
+	gtk_widget_destroy(color_dialog);
+}
+
+
 static void sakura_background_selection (GtkWidget *widget, void *data)
 {
 	GtkWidget *dialog;
@@ -455,7 +511,7 @@ static void sakura_new_tab (GtkWidget *widget, void *data)
 
 static void sakura_init()
 {
-	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9;
+	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9, *item10;
 	GtkWidget *separator, *separator2, *separator3, *separator4;
 	GError *gerror=NULL;
 
@@ -485,6 +541,7 @@ static void sakura_init()
 	item8=gtk_image_menu_item_new_from_stock(GTK_STOCK_COPY, NULL);
 	item9=gtk_image_menu_item_new_from_stock(GTK_STOCK_PASTE, NULL);
 	item3=gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_FONT, NULL);
+	item10=gtk_menu_item_new_with_label(_("Select color.."));
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
 	item5=gtk_check_menu_item_new_with_label(_("Make transparent..."));
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
@@ -504,6 +561,7 @@ static void sakura_init()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item8);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item9);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator2);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item10);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item4);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item5);
@@ -520,6 +578,7 @@ static void sakura_init()
 	g_signal_connect(G_OBJECT(item5), "activate", G_CALLBACK(sakura_make_transparent), NULL);	
 	g_signal_connect(G_OBJECT(item8), "activate", G_CALLBACK(sakura_copy), NULL);	
 	g_signal_connect(G_OBJECT(item9), "activate", G_CALLBACK(sakura_paste), NULL);	
+	g_signal_connect(G_OBJECT(item10), "activate", G_CALLBACK(sakura_color_dialog), NULL);	
 	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
 
 	gtk_widget_show_all(sakura.menu);
