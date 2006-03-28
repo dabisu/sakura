@@ -1,59 +1,70 @@
 # Copyright (C) 2006
 # This file is distributed under the same license as the sakura package.
 # David Gómez <david@pleyades.net>
-
-
 msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-22 17:25+0100\n"
+"POT-Creation-Date: 2006-03-28 13:53+0200\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/sakura.c:187
+#: src/sakura.c:210
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Hay varias pestañas abiertas. ¿Quiere cerrar Sakura?"
 
-#: src/sakura.c:259
+#: src/sakura.c:282
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
-#: src/sakura.c:285
+#: src/sakura.c:307
 msgid "Set name"
 msgstr "Cambiar nombre"
 
-#: src/sakura.c:310
+#: src/sakura.c:350
+#, fuzzy
+msgid "Select color"
+msgstr "Seleccionar fuente"
+
+#: src/sakura.c:397
 msgid "Select a background file"
 msgstr "Seleccionar fichero de fondo"
 
-#: src/sakura.c:418
+#: src/sakura.c:539
 msgid "Open link..."
 msgstr "Abrir enlace..."
 
-#: src/sakura.c:420
+#: src/sakura.c:541
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:421
+#: src/sakura.c:542
 msgid "Set name..."
 msgstr "Elegir nombre"
 
-#: src/sakura.c:425
+#: src/sakura.c:543
+#, fuzzy
+msgid "Close tab"
+msgstr "Nueva pestaña"
+
+#: src/sakura.c:547
+#, fuzzy
+msgid "Select color.."
+msgstr "Seleccionar fondo..."
+
+#: src/sakura.c:548
 msgid "Select background..."
 msgstr "Seleccionar fondo..."
 
-#: src/sakura.c:426
+#: src/sakura.c:549
 msgid "Make transparent..."
 msgstr "Hacer transparente"
 
-#: src/sakura.c:427
-msgid "Keep on top"
-msgstr "Mantener visible"
-
-#: src/sakura.c:428
+#: src/sakura.c:550
 msgid "Input methods"
 msgstr "Métodos de entrada"
 
+#~ msgid "Keep on top"
+#~ msgstr "Mantener visible"
