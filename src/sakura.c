@@ -54,6 +54,7 @@ static void sakura_font_dialog (GtkWidget *, void *);
 static void sakura_set_name_dialog (GtkWidget *, void *);
 static void sakura_color_dialog (GtkWidget *, void *);
 static void sakura_new_tab (GtkWidget *, void *);
+static void sakura_close_tab (GtkWidget *, void *);
 static void sakura_background_selection (GtkWidget *, void *);
 static void sakura_open_url (GtkWidget *, void *);
 static void sakura_make_transparent (GtkWidget *, void *);
@@ -87,6 +88,8 @@ static gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointe
 		} else if (event->keyval==GDK_w || event->keyval==GDK_W) {
 			sakura_kill_child();
 			sakura_del_tab();
+			if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+				sakura_destroy();
 			return TRUE;
 		}
 	}
@@ -164,10 +167,10 @@ static void sakura_child_exited (GtkWidget *widget, void *data)
 	waitpid(term.pid, &status, WNOHANG);
 	/* TODO: check wait return */	
 
-	/* Remove the array element before removing the notebook page */
-	g_array_remove_index(sakura.terminals, page);
-			
 	sakura_del_tab();
+	
+	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+		sakura_destroy();
 
 }
 
@@ -179,8 +182,9 @@ static void sakura_eof (GtkWidget *widget, void *data)
 	
 	SAY("Got EOF signal");
 
-	/* Workaround for libvte strange behaviour. Check with
-	   libvte authors about child-exited/eof signals */
+	/* Workaround for libvte strange behaviour. There is not child-exited signal for
+	   the last terminal, so we need to kill it here.  Check with libvte authors about
+	   child-exited/eof signals */
 	if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
 		
 		page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -191,10 +195,10 @@ static void sakura_eof (GtkWidget *widget, void *data)
 		waitpid(term.pid, &status, WNOHANG);
 		/* TODO: check wait return */	
 
-		/* Remove the array element before removing the notebook page */
-		g_array_remove_index(sakura.terminals, page);
-				
 		sakura_del_tab();
+		
+		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+			sakura_destroy();
 	}
 }
 	
@@ -501,13 +505,22 @@ static void sakura_paste (GtkWidget *widget, void *data)
 }
 
 
-/* Functions */
-
 static void sakura_new_tab (GtkWidget *widget, void *data)
 {
 	sakura_add_tab();
 }
 
+
+static void sakura_close_tab (GtkWidget *widget, void *data)
+{
+	sakura_del_tab();
+	
+	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+		sakura_destroy();
+}
+
+
+/* Functions */
 
 static void sakura_init()
 {
@@ -572,7 +585,7 @@ static void sakura_init()
 	
 	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
 	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
-	g_signal_connect(G_OBJECT(item6), "activate", G_CALLBACK(sakura_del_tab), NULL);
+	g_signal_connect(G_OBJECT(item6), "activate", G_CALLBACK(sakura_close_tab), NULL);
 	g_signal_connect(G_OBJECT(item3), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(item4), "activate", G_CALLBACK(sakura_background_selection), NULL);	
 	g_signal_connect(G_OBJECT(item5), "activate", G_CALLBACK(sakura_make_transparent), NULL);	
@@ -598,8 +611,9 @@ static void sakura_destroy()
 	while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) >= 1) {
 		sakura_del_tab();
 	}
+	
 	g_array_free(sakura.terminals, TRUE);
-	g_free(sakura.font);
+	pango_font_description_free(sakura.font);
 
 	gtk_main_quit();
 }
@@ -697,17 +711,19 @@ static void sakura_add_tab()
 
 static void sakura_del_tab()
 {
-	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==1) {
-		/* Last terminal was closed so... close the application */
-		gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook),
-								 gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)));
-		sakura_destroy();
-	} else {
-		gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook),
-		                                      gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)));
-		if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
-		}
+	gint page;
+	struct terminal term;
+	
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal,  page);
+	
+	/* Remove the array element before removing the notebook page */
+	g_array_remove_index(sakura.terminals, page);
+			
+	gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook), page);
+	
+	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 	}
 }
 
