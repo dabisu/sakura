@@ -1,4 +1,4 @@
-#   $Revision: 52 $
+#   $Revision: 57 $
 #   This file contains helpers for building a makefile.
 #
 #   Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
@@ -32,6 +32,7 @@
 override .LIBPATTERNS=
 export
 
+
 ##### Default values for commands
 GCC=gcc
 GXX=g++
@@ -51,72 +52,139 @@ YFLAGS=
 LFLAGS=
 ARFLAGS=
 LDFLAGS=
-_CPPFLAGS:=
-_CFLAGS:=
-_CXXFLAGS:=
-_TEXIFLAGS:=
-_YFLAGS:=
-_LFLAGS:=
-_ARFLAGS:=
-_LDFLAGS:=
+_CPPFLAGS=
+ifeq "$(origin _CPPFLAGS)" "command line"
+$(error "You cannot set '_CPPFLAGS' on the command line!")
+endif
+_CFLAGS=
+ifeq "$(origin _CFLAGS)" "command line"
+$(error "You cannot set '_CFLAGS' on the command line!")
+endif
+_CXXFLAGS=
+ifeq "$(origin _CXXFLAGS)" "command line"
+$(error "You cannot set '_CXXFLAGS' on the command line!")
+endif
+_TEXIFLAGS=
+ifeq "$(origin _TEXIFLAGS)" "command line"
+$(error "You cannot set '_TEXIFLAGS' on the command line!")
+endif
+_YFLAGS=
+ifeq "$(origin _YFLAGS)" "command line"
+$(error "You cannot set '_YFLAGS' on the command line!")
+endif
+_LFLAGS=
+ifeq "$(origin _LFLAGS)" "command line"
+$(error "You cannot set '_LFLAGS' on the command line!")
+endif
+_ARFLAGS=
+ifeq "$(origin _ARFLAGS)" "command line"
+$(error "You cannot set '_ARFLAGS' on the command line!")
+endif
+_LDFLAGS=
+ifeq "$(origin _LDFLAGS)" "command line"
+$(error "You cannot set '_LDFLAGS' on the command line!")
+endif
+_SONAME=
+ifeq "$(origin _SONAME)" "command line"
+$(error "You cannot set '_SONAME' on the command line!")
+endif
 
 
 # This function creates installation directories.
 # $(1) is the directory you want to create.
 # $(2) is the directory mode, octal or symbolic.
-override makedir={\
-    [ -z "$(1)" ] && {\
-        printf -- "*** Missing directory name in call to 'makedir'.\n" >&2;\
-        exit 1;\
-    };\
-    [ -z "$(2)" ] && {\
-        printf -- "*** Missing mode in call to 'makedir'.\n" >&2;\
-        exit 1;\
-    };\
-    [ -d "$(1)" ] && exit 0;\
-    printf -- "Creating directory \"$(1)\"...\n" >&2;\
-    mkdir -m "$(2)" -p "$(1)" > /dev/null 2>&1 || {\
-        printf -- "*** Cannot create directory \"$(1)\".\n" >&2;\
-        exit 1;\
-    };\
+override makedir={ \
+    [ -z "$(1)" ] && { \
+        printf -- "*** Missing directory name in call to 'makedir'.\n" >&2; \
+        exit 1; \
+    }; \
+    [ -z "$(2)" ] && { \
+        printf -- "*** Missing mode in call to 'makedir'.\n" >&2; \
+        exit 1; \
+    }; \
+    [ -d "$(1)" ] && exit 0; \
+    printf -- "Creating directory \"$(1)\"...\n" >&2; \
+    mkdir -m "$(2)" -p "$(1)" > /dev/null 2>&1 || { \
+        printf -- "*** Cannot create directory \"$(1)\".\n" >&2; \
+        exit 1; \
+    }; \
 }
+
 
 #   This function installs files, *just files*, to their proper
 # location, logging the names of those files in the process...
 # $(1) are the file names or pattern (globbing is performed).
 # $(2) is the destination directory.
 # $(3) is the file mode, octal or symbolic.
-override install_files={\
-    [ -z "$(1)" ] && {\
-        printf -- "*** Missing file names in call to 'install_files'.\n" >&2;\
-        exit 1;\
-    };\
-    [ -z "$(wildcard $(1))" -o -d "$(wildcard $(1))" ] && {\
-        printf -- "*** Wildcard '$(1)' didn't produce a list of files!!!\n" >&2;\
-	exit 1;\
-    };\
-    [ -z "$(2)" ] && {\
-        printf -- "*** Missing destination directory in call to 'install_files'.\n" >&2;\
-        exit 1;\
-    };\
-    [ -z "$(3)" ] && {\
-        printf -- "*** Missing mode in call to 'install_files'.\n" >&2;\
-        exit 1;\
-    };\
-    for file in $(wildcard $(1));\
-    do [ -f "$$file" -a -r "$$file" ] && {\
-            cp -f "$$file" "$(2)" > /dev/null 2>&1 || {\
-                printf -- "*** Couldn't install file \"$$file\".\n" >&2;\
-                exit 1;\
-            };\
-            chmod $(3) "$(2)/`basename "$$file"`" > /dev/null 2>&1 || {\
-                printf -- "*** Couldn't change permissions of file \"$$file\".\n" >&2;\
-                exit 1;\
-            };\
-            printf -- "$(2)/`basename "$$file"`\n";\
-    } done; true;\
+override install_files={ \
+    [ -z "$(1)" ] && { \
+        printf -- "*** Missing file names in call to 'install_files'.\n" >&2; \
+        exit 1; \
+    }; \
+    [ -z "$(wildcard $(1))" -o -d "$(wildcard $(1))" ] && { \
+        printf -- "*** Wildcard '$(1)' didn't produce a list of files!!!\n" >&2; \
+	exit 1; \
+    }; \
+    [ -z "$(2)" ] && { \
+        printf -- "*** Missing destination directory in call to 'install_files'.\n" >&2; \
+        exit 1; \
+    }; \
+    [ -z "$(3)" ] && { \
+        printf -- "*** Missing mode in call to 'install_files'.\n" >&2; \
+        exit 1; \
+    }; \
+    for file in $(wildcard $(1)); \
+    do [ -f "$$file" -a -r "$$file" ] && { \
+            cp -f "$$file" "$(2)" > /dev/null 2>&1 || { \
+                printf -- "*** Couldn't install file \"$$file\".\n" >&2; \
+                exit 1; \
+            }; \
+            chmod $(3) "$(2)/`basename "$$file"`" > /dev/null 2>&1 || { \
+                printf -- "*** Couldn't change permissions of file \"$$file\".\n" >&2; \
+                exit 1; \
+            }; \
+            printf -- "$(2)/`basename "$$file"`\n"; \
+    } done; true; \
 }
 
+
+# 	This function "munges" the input file into the output file
+# substituting variables of the form @VARIABLE@ for their values.
+# $(1) is the input file (the file to munge).
+# $(2) is the output file (the munged file).
+override munge_file={ \
+    [ -z "$(1)" ] && { \
+        printf -- "*** Missing input file name in call to 'munge_file'.\n" >&2; \
+        exit 1; \
+    }; \
+    [ -z "$(2)" ] && { \
+        printf -- "*** Missing output file name in call to 'munge_file'.\n" >&2; \
+        exit 1; \
+    }; \
+    sed -e ' \
+        s|\\@|<<<>>>|g; \
+        s|@PROJECT@|$(PROJECT)|g; \
+        s|@VERSION@|$(VERSION)|g; \
+        s|@AUTHOR@|$(AUTHOR)|g; \
+        s|@PREFIX@|$(PREFIX)|g; \
+        s|@BINDIR@|$(SBINDIR)|g; \
+        s|@SBINDIR@|$(SBINDIR)|g; \
+        s|@XBINDIR@|$(XBINDIR)|g; \
+        s|@CONFDIR@|$(CONFDIR)|g; \
+        s|@DATADIR@|$(DATADIR)|g; \
+        s|@INFODIR@|$(INFODIR)|g; \
+        s|@MANDIR@|$(MANDIR)|g; \
+        s|@DOCDIR@|$(DOCDIR)|g; \
+        s|@LIBDIR@|$(LIBDIR)|g; \
+        s|@INCDIR@|$(INCDIR)|g; \
+        s|@STATEDIR@|$(STATEDIR)|g; \
+        s|@SPOOLDIR@|$(SPOOLDIR)|g; \
+        s|<<<>>>|@|g; \
+    ' "$(1)" > "$(2)" || { \
+        printf -- "*** Couldn't munge file \"$1\".\n" >&2; \
+        exit 1; \
+    } \
+}
 
 ##### Recipes
 
@@ -188,5 +256,5 @@ override MAKE.C.lex=$(strip $(LEX) $(_LFLAGS) $(LFLAGS) -o)
 
 # Recipes for static libraries, shared libraries and binaries
 override MAKE.static=$(strip $(AR) $(_ARFLAGS) $(ARFLAGS) -rucs)
-override MAKE.shared=$(strip $(LD) $(_LDFLAGS) $(LDFLAGS) -shared -Xlinker -soname -Xlinker -o)
+override MAKE.shared=$(strip $(LD) $(_LDFLAGS) $(LDFLAGS) -shared $(if $(_SONAME),-Xlinker -soname -Xlinker $(_SONAME)) -o)
 override MAKE.binary=$(strip $(LD) $(_LDFLAGS) $(LDFLAGS) -o)

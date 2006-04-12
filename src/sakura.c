@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include <locale.h>
 #include <libintl.h>
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -359,8 +360,8 @@ static void sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
 
 	vbox=gtk_vbox_new(FALSE, 0);
-	hbox_fore=gtk_hbox_new(FALSE, 0);
-	hbox_back=gtk_hbox_new(FALSE, 0);
+	hbox_fore=gtk_hbox_new(FALSE, 10);
+	hbox_back=gtk_hbox_new(FALSE, 10);
 	label1=gtk_label_new("Select foreground color:");
 	label2=gtk_label_new("Select background color:");
 	buttonfore=gtk_color_button_new_with_color(&forecolor);
@@ -554,7 +555,7 @@ static void sakura_init()
 	item8=gtk_image_menu_item_new_from_stock(GTK_STOCK_COPY, NULL);
 	item9=gtk_image_menu_item_new_from_stock(GTK_STOCK_PASTE, NULL);
 	item3=gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_FONT, NULL);
-	item10=gtk_menu_item_new_with_label(_("Select color.."));
+	item10=gtk_menu_item_new_with_label(_("Select colors.."));
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
 	item5=gtk_check_menu_item_new_with_label(_("Make transparent..."));
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
@@ -764,6 +765,13 @@ static void sakura_set_bgimage(char *infile)
 int main(int argc, char **argv)
 {
 	struct terminal term;
+	gchar *localedir;
+	
+	/* Localization */
+	setlocale(LC_ALL, "");
+	localedir=g_strdup_printf("%s/locale", DATADIR);
+	textdomain("sakura");
+	bindtextdomain("sakura", localedir);
 	
 	gtk_init(&argc, &argv);
 

@@ -28,5 +28,5 @@ fi
 
 printf -- "\n"
 printf -- "$PROJECT binary will be installed in: \t'%s'\n" "$BINDIR"
-printf -- "$PROJECT icons will be installed in: \t'%s'\n" "$DATADIR"
+printf -- "$PROJECT icons will be installed in: \t'%s'\n" "$DATADIR/$PROJECT"
 

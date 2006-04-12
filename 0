@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # My Own Building System main script.
-# $Revision: 55 $
+# $Revision: 58 $
 #
 #   Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
 #   Report bugs to DervishD <bugs@dervishd.net>
@@ -376,8 +376,6 @@ OPTIONs are:
   --docdir=DIRECTORY    Place misc documentation in "DIRECTORY".
   --libdir=DIRECTORY    Place libraries in "DIRECTORY".
   --incdir=DIRECTORY    Place header files in "DIRECTORY".
-  --statedir=DIRECTORY  Place program status files in "DIRECTORY".
-  --spooldir=DIRECTORY  Place spool files in "DIRECTORY".
 
   --enable-FEATURE      Enable package feature "FEATURE".
   --disable-FEATURE     Disable package feature "FEATURE".
@@ -481,8 +479,7 @@ do
     --bindir|--sbindir|--xbindir|\
     --confdir|--datadir|\
     --infodir|--mandir|--docdir|\
-    --libdir|--incdir|\
-    --statedir|--spooldir)
+    --libdir|--incdir)
         zero_argument=${zero_argument#\=}
         [ -z "$zero_argument" ] && {
             printf -- "*** Missing directory in '%s'.\n" "$zero_option"
@@ -710,15 +707,13 @@ zero_prefix="${zero_prefix:-/usr/local}"
 if [ "$zero_prefix" = "/usr" ]
 then
     : ${zero_confdir:=/etc}
-    : ${zero_statedir:=/var/lib/$zero_project}
-    : ${zero_spooldir:=/var/spool/$zero_project}
 fi
 
 # And this for a root install ;)
 if [ "$zero_prefix" = "/" ]
 then
-    :  ${zero_xbindir:=/usr/lib/$zero_project}
-    :  ${zero_datadir:=/usr/share/$zero_project}
+    :  ${zero_xbindir:=/usr/lib}
+    :  ${zero_datadir:=/usr/share}
     :  ${zero_infodir:=/usr/share/info}
     :   ${zero_mandir:=/usr/share/man}
     :   ${zero_docdir:=/usr/share/doc/$zero_project}
@@ -731,16 +726,14 @@ fi
 [ "$zero_prefix" = "/" ] && zero_prefix=""
 :   ${zero_bindir:=$zero_prefix/bin}
 :  ${zero_sbindir:=$zero_prefix/sbin}
-:  ${zero_xbindir:=$zero_prefix/lib/$zero_project}
+:  ${zero_xbindir:=$zero_prefix/lib}
 :  ${zero_confdir:=$zero_prefix/etc}
-:  ${zero_datadir:=$zero_prefix/share/$zero_project}
+:  ${zero_datadir:=$zero_prefix/share}
 :  ${zero_infodir:=$zero_prefix/share/info}
 :   ${zero_mandir:=$zero_prefix/share/man}
 :   ${zero_docdir:=$zero_prefix/share/doc/$zero_project}
 :   ${zero_libdir:=$zero_prefix/lib}
 :   ${zero_incdir:=$zero_prefix/include/$zero_project}
-: ${zero_statedir:=$zero_prefix/var/lib/$zero_project}
-: ${zero_spooldir:=$zero_prefix/var/spool/$zero_project}
 [ "$zero_prefix" = "" ] && zero_prefix="/"
 
 # Dump directories to logfile
@@ -755,8 +748,6 @@ printf -- "=L MANDIR   "%s"\n" "$zero_mandir"   >&2
 printf -- "=L DOCDIR   "%s"\n" "$zero_docdir"   >&2
 printf -- "=L LIBDIR   "%s"\n" "$zero_libdir"   >&2
 printf -- "=L INCDIR   "%s"\n" "$zero_incdir"   >&2
-printf -- "=L STATEDIR "%s"\n" "$zero_statedir" >&2
-printf -- "=L SPOOLDIR "%s"\n" "$zero_spooldir" >&2
 
 
 #   NOTE: There's a race condition in the generation of the files, very weird
@@ -814,11 +805,10 @@ printf -- "#define VERSION \"%s\"\n" "$zero_version"
 [ -z "$mobs_author" ] && printf -- "#define AUTHOR  \"%s\"\n" "$zero_author"
 
 printf -- "\n/* User configurable directories */\n"
+printf -- "#define PREFIX   \"%s\"\n" "$zero_prefix"
 printf -- "#define XBINDIR  \"%s\"\n" "$zero_xbindir"
 printf -- "#define CONFDIR  \"%s\"\n" "$zero_confdir"
 printf -- "#define DATADIR  \"%s\"\n" "$zero_datadir"
-printf -- "#define STATEDIR \"%s\"\n" "$zero_statedir"
-printf -- "#define SPOOLDIR \"%s\"\n" "$zero_spooldir"
 
 [ ! -z "$zero_features" ] && {
     printf -- "\n/* Package features */\n"
@@ -894,8 +884,6 @@ printf -- "override   MANDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_mandir"
 printf -- "override   DOCDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_docdir"
 printf -- "override   LIBDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_libdir"
 printf -- "override   INCDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_incdir"
-printf -- "override STATEDIR:=\"\$(DESTDIR)%s\"\n" "$zero_statedir"
-printf -- "override SPOOLDIR:=\"\$(DESTDIR)%s\"\n" "$zero_spooldir"
 printf -- "\n"
 
 # Process requested features and dump them
@@ -993,8 +981,6 @@ printf -- "=L 'config.h' generated successfully.\n" >&2
     printf -- "    DOCDIR "%s"\n" "$zero_docdir"
     printf -- "    LIBDIR "%s"\n" "$zero_libdir"
     printf -- "    INCDIR "%s"\n" "$zero_incdir"
-    printf -- "  STATEDIR "%s"\n" "$zero_statedir"
-    printf -- "  SPOOLDIR "%s"\n" "$zero_spooldir"
     printf -- "\n"
 
     [ ! -z "$zero_features" ] && {
@@ -1062,8 +1048,6 @@ export   MANDIR="$zero_mandir"
 export   DOCDIR="$zero_docdir"
 export   LIBDIR="$zero_libdir"
 export   INCDIR="$zero_incdir"
-export STATEDIR="$zero_statedir"
-export SPOOLDIR="$zero_spooldir"
 
 for zero_feature in $zero_features
 do
