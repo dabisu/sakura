@@ -27,6 +27,7 @@ static struct {
 	bool resized;			/* Keep user window size */
 	guint width;
 	guint height;
+	gint label_count;
 } sakura;
 
 struct terminal {
@@ -540,6 +541,7 @@ static void sakura_init()
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 	sakura.font=pango_font_description_from_string(DEFAULT_FONT);
 	sakura.menu=gtk_menu_new();
+	sakura.label_count=1;
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 	
@@ -645,20 +647,12 @@ static void sakura_add_tab()
 {
 	struct terminal term;
 	int index;
-	int npages;
 	gchar *label_text;
 	
 	term.hbox=gtk_hbox_new(FALSE, 0);
 	term.vte=vte_terminal_new();
 	
-	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-
-	if (npages < 1) {
-		label_text=g_strdup("Terminal 1");
-	} else {
-		label_text=g_strdup_printf("Terminal %d", npages+1);
-	}
-		
+	label_text=g_strdup_printf("Terminal %d", sakura.label_count++);
 	term.label=gtk_label_new(label_text);
 	g_free(label_text);
 	
