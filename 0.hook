@@ -2,7 +2,7 @@
 echo -n "Checking for pkg-config..."
 which pkg-config > /dev/null 2>&1
 if [ $? -eq 1 ]; then
-	echo; echo "Sakura uses pkg-config to detect libraries, please install it..."
+	echo; echo "sakura uses pkg-config to detect libraries, please install it..."
 	exit 1;
 else
 	echo " found"
@@ -11,7 +11,7 @@ fi
 echo -n "Checking for gtk libraries..."
 pkg-config --exists gtk+-2.0
 if [ $? -eq 1 ]; then
-	echo; echo "You don't seem to have gtk 2.x developtment libraries installed..."
+	echo; echo "You don't seem to have gtk 2.x development libraries installed..."
 	exit 1
 else
 	echo " found"
@@ -20,7 +20,7 @@ fi
 echo -n "Checking for vte library..."
 pkg-config --exists vte
 if [ $? -eq 1 ]; then
-	echo; echo "You don't seem to have vte developtment libraries installed..."
+	echo; echo "You don't seem to have vte development libraries installed..."
 	exit 1
 else
 	echo " found"
