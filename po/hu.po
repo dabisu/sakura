@@ -5,60 +5,65 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-19 19:47+0200\n"
-"Last-Translator: David Gómez <david@pleyades.net>\n"
+"POT-Creation-Date: 2006-05-22 13:09+0200\n"
+"PO-Revision-Date: 2006-05-22 00:19+0100\n"
+"Last-Translator: SZERVÑC Attila <sas@321.hu>\n"
+"Language-Team: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
 
 #: src/sakura.c:238
 msgid "There are several tabs opened. Do you really want to close Sakura?"
-msgstr "Hay varias pestañas abiertas. ¿Quiere cerrar Sakura?"
+msgstr "Több lap is nyitva van. Bezárod a Sakurát?"
 
 #: src/sakura.c:310
 msgid "Select font"
-msgstr "Seleccionar fuente"
+msgstr "Válassz betűt"
 
 #: src/sakura.c:335
 msgid "Set name"
-msgstr "Cambiar nombre"
+msgstr "Név beállítása"
 
 #: src/sakura.c:378
 msgid "Select color"
-msgstr "Seleccionar color"
+msgstr "Válassz színt"
 
 #: src/sakura.c:422
 msgid "Select a background file"
-msgstr "Seleccionar fichero de fondo"
+msgstr "Válassz háttér fájlt"
 
 #: src/sakura.c:574
 msgid "Open link..."
-msgstr "Abrir enlace..."
+msgstr "Link megnyitása..."
 
 #: src/sakura.c:576
 msgid "New tab"
-msgstr "Nueva pestaña"
+msgstr "Új lap"
 
 #: src/sakura.c:577
 msgid "Set name..."
-msgstr "Elegir nombre"
+msgstr "Név beállítása..."
 
 #: src/sakura.c:578
 msgid "Close tab"
-msgstr "Nueva pestaña"
+msgstr "Lap bezárása"
 
 #: src/sakura.c:582
 msgid "Select colors.."
-msgstr "Seleccionar colores..."
+msgstr "Válassz színeket..."
 
 #: src/sakura.c:583
 msgid "Select background..."
-msgstr "Seleccionar fondo..."
+msgstr "Háttér választása..."
 
 #: src/sakura.c:584
 msgid "Make transparent..."
-msgstr "Hacer transparente"
+msgstr "Tedd átlátszóvá..."
 
 #: src/sakura.c:585
 msgid "Input methods"
-msgstr "Métodos de entrada"
+msgstr "Beviteli módok"

@@ -11,7 +11,7 @@ Installing sakura
 	script instead of a "configure" script, but the syntax is very similar.
 
 	In this example, the 0 script is executed without any parameters, so sakura
-	gets installed in the default directory (i.e. /usr/local), but you can
+	gets installed in the default directory (/usr/local), but you can
 	tell to 0 your favourite installation directories, in an syntax very 
 	similar to 'configure'. For example, to change the prefix installation
 	directory and the data directory, run 0 with the command './0 --prefix=/usr'
