@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-22 13:09+0200\n"
+"POT-Creation-Date: 2006-05-23 14:45+0200\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: SZERVÑC Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -24,46 +24,46 @@ msgstr "Több lap is nyitva van. Bezárod a Sakurát?"
 msgid "Select font"
 msgstr "Válassz betűt"
 
-#: src/sakura.c:335
+#: src/sakura.c:337
 msgid "Set name"
 msgstr "Név beállítása"
 
-#: src/sakura.c:378
+#: src/sakura.c:380
 msgid "Select color"
 msgstr "Válassz színt"
 
-#: src/sakura.c:422
+#: src/sakura.c:424
 msgid "Select a background file"
 msgstr "Válassz háttér fájlt"
 
-#: src/sakura.c:574
+#: src/sakura.c:576
 msgid "Open link..."
 msgstr "Link megnyitása..."
 
-#: src/sakura.c:576
+#: src/sakura.c:578
 msgid "New tab"
 msgstr "Új lap"
 
-#: src/sakura.c:577
+#: src/sakura.c:579
 msgid "Set name..."
 msgstr "Név beállítása..."
 
-#: src/sakura.c:578
+#: src/sakura.c:580
 msgid "Close tab"
 msgstr "Lap bezárása"
 
-#: src/sakura.c:582
+#: src/sakura.c:584
 msgid "Select colors.."
 msgstr "Válassz színeket..."
 
-#: src/sakura.c:583
+#: src/sakura.c:585
 msgid "Select background..."
 msgstr "Háttér választása..."
 
-#: src/sakura.c:584
+#: src/sakura.c:586
 msgid "Make transparent..."
 msgstr "Tedd átlátszóvá..."
 
-#: src/sakura.c:585
+#: src/sakura.c:587
 msgid "Input methods"
 msgstr "Beviteli módok"

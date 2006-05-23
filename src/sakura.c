@@ -308,6 +308,8 @@ static void sakura_font_dialog (GtkWidget *widget, void *data)
 	gint response;
 
 	font_dialog=gtk_font_selection_dialog_new(_("Select font"));
+	gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog), 
+											pango_font_description_to_string(sakura.font));
 
 	response=gtk_dialog_run(GTK_DIALOG(font_dialog));
 	

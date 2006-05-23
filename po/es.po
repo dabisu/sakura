@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-19 19:47+0200\n"
+"POT-Creation-Date: 2006-05-23 14:45+0200\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,46 +19,46 @@ msgstr "Hay varias pestañas abiertas. ¿Quiere cerrar Sakura?"
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
-#: src/sakura.c:335
+#: src/sakura.c:337
 msgid "Set name"
 msgstr "Cambiar nombre"
 
-#: src/sakura.c:378
+#: src/sakura.c:380
 msgid "Select color"
 msgstr "Seleccionar color"
 
-#: src/sakura.c:422
+#: src/sakura.c:424
 msgid "Select a background file"
 msgstr "Seleccionar fichero de fondo"
 
-#: src/sakura.c:574
+#: src/sakura.c:576
 msgid "Open link..."
 msgstr "Abrir enlace..."
 
-#: src/sakura.c:576
+#: src/sakura.c:578
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:577
+#: src/sakura.c:579
 msgid "Set name..."
 msgstr "Elegir nombre"
 
-#: src/sakura.c:578
+#: src/sakura.c:580
 msgid "Close tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:582
+#: src/sakura.c:584
 msgid "Select colors.."
 msgstr "Seleccionar colores..."
 
-#: src/sakura.c:583
+#: src/sakura.c:585
 msgid "Select background..."
 msgstr "Seleccionar fondo..."
 
-#: src/sakura.c:584
+#: src/sakura.c:586
 msgid "Make transparent..."
 msgstr "Hacer transparente"
 
-#: src/sakura.c:585
+#: src/sakura.c:587
 msgid "Input methods"
 msgstr "Métodos de entrada"
