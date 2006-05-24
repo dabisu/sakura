@@ -71,6 +71,7 @@ static void sakura_increase_font (GtkWidget *, void *);
 static void sakura_decrease_font (GtkWidget *, void *);
 static void sakura_child_exited (GtkWidget *, void *);
 static void sakura_eof (GtkWidget *, void *);
+static void sakura_title_changed (GtkWidget *, void *);
 static gboolean sakura_delete_window (GtkWidget *, void *);
 static void sakura_destroy_window (GtkWidget *, void *);
 static gboolean sakura_popup (GtkWidget *, GdkEvent *);
@@ -226,6 +227,20 @@ static void sakura_eof (GtkWidget *widget, void *data)
 	}
 }
 	
+
+static void sakura_title_changed (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal term;
+	
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal,  page);
+	
+	gtk_window_set_title(GTK_WINDOW(sakura.main_window),
+		   				 vte_terminal_get_window_title(VTE_TERMINAL(term.vte)));
+
+}
+
 
 static gboolean sakura_delete_window (GtkWidget *widget, void *data)
 {
@@ -709,6 +724,7 @@ static void sakura_add_tab()
 	g_signal_connect(G_OBJECT(term.vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "eof", G_CALLBACK(sakura_eof), NULL);
+	g_signal_connect(G_OBJECT(term.vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
 	g_signal_connect_swapped(G_OBJECT(term.vte), "button-press-event", G_CALLBACK(sakura_popup), sakura.menu);
 	
 	/* Show everything the first time after creating a terminal. Unrationale:
