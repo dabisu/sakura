@@ -26,13 +26,13 @@ clean:
 	@rm -rf $(SAKURA_OBJECTS) $(DEPENDENCIES) src/sakura po/*.mo po/*.pot
 
 distclean: clean
-	@rm -rf Makefile config.mk config.h 
+	@rm -rf Makefile config.mk config.h 0.log
 
 localize:
 	@xgettext -o po/sakura.pot --keyword=_ $(SAKURA_SOURCES)
 	@for i in $(POFILES); do \
-		msgmerge -U $$i po/sakura.pot; \
-		msgfmt -o $${i%*.po}.mo $$i; \
+		msgmerge -U $$i po/sakura.pot 2>/dev/null; \
+		msgfmt -o $${i%*.po}.mo $$i 2>/dev/null; \
 	done \
 
 DIRMODE="a+rx,u+w"
