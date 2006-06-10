@@ -1,0 +1,71 @@
+# Czech translation of sakura.
+# Copyright (C) 2006 THE sakura'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the sacura package.
+# Lucas Lommer <drom@kdyne.net>, 2006.
+# , fuzzy
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: sakura 1.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-06-11 01:04+0200\n"
+"PO-Revision-Date: 2006-06-11 01:31+0200\n"
+"Last-Translator: Lucas Lommer <drom@kdyne.net>\n"
+"Language-Team: Czech <cs@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: src/sakura.c:238
+msgid "There are several tabs opened. Do you really want to close Sakura?"
+msgstr "Máte otevřeno několik záložek. Skutečně chcete uzavřít program Sakura?"
+
+#: src/sakura.c:310
+msgid "Select font"
+msgstr "Zvolte font"
+
+#: src/sakura.c:337
+msgid "Set name"
+msgstr "Nastavit jméno"
+
+#: src/sakura.c:380
+msgid "Select color"
+msgstr "Zvolte barvu"
+
+#: src/sakura.c:424
+msgid "Select a background file"
+msgstr "Vyberte obrázek na pozadí"
+
+#: src/sakura.c:576
+msgid "Open link..."
+msgstr "Otevřít odkaz"
+
+#: src/sakura.c:578
+msgid "New tab"
+msgstr "Nová záložka"
+
+#: src/sakura.c:579
+msgid "Set name..."
+msgstr "Nastavit jméno..."
+
+#: src/sakura.c:580
+msgid "Close tab"
+msgstr "Zavřít záložku"
+
+#: src/sakura.c:584
+msgid "Select colors.."
+msgstr "Zvolte barvy..."
+
+#: src/sakura.c:585
+msgid "Select background..."
+msgstr "Zvolte pozadí..."
+
+#: src/sakura.c:586
+msgid "Make transparent..."
+msgstr "Zprůhlednit"
+
+#: src/sakura.c:587
+msgid "Input methods"
+msgstr "Vstupní metoda"
+
