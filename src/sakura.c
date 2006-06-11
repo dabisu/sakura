@@ -35,6 +35,7 @@
 #include <vte/vte.h>
 
 #define _(String) gettext(String)
+#define GETTEXT_PACKAGE "sakura"
 
 static struct {
 	GtkWidget *main_window;
@@ -50,6 +51,8 @@ static struct {
 	guint width;
 	guint height;
 	gint label_count;
+	GOptionContext *context;
+	GOptionGroup *group;
 } sakura;
 
 struct terminal {
@@ -66,27 +69,27 @@ struct terminal {
 #define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_~#.,;+]*"
 	
 /* Callbacks */
-static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
-static void sakura_increase_font (GtkWidget *, void *);
-static void sakura_decrease_font (GtkWidget *, void *);
-static void sakura_child_exited (GtkWidget *, void *);
-static void sakura_eof (GtkWidget *, void *);
-static void sakura_title_changed (GtkWidget *, void *);
+static gboolean	sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
+static void		sakura_increase_font (GtkWidget *, void *);
+static void		sakura_decrease_font (GtkWidget *, void *);
+static void		sakura_child_exited (GtkWidget *, void *);
+static void		sakura_eof (GtkWidget *, void *);
+static void	 	sakura_title_changed (GtkWidget *, void *);
 static gboolean sakura_delete_window (GtkWidget *, void *);
-static void sakura_destroy_window (GtkWidget *, void *);
+static void 	sakura_destroy_window (GtkWidget *, void *);
 static gboolean sakura_popup (GtkWidget *, GdkEvent *);
-static void sakura_font_dialog (GtkWidget *, void *);
-static void sakura_set_name_dialog (GtkWidget *, void *);
-static void sakura_color_dialog (GtkWidget *, void *);
-static void sakura_new_tab (GtkWidget *, void *);
-static void sakura_close_tab (GtkWidget *, void *);
-static void sakura_background_selection (GtkWidget *, void *);
-static void sakura_open_url (GtkWidget *, void *);
-static void sakura_make_transparent (GtkWidget *, void *);
+static void 	sakura_font_dialog (GtkWidget *, void *);
+static void 	sakura_set_name_dialog (GtkWidget *, void *);
+static void 	sakura_color_dialog (GtkWidget *, void *);
+static void 	sakura_new_tab (GtkWidget *, void *);
+static void 	sakura_close_tab (GtkWidget *, void *);
+static void 	sakura_background_selection (GtkWidget *, void *);
+static void 	sakura_open_url (GtkWidget *, void *);
+static void 	sakura_make_transparent (GtkWidget *, void *);
 static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
-static void sakura_setname_entry_changed(GtkWidget *, void *);
-static void sakura_copy(GtkWidget *, void *);
-static void sakura_paste(GtkWidget *, void *);
+static void 	sakura_setname_entry_changed(GtkWidget *, void *);
+static void 	sakura_copy(GtkWidget *, void *);
+static void 	sakura_paste(GtkWidget *, void *);
 
 /* Functions */	
 static void sakura_init();
@@ -97,8 +100,18 @@ static void sakura_set_font();
 static void sakura_kill_child();
 static void sakura_set_bgimage();
 
+static char* option_font;
+static gboolean option_version=FALSE;
 
-static gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+static GOptionEntry entries[] = 
+{
+	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, "print version number", NULL },
+	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, "select initial terminal font", NULL },
+    { NULL }
+};
+
+static
+gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	unsigned int topage=0;
 	gint npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
@@ -157,7 +170,8 @@ static gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointe
 }
 
 
-static void sakura_increase_font (GtkWidget *widget, void *data)
+static void
+sakura_increase_font (GtkWidget *widget, void *data)
 {
 	gint size;
 	
@@ -168,7 +182,8 @@ static void sakura_increase_font (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_decrease_font (GtkWidget *widget, void *data)
+static void
+sakura_decrease_font (GtkWidget *widget, void *data)
 {
 	gint size;
 	
@@ -179,7 +194,8 @@ static void sakura_decrease_font (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_child_exited (GtkWidget *widget, void *data)
+static void
+sakura_child_exited (GtkWidget *widget, void *data)
 {
 	int status, page;
 	struct terminal term;
@@ -200,7 +216,8 @@ static void sakura_child_exited (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_eof (GtkWidget *widget, void *data)
+static void
+sakura_eof (GtkWidget *widget, void *data)
 {
 	int status, page;
 	struct terminal term;
@@ -228,7 +245,8 @@ static void sakura_eof (GtkWidget *widget, void *data)
 }
 	
 
-static void sakura_title_changed (GtkWidget *widget, void *data)
+static void
+sakura_title_changed (GtkWidget *widget, void *data)
 {
 	int page;
 	struct terminal term;
@@ -242,7 +260,8 @@ static void sakura_title_changed (GtkWidget *widget, void *data)
 }
 
 
-static gboolean sakura_delete_window (GtkWidget *widget, void *data)
+static gboolean
+sakura_delete_window (GtkWidget *widget, void *data)
 {
 	GtkWidget *dialog;
 	guint response;
@@ -266,13 +285,15 @@ static gboolean sakura_delete_window (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_destroy_window (GtkWidget *widget, void *data)
+static void
+sakura_destroy_window (GtkWidget *widget, void *data)
 {
 	sakura_destroy();
 }
 
 
-static gboolean sakura_popup (GtkWidget *widget, GdkEvent *event)
+static gboolean
+sakura_popup (GtkWidget *widget, GdkEvent *event)
 {
 	GtkMenu *menu;
 	GdkEventButton *event_button;
@@ -317,7 +338,8 @@ static gboolean sakura_popup (GtkWidget *widget, GdkEvent *event)
 }
 
 
-static void sakura_font_dialog (GtkWidget *widget, void *data)
+static void
+sakura_font_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *font_dialog;
 	gint response;
@@ -338,7 +360,8 @@ static void sakura_font_dialog (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_set_name_dialog (GtkWidget *widget, void *data)
+static void
+sakura_set_name_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *input_dialog;
 	GtkWidget *entry;
@@ -375,7 +398,8 @@ static void sakura_set_name_dialog (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_color_dialog (GtkWidget *widget, void *data)
+static void
+sakura_color_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *color_dialog;
 	GtkWidget *label1, *label2;
@@ -402,8 +426,8 @@ static void sakura_color_dialog (GtkWidget *widget, void *data)
 	vbox=gtk_vbox_new(FALSE, 0);
 	hbox_fore=gtk_hbox_new(FALSE, 10);
 	hbox_back=gtk_hbox_new(FALSE, 10);
-	label1=gtk_label_new("Select foreground color:");
-	label2=gtk_label_new("Select background color:");
+	label1=gtk_label_new(_("Select foreground color:"));
+	label2=gtk_label_new(_("Select background color:"));
 	buttonfore=gtk_color_button_new_with_color(&forecolor);
 	buttonback=gtk_color_button_new_with_color(&backcolor);
 	
@@ -430,7 +454,8 @@ static void sakura_color_dialog (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_background_selection (GtkWidget *widget, void *data)
+static void
+sakura_background_selection (GtkWidget *widget, void *data)
 {
 	GtkWidget *dialog;
 	gint response;
@@ -454,28 +479,30 @@ static void sakura_background_selection (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_open_url (GtkWidget *widget, void *data)
+static void
+sakura_open_url (GtkWidget *widget, void *data)
 {
 	GError *error=NULL;
 	gchar *cmd;
-	const gchar *browser=NULL;
+	gchar *browser=NULL;
 	
-	browser=g_getenv("BROWSER");
+	browser=(gchar *)g_getenv("BROWSER");
 
 	if (browser) {
 		cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
 	} else {
 		cmd=g_strdup_printf("firefox %s", sakura.current_match);
 	}
-	
+
 	if (!g_spawn_command_line_async(cmd, &error)) {
-		SAY("Couldn't exec %s", cmd);
+		SAY("Couldn't exec \"%s\": %s", cmd, error->message);
 	}
 
 	g_free(cmd);
 }
 
-static void sakura_make_transparent (GtkWidget *widget, void *data)
+static void
+sakura_make_transparent (GtkWidget *widget, void *data)
 {
 	/* tjb Do some transparency magic/hacking */
 	/* tjb probably need to do some checking here and  in sakura_set_bgimage for transparency */
@@ -497,7 +524,8 @@ static void sakura_make_transparent (GtkWidget *widget, void *data)
 }
 
 
-static gboolean sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
+static gboolean
+sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
 	if (event->width!=sakura.width || event->height!=sakura.height) {
 		/* User has resized the application */
@@ -508,7 +536,8 @@ static gboolean sakura_resized_window (GtkWidget *widget, GdkEventConfigure *eve
 }
 
 
-static void sakura_setname_entry_changed (GtkWidget *widget, void *data)
+static void
+sakura_setname_entry_changed (GtkWidget *widget, void *data)
 {
 	GtkDialog *input_dialog=(GtkDialog *)data;
 
@@ -520,7 +549,8 @@ static void sakura_setname_entry_changed (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_copy (GtkWidget *widget, void *data)
+static void
+sakura_copy (GtkWidget *widget, void *data)
 {
 	int page;
 	struct terminal term;
@@ -533,7 +563,8 @@ static void sakura_copy (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_paste (GtkWidget *widget, void *data)
+static void
+sakura_paste (GtkWidget *widget, void *data)
 {
 	int page;
 	struct terminal term;
@@ -546,13 +577,15 @@ static void sakura_paste (GtkWidget *widget, void *data)
 }
 
 
-static void sakura_new_tab (GtkWidget *widget, void *data)
+static void
+sakura_new_tab (GtkWidget *widget, void *data)
 {
 	sakura_add_tab();
 }
 
 
-static void sakura_close_tab (GtkWidget *widget, void *data)
+static void
+sakura_close_tab (GtkWidget *widget, void *data)
 {
 	sakura_del_tab();
 	
@@ -563,7 +596,8 @@ static void sakura_close_tab (GtkWidget *widget, void *data)
 
 /* Functions */
 
-static void sakura_init()
+static void
+sakura_init()
 {
 	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9, *item10;
 	GtkWidget *separator, *separator2, *separator3, *separator4;
@@ -578,7 +612,10 @@ static void sakura_init()
 	sakura.resized=false;
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
-	sakura.font=pango_font_description_from_string(DEFAULT_FONT);
+	if (option_font)
+		sakura.font=pango_font_description_from_string(option_font);
+	else 
+		sakura.font=pango_font_description_from_string(DEFAULT_FONT);
 	sakura.menu=gtk_menu_new();
 	sakura.label_count=1;
 
@@ -646,7 +683,8 @@ static void sakura_init()
 }
 
 
-static void sakura_destroy()
+static void
+sakura_destroy()
 {
 	SAY("Destroying sakura");
 
@@ -657,11 +695,14 @@ static void sakura_destroy()
 	g_array_free(sakura.terminals, TRUE);
 	pango_font_description_free(sakura.font);
 
+	g_option_context_free(sakura.context);
+
 	gtk_main_quit();
 }
 
 
-static void sakura_set_font()
+static void
+sakura_set_font()
 {
 	gint page_num;
 	struct terminal term;
@@ -682,7 +723,8 @@ static void sakura_set_font()
 }
 
 
-static void sakura_add_tab()
+static void
+sakura_add_tab()
 {
 	struct terminal term;
 	int index;
@@ -744,7 +786,8 @@ static void sakura_add_tab()
 }
 
 
-static void sakura_del_tab()
+static void
+sakura_del_tab()
 {
 	gint page;
 	struct terminal term;
@@ -763,13 +806,15 @@ static void sakura_del_tab()
 }
 
 
-static void sakura_kill_child()
+static void
+sakura_kill_child()
 {
 	/* TODO: Kill the forked child nicely */
 }
 
 
-static void sakura_set_bgimage(char *infile)	
+static void
+sakura_set_bgimage(char *infile)	
 {
 	GError *gerror=NULL;
 	GdkPixbuf *pixbuf=NULL;
@@ -796,16 +841,29 @@ static void sakura_set_bgimage(char *infile)
 }
 
 
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
 	struct terminal term;
 	gchar *localedir;
+	GError *error=NULL;
 	
 	/* Localization */
 	setlocale(LC_ALL, "");
 	localedir=g_strdup_printf("%s/locale", DATADIR);
-	textdomain("sakura");
-	bindtextdomain("sakura", localedir);
+	textdomain(GETTEXT_PACKAGE);
+	bindtextdomain(GETTEXT_PACKAGE, localedir);
+	
+	/* Options parsing */
+	sakura.context = g_option_context_new (_("- vte-based terminal emulator"));
+	g_option_context_add_main_entries (sakura.context, entries, GETTEXT_PACKAGE);
+	g_option_context_add_group (sakura.context, gtk_get_option_group (TRUE));
+	g_option_context_parse (sakura.context, &argc, &argv, &error);
+
+	if (option_version) {
+		fprintf(stderr, _("sakura version is %s\n"), VERSION);
+		exit(1);
+	}
 	
 	gtk_init(&argc, &argv);
 
