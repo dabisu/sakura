@@ -7,65 +7,82 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: sakura 1.0.1\n"
+"Project-Id-Version: sakura 1.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-11 01:04+0200\n"
-"PO-Revision-Date: 2006-06-11 01:31+0200\n"
+"POT-Creation-Date: 2006-06-11 18:22+0200\n"
+"PO-Revision-Date: 2006-06-11 19:12+0200\n"
 "Last-Translator: Lucas Lommer <drom@kdyne.net>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit"
 
-#: src/sakura.c:238
+#: src/sakura.c:272
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Máte otevřeno několik záložek. Skutečně chcete uzavřít program Sakura?"
 
-#: src/sakura.c:310
+#: src/sakura.c:347
 msgid "Select font"
 msgstr "Zvolte font"
 
-#: src/sakura.c:337
+#: src/sakura.c:375
 msgid "Set name"
 msgstr "Nastavit jméno"
 
-#: src/sakura.c:380
+#: src/sakura.c:419
 msgid "Select color"
 msgstr "Zvolte barvu"
 
-#: src/sakura.c:424
+#: src/sakura.c:429
+msgid "Select foreground color:"
+msgstr "Zvolte barvu textu"
+
+#: src/sakura.c:430
+msgid "Select background color:"
+msgstr "Zvolte barvu pozadí"
+
+#: src/sakura.c:464
 msgid "Select a background file"
 msgstr "Vyberte obrázek na pozadí"
 
-#: src/sakura.c:576
+#: src/sakura.c:628
 msgid "Open link..."
 msgstr "Otevřít odkaz"
 
-#: src/sakura.c:578
+#: src/sakura.c:630
 msgid "New tab"
 msgstr "Nová záložka"
 
-#: src/sakura.c:579
+#: src/sakura.c:631
 msgid "Set name..."
 msgstr "Nastavit jméno..."
 
-#: src/sakura.c:580
+#: src/sakura.c:632
 msgid "Close tab"
 msgstr "Zavřít záložku"
 
-#: src/sakura.c:584
+#: src/sakura.c:636
 msgid "Select colors.."
 msgstr "Zvolte barvy..."
 
-#: src/sakura.c:585
+#: src/sakura.c:637
 msgid "Select background..."
 msgstr "Zvolte pozadí..."
 
-#: src/sakura.c:586
+#: src/sakura.c:638
 msgid "Make transparent..."
 msgstr "Zprůhlednit"
 
-#: src/sakura.c:587
+#: src/sakura.c:639
 msgid "Input methods"
 msgstr "Vstupní metoda"
+
+#: src/sakura.c:858
+msgid "- vte-based terminal emulator"
+msgstr "- emulátor terminálu založený na VTE"
+
+#: src/sakura.c:864
+#, c-format
+msgid "sakura version is %s\n"
+msgstr "Verze sakura je %s\n"
 
