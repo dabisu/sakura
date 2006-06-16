@@ -5,25 +5,25 @@ if [ $? -eq 1 ]; then
 	echo; echo "sakura uses pkg-config to detect libraries, please install it..."
 	exit 1;
 else
-	echo " found"
+	echo " found `pkg-config --version`"
 fi
 
 echo -n "Checking for gtk libraries..."
-pkg-config --exists gtk+-2.0
+pkg-config --exists 'gtk+-2.0 >= 2.6'
 if [ $? -eq 1 ]; then
-	echo; echo "You don't seem to have gtk 2.x development libraries installed..."
+	echo; echo "You don't seem to have gtk >= 2.6 development libraries installed..."
 	exit 1
 else
-	echo " found"
+	echo " found `pkg-config --modversion gtk+-2.0`"
 fi
  
 echo -n "Checking for vte library..."
-pkg-config --exists vte
+pkg-config --exists 'vte >= 0.11'
 if [ $? -eq 1 ]; then
-	echo; echo "You don't seem to have vte development libraries installed..."
+	echo; echo "You don't seem to have vte >= 0.11 development libraries installed..."
 	exit 1
 else
-	echo " found"
+	echo " found `pkg-config --modversion vte`"
 fi 
 
 printf -- "\n"
