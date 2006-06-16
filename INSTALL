@@ -17,6 +17,22 @@ Installing sakura
 	directory and the data directory, run 0 with the command './0 --prefix=/usr'
 	For all the installation options run './0 --help'.
 
+
+Keybindings support
+===================
+
+sakura support keyboard bindings. They're not yet configurable
+(unless you hack the source ;)), but they'll be.
+
+Ctrl + Shift + 't'		-> New tab
+Ctrl + Shift + 'w'  	-> Close current tab
+Ctrl + '+'				-> Increase font size
+Ctrl + '-'				-> Decrease font size
+Alt  + 'Left cursor'	-> Previous tab
+Alt  + 'Right cursor'	-> Next tab
+
+
+
 --
 
 Enjoy sakura !
