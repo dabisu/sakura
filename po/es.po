@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-11 18:22+0200\n"
+"POT-Creation-Date: 2006-06-18 23:26+0200\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,11 +71,11 @@ msgstr "Hacer transparente"
 msgid "Input methods"
 msgstr "Métodos de entrada"
 
-#: src/sakura.c:858
+#: src/sakura.c:861
 msgid "- vte-based terminal emulator"
 msgstr ""
 
-#: src/sakura.c:864
+#: src/sakura.c:867
 #, c-format
 msgid "sakura version is %s\n"
 msgstr ""

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-11 19:20+0200\n"
+"POT-Creation-Date: 2006-06-18 23:26+0200\n"
 "PO-Revision-Date: 2006-06-11 19:12+0200\n"
 "Last-Translator: Lucas Lommer <drom@kdyne.net>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -77,11 +77,11 @@ msgstr "Zprůhlednit"
 msgid "Input methods"
 msgstr "Vstupní metoda"
 
-#: src/sakura.c:858
+#: src/sakura.c:861
 msgid "- vte-based terminal emulator"
 msgstr "- emulátor terminálu založený na VTE"
 
-#: src/sakura.c:864
+#: src/sakura.c:867
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Verze sakura je %s\n"

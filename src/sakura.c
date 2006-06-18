@@ -782,6 +782,9 @@ sakura_add_tab()
 	    gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 		sakura_set_font();
 	}
+
+	vte_terminal_set_backspace_binding(VTE_TERMINAL(term.vte),
+					   VTE_ERASE_ASCII_DELETE);
 	
 }
 
