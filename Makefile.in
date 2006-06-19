@@ -46,6 +46,7 @@ install: all
 	@for i in $(MOFILES); do \
 		LINGUA=`basename $${i%%.*}`;\
 		echo $(DATADIR)/locale/$${LINGUA}/LC_MESSAGES/$(PROJECT).mo;\
+		mkdir -p $(DATADIR)/locale/$${LINGUA}/LC_MESSAGES;;;\
 		cp po/$${LINGUA}.mo $(DATADIR)/locale/$${LINGUA}/LC_MESSAGES/$(PROJECT).mo;\
 	done \
 	
