@@ -1,4 +1,4 @@
-#   $Revision: 57 $
+#   $Revision: 60 $
 #   This file contains helpers for building a makefile.
 #
 #   Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
@@ -102,12 +102,14 @@ override makedir={ \
         printf -- "*** Missing mode in call to 'makedir'.\n" >&2; \
         exit 1; \
     }; \
-    [ -d "$(1)" ] && exit 0; \
-    printf -- "Creating directory \"$(1)\"...\n" >&2; \
-    mkdir -m "$(2)" -p "$(1)" > /dev/null 2>&1 || { \
-        printf -- "*** Cannot create directory \"$(1)\".\n" >&2; \
-        exit 1; \
-    }; \
+    [ -d "$(1)" ] || { \
+    	printf -- "Creating directory \"$(1)\"...\n" >&2; \
+    	mkdir -m "$(2)" -p "$(1)" > /dev/null 2>&1 || { \
+        	printf -- "*** Cannot create directory \"$(1)\".\n" >&2; \
+        	exit 1; \
+		}; \
+	}; \
+	true; \
 }
 
 

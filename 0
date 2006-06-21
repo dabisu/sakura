@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # My Own Building System main script.
-# $Revision: 58 $
+# $Revision: 59 $
 #
 #   Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
 #   Report bugs to DervishD <bugs@dervishd.net>
@@ -873,17 +873,17 @@ printf -- "override PROJECT:=%s\n"  "$zero_project"
 printf -- "override VERSION:=%s\n"  "$zero_version"
 printf -- "\n"
 printf -- "##### User configurable directories\n"
-printf -- "override   PREFIX:=\"\$(DESTDIR)%s\"\n"   "$zero_prefix"
-printf -- "override   BINDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_bindir"
-printf -- "override  SBINDIR:=\"\$(DESTDIR)%s\"\n"  "$zero_sbindir"
-printf -- "override  XBINDIR:=\"\$(DESTDIR)%s\"\n"  "$zero_xbindir"
-printf -- "override  CONFDIR:=\"\$(DESTDIR)%s\"\n"  "$zero_confdir"
-printf -- "override  DATADIR:=\"\$(DESTDIR)%s\"\n"  "$zero_datadir"
-printf -- "override  INFODIR:=\"\$(DESTDIR)%s\"\n"  "$zero_infodir"
-printf -- "override   MANDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_mandir"
-printf -- "override   DOCDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_docdir"
-printf -- "override   LIBDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_libdir"
-printf -- "override   INCDIR:=\"\$(DESTDIR)%s\"\n"   "$zero_incdir"
+printf -- "override   PREFIX:=\$(DESTDIR)%s\n"   "$zero_prefix"
+printf -- "override   BINDIR:=\$(DESTDIR)%s\n"   "$zero_bindir"
+printf -- "override  SBINDIR:=\$(DESTDIR)%s\n"  "$zero_sbindir"
+printf -- "override  XBINDIR:=\$(DESTDIR)%s\n"  "$zero_xbindir"
+printf -- "override  CONFDIR:=\$(DESTDIR)%s\n"  "$zero_confdir"
+printf -- "override  DATADIR:=\$(DESTDIR)%s\n"  "$zero_datadir"
+printf -- "override  INFODIR:=\$(DESTDIR)%s\n"  "$zero_infodir"
+printf -- "override   MANDIR:=\$(DESTDIR)%s\n"   "$zero_mandir"
+printf -- "override   DOCDIR:=\$(DESTDIR)%s\n"   "$zero_docdir"
+printf -- "override   LIBDIR:=\$(DESTDIR)%s\n"   "$zero_libdir"
+printf -- "override   INCDIR:=\$(DESTDIR)%s\n"   "$zero_incdir"
 printf -- "\n"
 
 # Process requested features and dump them
