@@ -856,6 +856,7 @@ main(int argc, char **argv)
 	localedir=g_strdup_printf("%s/locale", DATADIR);
 	textdomain(GETTEXT_PACKAGE);
 	bindtextdomain(GETTEXT_PACKAGE, localedir);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	
 	/* Options parsing */
 	sakura.context = g_option_context_new (_("- vte-based terminal emulator"));
