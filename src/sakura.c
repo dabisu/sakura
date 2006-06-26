@@ -102,11 +102,13 @@ static void sakura_set_bgimage();
 
 static char* option_font;
 static gboolean option_version=FALSE;
+static gint option_ntabs=1;
 
 static GOptionEntry entries[] = 
 {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, "print version number", NULL },
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, "select initial terminal font", NULL },
+	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, "select initial number of tabs", NULL },
     { NULL }
 };
 
@@ -850,6 +852,7 @@ main(int argc, char **argv)
 	struct terminal term;
 	gchar *localedir;
 	GError *error=NULL;
+	int i;
 	
 	/* Localization */
 	setlocale(LC_ALL, "");
@@ -867,14 +870,19 @@ main(int argc, char **argv)
 	if (option_version) {
 		fprintf(stderr, _("sakura version is %s\n"), VERSION);
 		exit(1);
+	} 
+
+	if (option_ntabs <= 0) {
+		option_ntabs=1;
 	}
-	
+
 	gtk_init(&argc, &argv);
 
 	/* Init stuff */
 	sakura_init();
 	/* Add first tab */
-	sakura_add_tab();
+	for (i=0; i<option_ntabs; i++)
+		sakura_add_tab();
     /* Fill Input Methods menu */
 	term=g_array_index(sakura.terminals, struct terminal, 0);
 	vte_terminal_im_append_menuitems(VTE_TERMINAL(term.vte), GTK_MENU_SHELL(sakura.im_menu));
