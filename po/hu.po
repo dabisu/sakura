@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-26 13:30+0200\n"
+"POT-Creation-Date: 2006-06-26 20:55+0200\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -16,71 +16,71 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/sakura.c:272
+#: src/sakura.c:274
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Több lap is nyitva van. Bezárod a Sakurát?"
 
-#: src/sakura.c:347
+#: src/sakura.c:349
 msgid "Select font"
 msgstr "Válassz betűt"
 
-#: src/sakura.c:375
+#: src/sakura.c:377
 msgid "Set name"
 msgstr "Név beállítása"
 
-#: src/sakura.c:419
+#: src/sakura.c:421
 msgid "Select color"
 msgstr "Válassz színt"
 
-#: src/sakura.c:429
+#: src/sakura.c:431
 msgid "Select foreground color:"
 msgstr "Válassz színt"
 
-#: src/sakura.c:430
+#: src/sakura.c:432
 msgid "Select background color:"
 msgstr "Válassz háttér fájlt"
 
-#: src/sakura.c:464
+#: src/sakura.c:466
 msgid "Select a background file"
 msgstr "Válassz háttér fájlt"
 
-#: src/sakura.c:628
+#: src/sakura.c:630
 msgid "Open link..."
 msgstr "Link megnyitása..."
 
-#: src/sakura.c:630
+#: src/sakura.c:632
 msgid "New tab"
 msgstr "Új lap"
 
-#: src/sakura.c:631
+#: src/sakura.c:633
 msgid "Set name..."
 msgstr "Név beállítása..."
 
-#: src/sakura.c:632
+#: src/sakura.c:634
 msgid "Close tab"
 msgstr "Lap bezárása"
 
-#: src/sakura.c:636
+#: src/sakura.c:638
 msgid "Select colors.."
 msgstr "Válassz színeket..."
 
-#: src/sakura.c:637
+#: src/sakura.c:639
 msgid "Select background..."
 msgstr "Háttér választása..."
 
-#: src/sakura.c:638
+#: src/sakura.c:640
 msgid "Make transparent..."
 msgstr "Tedd átlátszóvá..."
 
-#: src/sakura.c:639
+#: src/sakura.c:641
 msgid "Input methods"
 msgstr "Beviteli módok"
 
-#: src/sakura.c:862
+#: src/sakura.c:864
 msgid "- vte-based terminal emulator"
 msgstr ""
 
-#: src/sakura.c:868
+#: src/sakura.c:870
 #, c-format
 msgid "sakura version is %s\n"
 msgstr ""

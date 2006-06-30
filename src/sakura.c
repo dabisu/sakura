@@ -785,8 +785,7 @@ sakura_add_tab()
 		sakura_set_font();
 	}
 
-	vte_terminal_set_backspace_binding(VTE_TERMINAL(term.vte),
-					   VTE_ERASE_ASCII_DELETE);
+	vte_terminal_set_backspace_binding(VTE_TERMINAL(term.vte), VTE_ERASE_ASCII_DELETE);
 	
 }
 
@@ -880,6 +879,7 @@ main(int argc, char **argv)
 
 	/* Init stuff */
 	sakura_init();
+
 	/* Add first tab */
 	for (i=0; i<option_ntabs; i++)
 		sakura_add_tab();

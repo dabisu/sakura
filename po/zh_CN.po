@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-21 15:38+0800\n"
+"POT-Creation-Date: 2006-06-26 20:55+0200\n"
 "PO-Revision-Date: 2006-06-20 09:26+0800\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -15,71 +15,71 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/sakura.c:272
+#: src/sakura.c:274
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "已经打开多个标签，确实要关闭 Sakura 吗？"
 
-#: src/sakura.c:347
+#: src/sakura.c:349
 msgid "Select font"
 msgstr "选择字体"
 
-#: src/sakura.c:375
+#: src/sakura.c:377
 msgid "Set name"
 msgstr "设置名称"
 
-#: src/sakura.c:419
+#: src/sakura.c:421
 msgid "Select color"
 msgstr "选择颜色"
 
-#: src/sakura.c:429
+#: src/sakura.c:431
 msgid "Select foreground color:"
 msgstr "选择前景色："
 
-#: src/sakura.c:430
+#: src/sakura.c:432
 msgid "Select background color:"
 msgstr "选择背景色："
 
-#: src/sakura.c:464
+#: src/sakura.c:466
 msgid "Select a background file"
 msgstr "选择一个背景图片"
 
-#: src/sakura.c:628
+#: src/sakura.c:630
 msgid "Open link..."
 msgstr "打开链接"
 
-#: src/sakura.c:630
+#: src/sakura.c:632
 msgid "New tab"
 msgstr "新建标签"
 
-#: src/sakura.c:631
+#: src/sakura.c:633
 msgid "Set name..."
 msgstr "设置名称..."
 
-#: src/sakura.c:632
+#: src/sakura.c:634
 msgid "Close tab"
 msgstr "关闭标签"
 
-#: src/sakura.c:636
+#: src/sakura.c:638
 msgid "Select colors.."
 msgstr "选择颜色..."
 
-#: src/sakura.c:637
+#: src/sakura.c:639
 msgid "Select background..."
 msgstr "选择背景..."
 
-#: src/sakura.c:638
+#: src/sakura.c:640
 msgid "Make transparent..."
 msgstr "设置为透明..."
 
-#: src/sakura.c:639
+#: src/sakura.c:641
 msgid "Input methods"
 msgstr "输入法"
 
-#: src/sakura.c:862
+#: src/sakura.c:864
 msgid "- vte-based terminal emulator"
 msgstr "- 基于 vte 的终端模拟器"
 
-#: src/sakura.c:868
+#: src/sakura.c:870
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"

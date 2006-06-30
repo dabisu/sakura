@@ -41,7 +41,7 @@ install: all
 	@$(call makedir,$(BINDIR),$(DIRMODE))
 	@$(call install_files,src/sakura,$(BINDIR),a=rx)
 	@$(call makedir,/usr/share/pixmaps,$(DIRMODE))
-	@$(call install_files,terminal-tango.png,/usr/share/pixmaps,a=rx)
+	@$(call install_files,terminal-tango.png,$(DATADIR)/pixmaps,a=rx)
 	@$(call makedir,$(DATADIR)/share/locale,$(DIRMODE))
 	@for i in $(MOFILES); do \
 		LINGUA=`basename $${i%%.*}`;\
