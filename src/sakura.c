@@ -310,6 +310,7 @@ sakura_popup (GtkWidget *widget, GdkEvent *event)
 		event_button = (GdkEventButton *) event;
 		
 		page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+		SAY("Current page is %d",page);
 		term=g_array_index(sakura.terminals, struct terminal,  page);
 		
 		/* Find out if cursor it's over a matched expression...*/
@@ -331,7 +332,7 @@ sakura_popup (GtkWidget *widget, GdkEvent *event)
 		
 		if (event_button->button == 3) {
 			gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 
-			  			    event_button->button, event_button->time);
+			 			    event_button->button, event_button->time);
 		   return TRUE;
 		}
 	}
@@ -587,6 +588,27 @@ sakura_new_tab (GtkWidget *widget, void *data)
 
 
 static void
+sakura_reordered_tab (GtkWidget *widget, void *data)
+{
+	SAY("reorder-tab signal");
+}
+static void
+sakura_page_reordered (GtkWidget *widget, void *data)
+{
+	SAY("page-reordered signal");
+}
+static void
+sakura_move_focus_out (GtkWidget *widget, void *data)
+{
+	SAY("move-focus-out");
+}
+static void
+sakura_focus_tab (GtkWidget *widget, void *data)
+{
+	SAY("focus-tab");
+}
+
+static void
 sakura_close_tab (GtkWidget *widget, void *data)
 {
 	sakura_del_tab();
@@ -756,12 +778,19 @@ sakura_add_tab()
 		return;
 	}
 
-#if (GTK_MAJOR_VERSION >= 2 && GTK_MINOR_VERSION >=9)
+#if (GTK_MAJOR_VERSION >= 2 && GTK_MINOR_VERSION >=10)
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(sakura.notebook), term.hbox, TRUE);
+	// TODO: Set group id to support detached tabs
 	gtk_notebook_set_tab_detachable(GTK_NOTEBOOK(sakura.notebook), term.hbox, TRUE);
 #endif
 
 	g_array_append_val(sakura.terminals, term);
+
+	/* GtkNotebook signals */
+	g_signal_connect(G_OBJECT(sakura.notebook), "reorder-tab", G_CALLBACK(sakura_reordered_tab), NULL);
+	g_signal_connect(G_OBJECT(sakura.notebook), "page-reordered", G_CALLBACK(sakura_page_reordered), NULL);
+	g_signal_connect(G_OBJECT(sakura.notebook), "move-focus-out", G_CALLBACK(sakura_move_focus_out), NULL);
+	g_signal_connect(G_OBJECT(sakura.notebook), "focus-tab", G_CALLBACK(sakura_focus_tab), NULL);
 
 	/* vte signals */
 	g_signal_connect(G_OBJECT(term.vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
