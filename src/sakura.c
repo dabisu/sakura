@@ -587,6 +587,7 @@ sakura_new_tab (GtkWidget *widget, void *data)
 }
 
 
+#if (GTK_MAJOR_VERSION >= 2 && GTK_MINOR_VERSION >=10)
 static void
 sakura_reordered_tab (GtkWidget *widget, void *data)
 {
@@ -607,6 +608,7 @@ sakura_focus_tab (GtkWidget *widget, void *data)
 {
 	SAY("focus-tab");
 }
+#endif
 
 static void
 sakura_close_tab (GtkWidget *widget, void *data)
@@ -787,10 +789,12 @@ sakura_add_tab()
 	g_array_append_val(sakura.terminals, term);
 
 	/* GtkNotebook signals */
+#if (GTK_MAJOR_VERSION >= 2 && GTK_MINOR_VERSION >=10)
 	g_signal_connect(G_OBJECT(sakura.notebook), "reorder-tab", G_CALLBACK(sakura_reordered_tab), NULL);
 	g_signal_connect(G_OBJECT(sakura.notebook), "page-reordered", G_CALLBACK(sakura_page_reordered), NULL);
 	g_signal_connect(G_OBJECT(sakura.notebook), "move-focus-out", G_CALLBACK(sakura_move_focus_out), NULL);
 	g_signal_connect(G_OBJECT(sakura.notebook), "focus-tab", G_CALLBACK(sakura_focus_tab), NULL);
+#endif
 
 	/* vte signals */
 	g_signal_connect(G_OBJECT(term.vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);

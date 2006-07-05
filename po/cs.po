@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-26 20:55+0200\n"
+"POT-Creation-Date: 2006-07-05 15:44+0200\n"
 "PO-Revision-Date: 2006-06-11 19:12+0200\n"
 "Last-Translator: Lucas Lommer <drom@kdyne.net>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -21,67 +21,67 @@ msgstr ""
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Máte otevřeno několik záložek. Skutečně chcete uzavřít program Sakura?"
 
-#: src/sakura.c:349
+#: src/sakura.c:350
 msgid "Select font"
 msgstr "Zvolte font"
 
-#: src/sakura.c:377
+#: src/sakura.c:378
 msgid "Set name"
 msgstr "Nastavit jméno"
 
-#: src/sakura.c:421
+#: src/sakura.c:422
 msgid "Select color"
 msgstr "Zvolte barvu"
 
-#: src/sakura.c:431
+#: src/sakura.c:432
 msgid "Select foreground color:"
 msgstr "Zvolte barvu textu"
 
-#: src/sakura.c:432
+#: src/sakura.c:433
 msgid "Select background color:"
 msgstr "Zvolte barvu pozadí"
 
-#: src/sakura.c:466
+#: src/sakura.c:467
 msgid "Select a background file"
 msgstr "Vyberte obrázek na pozadí"
 
-#: src/sakura.c:630
+#: src/sakura.c:654
 msgid "Open link..."
 msgstr "Otevřít odkaz"
 
-#: src/sakura.c:632
+#: src/sakura.c:656
 msgid "New tab"
 msgstr "Nová záložka"
 
-#: src/sakura.c:633
+#: src/sakura.c:657
 msgid "Set name..."
 msgstr "Nastavit jméno..."
 
-#: src/sakura.c:634
+#: src/sakura.c:658
 msgid "Close tab"
 msgstr "Zavřít záložku"
 
-#: src/sakura.c:638
+#: src/sakura.c:662
 msgid "Select colors.."
 msgstr "Zvolte barvy..."
 
-#: src/sakura.c:639
+#: src/sakura.c:663
 msgid "Select background..."
 msgstr "Zvolte pozadí..."
 
-#: src/sakura.c:640
+#: src/sakura.c:664
 msgid "Make transparent..."
 msgstr "Zprůhlednit"
 
-#: src/sakura.c:641
+#: src/sakura.c:665
 msgid "Input methods"
 msgstr "Vstupní metoda"
 
-#: src/sakura.c:864
+#: src/sakura.c:897
 msgid "- vte-based terminal emulator"
 msgstr "- emulátor terminálu založený na VTE"
 
-#: src/sakura.c:870
+#: src/sakura.c:903
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Verze sakura je %s\n"
