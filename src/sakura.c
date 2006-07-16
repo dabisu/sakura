@@ -35,6 +35,7 @@
 #include <vte/vte.h>
 
 #define _(String) gettext(String)
+#define N_(String) (String)
 #define GETTEXT_PACKAGE "sakura"
 
 static struct {
@@ -106,9 +107,9 @@ static gint option_ntabs=1;
 
 static GOptionEntry entries[] = 
 {
-	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, "print version number", NULL },
-	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, "select initial terminal font", NULL },
-	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, "select initial number of tabs", NULL },
+	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
+	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
+	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
     { NULL }
 };
 
@@ -896,7 +897,8 @@ main(int argc, char **argv)
 	/* Options parsing */
 	sakura.context = g_option_context_new (_("- vte-based terminal emulator"));
 	g_option_context_add_main_entries (sakura.context, entries, GETTEXT_PACKAGE);
-	g_option_context_add_group (sakura.context, gtk_get_option_group (TRUE));
+	g_option_group_set_translation_domain(gtk_get_option_group(TRUE), GETTEXT_PACKAGE);
+	g_option_context_add_group (sakura.context, gtk_get_option_group(TRUE));
 	g_option_context_parse (sakura.context, &argc, &argv, &error);
 
 	if (option_version) {

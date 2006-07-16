@@ -17,7 +17,7 @@ DEPENDENCIES=$(patsubst %.o,%.d,$(SAKURA_OBJECTS))
 POFILES=$(wildcard po/*.po)
 MOFILES=$(wildcard po/*.mo)
 
-all: src/sakura localize
+all: src/sakura update-po
 
 src/sakura: $(SAKURA_OBJECTS)
 	$(MAKE.binary) $@ $^
@@ -28,8 +28,8 @@ clean:
 distclean: clean
 	@rm -rf Makefile config.mk config.h 0.log
 
-localize:
-	@xgettext -o po/sakura.pot --keyword=_ $(SAKURA_SOURCES)
+update-po:
+	@xgettext -o po/sakura.pot --keyword=_ --keyword=N_ --from-code=utf-8 $(SAKURA_SOURCES)
 	@for i in $(POFILES); do \
 		msgmerge -U $$i po/sakura.pot 2>/dev/null; \
 		msgfmt -o $${i%*.po}.mo $$i 2>/dev/null; \

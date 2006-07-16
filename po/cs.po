@@ -2,14 +2,11 @@
 # Copyright (C) 2006 THE sakura'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the sacura package.
 # Lucas Lommer <drom@kdyne.net>, 2006.
-# , fuzzy
-# 
-# 
 msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-05 15:44+0200\n"
+"POT-Creation-Date: 2006-07-16 19:36+0200\n"
 "PO-Revision-Date: 2006-06-11 19:12+0200\n"
 "Last-Translator: Lucas Lommer <drom@kdyne.net>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -17,71 +14,85 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/sakura.c:274
+#: ../src/sakura.c:110
+msgid "Print version number"
+msgstr ""
+
+#: ../src/sakura.c:111
+msgid "Select initial terminal font"
+msgstr ""
+
+#: ../src/sakura.c:112
+msgid "Select initial number of tabs"
+msgstr ""
+
+#: ../src/sakura.c:275
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Máte otevřeno několik záložek. Skutečně chcete uzavřít program Sakura?"
 
-#: src/sakura.c:350
+#: ../src/sakura.c:351
 msgid "Select font"
 msgstr "Zvolte font"
 
-#: src/sakura.c:378
+#: ../src/sakura.c:379
 msgid "Set name"
 msgstr "Nastavit jméno"
 
-#: src/sakura.c:422
+#: ../src/sakura.c:423
 msgid "Select color"
 msgstr "Zvolte barvu"
 
-#: src/sakura.c:432
+#: ../src/sakura.c:433
 msgid "Select foreground color:"
 msgstr "Zvolte barvu textu"
 
-#: src/sakura.c:433
+#: ../src/sakura.c:434
 msgid "Select background color:"
 msgstr "Zvolte barvu pozadí"
 
-#: src/sakura.c:467
+#: ../src/sakura.c:468
 msgid "Select a background file"
 msgstr "Vyberte obrázek na pozadí"
 
-#: src/sakura.c:654
+#. Init popup menu
+#: ../src/sakura.c:655
 msgid "Open link..."
 msgstr "Otevřít odkaz"
 
-#: src/sakura.c:656
+#: ../src/sakura.c:657
 msgid "New tab"
 msgstr "Nová záložka"
 
-#: src/sakura.c:657
+#: ../src/sakura.c:658
 msgid "Set name..."
 msgstr "Nastavit jméno..."
 
-#: src/sakura.c:658
+#: ../src/sakura.c:659
 msgid "Close tab"
 msgstr "Zavřít záložku"
 
-#: src/sakura.c:662
+#: ../src/sakura.c:663
 msgid "Select colors.."
 msgstr "Zvolte barvy..."
 
-#: src/sakura.c:663
+#: ../src/sakura.c:664
 msgid "Select background..."
 msgstr "Zvolte pozadí..."
 
-#: src/sakura.c:664
+#: ../src/sakura.c:665
 msgid "Make transparent..."
 msgstr "Zprůhlednit"
 
-#: src/sakura.c:665
+#: ../src/sakura.c:666
 msgid "Input methods"
 msgstr "Vstupní metoda"
 
-#: src/sakura.c:897
+#. Options parsing
+#: ../src/sakura.c:898
 msgid "- vte-based terminal emulator"
 msgstr "- emulátor terminálu založený na VTE"
 
-#: src/sakura.c:903
+#: ../src/sakura.c:905
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Verze sakura je %s\n"
