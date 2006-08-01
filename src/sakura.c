@@ -52,13 +52,11 @@ static struct {
 	guint width;
 	guint height;
 	gint label_count;
-	GOptionContext *context;
-	GOptionGroup *group;
 } sakura;
 
 struct terminal {
-	GtkWidget* hbox;
-	GtkWidget* vte;		/* Reference to VTE terminal */
+	GtkWidget *hbox;
+	GtkWidget *vte;		/* Reference to VTE terminal */
 	pid_t pid;			/* pid of the forked proccess */
 	GtkWidget *scrollbar;
 	GtkWidget *label;
@@ -722,7 +720,6 @@ sakura_destroy()
 	g_array_free(sakura.terminals, TRUE);
 	pango_font_description_free(sakura.font);
 
-	g_option_context_free(sakura.context);
 
 	gtk_main_quit();
 }
@@ -833,6 +830,14 @@ sakura_del_tab()
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);
 	
+	gtk_widget_hide(term.hbox);
+	//gtk_widget_hide(term.label);
+
+	gtk_widget_destroy(term.scrollbar);
+	gtk_widget_destroy(term.vte);
+	gtk_widget_destroy(term.hbox);
+	//gtk_widget_destroy(term.label);
+	
 	/* Remove the array element before removing the notebook page */
 	g_array_remove_index(sakura.terminals, page);
 			
@@ -885,6 +890,7 @@ main(int argc, char **argv)
 	struct terminal term;
 	gchar *localedir;
 	GError *error=NULL;
+	GOptionContext *context;
 	int i;
 	
 	/* Localization */
@@ -895,11 +901,11 @@ main(int argc, char **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	
 	/* Options parsing */
-	sakura.context = g_option_context_new (_("- vte-based terminal emulator"));
-	g_option_context_add_main_entries (sakura.context, entries, GETTEXT_PACKAGE);
+	context = g_option_context_new (_("- vte-based terminal emulator"));
+	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
 	g_option_group_set_translation_domain(gtk_get_option_group(TRUE), GETTEXT_PACKAGE);
-	g_option_context_add_group (sakura.context, gtk_get_option_group(TRUE));
-	g_option_context_parse (sakura.context, &argc, &argv, &error);
+	g_option_context_add_group (context, gtk_get_option_group(TRUE));
+	g_option_context_parse (context, &argc, &argv, &error);
 
 	if (option_version) {
 		fprintf(stderr, _("sakura version is %s\n"), VERSION);
@@ -909,6 +915,8 @@ main(int argc, char **argv)
 	if (option_ntabs <= 0) {
 		option_ntabs=1;
 	}
+
+	g_option_context_free(context);
 
 	gtk_init(&argc, &argv);
 
