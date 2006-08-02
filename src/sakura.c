@@ -778,10 +778,13 @@ sakura_add_tab()
 		return;
 	}
 
+//Disable until it gets stable	
+#if 0
 #if (GTK_MAJOR_VERSION >= 2 && GTK_MINOR_VERSION >=10)
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(sakura.notebook), term.hbox, TRUE);
 	// TODO: Set group id to support detached tabs
 	gtk_notebook_set_tab_detachable(GTK_NOTEBOOK(sakura.notebook), term.hbox, TRUE);
+#endif
 #endif
 
 	g_array_append_val(sakura.terminals, term);
