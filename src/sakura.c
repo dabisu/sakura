@@ -836,11 +836,6 @@ sakura_del_tab()
 	gtk_widget_hide(term.hbox);
 	//gtk_widget_hide(term.label);
 
-	gtk_widget_destroy(term.scrollbar);
-	gtk_widget_destroy(term.vte);
-	gtk_widget_destroy(term.hbox);
-	//gtk_widget_destroy(term.label);
-	
 	/* Remove the array element before removing the notebook page */
 	g_array_remove_index(sakura.terminals, page);
 			
@@ -849,6 +844,7 @@ sakura_del_tab()
 	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 	}
+
 }
 
 
