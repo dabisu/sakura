@@ -65,7 +65,7 @@ struct terminal {
 #define ICON_DIR "/usr/share/pixmaps"
 #define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
-#define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_~#.,;+]*"
+#define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
 	
 /* Callbacks */
 static gboolean	sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
