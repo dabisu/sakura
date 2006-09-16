@@ -1,6 +1,6 @@
-.PHONY: all clean distclean install
+.PHONY: all clean distclean install update-po
 
-override _CFLAGS=`pkg-config --cflags gtk+-2.0 vte`
+override _CFLAGS=`pkg-config --cflags gtk+-2.0 vte` --std=c99
 override _LDFLAGS=`pkg-config --libs gtk+-2.0 vte`
 
 ifdef ENABLE_DEBUG

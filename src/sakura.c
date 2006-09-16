@@ -34,9 +34,13 @@
 #include <pango/pango.h>
 #include <vte/vte.h>
 
+#include "cfgpool.h"
+
 #define _(String) gettext(String)
 #define N_(String) (String)
 #define GETTEXT_PACKAGE "sakura"
+
+void dontuse (void);
 
 static struct {
 	GtkWidget *main_window;
@@ -45,6 +49,8 @@ static struct {
 	GtkWidget *menu;
 	GtkWidget *im_menu;
 	PangoFontDescription *font;
+	GdkColor forecolor;
+	GdkColor backcolor;
 	GtkWidget *open_link_item;
 	GtkWidget *open_link_separator;
 	char *current_match;
@@ -52,6 +58,9 @@ static struct {
 	guint width;
 	guint height;
 	gint label_count;
+	bool fake_transparency;
+	CfgPool pool;
+	char *configfile;
 } sakura;
 
 struct terminal {
@@ -66,7 +75,8 @@ struct terminal {
 #define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
-	
+#define CONFIGFILE ".sakura.conf"
+
 /* Callbacks */
 static gboolean	sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
 static void		sakura_increase_font (GtkWidget *, void *);
@@ -356,6 +366,8 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
 	    sakura_set_font();
+	    SAY("%s", pango_font_description_to_string(sakura.font));
+	    cfgpool_additem(sakura.pool, "font", pango_font_description_to_string(sakura.font));
 	}
 
 	gtk_widget_destroy(font_dialog);
@@ -446,10 +458,16 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
 	
 	if (response==GTK_RESPONSE_ACCEPT) {
+		gchar *tmpcolor;
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &forecolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &backcolor);
 		vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &forecolor);
 		vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &backcolor);
+		tmpcolor=g_strdup_printf("#%02x%02x%02x", forecolor.red >>8, forecolor.green>>8, forecolor.blue>>8);
+		cfgpool_additem(sakura.pool, "forecolor", tmpcolor);
+		free(tmpcolor);
+		tmpcolor=g_strdup_printf("#%02x%02x%02x", backcolor.red>>8, backcolor.green>>8, backcolor.blue>>8);
+		cfgpool_additem(sakura.pool, "backcolor", tmpcolor);
 	}
 
 	gtk_widget_destroy(color_dialog);
@@ -519,8 +537,10 @@ sakura_make_transparent (GtkWidget *widget, void *data)
 		SAY("setting term.pid: %d to transparent...",term.pid);
 		vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),TRUE);
 		vte_terminal_set_background_saturation(VTE_TERMINAL (term.vte),TRUE);
+		cfgpool_additem(sakura.pool, "fake_transparency", "Yes");
 	} else {
 		vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),FALSE);
+		cfgpool_additem(sakura.pool, "fake_transparency", "No");
 	}	
 		
 }
@@ -628,6 +648,15 @@ sakura_init()
 	GtkWidget *separator, *separator2, *separator3, *separator4;
 	GError *gerror=NULL;
 
+	sakura.pool=cfgpool_create();
+
+	if (!sakura.pool) {
+		die("Out of memory\n");
+	}
+
+	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
+	cfgpool_addfile(sakura.pool, sakura.configfile);
+
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
@@ -637,10 +666,31 @@ sakura_init()
 	sakura.resized=false;
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
+	char *tmpstring;
 	if (option_font)
 		sakura.font=pango_font_description_from_string(option_font);
-	else 
+	else if (tmpstring=cfgpool_dontuse(sakura.pool, "font")) {	
+		sakura.font=pango_font_description_from_string(tmpstring);
+		free(tmpstring);
+	} else 
 		sakura.font=pango_font_description_from_string(DEFAULT_FONT);
+
+	tmpstring=cfgpool_dontuse(sakura.pool, "forecolor");
+	gdk_color_parse(tmpstring, &sakura.forecolor);
+	free(tmpstring);
+	tmpstring=cfgpool_dontuse(sakura.pool, "backcolor");
+	gdk_color_parse(tmpstring, &sakura.backcolor);
+	free(tmpstring);
+
+	tmpstring=cfgpool_dontuse(sakura.pool, "fake_transparency");
+	if (strcmp(tmpstring, "Yes")==0) {
+		sakura.fake_transparency=1;
+	} else {
+		sakura.fake_transparency=0;
+	}
+
+	free(tmpstring);
+
 	sakura.menu=gtk_menu_new();
 	sakura.label_count=1;
 
@@ -720,8 +770,14 @@ sakura_destroy()
 	g_array_free(sakura.terminals, TRUE);
 	pango_font_description_free(sakura.font);
 
+	dontuse();
+	cfgpool_delete(sakura.pool);
+
+	cfgpool_done();
+	free(sakura.configfile);
 
 	gtk_main_quit();
+
 }
 
 
@@ -756,6 +812,7 @@ sakura_add_tab()
 	
 	term.hbox=gtk_hbox_new(FALSE, 0);
 	term.vte=vte_terminal_new();
+
 	
 	label_text=g_strdup_printf("Terminal %d", sakura.label_count++);
 	term.label=gtk_label_new(label_text);
@@ -821,6 +878,12 @@ sakura_add_tab()
 
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term.vte), VTE_ERASE_ASCII_DELETE);
 	
+	vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &sakura.forecolor);
+	vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
+	if (sakura.fake_transparency) {
+		vte_terminal_set_background_saturation(VTE_TERMINAL (term.vte),TRUE);
+		vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),TRUE);
+	}
 }
 
 
@@ -880,6 +943,31 @@ sakura_set_bgimage(char *infile)
 	 	vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), TRUE);
 		vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte),FALSE);
 	 }
+}
+
+void dontuse (void) {
+
+	char *tmpstring;
+
+	FILE *file=fopen(sakura.configfile, "w+");
+	if (!file) return;
+	tmpstring=cfgpool_dontuse(sakura.pool, "font");
+	fprintf(file, "font %s\n", tmpstring);
+	free(tmpstring);
+	tmpstring=cfgpool_dontuse(sakura.pool, "forecolor");
+	fprintf(file, "forecolor %s\n", tmpstring);
+	free(tmpstring);
+	tmpstring=cfgpool_dontuse(sakura.pool, "backcolor");
+	fprintf(file, "backcolor %s\n", tmpstring);
+	free(tmpstring);
+	tmpstring=cfgpool_dontuse(sakura.pool, "fake_transparency");
+	fprintf(file, "fake_transparency %s\n", tmpstring);
+	free(tmpstring);
+	tmpstring=cfgpool_dontuse(sakura.pool, "background");
+	fprintf(file, "background %s\n", tmpstring);
+	free(tmpstring);
+
+	fclose(file);
 }
 
 
