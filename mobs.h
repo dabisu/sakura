@@ -1,4 +1,4 @@
-/*  $Revision: 62 $
+/*  $Revision: 63 $
     This file contains development & diagnostic helpers
     
     Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
@@ -142,8 +142,8 @@ also printed for helping to locate this assertion.
     abort();\
 }} while (0)
 #else
-#define ASSERT(mobs_expr) do {(void)(mobs_expr)} while(0)
-#define WASSERT(mobs_expr) do {(void)(mobs_expr)} while(0)
+#define ASSERT(mobs_expr) do {(void)(mobs_expr);} while(0)
+#define WASSERT(mobs_expr) do {(void)(mobs_expr);} while(0)
 #endif
 
 
@@ -165,7 +165,7 @@ static inline const wchar_t *wprogname (const wchar_t *);
 static inline const wchar_t *wprogname (const wchar_t *mobs_string) {
     wchar_t *mobs_where=NULL;
     
-    ASSERT(mobs_string != NULL);
+    WASSERT(mobs_string != NULL);
 
     mobs_where=wcsrchr(mobs_string, L'/');
     return mobs_where?mobs_where+1:mobs_string;
@@ -232,8 +232,8 @@ outputting a formatted message to 'stderr', followed by '\n'.
 */
 #ifndef __MOBS_die
 #define __MOBS_die
-static inline void die (const char *, ...);
-static inline void die (const char *mobs_format, ...) {
+static inline void die (const unsigned char *, ...);
+static inline void die (const unsigned char *mobs_format, ...) {
 
     va_list mobs_args;
 
@@ -255,7 +255,7 @@ static inline void wdie (const wchar_t *mobs_format, ...) {
 
     va_list mobs_args;
 
-    ASSERT(mobs_format);
+    WASSERT(mobs_format);
 
     fwide(stdout, 1);
     
@@ -353,7 +353,7 @@ static inline void wbang (const wchar_t *mobs_format, ...) {
     va_list mobs_args;
     int mobs_errno=errno;
 
-    ASSERT(mobs_format);
+    WASSERT(mobs_format);
 
     fwide(stderr, 1);
     
