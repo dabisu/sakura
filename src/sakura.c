@@ -419,7 +419,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	GtkWidget *label1, *label2;
 	GtkWidget *buttonfore, *buttonback;
 	GtkWidget *vbox, *hbox_fore, *hbox_back;
-	GdkColor forecolor, backcolor;
+	gchar *tmpstring;
 	gint response;
 	int page;
 	struct terminal term;
@@ -427,8 +427,12 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
 
-	forecolor.red=0xc0ff; forecolor.blue=0xc0ff; forecolor.green=0xc0ff;
-	backcolor.red=0; backcolor.blue=0; backcolor.green=0;
+	tmpstring=cfgpool_dontuse(sakura.pool, "forecolor");
+	gdk_color_parse(tmpstring, &sakura.forecolor);
+	free(tmpstring);
+	tmpstring=cfgpool_dontuse(sakura.pool, "backcolor");
+	gdk_color_parse(tmpstring, &sakura.backcolor);
+	free(tmpstring);
 
 	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 											 GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
@@ -442,8 +446,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	hbox_back=gtk_hbox_new(FALSE, 10);
 	label1=gtk_label_new(_("Select foreground color:"));
 	label2=gtk_label_new(_("Select background color:"));
-	buttonfore=gtk_color_button_new_with_color(&forecolor);
-	buttonback=gtk_color_button_new_with_color(&backcolor);
+	buttonfore=gtk_color_button_new_with_color(&sakura.forecolor);
+	buttonback=gtk_color_button_new_with_color(&sakura.backcolor);
 	
 	gtk_container_add(GTK_CONTAINER(hbox_fore), label1);
 	gtk_container_add(GTK_CONTAINER(hbox_fore), buttonfore);
@@ -458,16 +462,17 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
 	
 	if (response==GTK_RESPONSE_ACCEPT) {
-		gchar *tmpcolor;
-		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &forecolor);
-		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &backcolor);
-		vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &forecolor);
-		vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &backcolor);
-		tmpcolor=g_strdup_printf("#%02x%02x%02x", forecolor.red >>8, forecolor.green>>8, forecolor.blue>>8);
-		cfgpool_additem(sakura.pool, "forecolor", tmpcolor);
-		free(tmpcolor);
-		tmpcolor=g_strdup_printf("#%02x%02x%02x", backcolor.red>>8, backcolor.green>>8, backcolor.blue>>8);
-		cfgpool_additem(sakura.pool, "backcolor", tmpcolor);
+		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
+		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
+		vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &sakura.forecolor);
+		vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
+		tmpstring=g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
+			   						sakura.forecolor.green>>8, sakura.forecolor.blue>>8);
+		cfgpool_additem(sakura.pool, "forecolor", tmpstring);
+		free(tmpstring);
+		tmpstring=g_strdup_printf("#%02x%02x%02x", sakura.backcolor.red>>8,
+			   						sakura.backcolor.green>>8, sakura.backcolor.blue>>8);
+		cfgpool_additem(sakura.pool, "backcolor", tmpstring);
 	}
 
 	gtk_widget_destroy(color_dialog);
@@ -531,15 +536,15 @@ sakura_make_transparent (GtkWidget *widget, void *data)
 	struct terminal term;
 	
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term=g_array_index(sakura.terminals, struct terminal,  page);	
+	term=g_array_index(sakura.terminals, struct terminal, page);	
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-		SAY("setting term.pid: %d to transparent...",term.pid);
-		vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),TRUE);
-		vte_terminal_set_background_saturation(VTE_TERMINAL (term.vte),TRUE);
+		SAY("setting term.pid: %d to transparent...", term.pid);
+		vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), TRUE);
+		vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), TRUE);
 		cfgpool_additem(sakura.pool, "fake_transparency", "Yes");
 	} else {
-		vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),FALSE);
+		vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), FALSE);
 		cfgpool_additem(sakura.pool, "fake_transparency", "No");
 	}	
 		
@@ -647,7 +652,9 @@ sakura_init()
 	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9, *item10;
 	GtkWidget *separator, *separator2, *separator3, *separator4;
 	GError *gerror=NULL;
+	gchar *confitem;
 
+	/* Config file inicialization*/
 	sakura.pool=cfgpool_create();
 
 	if (!sakura.pool) {
@@ -655,7 +662,32 @@ sakura_init()
 	}
 
 	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
-	cfgpool_addfile(sakura.pool, sakura.configfile);
+	if (!g_file_test(sakura.configfile, G_FILE_TEST_IS_REGULAR)) {
+		/* Add default values */
+		cfgpool_additem(sakura.pool, "font", DEFAULT_FONT);
+		cfgpool_additem(sakura.pool, "forecolor", "#c0c0c0");
+		cfgpool_additem(sakura.pool, "backcolor", "#000000");
+		cfgpool_additem(sakura.pool, "fake_transparency", "No");
+	} else {
+		/* Use config file if exists... */
+		cfgpool_addfile(sakura.pool, sakura.configfile);
+		/* ... and set initial values*/
+		confitem=cfgpool_dontuse(sakura.pool, "forecolor");
+		gdk_color_parse(confitem, &sakura.forecolor);
+		free(confitem);
+		confitem=cfgpool_dontuse(sakura.pool, "backcolor");
+		gdk_color_parse(confitem, &sakura.backcolor);
+		free(confitem);
+		confitem=cfgpool_dontuse(sakura.pool, "fake_transparency");
+		if (confitem) {
+			if (strcmp(confitem, "Yes")==0) {
+				sakura.fake_transparency=1;
+			} else {
+				sakura.fake_transparency=0;
+			}
+		}
+		free(confitem);
+	}
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
@@ -666,30 +698,13 @@ sakura_init()
 	sakura.resized=false;
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
-	char *tmpstring;
+
 	if (option_font)
 		sakura.font=pango_font_description_from_string(option_font);
-	else if (tmpstring=cfgpool_dontuse(sakura.pool, "font")) {	
-		sakura.font=pango_font_description_from_string(tmpstring);
-		free(tmpstring);
-	} else 
-		sakura.font=pango_font_description_from_string(DEFAULT_FONT);
-
-	tmpstring=cfgpool_dontuse(sakura.pool, "forecolor");
-	gdk_color_parse(tmpstring, &sakura.forecolor);
-	free(tmpstring);
-	tmpstring=cfgpool_dontuse(sakura.pool, "backcolor");
-	gdk_color_parse(tmpstring, &sakura.backcolor);
-	free(tmpstring);
-
-	tmpstring=cfgpool_dontuse(sakura.pool, "fake_transparency");
-	if (strcmp(tmpstring, "Yes")==0) {
-		sakura.fake_transparency=1;
-	} else {
-		sakura.fake_transparency=0;
-	}
-
-	free(tmpstring);
+	else if ((confitem=cfgpool_dontuse(sakura.pool, "font"))) {	
+		sakura.font=pango_font_description_from_string(confitem);
+		free(confitem);
+	} 
 
 	sakura.menu=gtk_menu_new();
 	sakura.label_count=1;
@@ -710,7 +725,12 @@ sakura_init()
 	item3=gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_FONT, NULL);
 	item10=gtk_menu_item_new_with_label(_("Select colors.."));
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
-	item5=gtk_check_menu_item_new_with_label(_("Make transparent..."));
+	item5=gtk_check_menu_item_new_with_label(_("Fake transparency..."));
+	if (sakura.fake_transparency) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item5), TRUE);
+	}
+		
+
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
 
 	separator=gtk_separator_menu_item_new();
