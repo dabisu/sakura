@@ -61,6 +61,7 @@ static struct {
 	bool fake_transparency;
 	CfgPool pool;
 	char *configfile;
+	char *background;
 } sakura;
 
 struct terminal {
@@ -496,7 +497,8 @@ sakura_background_selection (GtkWidget *widget, void *data)
 	response=gtk_dialog_run(GTK_DIALOG(dialog));
 	if (response == GTK_RESPONSE_ACCEPT) {
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-		sakura_set_bgimage(filename);
+		sakura.background=g_strdup(filename);
+		sakura_set_bgimage(sakura.background);
 		g_free(filename);
 	}
 	gtk_widget_destroy(dialog);
@@ -530,7 +532,7 @@ static void
 sakura_make_transparent (GtkWidget *widget, void *data)
 {
 	/* tjb Do some transparency magic/hacking */
-	/* tjb probably need to do some checking here and  in sakura_set_bgimage for transparency */
+	/* tjb probably need to do some checking here and in sakura_set_bgimage for transparency */
 	/* tjb among other things already being set. */
 	int page;
 	struct terminal term;
@@ -675,7 +677,7 @@ sakura_init()
 		cfgpool_addfile(sakura.pool, sakura.configfile, &lineno);
 	}
 
-	/* ... and set initial values*/
+	/* Set initial values*/
 	confitem=cfgpool_dontuse(sakura.pool, "forecolor");
 	gdk_color_parse(confitem, &sakura.forecolor);
 	free(confitem);
@@ -689,6 +691,13 @@ sakura_init()
 		} else {
 			sakura.fake_transparency=0;
 		}
+	}
+	free(confitem);
+	confitem=cfgpool_dontuse(sakura.pool, "background");
+	if (confitem) {
+		sakura.background=g_strdup(confitem);
+	} else {
+		sakura.background=NULL;
 	}
 	free(confitem);
 
@@ -792,6 +801,9 @@ sakura_destroy()
 	
 	g_array_free(sakura.terminals, TRUE);
 	pango_font_description_free(sakura.font);
+
+	if (sakura.background)
+		free(sakura.background);
 
 	dontuse();
 	cfgpool_delete(sakura.pool);
@@ -899,13 +911,18 @@ sakura_add_tab()
 		sakura_set_font();
 	}
 
+	/* Configuration per-terminal */
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term.vte), VTE_ERASE_ASCII_DELETE);
-	
 	vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &sakura.forecolor);
 	vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
+
 	if (sakura.fake_transparency) {
 		vte_terminal_set_background_saturation(VTE_TERMINAL (term.vte),TRUE);
 		vte_terminal_set_background_transparent(VTE_TERMINAL (term.vte),TRUE);
+	}
+
+	if (sakura.background) {
+		sakura_set_bgimage(sakura.background);
 	}
 }
 
@@ -952,24 +969,28 @@ sakura_set_bgimage(char *infile)
 	ASSERT(infile);
 
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term=g_array_index(sakura.terminals, struct terminal,  page);	
+	term=g_array_index(sakura.terminals, struct terminal, page);	
 
 	/* Check file existence and type */
-	if (g_file_test(infile, G_FILE_TEST_IS_REGULAR))
- 		pixbuf = gdk_pixbuf_new_from_file (infile, &gerror);
+	if (g_file_test(infile, G_FILE_TEST_IS_REGULAR)) {
 
-	if (!pixbuf) {
-	 	SAY("Frick: %s\n", gerror->message);
-	 	SAY("Frick: not using image file...\n");
-	} else {
-		vte_terminal_set_background_image(VTE_TERMINAL(term.vte), pixbuf);
-	 	vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), TRUE);
-		vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte),FALSE);
-	 }
+ 		pixbuf = gdk_pixbuf_new_from_file (infile, &gerror);
+		if (!pixbuf) {
+			SAY("Frick: %s\n", gerror->message);
+			SAY("Frick: not using image file...\n");
+		} else {
+			vte_terminal_set_background_image(VTE_TERMINAL(term.vte), pixbuf);
+			vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), TRUE);
+			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte),FALSE);
+
+			cfgpool_additem(sakura.pool, "background", infile);
+		 }
+	}
 }
 
-void dontuse (void) {
-
+void
+dontuse (void)
+{
 	char *tmpstring;
 
 	FILE *file=fopen(sakura.configfile, "w+");
