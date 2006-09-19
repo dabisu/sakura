@@ -660,7 +660,8 @@ sakura_init()
 	if (!sakura.pool) {
 		die("Out of memory\n");
 	}
-
+	
+	/* TODO: Move out to a separate function */
 	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
 	if (!g_file_test(sakura.configfile, G_FILE_TEST_IS_REGULAR)) {
 		/* Add default values */
@@ -668,26 +669,25 @@ sakura_init()
 		cfgpool_additem(sakura.pool, "forecolor", "#c0c0c0");
 		cfgpool_additem(sakura.pool, "backcolor", "#000000");
 		cfgpool_additem(sakura.pool, "fake_transparency", "No");
-	} else {
-		/* Use config file if exists... */
-		cfgpool_addfile(sakura.pool, sakura.configfile);
-		/* ... and set initial values*/
-		confitem=cfgpool_dontuse(sakura.pool, "forecolor");
-		gdk_color_parse(confitem, &sakura.forecolor);
-		free(confitem);
-		confitem=cfgpool_dontuse(sakura.pool, "backcolor");
-		gdk_color_parse(confitem, &sakura.backcolor);
-		free(confitem);
-		confitem=cfgpool_dontuse(sakura.pool, "fake_transparency");
-		if (confitem) {
-			if (strcmp(confitem, "Yes")==0) {
-				sakura.fake_transparency=1;
-			} else {
-				sakura.fake_transparency=0;
-			}
-		}
-		free(confitem);
 	}
+	/* Use config file if exists... */
+	cfgpool_addfile(sakura.pool, sakura.configfile);
+	/* ... and set initial values*/
+	confitem=cfgpool_dontuse(sakura.pool, "forecolor");
+	gdk_color_parse(confitem, &sakura.forecolor);
+	free(confitem);
+	confitem=cfgpool_dontuse(sakura.pool, "backcolor");
+	gdk_color_parse(confitem, &sakura.backcolor);
+	free(confitem);
+	confitem=cfgpool_dontuse(sakura.pool, "fake_transparency");
+	if (confitem) {
+		if (strcmp(confitem, "Yes")==0) {
+			sakura.fake_transparency=1;
+		} else {
+			sakura.fake_transparency=0;
+		}
+	}
+	free(confitem);
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
