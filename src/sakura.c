@@ -653,6 +653,7 @@ sakura_init()
 	GtkWidget *separator, *separator2, *separator3, *separator4;
 	GError *gerror=NULL;
 	gchar *confitem;
+	unsigned int lineno;
 
 	/* Config file inicialization*/
 	sakura.pool=cfgpool_create();
@@ -669,9 +670,11 @@ sakura_init()
 		cfgpool_additem(sakura.pool, "forecolor", "#c0c0c0");
 		cfgpool_additem(sakura.pool, "backcolor", "#000000");
 		cfgpool_additem(sakura.pool, "fake_transparency", "No");
+	} else {
+		/* Use config file if exists... */
+		cfgpool_addfile(sakura.pool, sakura.configfile, &lineno);
 	}
-	/* Use config file if exists... */
-	cfgpool_addfile(sakura.pool, sakura.configfile);
+
 	/* ... and set initial values*/
 	confitem=cfgpool_dontuse(sakura.pool, "forecolor");
 	gdk_color_parse(confitem, &sakura.forecolor);

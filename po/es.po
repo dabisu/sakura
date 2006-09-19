@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-19 00:37+0200\n"
+"POT-Creation-Date: 2006-09-19 20:41+0200\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,59 +35,59 @@ msgstr "Seleccionar fuente"
 msgid "Set name"
 msgstr "Cambiar nombre"
 
-#: src/sakura.c:441
+#: src/sakura.c:437
 msgid "Select color"
 msgstr "Seleccionar color"
 
-#: src/sakura.c:451
+#: src/sakura.c:447
 msgid "Select foreground color:"
 msgstr "Seleccionar color de fuente"
 
-#: src/sakura.c:452
+#: src/sakura.c:448
 msgid "Select background color:"
 msgstr "Seleccionar color de fondo"
 
-#: src/sakura.c:493
+#: src/sakura.c:489
 msgid "Select a background file"
 msgstr "Seleccionar fichero de fondo"
 
-#: src/sakura.c:722
+#: src/sakura.c:721
 msgid "Open link..."
 msgstr "Abrir enlace..."
 
-#: src/sakura.c:724
+#: src/sakura.c:723
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:725
+#: src/sakura.c:724
 msgid "Set name..."
 msgstr "Elegir nombre"
 
-#: src/sakura.c:726
+#: src/sakura.c:725
 msgid "Close tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:730
+#: src/sakura.c:729
 msgid "Select colors.."
 msgstr "Seleccionar colores..."
 
-#: src/sakura.c:731
+#: src/sakura.c:730
 msgid "Select background..."
 msgstr "Seleccionar fondo..."
 
-#: src/sakura.c:732
+#: src/sakura.c:731
 msgid "Fake transparency..."
 msgstr "Falsa transparencia..."
 
-#: src/sakura.c:738
+#: src/sakura.c:737
 msgid "Input methods"
 msgstr "Métodos de entrada"
 
-#: src/sakura.c:1015
+#: src/sakura.c:1014
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal basado en libvte"
 
-#: src/sakura.c:1022
+#: src/sakura.c:1021
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
