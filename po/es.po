@@ -5,89 +5,89 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-19 20:41+0200\n"
+"POT-Creation-Date: 2006-09-19 21:06+0200\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/sakura.c:118
+#: src/sakura.c:119
 msgid "Print version number"
 msgstr "imprimir número de versión"
 
-#: src/sakura.c:119
+#: src/sakura.c:120
 msgid "Select initial terminal font"
 msgstr "seleccionar el tipo de fuente inicial"
 
-#: src/sakura.c:120
+#: src/sakura.c:121
 msgid "Select initial number of tabs"
 msgstr "seleccionar el número inicial de pestañas"
 
-#: src/sakura.c:283
+#: src/sakura.c:284
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Hay varias pestañas abiertas. ¿Quiere cerrar Sakura?"
 
-#: src/sakura.c:359
+#: src/sakura.c:360
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
-#: src/sakura.c:389
+#: src/sakura.c:390
 msgid "Set name"
 msgstr "Cambiar nombre"
 
-#: src/sakura.c:437
+#: src/sakura.c:438
 msgid "Select color"
 msgstr "Seleccionar color"
 
-#: src/sakura.c:447
+#: src/sakura.c:448
 msgid "Select foreground color:"
 msgstr "Seleccionar color de fuente"
 
-#: src/sakura.c:448
+#: src/sakura.c:449
 msgid "Select background color:"
 msgstr "Seleccionar color de fondo"
 
-#: src/sakura.c:489
+#: src/sakura.c:490
 msgid "Select a background file"
 msgstr "Seleccionar fichero de fondo"
 
-#: src/sakura.c:721
+#: src/sakura.c:730
 msgid "Open link..."
 msgstr "Abrir enlace..."
 
-#: src/sakura.c:723
+#: src/sakura.c:732
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:724
+#: src/sakura.c:733
 msgid "Set name..."
 msgstr "Elegir nombre"
 
-#: src/sakura.c:725
+#: src/sakura.c:734
 msgid "Close tab"
 msgstr "Nueva pestaña"
 
-#: src/sakura.c:729
+#: src/sakura.c:738
 msgid "Select colors.."
 msgstr "Seleccionar colores..."
 
-#: src/sakura.c:730
+#: src/sakura.c:739
 msgid "Select background..."
 msgstr "Seleccionar fondo..."
 
-#: src/sakura.c:731
+#: src/sakura.c:740
 msgid "Fake transparency..."
 msgstr "Falsa transparencia..."
 
-#: src/sakura.c:737
+#: src/sakura.c:746
 msgid "Input methods"
 msgstr "Métodos de entrada"
 
-#: src/sakura.c:1014
+#: src/sakura.c:1035
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal basado en libvte"
 
-#: src/sakura.c:1021
+#: src/sakura.c:1042
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"

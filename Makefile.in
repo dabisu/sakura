@@ -17,7 +17,7 @@ DEPENDENCIES=$(patsubst %.o,%.d,$(SAKURA_OBJECTS))
 POFILES=$(wildcard po/*.po)
 MOFILES=$(wildcard po/*.mo)
 
-all: src/sakura update-po
+all: src/sakura 
 
 src/sakura: $(SAKURA_OBJECTS)
 	$(MAKE.binary) $@ $^
@@ -37,7 +37,7 @@ update-po:
 
 DIRMODE="a+rx,u+w"
 
-install: all
+install: all update-po
 	@$(call makedir,$(BINDIR),$(DIRMODE))
 	@$(call install_files,src/sakura,$(BINDIR),a=rx)
 	@$(call makedir,$(DATADIR)/pixmaps,$(DIRMODE))
