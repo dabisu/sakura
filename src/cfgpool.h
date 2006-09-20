@@ -1,4 +1,4 @@
-// $Rev: 24 $
+// $Rev: 26 $
 #ifndef __CFGPOOL_H_
 #define __CFGPOOL_H_
 
@@ -7,20 +7,21 @@
 
 // Error codes
 enum {
-    __CFGPOOL_ERRORS=0,     // NOT used in the code
+    CFGPOOL_EBADPOOL=1,     // Bad CfgPool object in call to method
+
     CFGPOOL_EOUTOFMEMORY,   // Not enough memory
-    CFGPOOL_EBADPOOL,       // Bad CfgPool object in call to method
     CFGPOOL_EBADARG,        // Invalid argument in call to method
     CFGPOOL_EFULLPOOL,      // Pool is full!
     CFGPOOL_EBADFILE,       // File cannot be read
     CFGPOOL_EILLFORMED,     // Ill formed line
+    CFGPOOL_ENOTFOUND,      // Key not found in pool
 };
 
 
 // Extended error codes
 enum {
-    __CFGPOOL_XERRORS=0,    // NOT used in the code
-
+    CFGPOOL_XEBADPOOL=1,    // Bad CfgPool object in call to method
+    
     CFGPOOL_XEBADKEY,       // Key is invalid in the current locale
     CFGPOOL_XENULLKEY,      // NULL given as key in call to method
     CFGPOOL_XEVOIDKEY,      // Empty string given as key in call to method
@@ -35,6 +36,7 @@ enum {
     CFGPOOL_XEVALUECOPY,    // Not enough memory to copy value
     CFGPOOL_XEMANYVALUES,   // Too many values in a key
 
+    CFGPOOL_XENULL,         // Null pointer given to method
     CFGPOOL_XEADDITEM,      // Not enough memory to add a new item to the pool
 
     CFGPOOL_XENULLFILE,     // NULL given as filename in call to method
@@ -78,9 +80,17 @@ int cfgpool_addfd    (CfgPool, int, uintmax_t *);
 int cfgpool_additem  (CfgPool, const char *, const char *);
 int cfgpool_addwitem (CfgPool, const wchar_t *, const wchar_t *);
 
+// Error code retrieving
+int cfgpool_geterror  (CfgPool);
+int cfgpool_getxerror (CfgPool);
 
-// Error handling
-int cfgpool_geterror (CfgPool, cfgpool_error *);
+// Data access
+int cfgpool_getvalue      (CfgPool, const char    *, char    **);
+int cfgpool_getwvalue     (CfgPool, const wchar_t *, wchar_t **);
+int cfgpool_getallvalues  (CfgPool, const char    *, char    **);
+int cfgpool_getallwvalues (CfgPool, const wchar_t *, wchar_t **);
+int cfgpool_getinfo       (CfgPool, const char    *, char    **);
+int cfgpool_getallinfo    (CfgPool, const char    *, char    **);
 
 char *cfgpool_dontuse(CfgPool, char *);
 

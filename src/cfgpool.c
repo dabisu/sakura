@@ -1,4 +1,4 @@
-// $Rev: 24 $
+// $Rev: 26 $
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
@@ -17,7 +17,8 @@
 
 // Private error codes for all the internal functions
 enum {
-    __CFGPOOL__ERRORS=0,
+    CFGPOOL__EBADPOOL=1,        // Bad CfgPool object in call to method
+
     CFGPOOL__ENULLSRC,          // Source pointer argument is NULL
     CFGPOOL__ENULLDST,          // Destination pointer argument is NULL
     CFGPOOL__EBADMB,            // An invalid multibyte sequence detected
@@ -52,15 +53,6 @@ fact is that it improves readability and code flow because that way all
 functions have only ONE entry point (of course) and ONE exit point.
 
 */
-
-// Prototypes for internal functions 
-static        int    internal_additem  (CfgPool, wchar_t *, wchar_t *, char *);
-static        int    internal_mungefd  (CfgPool, int, const char *, uintmax_t *);
-static        int    internal_parse    (const wchar_t *, wchar_t **, wchar_t **);
-static        char  *internal_xnprintf (const char *, ...);
-static        int    internal_mbstowcs (wchar_t **, const char *);
-static        int    internal_wcstombs (char **, const wchar_t *);
-static inline size_t internal_one_at_a_time (const wchar_t *);
 
 /*
 
@@ -114,7 +106,8 @@ struct CfgPool {
             wchar_t *value; // The value itself
         } *values;          // This item's set of values
     } **data;               // The data (the array of buckets)
-    cfgpool_error error;    // Information of last error produced
+    int error;              // The last error
+    int xerror;             // The last extended error
 };
 
 #define CFGPOOL_MAXBUCKETS  ((SIZE_MAX>>1)/sizeof(CfgItem))
@@ -122,6 +115,18 @@ struct CfgPool {
 // FIXME: should these be exported trhu accessor methods?
 #define CFGPOOL_MAXVALUES   (SIZE_MAX/sizeof(struct CfgValue))
 #define CFGPOOL_MAXKEYS     (SIZE_MAX)
+
+
+// Prototypes for internal functions 
+static        int     internal_additem       (CfgPool, wchar_t *, wchar_t *, char *);
+static        int     internal_mungefd       (CfgPool, int, const char *, uintmax_t *);
+static        int     internal_parse         (const wchar_t *, wchar_t **, wchar_t **);
+static        char   *internal_xnprintf      (const char *, ...);
+static        int     internal_mbstowcs      (wchar_t **, const char *);
+static        int     internal_wcstombs      (char **, const wchar_t *);
+static inline size_t  internal_one_at_a_time (const wchar_t *);
+static        CfgItem internal_getdata       (CfgPool, const wchar_t *);
+
 
 ////////////////////////////////////////////////////////////
 
@@ -186,7 +191,8 @@ void                            // void
 
     self->buckets = 0;
     self->numitems = 0;
-    memset(&self->error, '\0', sizeof(cfgpool_error));
+    self->error = 0;
+    self->xerror = 0;
 
     self->data = calloc(1 << CFGPOOL_DEFAULT_BITSIZE, sizeof(CfgItem));
     if (self->data) self->buckets = 1 << CFGPOOL_DEFAULT_BITSIZE;
@@ -195,7 +201,8 @@ void                            // void
         self=NULL;
     };
 
-out: return self;
+out:
+    return self;
 
 }
 
@@ -312,16 +319,17 @@ const wchar_t *value            // The value of the item
 
     // FIXME: we shouldn't allow to make operations in a pool with a pending error?
     if (!self) return CFGPOOL_EBADPOOL;
-    self->error.code=0;
+    self->error  = 0;
+    self->xerror = 0;
 
     if (!key) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XENULLKEY;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XENULLKEY;
         goto out;
     }
     if (!value) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XENULLVALUE;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XENULLVALUE;
         goto out;
     }
 
@@ -331,41 +339,41 @@ const wchar_t *value            // The value of the item
     size_t len;
     len = wcslen(key);
     if (len == SIZE_MAX) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XEKEY2BIG;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XEKEY2BIG;
         goto out;
     }
     if (len == 0) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XEVOIDKEY;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XEVOIDKEY;
         goto out;
     }
 
     len++;    
     _key = malloc(len * sizeof(wchar_t));
     if (!_key) {
-        self->error.code  = CFGPOOL_EOUTOFMEMORY;
-        self->error.xcode = CFGPOOL_XEKEYCOPY;
+        self->error  = CFGPOOL_EOUTOFMEMORY;
+        self->xerror = CFGPOOL_XEKEYCOPY;
         goto out;
     }
 
     len = wcslen(value);
     if (len == SIZE_MAX) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XEVALUE2BIG;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XEVALUE2BIG;
         goto out;
     }
     if (len == 0) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XEVOIDVALUE;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XEVOIDVALUE;
         goto out;
     }
 
     len++;
     _value = malloc(len * sizeof(wchar_t));
     if (!_value) {
-        self->error.code  = CFGPOOL_EOUTOFMEMORY;
-        self->error.xcode = CFGPOOL_XEVALUECOPY;
+        self->error  = CFGPOOL_EOUTOFMEMORY;
+        self->xerror = CFGPOOL_XEVALUECOPY;
         goto out;
     }
 
@@ -374,23 +382,23 @@ const wchar_t *value            // The value of the item
 
     switch(internal_additem(self, _key, _value, NULL)) {
         case CFGPOOL__E2MANYK:
-            self->error.code  = CFGPOOL_EFULLPOOL;
-            self->error.xcode = CFGPOOL_XEMANYKEYS;
+            self->error  = CFGPOOL_EFULLPOOL;
+            self->xerror = CFGPOOL_XEMANYKEYS;
             break;
         case CFGPOOL__E2MANYV:
-            self->error.code  = CFGPOOL_EFULLPOOL;
-            self->error.xcode = CFGPOOL_XEMANYVALUES;
+            self->error  = CFGPOOL_EFULLPOOL;
+            self->xerror = CFGPOOL_XEMANYVALUES;
             break;
         case CFGPOOL__EVNOMEM:
         case CFGPOOL__EINOMEM:
-            self->error.code  = CFGPOOL_EOUTOFMEMORY;
-            self->error.xcode = CFGPOOL_XEADDITEM;
+            self->error  = CFGPOOL_EOUTOFMEMORY;
+            self->xerror = CFGPOOL_XEADDITEM;
             break;
     }
 
 out:    
     if (!_value && _key) free(_key);
-    return self->error.code;
+    return self->error;
 }
 
 
@@ -460,16 +468,17 @@ const char *value               // The value of the item
 
     // FIXME: we shouldn't allow to make operations in a pool with a pending error?
     if (!self) return CFGPOOL_EBADPOOL;
-    self->error.code=0;
+    self->error  = 0;
+    self->xerror = 0;
 
     if (!key) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XENULLKEY;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XENULLKEY;
         goto out;
     }
     if (!value) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XENULLVALUE;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XENULLVALUE;
         goto out;
     }
 
@@ -478,73 +487,73 @@ const char *value               // The value of the item
 
     switch (internal_mbstowcs(&wkey, key)) {
         case CFGPOOL__ESNOMEM:
-            self->error.code  = CFGPOOL_EOUTOFMEMORY;
-            self->error.xcode = CFGPOOL_XEKEYCOPY;
+            self->error  = CFGPOOL_EOUTOFMEMORY;
+            self->xerror = CFGPOOL_XEKEYCOPY;
             goto out;
         case CFGPOOL__EBADMB:
-            self->error.code  = CFGPOOL_EBADARG;
-            self->error.xcode = CFGPOOL_XEBADKEY;
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XEBADKEY;
             goto out;
         case CFGPOOL__ES2BIG:
-            self->error.code  = CFGPOOL_EBADARG;
-            self->error.xcode = CFGPOOL_XEKEY2BIG;
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XEKEY2BIG;
             goto out;
         case CFGPOOL__EVOID:
-            self->error.code  = CFGPOOL_EBADARG;
-            self->error.xcode = CFGPOOL_XEVOIDKEY;
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XEVOIDKEY;
             goto out;
     }
 
     switch (internal_mbstowcs(&wvalue, value)) {
         case CFGPOOL_EOUTOFMEMORY:
-            self->error.code  = CFGPOOL_EOUTOFMEMORY;
-            self->error.xcode = CFGPOOL_XEVALUECOPY;
+            self->error  = CFGPOOL_EOUTOFMEMORY;
+            self->xerror = CFGPOOL_XEVALUECOPY;
             goto out;
         case CFGPOOL__EBADMB:
-            self->error.code  = CFGPOOL_EBADARG;
-            self->error.xcode = CFGPOOL_XEBADVALUE;
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XEBADVALUE;
             goto out;
         case CFGPOOL__ES2BIG:
-            self->error.code  = CFGPOOL_EBADARG;
-            self->error.xcode = CFGPOOL_XEVALUE2BIG;
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XEVALUE2BIG;
             goto out;
         case CFGPOOL__EVOID:
-            self->error.code  = CFGPOOL_EBADARG;
-            self->error.xcode = CFGPOOL_XEVOIDVALUE;
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XEVOIDVALUE;
             goto out;
     }
 
     if (wcslen(wkey) == SIZE_MAX) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XEKEY2BIG;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XEKEY2BIG;
         goto out;
     }
 
     if (wcslen(wvalue) == SIZE_MAX) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XEVALUE2BIG;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XEVALUE2BIG;
         goto out;
     }
 
     switch(internal_additem(self, wkey, wvalue, NULL)) {
         case CFGPOOL__E2MANYK:
-            self->error.code  = CFGPOOL_EFULLPOOL;
-            self->error.xcode = CFGPOOL_XEMANYKEYS;
+            self->error  = CFGPOOL_EFULLPOOL;
+            self->xerror = CFGPOOL_XEMANYKEYS;
             break;
         case CFGPOOL__E2MANYV:
-            self->error.code  = CFGPOOL_EFULLPOOL;
-            self->error.xcode = CFGPOOL_XEMANYVALUES;
+            self->error  = CFGPOOL_EFULLPOOL;
+            self->xerror = CFGPOOL_XEMANYVALUES;
             break;
         case CFGPOOL__EVNOMEM:
         case CFGPOOL__EINOMEM:
-            self->error.code  = CFGPOOL_EOUTOFMEMORY;
-            self->error.xcode = CFGPOOL_XEADDITEM;
+            self->error  = CFGPOOL_EOUTOFMEMORY;
+            self->xerror = CFGPOOL_XEADDITEM;
             break;
     }
 
 out:
     if (!wvalue && wkey) free(wkey);
-    return self->error.code;
+    return self->error;
 }
 
 
@@ -592,11 +601,12 @@ uintmax_t *lineno               // The line number returned on errors
 ){
 
     if (!self) return CFGPOOL_EBADPOOL;
-    self->error.code = 0;
+    self->error  = 0;
+    self->xerror = 0;
 
     if (!filename) {
-        self->error.code  = CFGPOOL_EBADARG;
-        self->error.xcode = CFGPOOL_XENULLFILE;
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XENULLFILE;
         goto out;
     }
     
@@ -605,8 +615,8 @@ uintmax_t *lineno               // The line number returned on errors
     while ((inputfd = open(filename, O_RDONLY)) == -1 && errno == EINTR);
 
     if (inputfd < 0) {
-        self->error.code  = CFGPOOL_EBADFILE;
-        self->error.xcode = -errno;
+        self->error  = CFGPOOL_EBADFILE;
+        self->xerror = -errno;
         goto out;
     }
 
@@ -614,7 +624,7 @@ uintmax_t *lineno               // The line number returned on errors
 
 out:
     if (inputfd >= 0) close(inputfd);
-    return self->error.code;
+    return self->error;
 }
 
 
@@ -659,55 +669,57 @@ uintmax_t *lineno               // The line number returned on errors
 ){
 
     if (!self) return CFGPOOL_EBADPOOL;
+    self->error  = 0;
+    self->xerror = 0;
 
     int result=internal_mungefd(self, inputfd, NULL, lineno);
-    if (result <= 0) {
-        self->error.code  = CFGPOOL_EBADFILE;
-        self->error.xcode = -errno;
+    if (result < 0) {
+        self->error  = CFGPOOL_EBADFILE;
+        self->xerror = -errno;
         goto out;
     }
 
     switch (result) {
         case CFGPOOL__EMISSING:
-            self->error.code  = CFGPOOL_EILLFORMED;
-            self->error.xcode = CFGPOOL_XEVOIDVALUE;
+            self->error  = CFGPOOL_EILLFORMED;
+            self->xerror = CFGPOOL_XEVOIDVALUE;
             goto out;
         case CFGPOOL__EK2BIG:
-            self->error.code  = CFGPOOL_EILLFORMED;
-            self->error.xcode = CFGPOOL_XEKEY2BIG;
+            self->error  = CFGPOOL_EILLFORMED;
+            self->xerror = CFGPOOL_XEKEY2BIG;
             goto out;
         case CFGPOOL__EV2BIG:
-            self->error.code  = CFGPOOL_EILLFORMED;
-            self->error.xcode = CFGPOOL_XEVALUE2BIG;
+            self->error  = CFGPOOL_EILLFORMED;
+            self->xerror = CFGPOOL_XEVALUE2BIG;
             goto out;
         case CFGPOOL__EL2BIG:
-            self->error.code  = CFGPOOL_EILLFORMED;
-            self->error.xcode = CFGPOOL_XELINE2BIG;
+            self->error  = CFGPOOL_EILLFORMED;
+            self->xerror = CFGPOOL_XELINE2BIG;
             goto out;
         case CFGPOOL__EF2BIG:
-            self->error.code  = CFGPOOL_EBADFILE;
-            self->error.xcode = -EFBIG;
+            self->error  = CFGPOOL_EBADFILE;
+            self->xerror = -EFBIG;
             goto out;
         case CFGPOOL__E2MANYK:
-            self->error.code  = CFGPOOL_EFULLPOOL;
-            self->error.xcode = CFGPOOL_XEMANYKEYS;
+            self->error  = CFGPOOL_EFULLPOOL;
+            self->xerror = CFGPOOL_XEMANYKEYS;
             goto out;
         case CFGPOOL__E2MANYV:
-            self->error.code  = CFGPOOL_EFULLPOOL;
-            self->error.xcode = CFGPOOL_XEMANYVALUES;
+            self->error  = CFGPOOL_EFULLPOOL;
+            self->xerror = CFGPOOL_XEMANYVALUES;
             goto out;
         case CFGPOOL__EKNOMEM:
         case CFGPOOL__EVNOMEM:
         case CFGPOOL__EINOMEM:
         case CFGPOOL__ESNOMEM:
         case CFGPOOL__ELNOMEM:
-            self->error.code  = CFGPOOL_EOUTOFMEMORY;
-            self->error.xcode = CFGPOOL_XEADDITEM;
+            self->error  = CFGPOOL_EOUTOFMEMORY;
+            self->xerror = CFGPOOL_XEADDITEM;
             goto out;
     }
 
 out:
-    return self->error.code;
+    return self->error;
 
 }
 
@@ -799,8 +811,8 @@ char *src                       // The source of the item (encoded)
         dataiterator=dataiterator->next;
     };
 
-    // If we are here, we must create a new item...
 
+    // If we are here, we must create a new item...
     struct CfgItem *item = malloc(sizeof(struct CfgItem));
     if (!item) return CFGPOOL__EINOMEM;
 
@@ -816,7 +828,6 @@ char *src                       // The source of the item (encoded)
     item->values->src   = (char *) src;
     item->values->value = (wchar_t *) value;
 
-    
     /*
 
         If the number of elements is greater than twice the number of buckets,
@@ -864,13 +875,20 @@ char *src                       // The source of the item (encoded)
 
             self->data = tmptable;
             self->buckets <<= 1;
+
+            // Calculate new hash for the current item
+            hash &= internal_one_at_a_time(key);
+            hash &= self->buckets-1;
+
         };
         
     }
+    
 
     // Add the element
     item->next=self->data[hash];
     self->data[hash]=item;
+    self->numitems++;
 
     return 0;
 }
@@ -1413,9 +1431,292 @@ const wchar_t *src
     return 0;
 }
 
+////////////////////////////////////////////////////////////
+
+
+         //////////////////////////
+        //                        //
+        //  Error code accessors  //
+        //                        //
+         //////////////////////////
+
+/*
+
+    This function returns the exit code (the CFGPOOL_E* constants) of the last
+method call (which may be 0), or CFGPOOL_EBADPOOL if "self" is a NULL pointer.
+    
+*/
+int
+cfgpool_geterror (
+CfgPool self
+){
+    if (!self) return CFGPOOL_EBADPOOL;
+    return self->error;
+}
+
+
+/*
+
+    This function returns the extended exit code (the CFGPOOL_XE* constants)
+of the last method call (which may be 0), or CFGPOOL_XEBADPOOL if "self" is a
+NULL pointer.
+    
+*/
+int
+cfgpool_getxerror (
+CfgPool self
+){
+
+    if (!self) return CFGPOOL_XEBADPOOL;
+    return self->xerror;
+}
+
+////////////////////////////////////////////////////////////
+
+
+         ////////////////////
+        //                  //
+        //  Data retrieval  //
+        //                  //
+         ////////////////////
+
+
+/*
+
+    This function retrieves a the last value given to "key", returning a
+dinamycally allocated copy in "data". The function returns 0 in case of
+success (that is, "data" will contain the requested value) and an error code
+otherwise. The error codes that the function can return are:
+
+    - CFGPOOL_EBADPOOL if "self" is a NULL pointer
+
+    - CFGPOOL_EBADARG if "key" or "data" are invalid. The extended error
+      codes in this case can be:
+
+          - CFGPOOL_XENULLKEY if "key" is a NULL pointer
+
+          - CFGPOOL_XENULL if "data" is a NULL pointer
+
+          - CFGPOOL_XEBADKEY if "key" contains an invalid multibyte character
+
+          - CFGPOOL_XEKEY2BIG if "key" string is too big
+
+          - CFGPOOL_XEVOIDKEY if "key" is empty
+
+    - CFGPOOL_EOUTOFMEMORY if the function runs out of memory. The extended
+      error codes in this case can be:
+
+          - CFGPOOL_XEKEYCOPY if the function did run out of memory when
+            trying to make a copy of "key"
+
+          - CFGPOOL_XEVALUECOPY if the function did run out of memory when
+            trying to make a copy of "value"
+
+    - CFGPOOL_ENOTFOUND if "key" couldn't be found in pool
+
+*/
+int
+cfgpool_getvalue (
+CfgPool self,
+const char *key,
+char **data
+){
+    if (!self) return CFGPOOL_EBADPOOL;
+
+    wchar_t *wkey = NULL;
+
+    if (!data) {
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XENULL;
+        goto out;
+    }
+
+    self->error  = 0;
+    self->xerror = 0;
+
+    if (self->numitems == 0) {
+        self->error  = CFGPOOL_ENOTFOUND;
+        goto out;
+    }
+    *data = NULL;
+
+    switch (internal_mbstowcs(&wkey, key)) {
+        case CFGPOOL__ESNOMEM:
+            self->error  = CFGPOOL_EOUTOFMEMORY;
+            self->xerror = CFGPOOL_XEKEYCOPY;
+            goto out;
+        case CFGPOOL__EBADMB:
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XEBADKEY;
+            goto out;
+        case CFGPOOL__ES2BIG:
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XEKEY2BIG;
+            goto out;
+        case CFGPOOL__EVOID:
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XEVOIDKEY;
+            goto out;
+        case CFGPOOL__ENULLSRC:
+            self->error  = CFGPOOL_EBADARG;
+            self->xerror = CFGPOOL_XENULLKEY;
+            goto out;
+    }
+
+    CfgItem tmpitem = internal_getdata(self, wkey);
+    if (!tmpitem) {
+        self->error = CFGPOOL_ENOTFOUND;
+        goto out;
+    }
+
+    wchar_t *wvalue = tmpitem->values[0].value;
+    if (internal_wcstombs(data, wvalue) == CFGPOOL__ESNOMEM) {
+        self->error  = CFGPOOL_EOUTOFMEMORY;
+        self->xerror = CFGPOOL_XEVALUECOPY;
+        goto out;
+    }
+
+out:
+    if (wkey) free(wkey);
+    return self->error;
+}
+
+
+/*
+
+    This function retrieves a the last value given to "wkey", returning a
+dinamycally allocated copy in "wdata". The function returns 0 in case of
+success (that is, "wdata" will contain the requested value) and an error code
+otherwise. The error codes that the function can return are:
+
+    - CFGPOOL_EBADPOOL if "self" is a NULL pointer
+
+    - CFGPOOL_EBADARG if "wkey" or "wdata" are invalid. The extended error
+      codes in this case can be:
+
+          - CFGPOOL_XENULLKEY if "wkey" is a NULL pointer
+
+          - CFGPOOL_XENULL if "wdata" is a NULL pointer
+
+          - CFGPOOL_XEVOIDKEY if "key" is empty
+
+          - CFGPOOL_XEKEY2BIG if "key" string is too big
+
+
+    - CFGPOOL_EOUTOFMEMORY if the function runs out of memory. The extended
+      error code in this case can be:
+
+          - CFGPOOL_XEVALUECOPY if the function did run out of memory when
+            trying to make a copy of "value"
+
+
+    - CFGPOOL_ENOTFOUND if "key" couldn't be found in pool
+
+*/
+
+int
+cfgpool_getwvalue (
+CfgPool self,
+const wchar_t *wkey,
+wchar_t **wdata
+){
+
+    if (!self) return CFGPOOL_EBADPOOL;
+
+    if (!wdata) {
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XENULL;
+        goto out;
+    }
+    
+    if (!wkey) {
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XENULLKEY;
+        goto out;
+    }
+
+    if (wcslen(wkey) == 0) {
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XEVOIDKEY;
+        goto out;
+    }
+
+    if (wcslen(wkey) == SIZE_MAX) {
+        self->error  = CFGPOOL_EBADARG;
+        self->xerror = CFGPOOL_XEKEY2BIG;
+        goto out;
+    }
+
+
+    self->error  = 0;
+    self->xerror = 0;
+
+    if (self->numitems == 0) {
+        self->error  = CFGPOOL_ENOTFOUND;
+        goto out;
+    }
+
+    *wdata=NULL;
+
+    CfgItem tmpitem = internal_getdata(self, wkey);
+    
+    if (!tmpitem) {
+        self->error = CFGPOOL_ENOTFOUND;
+        goto out;
+    }
+    
+    wchar_t *wvalue=tmpitem->values[0].value;
+    size_t len = wcslen(wvalue);
+    len++;
+
+    *wdata=malloc(len * sizeof(wchar_t));
+    if (!*wdata) {
+        self->error = CFGPOOL_EOUTOFMEMORY;
+        self->error = CFGPOOL_XEVALUECOPY;
+        goto out;
+    }
+    wcscpy(*wdata, wvalue);
+
+out:
+    return self->error;
+}
+
+
+/*
+
+    This function returns the CfgItem corresponding to "wkey" if "wkey" is in
+the pool, otherwise it returns NULL.
+
+*/
+CfgItem
+internal_getdata (
+CfgPool self,
+const wchar_t *wkey
+){
+
+    size_t hash = internal_one_at_a_time(wkey);
+    hash &= self->buckets-1;
+
+    CfgItem tmpitem=self->data[hash];
+    
+    if (tmpitem) {
+        while (tmpitem) {
+            if (!wcscmp(tmpitem->key, wkey)) {
+                return tmpitem;
+            }
+            tmpitem = tmpitem->next;
+        }
+    }
+
+    return NULL;
+
+}
 
 
 
+
+
+////////////////////////////////////////////////////////////
 
 
 char * cfgpool_dontuse(CfgPool self, char *key) {

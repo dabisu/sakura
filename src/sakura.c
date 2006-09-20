@@ -420,7 +420,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	GtkWidget *label1, *label2;
 	GtkWidget *buttonfore, *buttonback;
 	GtkWidget *vbox, *hbox_fore, *hbox_back;
-	gchar *tmpstring;
+	char *confitem;
 	gint response;
 	int page;
 	struct terminal term;
@@ -428,12 +428,12 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
 
-	tmpstring=cfgpool_dontuse(sakura.pool, "forecolor");
-	gdk_color_parse(tmpstring, &sakura.forecolor);
-	free(tmpstring);
-	tmpstring=cfgpool_dontuse(sakura.pool, "backcolor");
-	gdk_color_parse(tmpstring, &sakura.backcolor);
-	free(tmpstring);
+	cfgpool_getvalue(sakura.pool, "forecolor", &confitem);
+	gdk_color_parse(confitem, &sakura.forecolor);
+	free(confitem);
+	cfgpool_getvalue(sakura.pool, "backcolor", &confitem);
+	gdk_color_parse(confitem, &sakura.backcolor);
+	free(confitem);
 
 	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 											 GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
@@ -467,13 +467,14 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
 		vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &sakura.forecolor);
 		vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
-		tmpstring=g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
+		confitem=g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
 			   						sakura.forecolor.green>>8, sakura.forecolor.blue>>8);
-		cfgpool_additem(sakura.pool, "forecolor", tmpstring);
-		free(tmpstring);
-		tmpstring=g_strdup_printf("#%02x%02x%02x", sakura.backcolor.red>>8,
+		cfgpool_additem(sakura.pool, "forecolor", confitem);
+		free(confitem);
+		confitem=g_strdup_printf("#%02x%02x%02x", sakura.backcolor.red>>8,
 			   						sakura.backcolor.green>>8, sakura.backcolor.blue>>8);
-		cfgpool_additem(sakura.pool, "backcolor", tmpstring);
+		cfgpool_additem(sakura.pool, "backcolor", confitem);
+		free(confitem);
 	}
 
 	gtk_widget_destroy(color_dialog);
@@ -678,14 +679,13 @@ sakura_init()
 	}
 
 	/* Set initial values*/
-	confitem=cfgpool_dontuse(sakura.pool, "forecolor");
+	cfgpool_getvalue(sakura.pool, "forecolor", &confitem);
 	gdk_color_parse(confitem, &sakura.forecolor);
 	free(confitem);
-	confitem=cfgpool_dontuse(sakura.pool, "backcolor");
+	cfgpool_getvalue(sakura.pool, "backcolor", &confitem);
 	gdk_color_parse(confitem, &sakura.backcolor);
 	free(confitem);
-	confitem=cfgpool_dontuse(sakura.pool, "fake_transparency");
-	if (confitem) {
+	if (!cfgpool_getvalue(sakura.pool, "fake_transparency", &confitem)) {
 		if (strcmp(confitem, "Yes")==0) {
 			sakura.fake_transparency=1;
 		} else {
@@ -693,8 +693,7 @@ sakura_init()
 		}
 	}
 	free(confitem);
-	confitem=cfgpool_dontuse(sakura.pool, "background");
-	if (confitem) {
+	if (!cfgpool_getvalue(sakura.pool, "background", &confitem)) {
 		sakura.background=g_strdup(confitem);
 	} else {
 		sakura.background=NULL;
@@ -713,7 +712,7 @@ sakura_init()
 
 	if (option_font)
 		sakura.font=pango_font_description_from_string(option_font);
-	else if ((confitem=cfgpool_dontuse(sakura.pool, "font"))) {	
+	else if ((!cfgpool_getvalue(sakura.pool, "font", &confitem))) {	
 		sakura.font=pango_font_description_from_string(confitem);
 		free(confitem);
 	} 
@@ -995,19 +994,19 @@ dontuse (void)
 
 	FILE *file=fopen(sakura.configfile, "w+");
 	if (!file) return;
-	tmpstring=cfgpool_dontuse(sakura.pool, "font");
+	cfgpool_getvalue(sakura.pool, "font", &tmpstring);
 	fprintf(file, "font %s\n", tmpstring);
 	free(tmpstring);
-	tmpstring=cfgpool_dontuse(sakura.pool, "forecolor");
+	cfgpool_getvalue(sakura.pool, "forecolor", &tmpstring);
 	fprintf(file, "forecolor %s\n", tmpstring);
 	free(tmpstring);
-	tmpstring=cfgpool_dontuse(sakura.pool, "backcolor");
+	cfgpool_getvalue(sakura.pool, "backcolor", &tmpstring);
 	fprintf(file, "backcolor %s\n", tmpstring);
 	free(tmpstring);
-	tmpstring=cfgpool_dontuse(sakura.pool, "fake_transparency");
+	cfgpool_getvalue(sakura.pool, "fake_transparency", &tmpstring);
 	fprintf(file, "fake_transparency %s\n", tmpstring);
 	free(tmpstring);
-	tmpstring=cfgpool_dontuse(sakura.pool, "background");
+	cfgpool_getvalue(sakura.pool, "background", &tmpstring);
 	fprintf(file, "background %s\n", tmpstring);
 	free(tmpstring);
 

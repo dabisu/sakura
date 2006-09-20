@@ -1,4 +1,4 @@
-/*  $Revision: 63 $
+/*  $Revision: 64 $
     This file contains development & diagnostic helpers
     
     Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
@@ -34,28 +34,6 @@
 #include <stdint.h>
 #include <wchar.h>
 #include "config.h"
-#endif
-
-
-/*
-    This is the error handling structure.
-    By now it is considered to be in alpha stage, so use it
-at your own risk. It won't break anything, but may pollute the
-namespace and the fields may change without notice.
-
-FIXME: We need an EASY way of initialize the structure to all 0's.
-*/
-#ifndef __mobs_ehstruct
-#define __mobs_ehstruct
-typedef struct {
-    unsigned int code;
-    unsigned char *msg;
-
-    uintmax_t natural;
-    intmax_t integer;
-    long double real;
-    void *pointer;
-} Error;
 #endif
 
 
@@ -232,8 +210,8 @@ outputting a formatted message to 'stderr', followed by '\n'.
 */
 #ifndef __MOBS_die
 #define __MOBS_die
-static inline void die (const unsigned char *, ...);
-static inline void die (const unsigned char *mobs_format, ...) {
+static inline void die (const char *, ...);
+static inline void die (const char *mobs_format, ...) {
 
     va_list mobs_args;
 
