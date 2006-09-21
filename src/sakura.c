@@ -656,7 +656,6 @@ sakura_init()
 	GtkWidget *separator, *separator2, *separator3, *separator4;
 	GError *gerror=NULL;
 	gchar *confitem;
-	unsigned int lineno;
 
 	/* Config file inicialization*/
 	sakura.pool=cfgpool_create();
@@ -675,7 +674,7 @@ sakura_init()
 		cfgpool_additem(sakura.pool, "fake_transparency", "No");
 	} else {
 		/* Use config file if exists... */
-		cfgpool_addfile(sakura.pool, sakura.configfile, &lineno);
+		cfgpool_addfile(sakura.pool, sakura.configfile, NULL);
 	}
 
 	/* Set initial values*/
@@ -710,12 +709,12 @@ sakura_init()
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 
-	if (option_font)
+	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
-	else if ((!cfgpool_getvalue(sakura.pool, "font", &confitem))) {	
+	} else if ((!cfgpool_getvalue(sakura.pool, "font", &confitem))) {	
 		sakura.font=pango_font_description_from_string(confitem);
 		free(confitem);
-	} 
+	}
 
 	sakura.menu=gtk_menu_new();
 	sakura.label_count=1;
@@ -899,6 +898,7 @@ sakura_add_tab()
 	/* Show everything the first time after creating a terminal. Unrationale:
 	   im_append and set_current_page fails if the window isn't visible */
 	if  ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
