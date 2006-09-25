@@ -1,54 +1,34 @@
-// $Rev: 26 $
+// $Rev: 30 $
 #ifndef __CFGPOOL_H_
 #define __CFGPOOL_H_
 
+#include <stdint.h>
 #include <wchar.h>
 
 
 // Error codes
 enum {
-    CFGPOOL_EBADPOOL=1,     // Bad CfgPool object in call to method
+    CFGPOOL_SUCCESS=0,
 
-    CFGPOOL_EOUTOFMEMORY,   // Not enough memory
+    CFGPOOL_EBADPOOL,     // Bad CfgPool object in call to method
+
+    CFGPOOL_ENOMEMORY,      // Not enough memory
+
     CFGPOOL_EBADARG,        // Invalid argument in call to method
-    CFGPOOL_EFULLPOOL,      // Pool is full!
-    CFGPOOL_EBADFILE,       // File cannot be read
-    CFGPOOL_EILLFORMED,     // Ill formed line
+
+    CFGPOOL_EKEY2BIG,       // Key is too big
+    CFGPOOL_EVAL2BIG,       // Value is too big
+
+    CFGPOOL_EILLKEY,        // Key contains an invalid mb or wide character
+    CFGPOOL_EILLVAL,        // Value contains an invalid mb or wide character
+
+    CFGPOOL_EFULL,          // Pool is full!
+    CFGPOOL_E2MANYV,        // Too many values for key
+
+    CFGPOOL_ELN2BIG,        // The file contains a line too big
+
     CFGPOOL_ENOTFOUND,      // Key not found in pool
 };
-
-
-// Extended error codes
-enum {
-    CFGPOOL_XEBADPOOL=1,    // Bad CfgPool object in call to method
-    
-    CFGPOOL_XEBADKEY,       // Key is invalid in the current locale
-    CFGPOOL_XENULLKEY,      // NULL given as key in call to method
-    CFGPOOL_XEVOIDKEY,      // Empty string given as key in call to method
-    CFGPOOL_XEKEY2BIG,      // Key size >= SIZE_MAX
-    CFGPOOL_XEKEYCOPY,      // Not enough memory to copy key
-    CFGPOOL_XEMANYKEYS,     // Too many keys in the pool
-
-    CFGPOOL_XEBADVALUE,     // Value is invalid in the current locale
-    CFGPOOL_XENULLVALUE,    // NULL given as value in call to method
-    CFGPOOL_XEVOIDVALUE,    // Empty string given as value in call to method
-    CFGPOOL_XEVALUE2BIG,    // Value size >= SIZE_MAX
-    CFGPOOL_XEVALUECOPY,    // Not enough memory to copy value
-    CFGPOOL_XEMANYVALUES,   // Too many values in a key
-
-    CFGPOOL_XENULL,         // Null pointer given to method
-    CFGPOOL_XEADDITEM,      // Not enough memory to add a new item to the pool
-
-    CFGPOOL_XENULLFILE,     // NULL given as filename in call to method
-    CFGPOOL_XELINE2BIG,     // A line read from a file is too big
-};
-
-
-// The structure to notify errors.
-typedef struct {
-    int code;           // This is the same as the last error returned by a method
-    int xcode;          // Extended error code
-} cfgpool_error;
 
 
 typedef struct CfgPool *CfgPool;
@@ -80,10 +60,6 @@ int cfgpool_addfd    (CfgPool, int, uintmax_t *);
 int cfgpool_additem  (CfgPool, const char *, const char *);
 int cfgpool_addwitem (CfgPool, const wchar_t *, const wchar_t *);
 
-// Error code retrieving
-int cfgpool_geterror  (CfgPool);
-int cfgpool_getxerror (CfgPool);
-
 // Data access
 int cfgpool_getvalue      (CfgPool, const char    *, char    **);
 int cfgpool_getwvalue     (CfgPool, const wchar_t *, wchar_t **);
@@ -92,6 +68,6 @@ int cfgpool_getallwvalues (CfgPool, const wchar_t *, wchar_t **);
 int cfgpool_getinfo       (CfgPool, const char    *, char    **);
 int cfgpool_getallinfo    (CfgPool, const char    *, char    **);
 
-char *cfgpool_dontuse(CfgPool, char *);
+int cfgpool_humanreadable (CfgPool);
 
 #endif

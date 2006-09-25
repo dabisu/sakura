@@ -367,8 +367,9 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
 	    sakura_set_font();
-	    SAY("%s", pango_font_description_to_string(sakura.font));
+	    //SAY("%s", pango_font_description_to_string(sakura.font));
 	    cfgpool_additem(sakura.pool, "font", pango_font_description_to_string(sakura.font));
+		//SAY("%d", cfgpool_geterror(sakura.pool));
 	}
 
 	gtk_widget_destroy(font_dialog);

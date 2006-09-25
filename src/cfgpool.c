@@ -1,4 +1,4 @@
-// $Rev: 26 $
+// $Rev: 30 $
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
@@ -15,44 +15,6 @@
 #include "cfgpool.h"
 
 
-// Private error codes for all the internal functions
-enum {
-    CFGPOOL__EBADPOOL=1,        // Bad CfgPool object in call to method
-
-    CFGPOOL__ENULLSRC,          // Source pointer argument is NULL
-    CFGPOOL__ENULLDST,          // Destination pointer argument is NULL
-    CFGPOOL__EBADMB,            // An invalid multibyte sequence detected
-    CFGPOOL__EBADWC,            // An invalid wide-character sequence detected
-
-    CFGPOOL__ES2BIG,            // The string is too large
-    CFGPOOL__EK2BIG,            // Key length is too large
-    CFGPOOL__EV2BIG,            // Value length is too large
-    CFGPOOL__EL2BIG,            // Line too big
-    CFGPOOL__EF2BIG,            // File too big
-
-    CFGPOOL__EVOID,             // The string is empty
-
-    CFGPOOL__E2MANYK,           // Too many keys in the pool
-    CFGPOOL__E2MANYV,           // Too many values in a key
-
-    CFGPOOL__EKNOMEM,           // Not enough memory to allocate a key
-    CFGPOOL__EVNOMEM,           // Not enough memory to allocate a value
-    CFGPOOL__EINOMEM,           // Not enough memory to allocate a config item
-    CFGPOOL__ESNOMEM,           // Not enough memory to allocate a string
-    CFGPOOL__ELNOMEM,           // Not enough memory to allocate a line
-
-    CFGPOOL__EMISSING,          // Missing separator on a line
-    CFGPOOL__EIGNORE,           // Empty or comment line, ignore
-};
-
-
-/*
-
-    NOTE about "goto": Yes, I use the "goto" keyword, so I'm a sinner! The
-fact is that it improves readability and code flow because that way all
-functions have only ONE entry point (of course) and ONE exit point.
-
-*/
 
 /*
 
@@ -66,6 +28,7 @@ two. For example, if the "bit-size" is 8, hash table will have 2^8 buckets.
 #if (1 << CFGPOOL_DEFAULT_BITSIZE) >= SIZE_MAX
 #error "CFGPOOL_DEFAULT_BITSIZE" is too large
 #endif
+
 
 ////////////////////////////////////////////////////////////
 
@@ -85,45 +48,43 @@ pointer to a CfgItem structure. The CfgItem structure has a "next" pointer to
 be able to store them in a single linked list, because we are using chaining
 to handle collisions.
 
-    Each CfgItem is capable of storing multiple values for a key. It does that
-using an array. I've chosen arrays because a linked list will be overkill for
-this task: in the common case, only a bunch of values will be stored in a key,
-and then we can pay the price for an array resize and some memory copying, it
-won't be that slow. Moreover, if the number of values grow a lot, the pool
-won't perform very good anyway, so...
+    Each CfgItem is capable of storing multiple values for a keyword. It does
+that using an array. I've chosen arrays because a linked list will be overkill
+for this task: in the common case, only a bunch of values will be stored in a
+keyword, and then we can pay the price for an array resize and some memory
+copying, it won't be that slow. Moreover, if the number of values grow a lot,
+the pool won't perform very good anyway, so...
     
 */
 typedef struct CfgItem *CfgItem;
 struct CfgPool {
     size_t buckets;         // The number of buckets in the hash table
-    size_t numitems;        // The number of elements in the hash table
+    uintmax_t keys;         // The number of keywords in the hash table
     struct CfgItem {
         CfgItem next;       // To implement the linked list
-        size_t numvalues;   // Number of values this item has
-        wchar_t *key;       // This item's key
+        size_t vals;        // Number of values this item has
+        wchar_t *key;       // This item's keyword
         struct CfgValue {
             char *src;      // Where each value was defined
-            wchar_t *value; // The value itself
-        } *values;          // This item's set of values
-    } **data;               // The data (the array of buckets)
-    int error;              // The last error
-    int xerror;             // The last extended error
+            wchar_t *val;   // The value itself
+        } *varray;          // This item's set of values
+    } **htbl;               // The hash table (the array of buckets)
 };
 
+// Maximum number of buckets we can have in the hash table
 #define CFGPOOL_MAXBUCKETS  ((SIZE_MAX>>1)/sizeof(CfgItem))
 
-// FIXME: should these be exported trhu accessor methods?
+// Maximum number of values that a keyword can have
 #define CFGPOOL_MAXVALUES   (SIZE_MAX/sizeof(struct CfgValue))
-#define CFGPOOL_MAXKEYS     (SIZE_MAX)
 
+// Maximum length of a wchar_t string we can handle
+#define CFGPOOL_MAXWLEN     ((SIZE_MAX/sizeof(wchar_t))-1)
 
 // Prototypes for internal functions 
 static        int     internal_additem       (CfgPool, wchar_t *, wchar_t *, char *);
 static        int     internal_mungefd       (CfgPool, int, const char *, uintmax_t *);
 static        int     internal_parse         (const wchar_t *, wchar_t **, wchar_t **);
 static        char   *internal_xnprintf      (const char *, ...);
-static        int     internal_mbstowcs      (wchar_t **, const char *);
-static        int     internal_wcstombs      (char **, const wchar_t *);
 static inline size_t  internal_one_at_a_time (const wchar_t *);
 static        CfgItem internal_getdata       (CfgPool, const wchar_t *);
 
@@ -187,21 +148,19 @@ void                            // void
 ){
 
     CfgPool self = malloc(sizeof(struct CfgPool));
-    if (!self) goto out;
 
-    self->buckets = 0;
-    self->numitems = 0;
-    self->error = 0;
-    self->xerror = 0;
+    if (self) {
+        self->buckets = 0;
+        self->keys = 0;
 
-    self->data = calloc(1 << CFGPOOL_DEFAULT_BITSIZE, sizeof(CfgItem));
-    if (self->data) self->buckets = 1 << CFGPOOL_DEFAULT_BITSIZE;
-    else {  // No memory, free the object and return NULL
-        free(self);
-        self=NULL;
-    };
+        self->htbl = calloc(1 << CFGPOOL_DEFAULT_BITSIZE, sizeof(CfgItem));
+        if (self->htbl) self->buckets = 1 << CFGPOOL_DEFAULT_BITSIZE;
+        else {  // No memory, free the object and return NULL
+            free(self);
+            self=NULL;
+        };
+    }
 
-out:
     return self;
 
 }
@@ -224,26 +183,26 @@ CfgPool self                    // The pool to destroy
         CfgItem tmpitem;
         
         // Double parentheses so GCC doesn't complain
-        while ((tmpitem = self->data[self->buckets])) {
+        while ((tmpitem = self->htbl[self->buckets])) {
 
             // OK, the bucket is not empty
 
             // Go on...
-            self->data[self->buckets] = tmpitem->next;
+            self->htbl[self->buckets] = tmpitem->next;
 
             // Free the element
-            while (tmpitem->numvalues--) {
-                struct CfgValue tmpvalue = tmpitem->values[tmpitem->numvalues];
+            while (tmpitem->vals--) {
+                struct CfgValue tmpvalue = tmpitem->varray[tmpitem->vals];
                 if (tmpvalue.src) free(tmpvalue.src);
-                free(tmpvalue.value);
+                free(tmpvalue.val);
             }
             free (tmpitem->key);
-            free (tmpitem->values);
+            free (tmpitem->varray);
             free (tmpitem);
         }
         
     }
-    if (self->data) free(self->data);
+    if (self->htbl) free(self->htbl);
     free(self);
 }
 
@@ -260,13 +219,13 @@ CfgPool self                    // The pool to destroy
 /*
 
     This function adds a new configuration item, that is, a keyword (throught
-the "key" argument) and its corresponding value (in the "value" argument) to
+the "wkey" argument) and its corresponding value (in the "wval" argument) to
 the pool specified in the "self" argument. This is the "wchar_t *" interface.
 
     The given strings must be NUL-terminated, wide-character strings, and they
 are not added to the pool: a copy is made and then added to the pool, so you
-can safely use dynamic duration strings. The original contents of "key" and
-"value" are preserved.
+can safely use dynamic duration strings. The original contents of "wkey" and
+"wval" are preserved. Empty keywords or values are silently ignored.
 
     If no error occurs the function returns 0, and an error code otherwise. If
 the caller wants additional information about the error, he must call the
@@ -274,144 +233,74 @@ the caller wants additional information about the error, he must call the
 Error codes that this function may return are:
 
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
-
-    - CFGPOOL_EBADARG if "key" or "value" are invalid. The extended error
-      codes in this case can be:
-      
-          - CFGPOOL_XENULLKEY if "key" is a NULL pointer
-
-          - CFGPOOL_XENULLVALUE if "value" is a NULL pointer
-
-          - CFGPOOL_XEKEY2BIG if "key" string is too big
-
-          - CFGPOOL_XEVALUE2BIG if "value" string is too big
-          
-          - CFGPOOL_XEVOIDKEY if "key" is empty
-          
-          - CFGPOOL_XEVOIDVALUE if "value" is empty
-
-    - CFGPOOL_EOUTOFMEMORY if the function runs out of memory. The extended
-      error codes in this case can be:
-
-          - CFGPOOL_XEKEYCOPY if the function did run out of memory when
-            trying to make a copy of "key"
-
-          - CFGPOOL_XEVALUECOPY if the function did run out of memory when
-            trying to make a copy of "value"
-
-          - CFGPOOL_XEADDITEM if the function did run out of memory when
-            trying to add the item to the pool
-
-    - CFGPOOL_FULLPOOL if there are already too many keys in the pool or too
-      many values for "key". The extended error codes are:
-
-          - CFGPOOL_XEMANYKEYS if there are too many keys in the pool
-
-          - CFGPOOL_XEMANYVALUES if "key" already has too many values
+    - CFGPOOL_EBADARG if "wkey" or "wval" are NULL pointers
+    - CFGPOOL_EKEY2BIG if "wkey" is too long
+    - CFGPOOL_EVAL2BIG if "wval" is too long
+    - CFGPOOL_ENOMEMORY if the function runs out of memory
+    - CFGPOOL_EFULL if there are already too many keywords in the pool
+    - CFGPOOL_E2MANYV if there are already too many values in pool for "wkey"
 
 */
 int                             // Error code
 cfgpool_addwitem (
 CfgPool self,                   // The pool where the item will be added
-const wchar_t *key,             // The key of the item
-const wchar_t *value            // The value of the item
+const wchar_t *wkey,            // The keyword of the item
+const wchar_t *wval             // The value of the item
 ){
 
-    // FIXME: we shouldn't allow to make operations in a pool with a pending error?
     if (!self) return CFGPOOL_EBADPOOL;
-    self->error  = 0;
-    self->xerror = 0;
 
-    if (!key) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XENULLKEY;
-        goto out;
-    }
-    if (!value) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XENULLVALUE;
-        goto out;
-    }
-
-    wchar_t *_key = NULL;
-    wchar_t *_value = NULL;
+    if (!wkey) return CFGPOOL_EBADARG;
+    if (!wval) return CFGPOOL_EBADARG;
 
     size_t len;
-    len = wcslen(key);
-    if (len == SIZE_MAX) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XEKEY2BIG;
-        goto out;
-    }
-    if (len == 0) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XEVOIDKEY;
-        goto out;
+
+    // Copy the keyword
+    len = wcslen(wkey);
+    if (len == 0) return 0;
+
+    if (len >= CFGPOOL_MAXWLEN) return CFGPOOL_EKEY2BIG;
+
+    len++;  // Make room for the NUL byte at the end
+    wchar_t *key = malloc(len * sizeof(wchar_t));
+    if (!key) return CFGPOOL_ENOMEMORY;
+
+    wcsncpy(key, wkey, len-1);
+    key[len]=L'\0';
+
+
+    // Copy the value
+    len = wcslen(wval);
+    if (len == 0) return 0;
+
+    if (len >= CFGPOOL_MAXWLEN) return CFGPOOL_EVAL2BIG;
+
+    len++;  // Make room for the NUL byte at the end
+    wchar_t *val = malloc(len * sizeof(wchar_t));
+    if (!val) {
+        free(key);
+        return CFGPOOL_ENOMEMORY;
     }
 
-    len++;    
-    _key = malloc(len * sizeof(wchar_t));
-    if (!_key) {
-        self->error  = CFGPOOL_EOUTOFMEMORY;
-        self->xerror = CFGPOOL_XEKEYCOPY;
-        goto out;
-    }
+    wcsncpy(val, wval, len-1);
+    val[len]=L'\0';
 
-    len = wcslen(value);
-    if (len == SIZE_MAX) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XEVALUE2BIG;
-        goto out;
-    }
-    if (len == 0) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XEVOIDVALUE;
-        goto out;
-    }
+    // Add the item
+    return internal_additem(self, key, val, NULL);
 
-    len++;
-    _value = malloc(len * sizeof(wchar_t));
-    if (!_value) {
-        self->error  = CFGPOOL_EOUTOFMEMORY;
-        self->xerror = CFGPOOL_XEVALUECOPY;
-        goto out;
-    }
-
-    wcscpy(_key, key);
-    wcscpy(_value, value);
-
-    switch(internal_additem(self, _key, _value, NULL)) {
-        case CFGPOOL__E2MANYK:
-            self->error  = CFGPOOL_EFULLPOOL;
-            self->xerror = CFGPOOL_XEMANYKEYS;
-            break;
-        case CFGPOOL__E2MANYV:
-            self->error  = CFGPOOL_EFULLPOOL;
-            self->xerror = CFGPOOL_XEMANYVALUES;
-            break;
-        case CFGPOOL__EVNOMEM:
-        case CFGPOOL__EINOMEM:
-            self->error  = CFGPOOL_EOUTOFMEMORY;
-            self->xerror = CFGPOOL_XEADDITEM;
-            break;
-    }
-
-out:    
-    if (!_value && _key) free(_key);
-    return self->error;
 }
 
 
 /*
 
     This function adds a new configuration item, that is, a keyword (throught
-the "key" argument) and its corresponding value (in the "value" argument) to
-the pool specified in the "self" argument. This is the "char *" interface.
+the "mbkey" argument) and its corresponding value (in the "mbval" argument) to
+the pool specified in the "self" argument. This is the multibyte interface.
 
     The given strings must be NUL-terminated, multibyte or monobyte strings,
 and they are not added to the pool: a copy is made and then added to the pool,
-so you can safely use dynamic duration strings. The original contents of "key"
-and "value" are preserved.
+so you can safely use dynamic duration strings. The original contents of both
+"mbkey" and "mbval" are preserved.
 
     If no error occurs the function returns 0, and an error code otherwise. If
 the caller wants additional information about the error, he must call the
@@ -419,179 +308,92 @@ the caller wants additional information about the error, he must call the
 Error codes that this function may return are:
 
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
-
-    - CFGPOOL_EBADARG if "key" or "value" are invalid. The extended error
-      codes in this case can be:
-
-          - CFGPOOL_XEBADKEY if "key" is invalid in current locale
-          
-          - CFGPOOL_XEBADVALUE if "value" is invalid in current locale
-      
-          - CFGPOOL_XENULLKEY if "key" is a NULL pointer
-
-          - CFGPOOL_XENULLVALUE if "value" is a NULL pointer
-
-          - CFGPOOL_XEKEY2BIG if "key" string is too big
-
-          - CFGPOOL_XEVALUE2BIG if "value" string is too big
-          
-          - CFGPOOL_XEVOIDKEY if "key" is empty
-          
-          - CFGPOOL_XEVOIDVALUE if "value" is empty
-          
-    - CFGPOOL_EOUTOFMEMORY if the function runs out of memory. The extended
-      error codes in this case can be:
-
-          - CFGPOOL_XEKEYCOPY if the function did run out of memory when
-            trying to make a copy of "key"
-
-          - CFGPOOL_XEVALUECOPY if the function did run out of memory when
-            trying to make a copy of "value"
-
-          - CFGPOOL_XEADDITEM if the function did run out of memory when
-            trying to add the item to the pool
-
-    - CFGPOOL_FULLPOOL if there are already too many keys in the pool or too
-      many values for "key". The extended error codes are:
-
-          - CFGPOOL_XEMANYKEYS if there are too many keys in the pool
-
-          - CFGPOOL_XEMANYVALUES if "key" already has too many values
+    - CFGPOOL_EBADARG if "mbkey" or "mbval" are NULL pointers
+    - CFGPOOL_EKEY2BIG if "mbkey" is too long
+    - CFGPOOL_EVAL2BIG if "mbval" is too long
+    - CFGPOOL_EILLKEY if "mbkey" contains an invalid multibyte sequence
+    - CFGPOOL_EILLVAL if "mbval" contains an invalid multibyte sequence
+    - CFGPOOL_ENOMEMORY if the function runs out of memory
+    - CFGPOOL_EFULL if there are already too many keywords in the pool
+    - CFGPOOL_E2MANYV if there are already too many values for "mbkey"
 
 */
 int                             // Error code
 cfgpool_additem (
 CfgPool self,                   // The pool where the item will be added
-const char *key,                // The key of the item
-const char *value               // The value of the item
+const char *mbkey,              // The keyword of the item
+const char *mbval               // The value of the item
 ){
 
-    // FIXME: we shouldn't allow to make operations in a pool with a pending error?
     if (!self) return CFGPOOL_EBADPOOL;
-    self->error  = 0;
-    self->xerror = 0;
 
-    if (!key) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XENULLKEY;
-        goto out;
-    }
-    if (!value) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XENULLVALUE;
-        goto out;
-    }
+    if (!mbkey) return CFGPOOL_EBADARG;
+    if (!mbval) return CFGPOOL_EBADARG;
 
-    wchar_t *wkey = NULL;
-    wchar_t *wvalue = NULL;
+    mbstate_t mbs;
+    size_t len;
 
-    switch (internal_mbstowcs(&wkey, key)) {
-        case CFGPOOL__ESNOMEM:
-            self->error  = CFGPOOL_EOUTOFMEMORY;
-            self->xerror = CFGPOOL_XEKEYCOPY;
-            goto out;
-        case CFGPOOL__EBADMB:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XEBADKEY;
-            goto out;
-        case CFGPOOL__ES2BIG:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XEKEY2BIG;
-            goto out;
-        case CFGPOOL__EVOID:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XEVOIDKEY;
-            goto out;
+    // Copy the key
+    len=strlen(mbkey);
+    if (len == 0) return 0;  // Ignore empty keywords
+    if (len == SIZE_MAX) return CFGPOOL_EKEY2BIG;
+    len++;  // Make room for the final NUL
+
+    // Allocate memory for destination string
+    wchar_t *key=malloc(len * sizeof(wchar_t));
+    if (!key) return CFGPOOL_ENOMEMORY;
+
+    // Do the copy
+    memset(&mbs, '\0', sizeof(mbs));
+    if (mbsrtowcs(key, &mbkey, len, &mbs) == (size_t) -1 && errno == EILSEQ) {
+        free(key);
+        return CFGPOOL_EILLKEY;
     }
 
-    switch (internal_mbstowcs(&wvalue, value)) {
-        case CFGPOOL_EOUTOFMEMORY:
-            self->error  = CFGPOOL_EOUTOFMEMORY;
-            self->xerror = CFGPOOL_XEVALUECOPY;
-            goto out;
-        case CFGPOOL__EBADMB:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XEBADVALUE;
-            goto out;
-        case CFGPOOL__ES2BIG:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XEVALUE2BIG;
-            goto out;
-        case CFGPOOL__EVOID:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XEVOIDVALUE;
-            goto out;
+
+    // Copy the value
+    len=strlen(mbval);
+    if (len == 0) return 0;  // Ignore empty values
+    if (len == SIZE_MAX) return CFGPOOL_EVAL2BIG;
+    len++;  // Make room for the final NUL
+
+    // Allocate memory for destination string
+    wchar_t *val=malloc(len * sizeof(wchar_t));
+    if (!val) {
+        free(key);
+        return CFGPOOL_ENOMEMORY;
     }
 
-    if (wcslen(wkey) == SIZE_MAX) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XEKEY2BIG;
-        goto out;
+    // Do the copy
+    memset(&mbs, '\0', sizeof(mbs));
+    if (mbsrtowcs(val, &mbval, len, &mbs) == (size_t) -1 && errno == EILSEQ) {
+        free(key);
+        return CFGPOOL_EILLKEY;
     }
 
-    if (wcslen(wvalue) == SIZE_MAX) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XEVALUE2BIG;
-        goto out;
-    }
-
-    switch(internal_additem(self, wkey, wvalue, NULL)) {
-        case CFGPOOL__E2MANYK:
-            self->error  = CFGPOOL_EFULLPOOL;
-            self->xerror = CFGPOOL_XEMANYKEYS;
-            break;
-        case CFGPOOL__E2MANYV:
-            self->error  = CFGPOOL_EFULLPOOL;
-            self->xerror = CFGPOOL_XEMANYVALUES;
-            break;
-        case CFGPOOL__EVNOMEM:
-        case CFGPOOL__EINOMEM:
-            self->error  = CFGPOOL_EOUTOFMEMORY;
-            self->xerror = CFGPOOL_XEADDITEM;
-            break;
-    }
-
-out:
-    if (!wvalue && wkey) free(wkey);
-    return self->error;
+    // Add the item
+    return internal_additem(self, key, val, NULL);
 }
 
 
 /*
 
     This function reads the file specified in "filename", parses it searching
-for key-value pairs and adds those pairs to the configuration pool specified
-in "pool". It returns 0 if no error occurs, or the number of the last line
-read from "filename" (returned in "lineno") and an error code otherwise:
+for configuration pairs (a keyword and a value) and adds those pairs to the
+configuration pool specified in "pool". It returns 0 if no error occurs, or
+the number of the last line read from "filename" (returned in "lineno" if it
+is not NULL) and an error code otherwise:
 
+    - CFGPOOL_ENOMEMORY if the function runs out of memory
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
+    - CFGPOOL_EBADARG if "filename" is a NULL pointer
+    - "-errno" if an error ocurred while handling the file
+    - CFGPOOL_ELN2BIG if the file has a line which is too big
+    - CFGPOOL_EKEY2BIG if the parsed keyword is too long
+    - CFGPOOL_EVAL2BIG if the parsed value is too long
+    - CFGPOOL_EFULL if there are already too many keywords in the pool
+    - CFGPOOL_E2MANYV if there are already too many values in the "key"
 
-    - CFGPOOL_EBADFILE if there was any problem while reading the file. If the
-      extended return code is negative then it represents a value for "errno",
-      directly from the OS. The extended error codes are these:
-
-          - CFGPOOL_XENULLFILE if "filename" is a NULL pointer
-
-          - The negative value of "errno" if the error came from the OS
-
-    - CFGPOOL_EILLFORMED if an ill-formed line is found in the file. In this
-      case the extended error codes are:
-
-          - CFGPOOL_XEVOIDVALUE if a line with no value is found
-
-          - CFGPOOL_XEKEY2BIG if a line with a too big key is found
-
-          - CFGPOOL_XEVALUE2BIG if a line with a too big value is found
-
-          - CFGPOOL_XELINE2BIG if a line too big is found
-
-    - CFGPOOL_EFULLPOOL if the pool already contains too many items. In this
-      case, the extended error codes are these:
-      
-          - CFGPOOL_XEMANYKEYS if there are too many keys in the pool
-
-          - CFGPOOL_XEMANYVALUES if a key already has too many values
-    
 */
 int                             // Error code
 cfgpool_addfile (
@@ -601,65 +403,40 @@ uintmax_t *lineno               // The line number returned on errors
 ){
 
     if (!self) return CFGPOOL_EBADPOOL;
-    self->error  = 0;
-    self->xerror = 0;
 
-    if (!filename) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XENULLFILE;
-        goto out;
-    }
+    if (!filename) return CFGPOOL_EBADARG;
     
     int inputfd;
-    
+
+    // Retry if an interrupt caught us    
     while ((inputfd = open(filename, O_RDONLY)) == -1 && errno == EINTR);
 
-    if (inputfd < 0) {
-        self->error  = CFGPOOL_EBADFILE;
-        self->xerror = -errno;
-        goto out;
-    }
+    if (inputfd < 0) return -errno;
 
-    cfgpool_addfd(self, inputfd, lineno);
+    int code = cfgpool_addfd(self, inputfd, lineno);
 
-out:
-    if (inputfd >= 0) close(inputfd);
-    return self->error;
+    close(inputfd);
+    return code;
 }
 
 
 /*
 
     This function reads the file whose file descriptor is "inputfd", parses it
-searching for key-value pairs and adds those pairs to the configuration pool
-specified in "pool". It returns 0 if no error occurs, or the number of the
-last line read from "inputfd" (which is returned in "lineno" ) and one of
-these error codes otherwise:
+searching for keyword-value pairs and adds those pairs to the configuration
+pool specified in "pool". It returns 0 if no error occurs, or the number of
+the last line read from "inputfd" (which is returned in "lineno" if it is not
+NULL) and one of these error codes otherwise:
 
+    - CFGPOOL_ENOMEMORY if the function runs out of memory
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
+    - "-errno" if an error ocurred while handling the file
+    - CFGPOOL_ELN2BIG if the file has a line which is too big
+    - CFGPOOL_EKEY2BIG if the parsed keyword is too long
+    - CFGPOOL_EVAL2BIG if the parsed value is too long
+    - CFGPOOL_EFULL if there are already too many keywords in the pool
+    - CFGPOOL_E2MANYV if there are already too many values in the "key"
 
-    - CFGPOOL_EBADFILE if there was any problem while reading the file. The
-      extended return code is negative and it represents a value for "errno",
-      directly from the OS.
-
-    - CFGPOOL_EILLFORMED if an ill-formed line is found in the file. In this
-      case the extended error codes are:
-
-          - CFGPOOL_XEVOIDVALUE if a line with no value is found
-
-          - CFGPOOL_XEKEY2BIG if a line with a too big key is found
-
-          - CFGPOOL_XEVALUE2BIG if a line with a too big value is found
-
-          - CFGPOOL_XELINE2BIG if a line too big is found
-
-    - CFGPOOL_EFULLPOOL if the pool already contains too many items. In this
-      case, the extended error codes are these:
-      
-          - CFGPOOL_XEMANYKEYS if there are too many keys in the pool
-
-          - CFGPOOL_XEMANYVALUES if a key already has too many values
-    
 */
 int                             // Error code
 cfgpool_addfd (
@@ -669,57 +446,8 @@ uintmax_t *lineno               // The line number returned on errors
 ){
 
     if (!self) return CFGPOOL_EBADPOOL;
-    self->error  = 0;
-    self->xerror = 0;
 
-    int result=internal_mungefd(self, inputfd, NULL, lineno);
-    if (result < 0) {
-        self->error  = CFGPOOL_EBADFILE;
-        self->xerror = -errno;
-        goto out;
-    }
-
-    switch (result) {
-        case CFGPOOL__EMISSING:
-            self->error  = CFGPOOL_EILLFORMED;
-            self->xerror = CFGPOOL_XEVOIDVALUE;
-            goto out;
-        case CFGPOOL__EK2BIG:
-            self->error  = CFGPOOL_EILLFORMED;
-            self->xerror = CFGPOOL_XEKEY2BIG;
-            goto out;
-        case CFGPOOL__EV2BIG:
-            self->error  = CFGPOOL_EILLFORMED;
-            self->xerror = CFGPOOL_XEVALUE2BIG;
-            goto out;
-        case CFGPOOL__EL2BIG:
-            self->error  = CFGPOOL_EILLFORMED;
-            self->xerror = CFGPOOL_XELINE2BIG;
-            goto out;
-        case CFGPOOL__EF2BIG:
-            self->error  = CFGPOOL_EBADFILE;
-            self->xerror = -EFBIG;
-            goto out;
-        case CFGPOOL__E2MANYK:
-            self->error  = CFGPOOL_EFULLPOOL;
-            self->xerror = CFGPOOL_XEMANYKEYS;
-            goto out;
-        case CFGPOOL__E2MANYV:
-            self->error  = CFGPOOL_EFULLPOOL;
-            self->xerror = CFGPOOL_XEMANYVALUES;
-            goto out;
-        case CFGPOOL__EKNOMEM:
-        case CFGPOOL__EVNOMEM:
-        case CFGPOOL__EINOMEM:
-        case CFGPOOL__ESNOMEM:
-        case CFGPOOL__ELNOMEM:
-            self->error  = CFGPOOL_EOUTOFMEMORY;
-            self->xerror = CFGPOOL_XEADDITEM;
-            goto out;
-    }
-
-out:
-    return self->error;
+    return internal_mungefd(self, inputfd, NULL, lineno);
 
 }
 
@@ -736,10 +464,10 @@ out:
 /*
 
     This function does the real job of adding an item to the pool, resizing it
-if necessary. The function adds the information in "key", "value" and "src" to
+if necessary. The function adds the information in "key", "val" and "src" to
 the pool specified in "self". Don't make assumptions about what the function
 does with its parameters, and NEVER use this function with a dynamic duration
-object, since no copy is made of "key", "value" or "src", only a reference is
+object, since no copy is made of "key", "val" or "src", only a reference is
 stored in the pool. You can add empty values if you want.
 
     If the number of buckets in the hash table which is the pool is too low
@@ -749,84 +477,82 @@ rehashing. If no memory is available, this is retried in further calls.
     If all goes OK, the function returns 0. Otherwise, the return value can be
 one of these:
 
-    - CFGPOOL__E2MANYK if there are already too many keys in the pool
-    - CFGPOOL__E2MANYV if there are already too many values in the "key"
-    - CFGPOOL__EVNOMEM if there was no free memory to add the value
-    - CFGPOOL__EINOMEM if there was no free memory to add the entire item
-    
+    - CFGPOOL_EFULL if there are already too many keywords in the pool
+    - CFGPOOL_E2MANYV if there are already too many values in the "key"
+    - CFGPOOL_ENOMEMORY if the function runs out of memory
+
 */
 int                             // Error code
 internal_additem (
 CfgPool self,                   // The pool where the data will be added
-wchar_t *key,                   // The key of the item
-wchar_t *value,                 // The value of the item
+wchar_t *key,                   // The keyword of the item
+wchar_t *val,                   // The value of the item
 char *src                       // The source of the item (encoded)
 ){
 
     // First of all, see if we have space
-    if (self->numitems == CFGPOOL_MAXKEYS) return CFGPOOL__E2MANYK;
+    if (self->keys == UINTMAX_MAX) return CFGPOOL_EFULL;
 
     /*
 
-        Fast path (more or less): if the key already exists in the table, we
-    don't have to allocate memory for the new item, nor resize the table,
-    because we are just adding another value to an existing key.
+        Fast path (more or less): if the keyword already exists in the table,
+    we don't have to allocate memory for the new item, nor resize the table,
+    because we are just adding another value to an existing keyword.
 
     */
     
-    // Search the key
+    // Search the keyword
     size_t hash = internal_one_at_a_time(key);
     hash &= self->buckets-1;
-    CfgItem dataiterator=self->data[hash];
+    CfgItem tmpitem = self->htbl[hash];
 
     
-    while (dataiterator) {
-        // See if the key exists or if it is a collision
-        if (! wcscmp(dataiterator->key,key)) {
-            // OK, it exists! Add the value
+    while (tmpitem) {
+        // See if the keyword exists or if it is a collision
+        if (! wcscmp(tmpitem->key,key)) {
+            // OK, it exists! Add the value!
 
-            // First, realloc the "values" array
+            // First, realloc the "varray" array
             struct CfgValue *tmpvalue;
-            size_t len = dataiterator->numvalues;
-            if (len > CFGPOOL_MAXVALUES-1) return CFGPOOL__E2MANYV;
+            size_t len = tmpitem->vals + 1;
+            if (len > CFGPOOL_MAXVALUES) return CFGPOOL_E2MANYV;
 
-            len++;
             len *= sizeof(struct CfgValue);
             
-            tmpvalue = realloc(dataiterator->values, len);
-            if (!tmpvalue) return CFGPOOL__EVNOMEM;
+            tmpvalue = realloc(tmpitem->varray, len);
+            if (!tmpvalue) return CFGPOOL_ENOMEMORY;
 
             // Now, add the element
             free(key);  // We won't use this!
-            dataiterator->values = tmpvalue;
-            tmpvalue = &(dataiterator->values[dataiterator->numvalues]);
-            tmpvalue->src   = (char *) src;
-            tmpvalue->value = (wchar_t *) value;
-            dataiterator->numvalues++;
+            tmpitem->varray = tmpvalue;
+            tmpvalue = &(tmpitem->varray[tmpitem->vals]);
+            tmpvalue->src = (char *)    src;
+            tmpvalue->val = (wchar_t *) val;
+            tmpitem->vals++;
 
             return 0;
         }
         
         // Bad luck, try the next one
-        dataiterator=dataiterator->next;
+        tmpitem=tmpitem->next;
     };
 
 
     // If we are here, we must create a new item...
     struct CfgItem *item = malloc(sizeof(struct CfgItem));
-    if (!item) return CFGPOOL__EINOMEM;
+    if (!item) return CFGPOOL_ENOMEMORY;
 
     item->key = (wchar_t *) key;
-    item->numvalues = 1;
-    item->values = malloc(sizeof(struct CfgValue));
-    if (!item->values) {  // Oops!
+    item->vals = 1;
+    item->varray = malloc(sizeof(struct CfgValue));
+    if (!item->varray) {  // Oops!
         free(item);
-        return CFGPOOL__EVNOMEM;
+        return CFGPOOL_ENOMEMORY;
     }
 
     // Store the data    
-    item->values->src   = (char *) src;
-    item->values->value = (wchar_t *) value;
+    item->varray->src = (char *) src;
+    item->varray->val = (wchar_t *) val;
 
     /*
 
@@ -846,8 +572,7 @@ char *src                       // The source of the item (encoded)
     */
 
     // Do we need to (and can) grow?
-    if (self->numitems/2 > self->buckets &&
-        self->buckets < CFGPOOL_MAXBUCKETS) {
+    if (self->keys/2 > self->buckets && self->buckets < CFGPOOL_MAXBUCKETS) {
 
         // Create the new table
         CfgItem *tmptable = calloc(self->buckets << 1, sizeof(CfgItem));
@@ -859,11 +584,9 @@ char *src                       // The source of the item (encoded)
             
             for (i=0; i < self->buckets; i++) {
 
-                CfgItem tmpitem;
-
                 // Double parentheses so GCC doesn't complain
-                while ((tmpitem=self->data[i])) {
-                    self->data[i]=tmpitem->next;
+                while ((tmpitem=self->htbl[i])) {
+                    self->htbl[i]=tmpitem->next;
                     hash=internal_one_at_a_time(tmpitem->key);
                     hash &= (self->buckets << 1)-1;
                     tmpitem->next=tmptable[hash];  // Relink node
@@ -871,9 +594,9 @@ char *src                       // The source of the item (encoded)
                 }
             }
 
-            free(self->data);
+            free(self->htbl);
 
-            self->data = tmptable;
+            self->htbl = tmptable;
             self->buckets <<= 1;
 
             // Calculate new hash for the current item
@@ -884,11 +607,10 @@ char *src                       // The source of the item (encoded)
         
     }
     
-
     // Add the element
-    item->next=self->data[hash];
-    self->data[hash]=item;
-    self->numitems++;
+    item->next=self->htbl[hash];
+    self->htbl[hash]=item;
+    self->keys++;
 
     return 0;
 }
@@ -903,18 +625,13 @@ parses the line and adds the parsed item (if any) to the pool given in "self".
     It returns 0 on success, otherwise it returns an error code and the line
 number where the error happened in "lineno". The error codes are:
 
-    - CFGPOOL__EMISSING if it found a line without a separator
-    - CFGPOOL__EK2BIG if a parsed key length is too large
-    - CFGPOOL__EV2BIG if a parsed value length is too large
-    - CFGPOOL__EL2BIG if the line length is too large
-    - CFGPOOL__EF2BIG if the file is too large
-    - CFGPOOL__E2MANYK if there are already too many keys in the pool
-    - CFGPOOL__E2MANYV if there are already too many values in the "key"
-    - CFGPOOL__ESNOMEM if no memory is available to allocate the source
-    - CFGPOOL__EKNOMEM if no memory is available to allocate the key
-    - CFGPOOL__EVNOMEM if there was no free memory to add the value
-    - CFGPOOL__EINOMEM if there was no free memory to add the entire item
-    - CFGPOOL__ELNOMEM if no memory is available to allocate the line
+    - CFGPOOL_ENOMEMORY if the function runs out of memory
+    - "-errno" if an error ocurred while handling the file
+    - CFGPOOL_ELN2BIG if the file has a line which is too big
+    - CFGPOOL_EKEY2BIG if the parsed keyword is too long
+    - CFGPOOL_EVAL2BIG if the parsed value is too long
+    - CFGPOOL_EFULL if there are already too many keywords in the pool
+    - CFGPOOL_E2MANYV if there are already too many values in the "key"
 
 */
 int                             // Error code
@@ -958,7 +675,6 @@ uintmax_t *lineno               // Last line processed (return value)
     
     int eof = 0;  // So we know that we hit EOF
 
-    // FIXME: document that lineno is optional
     if (!lineno) lineno = &internal_lineno;
     *lineno=0;
 
@@ -987,13 +703,13 @@ uintmax_t *lineno               // Last line processed (return value)
                 /* See if we exceeded the limit */
                 if (lsize > SIZE_MAX-BUFSIZ) {
                     free(line);
-                    return CFGPOOL__EL2BIG;
+                    return CFGPOOL_ELN2BIG;
                 }
 
                 /* The line is full, we have to make it bigger! */
                 lsize += BUFSIZ;
                 line = realloc(line, (lsize+1)*sizeof(wchar_t));
-                if (!line) return CFGPOOL__ELNOMEM;
+                if (!line) return CFGPOOL_ENOMEMORY;
             }
 
             // Copy another char of the buffer into the line
@@ -1017,28 +733,24 @@ uintmax_t *lineno               // Last line processed (return value)
             if (line[lpos] == L'\n' || (blen == 0 && eof)) {
 
                 // We get a line!
-                if (*lineno == UINTMAX_MAX) {
-                    free(line);
-                    return CFGPOOL__EF2BIG;
-                }
-                (*lineno)++;
+                if (*lineno < UINTMAX_MAX) (*lineno)++;
 
                 // Where the item was defined (item source)
                 char *isrc = NULL;
 
                 // To store the parsed line
                 wchar_t *key = NULL;
-                wchar_t *value = NULL;
+                wchar_t *val = NULL;
 
                 // Null terminate the string
                 if (line[lpos] != L'\n') lpos++;
                 line[lpos] = L'\0';
 
                 // Parse the line and add the item
-                int result=internal_parse(line, &key, &value);
+                int result=internal_parse(line, &key, &val);
+                if (result == -1) continue;
                 if (result != 0) {
                     free(line);
-                    if (result == CFGPOOL__EIGNORE) continue;
                     return result;
                 }
 
@@ -1049,15 +761,15 @@ uintmax_t *lineno               // Last line processed (return value)
 
                 if (!isrc) {
                     free(key);
-                    free(value);
+                    free(val);
                     free(line);
-                    return CFGPOOL__ESNOMEM;
+                    return CFGPOOL_ENOMEMORY;
                 }
 
-                result=internal_additem(self, key, value, isrc);
+                result=internal_additem(self, key, val, isrc);
                 if (result != 0) {
                     free(key);
-                    free(value);
+                    free(val);
                     free(line);
                     free(isrc);
                     return result;
@@ -1074,6 +786,7 @@ uintmax_t *lineno               // Last line processed (return value)
 
     }
 
+    free(line);
     return 0;
 }
 
@@ -1157,27 +870,28 @@ returned.
 the middle, so it can be used as string terminator.
 
     It returns 0 in case of success, an error code otherwise:
-    
-    - CFGPOOL__EMISSING if the "line" doesn't have a separator
-    - CFGPOOL__EK2BIG if the key length is too large
-    - CFGPOOL__EV2BIG if the value length is too large
-    - CFGPOOL__EKNOMEM if no memory is available to allocate the key
-    - CFGPOOL__EVNOMEM if no memory is available to allocate the value
-    - CFGPOOL__EIGNORE if the line is empty or is a comment
+
+    - "-1" if the line can be ignored
+    - CFGPOOL_EKEY2BIG if the parsed keyword is too long
+    - CFGPOOL_EVAL2BIG if the parsed value is too long
+
 */
 int
-internal_parse
-(const wchar_t *line, wchar_t **key, wchar_t **value) {
+internal_parse (
+const wchar_t *line,            // Line to parse
+wchar_t **key,                  // Where to put the parsed key
+wchar_t **val                   // Where to put the parsed value
+){
 
-    const wchar_t *current;     // Temporary marker
-    const wchar_t *keystart;    // Key starting point
-    size_t keylen = 0;          // Key length (in wide characters)
-    const wchar_t *valuestart;  // Value starting point
-    size_t valuelen = 0;        // Value length (in wide characters)
+    const wchar_t *current;   // Temporary marker
+    const wchar_t *keystart;  // Keyword starting point
+    size_t keylen = 0;        // Keyword length (in wide characters)
+    const wchar_t *valstart;  // Value starting point
+    size_t vallen = 0;        // Value length (in wide characters)
 
     current=line;
     keystart=line;
-    valuestart=line;
+    valstart=line;
     
     // Start parsing!
 
@@ -1185,24 +899,47 @@ internal_parse
     while (*current && iswblank(*current)) current++;
 
     // Ignore comment and empty lines
-    if (!*current || *current == L'#') return CFGPOOL__EIGNORE;
-
-    // OK, we have the "key" starting point, now compute the length
-    keystart = current;
-
-    // FIXMEs: by now the separator is hardcoded and it's a space
-    // Start searching the separator
-    while (*current && *current != L' ') current++;
-    if (! *current) return CFGPOOL__EMISSING;
-
-    // Cool, we have the separator! Compute the key length
-    if ((size_t)(current-keystart) > SIZE_MAX)
-        return CFGPOOL__EK2BIG;  // Ooops, too big!
-    keylen = current-keystart;  // The length DOESN'T include the final NUL
+    if (!*current || *current == L'#') return -1;
     
-    // Go on and look for the value
-    current++;
+    // Now, find if this is a variable or a command
+    
+    // Variables start with "set"
 
+    if (! wcsncmp(L"set ", current, 4)) {
+
+        // OK, this is a variable, skip the "set " part and any whitespace
+        current += 4;  // 4 is the length of "set "
+        while (*current && iswblank(*current)) current++;
+        keystart = current;
+        
+        while (*current && *current != L'=') current++;
+
+        if (! *current) return -1;  // Empty line or missing separator, ignore
+
+        valstart = current + 1;
+
+        // Ignore whitespaces before separator
+        while (iswblank(*(current - 1))) current--;
+
+    } else {
+        // OK, this is a command
+        keystart = current;
+
+        // Start searching the separator (a "blank")
+        while (*current && !iswblank(*current)) current++;
+
+        if (! *current) return -1;  // Empty line or missing separator, ignore
+
+        // Go on and look for the value
+        valstart = current + 1;
+    }
+
+    // We have found a separator, compute the keyword length
+    if ((size_t)(current - keystart) > SIZE_MAX)
+        return CFGPOOL_EKEY2BIG;  // Ooops, too big!
+    keylen = current - keystart;  // This DOESN'T include the final NUL
+
+    current = valstart;  // Go on and look for the value
     /*
 
         Now find the starting point of the value,
@@ -1210,7 +947,7 @@ internal_parse
 
     */
     while (*current && iswblank(*current)) current++;
-    valuestart = current;
+    valstart = current;
 
     // Get the end of the value to compute the length
     while (*current) current++;
@@ -1219,26 +956,204 @@ internal_parse
     while (*current && iswblank(*current)) current--;
 
     // Compute value length
-    if ((size_t) (current-valuestart) > SIZE_MAX)
-        return CFGPOOL__EV2BIG;  // Ooops, too big!
-    valuelen = current-valuestart;
-    if (valuelen == 0) return CFGPOOL__EMISSING;
+    if ((size_t) (current-valstart) > SIZE_MAX)
+        return CFGPOOL_EVAL2BIG;  // Ooops, too big!
+    vallen = current-valstart;
+    if (vallen == 0) return -1;  // Ignore empty values
 
     // Store the values and return them
     *key = malloc(sizeof(wchar_t)*(keylen+1));
-    if (! *key) return CFGPOOL__EKNOMEM;
-    *value = malloc(sizeof(wchar_t)*(valuelen+1));
-    if (! *value) {
+    if (! *key) return CFGPOOL_ENOMEMORY;
+    *val = malloc(sizeof(wchar_t)*(vallen+1));
+    if (! *val) {
         free(*key);
-        return CFGPOOL__EVNOMEM;
+        return CFGPOOL_ENOMEMORY;
     }
 
-    wcsncpy(*key,   keystart,   keylen);
-    wcsncpy(*value, valuestart, valuelen);
-    (*key)[keylen]     = L'\0';
-    (*value)[valuelen] = L'\0';
+    wcsncpy(*key, keystart, keylen);
+    wcsncpy(*val, valstart, vallen);
+    (*key)[keylen] = L'\0';
+    (*val)[vallen] = L'\0';
 
     return 0;
+}
+
+////////////////////////////////////////////////////////////
+
+
+         ////////////////////
+        //                  //
+        //  Data retrieval  //
+        //                  //
+         ////////////////////
+
+
+/*
+
+    This function retrieves the last value given to "mbkey", returning a
+dinamycally allocated copy in "data". The function returns 0 in case of
+success (that is, "data" will contain the requested value) and an error code
+otherwise. The error codes that the function can return are:
+
+    - CFGPOOL_EBADPOOL if "self" is a NULL pointer
+    - CFGPOOL_EBADARG if "mbkey" or "data" are NULL pointers
+    - CFGPOOL_EKEY2BIG if "mbkey" string is too big
+    - CFGPOOL_EILLKEY if "mbkey" contains an invalid multibyte sequence
+    - CFGPOOL_EOUTOFMEMORY if the function runs out of memory
+    - CFGPOOL_ENOTFOUND if "key" couldn't be found in pool
+
+*/
+int
+cfgpool_getvalue (
+CfgPool self,
+const char *mbkey,
+char **data
+){
+    if (!self) return CFGPOOL_EBADPOOL;
+
+    if (self->keys == 0) return CFGPOOL_ENOTFOUND;
+
+    if (!mbkey) return CFGPOOL_EBADARG;
+    if (!data) return CFGPOOL_EBADARG;
+    *data = NULL;
+
+    size_t len;
+    mbstate_t mbs;
+
+    // Copy the key
+    len=strlen(mbkey);
+    if (len == 0) return CFGPOOL_ENOTFOUND;  // Ignore empty keywords
+    if (len == SIZE_MAX) return CFGPOOL_EKEY2BIG;
+    len++;  // Make room for the final NUL
+
+    // Allocate memory for destination string
+    wchar_t *key=malloc(len * sizeof(wchar_t));
+    if (!key) return CFGPOOL_ENOMEMORY;
+
+    // Do the copy
+    memset(&mbs, '\0', sizeof(mbs));
+    if (mbsrtowcs(key, &mbkey, len, &mbs) == (size_t) -1 && errno == EILSEQ) {
+        free(key);
+        return CFGPOOL_EILLKEY;
+    }
+
+    CfgItem tmpitem = internal_getdata(self, key);
+    if (!tmpitem) {
+        free(key);
+        return CFGPOOL_ENOTFOUND;
+    }
+
+    const wchar_t *wval=tmpitem->varray[tmpitem->vals-1].val;
+    len = wcslen(wval);
+    len++; // Make room for the final NUL
+
+    /*
+
+        Allocate memory for destination string. Please note that,
+    unfortunately, we are going to waste some memory when doing that, because
+    we don't know exactly how many bytes will the wide-character string when
+    converted to multibyte unless we convert it twice (one to get the number
+    of bytes necessary, another one to do the actual conversion). So, I do a
+    space for speed tradeoff (for now).
+
+    */
+    *data = malloc(len*MB_CUR_MAX);
+    if (! *data) {
+        free(key);
+        return CFGPOOL_ENOMEMORY;
+    }
+
+    // Do the copy
+    memset(&mbs, '\0', sizeof(mbs));
+
+    if (wcsrtombs(*data, &wval, len, &mbs) == (size_t) -1 && errno == EILSEQ) {
+        free(key);
+        free(*data);
+        return CFGPOOL_EILLKEY;
+    }
+
+    free(key);
+    return 0;
+}
+
+
+/*
+
+    This function retrieves a the last value given to "wkey", returning a
+dinamycally allocated copy in "wdata". The function returns 0 in case of
+success (that is, "wdata" will contain the requested value) and an error code
+otherwise. The error codes that the function can return are:
+
+    - CFGPOOL_EBADPOOL if "self" is a NULL pointer
+    - CFGPOOL_EBADARG if "wkey" or "wdata" are NULL pointers
+    - CFGPOOL_ENOMEMORY if the function runs out of memory
+    - CFGPOOL_ENOTFOUND if "wkey" couldn't be found in pool
+
+*/
+int
+cfgpool_getwvalue (
+CfgPool self,
+const wchar_t *wkey,
+wchar_t **wdata
+){
+
+    if (!self) return CFGPOOL_EBADPOOL;
+
+    if (self->keys == 0) return CFGPOOL_ENOTFOUND;
+
+    if (!wkey) return CFGPOOL_EBADARG;
+
+    if (!wdata) return CFGPOOL_EBADARG;
+    *wdata = NULL;
+
+    size_t len=wcslen(wkey);
+    if (len == 0) return CFGPOOL_ENOTFOUND;  // Ignore empty keys
+    if (len == SIZE_MAX) return CFGPOOL_EKEY2BIG;
+
+    CfgItem tmpitem = internal_getdata(self, wkey);
+    
+    if (!tmpitem) return CFGPOOL_ENOTFOUND;
+    
+    wchar_t *wval=tmpitem->varray[tmpitem->vals-1].val;
+    len = wcslen(wval);
+    len++;
+
+    *wdata=malloc(len * sizeof(wchar_t));
+    if (!*wdata) return CFGPOOL_ENOMEMORY;
+    wcsncpy(*wdata, wval, len);
+
+    return 0;
+}
+
+
+/*
+
+    This function returns the CfgItem corresponding to "wkey" if "wkey" is in
+the pool, otherwise it returns NULL.
+
+*/
+CfgItem
+internal_getdata (
+CfgPool self,
+const wchar_t *wkey
+){
+
+    size_t hash = internal_one_at_a_time(wkey);
+    hash &= self->buckets-1;
+
+    CfgItem tmpitem=self->htbl[hash];
+    
+    if (tmpitem) {
+        while (tmpitem) {
+            if (!wcscmp(tmpitem->key, wkey)) {
+                return tmpitem;
+            }
+            tmpitem = tmpitem->next;
+        }
+    }
+
+    return NULL;
+
 }
 
 ////////////////////////////////////////////////////////////
@@ -1287,476 +1202,40 @@ internal_xnprintf
 }
 
 
-/*
-
-    This function takes a multibyte (or monobyte) string at "src" (char *) and
-converts it to "wchar_t *", allocating the memory for the result. It returns 0
-if no error occurred while converting, and an error code otherwise:
-
-    - CFGPOOL__ESNOMEM if the function cannot allocate memory for the copy
-    - CFGPOOL__ENULLDST if "dst" is a NULL pointer
-    - CFGPOOL__ENULLSRC if "src" is a NULL pointer
-    - CFGPOOL__EBADMB if "src" contains a bad multibyte character sequence
-    - CFGPOOL__ES2BIG if "src" length is >= SIZE_MAX
-    - CFGPOOL__EVOID if "src" is empty
-
-*/
 int
-internal_mbstowcs (
-wchar_t **dst,
-const char *src
-) {
-
-    if (!dst) return CFGPOOL__ENULLDST;
-    if (!src) return CFGPOOL__ENULLSRC;
-
-    const char *tmp=src;
-    size_t len=0;
-    int i=0;
-    
-    while (1) {
-        i=mblen(tmp, MB_CUR_MAX);
-        if (i == -1) return CFGPOOL__EBADMB;
-        if (i == 0) break;  // End of string found!
-        len++;
-
-        /*
-
-            If the length is SIZE_MAX, we cannot tell if a NUL byte was
-        actually present or not, so we don't try the conversion (which would,
-        probably, take ages to do anyway...). Please note that this check
-        DOESN'T prevent accessing memory beyond the given string if it is not
-        NUL terminated!.  It's the caller duty to make sure that such memory
-        violation doesn't occur, because the funcion cannot check that!
-
-        */
-        if (len == SIZE_MAX) return CFGPOOL__ES2BIG;
-
-        tmp+=i;
-    }
-
-    if (len == 0) return CFGPOOL__EVOID;
-
-    len++;  // Make room for the final NUL
-
-    // Allocate memory for destination string
-    *dst=malloc(len * sizeof(wchar_t));
-    if (!dst) return CFGPOOL__ESNOMEM;
-
-    // Do the copy
-    mbstate_t state;
-    memset(&state, '\0', sizeof(state));
-
-    /*
-    
-        This function call CANNOT fail because nor "state" has an invalid
-    state nor the contents of "src" are invalid (we have already tested above,
-    when computing its length) so we are going to ignore the return value.
-    Anyway, we couldn't handle an error we don't expect, so...
-    
-    */
-    mbsrtowcs(*dst, &src, len, &state);
-    return 0;
-
-}
-
-
-/*
-
-    This function takes a wide-character string at "src" (char *) and
-converts it to "char *", allocating the memory for the result. It returns 0
-if no error occurred while converting, and an error code otherwise:
-
-    - CFGPOOL__ESNOMEM if the function cannot allocate memory for the copy
-    - CFGPOOL__ENULLDST if "dst" is a NULL pointer
-    - CFGPOOL__ENULLSRC if "src" is a NULL pointer
-    - CFGPOOL__EBADWC if "src" contains a bad wide-character sequence
-    - CFGPOOL__ES2BIG if "src" length is >= SIZE_MAX
-    - CFGPOOL__EVOID if "src" is empty
-
-*/
-int
-internal_wcstombs (
-char **dst,
-const wchar_t *src
-) {
-
-    size_t len=wcslen(src);
-    
-    if (len == 0) return CFGPOOL__EVOID;
-    
-    /*
-
-        If the length is SIZE_MAX, we cannot tell if a NUL byte was actually
-    present or not, so we don't try the conversion (which would, probably,
-    take ages to do anyway...). Please note that this check DOESN'T prevent
-    accessing memory beyond the given string if it is not NUL terminated!.
-    It's the caller duty to make sure that such memory violation doesn't
-    occur, because the funcion cannot check that!
-
-    */
-
-    if (len == SIZE_MAX) return CFGPOOL__ES2BIG;
-
-    len++; // Make room for the final NUL
-
-    /*
-
-        Allocate memory for destination string. Please note that,
-    unfortunately, we are going to waste some memory when doing that, because
-    we don't know exactly how many bytes will the wide-character string when
-    converted to multibyte unless we convert it twice (one to get the number
-    of bytes necessary, another one to do the actual conversion). So, I do a
-    space for speed tradeoff (for now).
-
-    */
-    *dst=malloc(len*MB_CUR_MAX);
-    if (!dst) return CFGPOOL__ESNOMEM;
-
-    // Do the copy
-    mbstate_t state;
-    memset(&state, '\0', sizeof(state));
-
-    int i=errno;
-
-    errno=0;
-    size_t result=wcsrtombs(*dst, &src, len, &state);
-    if (result == (size_t) -1 && errno == EILSEQ) {
-        free(dst);
-        errno=i;
-        return CFGPOOL__EBADWC;
-    }
-
-    errno=i;
-    return 0;
-}
-
-////////////////////////////////////////////////////////////
-
-
-         //////////////////////////
-        //                        //
-        //  Error code accessors  //
-        //                        //
-         //////////////////////////
-
-/*
-
-    This function returns the exit code (the CFGPOOL_E* constants) of the last
-method call (which may be 0), or CFGPOOL_EBADPOOL if "self" is a NULL pointer.
-    
-*/
-int
-cfgpool_geterror (
-CfgPool self
-){
-    if (!self) return CFGPOOL_EBADPOOL;
-    return self->error;
-}
-
-
-/*
-
-    This function returns the extended exit code (the CFGPOOL_XE* constants)
-of the last method call (which may be 0), or CFGPOOL_XEBADPOOL if "self" is a
-NULL pointer.
-    
-*/
-int
-cfgpool_getxerror (
+cfgpool_humanreadable (
 CfgPool self
 ){
 
-    if (!self) return CFGPOOL_XEBADPOOL;
-    return self->xerror;
-}
-
-////////////////////////////////////////////////////////////
-
-
-         ////////////////////
-        //                  //
-        //  Data retrieval  //
-        //                  //
-         ////////////////////
-
-
-/*
-
-    This function retrieves a the last value given to "key", returning a
-dinamycally allocated copy in "data". The function returns 0 in case of
-success (that is, "data" will contain the requested value) and an error code
-otherwise. The error codes that the function can return are:
-
-    - CFGPOOL_EBADPOOL if "self" is a NULL pointer
-
-    - CFGPOOL_EBADARG if "key" or "data" are invalid. The extended error
-      codes in this case can be:
-
-          - CFGPOOL_XENULLKEY if "key" is a NULL pointer
-
-          - CFGPOOL_XENULL if "data" is a NULL pointer
-
-          - CFGPOOL_XEBADKEY if "key" contains an invalid multibyte character
-
-          - CFGPOOL_XEKEY2BIG if "key" string is too big
-
-          - CFGPOOL_XEVOIDKEY if "key" is empty
-
-    - CFGPOOL_EOUTOFMEMORY if the function runs out of memory. The extended
-      error codes in this case can be:
-
-          - CFGPOOL_XEKEYCOPY if the function did run out of memory when
-            trying to make a copy of "key"
-
-          - CFGPOOL_XEVALUECOPY if the function did run out of memory when
-            trying to make a copy of "value"
-
-    - CFGPOOL_ENOTFOUND if "key" couldn't be found in pool
-
-*/
-int
-cfgpool_getvalue (
-CfgPool self,
-const char *key,
-char **data
-){
     if (!self) return CFGPOOL_EBADPOOL;
 
-    wchar_t *wkey = NULL;
+    fprintf(stderr, "=================================\n");
+    fprintf(stderr, "Pool @ %p\n", self);
+    fprintf(stderr, "Number of buckets: %zu\n", self->buckets);
+    fprintf(stderr, "Number of keys   : %ju\n", self->keys);
 
-    if (!data) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XENULL;
-        goto out;
-    }
-
-    self->error  = 0;
-    self->xerror = 0;
-
-    if (self->numitems == 0) {
-        self->error  = CFGPOOL_ENOTFOUND;
-        goto out;
-    }
-    *data = NULL;
-
-    switch (internal_mbstowcs(&wkey, key)) {
-        case CFGPOOL__ESNOMEM:
-            self->error  = CFGPOOL_EOUTOFMEMORY;
-            self->xerror = CFGPOOL_XEKEYCOPY;
-            goto out;
-        case CFGPOOL__EBADMB:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XEBADKEY;
-            goto out;
-        case CFGPOOL__ES2BIG:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XEKEY2BIG;
-            goto out;
-        case CFGPOOL__EVOID:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XEVOIDKEY;
-            goto out;
-        case CFGPOOL__ENULLSRC:
-            self->error  = CFGPOOL_EBADARG;
-            self->xerror = CFGPOOL_XENULLKEY;
-            goto out;
-    }
-
-    CfgItem tmpitem = internal_getdata(self, wkey);
-    if (!tmpitem) {
-        self->error = CFGPOOL_ENOTFOUND;
-        goto out;
-    }
-
-    wchar_t *wvalue = tmpitem->values[0].value;
-    if (internal_wcstombs(data, wvalue) == CFGPOOL__ESNOMEM) {
-        self->error  = CFGPOOL_EOUTOFMEMORY;
-        self->xerror = CFGPOOL_XEVALUECOPY;
-        goto out;
-    }
-
-out:
-    if (wkey) free(wkey);
-    return self->error;
-}
-
-
-/*
-
-    This function retrieves a the last value given to "wkey", returning a
-dinamycally allocated copy in "wdata". The function returns 0 in case of
-success (that is, "wdata" will contain the requested value) and an error code
-otherwise. The error codes that the function can return are:
-
-    - CFGPOOL_EBADPOOL if "self" is a NULL pointer
-
-    - CFGPOOL_EBADARG if "wkey" or "wdata" are invalid. The extended error
-      codes in this case can be:
-
-          - CFGPOOL_XENULLKEY if "wkey" is a NULL pointer
-
-          - CFGPOOL_XENULL if "wdata" is a NULL pointer
-
-          - CFGPOOL_XEVOIDKEY if "key" is empty
-
-          - CFGPOOL_XEKEY2BIG if "key" string is too big
-
-
-    - CFGPOOL_EOUTOFMEMORY if the function runs out of memory. The extended
-      error code in this case can be:
-
-          - CFGPOOL_XEVALUECOPY if the function did run out of memory when
-            trying to make a copy of "value"
-
-
-    - CFGPOOL_ENOTFOUND if "key" couldn't be found in pool
-
-*/
-
-int
-cfgpool_getwvalue (
-CfgPool self,
-const wchar_t *wkey,
-wchar_t **wdata
-){
-
-    if (!self) return CFGPOOL_EBADPOOL;
-
-    if (!wdata) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XENULL;
-        goto out;
-    }
-    
-    if (!wkey) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XENULLKEY;
-        goto out;
-    }
-
-    if (wcslen(wkey) == 0) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XEVOIDKEY;
-        goto out;
-    }
-
-    if (wcslen(wkey) == SIZE_MAX) {
-        self->error  = CFGPOOL_EBADARG;
-        self->xerror = CFGPOOL_XEKEY2BIG;
-        goto out;
-    }
-
-
-    self->error  = 0;
-    self->xerror = 0;
-
-    if (self->numitems == 0) {
-        self->error  = CFGPOOL_ENOTFOUND;
-        goto out;
-    }
-
-    *wdata=NULL;
-
-    CfgItem tmpitem = internal_getdata(self, wkey);
-    
-    if (!tmpitem) {
-        self->error = CFGPOOL_ENOTFOUND;
-        goto out;
-    }
-    
-    wchar_t *wvalue=tmpitem->values[0].value;
-    size_t len = wcslen(wvalue);
-    len++;
-
-    *wdata=malloc(len * sizeof(wchar_t));
-    if (!*wdata) {
-        self->error = CFGPOOL_EOUTOFMEMORY;
-        self->error = CFGPOOL_XEVALUECOPY;
-        goto out;
-    }
-    wcscpy(*wdata, wvalue);
-
-out:
-    return self->error;
-}
-
-
-/*
-
-    This function returns the CfgItem corresponding to "wkey" if "wkey" is in
-the pool, otherwise it returns NULL.
-
-*/
-CfgItem
-internal_getdata (
-CfgPool self,
-const wchar_t *wkey
-){
-
-    size_t hash = internal_one_at_a_time(wkey);
-    hash &= self->buckets-1;
-
-    CfgItem tmpitem=self->data[hash];
-    
-    if (tmpitem) {
+    size_t i = 0;
+    while (i < self->buckets) {
+        CfgItem tmpitem = self->htbl[i];
+        if (tmpitem) {
+            size_t len=1;
+            while ((self->buckets - 1) >> (len * 4)) len++;
+            fprintf(stderr, "  Bucket %#.*zx (@%p)\n", len, i, tmpitem);
+        }
         while (tmpitem) {
-            if (!wcscmp(tmpitem->key, wkey)) {
-                return tmpitem;
+            fprintf(stderr, "    Keyword is '%ls'\n", tmpitem->key);
+            size_t v = tmpitem->vals;
+            
+            fprintf(stderr, "    %zu value(s):\n", v);
+            while (v--) {
+                fprintf(stderr, "      Value: '%ls'\n", tmpitem->varray[v].val);
+                fprintf(stderr, "      Src  : '%s'\n", tmpitem->varray[v].src);
+                fprintf(stderr, "      ------\n");
             }
             tmpitem = tmpitem->next;
         }
+        i++;
     }
-
-    return NULL;
-
+    fflush(stderr);
+    return 0;
 }
-
-
-
-
-
-////////////////////////////////////////////////////////////
-
-
-char * cfgpool_dontuse(CfgPool self, char *key) {
-
-    wchar_t *wkey;
-    const wchar_t *wvalue;
-    char *value;
-    size_t keylen=strlen(key)+1;
-
-    mbstate_t state;
-
-    memset(&state, '\0', sizeof(mbstate_t));
-
-    wkey=malloc(keylen*sizeof(wchar_t));
-    if (!wkey) return NULL;
-
-    // FIXME: check for overflows (keylen must be < (size_t) -1)
-    if (mbsrtowcs(wkey, (const char **)&key, keylen, &state) != keylen-1) {
-        free(wkey);
-        return NULL;
-    }
-
-    size_t hash=internal_one_at_a_time(wkey);
-    hash &= self->buckets-1;
-    free(wkey);
-
-    if (self->data[hash]) {
-        CfgItem tmpitem=self->data[hash];
-        size_t tos=self->data[hash]->numvalues-1;
-        wvalue = (const wchar_t *) tmpitem->values[tos].value;
-    } else return NULL;
-
-    size_t valuelen=wcslen(wvalue)+1;
-    value=malloc(valuelen);
-    if (!value) return NULL;
-    memset(&state, '\0', sizeof(mbstate_t));  //FIXME: state should be in initial state :?
-    if (wcsrtombs(value, &wvalue, valuelen, &state) != valuelen-1) {
-        free(value);
-        return NULL;
-    }
-    return value;
-}
-
