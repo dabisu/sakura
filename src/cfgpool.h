@@ -1,4 +1,4 @@
-// $Rev: 30 $
+// $Rev: 35 $
 #ifndef __CFGPOOL_H_
 #define __CFGPOOL_H_
 
@@ -23,7 +23,6 @@ enum {
     CFGPOOL_EILLVAL,        // Value contains an invalid mb or wide character
 
     CFGPOOL_EFULL,          // Pool is full!
-    CFGPOOL_E2MANYV,        // Too many values for key
 
     CFGPOOL_ELN2BIG,        // The file contains a line too big
 
@@ -56,7 +55,7 @@ void    cfgpool_delete (CfgPool);
 
 // Pool filling
 int cfgpool_addfile  (CfgPool, const char *, uintmax_t *);
-int cfgpool_addfd    (CfgPool, int, uintmax_t *);
+int cfgpool_addfd    (CfgPool, int, const char *, uintmax_t *);
 int cfgpool_additem  (CfgPool, const char *, const char *);
 int cfgpool_addwitem (CfgPool, const wchar_t *, const wchar_t *);
 
@@ -67,6 +66,10 @@ int cfgpool_getallvalues  (CfgPool, const char    *, char    **);
 int cfgpool_getallwvalues (CfgPool, const wchar_t *, wchar_t **);
 int cfgpool_getinfo       (CfgPool, const char    *, char    **);
 int cfgpool_getallinfo    (CfgPool, const char    *, char    **);
+
+// Data dumping
+int cfgpool_dumptofile (CfgPool, const char *);
+int cfgpool_dumptofd   (CfgPool, int);
 
 int cfgpool_humanreadable (CfgPool);
 

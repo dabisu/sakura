@@ -102,13 +102,13 @@ static void 	sakura_copy(GtkWidget *, void *);
 static void 	sakura_paste(GtkWidget *, void *);
 
 /* Functions */	
-static void sakura_init();
-static void sakura_destroy();
-static void sakura_add_tab();
-static void sakura_del_tab();
-static void sakura_set_font();
-static void sakura_kill_child();
-static void sakura_set_bgimage();
+static void     sakura_init();
+static void     sakura_destroy();
+static void     sakura_add_tab();
+static void     sakura_del_tab();
+static void     sakura_set_font();
+static void     sakura_kill_child();
+static void     sakura_set_bgimage();
 
 static char* option_font;
 static gboolean option_version=FALSE;
@@ -996,19 +996,19 @@ dontuse (void)
 	FILE *file=fopen(sakura.configfile, "w+");
 	if (!file) return;
 	cfgpool_getvalue(sakura.pool, "font", &tmpstring);
-	fprintf(file, "font %s\n", tmpstring);
+	fprintf(file, "font=%s\n", tmpstring);
 	free(tmpstring);
 	cfgpool_getvalue(sakura.pool, "forecolor", &tmpstring);
-	fprintf(file, "forecolor %s\n", tmpstring);
+	fprintf(file, "forecolor=%s\n", tmpstring);
 	free(tmpstring);
 	cfgpool_getvalue(sakura.pool, "backcolor", &tmpstring);
-	fprintf(file, "backcolor %s\n", tmpstring);
+	fprintf(file, "backcolor=%s\n", tmpstring);
 	free(tmpstring);
 	cfgpool_getvalue(sakura.pool, "fake_transparency", &tmpstring);
-	fprintf(file, "fake_transparency %s\n", tmpstring);
+	fprintf(file, "fake_transparency=%s\n", tmpstring);
 	free(tmpstring);
 	cfgpool_getvalue(sakura.pool, "background", &tmpstring);
-	fprintf(file, "background %s\n", tmpstring);
+	fprintf(file, "background=%s\n", tmpstring);
 	free(tmpstring);
 
 	fclose(file);

@@ -1,4 +1,4 @@
-// $Rev: 30 $
+// $Rev: 35 $
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
@@ -13,8 +13,6 @@
 #include <wchar.h>
 #include <wctype.h>
 #include "cfgpool.h"
-
-
 
 /*
 
@@ -82,11 +80,9 @@ struct CfgPool {
 
 // Prototypes for internal functions 
 static        int     internal_additem       (CfgPool, wchar_t *, wchar_t *, char *);
-static        int     internal_mungefd       (CfgPool, int, const char *, uintmax_t *);
 static        int     internal_parse         (const wchar_t *, wchar_t **, wchar_t **);
 static        char   *internal_xnprintf      (const char *, ...);
 static inline size_t  internal_one_at_a_time (const wchar_t *);
-static        CfgItem internal_getdata       (CfgPool, const wchar_t *);
 
 
 ////////////////////////////////////////////////////////////
@@ -238,7 +234,6 @@ Error codes that this function may return are:
     - CFGPOOL_EVAL2BIG if "wval" is too long
     - CFGPOOL_ENOMEMORY if the function runs out of memory
     - CFGPOOL_EFULL if there are already too many keywords in the pool
-    - CFGPOOL_E2MANYV if there are already too many values in pool for "wkey"
 
 */
 int                             // Error code
@@ -315,7 +310,6 @@ Error codes that this function may return are:
     - CFGPOOL_EILLVAL if "mbval" contains an invalid multibyte sequence
     - CFGPOOL_ENOMEMORY if the function runs out of memory
     - CFGPOOL_EFULL if there are already too many keywords in the pool
-    - CFGPOOL_E2MANYV if there are already too many values for "mbkey"
 
 */
 int                             // Error code
@@ -380,9 +374,9 @@ const char *mbval               // The value of the item
 
     This function reads the file specified in "filename", parses it searching
 for configuration pairs (a keyword and a value) and adds those pairs to the
-configuration pool specified in "pool". It returns 0 if no error occurs, or
-the number of the last line read from "filename" (returned in "lineno" if it
-is not NULL) and an error code otherwise:
+"self" configuration pool, marking them as coming from "filename". It returns
+0 if no error occurs, or the number of the last line read from "filename"
+(returned in "lineno" if it is not NULL) and an error code otherwise:
 
     - CFGPOOL_ENOMEMORY if the function runs out of memory
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
@@ -392,7 +386,6 @@ is not NULL) and an error code otherwise:
     - CFGPOOL_EKEY2BIG if the parsed keyword is too long
     - CFGPOOL_EVAL2BIG if the parsed value is too long
     - CFGPOOL_EFULL if there are already too many keywords in the pool
-    - CFGPOOL_E2MANYV if there are already too many values in the "key"
 
 */
 int                             // Error code
@@ -413,7 +406,7 @@ uintmax_t *lineno               // The line number returned on errors
 
     if (inputfd < 0) return -errno;
 
-    int code = cfgpool_addfd(self, inputfd, lineno);
+    int code = cfgpool_addfd(self, inputfd, filename, lineno);
 
     close(inputfd);
     return code;
@@ -422,32 +415,182 @@ uintmax_t *lineno               // The line number returned on errors
 
 /*
 
-    This function reads the file whose file descriptor is "inputfd", parses it
+    This function reads the file whose file descriptor is "fd", parses it
 searching for keyword-value pairs and adds those pairs to the configuration
-pool specified in "pool". It returns 0 if no error occurs, or the number of
-the last line read from "inputfd" (which is returned in "lineno" if it is not
-NULL) and one of these error codes otherwise:
+pool specified in "pool" as coming from "filename" (which can be empty or even
+NULL). It returns 0 if no error occurs, or the number of the last line read
+from "fd" (which is returned in "lineno" if it is not NULL) and one of these
+error codes otherwise:
 
     - CFGPOOL_ENOMEMORY if the function runs out of memory
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
+    - CFGPOOL_EBADARG if "fd" is "-1"
     - "-errno" if an error ocurred while handling the file
     - CFGPOOL_ELN2BIG if the file has a line which is too big
     - CFGPOOL_EKEY2BIG if the parsed keyword is too long
     - CFGPOOL_EVAL2BIG if the parsed value is too long
     - CFGPOOL_EFULL if there are already too many keywords in the pool
-    - CFGPOOL_E2MANYV if there are already too many values in the "key"
 
 */
 int                             // Error code
 cfgpool_addfd (
 CfgPool self,                   // The pool where the data will be added
-int inputfd,                    // The descriptor of the file to add
+int fd,                         // The file descriptor to read from
+const char *filename,           // Name of the associated file
 uintmax_t *lineno               // The line number returned on errors
 ){
 
     if (!self) return CFGPOOL_EBADPOOL;
+    if (fd == -1) return CFGPOOL_EBADARG;
 
-    return internal_mungefd(self, inputfd, NULL, lineno);
+    /*
+
+        This looks weird, I know, but here is the explanation.
+
+        If we just make the buffer "BUFSIZ" bytes, we must be careful when
+    reading a new chunk because there may be a few bytes already left in the
+    buffer from the last conversion (e.g. if a character was partially read). 
+    This is more complex than the solution I use (which comes from an example
+    in the glibc documentation) because each time we will be reading a
+    different size.
+    
+        The solution I use is to make the buffer "BUFSIZ+MB_LEN_MAX" bytes,
+    but only read "BUFSIZ" bytes in each read operation! This way, even if a
+    partial character is left in the buffer, we are sure we have enough space
+    to store another load of BUFSIZ bytes. OK, this may waste up to
+    "MB_LEN_MAX" bytes if we always read "BUFSIZ" bytes and no partial
+    characters are read, but it is a very small price to pay for a cleaner and
+    simpler code.
+
+    */
+    char buffer[BUFSIZ+MB_LEN_MAX];
+    size_t blen = 0;            // 'buffer' filled length, in bytes
+    size_t bpos = 0;            // Current convert position in 'buffer', in bytes
+
+    wchar_t *line = NULL;       // Stored line
+    size_t lpos = 0;            // Current store position in 'line', in wchars
+    size_t lsize = 0;           // 'line' capacity, in wchars
+    
+    // Just in case we didn't receive one
+    uintmax_t internal_lineno;
+    
+    int eof = 0;  // So we know that we hit EOF
+
+    if (!lineno) lineno = &internal_lineno;
+    *lineno=0;
+
+    while (!eof) {
+
+        // Get line
+        ssize_t count = read(fd, buffer+blen, BUFSIZ);
+        if (count < BUFSIZ) {
+            eof = 1;  // Signal EOF to the main loop
+        }
+        if (count < 0) return -errno;
+
+        /* There are now more 'count' bytes in the 'buffer' */
+        blen += count;
+
+        while (blen) {
+            /*
+
+                We have to convert the buffer to wchar_t, as
+            many chars as we can. We use 'mbrtowc()' for that.
+
+            */
+            size_t len;  // Length of current converted char
+
+            if (lpos == lsize) {
+                /* See if we exceeded the limit */
+                if (lsize > SIZE_MAX-BUFSIZ) {
+                    free(line);
+                    return CFGPOOL_ELN2BIG;
+                }
+
+                /* The line is full, we have to make it bigger! */
+                lsize += BUFSIZ;
+                line = realloc(line, (lsize+1)*sizeof(wchar_t));
+                if (!line) return CFGPOOL_ENOMEMORY;
+            }
+
+            // Copy another char of the buffer into the line
+            len = mbrtowc(line+lpos,buffer+bpos, blen, NULL);
+
+            if (len == (size_t)-2) {
+                memmove(buffer+bpos,buffer,blen);
+                break;
+            }
+
+            if (len == (size_t)-1 || !len) {
+                // Invalid character or embedded NUL byte
+                len = 1; // Skip it
+                line[lpos] = L'?';
+            }
+
+            bpos += len;
+            blen -= len;
+
+                
+            if (line[lpos] == L'\n' || (blen == 0 && eof)) {
+
+                // We get a line!
+                if (*lineno < UINTMAX_MAX) (*lineno)++;
+
+                // Where the item was defined (item source)
+                char *isrc = NULL;
+
+                // To store the parsed line
+                wchar_t *key = NULL;
+                wchar_t *val = NULL;
+
+                // Null terminate the string
+                if (line[lpos] != L'\n') lpos++;
+                line[lpos] = L'\0';
+
+                // Parse the line and add the item
+                int result=internal_parse(line, &key, &val);
+                if (result > 0) {
+                    free(line);
+                    return result;
+                }
+
+                if (result == 0) {
+
+                    if (filename)
+                        isrc = internal_xnprintf("F%jx:%s", *lineno, filename);
+                    else
+                        isrc = internal_xnprintf("D%jx:%x", *lineno, fd);
+
+                    if (!isrc) {
+                        free(key);
+                        free(val);
+                        free(line);
+                        return CFGPOOL_ENOMEMORY;
+                    }
+
+                    result=internal_additem(self, key, val, isrc);
+                    if (result != 0) {
+                        free(key);
+                        free(val);
+                        free(line);
+                        free(isrc);
+                        return result;
+                    }
+                }
+
+                free(line);
+                line = NULL;
+
+                lsize = 0;
+                lpos = 0;
+            } else lpos++;
+        }
+        bpos = 0;
+
+    }
+
+    free(line);
+    return 0;
 
 }
 
@@ -478,7 +621,6 @@ rehashing. If no memory is available, this is retried in further calls.
 one of these:
 
     - CFGPOOL_EFULL if there are already too many keywords in the pool
-    - CFGPOOL_E2MANYV if there are already too many values in the "key"
     - CFGPOOL_ENOMEMORY if the function runs out of memory
 
 */
@@ -512,22 +654,42 @@ char *src                       // The source of the item (encoded)
         if (! wcscmp(tmpitem->key,key)) {
             // OK, it exists! Add the value!
 
+            free(key);  // We won't use this!
+
             // First, realloc the "varray" array
             struct CfgValue *tmpvalue;
             size_t len = tmpitem->vals + 1;
-            if (len > CFGPOOL_MAXVALUES) return CFGPOOL_E2MANYV;
+            fprintf(stderr, "len is %d\n", CFGPOOL_MAXVALUES);
+            if (len > CFGPOOL_MAXVALUES) {
 
-            len *= sizeof(struct CfgValue);
+                // We can't grow more, so discard the older value
+                void *src = tmpitem->varray + 1;
+                void *dst = tmpitem->varray;
+                size_t bytes = tmpitem->vals - 1;
+                bytes *= sizeof(struct CfgValue);
+
+                // Free the item we want to discard
+                if (tmpitem->varray[0].src)
+                    free(tmpitem->varray[0].src);
+                free(tmpitem->varray[0].val);
+                tmpitem->vals--;
+
+                // Move the data so we can add another item at the end
+                memmove(dst, src, bytes);
+            } else {
+                len *= sizeof(struct CfgValue);
             
-            tmpvalue = realloc(tmpitem->varray, len);
-            if (!tmpvalue) return CFGPOOL_ENOMEMORY;
+                tmpvalue = realloc(tmpitem->varray, len);
+                if (!tmpvalue) return CFGPOOL_ENOMEMORY;
+                tmpitem->varray = tmpvalue;
+
+            }
 
             // Now, add the element
-            free(key);  // We won't use this!
-            tmpitem->varray = tmpvalue;
             tmpvalue = &(tmpitem->varray[tmpitem->vals]);
             tmpvalue->src = (char *)    src;
             tmpvalue->val = (wchar_t *) val;
+
             tmpitem->vals++;
 
             return 0;
@@ -612,181 +774,6 @@ char *src                       // The source of the item (encoded)
     self->htbl[hash]=item;
     self->keys++;
 
-    return 0;
-}
-
-
-/*
-
-    This function parses an entire file (from a file descriptor). It reads the
-file in fixed sized chunks until an entire line has been read. After that it
-parses the line and adds the parsed item (if any) to the pool given in "self".
-
-    It returns 0 on success, otherwise it returns an error code and the line
-number where the error happened in "lineno". The error codes are:
-
-    - CFGPOOL_ENOMEMORY if the function runs out of memory
-    - "-errno" if an error ocurred while handling the file
-    - CFGPOOL_ELN2BIG if the file has a line which is too big
-    - CFGPOOL_EKEY2BIG if the parsed keyword is too long
-    - CFGPOOL_EVAL2BIG if the parsed value is too long
-    - CFGPOOL_EFULL if there are already too many keywords in the pool
-    - CFGPOOL_E2MANYV if there are already too many values in the "key"
-
-*/
-int                             // Error code
-internal_mungefd (
-CfgPool self,                   // The pool where data will be added
-int inputfd,                    // The file descriptor of the file to be added
-const char *filename,           // The corresponding filename (can be NULL)
-uintmax_t *lineno               // Last line processed (return value)
-) {
-
-    /*
-
-        This looks weird, I know, but here is the explanation.
-
-        If we just make the buffer "BUFSIZ" bytes, we must be careful when
-    reading a new chunk because there may be a few bytes already left in the
-    buffer from the last conversion (e.g. if a character was partially read). 
-    This is more complex than the solution I use (which comes from an example
-    in the glibc documentation) because each time we will be reading a
-    different size.
-    
-        The solution I use is to make the buffer "BUFSIZ+MB_LEN_MAX" bytes,
-    but only read "BUFSIZ" bytes in each read operation! This way, even if a
-    partial character is left in the buffer, we are sure we have enough space
-    to store another load of BUFSIZ bytes. OK, this may waste up to
-    "MB_LEN_MAX" bytes if we always read "BUFSIZ" bytes and no partial
-    characters are read, but it is a very small price to pay for a cleaner and
-    simpler code.
-
-    */
-    char buffer[BUFSIZ+MB_LEN_MAX];
-    size_t blen = 0;            // 'buffer' filled length, in bytes
-    size_t bpos = 0;            // Current convert position in 'buffer', in bytes
-
-    wchar_t *line = NULL;       // Stored line
-    size_t lpos = 0;            // Current store position in 'line', in wchars
-    size_t lsize = 0;           // 'line' capacity, in wchars
-    
-    // Just in case we didn't receive one
-    uintmax_t internal_lineno;
-    
-    int eof = 0;  // So we know that we hit EOF
-
-    if (!lineno) lineno = &internal_lineno;
-    *lineno=0;
-
-    while (!eof) {
-
-        // Get line
-        ssize_t count = read(inputfd, buffer+blen, BUFSIZ);
-        if (count < BUFSIZ) {
-            eof = 1;  // Signal EOF to the main loop
-        }
-        if (count < 0) return -errno;
-
-        /* There are now more 'count' bytes in the 'buffer' */
-        blen += count;
-
-        while (blen) {
-            /*
-
-                We have to convert the buffer to wchar_t, as
-            many chars as we can. We use 'mbrtowc()' for that.
-
-            */
-            size_t len;  // Length of current converted char
-
-            if (lpos == lsize) {
-                /* See if we exceeded the limit */
-                if (lsize > SIZE_MAX-BUFSIZ) {
-                    free(line);
-                    return CFGPOOL_ELN2BIG;
-                }
-
-                /* The line is full, we have to make it bigger! */
-                lsize += BUFSIZ;
-                line = realloc(line, (lsize+1)*sizeof(wchar_t));
-                if (!line) return CFGPOOL_ENOMEMORY;
-            }
-
-            // Copy another char of the buffer into the line
-            len = mbrtowc(line+lpos,buffer+bpos, blen, NULL);
-
-            if (len == (size_t)-2) {
-                memmove(buffer+bpos,buffer,blen);
-                break;
-            }
-
-            if (len == (size_t)-1 || !len) {
-                // Invalid character or embedded NUL byte
-                len = 1; // Skip it
-                line[lpos] = L'?';
-            }
-
-            bpos += len;
-            blen -= len;
-
-                
-            if (line[lpos] == L'\n' || (blen == 0 && eof)) {
-
-                // We get a line!
-                if (*lineno < UINTMAX_MAX) (*lineno)++;
-
-                // Where the item was defined (item source)
-                char *isrc = NULL;
-
-                // To store the parsed line
-                wchar_t *key = NULL;
-                wchar_t *val = NULL;
-
-                // Null terminate the string
-                if (line[lpos] != L'\n') lpos++;
-                line[lpos] = L'\0';
-
-                // Parse the line and add the item
-                int result=internal_parse(line, &key, &val);
-                if (result == -1) continue;
-                if (result != 0) {
-                    free(line);
-                    return result;
-                }
-
-                if (filename)
-                    isrc = internal_xnprintf("F%jx:%s", *lineno, filename);
-                else
-                    isrc = internal_xnprintf("D%jx:%x", *lineno, inputfd);
-
-                if (!isrc) {
-                    free(key);
-                    free(val);
-                    free(line);
-                    return CFGPOOL_ENOMEMORY;
-                }
-
-                result=internal_additem(self, key, val, isrc);
-                if (result != 0) {
-                    free(key);
-                    free(val);
-                    free(line);
-                    free(isrc);
-                    return result;
-                }
-
-                free(line);
-                line = NULL;
-
-                lsize = 0;
-                lpos = 0;
-            } else lpos++;
-        }
-        bpos = 0;
-
-    }
-
-    free(line);
     return 0;
 }
 
@@ -903,36 +890,25 @@ wchar_t **val                   // Where to put the parsed value
     
     // Now, find if this is a variable or a command
     
-    // Variables start with "set"
-
-    if (! wcsncmp(L"set ", current, 4)) {
-
-        // OK, this is a variable, skip the "set " part and any whitespace
-        current += 4;  // 4 is the length of "set "
-        while (*current && iswblank(*current)) current++;
-        keystart = current;
-        
-        while (*current && *current != L'=') current++;
-
-        if (! *current) return -1;  // Empty line or missing separator, ignore
-
-        valstart = current + 1;
-
-        // Ignore whitespaces before separator
-        while (iswblank(*(current - 1))) current--;
-
-    } else {
-        // OK, this is a command
-        keystart = current;
-
+    keystart = current;
+    // Commands start with "+"
+    if (current[0] == L'+') {  // OK, this is a command
         // Start searching the separator (a "blank")
         while (*current && !iswblank(*current)) current++;
-
-        if (! *current) return -1;  // Empty line or missing separator, ignore
-
-        // Go on and look for the value
-        valstart = current + 1;
+        // If no keyword exists after the "+" marker, ignore the line
+        if ((current - keystart) == 1) return -1;
+    } else {  // OK, this is a variable
+        // Now the separator is "="
+        while (*current && *current != L'=') current++;
     }
+
+    // Mark where should we go on
+    valstart = current + 1;
+
+    // Ignore whitespaces before separator
+    while (iswblank(*(current - 1))) current--;
+
+    if (! *current) return -1;  // Empty line or missing separator, ignore
 
     // We have found a separator, compute the keyword length
     if ((size_t)(current - keystart) > SIZE_MAX)
@@ -953,7 +929,7 @@ wchar_t **val                   // Where to put the parsed value
     while (*current) current++;
     
     // Ignore trailing whitespace in the value
-    while (*current && iswblank(*current)) current--;
+    while (*(current-1) && iswblank(*(current-1))) current--;
 
     // Compute value length
     if ((size_t) (current-valstart) > SIZE_MAX)
@@ -1037,14 +1013,15 @@ char **data
         return CFGPOOL_EILLKEY;
     }
 
-    CfgItem tmpitem = internal_getdata(self, key);
-    if (!tmpitem) {
+    wchar_t *val = NULL;
+
+    int status = cfgpool_getwvalue(self, key, &val);
+    if (status != 0) {
         free(key);
-        return CFGPOOL_ENOTFOUND;
+        return status;
     }
 
-    const wchar_t *wval=tmpitem->varray[tmpitem->vals-1].val;
-    len = wcslen(wval);
+    len = wcslen(val);
     len++; // Make room for the final NUL
 
     /*
@@ -1060,19 +1037,30 @@ char **data
     *data = malloc(len*MB_CUR_MAX);
     if (! *data) {
         free(key);
+        free(val);
         return CFGPOOL_ENOMEMORY;
     }
 
     // Do the copy
     memset(&mbs, '\0', sizeof(mbs));
 
-    if (wcsrtombs(*data, &wval, len, &mbs) == (size_t) -1 && errno == EILSEQ) {
+    /*
+
+        This indirection is needed because "wcsrtombs()" modifies the source
+    pointer (so the caller can call it in a loop until an entire buffer is
+    converted, for example). Otherwise we can't free "val".
+
+    */
+    const wchar_t *src=val;
+    if (wcsrtombs(*data, &src, len, &mbs) == (size_t) -1 && errno == EILSEQ) {
         free(key);
+        free(val);
         free(*data);
         return CFGPOOL_EILLKEY;
     }
 
     free(key);
+    free(val);
     return 0;
 }
 
@@ -1110,10 +1098,17 @@ wchar_t **wdata
     if (len == 0) return CFGPOOL_ENOTFOUND;  // Ignore empty keys
     if (len == SIZE_MAX) return CFGPOOL_EKEY2BIG;
 
-    CfgItem tmpitem = internal_getdata(self, wkey);
+    size_t hash = internal_one_at_a_time(wkey);
+    hash &= self->buckets-1;
+
+    CfgItem tmpitem=self->htbl[hash];
     
+    while (tmpitem) {
+        if (!wcscmp(tmpitem->key, wkey)) break;
+        tmpitem = tmpitem->next;
+    }
     if (!tmpitem) return CFGPOOL_ENOTFOUND;
-    
+
     wchar_t *wval=tmpitem->varray[tmpitem->vals-1].val;
     len = wcslen(wval);
     len++;
@@ -1123,37 +1118,6 @@ wchar_t **wdata
     wcsncpy(*wdata, wval, len);
 
     return 0;
-}
-
-
-/*
-
-    This function returns the CfgItem corresponding to "wkey" if "wkey" is in
-the pool, otherwise it returns NULL.
-
-*/
-CfgItem
-internal_getdata (
-CfgPool self,
-const wchar_t *wkey
-){
-
-    size_t hash = internal_one_at_a_time(wkey);
-    hash &= self->buckets-1;
-
-    CfgItem tmpitem=self->htbl[hash];
-    
-    if (tmpitem) {
-        while (tmpitem) {
-            if (!wcscmp(tmpitem->key, wkey)) {
-                return tmpitem;
-            }
-            tmpitem = tmpitem->next;
-        }
-    }
-
-    return NULL;
-
 }
 
 ////////////////////////////////////////////////////////////
