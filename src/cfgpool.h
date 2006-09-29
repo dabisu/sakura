@@ -1,4 +1,4 @@
-// $Rev: 35 $
+// $Rev: 36 $
 #ifndef __CFGPOOL_H_
 #define __CFGPOOL_H_
 
@@ -54,8 +54,8 @@ CfgPool cfgpool_create (void);
 void    cfgpool_delete (CfgPool);
 
 // Pool filling
-int cfgpool_addfile  (CfgPool, const char *, uintmax_t *);
-int cfgpool_addfd    (CfgPool, int, const char *, uintmax_t *);
+int cfgpool_addfile  (CfgPool, const char *);
+int cfgpool_addfd    (CfgPool, int);
 int cfgpool_additem  (CfgPool, const char *, const char *);
 int cfgpool_addwitem (CfgPool, const wchar_t *, const wchar_t *);
 

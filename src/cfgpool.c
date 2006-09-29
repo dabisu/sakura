@@ -1,4 +1,4 @@
-// $Rev: 35 $
+// $Rev: 36 $
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
@@ -62,10 +62,7 @@ struct CfgPool {
         CfgItem next;       // To implement the linked list
         size_t vals;        // Number of values this item has
         wchar_t *key;       // This item's keyword
-        struct CfgValue {
-            char *src;      // Where each value was defined
-            wchar_t *val;   // The value itself
-        } *varray;          // This item's set of values
+        wchar_t **varray;   // This item's set of values
     } **htbl;               // The hash table (the array of buckets)
 };
 
@@ -73,15 +70,14 @@ struct CfgPool {
 #define CFGPOOL_MAXBUCKETS  ((SIZE_MAX>>1)/sizeof(CfgItem))
 
 // Maximum number of values that a keyword can have
-#define CFGPOOL_MAXVALUES   (SIZE_MAX/sizeof(struct CfgValue))
+#define CFGPOOL_MAXVALUES   (SIZE_MAX/sizeof(wchar_t *))
 
 // Maximum length of a wchar_t string we can handle
 #define CFGPOOL_MAXWLEN     ((SIZE_MAX/sizeof(wchar_t))-1)
 
 // Prototypes for internal functions 
-static        int     internal_additem       (CfgPool, wchar_t *, wchar_t *, char *);
+static        int     internal_additem       (CfgPool, wchar_t *, wchar_t *);
 static        int     internal_parse         (const wchar_t *, wchar_t **, wchar_t **);
-static        char   *internal_xnprintf      (const char *, ...);
 static inline size_t  internal_one_at_a_time (const wchar_t *);
 
 
@@ -187,11 +183,9 @@ CfgPool self                    // The pool to destroy
             self->htbl[self->buckets] = tmpitem->next;
 
             // Free the element
-            while (tmpitem->vals--) {
-                struct CfgValue tmpvalue = tmpitem->varray[tmpitem->vals];
-                if (tmpvalue.src) free(tmpvalue.src);
-                free(tmpvalue.val);
-            }
+            while (tmpitem->vals--)
+                free(tmpitem->varray[tmpitem->vals]);
+
             free (tmpitem->key);
             free (tmpitem->varray);
             free (tmpitem);
@@ -281,7 +275,7 @@ const wchar_t *wval             // The value of the item
     val[len]=L'\0';
 
     // Add the item
-    return internal_additem(self, key, val, NULL);
+    return internal_additem(self, key, val);
 
 }
 
@@ -366,7 +360,7 @@ const char *mbval               // The value of the item
     }
 
     // Add the item
-    return internal_additem(self, key, val, NULL);
+    return internal_additem(self, key, val);
 }
 
 
@@ -375,8 +369,7 @@ const char *mbval               // The value of the item
     This function reads the file specified in "filename", parses it searching
 for configuration pairs (a keyword and a value) and adds those pairs to the
 "self" configuration pool, marking them as coming from "filename". It returns
-0 if no error occurs, or the number of the last line read from "filename"
-(returned in "lineno" if it is not NULL) and an error code otherwise:
+0 if no error occurs, or an error code otherwise:
 
     - CFGPOOL_ENOMEMORY if the function runs out of memory
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
@@ -391,8 +384,7 @@ for configuration pairs (a keyword and a value) and adds those pairs to the
 int                             // Error code
 cfgpool_addfile (
 CfgPool self,                   // The pool where the data will be added
-const char *filename,           // The name of the file to parse
-uintmax_t *lineno               // The line number returned on errors
+const char *filename            // The name of the file to parse
 ){
 
     if (!self) return CFGPOOL_EBADPOOL;
@@ -406,7 +398,7 @@ uintmax_t *lineno               // The line number returned on errors
 
     if (inputfd < 0) return -errno;
 
-    int code = cfgpool_addfd(self, inputfd, filename, lineno);
+    int code = cfgpool_addfd(self, inputfd);
 
     close(inputfd);
     return code;
@@ -417,9 +409,7 @@ uintmax_t *lineno               // The line number returned on errors
 
     This function reads the file whose file descriptor is "fd", parses it
 searching for keyword-value pairs and adds those pairs to the configuration
-pool specified in "pool" as coming from "filename" (which can be empty or even
-NULL). It returns 0 if no error occurs, or the number of the last line read
-from "fd" (which is returned in "lineno" if it is not NULL) and one of these
+pool specified in "self". It returns 0 if no error occurs, or one of these
 error codes otherwise:
 
     - CFGPOOL_ENOMEMORY if the function runs out of memory
@@ -435,9 +425,7 @@ error codes otherwise:
 int                             // Error code
 cfgpool_addfd (
 CfgPool self,                   // The pool where the data will be added
-int fd,                         // The file descriptor to read from
-const char *filename,           // Name of the associated file
-uintmax_t *lineno               // The line number returned on errors
+int fd                          // The file descriptor to read from
 ){
 
     if (!self) return CFGPOOL_EBADPOOL;
@@ -471,13 +459,7 @@ uintmax_t *lineno               // The line number returned on errors
     size_t lpos = 0;            // Current store position in 'line', in wchars
     size_t lsize = 0;           // 'line' capacity, in wchars
     
-    // Just in case we didn't receive one
-    uintmax_t internal_lineno;
-    
     int eof = 0;  // So we know that we hit EOF
-
-    if (!lineno) lineno = &internal_lineno;
-    *lineno=0;
 
     while (!eof) {
 
@@ -533,12 +515,6 @@ uintmax_t *lineno               // The line number returned on errors
                 
             if (line[lpos] == L'\n' || (blen == 0 && eof)) {
 
-                // We get a line!
-                if (*lineno < UINTMAX_MAX) (*lineno)++;
-
-                // Where the item was defined (item source)
-                char *isrc = NULL;
-
                 // To store the parsed line
                 wchar_t *key = NULL;
                 wchar_t *val = NULL;
@@ -556,24 +532,11 @@ uintmax_t *lineno               // The line number returned on errors
 
                 if (result == 0) {
 
-                    if (filename)
-                        isrc = internal_xnprintf("F%jx:%s", *lineno, filename);
-                    else
-                        isrc = internal_xnprintf("D%jx:%x", *lineno, fd);
-
-                    if (!isrc) {
-                        free(key);
-                        free(val);
-                        free(line);
-                        return CFGPOOL_ENOMEMORY;
-                    }
-
-                    result=internal_additem(self, key, val, isrc);
+                    result=internal_additem(self, key, val);
                     if (result != 0) {
                         free(key);
                         free(val);
                         free(line);
-                        free(isrc);
                         return result;
                     }
                 }
@@ -628,8 +591,7 @@ int                             // Error code
 internal_additem (
 CfgPool self,                   // The pool where the data will be added
 wchar_t *key,                   // The keyword of the item
-wchar_t *val,                   // The value of the item
-char *src                       // The source of the item (encoded)
+wchar_t *val                    // The value of the item
 ){
 
     // First of all, see if we have space
@@ -657,27 +619,26 @@ char *src                       // The source of the item (encoded)
             free(key);  // We won't use this!
 
             // First, realloc the "varray" array
-            struct CfgValue *tmpvalue;
+            wchar_t **tmpvalue;
             size_t len = tmpitem->vals + 1;
-            fprintf(stderr, "len is %d\n", CFGPOOL_MAXVALUES);
-            if (len > CFGPOOL_MAXVALUES) {
+
+            if (len > CFGPOOL_MAXVALUES) {  // FIXME: possible overflow?
 
                 // We can't grow more, so discard the older value
                 void *src = tmpitem->varray + 1;
                 void *dst = tmpitem->varray;
                 size_t bytes = tmpitem->vals - 1;
-                bytes *= sizeof(struct CfgValue);
+                bytes *= sizeof(wchar_t *);
 
                 // Free the item we want to discard
-                if (tmpitem->varray[0].src)
-                    free(tmpitem->varray[0].src);
-                free(tmpitem->varray[0].val);
+                free(tmpitem->varray[0]);
                 tmpitem->vals--;
 
                 // Move the data so we can add another item at the end
                 memmove(dst, src, bytes);
             } else {
-                len *= sizeof(struct CfgValue);
+                // Resize the "varray" array
+                len *= sizeof(wchar_t);
             
                 tmpvalue = realloc(tmpitem->varray, len);
                 if (!tmpvalue) return CFGPOOL_ENOMEMORY;
@@ -686,10 +647,7 @@ char *src                       // The source of the item (encoded)
             }
 
             // Now, add the element
-            tmpvalue = &(tmpitem->varray[tmpitem->vals]);
-            tmpvalue->src = (char *)    src;
-            tmpvalue->val = (wchar_t *) val;
-
+            tmpitem->varray[tmpitem->vals] = (wchar_t *) val;
             tmpitem->vals++;
 
             return 0;
@@ -706,15 +664,14 @@ char *src                       // The source of the item (encoded)
 
     item->key = (wchar_t *) key;
     item->vals = 1;
-    item->varray = malloc(sizeof(struct CfgValue));
+    item->varray = malloc(sizeof(wchar_t *));
     if (!item->varray) {  // Oops!
         free(item);
         return CFGPOOL_ENOMEMORY;
     }
 
     // Store the data    
-    item->varray->src = (char *) src;
-    item->varray->val = (wchar_t *) val;
+    item->varray[0] = (wchar_t *) val;
 
     /*
 
@@ -1051,7 +1008,7 @@ char **data
     converted, for example). Otherwise we can't free "val".
 
     */
-    const wchar_t *src=val;
+    const wchar_t *src = val;
     if (wcsrtombs(*data, &src, len, &mbs) == (size_t) -1 && errno == EILSEQ) {
         free(key);
         free(val);
@@ -1109,7 +1066,7 @@ wchar_t **wdata
     }
     if (!tmpitem) return CFGPOOL_ENOTFOUND;
 
-    wchar_t *wval=tmpitem->varray[tmpitem->vals-1].val;
+    wchar_t *wval=tmpitem->varray[tmpitem->vals-1];
     len = wcslen(wval);
     len++;
 
@@ -1123,48 +1080,11 @@ wchar_t **wdata
 ////////////////////////////////////////////////////////////
 
 
-         /////////////////////////////
-        //                           //
-        //  Miscellaneous functions  //
-        //                           //
-         /////////////////////////////
-
-
-/*
-
-    This function prints its arguments according to the format in a
-dinamically allocated string and returns it. It returns NULL in case of
-errors, the allocated string otherwise.
-
-*/
-char *
-internal_xnprintf
-(const char *format, ...) {
-
-    va_list args;
-
-    char *buffer = NULL;
-    size_t len = 0;
-
-    va_start(args, format);
-
-    // Let's see how many chars will we need...
-    len = vsnprintf(NULL, 0, format, args);
-    // Make room for the final NUL byte
-    len++;
-
-    // Do the Bartman!
-    buffer = malloc(len);
-    if (!buffer) return NULL;
-
-    // Print the data    
-    vsnprintf(buffer, len, format, args);
-
-    va_end(args);
-
-    return buffer;
-}
-
+         ////////////////////////////
+        //                          //
+        //  Human readable dumping  //
+        //                          //
+         ////////////////////////////
 
 int
 cfgpool_humanreadable (
@@ -1191,11 +1111,9 @@ CfgPool self
             size_t v = tmpitem->vals;
             
             fprintf(stderr, "    %zu value(s):\n", v);
-            while (v--) {
-                fprintf(stderr, "      Value: '%ls'\n", tmpitem->varray[v].val);
-                fprintf(stderr, "      Src  : '%s'\n", tmpitem->varray[v].src);
-                fprintf(stderr, "      ------\n");
-            }
+            while (v--)
+                fprintf(stderr, "      Value: '%ls'\n", tmpitem->varray[v]);
+
             tmpitem = tmpitem->next;
         }
         i++;

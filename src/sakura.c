@@ -675,7 +675,7 @@ sakura_init()
 		cfgpool_additem(sakura.pool, "fake_transparency", "No");
 	} else {
 		/* Use config file if exists... */
-		cfgpool_addfile(sakura.pool, sakura.configfile, NULL);
+		cfgpool_addfile(sakura.pool, sakura.configfile);
 	}
 
 	/* Set initial values*/
