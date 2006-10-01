@@ -5,9 +5,8 @@
  *           Copyright (C) 2006  David Gómez <david@pleyades.net>
  *
  *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU General Public License version 2 as 
+ *  published by the Free Software Foundation
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -658,7 +657,7 @@ sakura_init()
 	GError *gerror=NULL;
 	gchar *confitem;
 
-	/* Config file inicialization*/
+	/* Config file initialization*/
 	sakura.pool=cfgpool_create();
 
 	if (!sakura.pool) {
@@ -666,39 +665,42 @@ sakura_init()
 	}
 	
 	/* TODO: Move out to a separate function */
+	/* Add default values */
+	cfgpool_additem(sakura.pool, "font", DEFAULT_FONT);
+	cfgpool_additem(sakura.pool, "forecolor", "#c0c0c0");
+	cfgpool_additem(sakura.pool, "backcolor", "#000000");
+	cfgpool_additem(sakura.pool, "fake_transparency", "No");
 	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
-	if (!g_file_test(sakura.configfile, G_FILE_TEST_IS_REGULAR)) {
-		/* Add default values */
-		cfgpool_additem(sakura.pool, "font", DEFAULT_FONT);
-		cfgpool_additem(sakura.pool, "forecolor", "#c0c0c0");
-		cfgpool_additem(sakura.pool, "backcolor", "#000000");
-		cfgpool_additem(sakura.pool, "fake_transparency", "No");
-	} else {
-		/* Use config file if exists... */
-		cfgpool_addfile(sakura.pool, sakura.configfile);
+	/* Use config file if exists... */
+	cfgpool_addfile(sakura.pool, sakura.configfile); 
+	
+
+	/* Set initial values */
+	if (cfgpool_getvalue(sakura.pool, "forecolor", &confitem)==0) {
+		gdk_color_parse(confitem, &sakura.forecolor);
+		free(confitem);
+	} 
+
+	if (cfgpool_getvalue(sakura.pool, "backcolor", &confitem)==0) {
+		gdk_color_parse(confitem, &sakura.backcolor);
+		free(confitem);
 	}
 
-	/* Set initial values*/
-	cfgpool_getvalue(sakura.pool, "forecolor", &confitem);
-	gdk_color_parse(confitem, &sakura.forecolor);
-	free(confitem);
-	cfgpool_getvalue(sakura.pool, "backcolor", &confitem);
-	gdk_color_parse(confitem, &sakura.backcolor);
-	free(confitem);
-	if (!cfgpool_getvalue(sakura.pool, "fake_transparency", &confitem)) {
+	if (cfgpool_getvalue(sakura.pool, "fake_transparency", &confitem)==0) {
 		if (strcmp(confitem, "Yes")==0) {
 			sakura.fake_transparency=1;
 		} else {
 			sakura.fake_transparency=0;
 		}
-	}
-	free(confitem);
-	if (!cfgpool_getvalue(sakura.pool, "background", &confitem)) {
+		free(confitem);
+	} 
+
+	if (cfgpool_getvalue(sakura.pool, "background", &confitem)==0) {
 		sakura.background=g_strdup(confitem);
+		free(confitem);
 	} else {
 		sakura.background=NULL;
 	}
-	free(confitem);
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
@@ -712,9 +714,11 @@ sakura_init()
 
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
-	} else if ((!cfgpool_getvalue(sakura.pool, "font", &confitem))) {	
-		sakura.font=pango_font_description_from_string(confitem);
-		free(confitem);
+	} else {
+	   	if (cfgpool_getvalue(sakura.pool, "font", &confitem)==0) {	
+			sakura.font=pango_font_description_from_string(confitem);
+			free(confitem);
+		}
 	}
 
 	sakura.menu=gtk_menu_new();
