@@ -1,8 +1,8 @@
-// $Rev: 36 $
+// $Rev: 38 $
 #ifndef __CFGPOOL_H_
 #define __CFGPOOL_H_
 
-#include <stdint.h>
+#include <fcntl.h>
 #include <wchar.h>
 
 
@@ -16,15 +16,10 @@ enum {
 
     CFGPOOL_EBADARG,        // Invalid argument in call to method
 
-    CFGPOOL_EKEY2BIG,       // Key is too big
-    CFGPOOL_EVAL2BIG,       // Value is too big
-
     CFGPOOL_EILLKEY,        // Key contains an invalid mb or wide character
     CFGPOOL_EILLVAL,        // Value contains an invalid mb or wide character
 
     CFGPOOL_EFULL,          // Pool is full!
-
-    CFGPOOL_ELN2BIG,        // The file contains a line too big
 
     CFGPOOL_ENOTFOUND,      // Key not found in pool
 };
@@ -64,11 +59,9 @@ int cfgpool_getvalue      (CfgPool, const char    *, char    **);
 int cfgpool_getwvalue     (CfgPool, const wchar_t *, wchar_t **);
 int cfgpool_getallvalues  (CfgPool, const char    *, char    **);
 int cfgpool_getallwvalues (CfgPool, const wchar_t *, wchar_t **);
-int cfgpool_getinfo       (CfgPool, const char    *, char    **);
-int cfgpool_getallinfo    (CfgPool, const char    *, char    **);
 
 // Data dumping
-int cfgpool_dumptofile (CfgPool, const char *);
+int cfgpool_dumptofile (CfgPool, const char *, int, mode_t);
 int cfgpool_dumptofd   (CfgPool, int);
 
 int cfgpool_humanreadable (CfgPool);

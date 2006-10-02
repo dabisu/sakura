@@ -24,6 +24,9 @@
 #include <stdbool.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 #include <locale.h>
 #include <libintl.h>
@@ -39,7 +42,6 @@
 #define N_(String) (String)
 #define GETTEXT_PACKAGE "sakura"
 
-void dontuse (void);
 
 static struct {
 	GtkWidget *main_window;
@@ -808,7 +810,7 @@ sakura_destroy()
 	if (sakura.background)
 		free(sakura.background);
 
-	dontuse();
+	cfgpool_dumptofile(sakura.pool, sakura.configfile, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
 	cfgpool_delete(sakura.pool);
 
 	cfgpool_done();
@@ -990,32 +992,6 @@ sakura_set_bgimage(char *infile)
 			cfgpool_additem(sakura.pool, "background", infile);
 		 }
 	}
-}
-
-void
-dontuse (void)
-{
-	char *tmpstring;
-
-	FILE *file=fopen(sakura.configfile, "w+");
-	if (!file) return;
-	cfgpool_getvalue(sakura.pool, "font", &tmpstring);
-	fprintf(file, "font=%s\n", tmpstring);
-	free(tmpstring);
-	cfgpool_getvalue(sakura.pool, "forecolor", &tmpstring);
-	fprintf(file, "forecolor=%s\n", tmpstring);
-	free(tmpstring);
-	cfgpool_getvalue(sakura.pool, "backcolor", &tmpstring);
-	fprintf(file, "backcolor=%s\n", tmpstring);
-	free(tmpstring);
-	cfgpool_getvalue(sakura.pool, "fake_transparency", &tmpstring);
-	fprintf(file, "fake_transparency=%s\n", tmpstring);
-	free(tmpstring);
-	cfgpool_getvalue(sakura.pool, "background", &tmpstring);
-	fprintf(file, "background=%s\n", tmpstring);
-	free(tmpstring);
-
-	fclose(file);
 }
 
 

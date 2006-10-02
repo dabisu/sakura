@@ -1,4 +1,4 @@
-// $Rev: 36 $
+// $Rev: 39 $
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
@@ -64,6 +64,7 @@ struct CfgPool {
         wchar_t *key;       // This item's keyword
         wchar_t **varray;   // This item's set of values
     } **htbl;               // The hash table (the array of buckets)
+    
 };
 
 // Maximum number of buckets we can have in the hash table
@@ -79,7 +80,6 @@ struct CfgPool {
 static        int     internal_additem       (CfgPool, wchar_t *, wchar_t *);
 static        int     internal_parse         (const wchar_t *, wchar_t **, wchar_t **);
 static inline size_t  internal_one_at_a_time (const wchar_t *);
-
 
 ////////////////////////////////////////////////////////////
 
@@ -215,7 +215,8 @@ the pool specified in the "self" argument. This is the "wchar_t *" interface.
     The given strings must be NUL-terminated, wide-character strings, and they
 are not added to the pool: a copy is made and then added to the pool, so you
 can safely use dynamic duration strings. The original contents of "wkey" and
-"wval" are preserved. Empty keywords or values are silently ignored.
+"wval" are preserved. Empty keywords or values are silently ignored. Too large
+keywords or values are silently truncated.
 
     If no error occurs the function returns 0, and an error code otherwise. If
 the caller wants additional information about the error, he must call the
@@ -224,8 +225,6 @@ Error codes that this function may return are:
 
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
     - CFGPOOL_EBADARG if "wkey" or "wval" are NULL pointers
-    - CFGPOOL_EKEY2BIG if "wkey" is too long
-    - CFGPOOL_EVAL2BIG if "wval" is too long
     - CFGPOOL_ENOMEMORY if the function runs out of memory
     - CFGPOOL_EFULL if there are already too many keywords in the pool
 
@@ -248,7 +247,7 @@ const wchar_t *wval             // The value of the item
     len = wcslen(wkey);
     if (len == 0) return 0;
 
-    if (len >= CFGPOOL_MAXWLEN) return CFGPOOL_EKEY2BIG;
+    if (len >= CFGPOOL_MAXWLEN) len = CFGPOOL_MAXWLEN - 1;
 
     len++;  // Make room for the NUL byte at the end
     wchar_t *key = malloc(len * sizeof(wchar_t));
@@ -262,7 +261,7 @@ const wchar_t *wval             // The value of the item
     len = wcslen(wval);
     if (len == 0) return 0;
 
-    if (len >= CFGPOOL_MAXWLEN) return CFGPOOL_EVAL2BIG;
+    if (len >= CFGPOOL_MAXWLEN) len = CFGPOOL_MAXWLEN - 1;
 
     len++;  // Make room for the NUL byte at the end
     wchar_t *val = malloc(len * sizeof(wchar_t));
@@ -289,7 +288,8 @@ the pool specified in the "self" argument. This is the multibyte interface.
     The given strings must be NUL-terminated, multibyte or monobyte strings,
 and they are not added to the pool: a copy is made and then added to the pool,
 so you can safely use dynamic duration strings. The original contents of both
-"mbkey" and "mbval" are preserved.
+"mbkey" and "mbval" are preserved. Both empty keywords and empty values are
+silently ignored. Too large keywords or values are silently truncated.
 
     If no error occurs the function returns 0, and an error code otherwise. If
 the caller wants additional information about the error, he must call the
@@ -298,8 +298,6 @@ Error codes that this function may return are:
 
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
     - CFGPOOL_EBADARG if "mbkey" or "mbval" are NULL pointers
-    - CFGPOOL_EKEY2BIG if "mbkey" is too long
-    - CFGPOOL_EVAL2BIG if "mbval" is too long
     - CFGPOOL_EILLKEY if "mbkey" contains an invalid multibyte sequence
     - CFGPOOL_EILLVAL if "mbval" contains an invalid multibyte sequence
     - CFGPOOL_ENOMEMORY if the function runs out of memory
@@ -324,7 +322,7 @@ const char *mbval               // The value of the item
     // Copy the key
     len=strlen(mbkey);
     if (len == 0) return 0;  // Ignore empty keywords
-    if (len == SIZE_MAX) return CFGPOOL_EKEY2BIG;
+    if (len == SIZE_MAX) len = SIZE_MAX - 1;
     len++;  // Make room for the final NUL
 
     // Allocate memory for destination string
@@ -342,7 +340,7 @@ const char *mbval               // The value of the item
     // Copy the value
     len=strlen(mbval);
     if (len == 0) return 0;  // Ignore empty values
-    if (len == SIZE_MAX) return CFGPOOL_EVAL2BIG;
+    if (len == SIZE_MAX) len = SIZE_MAX - 1;
     len++;  // Make room for the final NUL
 
     // Allocate memory for destination string
@@ -376,8 +374,6 @@ for configuration pairs (a keyword and a value) and adds those pairs to the
     - CFGPOOL_EBADARG if "filename" is a NULL pointer
     - "-errno" if an error ocurred while handling the file
     - CFGPOOL_ELN2BIG if the file has a line which is too big
-    - CFGPOOL_EKEY2BIG if the parsed keyword is too long
-    - CFGPOOL_EVAL2BIG if the parsed value is too long
     - CFGPOOL_EFULL if there are already too many keywords in the pool
 
 */
@@ -417,8 +413,6 @@ error codes otherwise:
     - CFGPOOL_EBADARG if "fd" is "-1"
     - "-errno" if an error ocurred while handling the file
     - CFGPOOL_ELN2BIG if the file has a line which is too big
-    - CFGPOOL_EKEY2BIG if the parsed keyword is too long
-    - CFGPOOL_EVAL2BIG if the parsed value is too long
     - CFGPOOL_EFULL if there are already too many keywords in the pool
 
 */
@@ -463,7 +457,7 @@ int fd                          // The file descriptor to read from
 
     while (!eof) {
 
-        // Get line
+        // Get a chunk
         ssize_t count = read(fd, buffer+blen, BUFSIZ);
         if (count < BUFSIZ) {
             eof = 1;  // Signal EOF to the main loop
@@ -482,23 +476,29 @@ int fd                          // The file descriptor to read from
             */
             size_t len;  // Length of current converted char
 
-            if (lpos == lsize) {
-                /* See if we exceeded the limit */
-                if (lsize > SIZE_MAX-BUFSIZ) {
-                    free(line);
-                    return CFGPOOL_ELN2BIG;
-                }
+            if (lpos == lsize) {  // Line is full
+                if (lsize < SIZE_MAX) {  // Make it grow
+                    /* See if we exceeded the limit */
 
-                /* The line is full, we have to make it bigger! */
-                lsize += BUFSIZ;
-                line = realloc(line, (lsize+1)*sizeof(wchar_t));
-                if (!line) return CFGPOOL_ENOMEMORY;
+                    if (lsize > SIZE_MAX - BUFSIZ)
+                        lsize = SIZE_MAX;
+                    else
+                        lsize += BUFSIZ;
+                    
+                    /* The line is full, we have to make it bigger! */
+                    line = realloc(line, (lsize+1)*sizeof(wchar_t));
+                    if (!line) return CFGPOOL_ENOMEMORY;
+                } else {
+                    // Cannot grow!
+                    // Overwrite last character until L'\n' is found
+                    lpos=lsize - 1;
+                }
             }
 
             // Copy another char of the buffer into the line
             len = mbrtowc(line+lpos,buffer+bpos, blen, NULL);
 
-            if (len == (size_t)-2) {
+            if (len == (size_t)-2) {  // Partial sequence
                 memmove(buffer+bpos,buffer,blen);
                 break;
             }
@@ -509,9 +509,8 @@ int fd                          // The file descriptor to read from
                 line[lpos] = L'?';
             }
 
-            bpos += len;
-            blen -= len;
-
+            bpos += len;  // Advance position
+            blen -= len;  // Less chars to process...
                 
             if (line[lpos] == L'\n' || (blen == 0 && eof)) {
 
@@ -525,13 +524,7 @@ int fd                          // The file descriptor to read from
 
                 // Parse the line and add the item
                 int result=internal_parse(line, &key, &val);
-                if (result > 0) {
-                    free(line);
-                    return result;
-                }
-
                 if (result == 0) {
-
                     result=internal_additem(self, key, val);
                     if (result != 0) {
                         free(key);
@@ -811,13 +804,10 @@ directly. In case of error, no memory is allocated and so no strings can be
 returned.
 
     The function assumes that the given line doesn't have NULL characters in
-the middle, so it can be used as string terminator.
+the middle, so it can be used as string terminator. If the parsed key or value
+are too long (larger than SIZE_MAX), they're silently truncated.
 
-    It returns 0 in case of success, an error code otherwise:
-
-    - "-1" if the line can be ignored
-    - CFGPOOL_EKEY2BIG if the parsed keyword is too long
-    - CFGPOOL_EVAL2BIG if the parsed value is too long
+    It returns 0 in case of success and non-zero if the line can be ignored.
 
 */
 int
@@ -863,14 +853,15 @@ wchar_t **val                   // Where to put the parsed value
     valstart = current + 1;
 
     // Ignore whitespaces before separator
-    while (iswblank(*(current - 1))) current--;
+    while (*current && iswblank(*(current - 1))) current--;
 
     if (! *current) return -1;  // Empty line or missing separator, ignore
 
     // We have found a separator, compute the keyword length
-    if ((size_t)(current - keystart) > SIZE_MAX)
-        return CFGPOOL_EKEY2BIG;  // Ooops, too big!
-    keylen = current - keystart;  // This DOESN'T include the final NUL
+    if ((size_t)(current - keystart) >= SIZE_MAX)
+        keylen = SIZE_MAX - 1;  // This DOESN'T include the final NUL
+    else 
+        keylen = current - keystart;  // This DOESN'T include the final NUL
 
     current = valstart;  // Go on and look for the value
     /*
@@ -890,8 +881,10 @@ wchar_t **val                   // Where to put the parsed value
 
     // Compute value length
     if ((size_t) (current-valstart) > SIZE_MAX)
-        return CFGPOOL_EVAL2BIG;  // Ooops, too big!
-    vallen = current-valstart;
+        vallen = SIZE_MAX - 1;  // This DOESN'T include the final NUL
+    else
+        vallen = current-valstart;  // This DOESN'T include the final NUL
+
     if (vallen == 0) return -1;  // Ignore empty values
 
     // Store the values and return them
@@ -930,7 +923,6 @@ otherwise. The error codes that the function can return are:
 
     - CFGPOOL_EBADPOOL if "self" is a NULL pointer
     - CFGPOOL_EBADARG if "mbkey" or "data" are NULL pointers
-    - CFGPOOL_EKEY2BIG if "mbkey" string is too big
     - CFGPOOL_EILLKEY if "mbkey" contains an invalid multibyte sequence
     - CFGPOOL_EOUTOFMEMORY if the function runs out of memory
     - CFGPOOL_ENOTFOUND if "key" couldn't be found in pool
@@ -956,7 +948,7 @@ char **data
     // Copy the key
     len=strlen(mbkey);
     if (len == 0) return CFGPOOL_ENOTFOUND;  // Ignore empty keywords
-    if (len == SIZE_MAX) return CFGPOOL_EKEY2BIG;
+    if (len == SIZE_MAX) len = SIZE_MAX - 1;
     len++;  // Make room for the final NUL
 
     // Allocate memory for destination string
@@ -1035,11 +1027,11 @@ otherwise. The error codes that the function can return are:
     - CFGPOOL_ENOTFOUND if "wkey" couldn't be found in pool
 
 */
-int
+int                             // Error code
 cfgpool_getwvalue (
-CfgPool self,
-const wchar_t *wkey,
-wchar_t **wdata
+CfgPool self,                   // The pool to get the value from
+const wchar_t *wkey,            // The keyword to find
+wchar_t **wdata                 // The returned value
 ){
 
     if (!self) return CFGPOOL_EBADPOOL;
@@ -1051,9 +1043,7 @@ wchar_t **wdata
     if (!wdata) return CFGPOOL_EBADARG;
     *wdata = NULL;
 
-    size_t len=wcslen(wkey);
-    if (len == 0) return CFGPOOL_ENOTFOUND;  // Ignore empty keys
-    if (len == SIZE_MAX) return CFGPOOL_EKEY2BIG;
+    if (wcslen(wkey) == 0) return CFGPOOL_ENOTFOUND;  // Ignore empty keys
 
     size_t hash = internal_one_at_a_time(wkey);
     hash &= self->buckets-1;
@@ -1067,7 +1057,7 @@ wchar_t **wdata
     if (!tmpitem) return CFGPOOL_ENOTFOUND;
 
     wchar_t *wval=tmpitem->varray[tmpitem->vals-1];
-    len = wcslen(wval);
+    size_t len = wcslen(wval);
     len++;
 
     *wdata=malloc(len * sizeof(wchar_t));
@@ -1079,7 +1069,86 @@ wchar_t **wdata
 
 ////////////////////////////////////////////////////////////
 
+         ///////////////////////
+        //                     //
+        //  Dumping functions  //
+        //                     //
+         ///////////////////////
 
+int                             // Error code
+cfgpool_dumptofile (
+CfgPool self,                   // The pool to dump
+const char *filename,           // The filename to dump to
+int flags,                      // Flags to open the file
+mode_t mode                     // Permissions for creating the file
+) {
+
+    if (!self) return CFGPOOL_EBADPOOL;
+
+    int fd = open (filename, flags, mode);
+    if (fd < 0) return -errno;
+
+    int result = cfgpool_dumptofd(self, fd);
+    
+    close(fd);
+    
+    return result;
+}
+
+
+int                             // Error code
+cfgpool_dumptofd (
+CfgPool self,                   // The pool to dump
+int fd                          // The file descriptor to dump to
+) {
+
+    size_t i=0;
+    
+    while (i < self->buckets) {  // For each bucket in the hash table...
+
+        CfgItem tmpitem = self->htbl[i];
+
+        while (tmpitem) {  // For each key in the bucket...
+
+            size_t v;
+            wint_t sep;
+            
+            if (tmpitem->key[0] != L'+') {  // Dump only last value
+                v = tmpitem->vals - 1;
+                sep = L'=';
+            } else {
+                v = 0;
+                sep = L' ';
+            }
+
+            while (v < tmpitem->vals) {
+
+                wchar_t *key = tmpitem->key;
+                wchar_t *val = tmpitem->varray[v];
+                int len = snprintf(NULL, 0, "%ls %lc %ls\n", key, sep, val);
+                if (len < 0) len = INT_MAX - 1;
+                len++;
+                
+                char *buffer = malloc(len);
+                if (!buffer) return CFGPOOL_ENOMEMORY;
+                
+                snprintf(buffer, len, "%ls %lc %ls\n", key, sep, val);
+                write(fd, buffer, len-1);
+                free(buffer);
+                v++;
+            }
+
+            tmpitem = tmpitem->next;  // Next key
+        }
+        i++;  // Next bucket
+    }
+
+    return 0;
+}
+
+////////////////////////////////////////////////////////////
+
+    
          ////////////////////////////
         //                          //
         //  Human readable dumping  //
