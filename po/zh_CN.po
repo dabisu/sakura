@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-19 21:06+0200\n"
+"POT-Creation-Date: 2006-10-07 05:17+0200\n"
 "PO-Revision-Date: 2006-06-20 09:26+0800\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -15,84 +15,86 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/sakura.c:119
+#: ../src/sakura.c:120
 msgid "Print version number"
 msgstr ""
 
-#: src/sakura.c:120
+#: ../src/sakura.c:121
 msgid "Select initial terminal font"
 msgstr ""
 
-#: src/sakura.c:121
+#: ../src/sakura.c:122
 msgid "Select initial number of tabs"
 msgstr ""
 
-#: src/sakura.c:284
+#: ../src/sakura.c:285
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "已经打开多个标签，确实要关闭 Sakura 吗？"
 
-#: src/sakura.c:360
+#: ../src/sakura.c:361
 msgid "Select font"
 msgstr "选择字体"
 
-#: src/sakura.c:390
+#: ../src/sakura.c:392
 msgid "Set name"
 msgstr "设置名称"
 
-#: src/sakura.c:438
+#: ../src/sakura.c:440
 msgid "Select color"
 msgstr "选择颜色"
 
-#: src/sakura.c:448
+#: ../src/sakura.c:450
 msgid "Select foreground color:"
 msgstr "选择前景色："
 
-#: src/sakura.c:449
+#: ../src/sakura.c:451
 msgid "Select background color:"
 msgstr "选择背景色："
 
-#: src/sakura.c:490
+#: ../src/sakura.c:493
 msgid "Select a background file"
 msgstr "选择一个背景图片"
 
-#: src/sakura.c:730
+#. Init popup menu
+#: ../src/sakura.c:735
 msgid "Open link..."
 msgstr "打开链接"
 
-#: src/sakura.c:732
+#: ../src/sakura.c:737
 msgid "New tab"
 msgstr "新建标签"
 
-#: src/sakura.c:733
+#: ../src/sakura.c:738
 msgid "Set name..."
 msgstr "设置名称..."
 
-#: src/sakura.c:734
+#: ../src/sakura.c:739
 msgid "Close tab"
 msgstr "关闭标签"
 
-#: src/sakura.c:738
+#: ../src/sakura.c:743
 msgid "Select colors.."
 msgstr "选择颜色..."
 
-#: src/sakura.c:739
+#: ../src/sakura.c:744
 msgid "Select background..."
 msgstr "选择背景..."
 
-#: src/sakura.c:740
+#: ../src/sakura.c:745
 #, fuzzy
 msgid "Fake transparency..."
 msgstr "设置为透明..."
 
-#: src/sakura.c:746
+#: ../src/sakura.c:751
 msgid "Input methods"
 msgstr "输入法"
 
-#: src/sakura.c:1035
+#. Options parsing
+#: ../src/sakura.c:1015
 msgid "- vte-based terminal emulator"
 msgstr "- 基于 vte 的终端模拟器"
 
-#: src/sakura.c:1042
+#: ../src/sakura.c:1022
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
