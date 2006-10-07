@@ -849,6 +849,7 @@ sakura_add_tab()
 	struct terminal term;
 	int index;
 	gchar *label_text;
+	gchar *cwd;
 	
 	term.hbox=gtk_hbox_new(FALSE, 0);
 	term.vte=vte_terminal_new();
@@ -869,7 +870,9 @@ sakura_add_tab()
 	gtk_box_pack_start(GTK_BOX(term.hbox), term.scrollbar, FALSE, FALSE, 0);
 
 	/*TODO: Check parameters */
-	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"), NULL, NULL, g_getenv("HOME"), TRUE, TRUE,TRUE);
+	cwd = g_get_current_dir();
+	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"), NULL, NULL, cwd, TRUE, TRUE,TRUE);
+	free(cwd);
 	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.hbox, term.label))==-1) {
 		SAY("Cannot create a new tab"); BUG();
 		return;
