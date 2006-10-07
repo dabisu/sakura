@@ -111,7 +111,8 @@ static void     sakura_set_font();
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
 
-static char* option_font;
+static const char* option_font;
+static const char* option_execute;
 static gboolean option_version=FALSE;
 static gint option_ntabs=1;
 
@@ -120,6 +121,7 @@ static GOptionEntry entries[] =
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
+	{ "execute", 'e', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
     { NULL }
 };
 
@@ -723,6 +725,14 @@ sakura_init()
 		}
 	}
 
+	if (option_execute) {
+		gchar *path;
+		
+		path=g_find_program_in_path(option_execute);
+		if (path) free(path);
+		else option_execute=NULL;
+	}
+
 	sakura.menu=gtk_menu_new();
 	sakura.label_count=1;
 
@@ -869,10 +879,6 @@ sakura_add_tab()
 	gtk_box_pack_start(GTK_BOX(term.hbox), term.vte, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(term.hbox), term.scrollbar, FALSE, FALSE, 0);
 
-	/*TODO: Check parameters */
-	cwd = g_get_current_dir();
-	term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"), NULL, NULL, cwd, TRUE, TRUE,TRUE);
-	free(cwd);
 	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.hbox, term.label))==-1) {
 		SAY("Cannot create a new tab"); BUG();
 		return;
@@ -907,21 +913,35 @@ sakura_add_tab()
 	
 	/* Show everything the first time after creating a terminal. Unrationale:
 	   im_append and set_current_page fails if the window isn't visible */
+	cwd = g_get_current_dir();
 	if  ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
+		if (option_execute) {
+			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), option_execute,
+						   						NULL, NULL, cwd, TRUE, TRUE,TRUE);
+		} else {
+			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"),
+						   						NULL, NULL, cwd, TRUE, TRUE,TRUE);
+		}
 		gtk_widget_show_all(sakura.main_window);
 	} else {
+		/*TODO: Check parameters */
+		term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"),
+					   						NULL, NULL, cwd, TRUE, TRUE,TRUE);
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		gtk_widget_show_all(sakura.main_window);
 	    gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 		sakura_set_font();
 	}
+	
+	free(cwd);
 
 	/* Configuration per-terminal */
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term.vte), VTE_ERASE_ASCII_DELETE);
+	/* TODO: Use tango color pallete with vte_terminal_set_colors */
 	vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &sakura.forecolor);
 	vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
 
