@@ -920,6 +920,7 @@ sakura_add_tab()
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
 		if (option_execute) {
+			/* TODO: Support command parameters */	
 			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), option_execute,
 						   						NULL, NULL, cwd, TRUE, TRUE,TRUE);
 		} else {
@@ -936,7 +937,6 @@ sakura_add_tab()
 	    gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 		sakura_set_font();
 	}
-	
 	free(cwd);
 
 	/* Configuration per-terminal */
