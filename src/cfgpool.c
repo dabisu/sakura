@@ -1,6 +1,6 @@
 /*
 Configuration pool (source).
-$Rev: 44 $
+$Rev: 46 $
 
    Copyright (C) 2006 Rau'l Nu'n~ez de Arenas Coronado
    Report bugs to DervishD <bugs@dervishd.net>
@@ -1128,7 +1128,7 @@ char **data
         return CFGPOOL_ENOTFOUND;
     }
     
-    wchar_t *val = tmpitem->varray[tmpitem->vals];
+    wchar_t *val = tmpitem->varray[tmpitem->vals - 1];
     len = wcslen(val);
     len++; // Make room for the final NUL
 
@@ -1149,9 +1149,6 @@ char **data
         return CFGPOOL_ENOMEMORY;
     }
 
-    // Do the copy
-    memset(&mbs, '\0', sizeof(mbs));
-
     /*
 
         This indirection is needed because "wcsrtombs()" modifies the source
@@ -1160,10 +1157,10 @@ char **data
 
     */
     const wchar_t *src = val;
+    memset(&mbs, '\0', sizeof(mbs));
     wcsrtombs(*data, &src, len, &mbs);
 
     free(key);
-    free(val);
     return 0;
 }
 
