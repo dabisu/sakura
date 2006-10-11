@@ -15,7 +15,6 @@ SAKURA_SOURCES=$(wildcard src/*.c)
 SAKURA_OBJECTS=$(patsubst %.c,%.o,$(wildcard src/*.c))
 DEPENDENCIES=$(patsubst %.o,%.d,$(SAKURA_OBJECTS))
 POFILES=$(wildcard po/*.po)
-MOFILES=$(wildcard po/*.mo)
 
 all: src/sakura 
 
@@ -43,7 +42,7 @@ install: all update-po
 	@$(call makedir,$(DATADIR)/pixmaps,$(DIRMODE))
 	@$(call install_files,terminal-tango.png,$(DATADIR)/pixmaps,a=rx)
 	@$(call makedir,$(DATADIR)/locale,$(DIRMODE))
-	@for i in $(MOFILES); do \
+	@for i in po/*.mo; do \
 		LINGUA=`basename $${i%%.*}`;\
 		echo $(DATADIR)/locale/$${LINGUA}/LC_MESSAGES/$(PROJECT).mo;\
 		$(call makedir,$(DATADIR)/locale/$${LINGUA}/LC_MESSAGES,$(DIRMODE));\

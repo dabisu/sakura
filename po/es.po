@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-09 11:22+0200\n"
+"POT-Creation-Date: 2006-10-11 07:58+0200\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgstr "seleccionar el número inicial de pestañas"
 
 #: src/sakura.c:124
 msgid "Execute command"
-msgstr ""
+msgstr "Ejecutar comando"
 
 #: src/sakura.c:287
 msgid "There are several tabs opened. Do you really want to close Sakura?"

@@ -1,9 +1,11 @@
+# translation of ja.po to Japanese
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-09 11:22+0200\n"
-"PO-Revision-Date: 2006-09-17 17:52+0900\n"
+"POT-Creation-Date: 2006-10-11 07:58+0200\n"
+"PO-Revision-Date: 2006-10-11 13:31+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +27,7 @@ msgstr "タブの数を選択"
 
 #: src/sakura.c:124
 msgid "Execute command"
-msgstr ""
+msgstr "コマンドを実行"
 
 #: src/sakura.c:287
 msgid "There are several tabs opened. Do you really want to close Sakura?"
@@ -80,9 +82,8 @@ msgid "Select background..."
 msgstr "背景を選択"
 
 #: src/sakura.c:755
-#, fuzzy
 msgid "Fake transparency..."
-msgstr "透過する"
+msgstr "擬似透過"
 
 #: src/sakura.c:761
 msgid "Input methods"
