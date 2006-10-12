@@ -60,6 +60,7 @@ static struct {
 	guint height;
 	gint label_count;
 	bool fake_transparency;
+	GtkWidget *clear_item;
 	CfgPool pool;
 	char *configfile;
 	char *background;
@@ -96,6 +97,7 @@ static void 	sakura_new_tab (GtkWidget *, void *);
 static void 	sakura_close_tab (GtkWidget *, void *);
 static void 	sakura_background_selection (GtkWidget *, void *);
 static void 	sakura_open_url (GtkWidget *, void *);
+static void 	sakura_clear (GtkWidget *, void *);
 static void 	sakura_make_transparent (GtkWidget *, void *);
 static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
 static void 	sakura_setname_entry_changed(GtkWidget *, void *);
@@ -505,6 +507,7 @@ sakura_background_selection (GtkWidget *widget, void *data)
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 		sakura.background=g_strdup(filename);
 		sakura_set_bgimage(sakura.background);
+		gtk_widget_show(sakura.clear_item);
 		g_free(filename);
 	}
 	gtk_widget_destroy(dialog);
@@ -533,6 +536,27 @@ sakura_open_url (GtkWidget *widget, void *data)
 
 	g_free(cmd);
 }
+
+
+static void
+sakura_clear (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal term;
+
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal, page);	
+
+	gtk_widget_hide(sakura.clear_item);
+
+	vte_terminal_set_background_image(VTE_TERMINAL(term.vte), NULL);
+
+	cfgpool_additem(sakura.pool, "background", "none");
+
+	g_free(sakura.background);
+	sakura.background=NULL;
+}
+
 
 static void
 sakura_make_transparent (GtkWidget *widget, void *data)
@@ -701,8 +725,12 @@ sakura_init()
 	} 
 
 	if (cfgpool_getvalue(sakura.pool, "background", &confitem)==0) {
-		sakura.background=g_strdup(confitem);
-		free(confitem);
+		if (strcmp(confitem, "none")==0) {
+			sakura.background=NULL;
+		} else {	
+			sakura.background=g_strdup(confitem);
+			free(confitem);
+		}
 	} else {
 		sakura.background=NULL;
 	}
@@ -753,6 +781,7 @@ sakura_init()
 	item3=gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_FONT, NULL);
 	item10=gtk_menu_item_new_with_label(_("Select colors.."));
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
+	sakura.clear_item=gtk_menu_item_new_with_label(_("Clear background"));
 	item5=gtk_check_menu_item_new_with_label(_("Fake transparency..."));
 	if (sakura.fake_transparency) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item5), TRUE);
@@ -779,6 +808,7 @@ sakura_init()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item10);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item4);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.clear_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item5);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item7);		
@@ -795,8 +825,14 @@ sakura_init()
 	g_signal_connect(G_OBJECT(item9), "activate", G_CALLBACK(sakura_paste), NULL);	
 	g_signal_connect(G_OBJECT(item10), "activate", G_CALLBACK(sakura_color_dialog), NULL);	
 	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
+	g_signal_connect(G_OBJECT(sakura.clear_item), "activate", G_CALLBACK(sakura_clear), NULL);	
 
 	gtk_widget_show_all(sakura.menu);
+
+	/* We don't want to see this if there's no background image */
+	if (!sakura.background) {
+		gtk_widget_hide(sakura.clear_item);
+	}
 
 	g_signal_connect(G_OBJECT(sakura.main_window), "delete_event", G_CALLBACK(sakura_delete_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "destroy", G_CALLBACK(sakura_destroy_window), NULL);
