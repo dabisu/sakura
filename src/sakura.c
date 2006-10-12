@@ -52,6 +52,7 @@ static struct {
 	PangoFontDescription *font;
 	GdkColor forecolor;
 	GdkColor backcolor;
+	GdkColor boldcolor;
 	GtkWidget *open_link_item;
 	GtkWidget *open_link_separator;
 	char *current_match;
@@ -698,6 +699,7 @@ sakura_init()
 	cfgpool_additem(sakura.pool, "font", DEFAULT_FONT);
 	cfgpool_additem(sakura.pool, "forecolor", "#c0c0c0");
 	cfgpool_additem(sakura.pool, "backcolor", "#000000");
+	cfgpool_additem(sakura.pool, "boldcolor", "#ffffff");
 	cfgpool_additem(sakura.pool, "fake_transparency", "No");
 	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
 	/* Use config file if exists... */
@@ -712,6 +714,11 @@ sakura_init()
 
 	if (cfgpool_getvalue(sakura.pool, "backcolor", &confitem)==0) {
 		gdk_color_parse(confitem, &sakura.backcolor);
+		free(confitem);
+	}
+	
+	if (cfgpool_getvalue(sakura.pool, "boldcolor", &confitem)==0) {
+		gdk_color_parse(confitem, &sakura.boldcolor);
 		free(confitem);
 	}
 
@@ -980,7 +987,7 @@ sakura_add_tab()
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term.vte), VTE_ERASE_ASCII_DELETE);
 	/* TODO: Use tango color pallete with vte_terminal_set_colors */
 	vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &sakura.forecolor);
-	vte_terminal_set_color_bold(VTE_TERMINAL(term.vte), &sakura.forecolor); 
+	vte_terminal_set_color_bold(VTE_TERMINAL(term.vte), &sakura.boldcolor); 
 	vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
 
 	if (sakura.fake_transparency) {
