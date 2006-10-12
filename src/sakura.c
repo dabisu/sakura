@@ -470,6 +470,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
 		vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &sakura.forecolor);
+		vte_terminal_set_color_bold(VTE_TERMINAL(term.vte), &sakura.forecolor);
 		vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
 		confitem=g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
 			   						sakura.forecolor.green>>8, sakura.forecolor.blue>>8);
@@ -943,6 +944,7 @@ sakura_add_tab()
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term.vte), VTE_ERASE_ASCII_DELETE);
 	/* TODO: Use tango color pallete with vte_terminal_set_colors */
 	vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &sakura.forecolor);
+	vte_terminal_set_color_bold(VTE_TERMINAL(term.vte), &sakura.forecolor); 
 	vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
 
 	if (sakura.fake_transparency) {
