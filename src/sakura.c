@@ -61,6 +61,7 @@ static struct {
 	guint height;
 	gint label_count;
 	bool fake_transparency;
+	bool first_tab;
 	GtkWidget *clear_item;
 	CfgPool pool;
 	char *configfile;
@@ -584,6 +585,29 @@ sakura_make_transparent (GtkWidget *widget, void *data)
 }
 
 
+static void
+sakura_show_first_tab (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal term;
+	
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal, page);	
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
+		cfgpool_additem(sakura.pool, "show_always_first_tab", "Yes");
+	} else {
+		/* Only hide tabs if the notebook has one page */	
+		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		}
+		cfgpool_additem(sakura.pool, "show_always_first_tab", "No");
+	}	
+		
+}
+
+
 static gboolean
 sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
@@ -682,10 +706,12 @@ sakura_close_tab (GtkWidget *widget, void *data)
 static void
 sakura_init()
 {
-	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9, *item10;
+	GtkWidget *item1, *item2, *item3, *item4, *item5, *item6, *item7, *item8, *item9, *item10, *item11, *item12;
 	GtkWidget *separator, *separator2, *separator3, *separator4;
+	GtkWidget *options_menu;
 	GError *gerror=NULL;
 	gchar *confitem;
+	char *tmpvalue;	
 
 	/* Config file initialization*/
 	sakura.pool=cfgpool_create();
@@ -701,6 +727,7 @@ sakura_init()
 	cfgpool_additem(sakura.pool, "backcolor", "#000000");
 	cfgpool_additem(sakura.pool, "boldcolor", "#ffffff");
 	cfgpool_additem(sakura.pool, "fake_transparency", "No");
+	cfgpool_additem(sakura.pool, "show_always_first_tab", "No");
 	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
 	/* Use config file if exists... */
 	cfgpool_addfile(sakura.pool, sakura.configfile); 
@@ -789,13 +816,24 @@ sakura_init()
 	item10=gtk_menu_item_new_with_label(_("Select colors.."));
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
 	sakura.clear_item=gtk_menu_item_new_with_label(_("Clear background"));
-	item5=gtk_check_menu_item_new_with_label(_("Fake transparency..."));
+	item5=gtk_check_menu_item_new_with_label(_("Fake transparency"));
+	item12=gtk_check_menu_item_new_with_label(_("Show always first tab"));
+	/* Show defaults in menu items */
 	if (sakura.fake_transparency) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item5), TRUE);
+	}
+	if (cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
+		if (strcmp(tmpvalue, "Yes")==0) {	
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), TRUE);
+		} else {
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), FALSE);
+		}
+		free(tmpvalue);
 	}
 		
 
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
+	item11=gtk_menu_item_new_with_label(_("Options"));
 
 	separator=gtk_separator_menu_item_new();
 	separator2=gtk_separator_menu_item_new();
@@ -816,11 +854,15 @@ sakura_init()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item4);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.clear_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item5);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item11);		
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator3);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item7);		
 	sakura.im_menu=gtk_menu_new();
+	options_menu=gtk_menu_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item5);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item12);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item7), sakura.im_menu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item11), options_menu);
 	
 	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
 	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
@@ -831,6 +873,7 @@ sakura_init()
 	g_signal_connect(G_OBJECT(item8), "activate", G_CALLBACK(sakura_copy), NULL);	
 	g_signal_connect(G_OBJECT(item9), "activate", G_CALLBACK(sakura_paste), NULL);	
 	g_signal_connect(G_OBJECT(item10), "activate", G_CALLBACK(sakura_color_dialog), NULL);	
+	g_signal_connect(G_OBJECT(item12), "activate", G_CALLBACK(sakura_show_first_tab), NULL);	
 	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
 	g_signal_connect(G_OBJECT(sakura.clear_item), "activate", G_CALLBACK(sakura_clear), NULL);	
 
@@ -959,8 +1002,16 @@ sakura_add_tab()
 	   im_append and set_current_page fails if the window isn't visible */
 	cwd = g_get_current_dir();
 	if  ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+		char *tmpvalue;	
 
-		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		if (cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
+			if (strcmp(tmpvalue, "Yes")==0) {	
+				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
+			} else {
+				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+			}
+			free(tmpvalue);
+		}
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
 		if (option_execute) {
@@ -998,6 +1049,9 @@ sakura_add_tab()
 	if (sakura.background) {
 		sakura_set_bgimage(sakura.background);
 	}
+
+	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
+	gtk_widget_grab_focus(term.vte);
 }
 
 
@@ -1019,7 +1073,16 @@ sakura_del_tab()
 	gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook), page);
 	
 	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		char *tmpvalue;
+		
+		if (cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
+			if (strcmp(tmpvalue, "Yes")==0) {	
+				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
+			} else {
+				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+			}
+			free(tmpvalue);
+		}
 	}
 
 }
