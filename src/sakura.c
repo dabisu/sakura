@@ -474,7 +474,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
 		vte_terminal_set_color_foreground(VTE_TERMINAL(term.vte), &sakura.forecolor);
-		vte_terminal_set_color_bold(VTE_TERMINAL(term.vte), &sakura.forecolor);
+		sakura.boldcolor=sakura.forecolor;
+		vte_terminal_set_color_bold(VTE_TERMINAL(term.vte), &sakura.boldcolor);
 		vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
 		confitem=g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
 			   						sakura.forecolor.green>>8, sakura.forecolor.blue>>8);
@@ -483,6 +484,10 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		confitem=g_strdup_printf("#%02x%02x%02x", sakura.backcolor.red>>8,
 			   						sakura.backcolor.green>>8, sakura.backcolor.blue>>8);
 		cfgpool_additem(sakura.pool, "backcolor", confitem);
+		free(confitem);
+		confitem=g_strdup_printf("#%02x%02x%02x", sakura.boldcolor.red>>8,
+			   						sakura.boldcolor.green>>8, sakura.boldcolor.blue>>8);
+		cfgpool_additem(sakura.pool, "boldcolor", confitem);
 		free(confitem);
 	}
 
