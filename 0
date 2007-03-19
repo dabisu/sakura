@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # My Own Building System main script.
-# $Revision: 68 $
+# $Revision: 69 $
 #
 #   Copyright (C) 2005,2006 Rau'l Nu'n~ez de Arenas Coronado
 #   Report bugs to DervishD <bugs@dervishd.net>
@@ -135,26 +135,20 @@ printf -- "=L 'Makefile.in' exists and is readable.\n" >&2
 zero_project="`sed -ne '
 /^PROJECT/ {
     s/[[:cntrl:]]/ /g
-    s/^PROJECT[[:space:]]\+\(.*\)$/\1/p
+    s/^PROJECT[[:space:]]\+\(.*\)$/\1/
+    s/[[:space:]]*$//p
     q
 }' 0.conf`"
 printf -- "=L Got project name '%s'.\n" "$zero_project" >&2
-# Remove trailing whitespace.
-zero_tmp=${zero_project##*[^ ]}
-zero_project=${zero_project%$zero_tmp}
-printf -- "=L Clean project name is '%s'.\n" "$zero_project" >&2
 
 zero_version="`sed -ne '
 /^VERSION/ {
     s/[[:cntrl:]]/ /g
-    s/^VERSION[[:space:]]\+\(.*\)$/\1/p
+    s/^VERSION[[:space:]]\+\(.*\)$/\1/
+    s/[[:space:]]*$//p
     q
 }' 0.conf`"
 printf -- "=L Got version code '%s'.\n" "$zero_version" >&2
-# Remove trailing whitespace.
-zero_tmp=${zero_version##*[^ ]}
-zero_version=${zero_version%$zero_tmp}
-printf -- "=L Clean version code is '%s'.\n" "$zero_version" >&2
 
 zero_author="`sed -ne '
 /^AUTHOR/ {
@@ -162,27 +156,19 @@ zero_author="`sed -ne '
     s/^AUTHOR[[:space:]]\+\(.*\)$/\1/
     s/[\\]"/"/g
     s/"/\\\\"/g
-    p
+    s/[[:space:]]*$//p
     q
 }' 0.conf`"
 printf -- "=L Got author identity '%s'.\n" "$zero_author" >&2
-# Remove trailing whitespace.
-zero_tmp=${zero_author##*[^ ]}
-zero_author=${zero_author%$zero_tmp}
-printf -- "=L Clean author identity is '%s'.\n" "$zero_author" >&2
 
 zero_hook="`sed -ne '
 /^HOOK/ {
     s/[[:cntrl:]]/ /g
-    s/^HOOK[[:space:]]\+\(.*\)$/\1/p
+    s/^HOOK[[:space:]]\+\(.*\)$/\1/
+    s/[[:space:]]*$//p
     q
 }' 0.conf`"
 printf -- "=L Got hook name '%s'.\n" "$zero_hook" >&2
-# Remove trailing whitespace.
-zero_tmp=${zero_hook##*[^ ]}
-zero_hook=${zero_hook%$zero_tmp}
-printf -- "=L Clean hook name is '%s'.\n" "$zero_hook" >&2
-
 
 printf -- "=L Validating project metadata.\n" >&2
 #   NOTE: The validation for the AUTHOR tag is... picky. If we validate

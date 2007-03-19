@@ -1591,6 +1591,7 @@ CfgPool self                    // Pool to dump
         }
         while (tmpitem) {
 
+            if (!(tmpitem->key)) abort();
             fprintf(stderr, "    K @%p %ls\n", tmpitem->key, tmpitem->key);
 
             size_t v = tmpitem->vals;
