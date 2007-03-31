@@ -958,6 +958,7 @@ sakura_add_tab()
 	term.hbox=gtk_hbox_new(FALSE, 0);
 	term.vte=vte_terminal_new();
 
+	vte_terminal_set_size(VTE_TERMINAL(term.vte), 80, 25);
 	
 	label_text=g_strdup_printf("Terminal %d", sakura.label_count++);
 	term.label=gtk_label_new(label_text);
