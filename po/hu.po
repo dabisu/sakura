@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-29 11:55+0100\n"
+"POT-Creation-Date: 2007-03-31 16:03+0200\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -16,103 +16,101 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: ../src/sakura.c:125
+#: src/sakura.c:125
 msgid "Print version number"
 msgstr ""
 
-#: ../src/sakura.c:126
+#: src/sakura.c:126
 msgid "Select initial terminal font"
 msgstr ""
 
-#: ../src/sakura.c:127
+#: src/sakura.c:127
 msgid "Select initial number of tabs"
 msgstr ""
 
-#: ../src/sakura.c:128
+#: src/sakura.c:128
 msgid "Execute command"
 msgstr ""
 
-#: ../src/sakura.c:291
+#: src/sakura.c:291
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Több lap is nyitva van. Bezárod a Sakurát?"
 
-#: ../src/sakura.c:367
+#: src/sakura.c:369
 msgid "Select font"
 msgstr "Válassz betűt"
 
-#: ../src/sakura.c:398
+#: src/sakura.c:400
 msgid "Set name"
 msgstr "Név beállítása"
 
-#: ../src/sakura.c:446
+#: src/sakura.c:448
 msgid "Select color"
 msgstr "Válassz színt"
 
-#: ../src/sakura.c:456
+#: src/sakura.c:458
 msgid "Select foreground color:"
 msgstr "Válassz színt"
 
-#: ../src/sakura.c:457
+#: src/sakura.c:459
 msgid "Select background color:"
 msgstr "Válassz háttér fájlt"
 
-#: ../src/sakura.c:505
+#: src/sakura.c:507
 msgid "Select a background file"
 msgstr "Válassz háttér fájlt"
 
-#. Init popup menu
-#: ../src/sakura.c:813
+#: src/sakura.c:815
 msgid "Open link..."
 msgstr "Link megnyitása..."
 
-#: ../src/sakura.c:815
+#: src/sakura.c:817
 msgid "New tab"
 msgstr "Új lap"
 
-#: ../src/sakura.c:816
+#: src/sakura.c:818
 msgid "Set name..."
 msgstr "Név beállítása..."
 
-#: ../src/sakura.c:817
+#: src/sakura.c:819
 msgid "Close tab"
 msgstr "Lap bezárása"
 
-#: ../src/sakura.c:821
+#: src/sakura.c:823
 msgid "Select colors.."
 msgstr "Válassz színeket..."
 
-#: ../src/sakura.c:822
+#: src/sakura.c:824
 msgid "Select background..."
 msgstr "Háttér választása..."
 
-#: ../src/sakura.c:823
+#: src/sakura.c:825
 #, fuzzy
 msgid "Clear background"
 msgstr "Háttér választása..."
 
-#: ../src/sakura.c:824
+#: src/sakura.c:826
 #, fuzzy
 msgid "Fake transparency"
 msgstr "Tedd átlátszóvá..."
 
-#: ../src/sakura.c:825
+#: src/sakura.c:827
 msgid "Show always first tab"
 msgstr ""
 
-#: ../src/sakura.c:840
+#: src/sakura.c:842
 msgid "Input methods"
 msgstr "Beviteli módok"
 
-#: ../src/sakura.c:841
+#: src/sakura.c:843
 msgid "Options"
 msgstr ""
 
-#. Options parsing
-#: ../src/sakura.c:1151
+#: src/sakura.c:1154
 msgid "- vte-based terminal emulator"
 msgstr ""
 
-#: ../src/sakura.c:1158
+#: src/sakura.c:1161
 #, c-format
 msgid "sakura version is %s\n"
 msgstr ""
