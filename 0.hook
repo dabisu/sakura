@@ -26,6 +26,17 @@ else
 	echo " found `pkg-config --modversion vte`"
 fi 
 
+echo -n "Checking for Bitstream Vera font..."
+fc-list|grep -q "Bitstream Vera Sans Mono"
+if [ $? -eq 1]; then
+	echo; echo "Bitstream font not found, using default monospace font..."
+	echo "#define DEFAULT_FONT \"monospace 14\"" >> config.h
+else
+	echo " found"
+	echo "#define DEFAULT_FONT \"Bitstream Vera Sans Mono 14\"" >> config.h
+fi
+
+
 printf -- "\n"
 printf -- "$PROJECT binary will be installed in: \t'%s'\n" "$BINDIR"
 printf -- "$PROJECT icons will be installed in: \t'%s'\n" "$DATADIR/$PROJECT"

@@ -77,7 +77,7 @@ struct terminal {
 };
 
 #define ICON_DIR "/usr/share/pixmaps"
-#define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
+//#define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
 #define CONFIGFILE ".sakura.conf"
@@ -336,6 +336,8 @@ sakura_popup (GtkWidget *widget, GdkEvent *event)
 		column=((glong)(event_button->x) / vte_terminal_get_char_width(VTE_TERMINAL(term.vte)));
 		row=((glong)(event_button->y) / vte_terminal_get_char_height(VTE_TERMINAL(term.vte)));
 		sakura.current_match=vte_terminal_match_check(VTE_TERMINAL(term.vte), column, row, &tag);
+
+		SAY("current match is %s",sakura.current_match);
 
 		if (sakura.current_match) {
 			/* Show the extra options in the menu */
