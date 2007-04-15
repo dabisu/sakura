@@ -649,7 +649,6 @@ sakura_copy (GtkWidget *widget, void *data)
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
 	
-	vte_terminal_copy_clipboard(VTE_TERMINAL(term.vte));
 	vte_terminal_copy_primary(VTE_TERMINAL(term.vte));
 }
 
@@ -663,7 +662,6 @@ sakura_paste (GtkWidget *widget, void *data)
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
 	
-	vte_terminal_paste_clipboard(VTE_TERMINAL(term.vte));
 	vte_terminal_paste_primary(VTE_TERMINAL(term.vte));
 }
 
