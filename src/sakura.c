@@ -947,7 +947,7 @@ sakura_set_font()
 	
 	vte_terminal_get_padding(VTE_TERMINAL(term.vte), &sakura.width, &sakura.height);
 	sakura.width += vte_terminal_get_char_width(VTE_TERMINAL(term.vte))*80;
-	sakura.height += vte_terminal_get_char_height(VTE_TERMINAL(term.vte))*24;
+	sakura.height += vte_terminal_get_char_height(VTE_TERMINAL(term.vte))*25;
 
 	sakura.width += sb_allocation->width;
 	
