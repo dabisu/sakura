@@ -780,7 +780,7 @@ sakura_init()
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
 	/* Minimum size*/
-	gtk_widget_set_size_request(sakura.main_window, 100, 50);
+//	gtk_widget_set_size_request(sakura.main_window, 100, 50);
 	
 	sakura.resized=false;
 	sakura.notebook=gtk_notebook_new();
@@ -931,16 +931,26 @@ sakura_set_font()
 	gint page_num;
 	struct terminal term;
 	int i;
-
-	page_num=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	GtkAllocation *sb_allocation;
 	
+	page_num=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
 	/* Set the font for all tabs */
 	for (i=0; i<page_num; i++) {
 		term=g_array_index(sakura.terminals, struct terminal, i);	
 		vte_terminal_set_font(VTE_TERMINAL(term.vte), sakura.font);
-		sakura.width=vte_terminal_get_char_width(VTE_TERMINAL(term.vte))*80;
-		sakura.height=vte_terminal_get_char_height(VTE_TERMINAL(term.vte))*24;
 	}
+
+	/* Show the window and get the scrollbar allocated geometry */
+	gtk_widget_show_all(sakura.main_window);
+	sb_allocation = &term.scrollbar->allocation;
+	
+	vte_terminal_get_padding(VTE_TERMINAL(term.vte), &sakura.width, &sakura.height);
+	sakura.width += vte_terminal_get_char_width(VTE_TERMINAL(term.vte))*80;
+	sakura.height += vte_terminal_get_char_height(VTE_TERMINAL(term.vte))*24;
+
+	sakura.width += sb_allocation->width;
+	
 	if (!sakura.resized) {
 		gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
 	}
@@ -960,7 +970,7 @@ sakura_add_tab()
 
 	vte_terminal_set_size(VTE_TERMINAL(term.vte), 80, 25);
 	
-	label_text=g_strdup_printf("Terminal %d", sakura.label_count++);
+	label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term.label=gtk_label_new(label_text);
 	g_free(label_text);
 	
@@ -1027,18 +1037,20 @@ sakura_add_tab()
 			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), option_execute,
 						   						NULL, NULL, cwd, TRUE, TRUE,TRUE);
 		} else {
-			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"),
-						   						NULL, NULL, cwd, TRUE, TRUE,TRUE);
+			term.pid=vte_terminal_fork_command (
+					VTE_TERMINAL(term.vte),
+					g_getenv("SHELL"),
+					NULL, NULL, cwd, TRUE, TRUE,TRUE);
 		}
-		gtk_widget_show_all(sakura.main_window);
 	} else {
 		/*TODO: Check parameters */
-		term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), g_getenv("SHELL"),
-					   						NULL, NULL, cwd, TRUE, TRUE,TRUE);
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-		gtk_widget_show_all(sakura.main_window);
-	    gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 		sakura_set_font();
+		term.pid=vte_terminal_fork_command (
+				VTE_TERMINAL(term.vte),
+				g_getenv("SHELL"),
+				NULL, NULL, cwd, TRUE, TRUE,TRUE);
 	}
 	free(cwd);
 
