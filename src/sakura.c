@@ -2,7 +2,7 @@
  *  Filename: sakura.c
  *  Description: VTE-based terminal emulator
  *
- *           Copyright (C) 2006  David Gómez <david@pleyades.net>
+ *           Copyright (C) 2006-2007  David Gómez <david@pleyades.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2 as 
@@ -929,7 +929,6 @@ sakura_set_font()
 	gint page_num;
 	struct terminal term;
 	int i;
-	GtkAllocation *sb_allocation;
 	
 	page_num=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
@@ -939,15 +938,16 @@ sakura_set_font()
 		vte_terminal_set_font(VTE_TERMINAL(term.vte), sakura.font);
 	}
 
-	/* Show the window and get the scrollbar allocated geometry */
+	/* Show the window to get the widget geometries allocated */
 	gtk_widget_show_all(sakura.main_window);
-	sb_allocation = &term.scrollbar->allocation;
 	
 	vte_terminal_get_padding(VTE_TERMINAL(term.vte), &sakura.width, &sakura.height);
 	sakura.width += vte_terminal_get_char_width(VTE_TERMINAL(term.vte))*80;
 	sakura.height += vte_terminal_get_char_height(VTE_TERMINAL(term.vte))*25;
 
-	sakura.width += sb_allocation->width;
+	sakura.width += term.scrollbar->allocation.width;
+	sakura.height += sakura.main_window->allocation.height -
+			term.vte->allocation.height;
 	
 	if (!sakura.resized) {
 		gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
