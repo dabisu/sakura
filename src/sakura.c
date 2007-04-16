@@ -941,7 +941,7 @@ sakura_set_font()
 	/* Show the window to get the widget geometries allocated */
 	gtk_widget_show_all(sakura.main_window);
 	
-	vte_terminal_get_padding(VTE_TERMINAL(term.vte), &sakura.width, &sakura.height);
+	vte_terminal_get_padding(VTE_TERMINAL(term.vte), (int *)&sakura.width, (int *)&sakura.height);
 	sakura.width += vte_terminal_get_char_width(VTE_TERMINAL(term.vte))*80;
 	sakura.height += vte_terminal_get_char_height(VTE_TERMINAL(term.vte))*25;
 
