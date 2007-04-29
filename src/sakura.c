@@ -19,7 +19,7 @@
  *
  *****************************************************************************/
 					 
-static char *REVISION = "$Rev$";
+#define REVISION "$Rev$"
 
 #include "mobs.h"
 #include <stdbool.h>
@@ -1148,6 +1148,8 @@ sakura_set_bgimage(char *infile)
 int
 main(int argc, char **argv)
 {
+
+	static char *__REVISION = REVISION; (void)__REVISION;
 	struct terminal term;
 	gchar *localedir;
 	GError *error=NULL;
