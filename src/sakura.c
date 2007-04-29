@@ -19,8 +19,9 @@
  *
  *****************************************************************************/
 					 
-#include "mobs.h"
+static char *REVISION = "$Rev$";
 
+#include "mobs.h"
 #include <stdbool.h>
 #include <sys/types.h>
 #include <sys/wait.h>
