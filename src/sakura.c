@@ -19,7 +19,7 @@
  *
  *****************************************************************************/
 					 
-#define REVISION "$Rev$"
+static const char *REVISION = "$Rev$";
 
 #include "mobs.h"
 #include <stdbool.h>
@@ -1149,7 +1149,6 @@ int
 main(int argc, char **argv)
 {
 
-	static char *__REVISION = REVISION; (void)__REVISION;
 	struct terminal term;
 	gchar *localedir;
 	GError *error=NULL;
