@@ -1015,8 +1015,6 @@ sakura_add_tab()
 	g_signal_connect(G_OBJECT(term.vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
 	g_signal_connect_swapped(G_OBJECT(term.vte), "button-press-event", G_CALLBACK(sakura_popup), sakura.menu);
 	
-	/* Show everything the first time after creating a terminal. Unrationale:
-	   im_append and set_current_page fails if the window isn't visible */
 	cwd = g_get_current_dir();
 	if  ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 		char *tmpvalue;	
@@ -1044,8 +1042,11 @@ sakura_add_tab()
 	} else {
 		/*TODO: Check parameters */
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 		sakura_set_font();
+		/* Call set_current page after showing the widget: gtk ignores this
+		 * function in the window is not visible *sigh*. Gtk documentation
+		 * says this is for "historical" reasons. Me arse */
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 		term.pid=vte_terminal_fork_command (
 				VTE_TERMINAL(term.vte),
 				g_getenv("SHELL"),
