@@ -19,7 +19,6 @@
  *
  *****************************************************************************/
 					 
-static const char *REVISION = "$Rev$";
 
 #include "mobs.h"
 #include <stdbool.h>
@@ -1248,7 +1247,7 @@ main(int argc, char **argv)
 	g_option_context_parse (context, &argc, &argv, &error);
 
 	if (option_version) {
-		fprintf(stderr, _("sakura version is %s\n"), VERSION);
+		fprintf(stderr, _("sakura version is %s ($Rev$)\n"), VERSION);
 		exit(1);
 	} 
 
