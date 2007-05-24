@@ -599,7 +599,7 @@ static void
 sakura_set_opacity (GtkWidget *widget, void *data)
 {
 	GtkWidget *input_dialog, *spin_control, *label;
-	GtkAdjustment *spinner_adj;
+	GtkObject *spinner_adj;
 	gint response;
 	int page;
 	struct terminal term;
@@ -613,8 +613,8 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
 
-	spinner_adj = (GtkAdjustment *) gtk_adjustment_new (((1.0 - sakura.opacity_level) * 100), 0.0, 99.0, 1.0, 5.0, 5.0);
-	spin_control = gtk_spin_button_new(spinner_adj, 1.0, 0);
+	spinner_adj = gtk_adjustment_new (((1.0 - sakura.opacity_level) * 100), 0.0, 99.0, 1.0, 5.0, 5.0);
+	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
 
 	label = gtk_label_new("Opacity Level (%):");
 
@@ -625,10 +625,10 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 	gtk_widget_show(spin_control);
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
-	if (response==GTK_RESPONSE_ACCEPT)
-	{
+	if (response==GTK_RESPONSE_ACCEPT) {
 		char *value;
-		sprintf(value, "%d", gtk_spin_button_get_value_as_int((GtkSpinButton *) spin_control));
+
+		value=g_strdup_printf("%d", gtk_spin_button_get_value_as_int((GtkSpinButton *) spin_control));
 		sakura.opacity_level = ( ( 100 - (atof(value)) ) / 100 );
 		sakura.opacity_level_percent = value;
 		SAY("setting term.pid: %d to transparent...", term.pid);
