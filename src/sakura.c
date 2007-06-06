@@ -763,7 +763,7 @@ static void
 sakura_init()
 {
 	GtkWidget *item1, *item2, *item3, *item4, *item6;
-    Gtkwidget *item7, *item8, *item9, *item10, *item11, *item12, *opacity_menu;
+    GtkWidget *item7, *item8, *item9, *item10, *item11, *item12, *opacity_menu;
 	GtkWidget *separator, *separator2, *separator3, *separator4, *opacity_menu_separator;
 	GtkWidget *opacity_menu_items, *opacity_set_level;
 	GtkWidget *options_menu;
@@ -1007,6 +1007,8 @@ sakura_set_font()
 	gint page_num;
 	struct terminal term;
 	int i;
+	GdkGeometry hints;
+	gint char_width, char_height;
 	
 	page_num=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
@@ -1016,18 +1018,24 @@ sakura_set_font()
 		vte_terminal_set_font(VTE_TERMINAL(term.vte), sakura.font);
 	}
 
-	/* Show the window to get the widget geometries allocated */
+	vte_terminal_get_padding(VTE_TERMINAL(term.vte), (int *)&sakura.width, (int *)&sakura.height);
+	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term.vte));
+	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term.vte));
+	sakura.width += char_width*80;
+	sakura.height += char_height*25;
+
+	hints.base_width = sakura.width;
+	hints.base_height = sakura.height;
+	hints.min_width = sakura.width;
+	hints.min_height = sakura.height;
+	hints.width_inc = char_width;
+	hints.height_inc = char_height;
+	gtk_window_set_geometry_hints ( GTK_WINDOW (sakura.main_window), GTK_WIDGET (term.vte),
+									&hints, GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
+	
 	gtk_widget_show_all(sakura.main_window);
 	
-	vte_terminal_get_padding(VTE_TERMINAL(term.vte), (int *)&sakura.width, (int *)&sakura.height);
-	sakura.width += vte_terminal_get_char_width(VTE_TERMINAL(term.vte))*80;
-	sakura.height += vte_terminal_get_char_height(VTE_TERMINAL(term.vte))*25;
-
-	sakura.width += term.scrollbar->allocation.width;
-	sakura.height += sakura.main_window->allocation.height -
-			term.vte->allocation.height;
-	
-	if (!sakura.resized) {
+	if (sakura.resized) {
 		gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
 	}
 }
@@ -1266,9 +1274,10 @@ main(int argc, char **argv)
 	/* Add first tab */
 	for (i=0; i<option_ntabs; i++)
 		sakura_add_tab();
-    /* Fill Input Methods menu */
+	/* Fill Input Methods menu */
 	term=g_array_index(sakura.terminals, struct terminal, 0);
 	vte_terminal_im_append_menuitems(VTE_TERMINAL(term.vte), GTK_MENU_SHELL(sakura.im_menu));
+	gtk_widget_show_all(sakura.main_window);
 	
 	gtk_main();
 
