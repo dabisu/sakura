@@ -762,7 +762,8 @@ sakura_close_tab (GtkWidget *widget, void *data)
 static void
 sakura_init()
 {
-	GtkWidget *item1, *item2, *item3, *item4, *item6, *item7, *item8, *item9, *item10, *item11, *item12, *opacity_menu;
+	GtkWidget *item1, *item2, *item3, *item4, *item6;
+    Gtkwidget *item7, *item8, *item9, *item10, *item11, *item12, *opacity_menu;
 	GtkWidget *separator, *separator2, *separator3, *separator4, *opacity_menu_separator;
 	GtkWidget *opacity_menu_items, *opacity_set_level;
 	GtkWidget *options_menu;
@@ -955,7 +956,7 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.open_link_item), "activate", G_CALLBACK(sakura_open_url), NULL);	
 	g_signal_connect(G_OBJECT(sakura.clear_item), "activate", G_CALLBACK(sakura_clear), NULL);	
 
-	/* opacity Menu Actions */
+	/* Opacity menu actions */
 	g_signal_connect(G_OBJECT(sakura.opacity_disabled), "activate", G_CALLBACK(sakura_make_transparent), NULL);
 	g_signal_connect(G_OBJECT(opacity_set_level), "activate", G_CALLBACK(sakura_set_opacity), NULL);
 
@@ -1247,7 +1248,7 @@ main(int argc, char **argv)
 	g_option_context_parse (context, &argc, &argv, &error);
 
 	if (option_version) {
-		fprintf(stderr, _("sakura version is %s ($Rev$)\n"), VERSION);
+		fprintf(stderr, _("sakura version is %s\n"), VERSION);
 		exit(1);
 	} 
 
