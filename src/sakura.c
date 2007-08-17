@@ -111,7 +111,6 @@ static void 	sakura_close_tab (GtkWidget *, void *);
 static void 	sakura_background_selection (GtkWidget *, void *);
 static void 	sakura_open_url (GtkWidget *, void *);
 static void 	sakura_clear (GtkWidget *, void *);
-//static void 	sakura_make_transparent (GtkWidget *, void *);
 static void 	sakura_set_opacity (GtkWidget *, void *);
 static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
 static void 	sakura_setname_entry_changed(GtkWidget *, void *);
@@ -626,6 +625,8 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), spin_control, FALSE, FALSE, 3);
 
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(sakura_opacity_check), spin_control);	
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), !sakura.fake_transparency);
 
 	gtk_widget_show(check);
 	gtk_widget_show(label);
