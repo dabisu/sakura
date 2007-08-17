@@ -26,8 +26,6 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
-
 #include <locale.h>
 #include <libintl.h>
 #include <glib.h>
@@ -55,7 +53,6 @@ static struct {
 	GdkColor boldcolor;
 	GtkWidget *open_link_item;
 	GtkWidget *open_link_separator;
-	GtkWidget *opacity_disabled;
 	char *current_match;
 //	bool resized;			/* Keep user window size */
 	guint width;
@@ -71,6 +68,7 @@ static struct {
 	bool fake_transparency;
 	float opacity_level;
 	char *opacity_level_percent;
+	bool *opacity;
 	bool first_tab;
 	GtkWidget *clear_item;
 	CfgPool pool;
@@ -113,7 +111,7 @@ static void 	sakura_close_tab (GtkWidget *, void *);
 static void 	sakura_background_selection (GtkWidget *, void *);
 static void 	sakura_open_url (GtkWidget *, void *);
 static void 	sakura_clear (GtkWidget *, void *);
-static void 	sakura_make_transparent (GtkWidget *, void *);
+//static void 	sakura_make_transparent (GtkWidget *, void *);
 static void 	sakura_set_opacity (GtkWidget *, void *);
 static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
 static void 	sakura_setname_entry_changed(GtkWidget *, void *);
@@ -582,33 +580,26 @@ sakura_clear (GtkWidget *widget, void *data)
 
 
 static void
-sakura_make_transparent (GtkWidget *widget, void *data)
+sakura_opacity_check (GtkWidget *widget, void *data)
 {
-	/* tjb Do some transparency magic/hacking */
-	/* tjb probably need to do some checking here and in sakura_set_bgimage for transparency */
-	/* tjb among other things already being set. */
-	int page;
-	struct terminal term;
-	
-	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term=g_array_index(sakura.terminals, struct terminal, page);	
+	bool state;
 
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-		vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), FALSE);
-		sakura.fake_transparency = FALSE;
-		cfgpool_additem(sakura.pool, "fake_transparency", "No");
+	state=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+
+	if (state) {
+		/* Enable spinbutton */
+		gtk_widget_set_sensitive(GTK_WIDGET(data), FALSE);
 	} else {
-		SAY("setting term.pid: %d to transparent...", term.pid);
-		vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), TRUE);
-		vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), sakura.opacity_level);
-		cfgpool_additem(sakura.pool, "fake_transparency", "Yes");
-	}	
+		/* Disable spinbutton */
+		gtk_widget_set_sensitive(GTK_WIDGET(data), TRUE);
+	}
 }
+
 
 static void
 sakura_set_opacity (GtkWidget *widget, void *data)
 {
-	GtkWidget *input_dialog, *spin_control, *label;
+	GtkWidget *input_dialog, *spin_control, *label, *check;
 	GtkObject *spinner_adj;
 	gint response;
 	int page;
@@ -626,11 +617,17 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 	spinner_adj = gtk_adjustment_new (((1.0 - sakura.opacity_level) * 100), 0.0, 99.0, 1.0, 5.0, 5.0);
 	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
 
-	label = gtk_label_new("Opacity Level (%):");
+	label = gtk_label_new(_("Opacity Level (%):"));
 
+	check = gtk_check_button_new_with_label(_("Disable opacity"));
+
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), check, FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), label, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), spin_control, FALSE, FALSE, 3);
 
+	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(sakura_opacity_check), spin_control);	
+
+	gtk_widget_show(check);
 	gtk_widget_show(label);
 	gtk_widget_show(spin_control);
 
@@ -641,13 +638,20 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 		value=g_strdup_printf("%d", gtk_spin_button_get_value_as_int((GtkSpinButton *) spin_control));
 		sakura.opacity_level = ( ( 100 - (atof(value)) ) / 100 );
 		sakura.opacity_level_percent = value;
-		SAY("setting term.pid: %d to transparent...", term.pid);
-		vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), TRUE);
-		vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), sakura.opacity_level);
-		sakura.fake_transparency = TRUE;
+		sakura.fake_transparency=!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+
+		if (sakura.fake_transparency) {
+			SAY("setting term.pid: %d to transparent...", term.pid);
+			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), TRUE);
+			vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), sakura.opacity_level);
+			sakura.fake_transparency = TRUE;
+			cfgpool_additem(sakura.pool, "fake_transparency", "Yes");
+		} else {
+			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), FALSE);
+			sakura.fake_transparency = FALSE;
+			cfgpool_additem(sakura.pool, "fake_transparency", "No");
+		}
 		cfgpool_additem(sakura.pool, "opacity_level", sakura.opacity_level_percent);
-		cfgpool_additem(sakura.pool, "fake_transparency", "Yes");
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(sakura.opacity_disabled), FALSE);
 	}
 
 	gtk_widget_destroy(input_dialog);
@@ -793,8 +797,7 @@ sakura_init()
 {
 	GtkWidget *item1, *item2, *item3, *item4, *item6;
     GtkWidget *item7, *item8, *item9, *item10, *item11, *item12, *opacity_menu;
-	GtkWidget *separator, *separator2, *separator3, *separator4, *opacity_menu_separator;
-	GtkWidget *opacity_menu_items, *opacity_set_level;
+	GtkWidget *separator, *separator2, *separator3, *separator4;
 	GtkWidget *options_menu;
 	GError *gerror=NULL;
 	gchar *confitem;
@@ -914,14 +917,9 @@ sakura_init()
 	item10=gtk_menu_item_new_with_label(_("Select colors.."));
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
 	sakura.clear_item=gtk_menu_item_new_with_label(_("Clear background"));
-	sakura.opacity_disabled=gtk_check_menu_item_new_with_label(_("Disabled"));
 	item12=gtk_check_menu_item_new_with_label(_("Show always first tab"));
 
 	/* Show defaults in menu items */
-	if (!sakura.fake_transparency) {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(sakura.opacity_disabled), TRUE);
-	}
-
 	if (cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
 		if (strcmp(tmpvalue, "Yes")==0) {	
 			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), TRUE);
@@ -935,14 +933,12 @@ sakura_init()
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
 	item11=gtk_menu_item_new_with_label(_("Options"));
 
-	opacity_menu=gtk_menu_item_new_with_label(_("Opacity"));
-	opacity_set_level=gtk_menu_item_new_with_label(_("Set Opacity Level"));
+	opacity_menu=gtk_menu_item_new_with_label(_("Set opacity level..."));
 
 	separator=gtk_separator_menu_item_new();
 	separator2=gtk_separator_menu_item_new();
 	separator3=gtk_separator_menu_item_new();
 	separator4=gtk_separator_menu_item_new();
-	opacity_menu_separator=gtk_separator_menu_item_new();
 	
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
@@ -964,18 +960,12 @@ sakura_init()
 
 	sakura.im_menu=gtk_menu_new();
 	options_menu=gtk_menu_new();
-	opacity_menu_items=gtk_menu_new();
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item12);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), opacity_menu);
 	
-	gtk_menu_shell_append(GTK_MENU_SHELL(opacity_menu_items), sakura.opacity_disabled);
-	gtk_menu_shell_append(GTK_MENU_SHELL(opacity_menu_items), opacity_menu_separator);
-	gtk_menu_shell_append(GTK_MENU_SHELL(opacity_menu_items), opacity_set_level);
-
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item7), sakura.im_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item11), options_menu);
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(opacity_menu), opacity_menu_items);
 	
 	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
 	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
@@ -990,8 +980,7 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.clear_item), "activate", G_CALLBACK(sakura_clear), NULL);	
 
 	/* Opacity menu actions */
-	g_signal_connect(G_OBJECT(sakura.opacity_disabled), "activate", G_CALLBACK(sakura_make_transparent), NULL);
-	g_signal_connect(G_OBJECT(opacity_set_level), "activate", G_CALLBACK(sakura_set_opacity), NULL);
+	g_signal_connect(G_OBJECT(opacity_menu), "activate", G_CALLBACK(sakura_set_opacity), NULL);
 
 	gtk_widget_show_all(sakura.menu);
 
