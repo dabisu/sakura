@@ -57,9 +57,16 @@ static struct {
 	GtkWidget *open_link_separator;
 	GtkWidget *opacity_disabled;
 	char *current_match;
-	bool resized;			/* Keep user window size */
+//	bool resized;			/* Keep user window size */
 	guint width;
 	guint height;
+	struct {
+		glong columns;
+		glong rows;
+		gint char_width;
+		gint char_height;
+		gboolean init;
+	} term_info;
 	gint label_count;
 	bool fake_transparency;
 	float opacity_level;
@@ -84,6 +91,9 @@ struct terminal {
 #define SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
 #define CONFIGFILE ".sakura.conf"
+#define DEFAULT_COLUMNS 80
+#define DEFAULT_ROWS 24
+
 
 /* Callbacks */
 static gboolean	sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
@@ -666,12 +676,31 @@ sakura_show_first_tab (GtkWidget *widget, void *data)
 }
 
 
+static void
+sakura_get_term_row_col (gint width, gint height)
+{
+	struct terminal term;
+	gint x_adjust, y_adjust;
+	
+	term=g_array_index(sakura.terminals, struct terminal, 0);	
+	vte_terminal_get_padding( VTE_TERMINAL(term.vte),
+	                          &x_adjust,
+	                          &y_adjust );
+	sakura.term_info.char_width = vte_terminal_get_char_width(VTE_TERMINAL(term.vte));
+	sakura.term_info.char_height = vte_terminal_get_char_height(VTE_TERMINAL(term.vte));
+	x_adjust += sakura.main_window->allocation.width - term.vte->allocation.width;
+	sakura.term_info.columns = (width - x_adjust) / sakura.term_info.char_width;
+	y_adjust += sakura.main_window->allocation.height -
+	            term.vte->allocation.height;
+	sakura.term_info.rows = ( height - y_adjust)  / sakura.term_info.char_height;
+}
+
 static gboolean
 sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
 	if (event->width!=sakura.width || event->height!=sakura.height) {
 		/* User has resized the application */
-		sakura.resized=true;
+		sakura_get_term_row_col (event->width, event->height);
 	}
 
 	return FALSE;
@@ -838,9 +867,13 @@ sakura_init()
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
 	/* Minimum size*/
+	sakura.term_info.columns = DEFAULT_COLUMNS;
+	sakura.term_info.rows = DEFAULT_ROWS;
+	sakura.term_info.init = FALSE;
+	
 //	gtk_widget_set_size_request(sakura.main_window, 100, 50);
 	
-	sakura.resized=false;
+//	sakura.resized=false;
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 
@@ -1000,44 +1033,73 @@ sakura_destroy()
 
 }
 
+static void
+sakura_set_size()
+{
+	struct terminal term;
+	GtkRequisition main_request;
+	GtkRequisition term_request;
+	GdkGeometry hints;
+	gint pad_x, pad_y;
+	gint char_width, char_height;
+	
+
+	term=g_array_index(sakura.terminals, struct terminal, 0);	
+	vte_terminal_get_padding(VTE_TERMINAL(term.vte), (int *)&pad_x, (int *)&pad_y);
+	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term.vte));
+	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term.vte));
+
+	hints.min_width = char_width + pad_x;
+	hints.min_height = char_height + pad_y;
+	hints.base_width = pad_x;
+	hints.base_height = pad_y;
+	hints.width_inc = char_width;
+	hints.height_inc = char_height;
+	gtk_window_set_geometry_hints ( GTK_WINDOW (sakura.main_window),
+	                                GTK_WIDGET (term.vte),
+	                                &hints,
+	                                GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
+	
+	gtk_widget_size_request (sakura.main_window, &main_request);
+	gtk_widget_size_request (term.vte, &term_request);
+	sakura.width = main_request.width - term_request.width;
+	sakura.height = main_request.height - term_request.height;
+	sakura.width += pad_x + char_width * sakura.term_info.columns;
+	sakura.height += pad_y + char_height * sakura.term_info.rows;
+	if (GTK_WIDGET_MAPPED (sakura.main_window)) {
+		gtk_window_resize (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
+	}
+	else {
+		gtk_window_set_default_size (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
+	}
+}
+
+
 
 static void
 sakura_set_font()
 {
-	gint page_num;
+	gint n_pages;
 	struct terminal term;
 	int i;
-	GdkGeometry hints;
-	gint char_width, char_height;
+	static gboolean init = FALSE;
 	
-	page_num=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	/* Set the font for all tabs */
-	for (i=0; i<page_num; i++) {
+	for (i = (n_pages - 1); i >= 0; i--) {
 		term=g_array_index(sakura.terminals, struct terminal, i);	
 		vte_terminal_set_font(VTE_TERMINAL(term.vte), sakura.font);
 	}
 
-	vte_terminal_get_padding(VTE_TERMINAL(term.vte), (int *)&sakura.width, (int *)&sakura.height);
-	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term.vte));
-	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term.vte));
-	sakura.width += char_width*80;
-	sakura.height += char_height*25;
-
-	hints.base_width = sakura.width;
-	hints.base_height = sakura.height;
-	hints.min_width = sakura.width;
-	hints.min_height = sakura.height;
-	hints.width_inc = char_width;
-	hints.height_inc = char_height;
-	gtk_window_set_geometry_hints ( GTK_WINDOW (sakura.main_window), GTK_WIDGET (term.vte),
-									&hints, GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
-	
 	gtk_widget_show_all(sakura.main_window);
-	
-	if (sakura.resized) {
-		gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
+	if (!sakura.term_info.init) {
+		if (init)
+			return;
 	}
+
+	sakura_set_size();
+	init = TRUE;
 }
 
 
@@ -1052,7 +1114,7 @@ sakura_add_tab()
 	term.hbox=gtk_hbox_new(FALSE, 0);
 	term.vte=vte_terminal_new();
 
-	vte_terminal_set_size(VTE_TERMINAL(term.vte), 80, 25);
+	vte_terminal_set_size(VTE_TERMINAL(term.vte), DEFAULT_COLUMNS, DEFAULT_ROWS);
 	
 	label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term.label=gtk_label_new(label_text);
@@ -1277,7 +1339,7 @@ main(int argc, char **argv)
 	/* Fill Input Methods menu */
 	term=g_array_index(sakura.terminals, struct terminal, 0);
 	vte_terminal_im_append_menuitems(VTE_TERMINAL(term.vte), GTK_MENU_SHELL(sakura.im_menu));
-	gtk_widget_show_all(sakura.main_window);
+	sakura.term_info.init = TRUE;
 	
 	gtk_main();
 

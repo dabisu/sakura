@@ -28,7 +28,7 @@ fi
 
 echo -n "Checking for Bitstream Vera font..."
 fc-list|grep -q "Bitstream Vera Sans Mono"
-if [ $? -eq 1]; then
+if [ $? -eq 1 ]; then
 	echo; echo "Bitstream font not found, using default monospace font..."
 	echo "#define DEFAULT_FONT \"monospace 11\"" >> config.h
 else
