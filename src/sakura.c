@@ -617,7 +617,7 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 	spinner_adj = gtk_adjustment_new (((1.0 - sakura.opacity_level) * 100), 0.0, 99.0, 1.0, 5.0, 5.0);
 	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
 
-	label = gtk_label_new(_("Opacity Level (%):"));
+	label = gtk_label_new(_("Opacity level (%):"));
 
 	check = gtk_check_button_new_with_label(_("Disable opacity"));
 
