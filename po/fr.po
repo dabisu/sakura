@@ -1,131 +1,128 @@
-# translation of ja.po to Japanese
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2006.
+# This file is distributed under the same license as the sakura package.
+# Fabrice Thiroux <fabrice.thiroux@free.fr>, 2008.
+#
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: ja\n"
+"Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-24 23:36+0200\n"
-"PO-Revision-Date: 2006-10-17 20:16+0900\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
-"Language-Team: Japanese <ja@li.org>\n"
+"PO-Revision-Date: 2007-08-23 00:07+0100\n"
+"Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 
 #: src/sakura.c:136
 msgid "Print version number"
-msgstr "バージョン番号を表示"
+msgstr "Afficher le numéro de version"
 
 #: src/sakura.c:137
 msgid "Select initial terminal font"
-msgstr "ターミナルのフォントを選択"
+msgstr "Sélectionner la police de démarrage"
 
 #: src/sakura.c:138
 msgid "Select initial number of tabs"
-msgstr "タブの数を選択"
+msgstr "Sélectionner le nombre d'onglet au démarrage"
 
 #: src/sakura.c:139
 msgid "Execute command"
-msgstr "コマンドを実行"
+msgstr "Exécuter une commande"
 
 #: src/sakura.c:302
 msgid "There are several tabs opened. Do you really want to close Sakura?"
-msgstr "複数のタブを開いています。本当に Sakura を終了しますか？"
+msgstr "Il y a d'autres onglets ouverts. Voulez-vous vraiment fermer Sakura ?"
 
 #: src/sakura.c:380
 msgid "Select font"
-msgstr "フォントを選択"
+msgstr "Sélectionner la police"
 
 #: src/sakura.c:411
 msgid "Set name"
-msgstr "名前を選択"
+msgstr "Définir le nom"
 
 #: src/sakura.c:459
 msgid "Select color"
-msgstr "配色を選択"
+msgstr "Sélectionner une couleur"
 
 #: src/sakura.c:469
 msgid "Select foreground color:"
-msgstr "前景色を選択:"
+msgstr "Sélectionner la couleur de premier plan"
 
 #: src/sakura.c:470
 msgid "Select background color:"
-msgstr "背景色を選択:"
+msgstr "Sélectionner la couleur d'arrière plan"
 
 #: src/sakura.c:518
 msgid "Select a background file"
-msgstr "背景ファイルを選択"
+msgstr "Sélectionner une image de fond"
 
 #: src/sakura.c:610
 msgid "Opacity"
-msgstr ""
+msgstr "Opacité"
 
 #: src/sakura.c:619
 msgid "Opacity level (%):"
-msgstr ""
+msgstr "Niveau d'opacité (%)"
 
 #: src/sakura.c:621
 msgid "Disable opacity"
-msgstr ""
+msgstr "Désactiver l'opacité"
 
 #: src/sakura.c:910
 msgid "Open link..."
-msgstr "リンクを開く"
+msgstr "Ouvrir le lien..."
 
 #: src/sakura.c:912
 msgid "New tab"
-msgstr "新規タブ"
+msgstr "Nouvel onglet"
 
 #: src/sakura.c:913
 msgid "Set name..."
-msgstr "名前を指定"
+msgstr "Définir un nom..."
 
 #: src/sakura.c:914
 msgid "Close tab"
-msgstr "タブを閉じる"
+msgstr "Fermer l'onglet"
 
 #: src/sakura.c:918
 msgid "Select colors.."
-msgstr "配色を選択"
+msgstr "Choix des couleurs."
 
 #: src/sakura.c:919
 msgid "Select background..."
-msgstr "背景を選択"
+msgstr "Définir l'arrière plan"
 
 #: src/sakura.c:920
 msgid "Clear background"
-msgstr "背景をクリア"
+msgstr "Effacer l'arrière plan"
 
 #: src/sakura.c:921
 msgid "Show always first tab"
-msgstr "常に最初のタブを表示"
+msgstr "Toujours afficher le premier onglet"
 
 #: src/sakura.c:934
 msgid "Input methods"
-msgstr "入力メソッド"
+msgstr "Méthodes d'entrée"
 
 #: src/sakura.c:935
 msgid "Options"
-msgstr "オプション"
+msgstr "Options"
 
 #: src/sakura.c:937
 msgid "Set opacity level..."
-msgstr ""
+msgstr "Définir le niveau d'opacité..."
 
 #: src/sakura.c:1109
 #, c-format
 msgid "Terminal %d"
-msgstr "ターミナル %d"
+msgstr "Terminal %d"
 
 #: src/sakura.c:1304
 msgid "- vte-based terminal emulator"
-msgstr "- vte ベースのターミナルエミュレータ"
+msgstr "Émulateur de terminal utilisant VTE"
 
 #: src/sakura.c:1311
 #, c-format
 msgid "sakura version is %s\n"
-msgstr "sakura のバージョンは %s です\n"
-
-#~ msgid "Fake transparency"
-#~ msgstr "擬似透過"
+msgstr "Sakura version %s\n"
