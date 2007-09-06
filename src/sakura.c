@@ -54,7 +54,6 @@ static struct {
 	GtkWidget *open_link_item;
 	GtkWidget *open_link_separator;
 	char *current_match;
-//	bool resized;			/* Keep user window size */
 	guint width;
 	guint height;
 	struct {
@@ -74,6 +73,7 @@ static struct {
 	CfgPool pool;
 	char *configfile;
 	char *background;
+	char *argv[2];
 } sakura;
 
 struct terminal {
@@ -85,7 +85,6 @@ struct terminal {
 };
 
 #define ICON_DIR "/usr/share/pixmaps"
-//#define DEFAULT_FONT "Bitstream Vera Sans Mono 14"
 #define SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|(htt(p|ps)))://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
 #define CONFIGFILE ".sakura.conf"
@@ -126,13 +125,12 @@ static void     sakura_set_font();
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
 
-static const char* option_font;
-static const char* option_execute;
+static const char *option_font;
+static const char *option_execute;
 static gboolean option_version=FALSE;
 static gint option_ntabs=1;
 
-static GOptionEntry entries[] = 
-{
+static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
@@ -387,9 +385,7 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
 	    sakura_set_font();
-	    //SAY("%s", pango_font_description_to_string(sakura.font));
 	    cfgpool_additem(sakura.pool, "font", pango_font_description_to_string(sakura.font));
-		//SAY("%d", cfgpool_geterror(sakura.pool));
 	}
 
 	gtk_widget_destroy(font_dialog);
@@ -428,7 +424,8 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
-		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term.hbox, gtk_entry_get_text(GTK_ENTRY(entry)));
+		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook),
+										term.hbox, gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(input_dialog);
 }
@@ -456,9 +453,10 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gdk_color_parse(confitem, &sakura.backcolor);
 	free(confitem);
 
-	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-											 GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
-										     GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window),
+												GTK_DIALOG_MODAL,
+												GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
+												GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 	
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
@@ -875,11 +873,12 @@ sakura_init()
 	sakura.term_info.rows = DEFAULT_ROWS;
 	sakura.term_info.init = FALSE;
 	
-//	gtk_widget_set_size_request(sakura.main_window, 100, 50);
-	
-//	sakura.resized=false;
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
+
+	/* Set argv for forked childs */
+	sakura.argv[0]=g_strdup(g_getenv("SHELL"));
+   	sakura.argv[1]=NULL;
 
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
@@ -888,14 +887,6 @@ sakura_init()
 			sakura.font=pango_font_description_from_string(confitem);
 			free(confitem);
 		}
-	}
-
-	if (option_execute) {
-		gchar *path;
-		
-		path=g_find_program_in_path(option_execute);
-		if (path) free(path);
-		else option_execute=NULL;
 	}
 
 	sakura.menu=gtk_menu_new();
@@ -1153,7 +1144,9 @@ sakura_add_tab()
 	g_signal_connect_swapped(G_OBJECT(term.vte), "button-press-event", G_CALLBACK(sakura_popup), sakura.menu);
 	
 	cwd = g_get_current_dir();
-	if  ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+
+	/* First tab */
+	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 		char *tmpvalue;	
 
 		if (cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
@@ -1166,29 +1159,43 @@ sakura_add_tab()
 		}
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
+
 		if (option_execute) {
-			/* TODO: Support command parameters */	
-			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), option_execute,
-						   						NULL, NULL, cwd, TRUE, TRUE,TRUE);
+			int command_argc; char **command_argv;
+			GError *gerror;
+			gchar *path;
+
+			if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
+				BUG();
+			}
+				
+			/* Check if the command is valid */
+			path=g_find_program_in_path(command_argv[0]);
+			if (path) 
+				free(path);
+			else
+			   	option_execute=NULL;
+
+			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), command_argv[0],
+						   						command_argv, NULL, cwd, TRUE, TRUE, TRUE);
+			g_strfreev(command_argv);
+			option_execute=NULL;
 		} else {
-			term.pid=vte_terminal_fork_command (
-					VTE_TERMINAL(term.vte),
-					g_getenv("SHELL"),
-					NULL, NULL, cwd, TRUE, TRUE,TRUE);
+			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), sakura.argv[0],
+												sakura.argv, NULL, cwd, TRUE, TRUE, TRUE);
 		}
+	/* Not the first tab */	
 	} else {
-		/*TODO: Check parameters */
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		sakura_set_font();
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
-		term.pid=vte_terminal_fork_command (
-				VTE_TERMINAL(term.vte),
-				g_getenv("SHELL"),
-				NULL, NULL, cwd, TRUE, TRUE,TRUE);
+		term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), sakura.argv[0],
+											sakura.argv, NULL, cwd, TRUE, TRUE,TRUE);
 	}
+
 	free(cwd);
 
 	/* Configuration per-terminal */
