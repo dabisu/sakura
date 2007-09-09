@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-06 20:14+0200\n"
+"POT-Creation-Date: 2007-09-06 22:35+0200\n"
 "PO-Revision-Date: 2006-10-17 20:16+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,116 +13,118 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/sakura.c:134
+#: ../src/sakura.c:134
 msgid "Print version number"
 msgstr "バージョン番号を表示"
 
-#: src/sakura.c:135
+#: ../src/sakura.c:135
 msgid "Select initial terminal font"
 msgstr "ターミナルのフォントを選択"
 
-#: src/sakura.c:136
+#: ../src/sakura.c:136
 msgid "Select initial number of tabs"
 msgstr "タブの数を選択"
 
-#: src/sakura.c:137
+#: ../src/sakura.c:137
 msgid "Execute command"
 msgstr "コマンドを実行"
 
-#: src/sakura.c:300
+#: ../src/sakura.c:300
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "複数のタブを開いています。本当に Sakura を終了しますか？"
 
-#: src/sakura.c:378
+#: ../src/sakura.c:378
 msgid "Select font"
 msgstr "フォントを選択"
 
-#: src/sakura.c:407
+#: ../src/sakura.c:407
 msgid "Set name"
 msgstr "名前を選択"
 
-#: src/sakura.c:456
+#: ../src/sakura.c:456
 msgid "Select color"
 msgstr "配色を選択"
 
-#: src/sakura.c:467
+#: ../src/sakura.c:467
 msgid "Select foreground color:"
 msgstr "前景色を選択:"
 
-#: src/sakura.c:468
+#: ../src/sakura.c:468
 msgid "Select background color:"
 msgstr "背景色を選択:"
 
-#: src/sakura.c:516
+#: ../src/sakura.c:516
 msgid "Select a background file"
 msgstr "背景ファイルを選択"
 
-#: src/sakura.c:608
+#: ../src/sakura.c:608
 msgid "Opacity"
 msgstr ""
 
-#: src/sakura.c:617
+#: ../src/sakura.c:617
 msgid "Opacity level (%):"
 msgstr ""
 
-#: src/sakura.c:619
+#: ../src/sakura.c:619
 msgid "Disable opacity"
 msgstr ""
 
-#: src/sakura.c:901
+#. Init popup menu
+#: ../src/sakura.c:901
 msgid "Open link..."
 msgstr "リンクを開く"
 
-#: src/sakura.c:903
+#: ../src/sakura.c:903
 msgid "New tab"
 msgstr "新規タブ"
 
-#: src/sakura.c:904
+#: ../src/sakura.c:904
 msgid "Set name..."
 msgstr "名前を指定"
 
-#: src/sakura.c:905
+#: ../src/sakura.c:905
 msgid "Close tab"
 msgstr "タブを閉じる"
 
-#: src/sakura.c:909
+#: ../src/sakura.c:909
 msgid "Select colors.."
 msgstr "配色を選択"
 
-#: src/sakura.c:910
+#: ../src/sakura.c:910
 msgid "Select background..."
 msgstr "背景を選択"
 
-#: src/sakura.c:911
+#: ../src/sakura.c:911
 msgid "Clear background"
 msgstr "背景をクリア"
 
-#: src/sakura.c:912
+#: ../src/sakura.c:912
 msgid "Show always first tab"
 msgstr "常に最初のタブを表示"
 
-#: src/sakura.c:925
+#: ../src/sakura.c:925
 msgid "Input methods"
 msgstr "入力メソッド"
 
-#: src/sakura.c:926
+#: ../src/sakura.c:926
 msgid "Options"
 msgstr "オプション"
 
-#: src/sakura.c:928
+#: ../src/sakura.c:928
 msgid "Set opacity level..."
 msgstr ""
 
-#: src/sakura.c:1100
+#: ../src/sakura.c:1100
 #, c-format
 msgid "Terminal %d"
 msgstr "ターミナル %d"
 
-#: src/sakura.c:1312
+#. Options parsing
+#: ../src/sakura.c:1311
 msgid "- vte-based terminal emulator"
 msgstr "- vte ベースのターミナルエミュレータ"
 
-#: src/sakura.c:1319
+#: ../src/sakura.c:1318
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
