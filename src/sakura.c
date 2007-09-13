@@ -129,12 +129,14 @@ static const char *option_font;
 static const char *option_execute;
 static gboolean option_version=FALSE;
 static gint option_ntabs=1;
+static gint option_login = FALSE;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
 	{ "execute", 'e', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
+	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
     { NULL }
 };
 
@@ -877,7 +879,11 @@ sakura_init()
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 
 	/* Set argv for forked childs */
-	sakura.argv[0]=g_strdup(g_getenv("SHELL"));
+	if (option_login) {
+		sakura.argv[0]=g_strdup_printf("-%s", g_getenv("SHELL"));
+	} else {
+		sakura.argv[0]=g_strdup(g_getenv("SHELL"));
+	}
    	sakura.argv[1]=NULL;
 
 	if (option_font) {
