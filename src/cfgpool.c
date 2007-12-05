@@ -2,7 +2,7 @@
 Configuration pool (source).
 $Rev: 46 $
 
-   Copyright (C) 2006 Rau'l Nu'n~ez de Arenas Coronado
+   Copyright (C) 2006,2007 Raúl Núñez de Arenas Coronado
    Report bugs to DervishD <bugs@dervishd.net>
 
          This program is free software; you can redistribute it and/or
@@ -46,7 +46,7 @@ $Rev: 46 $
         //                     //
          ///////////////////////
 
- 
+
 /*
 
     By now, the CfgPool is implemented using a hash table. The hash table is
@@ -105,33 +105,6 @@ static inline size_t  internal_one_at_a_time (const wchar_t *);
         //                                                     //
          //////////////////////////////////////////////////////
 
-
-/*
-
-    This function initializes the entire library.
-    It doesn't do anything (yet).
-
-*/
-int                             // Error code
-cfgpool_init (
-void                            // void
-){
-    return 0;
-}
-
-
-/*
-
-    This function de-initializes the entire library.
-    It doesn't do anything (yet).
-
-*/
-int                             // Error code
-cfgpool_done (
-void                            // void
-){
-    return 0;
-}
 
 ////////////////////////////////////////////////////////////
 

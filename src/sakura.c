@@ -5,7 +5,7 @@
  *           Copyright (C) 2006-2007  David Gómez <david@pleyades.net>
  *
  *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License version 2 as 
+ *  it under the terms of the GNU General Public License version 2 as
  *  published by the Free Software Foundation
  *
  *  This program is distributed in the hope that it will be useful,
@@ -18,7 +18,7 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *****************************************************************************/
-					 
+
 
 #include "mobs.h"
 #include <stdbool.h>
@@ -1013,7 +1013,6 @@ sakura_destroy()
 	cfgpool_dumptofile(sakura.pool, sakura.configfile, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
 	cfgpool_delete(sakura.pool);
 
-	cfgpool_done();
 	free(sakura.configfile);
 
 	gtk_main_quit();

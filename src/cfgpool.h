@@ -2,7 +2,7 @@
 Configuration pool (headers).
 $Rev: 44 $
 
-   Copyright (C) 2006 Rau'l Nu'n~ez de Arenas Coronado
+   Copyright (C) 2006,2007 Raúl Núñez de Arenas Coronado
    Report bugs to DervishD <bugs@dervishd.net>
 
          This program is free software; you can redistribute it and/or
@@ -38,7 +38,7 @@ enum {
     CFGPOOL_ENOMEMORY,      // Not enough memory
 
     CFGPOOL_EBADARG,        // Invalid argument in call to method
-    
+
     CFGPOOL_EBADITEM,       // Bad config item was read from file
 
     CFGPOOL_EILLKEY,        // Key contains an invalid mb or wide character
@@ -112,10 +112,6 @@ short" for the same purpose. Myself, I'm going to try to avoid "unsigned char"
 and "signed char" in my code...
 */
 
-
-// Library initialization
-int cfgpool_init (void);
-int cfgpool_done (void);
 
 // Pool creation and destruction
 CfgPool cfgpool_create (void);
