@@ -565,7 +565,9 @@ sakura_clear (GtkWidget *widget, void *data)
 
 	vte_terminal_set_background_image(VTE_TERMINAL(term.vte), NULL);
 
-	//cfgpool_additem(sakura.pool, "background", "none");
+	// FIXME: is this really needed? IMHO, this should be done just before
+	// dumping the config to the config file.
+	g_key_file_set_value(sakura.cfg, "default", "background", "none");
 
 	g_free(sakura.background);
 	sakura.background=NULL;
@@ -640,13 +642,13 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), TRUE);
 			vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), sakura.opacity_level);
 			sakura.fake_transparency = TRUE;
-			//cfgpool_additem(sakura.pool, "fake_transparency", "Yes");
+			g_key_file_set_value(sakura.cfg, "default", "fake_transparency", "Yes");
 		} else {
 			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), FALSE);
 			sakura.fake_transparency = FALSE;
-			//cfgpool_additem(sakura.pool, "fake_transparency", "No");
+			g_key_file_set_value(sakura.cfg, "default", "fake_transparency", "No");
 		}
-		//cfgpool_additem(sakura.pool, "opacity_level", sakura.opacity_level_percent);
+		g_key_file_set_value(sakura.cfg, "default", "opacity_level", sakura.opacity_level_percent);
 	}
 
 	gtk_widget_destroy(input_dialog);
@@ -657,21 +659,21 @@ sakura_show_first_tab (GtkWidget *widget, void *data)
 {
 	int page;
 	struct terminal term;
-	
+
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term=g_array_index(sakura.terminals, struct terminal, page);	
+	term=g_array_index(sakura.terminals, struct terminal, page);
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-		//cfgpool_additem(sakura.pool, "show_always_first_tab", "Yes");
+		g_key_file_set_value(sakura.cfg, "default", "show_always_first_tab", "Yes");
 	} else {
-		/* Only hide tabs if the notebook has one page */	
+		/* Only hide tabs if the notebook has one page */
 		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		}
-		//cfgpool_additem(sakura.pool, "show_always_first_tab", "No");
-	}	
-		
+		g_key_file_set_value(sakura.cfg, "default", "show_always_first_tab", "No");
+	}
+
 }
 
 
@@ -889,15 +891,6 @@ sakura_init()
 		g_key_file_set_value(sakura.cfg, "default", "show_always_first_tab", "No");
 	}
 
-	// TEST CODE 
-	gchar **keys = g_key_file_get_keys(sakura.cfg, "default", NULL, NULL);
-	while (*keys) {
-		gchar *value = g_key_file_get_value(sakura.cfg, "default", *keys, NULL);
-		printf("%s = %s\n", *keys, value);
-		*keys++;
-	}
-	die ("End of test code!\n");
-
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
@@ -1038,8 +1031,30 @@ sakura_destroy()
 	if (sakura.background)
 		free(sakura.background);
 
-	//cfgpool_dumptofile(sakura.pool, sakura.configfile, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
-	//cfgpool_delete(sakura.pool);
+	GError *gerror = NULL;
+	gsize len = 0;
+	gchar *data = g_key_file_to_data(sakura.cfg, &len, &gerror);
+	if (!data) {
+		die("%s\n", gerror->message);
+	}
+
+	/* Write to file */
+	GIOChannel *cfgfile = g_io_channel_new_file(sakura.configfile, "w", &gerror);
+	if (!cfgfile) {
+		die("%s\n", gerror->message);
+	}
+
+	/* FIXME: if the number of chars written is not "len", something happened.
+	 * Check for errors appropriately...*/
+	GIOStatus status = g_io_channel_write_chars(cfgfile, data, len, NULL, &gerror);
+	if (status != G_IO_STATUS_NORMAL) {
+		// FIXME: we should deal with temporary failures (G_IO_STATUS_AGAIN)
+		die("%s\n");
+	}
+
+	g_io_channel_close(cfgfile);
+
+	g_key_file_free(sakura.cfg);
 
 	free(sakura.configfile);
 
@@ -1175,21 +1190,19 @@ sakura_add_tab()
 	g_signal_connect(G_OBJECT(term.vte), "eof", G_CALLBACK(sakura_eof), NULL);
 	g_signal_connect(G_OBJECT(term.vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
 	g_signal_connect_swapped(G_OBJECT(term.vte), "button-press-event", G_CALLBACK(sakura_popup), sakura.menu);
-	
+
 	cwd = g_get_current_dir();
-#if 0
+
 	/* First tab */
 	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-		char *tmpvalue;	
-
-		if (//cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
-			if (strcmp(tmpvalue, "Yes")==0) {	
-				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-			} else {
-				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
-			}
-			free(tmpvalue);
+		gchar *cfgtmp = g_key_file_get_value(sakura.cfg, "default", "show_always_first_tab", NULL);
+		if (strcmp(cfgtmp, "Yes")==0) {	
+			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
+		} else {
+			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		}
+		g_free(cfgtmp);
+
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
 
@@ -1201,7 +1214,7 @@ sakura_add_tab()
 			if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
 				BUG();
 			}
-				
+
 			/* Check if the command is valid */
 			path=g_find_program_in_path(command_argv[0]);
 			if (path) 
@@ -1228,7 +1241,7 @@ sakura_add_tab()
 		term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), sakura.argv[0],
 											sakura.argv, NULL, cwd, TRUE, TRUE,TRUE);
 	}
-#endif
+
 	free(cwd);
 
 	/* Configuration per-terminal */
@@ -1266,21 +1279,17 @@ sakura_del_tab()
 
 	/* Remove the array element before removing the notebook page */
 	g_array_remove_index(sakura.terminals, page);
-			
+
 	gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook), page);
-	
+
 	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-		char *tmpvalue;
-#if 0
-		if (//cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
-			if (strcmp(tmpvalue, "Yes")==0) {	
-				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-			} else {
-				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
-			}
-			free(tmpvalue);
-	    }
-#endif
+		char *cfgtmp = g_key_file_get_value(sakura.cfg, "default", "show_always_first_tab", NULL);
+		if (strcmp(cfgtmp, "Yes")==0) {	
+			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
+		} else {
+			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		}
+		g_free(cfgtmp);
 	}
 
 }
@@ -1318,7 +1327,7 @@ sakura_set_bgimage(char *infile)
 			vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), TRUE);
 			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte),FALSE);
 
-			//cfgpool_additem(sakura.pool, "background", infile);
+			g_key_file_set_value(sakura.cfg, "default", "background", infile);
 		 }
 	}
 }
