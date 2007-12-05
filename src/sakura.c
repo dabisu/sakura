@@ -803,31 +803,39 @@ sakura_init()
 	char *tmpvalue;	
 
 	/* Config file initialization*/
-//	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
     sakura.config = g_key_file_new();
-    if (!sakura.config) {
-    	die("Not enough memory :??\n");
-	}
+
+//	FIXME sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
 	sakura.configfile=g_strdup_printf("src/sakura.conf");
 
-	gboolean result = g_key_file_load_from_file(sakura.config, sakura.configfile, 0 , &gerror);
+//	gboolean result = g_key_file_load_from_file(sakura.config,
+//			                                    sakura.configfile,
+//			                                    0,
+//			                                    &gerror);
 
-	if (result == FALSE) {
-		die(gerror->message);
-	}
+//	if (result == FALSE) {
+//		die("%s\n", gerror->message);
+//	}
 
-	die("End of test!\n");
 	/* TODO: Move out to a separate function */
 	/* Add default values */
-	//cfgpool_additem(sakura.pool, "font", DEFAULT_FONT);
-	//cfgpool_additem(sakura.pool, "forecolor", "#c0c0c0");
-	//cfgpool_additem(sakura.pool, "backcolor", "#000000");
-	//cfgpool_additem(sakura.pool, "boldcolor", "#ffffff");
-	//cfgpool_additem(sakura.pool, "opacity_level", "80");
-	//cfgpool_additem(sakura.pool, "fake_transparency", "No");
-	//cfgpool_additem(sakura.pool, "show_always_first_tab", "No");
-	/* Use config file if exists... */
-	//cfgpool_addfile(sakura.pool, sakura.configfile); 
+	g_key_file_set_value(sakura.config, "default", "font", DEFAULT_FONT);
+	g_key_file_set_value(sakura.config, "default", "forecolor", "#c0c0c0");
+	g_key_file_set_value(sakura.config, "default", "backcolor", "#000000");
+	g_key_file_set_value(sakura.config, "default", "boldcolor", "#ffffff");
+	g_key_file_set_value(sakura.config, "default", "opacity_level", "80");
+	g_key_file_set_value(sakura.config, "default", "fake_transparency", "No");
+	g_key_file_set_value(sakura.config, "default", "show_always_first_tab", "No");
+
+	gchar **keys = g_key_file_get_keys(sakura.config, "default", NULL, NULL);
+	while (*keys) {
+		gchar *value = g_key_file_get_value(sakura.config, "default", *keys, NULL);
+		printf("%s = %s\n", *keys, value);
+		*keys++;
+	}
+
+	
+	die ("End of test code!\n");
 	
 #if 0
 	/* Set initial values */
