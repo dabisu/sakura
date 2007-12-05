@@ -68,7 +68,7 @@ static struct {
 	bool *opacity;
 	bool first_tab;
 	GtkWidget *clear_item;
-	GKeyFile *config;
+	GKeyFile *cfg;
 	char *configfile;
 	char *background;
 	char *argv[2];
@@ -799,88 +799,109 @@ sakura_init()
 	GtkWidget *separator, *separator2, *separator3, *separator4;
 	GtkWidget *options_menu;
 	GError *gerror=NULL;
-	gchar *confitem;
-	char *tmpvalue;	
 
 	/* Config file initialization*/
-    sakura.config = g_key_file_new();
-
-
-	/* TODO: Move out to a separate function */
-	/* Add default values */
-	g_key_file_set_value(sakura.config, "default", "font", DEFAULT_FONT);
-	g_key_file_set_value(sakura.config, "default", "forecolor", "#c0c0c0");
-	g_key_file_set_value(sakura.config, "default", "backcolor", "#000000");
-	g_key_file_set_value(sakura.config, "default", "boldcolor", "#ffffff");
-	g_key_file_set_value(sakura.config, "default", "opacity_level", "80");
-	g_key_file_set_value(sakura.config, "default", "fake_transparency", "No");
-	g_key_file_set_value(sakura.config, "default", "show_always_first_tab", "No");
+    sakura.cfg = g_key_file_new();
 
 //	FIXME sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
 	sakura.configfile=g_strdup_printf("src/sakura.conf");
 
-	gboolean result = g_key_file_load_from_file(sakura.config,
-			                                    sakura.configfile,
-			                                    0,
-			                                    &gerror);
-
-	if (result == FALSE) {
+	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)){
 		die("%s\n", gerror->message);
 	}
 
-	gchar **keys = g_key_file_get_keys(sakura.config, "default", NULL, NULL);
+
+	/* TODO: Move out to a separate function */
+	/* Add default values if needed */
+
+	/* FIXME: this code is CRAP. All config items should be placed in some kind
+	 * of structure so code can be properly reused. By now I'm just replacing
+	 * the old cfgpool code with the new GKeyFile code.
+	 */
+
+	gchar *cfgtmp = NULL;
+
+	/* We can safely ignore errors from g_key_file_get_value(), since if the
+	 * call to g_key_file_has_key() was successful, the key IS there. From the
+	 * glib docs I don't know if we can ignore errors from g_key_file_has_key,
+	 * too. I think we can: the only possible error is that the config file
+	 * doesn't exist, but we have just read it!
+	 */
+
+	if (!g_key_file_has_key(sakura.cfg, "default", "forecolor", NULL)) {
+		g_key_file_set_value(sakura.cfg, "default", "forecolor", "#c0c0c0");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, "default", "forecolor", NULL);
+	gdk_color_parse(cfgtmp, &sakura.forecolor);
+	g_free(cfgtmp);
+
+
+	if (!g_key_file_has_key(sakura.cfg, "default", "backcolor", NULL)) {
+		g_key_file_set_value(sakura.cfg, "default", "backcolor", "#000000");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, "default", "backcolor", NULL);
+	gdk_color_parse(cfgtmp, &sakura.backcolor);
+	g_free(cfgtmp);
+
+
+	if (!g_key_file_has_key(sakura.cfg, "default", "boldcolor", NULL)) {
+		g_key_file_set_value(sakura.cfg, "default", "boldcolor", "#ffffff");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, "default", "boldcolor", NULL);
+	gdk_color_parse(cfgtmp, &sakura.boldcolor);
+	g_free(cfgtmp);
+
+
+	if (!g_key_file_has_key(sakura.cfg, "default", "opacity_level", NULL)) {
+		g_key_file_set_value(sakura.cfg, "default", "opacity_level", "80");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, "default", "opacity_level", NULL);
+	sakura.opacity_level_percent=cfgtmp;
+	sakura.opacity_level=( ( 100 - (atof(cfgtmp)) ) / 100 );
+	g_free(cfgtmp);
+
+
+	if (!g_key_file_has_key(sakura.cfg, "default", "fake_transparency", NULL)) {
+		g_key_file_set_value(sakura.cfg, "default", "fake_transparency", "No");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, "default", "fake_transparency", NULL);
+	if (strcmp(cfgtmp, "Yes")==0) {
+		sakura.fake_transparency=1;
+	} else {
+		sakura.fake_transparency=0;
+	}
+	g_free(cfgtmp);
+
+
+	if (!g_key_file_has_key(sakura.cfg, "default", "background", NULL)) {
+		g_key_file_set_value(sakura.cfg, "default", "background", "none");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, "default", "background", NULL);
+	if (strcmp(cfgtmp, "none")==0) {
+		sakura.background=NULL;
+	} else {
+		sakura.background=g_strdup(cfgtmp);
+	}
+	g_free(cfgtmp);
+
+
+	if (!g_key_file_has_key(sakura.cfg, "default", "font", NULL)) {
+		g_key_file_set_value(sakura.cfg, "default", "font", DEFAULT_FONT);
+	}
+
+	if (!g_key_file_has_key(sakura.cfg, "default", "show_always_first_tab", NULL)) {
+		g_key_file_set_value(sakura.cfg, "default", "show_always_first_tab", "No");
+	}
+
+	// TEST CODE 
+	gchar **keys = g_key_file_get_keys(sakura.cfg, "default", NULL, NULL);
 	while (*keys) {
-		gchar *value = g_key_file_get_value(sakura.config, "default", *keys, NULL);
+		gchar *value = g_key_file_get_value(sakura.cfg, "default", *keys, NULL);
 		printf("%s = %s\n", *keys, value);
 		*keys++;
 	}
-
-	
 	die ("End of test code!\n");
-	
-#if 0
-	/* Set initial values */
-	if (//cfgpool_getvalue(sakura.pool, "forecolor", &confitem)==0) {
-		gdk_color_parse(confitem, &sakura.forecolor);
-		free(confitem);
-	} 
 
-	if (//cfgpool_getvalue(sakura.pool, "backcolor", &confitem)==0) {
-		gdk_color_parse(confitem, &sakura.backcolor);
-		free(confitem);
-	}
-	
-	if (//cfgpool_getvalue(sakura.pool, "boldcolor", &confitem)==0) {
-		gdk_color_parse(confitem, &sakura.boldcolor);
-		free(confitem);
-	}
-
-	if (//cfgpool_getvalue(sakura.pool, "opacity_level", &confitem)==0) {
-		sakura.opacity_level_percent=confitem;
-		sakura.opacity_level=( ( 100 - (atof(confitem)) ) / 100 );
-		free(confitem);
-	}
-
-	if (//cfgpool_getvalue(sakura.pool, "fake_transparency", &confitem)==0) {
-		if (strcmp(confitem, "Yes")==0) {
-			sakura.fake_transparency=1;
-		} else {
-			sakura.fake_transparency=0;
-		}
-		free(confitem);
-	} 
-
-	if (//cfgpool_getvalue(sakura.pool, "background", &confitem)==0) {
-		if (strcmp(confitem, "none")==0) {
-			sakura.background=NULL;
-		} else {	
-			sakura.background=g_strdup(confitem);
-			free(confitem);
-		}
-	} else {
-		sakura.background=NULL;
-	}
-#endif
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
@@ -888,7 +909,7 @@ sakura_init()
 	sakura.term_info.columns = DEFAULT_COLUMNS;
 	sakura.term_info.rows = DEFAULT_ROWS;
 	sakura.term_info.init = FALSE;
-	
+
 	sakura.notebook=gtk_notebook_new();
 	sakura.terminals=g_array_sized_new(FALSE, TRUE, sizeof(struct terminal), 5);
 
@@ -898,22 +919,21 @@ sakura_init()
 	} else {
 		sakura.argv[0]=g_strdup(g_getenv("SHELL"));
 	}
-   	sakura.argv[1]=NULL;
-#if 0
+	sakura.argv[1]=NULL;
+
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
 	} else {
-	   	if (//cfgpool_getvalue(sakura.pool, "font", &confitem)==0) {	
-			sakura.font=pango_font_description_from_string(confitem);
-			free(confitem);
-		}
+        cfgtmp = g_key_file_get_value(sakura.cfg, "default", "font", NULL);
+		sakura.font = pango_font_description_from_string(cfgtmp);
+		free(cfgtmp);
 	}
-#endif
+
 	sakura.menu=gtk_menu_new();
 	sakura.label_count=1;
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
-	
+
 	/* Init notebook */
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK(sakura.notebook), TRUE);
 
@@ -930,17 +950,15 @@ sakura_init()
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
 	sakura.clear_item=gtk_menu_item_new_with_label(_("Clear background"));
 	item12=gtk_check_menu_item_new_with_label(_("Show always first tab"));
-#if 0
+
 	/* Show defaults in menu items */
-	if (//cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
-		if (strcmp(tmpvalue, "Yes")==0) {	
-			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), TRUE);
-		} else {
-			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), FALSE);
-		}
-		free(tmpvalue);
+	cfgtmp = g_key_file_get_value(sakura.cfg, "default", "show_always_first_tab", NULL);
+	if (strcmp(tmpvalue, "Yes")==0) {	
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), TRUE);
+	} else {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), FALSE);
 	}
-#endif		
+	g_free(cfgtmp);
 
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
 	item11=gtk_menu_item_new_with_label(_("Options"));
@@ -951,7 +969,7 @@ sakura_init()
 	separator2=gtk_separator_menu_item_new();
 	separator3=gtk_separator_menu_item_new();
 	separator4=gtk_separator_menu_item_new();
-	
+
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item1);
@@ -975,10 +993,10 @@ sakura_init()
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item12);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), opacity_menu);
-	
+
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item7), sakura.im_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item11), options_menu);
-	
+
 	g_signal_connect(G_OBJECT(item1), "activate", G_CALLBACK(sakura_new_tab), NULL);
 	g_signal_connect(G_OBJECT(item2), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
 	g_signal_connect(G_OBJECT(item6), "activate", G_CALLBACK(sakura_close_tab), NULL);
