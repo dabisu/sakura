@@ -385,7 +385,7 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
 	    sakura_set_font();
-	    //cfgpool_additem(sakura.pool, "font", pango_font_description_to_string(sakura.font));
+	    g_key_file_set_value(sakura.cfg, "default", "font", pango_font_description_to_string(sakura.font));
 	}
 
 	gtk_widget_destroy(font_dialog);
@@ -438,26 +438,18 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	GtkWidget *label1, *label2;
 	GtkWidget *buttonfore, *buttonback;
 	GtkWidget *vbox, *hbox_fore, *hbox_back;
-	char *confitem;
 	gint response;
 	int page;
 	struct terminal term;
-	
-	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term=g_array_index(sakura.terminals, struct terminal,  page);	
 
-	//cfgpool_getvalue(sakura.pool, "forecolor", &confitem);
-	gdk_color_parse(confitem, &sakura.forecolor);
-	free(confitem);
-	//cfgpool_getvalue(sakura.pool, "backcolor", &confitem);
-	gdk_color_parse(confitem, &sakura.backcolor);
-	free(confitem);
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal,  page);
 
 	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window),
 												GTK_DIALOG_MODAL,
 												GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
 												GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
-	
+
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
 
@@ -468,7 +460,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	label2=gtk_label_new(_("Select background color:"));
 	buttonfore=gtk_color_button_new_with_color(&sakura.forecolor);
 	buttonback=gtk_color_button_new_with_color(&sakura.backcolor);
-	
+
 	gtk_container_add(GTK_CONTAINER(hbox_fore), label1);
 	gtk_container_add(GTK_CONTAINER(hbox_fore), buttonfore);
 	gtk_container_add(GTK_CONTAINER(hbox_back), label2);
@@ -478,9 +470,9 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(color_dialog)->vbox), vbox, FALSE, FALSE, 10);
 
 	gtk_widget_show_all(vbox);
-	
+
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
-	
+
 	if (response==GTK_RESPONSE_ACCEPT) {
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
@@ -488,18 +480,22 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		sakura.boldcolor=sakura.forecolor;
 		vte_terminal_set_color_bold(VTE_TERMINAL(term.vte), &sakura.boldcolor);
 		vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
-		confitem=g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
-			   						sakura.forecolor.green>>8, sakura.forecolor.blue>>8);
-		//cfgpool_additem(sakura.pool, "forecolor", confitem);
-		free(confitem);
-		confitem=g_strdup_printf("#%02x%02x%02x", sakura.backcolor.red>>8,
-			   						sakura.backcolor.green>>8, sakura.backcolor.blue>>8);
-		//cfgpool_additem(sakura.pool, "backcolor", confitem);
-		free(confitem);
-		confitem=g_strdup_printf("#%02x%02x%02x", sakura.boldcolor.red>>8,
-			   						sakura.boldcolor.green>>8, sakura.boldcolor.blue>>8);
-		//cfgpool_additem(sakura.pool, "boldcolor", confitem);
-		free(confitem);
+
+		gchar *cfgtmp;
+		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
+		                         sakura.forecolor.green>>8, sakura.forecolor.blue>>8);
+		g_key_file_set_value(sakura.cfg, "default", "forecolor", cfgtmp);
+		g_free(cfgtmp);
+
+		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.backcolor.red >>8,
+		                         sakura.backcolor.green>>8, sakura.backcolor.blue>>8);
+		g_key_file_set_value(sakura.cfg, "default", "backcolor", cfgtmp);
+		g_free(cfgtmp);
+
+		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.boldcolor.red >>8,
+		                         sakura.boldcolor.green>>8, sakura.boldcolor.blue>>8);
+		g_key_file_set_value(sakura.cfg, "default", "boldcolor", cfgtmp);
+		g_free(cfgtmp);
 	}
 
 	gtk_widget_destroy(color_dialog);
@@ -953,7 +949,7 @@ sakura_init()
 
 	/* Show defaults in menu items */
 	cfgtmp = g_key_file_get_value(sakura.cfg, "default", "show_always_first_tab", NULL);
-	if (strcmp(tmpvalue, "Yes")==0) {	
+	if (strcmp(cfgtmp, "Yes")==0) {	
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), TRUE);
 	} else {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), FALSE);
