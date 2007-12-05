@@ -805,17 +805,6 @@ sakura_init()
 	/* Config file initialization*/
     sakura.config = g_key_file_new();
 
-//	FIXME sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
-	sakura.configfile=g_strdup_printf("src/sakura.conf");
-
-//	gboolean result = g_key_file_load_from_file(sakura.config,
-//			                                    sakura.configfile,
-//			                                    0,
-//			                                    &gerror);
-
-//	if (result == FALSE) {
-//		die("%s\n", gerror->message);
-//	}
 
 	/* TODO: Move out to a separate function */
 	/* Add default values */
@@ -826,6 +815,18 @@ sakura_init()
 	g_key_file_set_value(sakura.config, "default", "opacity_level", "80");
 	g_key_file_set_value(sakura.config, "default", "fake_transparency", "No");
 	g_key_file_set_value(sakura.config, "default", "show_always_first_tab", "No");
+
+//	FIXME sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
+	sakura.configfile=g_strdup_printf("src/sakura.conf");
+
+	gboolean result = g_key_file_load_from_file(sakura.config,
+			                                    sakura.configfile,
+			                                    0,
+			                                    &gerror);
+
+	if (result == FALSE) {
+		die("%s\n", gerror->message);
+	}
 
 	gchar **keys = g_key_file_get_keys(sakura.config, "default", NULL, NULL);
 	while (*keys) {
