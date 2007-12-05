@@ -1,25 +1,13 @@
 /*
-Configuration pool (headers).
-$Rev: 44 $
+Configuration pool (headers)
+$Rev$
 
-   Copyright (C) 2006,2007 Raúl Núñez de Arenas Coronado
-   Report bugs to DervishD <bugs@dervishd.net>
+Copyright (C) 2006,2007 Raúl Núñez de Arenas Coronado
 
-         This program is free software; you can redistribute it and/or
-          modify it under the terms of the GNU General Public License
-            version 2 as published by the Free Software Foundation.
+This file is distributed under the terms of the Artistic License 2.0
+as published by The Perl Foundation (http://www.perlfoundation.org).
 
-        This program is distributed in the hope that it will be useful,
-          but WITHOUT ANY WARRANTY; without even the implied warranty
-            of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-             See the GNU General Public License for more details.
-
-       You should have received a copy of the GNU General Public License
-              ('GPL') along with this program; if not, write to:
-
-                        Free Software Foundation, Inc.
-                          59 Temple Place, Suite 330
-                          Boston, MA 02111-1307  USA
+Report bugs to 'Dervishd <bugs@dervishd.net>'
 */
 
 #ifndef __CFGPOOL_H_
@@ -53,48 +41,52 @@ enum {
 // Exported types
 typedef struct CfgPool *CfgPool;
 typedef struct {
-    char *filename;
-    int fildes;
-    uintmax_t lineno;
+	char *filename;
+	int fildes;
+	uintmax_t lineno;
 } CIL;  // Config Item Location
 typedef int VHook (wchar_t *, wchar_t *, CIL);
 
 
 /*
 
-    NOTE about the validation hook: the validation hook is a callback function
-to perform "early validation", that is, to validate keyword-value pairs as
-soon as they are read and parsed from the file (or memory buffer, or...).
+NOTE about the validation hook: the validation hook is a callback
+function to perform "early validation", that is, to validate
+keyword-value pairs as soon as they are read and parsed from the file
+(or memory buffer, or...).
 
-    The function gets three parameters. The first one is the parsed keyword,
-as a wchar_t string, the second one is the parsed value (which may be NULL or
-empty), as a wchar_t string too. Both parameters may be modified by the
-function while validating them, prior to add them to the pool. The third
-parameter is de "CIL" (Config Item Location) and says where the item was read
-from. Currently only filenames and file descriptors are supported.
+The function gets three parameters. The first one is the parsed keyword,
+as a wchar_t string, the second one is the parsed value (which may be
+NULL or empty), as a wchar_t string too. Both parameters may be modified
+by the function while validating them, prior to add them to the pool.
+The third parameter is the "CIL" (Config Item Location) and says where
+the item was read from. Currently only filenames and file descriptors
+are supported.
 
-    The function can use the given information e.g. to validate the keyword
-against a list of valid keywords, to check type and range of value, print a
-warning about a potentially invalid config item, etc.
+The function can use the given information e.g. to validate the keyword
+against a list of valid keywords, to check type and range of value,
+print a warning about a potentially invalid config item, etc.
 
-    If the function decides that the item is valid, it must return 0. If, on
-the contrary, the function decides that the item is invalid, it must return a
-positive or a negative value. A positive value tells the library that the item
-is invalid and that it must be considered a fatal exception, so no further
-data adquiring or parsing must be done. The library then returns to the caller
-the "CFGPOOL_EBADITEM" error code (it is suggested that the validation hook
-itself uses this code, too, for indicating such condition). A negative value
-indicates that although the config item read is invalid and cannot be added to
-the pool, further processing can continue. It is advised that the validation
-hook returns "-CFGPOOL_EBADITEM" in this case.
+If the function decides that the item is valid, it must return 0. If, on
+the contrary, the function decides that the item is invalid, it must
+return a positive or a negative value. A positive value tells the
+library that the item is invalid and that it must be considered a fatal
+exception, so no further data adquiring or parsing must be done. The
+library then returns to the caller the "CFGPOOL_EBADITEM" error code (it
+is suggested that the validation hook itself uses this code, too, for
+indicating such condition). A negative value indicates that although the
+config item read is invalid and cannot be added to the pool, further
+processing can continue. It is advised that the validation hook returns
+"-CFGPOOL_EBADITEM" in this case.
 
-    Please note that you can "exit()", "abort()" or whatever from this hook,
-and you may even call any library function (they're reentrant), but in the
-common case you should just evaluate the arguments and return one of 0,
-"CFGPOOL_EBADITEM" or "-CFGPOOL_EBADITEM", for simplicity.
+Please note that you can "exit()", "abort()" or whatever from this hook,
+and you may even call any library function (they're reentrant), but in
+the common case you should just evaluate the arguments and return one of
+0, "CFGPOOL_EBADITEM" or "-CFGPOOL_EBADITEM", for simplicity.
 
-    If the function returns 0 for a NULL value, it will be regarded as valid,
-but it WON'T be added to the pool. This is current library policy.
+If the function returns 0 for a NULL value, it will be regarded as
+valid, but it WON'T be added to the pool. This is current library
+policy.
 
 */
 
