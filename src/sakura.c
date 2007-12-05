@@ -34,8 +34,6 @@
 #include <pango/pango.h>
 #include <vte/vte.h>
 
-#include "cfgpool.h"
-
 #define _(String) gettext(String)
 #define N_(String) (String)
 #define GETTEXT_PACKAGE "sakura"
@@ -70,7 +68,7 @@ static struct {
 	bool *opacity;
 	bool first_tab;
 	GtkWidget *clear_item;
-	CfgPool pool;
+	GKeyFile *config;
 	char *configfile;
 	char *background;
 	char *argv[2];
@@ -78,8 +76,8 @@ static struct {
 
 struct terminal {
 	GtkWidget *hbox;
-	GtkWidget *vte;		/* Reference to VTE terminal */
-	pid_t pid;			/* pid of the forked proccess */
+	GtkWidget *vte;     /* Reference to VTE terminal */
+	pid_t pid;          /* pid of the forked proccess */
 	GtkWidget *scrollbar;
 	GtkWidget *label;
 };
@@ -93,28 +91,28 @@ struct terminal {
 
 
 /* Callbacks */
-static gboolean	sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
-static void		sakura_increase_font (GtkWidget *, void *);
-static void		sakura_decrease_font (GtkWidget *, void *);
-static void		sakura_child_exited (GtkWidget *, void *);
-static void		sakura_eof (GtkWidget *, void *);
-static void	 	sakura_title_changed (GtkWidget *, void *);
+static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
+static void     sakura_increase_font (GtkWidget *, void *);
+static void     sakura_decrease_font (GtkWidget *, void *);
+static void     sakura_child_exited (GtkWidget *, void *);
+static void     sakura_eof (GtkWidget *, void *);
+static void     sakura_title_changed (GtkWidget *, void *);
 static gboolean sakura_delete_window (GtkWidget *, void *);
-static void 	sakura_destroy_window (GtkWidget *, void *);
+static void     sakura_destroy_window (GtkWidget *, void *);
 static gboolean sakura_popup (GtkWidget *, GdkEvent *);
-static void 	sakura_font_dialog (GtkWidget *, void *);
-static void 	sakura_set_name_dialog (GtkWidget *, void *);
-static void 	sakura_color_dialog (GtkWidget *, void *);
-static void 	sakura_new_tab (GtkWidget *, void *);
-static void 	sakura_close_tab (GtkWidget *, void *);
-static void 	sakura_background_selection (GtkWidget *, void *);
-static void 	sakura_open_url (GtkWidget *, void *);
-static void 	sakura_clear (GtkWidget *, void *);
-static void 	sakura_set_opacity (GtkWidget *, void *);
+static void     sakura_font_dialog (GtkWidget *, void *);
+static void     sakura_set_name_dialog (GtkWidget *, void *);
+static void     sakura_color_dialog (GtkWidget *, void *);
+static void     sakura_new_tab (GtkWidget *, void *);
+static void     sakura_close_tab (GtkWidget *, void *);
+static void     sakura_background_selection (GtkWidget *, void *);
+static void     sakura_open_url (GtkWidget *, void *);
+static void     sakura_clear (GtkWidget *, void *);
+static void     sakura_set_opacity (GtkWidget *, void *);
 static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
-static void 	sakura_setname_entry_changed(GtkWidget *, void *);
-static void 	sakura_copy(GtkWidget *, void *);
-static void 	sakura_paste(GtkWidget *, void *);
+static void     sakura_setname_entry_changed(GtkWidget *, void *);
+static void     sakura_copy(GtkWidget *, void *);
+static void     sakura_paste(GtkWidget *, void *);
 
 /* Functions */	
 static void     sakura_init();
@@ -387,7 +385,7 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
 	    sakura_set_font();
-	    cfgpool_additem(sakura.pool, "font", pango_font_description_to_string(sakura.font));
+	    //cfgpool_additem(sakura.pool, "font", pango_font_description_to_string(sakura.font));
 	}
 
 	gtk_widget_destroy(font_dialog);
@@ -448,10 +446,10 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
 
-	cfgpool_getvalue(sakura.pool, "forecolor", &confitem);
+	//cfgpool_getvalue(sakura.pool, "forecolor", &confitem);
 	gdk_color_parse(confitem, &sakura.forecolor);
 	free(confitem);
-	cfgpool_getvalue(sakura.pool, "backcolor", &confitem);
+	//cfgpool_getvalue(sakura.pool, "backcolor", &confitem);
 	gdk_color_parse(confitem, &sakura.backcolor);
 	free(confitem);
 
@@ -492,15 +490,15 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		vte_terminal_set_color_background(VTE_TERMINAL(term.vte), &sakura.backcolor);
 		confitem=g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
 			   						sakura.forecolor.green>>8, sakura.forecolor.blue>>8);
-		cfgpool_additem(sakura.pool, "forecolor", confitem);
+		//cfgpool_additem(sakura.pool, "forecolor", confitem);
 		free(confitem);
 		confitem=g_strdup_printf("#%02x%02x%02x", sakura.backcolor.red>>8,
 			   						sakura.backcolor.green>>8, sakura.backcolor.blue>>8);
-		cfgpool_additem(sakura.pool, "backcolor", confitem);
+		//cfgpool_additem(sakura.pool, "backcolor", confitem);
 		free(confitem);
 		confitem=g_strdup_printf("#%02x%02x%02x", sakura.boldcolor.red>>8,
 			   						sakura.boldcolor.green>>8, sakura.boldcolor.blue>>8);
-		cfgpool_additem(sakura.pool, "boldcolor", confitem);
+		//cfgpool_additem(sakura.pool, "boldcolor", confitem);
 		free(confitem);
 	}
 
@@ -571,7 +569,7 @@ sakura_clear (GtkWidget *widget, void *data)
 
 	vte_terminal_set_background_image(VTE_TERMINAL(term.vte), NULL);
 
-	cfgpool_additem(sakura.pool, "background", "none");
+	//cfgpool_additem(sakura.pool, "background", "none");
 
 	g_free(sakura.background);
 	sakura.background=NULL;
@@ -646,13 +644,13 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), TRUE);
 			vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), sakura.opacity_level);
 			sakura.fake_transparency = TRUE;
-			cfgpool_additem(sakura.pool, "fake_transparency", "Yes");
+			//cfgpool_additem(sakura.pool, "fake_transparency", "Yes");
 		} else {
 			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte), FALSE);
 			sakura.fake_transparency = FALSE;
-			cfgpool_additem(sakura.pool, "fake_transparency", "No");
+			//cfgpool_additem(sakura.pool, "fake_transparency", "No");
 		}
-		cfgpool_additem(sakura.pool, "opacity_level", sakura.opacity_level_percent);
+		//cfgpool_additem(sakura.pool, "opacity_level", sakura.opacity_level_percent);
 	}
 
 	gtk_widget_destroy(input_dialog);
@@ -669,13 +667,13 @@ sakura_show_first_tab (GtkWidget *widget, void *data)
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-		cfgpool_additem(sakura.pool, "show_always_first_tab", "Yes");
+		//cfgpool_additem(sakura.pool, "show_always_first_tab", "Yes");
 	} else {
 		/* Only hide tabs if the notebook has one page */	
 		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		}
-		cfgpool_additem(sakura.pool, "show_always_first_tab", "No");
+		//cfgpool_additem(sakura.pool, "show_always_first_tab", "No");
 	}	
 		
 }
@@ -805,49 +803,56 @@ sakura_init()
 	char *tmpvalue;	
 
 	/* Config file initialization*/
-	sakura.pool=cfgpool_create();
-
-	if (!sakura.pool) {
-		die("Out of memory\n");
+//	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
+    sakura.config = g_key_file_new();
+    if (!sakura.config) {
+    	die("Not enough memory :??\n");
 	}
-	
+	sakura.configfile=g_strdup_printf("src/sakura.conf");
+
+	gboolean result = g_key_file_load_from_file(sakura.config, sakura.configfile, 0 , &gerror);
+
+	if (result == FALSE) {
+		die(gerror->message);
+	}
+
+	die("End of test!\n");
 	/* TODO: Move out to a separate function */
 	/* Add default values */
-	cfgpool_additem(sakura.pool, "font", DEFAULT_FONT);
-	cfgpool_additem(sakura.pool, "forecolor", "#c0c0c0");
-	cfgpool_additem(sakura.pool, "backcolor", "#000000");
-	cfgpool_additem(sakura.pool, "boldcolor", "#ffffff");
-	cfgpool_additem(sakura.pool, "opacity_level", "80");
-	cfgpool_additem(sakura.pool, "fake_transparency", "No");
-	cfgpool_additem(sakura.pool, "show_always_first_tab", "No");
-	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
+	//cfgpool_additem(sakura.pool, "font", DEFAULT_FONT);
+	//cfgpool_additem(sakura.pool, "forecolor", "#c0c0c0");
+	//cfgpool_additem(sakura.pool, "backcolor", "#000000");
+	//cfgpool_additem(sakura.pool, "boldcolor", "#ffffff");
+	//cfgpool_additem(sakura.pool, "opacity_level", "80");
+	//cfgpool_additem(sakura.pool, "fake_transparency", "No");
+	//cfgpool_additem(sakura.pool, "show_always_first_tab", "No");
 	/* Use config file if exists... */
-	cfgpool_addfile(sakura.pool, sakura.configfile); 
+	//cfgpool_addfile(sakura.pool, sakura.configfile); 
 	
-
+#if 0
 	/* Set initial values */
-	if (cfgpool_getvalue(sakura.pool, "forecolor", &confitem)==0) {
+	if (//cfgpool_getvalue(sakura.pool, "forecolor", &confitem)==0) {
 		gdk_color_parse(confitem, &sakura.forecolor);
 		free(confitem);
 	} 
 
-	if (cfgpool_getvalue(sakura.pool, "backcolor", &confitem)==0) {
+	if (//cfgpool_getvalue(sakura.pool, "backcolor", &confitem)==0) {
 		gdk_color_parse(confitem, &sakura.backcolor);
 		free(confitem);
 	}
 	
-	if (cfgpool_getvalue(sakura.pool, "boldcolor", &confitem)==0) {
+	if (//cfgpool_getvalue(sakura.pool, "boldcolor", &confitem)==0) {
 		gdk_color_parse(confitem, &sakura.boldcolor);
 		free(confitem);
 	}
 
-	if (cfgpool_getvalue(sakura.pool, "opacity_level", &confitem)==0) {
+	if (//cfgpool_getvalue(sakura.pool, "opacity_level", &confitem)==0) {
 		sakura.opacity_level_percent=confitem;
 		sakura.opacity_level=( ( 100 - (atof(confitem)) ) / 100 );
 		free(confitem);
 	}
 
-	if (cfgpool_getvalue(sakura.pool, "fake_transparency", &confitem)==0) {
+	if (//cfgpool_getvalue(sakura.pool, "fake_transparency", &confitem)==0) {
 		if (strcmp(confitem, "Yes")==0) {
 			sakura.fake_transparency=1;
 		} else {
@@ -856,7 +861,7 @@ sakura_init()
 		free(confitem);
 	} 
 
-	if (cfgpool_getvalue(sakura.pool, "background", &confitem)==0) {
+	if (//cfgpool_getvalue(sakura.pool, "background", &confitem)==0) {
 		if (strcmp(confitem, "none")==0) {
 			sakura.background=NULL;
 		} else {	
@@ -866,7 +871,7 @@ sakura_init()
 	} else {
 		sakura.background=NULL;
 	}
-
+#endif
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "Sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
@@ -885,16 +890,16 @@ sakura_init()
 		sakura.argv[0]=g_strdup(g_getenv("SHELL"));
 	}
    	sakura.argv[1]=NULL;
-
+#if 0
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
 	} else {
-	   	if (cfgpool_getvalue(sakura.pool, "font", &confitem)==0) {	
+	   	if (//cfgpool_getvalue(sakura.pool, "font", &confitem)==0) {	
 			sakura.font=pango_font_description_from_string(confitem);
 			free(confitem);
 		}
 	}
-
+#endif
 	sakura.menu=gtk_menu_new();
 	sakura.label_count=1;
 
@@ -916,9 +921,9 @@ sakura_init()
 	item4=gtk_menu_item_new_with_label(_("Select background..."));
 	sakura.clear_item=gtk_menu_item_new_with_label(_("Clear background"));
 	item12=gtk_check_menu_item_new_with_label(_("Show always first tab"));
-
+#if 0
 	/* Show defaults in menu items */
-	if (cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
+	if (//cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
 		if (strcmp(tmpvalue, "Yes")==0) {	
 			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item12), TRUE);
 		} else {
@@ -926,7 +931,7 @@ sakura_init()
 		}
 		free(tmpvalue);
 	}
-		
+#endif		
 
 	item7=gtk_menu_item_new_with_label(_("Input methods"));
 	item11=gtk_menu_item_new_with_label(_("Options"));
@@ -1010,8 +1015,8 @@ sakura_destroy()
 	if (sakura.background)
 		free(sakura.background);
 
-	cfgpool_dumptofile(sakura.pool, sakura.configfile, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
-	cfgpool_delete(sakura.pool);
+	//cfgpool_dumptofile(sakura.pool, sakura.configfile, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+	//cfgpool_delete(sakura.pool);
 
 	free(sakura.configfile);
 
@@ -1149,12 +1154,12 @@ sakura_add_tab()
 	g_signal_connect_swapped(G_OBJECT(term.vte), "button-press-event", G_CALLBACK(sakura_popup), sakura.menu);
 	
 	cwd = g_get_current_dir();
-
+#if 0
 	/* First tab */
 	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 		char *tmpvalue;	
 
-		if (cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
+		if (//cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
 			if (strcmp(tmpvalue, "Yes")==0) {	
 				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 			} else {
@@ -1200,7 +1205,7 @@ sakura_add_tab()
 		term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), sakura.argv[0],
 											sakura.argv, NULL, cwd, TRUE, TRUE,TRUE);
 	}
-
+#endif
 	free(cwd);
 
 	/* Configuration per-terminal */
@@ -1243,15 +1248,16 @@ sakura_del_tab()
 	
 	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 		char *tmpvalue;
-		
-		if (cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
+#if 0
+		if (//cfgpool_getvalue(sakura.pool, "show_always_first_tab", &tmpvalue)==0) {
 			if (strcmp(tmpvalue, "Yes")==0) {	
 				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 			} else {
 				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 			}
 			free(tmpvalue);
-		}
+	    }
+#endif
 	}
 
 }
@@ -1289,7 +1295,7 @@ sakura_set_bgimage(char *infile)
 			vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), TRUE);
 			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte),FALSE);
 
-			cfgpool_additem(sakura.pool, "background", infile);
+			//cfgpool_additem(sakura.pool, "background", infile);
 		 }
 	}
 }
