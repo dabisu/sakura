@@ -801,8 +801,7 @@ sakura_init()
 	/* Config file initialization*/
     sakura.cfg = g_key_file_new();
 
-//	FIXME sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
-	sakura.configfile=g_strdup_printf("src/sakura.conf");
+	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
 
 	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)){
 		die("%s\n", gerror->message);
@@ -811,12 +810,6 @@ sakura_init()
 
 	/* TODO: Move out to a separate function */
 	/* Add default values if needed */
-
-	/* FIXME: this code is CRAP. All config items should be placed in some kind
-	 * of structure so code can be properly reused. By now I'm just replacing
-	 * the old cfgpool code with the new GKeyFile code.
-	 */
-
 	gchar *cfgtmp = NULL;
 
 	/* We can safely ignore errors from g_key_file_get_value(), since if the
