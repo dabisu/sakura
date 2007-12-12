@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Sakura
+Comment=Use the command line
+TryExec=sakura
+Exec=sakura
+Icon=terminal-tango.png
+Type=Application
+Categories=GTK;Utility;TerminalEmulator;
+StartupNotify=true
+X-Ubuntu-Gettext-Domain=sakura

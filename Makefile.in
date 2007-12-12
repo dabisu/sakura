@@ -42,6 +42,7 @@ install: all update-po
 	@$(call makedir,$(DATADIR)/pixmaps,$(DIRMODE))
 	@$(call install_files,terminal-tango.png,$(DATADIR)/pixmaps,a=rx)
 	@$(call makedir,$(DATADIR)/locale,$(DIRMODE))
+	@$(call install_files,sakura.desktop,$(DATADIR)/applications,a=rx)
 	@for i in po/*.mo; do \
 		LINGUA=`basename $${i%%.*}`;\
 		echo $(DATADIR)/locale/$${LINGUA}/LC_MESSAGES/$(PROJECT).mo;\
