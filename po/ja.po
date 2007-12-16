@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-12 02:07+0100\n"
+"POT-Creation-Date: 2007-12-16 17:27+0100\n"
 "PO-Revision-Date: 2006-10-17 20:16+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -73,60 +73,60 @@ msgstr ""
 msgid "Disable opacity"
 msgstr ""
 
-#: src/sakura.c:923
+#: src/sakura.c:936
 msgid "Open link..."
 msgstr "リンクを開く"
 
-#: src/sakura.c:925
+#: src/sakura.c:938
 msgid "New tab"
 msgstr "新規タブ"
 
-#: src/sakura.c:926
+#: src/sakura.c:939
 msgid "Set name..."
 msgstr "名前を指定"
 
-#: src/sakura.c:927
+#: src/sakura.c:940
 msgid "Close tab"
 msgstr "タブを閉じる"
 
-#: src/sakura.c:931
+#: src/sakura.c:944
 msgid "Select colors.."
 msgstr "配色を選択"
 
-#: src/sakura.c:932
+#: src/sakura.c:945
 msgid "Select background..."
 msgstr "背景を選択"
 
-#: src/sakura.c:933
+#: src/sakura.c:946
 msgid "Clear background"
 msgstr "背景をクリア"
 
-#: src/sakura.c:934
+#: src/sakura.c:947
 msgid "Show always first tab"
 msgstr "常に最初のタブを表示"
 
-#: src/sakura.c:945
+#: src/sakura.c:958
 msgid "Input methods"
 msgstr "入力メソッド"
 
-#: src/sakura.c:946
+#: src/sakura.c:959
 msgid "Options"
 msgstr "オプション"
 
-#: src/sakura.c:948
+#: src/sakura.c:961
 msgid "Set opacity level..."
 msgstr ""
 
-#: src/sakura.c:1141
+#: src/sakura.c:1154
 #, c-format
 msgid "Terminal %d"
 msgstr "ターミナル %d"
 
-#: src/sakura.c:1347
+#: src/sakura.c:1360
 msgid "- vte-based terminal emulator"
 msgstr "- vte ベースのターミナルエミュレータ"
 
-#: src/sakura.c:1354
+#: src/sakura.c:1367
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"

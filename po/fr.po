@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-12 02:07+0100\n"
+"POT-Creation-Date: 2007-12-16 17:27+0100\n"
 "PO-Revision-Date: 2007-08-23 00:07+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "MIME-Version: 1.0\n"
@@ -73,60 +73,60 @@ msgstr "Niveau d'opacité (%)"
 msgid "Disable opacity"
 msgstr "Désactiver l'opacité"
 
-#: src/sakura.c:923
+#: src/sakura.c:936
 msgid "Open link..."
 msgstr "Ouvrir le lien..."
 
-#: src/sakura.c:925
+#: src/sakura.c:938
 msgid "New tab"
 msgstr "Nouvel onglet"
 
-#: src/sakura.c:926
+#: src/sakura.c:939
 msgid "Set name..."
 msgstr "Définir un nom..."
 
-#: src/sakura.c:927
+#: src/sakura.c:940
 msgid "Close tab"
 msgstr "Fermer l'onglet"
 
-#: src/sakura.c:931
+#: src/sakura.c:944
 msgid "Select colors.."
 msgstr "Choix des couleurs."
 
-#: src/sakura.c:932
+#: src/sakura.c:945
 msgid "Select background..."
 msgstr "Définir l'arrière plan"
 
-#: src/sakura.c:933
+#: src/sakura.c:946
 msgid "Clear background"
 msgstr "Effacer l'arrière plan"
 
-#: src/sakura.c:934
+#: src/sakura.c:947
 msgid "Show always first tab"
 msgstr "Toujours afficher le premier onglet"
 
-#: src/sakura.c:945
+#: src/sakura.c:958
 msgid "Input methods"
 msgstr "Méthodes d'entrée"
 
-#: src/sakura.c:946
+#: src/sakura.c:959
 msgid "Options"
 msgstr "Options"
 
-#: src/sakura.c:948
+#: src/sakura.c:961
 msgid "Set opacity level..."
 msgstr "Définir le niveau d'opacité..."
 
-#: src/sakura.c:1141
+#: src/sakura.c:1154
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
-#: src/sakura.c:1347
+#: src/sakura.c:1360
 msgid "- vte-based terminal emulator"
 msgstr "Émulateur de terminal utilisant VTE"
 
-#: src/sakura.c:1354
+#: src/sakura.c:1367
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura version %s\n"
