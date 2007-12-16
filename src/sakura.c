@@ -813,7 +813,7 @@ sakura_init()
 		 * sakura release in the future */
 		rename(sakura.configfile, "/tmp/sakura.cfg.old");
 		g_file_get_contents("/tmp/sakura.cfg.old", &file_contents, NULL, NULL);
-		new_file_contents=g_strconcat("[sakura]\n", file_contents);
+		new_file_contents=g_strconcat("[sakura]\n", file_contents, NULL);
 		g_file_set_contents(sakura.configfile, new_file_contents, strlen(new_file_contents), NULL);
 		g_free(file_contents); g_free(new_file_contents);
 		unlink("/tmp/sakura.cfg.old");
