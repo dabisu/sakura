@@ -803,8 +803,21 @@ sakura_init()
 
 	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
 
-	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)){
-		die("%s\n", gerror->message);
+	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)) {
+		char *file_contents;
+		char *new_file_contents;
+
+		/* Workaround for cfgpool to g_key_file update. We update the config
+		 * file here if needed. This support should be removed in future
+		 * versions as everyone is supposed to be using a recent (no cfgpool)
+		 * sakura release in the future */
+		rename(sakura.configfile, "/tmp/sakura.cfg.old");
+		g_file_get_contents("/tmp/sakura.cfg.old", &file_contents, NULL, NULL);
+		new_file_contents=g_strconcat("[sakura]\n", file_contents);
+		g_file_set_contents(sakura.configfile, new_file_contents, strlen(new_file_contents), NULL);
+		g_free(file_contents); g_free(new_file_contents);
+		unlink("/tmp/sakura.cfg.old");
+		g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror);
 	}
 
 

@@ -36,18 +36,6 @@ else
 	echo "#define DEFAULT_FONT \"Bitstream Vera Sans Mono 14\"" >> config.h
 fi
 
-echo -n "Checking for older config file versions..."
-grep -q "\[sakura\]" $HOME/.sakura.conf
-if [ $? -eq 1 ]; then
-	echo " updating"
-	mv $HOME/.sakura.conf /tmp/.sakura.conf.old
-	echo "[sakura]" > /tmp/sakura
-	cat /tmp/sakura /tmp/.sakura.conf.old > $HOME/.sakura.conf
-	rm /tmp/sakura /tmp/.sakura.conf.old
-else	
-	echo " ok"
-fi	
-
 printf -- "\n"
 printf -- "$PROJECT binary will be installed in: \t'%s'\n" "$BINDIR"
 printf -- "$PROJECT icons will be installed in: \t'%s'\n" "$DATADIR/$PROJECT"
