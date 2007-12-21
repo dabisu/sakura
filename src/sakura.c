@@ -19,9 +19,12 @@
  *
  *****************************************************************************/
 
-
-#include "mobs.h"
+#include "config.h"
 #include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -38,6 +41,17 @@
 #define N_(String) (String)
 #define GETTEXT_PACKAGE "sakura"
 
+#ifndef NDEBUG
+#define SAY(format,...) do {\
+    fwide(stderr, -1);\
+    fprintf(stderr, "[%d] ", getpid());\
+    if (format) fprintf(stderr, format, ##__VA_ARGS__);\
+    fputc('\n', stderr);\
+    fflush(stderr);\
+} while (0)
+#else
+#define SAY(format,...) do {} while (0)
+#endif
 
 static struct {
 	GtkWidget *main_window;
@@ -113,6 +127,9 @@ static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
 static void     sakura_setname_entry_changed(GtkWidget *, void *);
 static void     sakura_copy(GtkWidget *, void *);
 static void     sakura_paste(GtkWidget *, void *);
+
+/* Misc */
+static void     sakura_error(const char *, ...);
 
 /* Functions */	
 static void     sakura_init();
@@ -545,7 +562,7 @@ sakura_open_url (GtkWidget *widget, void *data)
 	}
 
 	if (!g_spawn_command_line_async(cmd, &error)) {
-		SAY("Couldn't exec \"%s\": %s", cmd, error->message);
+		sakura_error("Couldn't exec \"%s\": %s", cmd, error->message);
 	}
 
 	g_free(cmd);
@@ -604,8 +621,8 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 	term=g_array_index(sakura.terminals, struct terminal, page);
 
 	input_dialog=gtk_dialog_new_with_buttons(_("Opacity"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-											GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
-											GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+			GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
+			GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
 
@@ -682,17 +699,17 @@ sakura_get_term_row_col (gint width, gint height)
 {
 	struct terminal term;
 	gint x_adjust, y_adjust;
-	
+
 	term=g_array_index(sakura.terminals, struct terminal, 0);	
 	vte_terminal_get_padding( VTE_TERMINAL(term.vte),
-	                          &x_adjust,
-	                          &y_adjust );
+			&x_adjust,
+			&y_adjust );
 	sakura.term_info.char_width = vte_terminal_get_char_width(VTE_TERMINAL(term.vte));
 	sakura.term_info.char_height = vte_terminal_get_char_height(VTE_TERMINAL(term.vte));
 	x_adjust += sakura.main_window->allocation.width - term.vte->allocation.width;
 	sakura.term_info.columns = (width - x_adjust) / sakura.term_info.char_width;
 	y_adjust += sakura.main_window->allocation.height -
-	            term.vte->allocation.height;
+		term.vte->allocation.height;
 	sakura.term_info.rows = ( height - y_adjust)  / sakura.term_info.char_height;
 }
 
@@ -726,10 +743,10 @@ sakura_copy (GtkWidget *widget, void *data)
 {
 	int page;
 	struct terminal term;
-	
+
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
-	
+
 	vte_terminal_copy_primary(VTE_TERMINAL(term.vte));
 }
 
@@ -739,10 +756,10 @@ sakura_paste (GtkWidget *widget, void *data)
 {
 	int page;
 	struct terminal term;
-	
+
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
-	
+
 	vte_terminal_paste_primary(VTE_TERMINAL(term.vte));
 }
 
@@ -760,16 +777,19 @@ sakura_reordered_tab (GtkWidget *widget, void *data)
 {
 	SAY("reorder-tab signal");
 }
+
 static void
 sakura_page_reordered (GtkWidget *widget, void *data)
 {
 	SAY("page-reordered signal");
 }
+
 static void
 sakura_move_focus_out (GtkWidget *widget, void *data)
 {
 	SAY("move-focus-out");
 }
+
 static void
 sakura_focus_tab (GtkWidget *widget, void *data)
 {
@@ -781,7 +801,7 @@ static void
 sakura_close_tab (GtkWidget *widget, void *data)
 {
 	sakura_del_tab();
-	
+
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
 		sakura_destroy();
 }
@@ -793,13 +813,13 @@ static void
 sakura_init()
 {
 	GtkWidget *item1, *item2, *item3, *item4, *item6;
-    GtkWidget *item7, *item8, *item9, *item10, *item11, *item12, *opacity_menu;
+	GtkWidget *item7, *item8, *item9, *item10, *item11, *item12, *opacity_menu;
 	GtkWidget *separator, *separator2, *separator3, *separator4;
 	GtkWidget *options_menu;
 	GError *gerror=NULL;
 
 	/* Config file initialization*/
-    sakura.cfg = g_key_file_new();
+	sakura.cfg = g_key_file_new();
 
 	sakura.configfile=g_strdup_printf("%s/%s", getenv("HOME"), CONFIGFILE);
 
@@ -919,7 +939,7 @@ sakura_init()
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
 	} else {
-        cfgtmp = g_key_file_get_value(sakura.cfg, "sakura", "font", NULL);
+		cfgtmp = g_key_file_get_value(sakura.cfg, "sakura", "font", NULL);
 		sakura.font = pango_font_description_from_string(cfgtmp);
 		free(cfgtmp);
 	}
@@ -1030,7 +1050,7 @@ sakura_destroy()
 	while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) >= 1) {
 		sakura_del_tab();
 	}
-	
+
 	g_array_free(sakura.terminals, TRUE);
 	pango_font_description_free(sakura.font);
 
@@ -1041,13 +1061,15 @@ sakura_destroy()
 	gsize len = 0;
 	gchar *data = g_key_file_to_data(sakura.cfg, &len, &gerror);
 	if (!data) {
-		die("%s\n", gerror->message);
+		fprintf(stderr, "%s\n", gerror->message);
+		exit(EXIT_FAILURE);
 	}
 
 	/* Write to file */
 	GIOChannel *cfgfile = g_io_channel_new_file(sakura.configfile, "w", &gerror);
 	if (!cfgfile) {
-		die("%s\n", gerror->message);
+		fprintf(stderr, "%s\n", gerror->message);
+		exit(EXIT_FAILURE);
 	}
 
 	/* FIXME: if the number of chars written is not "len", something happened.
@@ -1055,7 +1077,8 @@ sakura_destroy()
 	GIOStatus status = g_io_channel_write_chars(cfgfile, data, len, NULL, &gerror);
 	if (status != G_IO_STATUS_NORMAL) {
 		// FIXME: we should deal with temporary failures (G_IO_STATUS_AGAIN)
-		die("%s\n");
+		fprintf(stderr, "%s\n", gerror->message);
+		exit(EXIT_FAILURE);
 	}
 
 	g_io_channel_close(cfgfile);
@@ -1068,6 +1091,7 @@ sakura_destroy()
 
 }
 
+
 static void
 sakura_set_size()
 {
@@ -1077,7 +1101,7 @@ sakura_set_size()
 	GdkGeometry hints;
 	gint pad_x, pad_y;
 	gint char_width, char_height;
-	
+
 
 	term=g_array_index(sakura.terminals, struct terminal, 0);	
 	vte_terminal_get_padding(VTE_TERMINAL(term.vte), (int *)&pad_x, (int *)&pad_y);
@@ -1091,10 +1115,10 @@ sakura_set_size()
 	hints.width_inc = char_width;
 	hints.height_inc = char_height;
 	gtk_window_set_geometry_hints ( GTK_WINDOW (sakura.main_window),
-	                                GTK_WIDGET (term.vte),
-	                                &hints,
-	                                GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
-	
+			GTK_WIDGET (term.vte),
+			&hints,
+			GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
+
 	gtk_widget_size_request (sakura.main_window, &main_request);
 	gtk_widget_size_request (term.vte, &term_request);
 	sakura.width = main_request.width - term_request.width;
@@ -1103,12 +1127,10 @@ sakura_set_size()
 	sakura.height += pad_y + char_height * sakura.term_info.rows;
 	if (GTK_WIDGET_MAPPED (sakura.main_window)) {
 		gtk_window_resize (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
-	}
-	else {
+	} else {
 		gtk_window_set_default_size (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
 	}
 }
-
 
 
 static void
@@ -1118,7 +1140,7 @@ sakura_set_font()
 	struct terminal term;
 	int i;
 	static gboolean init = FALSE;
-	
+
 	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	/* Set the font for all tabs */
@@ -1145,32 +1167,32 @@ sakura_add_tab()
 	int index;
 	gchar *label_text;
 	gchar *cwd;
-	
+
 	term.hbox=gtk_hbox_new(FALSE, 0);
 	term.vte=vte_terminal_new();
 
 	vte_terminal_set_size(VTE_TERMINAL(term.vte), DEFAULT_COLUMNS, DEFAULT_ROWS);
-	
+
 	label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term.label=gtk_label_new(label_text);
 	g_free(label_text);
-	
+
 	/* Init vte */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term.vte), SCROLL_LINES);
 	vte_terminal_match_add(VTE_TERMINAL(term.vte), HTTP_REGEXP);
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term.vte), TRUE);
-	
+
 	term.scrollbar=gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(term.vte)));
 
 	gtk_box_pack_start(GTK_BOX(term.hbox), term.vte, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(term.hbox), term.scrollbar, FALSE, FALSE, 0);
 
 	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.hbox, term.label))==-1) {
-		SAY("Cannot create a new tab"); BUG();
+		sakura_error("Cannot create a new tab"); 
 		return;
 	}
 
-//Disable until it gets stable	
+	//Disable until it gets stable	
 #if 0
 #if (GTK_MAJOR_VERSION >= 2 && GTK_MINOR_VERSION >=10)
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(sakura.notebook), term.hbox, TRUE);
@@ -1218,7 +1240,8 @@ sakura_add_tab()
 			gchar *path;
 
 			if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
-				BUG();
+				sakura_error("Cannot parse command line arguments");
+				exit(1);
 			}
 
 			/* Check if the command is valid */
@@ -1226,17 +1249,17 @@ sakura_add_tab()
 			if (path) 
 				free(path);
 			else
-			   	option_execute=NULL;
+				option_execute=NULL;
 
 			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), command_argv[0],
-						   						command_argv, NULL, cwd, TRUE, TRUE, TRUE);
+					command_argv, NULL, cwd, TRUE, TRUE, TRUE);
 			g_strfreev(command_argv);
 			option_execute=NULL;
 		} else {
 			term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), sakura.argv[0],
-												sakura.argv, NULL, cwd, TRUE, TRUE, TRUE);
+					sakura.argv, NULL, cwd, TRUE, TRUE, TRUE);
 		}
-	/* Not the first tab */	
+		/* Not the first tab */	
 	} else {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		sakura_set_font();
@@ -1245,7 +1268,7 @@ sakura_add_tab()
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 		term.pid=vte_terminal_fork_command(VTE_TERMINAL(term.vte), sakura.argv[0],
-											sakura.argv, NULL, cwd, TRUE, TRUE,TRUE);
+				sakura.argv, NULL, cwd, TRUE, TRUE,TRUE);
 	}
 
 	free(cwd);
@@ -1276,10 +1299,10 @@ sakura_del_tab()
 {
 	gint page;
 	struct terminal term;
-	
+
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal,  page);
-	
+
 	gtk_widget_hide(term.hbox);
 	//gtk_widget_hide(term.label);
 
@@ -1315,8 +1338,8 @@ sakura_set_bgimage(char *infile)
 	GdkPixbuf *pixbuf=NULL;
 	int page;
 	struct terminal term;
-	
-	ASSERT(infile);
+
+	if (!infile) SAY("File parameter is NULL");
 
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term=g_array_index(sakura.terminals, struct terminal, page);	
@@ -1324,25 +1347,40 @@ sakura_set_bgimage(char *infile)
 	/* Check file existence and type */
 	if (g_file_test(infile, G_FILE_TEST_IS_REGULAR)) {
 
- 		pixbuf = gdk_pixbuf_new_from_file (infile, &gerror);
+		pixbuf = gdk_pixbuf_new_from_file (infile, &gerror);
 		if (!pixbuf) {
-			SAY("Frick: %s\n", gerror->message);
-			SAY("Frick: not using image file...\n");
+			sakura_error("Not using image file, %s\n", gerror->message);
 		} else {
 			vte_terminal_set_background_image(VTE_TERMINAL(term.vte), pixbuf);
 			vte_terminal_set_background_saturation(VTE_TERMINAL(term.vte), TRUE);
 			vte_terminal_set_background_transparent(VTE_TERMINAL(term.vte),FALSE);
 
 			g_key_file_set_value(sakura.cfg, "sakura", "background", infile);
-		 }
+		}
 	}
+}
+
+
+static void
+sakura_error(const char *format, ...) 
+{
+	GtkWidget *dialog;
+	va_list args;
+
+	va_start(args, format);
+
+	dialog = gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_DESTROY_WITH_PARENT,
+			 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, format, args);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+
+	va_end(args);
+	gtk_widget_destroy (dialog);
 }
 
 
 int
 main(int argc, char **argv)
 {
-
 	struct terminal term;
 	gchar *localedir;
 	GError *error=NULL;
