@@ -1,0 +1,8 @@
+PROJECT(sakura)
+
+INCLUDE(FindPkgConfig)
+
+IF(NOT PKG_CONFIG_FOUND)
+	MESSAGE(FATAL_ERROR "pkg-config not found...")
+ENDIF(NOT PKG_CONFIG_FOUND)
+
