@@ -750,6 +750,7 @@ sakura_copy (GtkWidget *widget, void *data)
 	term=g_array_index(sakura.terminals, struct terminal,  page);	
 
 	vte_terminal_copy_primary(VTE_TERMINAL(term.vte));
+	vte_terminal_copy_clipboard(VTE_TERMINAL(term.vte));
 }
 
 
