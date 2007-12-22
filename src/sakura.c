@@ -145,6 +145,7 @@ static const char *option_execute;
 static gboolean option_version=FALSE;
 static gint option_ntabs=1;
 static gint option_login = FALSE;
+static const char *option_title;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
@@ -152,6 +153,7 @@ static GOptionEntry entries[] = {
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
 	{ "execute", 'e', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
+	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
     { NULL }
 };
 
@@ -935,6 +937,10 @@ sakura_init()
 		sakura.argv[0]=g_strdup(g_getenv("SHELL"));
 	}
 	sakura.argv[1]=NULL;
+
+	if (option_title) {
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), option_title);
+	}
 
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
