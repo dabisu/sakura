@@ -1,7 +1,8 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.4 FATAL_ERROR)
 PROJECT (sakura)
 SET (AUTHOR "David Gómez Espinosa" INTERNAL "Author")
-SET (VERSION "1.3.0" INTERNAL "Version")
+SET (VERSION "1.3.0")
+MESSAGE("${VERSION}")
 
 # TODO: support user defined directories
 # BINDIR, DATADIR
@@ -22,6 +23,8 @@ IF (NOT VTE_FOUND)
 	MESSAGE(FATAL_ERROR "You don't seem to have vte >= 0.11 development libraries installed...")
 ENDIF (NOT VTE_FOUND)
 
+ADD_DEFINITIONS (-DVERSION=\\\"${VERSION}\\\")
+
 INCLUDE_DIRECTORIES (. ${GTK_INCLUDE_DIRS} ${VTE_INCLUDE_DIRS})
 LINK_DIRECTORIES (${GTK_LIBRARY_DIRS} ${VTE_LIBRARY_DIRS})
 LINK_LIBRARIES (${GTK_LIBRARIES} ${VTE_LIBRARIES})
@@ -29,7 +32,6 @@ ADD_EXECUTABLE (sakura src/sakura.c)
 ADD_DEPENDENCIES (sakura src/sakura.c src/sakura.h)
 
 # TODO: check permissions	
-# TODO: what happens if destination doesn't exists?	
 INSTALL (TARGETS sakura
 		 RUNTIME DESTINATION bin)	
 INSTALL (FILES sakura.desktop
