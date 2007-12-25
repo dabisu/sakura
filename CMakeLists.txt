@@ -27,3 +27,12 @@ LINK_DIRECTORIES (${GTK_LIBRARY_DIRS} ${VTE_LIBRARY_DIRS})
 LINK_LIBRARIES (${GTK_LIBRARIES} ${VTE_LIBRARIES})
 ADD_EXECUTABLE (sakura src/sakura.c)
 ADD_DEPENDENCIES (sakura src/sakura.c src/sakura.h)
+
+# TODO: check permissions	
+# TODO: what happens if destination doesn't exists?	
+INSTALL (TARGETS sakura
+		 RUNTIME DESTINATION bin)	
+INSTALL (FILES sakura.desktop
+		 DESTINATION share/applications)
+INSTALL (FILES terminal-tango.png
+		 DESTINATION share/pixmaps)
