@@ -19,7 +19,6 @@
  *
  *****************************************************************************/
 
-#include "config.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
@@ -102,6 +101,7 @@ struct terminal {
 #define CONFIGFILE ".sakura.conf"
 #define DEFAULT_COLUMNS 80
 #define DEFAULT_ROWS 24
+#define DEFAULT_FONT "monospace 11"
 
 
 /* Callbacks */
