@@ -11,8 +11,11 @@ Installing sakura
 	free world!! (Yes, sakura used MOBS before this, but what the hell,
 	i wanted to say out loud that ;-))
 
-	FIXME: prefix with CMake?
+	To install sakura with a different prefix, cmake needs to be
+	invoked with the proper environment variables, so to install
+	sakura in /usr, you should do:
 
+	$ cmake -DCMAKE_INSTALL_PREFIX=/usr .
 
 Keybindings support
 ===================
