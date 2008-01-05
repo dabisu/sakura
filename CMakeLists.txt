@@ -33,6 +33,8 @@ LINK_LIBRARIES (${GTK_LIBRARIES} ${VTE_LIBRARIES})
 ADD_EXECUTABLE (sakura src/sakura.c)
 ADD_DEPENDENCIES (sakura src/sakura.c src/sakura.h)
 
+ADD_SUBDIRECTORY (po)
+
 # TODO: check permissions	
 INSTALL (TARGETS sakura
 		 RUNTIME DESTINATION bin)	

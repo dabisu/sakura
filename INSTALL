@@ -3,33 +3,29 @@ Installing sakura
 
 * How to compile and install this beast ?
 
-	$ ./0 
+	$ cmake . 
 	$ make
 	$ su -c 'make install'
 
-	sakura use the MOBS building system. That means you need to run the "0"
-	script instead of a "configure" script, but the syntax is very similar.
+	sakura now use the CMake building system. Welcome to an autotools
+	free world!! (Yes, sakura used MOBS before this, but what the hell,
+	i wanted to say out loud that ;-))
 
-	In this example, the 0 script is executed without any parameters, so sakura
-	gets installed in the default directory (/usr/local), but you can
-	tell to 0 your favourite installation directories, in an syntax very 
-	similar to 'configure'. For example, to change the prefix installation
-	directory and the data directory, run 0 with the command './0 --prefix=/usr'
-	For all the installation options run './0 --help'.
+	FIXME: prefix with CMake?
 
 
 Keybindings support
 ===================
 
-sakura support keyboard bindings. They're not yet configurable
-(unless you hack the source ;)), but they'll be.
+	sakura support keyboard bindings. They're not yet configurable
+	(unless you hack the source ;)), but they'll be.
 
-Ctrl + Shift + 't'		-> New tab
-Ctrl + Shift + 'w'  	-> Close current tab
-Ctrl + '+'				-> Increase font size
-Ctrl + '-'				-> Decrease font size
-Alt  + 'Left cursor'	-> Previous tab
-Alt  + 'Right cursor'	-> Next tab
+	Ctrl + Shift + 't'		-> New tab
+	Ctrl + Shift + 'w'  	-> Close current tab
+	Ctrl + '+'				-> Increase font size
+	Ctrl + '-'				-> Decrease font size
+	Alt  + 'Left cursor'	-> Previous tab
+	Alt  + 'Right cursor'	-> Next tab
 
 
 
