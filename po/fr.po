@@ -6,132 +6,132 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-25 17:14+0100\n"
+"POT-Creation-Date: 2008-01-05 10:09+0100\n"
 "PO-Revision-Date: 2007-08-23 00:07+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
+"Language-Team: <fabrice.thiroux@free.fr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language-Team: <fabrice.thiroux@free.fr>\n"
 
-#: src/sakura.c:151
+#: /home/david/src/sakura/po/../src/sakura.c:151
 msgid "Print version number"
 msgstr "Afficher le numéro de version"
 
-#: src/sakura.c:152
+#: /home/david/src/sakura/po/../src/sakura.c:152
 msgid "Select initial terminal font"
 msgstr "Sélectionner la police de démarrage"
 
-#: src/sakura.c:153
+#: /home/david/src/sakura/po/../src/sakura.c:153
 msgid "Select initial number of tabs"
 msgstr "Sélectionner le nombre d'onglet au démarrage"
 
-#: src/sakura.c:154
+#: /home/david/src/sakura/po/../src/sakura.c:154
 msgid "Execute command"
 msgstr "Exécuter une commande"
 
-#: src/sakura.c:155
+#: /home/david/src/sakura/po/../src/sakura.c:155
 msgid "Login shell"
 msgstr ""
 
-#: src/sakura.c:156
+#: /home/david/src/sakura/po/../src/sakura.c:156
 msgid "Set window title"
 msgstr ""
 
-#: src/sakura.c:319
+#: /home/david/src/sakura/po/../src/sakura.c:319
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Il y a d'autres onglets ouverts. Voulez-vous vraiment fermer Sakura ?"
 
-#: src/sakura.c:397
+#: /home/david/src/sakura/po/../src/sakura.c:397
 msgid "Select font"
 msgstr "Sélectionner la police"
 
-#: src/sakura.c:426
+#: /home/david/src/sakura/po/../src/sakura.c:426
 msgid "Set name"
 msgstr "Définir le nom"
 
-#: src/sakura.c:467
+#: /home/david/src/sakura/po/../src/sakura.c:467
 msgid "Select color"
 msgstr "Sélectionner une couleur"
 
-#: src/sakura.c:478
+#: /home/david/src/sakura/po/../src/sakura.c:478
 msgid "Select foreground color:"
 msgstr "Sélectionner la couleur de premier plan"
 
-#: src/sakura.c:479
+#: /home/david/src/sakura/po/../src/sakura.c:479
 msgid "Select background color:"
 msgstr "Sélectionner la couleur d'arrière plan"
 
-#: src/sakura.c:531
+#: /home/david/src/sakura/po/../src/sakura.c:531
 msgid "Select a background file"
 msgstr "Sélectionner une image de fond"
 
-#: src/sakura.c:625
+#: /home/david/src/sakura/po/../src/sakura.c:625
 msgid "Opacity"
 msgstr "Opacité"
 
-#: src/sakura.c:634
+#: /home/david/src/sakura/po/../src/sakura.c:634
 msgid "Opacity level (%):"
 msgstr "Niveau d'opacité (%)"
 
-#: src/sakura.c:636
+#: /home/david/src/sakura/po/../src/sakura.c:636
 msgid "Disable opacity"
 msgstr "Désactiver l'opacité"
 
-#: src/sakura.c:963
+#: /home/david/src/sakura/po/../src/sakura.c:963
 msgid "Open link..."
 msgstr "Ouvrir le lien..."
 
-#: src/sakura.c:965
+#: /home/david/src/sakura/po/../src/sakura.c:965
 msgid "New tab"
 msgstr "Nouvel onglet"
 
-#: src/sakura.c:966
+#: /home/david/src/sakura/po/../src/sakura.c:966
 msgid "Set name..."
 msgstr "Définir un nom..."
 
-#: src/sakura.c:967
+#: /home/david/src/sakura/po/../src/sakura.c:967
 msgid "Close tab"
 msgstr "Fermer l'onglet"
 
-#: src/sakura.c:971
+#: /home/david/src/sakura/po/../src/sakura.c:971
 msgid "Select colors.."
 msgstr "Choix des couleurs."
 
-#: src/sakura.c:972
+#: /home/david/src/sakura/po/../src/sakura.c:972
 msgid "Select background..."
 msgstr "Définir l'arrière plan"
 
-#: src/sakura.c:973
+#: /home/david/src/sakura/po/../src/sakura.c:973
 msgid "Clear background"
 msgstr "Effacer l'arrière plan"
 
-#: src/sakura.c:974
+#: /home/david/src/sakura/po/../src/sakura.c:974
 msgid "Show always first tab"
 msgstr "Toujours afficher le premier onglet"
 
-#: src/sakura.c:985
+#: /home/david/src/sakura/po/../src/sakura.c:985
 msgid "Input methods"
 msgstr "Méthodes d'entrée"
 
-#: src/sakura.c:986
+#: /home/david/src/sakura/po/../src/sakura.c:986
 msgid "Options"
 msgstr "Options"
 
-#: src/sakura.c:988
+#: /home/david/src/sakura/po/../src/sakura.c:988
 msgid "Set opacity level..."
 msgstr "Définir le niveau d'opacité..."
 
-#: src/sakura.c:1183
+#: /home/david/src/sakura/po/../src/sakura.c:1183
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
-#: src/sakura.c:1405
+#: /home/david/src/sakura/po/../src/sakura.c:1405
 msgid "- vte-based terminal emulator"
 msgstr "Émulateur de terminal utilisant VTE"
 
-#: src/sakura.c:1412
-#, c-format
-msgid "sakura version is %s\n"
+#: /home/david/src/sakura/po/../src/sakura.c:1412
+#, fuzzy
+msgid "sakura version is "
 msgstr "Sakura version %s\n"

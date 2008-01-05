@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-25 17:14+0100\n"
+"POT-Creation-Date: 2008-01-05 10:09+0100\n"
 "PO-Revision-Date: 2006-10-17 20:16+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,126 +13,126 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/sakura.c:151
+#: /home/david/src/sakura/po/../src/sakura.c:151
 msgid "Print version number"
 msgstr "バージョン番号を表示"
 
-#: src/sakura.c:152
+#: /home/david/src/sakura/po/../src/sakura.c:152
 msgid "Select initial terminal font"
 msgstr "ターミナルのフォントを選択"
 
-#: src/sakura.c:153
+#: /home/david/src/sakura/po/../src/sakura.c:153
 msgid "Select initial number of tabs"
 msgstr "タブの数を選択"
 
-#: src/sakura.c:154
+#: /home/david/src/sakura/po/../src/sakura.c:154
 msgid "Execute command"
 msgstr "コマンドを実行"
 
-#: src/sakura.c:155
+#: /home/david/src/sakura/po/../src/sakura.c:155
 msgid "Login shell"
 msgstr ""
 
-#: src/sakura.c:156
+#: /home/david/src/sakura/po/../src/sakura.c:156
 msgid "Set window title"
 msgstr ""
 
-#: src/sakura.c:319
+#: /home/david/src/sakura/po/../src/sakura.c:319
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "複数のタブを開いています。本当に Sakura を終了しますか？"
 
-#: src/sakura.c:397
+#: /home/david/src/sakura/po/../src/sakura.c:397
 msgid "Select font"
 msgstr "フォントを選択"
 
-#: src/sakura.c:426
+#: /home/david/src/sakura/po/../src/sakura.c:426
 msgid "Set name"
 msgstr "名前を選択"
 
-#: src/sakura.c:467
+#: /home/david/src/sakura/po/../src/sakura.c:467
 msgid "Select color"
 msgstr "配色を選択"
 
-#: src/sakura.c:478
+#: /home/david/src/sakura/po/../src/sakura.c:478
 msgid "Select foreground color:"
 msgstr "前景色を選択:"
 
-#: src/sakura.c:479
+#: /home/david/src/sakura/po/../src/sakura.c:479
 msgid "Select background color:"
 msgstr "背景色を選択:"
 
-#: src/sakura.c:531
+#: /home/david/src/sakura/po/../src/sakura.c:531
 msgid "Select a background file"
 msgstr "背景ファイルを選択"
 
-#: src/sakura.c:625
+#: /home/david/src/sakura/po/../src/sakura.c:625
 msgid "Opacity"
 msgstr ""
 
-#: src/sakura.c:634
+#: /home/david/src/sakura/po/../src/sakura.c:634
 msgid "Opacity level (%):"
 msgstr ""
 
-#: src/sakura.c:636
+#: /home/david/src/sakura/po/../src/sakura.c:636
 msgid "Disable opacity"
 msgstr ""
 
-#: src/sakura.c:963
+#: /home/david/src/sakura/po/../src/sakura.c:963
 msgid "Open link..."
 msgstr "リンクを開く"
 
-#: src/sakura.c:965
+#: /home/david/src/sakura/po/../src/sakura.c:965
 msgid "New tab"
 msgstr "新規タブ"
 
-#: src/sakura.c:966
+#: /home/david/src/sakura/po/../src/sakura.c:966
 msgid "Set name..."
 msgstr "名前を指定"
 
-#: src/sakura.c:967
+#: /home/david/src/sakura/po/../src/sakura.c:967
 msgid "Close tab"
 msgstr "タブを閉じる"
 
-#: src/sakura.c:971
+#: /home/david/src/sakura/po/../src/sakura.c:971
 msgid "Select colors.."
 msgstr "配色を選択"
 
-#: src/sakura.c:972
+#: /home/david/src/sakura/po/../src/sakura.c:972
 msgid "Select background..."
 msgstr "背景を選択"
 
-#: src/sakura.c:973
+#: /home/david/src/sakura/po/../src/sakura.c:973
 msgid "Clear background"
 msgstr "背景をクリア"
 
-#: src/sakura.c:974
+#: /home/david/src/sakura/po/../src/sakura.c:974
 msgid "Show always first tab"
 msgstr "常に最初のタブを表示"
 
-#: src/sakura.c:985
+#: /home/david/src/sakura/po/../src/sakura.c:985
 msgid "Input methods"
 msgstr "入力メソッド"
 
-#: src/sakura.c:986
+#: /home/david/src/sakura/po/../src/sakura.c:986
 msgid "Options"
 msgstr "オプション"
 
-#: src/sakura.c:988
+#: /home/david/src/sakura/po/../src/sakura.c:988
 msgid "Set opacity level..."
 msgstr ""
 
-#: src/sakura.c:1183
+#: /home/david/src/sakura/po/../src/sakura.c:1183
 #, c-format
 msgid "Terminal %d"
 msgstr "ターミナル %d"
 
-#: src/sakura.c:1405
+#: /home/david/src/sakura/po/../src/sakura.c:1405
 msgid "- vte-based terminal emulator"
 msgstr "- vte ベースのターミナルエミュレータ"
 
-#: src/sakura.c:1412
-#, c-format
-msgid "sakura version is %s\n"
+#: /home/david/src/sakura/po/../src/sakura.c:1412
+#, fuzzy
+msgid "sakura version is "
 msgstr "sakura のバージョンは %s です\n"
 
 #~ msgid "Fake transparency"

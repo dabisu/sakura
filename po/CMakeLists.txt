@@ -1,30 +1,38 @@
 # Localization
-FIND_PROGRAM(GETTEXT_MSGFMT_EXECUTABLE msgfmt)
+FIND_PROGRAM(XGETTEXT xgettext)
+FIND_PROGRAM(MSGFMT msgfmt)
+FIND_PROGRAM(MSGMERGE msgmerge)
 
-IF(NOT GETTEXT_MSGFMT_EXECUTABLE)
+IF(NOT MSGFMT)
 	MESSAGE( "------
 			NOTE: msgfmt not found. Translations will *not* be installed
 			------")
-ELSE(NOT GETTEXT_MSGFMT_EXECUTABLE)
+ELSE(NOT MSGFMT)
 
-SET(catalogname sakura)
+	SET(catalogname sakura)
 
-ADD_CUSTOM_TARGET(translations ALL)
+	ADD_CUSTOM_TARGET(translations ALL)
 
-FILE(GLOB PO_FILES *.po)
+	FILE(GLOB PO_FILES *.po)
+	FILE(GLOB SOURCES ../src/*.c)
 
-# TODO: Regenerate *.po files
-FOREACH(_poFile ${PO_FILES})
-	GET_FILENAME_COMPONENT(_lang ${_poFile} NAME_WE)
-	SET(_moFile ${_lang}.mo)
 	ADD_CUSTOM_COMMAND(TARGET translations
-			COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} --check -o ${_moFile} ${_poFile}
-			DEPENDS ${_poFile})
-	INSTALL(FILES ${_moFile}
-		   	DESTINATION share/locale/${_lang}/LC_MESSAGES/
-		   	RENAME ${catalogname}.mo)
-ENDFOREACH(_poFile ${PO_FILES})
+		COMMAND ${XGETTEXT} -o sakura.pot --keyword=_ --keyword=N_ --from-code=utf-8 ${SOURCES} 
+		DEPENDS ${_poFile})
+	FOREACH(_poFile ${PO_FILES})
+		GET_FILENAME_COMPONENT(_lang ${_poFile} NAME_WE)
+		SET(_moFile ${_lang}.mo)
+		ADD_CUSTOM_COMMAND(TARGET translations
+				COMMAND ${MSGMERGE} -U ${_poFile} --backup=none sakura.pot
+				DEPENDS ${_poFile})
+		ADD_CUSTOM_COMMAND(TARGET translations
+				COMMAND ${MSGFMT} --check -o ${_moFile} ${_poFile}
+				DEPENDS ${_poFile})
+		INSTALL(FILES ${_moFile}
+			   	DESTINATION share/locale/${_lang}/LC_MESSAGES/
+			   	RENAME ${catalogname}.mo)
+	ENDFOREACH(_poFile ${PO_FILES})
 
-ENDIF(NOT GETTEXT_MSGFMT_EXECUTABLE)
+ENDIF(NOT MSGFMT)
 
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-25 17:14+0100\n"
+"POT-Creation-Date: 2008-01-05 10:09+0100\n"
 "PO-Revision-Date: 2006-06-20 09:26+0800\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -15,127 +15,127 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/sakura.c:151
+#: /home/david/src/sakura/po/../src/sakura.c:151
 msgid "Print version number"
 msgstr ""
 
-#: src/sakura.c:152
+#: /home/david/src/sakura/po/../src/sakura.c:152
 msgid "Select initial terminal font"
 msgstr ""
 
-#: src/sakura.c:153
+#: /home/david/src/sakura/po/../src/sakura.c:153
 msgid "Select initial number of tabs"
 msgstr ""
 
-#: src/sakura.c:154
+#: /home/david/src/sakura/po/../src/sakura.c:154
 msgid "Execute command"
 msgstr ""
 
-#: src/sakura.c:155
+#: /home/david/src/sakura/po/../src/sakura.c:155
 msgid "Login shell"
 msgstr ""
 
-#: src/sakura.c:156
+#: /home/david/src/sakura/po/../src/sakura.c:156
 msgid "Set window title"
 msgstr ""
 
-#: src/sakura.c:319
+#: /home/david/src/sakura/po/../src/sakura.c:319
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "已经打开多个标签，确实要关闭 Sakura 吗？"
 
-#: src/sakura.c:397
+#: /home/david/src/sakura/po/../src/sakura.c:397
 msgid "Select font"
 msgstr "选择字体"
 
-#: src/sakura.c:426
+#: /home/david/src/sakura/po/../src/sakura.c:426
 msgid "Set name"
 msgstr "设置名称"
 
-#: src/sakura.c:467
+#: /home/david/src/sakura/po/../src/sakura.c:467
 msgid "Select color"
 msgstr "选择颜色"
 
-#: src/sakura.c:478
+#: /home/david/src/sakura/po/../src/sakura.c:478
 msgid "Select foreground color:"
 msgstr "选择前景色："
 
-#: src/sakura.c:479
+#: /home/david/src/sakura/po/../src/sakura.c:479
 msgid "Select background color:"
 msgstr "选择背景色："
 
-#: src/sakura.c:531
+#: /home/david/src/sakura/po/../src/sakura.c:531
 msgid "Select a background file"
 msgstr "选择一个背景图片"
 
-#: src/sakura.c:625
+#: /home/david/src/sakura/po/../src/sakura.c:625
 msgid "Opacity"
 msgstr ""
 
-#: src/sakura.c:634
+#: /home/david/src/sakura/po/../src/sakura.c:634
 msgid "Opacity level (%):"
 msgstr ""
 
-#: src/sakura.c:636
+#: /home/david/src/sakura/po/../src/sakura.c:636
 msgid "Disable opacity"
 msgstr ""
 
-#: src/sakura.c:963
+#: /home/david/src/sakura/po/../src/sakura.c:963
 msgid "Open link..."
 msgstr "打开链接"
 
-#: src/sakura.c:965
+#: /home/david/src/sakura/po/../src/sakura.c:965
 msgid "New tab"
 msgstr "新建标签"
 
-#: src/sakura.c:966
+#: /home/david/src/sakura/po/../src/sakura.c:966
 msgid "Set name..."
 msgstr "设置名称..."
 
-#: src/sakura.c:967
+#: /home/david/src/sakura/po/../src/sakura.c:967
 msgid "Close tab"
 msgstr "关闭标签"
 
-#: src/sakura.c:971
+#: /home/david/src/sakura/po/../src/sakura.c:971
 msgid "Select colors.."
 msgstr "选择颜色..."
 
-#: src/sakura.c:972
+#: /home/david/src/sakura/po/../src/sakura.c:972
 msgid "Select background..."
 msgstr "选择背景..."
 
-#: src/sakura.c:973
+#: /home/david/src/sakura/po/../src/sakura.c:973
 #, fuzzy
 msgid "Clear background"
 msgstr "选择背景..."
 
-#: src/sakura.c:974
+#: /home/david/src/sakura/po/../src/sakura.c:974
 msgid "Show always first tab"
 msgstr ""
 
-#: src/sakura.c:985
+#: /home/david/src/sakura/po/../src/sakura.c:985
 msgid "Input methods"
 msgstr "输入法"
 
-#: src/sakura.c:986
+#: /home/david/src/sakura/po/../src/sakura.c:986
 msgid "Options"
 msgstr ""
 
-#: src/sakura.c:988
+#: /home/david/src/sakura/po/../src/sakura.c:988
 msgid "Set opacity level..."
 msgstr ""
 
-#: src/sakura.c:1183
+#: /home/david/src/sakura/po/../src/sakura.c:1183
 #, c-format
 msgid "Terminal %d"
 msgstr ""
 
-#: src/sakura.c:1405
+#: /home/david/src/sakura/po/../src/sakura.c:1405
 msgid "- vte-based terminal emulator"
 msgstr "- 基于 vte 的终端模拟器"
 
-#: src/sakura.c:1412
-#, c-format
-msgid "sakura version is %s\n"
+#: /home/david/src/sakura/po/../src/sakura.c:1412
+#, fuzzy
+msgid "sakura version is "
 msgstr "sakura 版本是 %s\n"
 
 #, fuzzy
