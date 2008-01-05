@@ -24,8 +24,7 @@ IF (NOT VTE_FOUND)
 ENDIF (NOT VTE_FOUND)
 
 ADD_DEFINITIONS (-DVERSION=\\\"${VERSION}\\\")
-# Temporal hack }:)
-ADD_DEFINITIONS (-DDATADIR=\\\"/usr/local/share\\\")
+ADD_DEFINITIONS (-DDATADIR=\\\"${CMAKE_INSTALL_PREFIX}/share\\\")
 
 INCLUDE_DIRECTORIES (. ${GTK_INCLUDE_DIRS} ${VTE_INCLUDE_DIRS})
 LINK_DIRECTORIES (${GTK_LIBRARY_DIRS} ${VTE_LIBRARY_DIRS})
@@ -42,3 +41,9 @@ INSTALL (FILES sakura.desktop
 		 DESTINATION share/applications)
 INSTALL (FILES terminal-tango.png
 		 DESTINATION share/pixmaps)
+
+ADD_CUSTOM_TARGET (distclean
+	rm -f Makefile cmake_install.cmake CMakeCache.txt
+	COMMAND rm -f po/*.mo po/sakura.pot
+	COMMAND rm -f po/Makefile po/cmake_install.cmake 
+	COMMAND rm -rf CMakeFiles po/CMakeFiles)
