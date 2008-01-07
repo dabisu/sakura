@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-05 10:09+0100\n"
+"POT-Creation-Date: 2008-01-07 01:50+0100\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -16,125 +16,95 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: /home/david/src/sakura/po/../src/sakura.c:151
 msgid "Print version number"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:152
 msgid "Select initial terminal font"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:153
 msgid "Select initial number of tabs"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:154
 msgid "Execute command"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:155
 msgid "Login shell"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:156
 msgid "Set window title"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:319
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Több lap is nyitva van. Bezárod a Sakurát?"
 
-#: /home/david/src/sakura/po/../src/sakura.c:397
 msgid "Select font"
 msgstr "Válassz betűt"
 
-#: /home/david/src/sakura/po/../src/sakura.c:426
 msgid "Set name"
 msgstr "Név beállítása"
 
-#: /home/david/src/sakura/po/../src/sakura.c:467
 msgid "Select color"
 msgstr "Válassz színt"
 
-#: /home/david/src/sakura/po/../src/sakura.c:478
 msgid "Select foreground color:"
 msgstr "Válassz színt"
 
-#: /home/david/src/sakura/po/../src/sakura.c:479
 msgid "Select background color:"
 msgstr "Válassz háttér fájlt"
 
-#: /home/david/src/sakura/po/../src/sakura.c:531
 msgid "Select a background file"
 msgstr "Válassz háttér fájlt"
 
-#: /home/david/src/sakura/po/../src/sakura.c:625
 msgid "Opacity"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:634
 msgid "Opacity level (%):"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:636
 msgid "Disable opacity"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:963
 msgid "Open link..."
 msgstr "Link megnyitása..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:965
 msgid "New tab"
 msgstr "Új lap"
 
-#: /home/david/src/sakura/po/../src/sakura.c:966
 msgid "Set name..."
 msgstr "Név beállítása..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:967
 msgid "Close tab"
 msgstr "Lap bezárása"
 
-#: /home/david/src/sakura/po/../src/sakura.c:971
 msgid "Select colors.."
 msgstr "Válassz színeket..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:972
 msgid "Select background..."
 msgstr "Háttér választása..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:973
 #, fuzzy
 msgid "Clear background"
 msgstr "Háttér választása..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:974
 msgid "Show always first tab"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:985
 msgid "Input methods"
 msgstr "Beviteli módok"
 
-#: /home/david/src/sakura/po/../src/sakura.c:986
 msgid "Options"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:988
 msgid "Set opacity level..."
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:1183
 #, c-format
 msgid "Terminal %d"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:1405
 msgid "- vte-based terminal emulator"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:1412
 msgid "sakura version is "
 msgstr ""
 

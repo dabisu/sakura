@@ -17,7 +17,7 @@ ELSE(NOT MSGFMT)
 	FILE(GLOB SOURCES ../src/*.c)
 
 	ADD_CUSTOM_COMMAND(TARGET translations
-		COMMAND ${XGETTEXT} -o sakura.pot --keyword=_ --keyword=N_ --from-code=utf-8 ${SOURCES} 
+		COMMAND ${XGETTEXT} -o sakura.pot --keyword=_ --keyword=N_ --no-location --from-code=utf-8 ${SOURCES} 
 		DEPENDS ${_poFile})
 	FOREACH(_poFile ${PO_FILES})
 		GET_FILENAME_COMPONENT(_lang ${_poFile} NAME_WE)

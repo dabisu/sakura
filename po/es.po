@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-05 10:09+0100\n"
+"POT-Creation-Date: 2008-01-07 01:50+0100\n"
 "PO-Revision-Date: 2008-01-05 09:15+0100\n"
 "Last-Translator: David Gómez <davidge@pleyades.net>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -13,124 +13,94 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /home/david/src/sakura/po/../src/sakura.c:151
 msgid "Print version number"
 msgstr "imprimir número de versión"
 
-#: /home/david/src/sakura/po/../src/sakura.c:152
 msgid "Select initial terminal font"
 msgstr "seleccionar el tipo de fuente inicial"
 
-#: /home/david/src/sakura/po/../src/sakura.c:153
 msgid "Select initial number of tabs"
 msgstr "seleccionar el número inicial de pestañas"
 
-#: /home/david/src/sakura/po/../src/sakura.c:154
 msgid "Execute command"
 msgstr "Ejecutar comando"
 
-#: /home/david/src/sakura/po/../src/sakura.c:155
 msgid "Login shell"
 msgstr "Shell de login"
 
-#: /home/david/src/sakura/po/../src/sakura.c:156
 msgid "Set window title"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:319
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Hay varias pestañas abiertas. ¿Quiere cerrar Sakura?"
 
-#: /home/david/src/sakura/po/../src/sakura.c:397
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
-#: /home/david/src/sakura/po/../src/sakura.c:426
 msgid "Set name"
 msgstr "Cambiar nombre"
 
-#: /home/david/src/sakura/po/../src/sakura.c:467
 msgid "Select color"
 msgstr "Seleccionar color"
 
-#: /home/david/src/sakura/po/../src/sakura.c:478
 msgid "Select foreground color:"
 msgstr "Seleccionar color de fuente"
 
-#: /home/david/src/sakura/po/../src/sakura.c:479
 msgid "Select background color:"
 msgstr "Seleccionar color de fondo"
 
-#: /home/david/src/sakura/po/../src/sakura.c:531
 msgid "Select a background file"
 msgstr "Seleccionar fichero de fondo"
 
-#: /home/david/src/sakura/po/../src/sakura.c:625
 msgid "Opacity"
 msgstr "Opacidad"
 
-#: /home/david/src/sakura/po/../src/sakura.c:634
 msgid "Opacity level (%):"
 msgstr "Nivel de opacidad (%)"
 
-#: /home/david/src/sakura/po/../src/sakura.c:636
 msgid "Disable opacity"
 msgstr "Deshabilitar opacidad"
 
-#: /home/david/src/sakura/po/../src/sakura.c:963
 msgid "Open link..."
 msgstr "Abrir enlace..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:965
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#: /home/david/src/sakura/po/../src/sakura.c:966
 msgid "Set name..."
 msgstr "Elegir nombre"
 
-#: /home/david/src/sakura/po/../src/sakura.c:967
 msgid "Close tab"
 msgstr "Nueva pestaña"
 
-#: /home/david/src/sakura/po/../src/sakura.c:971
 msgid "Select colors.."
 msgstr "Seleccionar colores..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:972
 msgid "Select background..."
 msgstr "Seleccionar fondo..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:973
 msgid "Clear background"
 msgstr "Limpiar fondo..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:974
 msgid "Show always first tab"
 msgstr "Mostrar siempre la primera pestaña"
 
-#: /home/david/src/sakura/po/../src/sakura.c:985
 msgid "Input methods"
 msgstr "Métodos de entrada"
 
-#: /home/david/src/sakura/po/../src/sakura.c:986
 msgid "Options"
 msgstr "Opciones"
 
-#: /home/david/src/sakura/po/../src/sakura.c:988
 msgid "Set opacity level..."
 msgstr "Fijar nivel de opacidad..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:1183
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
-#: /home/david/src/sakura/po/../src/sakura.c:1405
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal basado en libvte"
 
-#: /home/david/src/sakura/po/../src/sakura.c:1412
 #, fuzzy
 msgid "sakura version is "
 msgstr "La versión de sakura es %s\n"

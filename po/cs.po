@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-05 10:09+0100\n"
+"POT-Creation-Date: 2008-01-07 01:50+0100\n"
 "PO-Revision-Date: 2006-12-22 16:19+0100\n"
 "Last-Translator: Lucas Lommer <drom@kdyne.net>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -16,124 +16,94 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /home/david/src/sakura/po/../src/sakura.c:151
 msgid "Print version number"
 msgstr "vytiskne informaci o verzi"
 
-#: /home/david/src/sakura/po/../src/sakura.c:152
 msgid "Select initial terminal font"
 msgstr "volba výchozího fontu pro terminál"
 
-#: /home/david/src/sakura/po/../src/sakura.c:153
 msgid "Select initial number of tabs"
 msgstr "výchozí počet záložek"
 
-#: /home/david/src/sakura/po/../src/sakura.c:154
 msgid "Execute command"
 msgstr "Spustit příkaz"
 
-#: /home/david/src/sakura/po/../src/sakura.c:155
 msgid "Login shell"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:156
 msgid "Set window title"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:319
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Máte otevřeno několik záložek. Skutečně chcete uzavřít program Sakura?"
 
-#: /home/david/src/sakura/po/../src/sakura.c:397
 msgid "Select font"
 msgstr "Zvolte font"
 
-#: /home/david/src/sakura/po/../src/sakura.c:426
 msgid "Set name"
 msgstr "Nastavit jméno"
 
-#: /home/david/src/sakura/po/../src/sakura.c:467
 msgid "Select color"
 msgstr "Zvolte barvu"
 
-#: /home/david/src/sakura/po/../src/sakura.c:478
 msgid "Select foreground color:"
 msgstr "Zvolte barvu textu"
 
-#: /home/david/src/sakura/po/../src/sakura.c:479
 msgid "Select background color:"
 msgstr "Zvolte barvu pozadí"
 
-#: /home/david/src/sakura/po/../src/sakura.c:531
 msgid "Select a background file"
 msgstr "Vyberte obrázek na pozadí"
 
-#: /home/david/src/sakura/po/../src/sakura.c:625
 msgid "Opacity"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:634
 msgid "Opacity level (%):"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:636
 msgid "Disable opacity"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:963
 msgid "Open link..."
 msgstr "Otevřít odkaz..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:965
 msgid "New tab"
 msgstr "Nová záložka"
 
-#: /home/david/src/sakura/po/../src/sakura.c:966
 msgid "Set name..."
 msgstr "Nastavit jméno..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:967
 msgid "Close tab"
 msgstr "Zavřít záložku"
 
-#: /home/david/src/sakura/po/../src/sakura.c:971
 msgid "Select colors.."
 msgstr "Zvolte barvy..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:972
 msgid "Select background..."
 msgstr "Zvolte pozadí..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:973
 msgid "Clear background"
 msgstr "Zvolte pozadí..."
 
-#: /home/david/src/sakura/po/../src/sakura.c:974
 msgid "Show always first tab"
 msgstr "Vždy ukazuj první záložku"
 
-#: /home/david/src/sakura/po/../src/sakura.c:985
 msgid "Input methods"
 msgstr "Vstupní metoda"
 
-#: /home/david/src/sakura/po/../src/sakura.c:986
 msgid "Options"
 msgstr "Nastavení"
 
-#: /home/david/src/sakura/po/../src/sakura.c:988
 msgid "Set opacity level..."
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:1183
 #, c-format
 msgid "Terminal %d"
 msgstr ""
 
-#: /home/david/src/sakura/po/../src/sakura.c:1405
 msgid "- vte-based terminal emulator"
 msgstr "- emulátor terminálu založený na VTE"
 
-#: /home/david/src/sakura/po/../src/sakura.c:1412
 #, fuzzy
 msgid "sakura version is "
 msgstr "sakura verze %s\n"
