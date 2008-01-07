@@ -23,10 +23,10 @@ ELSE(NOT MSGFMT)
 		GET_FILENAME_COMPONENT(_lang ${_poFile} NAME_WE)
 		SET(_moFile ${_lang}.mo)
 		ADD_CUSTOM_COMMAND(TARGET translations
-				COMMAND ${MSGMERGE} -U ${_poFile} --backup=none sakura.pot
+				COMMAND ${MSGMERGE} -q -U ${_poFile} --backup=none sakura.pot
 				DEPENDS ${_poFile})
 		ADD_CUSTOM_COMMAND(TARGET translations
-				COMMAND ${MSGFMT} --check -o ${_moFile} ${_poFile}
+				COMMAND ${MSGFMT} --check -o ${_moFile} ${_poFile} 
 				DEPENDS ${_poFile})
 		INSTALL(FILES ${_moFile}
 			   	DESTINATION share/locale/${_lang}/LC_MESSAGES/

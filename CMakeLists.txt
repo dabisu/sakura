@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.4 FATAL_ERROR)
 PROJECT (sakura)
 SET (AUTHOR "David Gómez Espinosa" INTERNAL "Author")
-SET (VERSION "1.3.0")
+SET (VERSION "2.0.0")
 MESSAGE("${VERSION}")
 
 
@@ -32,17 +32,15 @@ ADD_DEPENDENCIES (sakura src/sakura.c src/sakura.h)
 
 ADD_SUBDIRECTORY (po)
 
-INSTALL (TARGETS sakura
-		 RUNTIME DESTINATION bin)	
-INSTALL (FILES sakura.desktop
-		 DESTINATION share/applications)
-INSTALL (FILES terminal-tango.png
-		 DESTINATION share/pixmaps)
+INSTALL (TARGETS sakura RUNTIME DESTINATION bin)	
+INSTALL (FILES sakura.desktop DESTINATION share/applications)
+INSTALL (FILES terminal-tango.png DESTINATION share/pixmaps)
 
 FILE (GLOB MO_FILES po/*.mo)
 
 SET_DIRECTORY_PROPERTIES (PROPERTIES
 	ADDITIONAL_MAKE_CLEAN_FILES "${MO_FILES};po/sakura.pot")
+SET (EXECUTABLE_OUTPUT_PATH src)
 
 ADD_CUSTOM_TARGET (distclean
 	rm -f Makefile cmake_install.cmake CMakeCache.txt install_manifest.txt

@@ -6,3 +6,4 @@ Makefile
 *.mo
 install_manifest.txt
 sakura.pot
+src/sakura
