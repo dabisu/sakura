@@ -1409,7 +1409,7 @@ main(int argc, char **argv)
 	g_option_context_parse (context, &argc, &argv, &error);
 
 	if (option_version) {
-		fputs(_("sakura version is " VERSION "\n"), stderr);
+		fprintf(stderr, _("sakura version is %s\n"), VERSION);
 		exit(1);
 	} 
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-07 01:50+0100\n"
+"POT-Creation-Date: 2008-01-09 21:37+0100\n"
 "PO-Revision-Date: 2007-08-23 00:07+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -102,6 +102,6 @@ msgstr "Terminal %d"
 msgid "- vte-based terminal emulator"
 msgstr "Émulateur de terminal utilisant VTE"
 
-#, fuzzy
-msgid "sakura version is "
+#, c-format
+msgid "sakura version is %s\n"
 msgstr "Sakura version %s\n"

@@ -1,0 +1,103 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sakura\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-01-09 21:37+0100\n"
+"PO-Revision-Date: 2008-01-09 20:54+0100\n"
+"Last-Translator: <fabio.antunes@hotmail.com>\n"
+"Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Print version number"
+msgstr "Imprimir número da versão"
+
+msgid "Select initial terminal font"
+msgstr "Selecionar fonte inicial do terminal"
+
+msgid "Select initial number of tabs"
+msgstr "Selecionar número inicial de abas"
+
+msgid "Execute command"
+msgstr "Executar comando"
+
+msgid "Login shell"
+msgstr "Login shell"
+
+msgid "Set window title"
+msgstr ""
+
+msgid "There are several tabs opened. Do you really want to close Sakura?"
+msgstr "Há outras abas abertas. Deseja mesmo fechar o Sakura?"
+
+msgid "Select font"
+msgstr "Selecionar fonte"
+
+msgid "Set name"
+msgstr "Definir nome"
+
+msgid "Select color"
+msgstr "Selecionar cor"
+
+msgid "Select foreground color:"
+msgstr "Selecionar cor de primeiro plano:"
+
+msgid "Select background color:"
+msgstr "Selecionar cor de plano de fundo..."
+
+msgid "Select a background file"
+msgstr "Selecionar arquivo de plano de fundo"
+
+msgid "Opacity"
+msgstr "Opacidade"
+
+msgid "Opacity level (%):"
+msgstr "Nível de opacidade (%):"
+
+msgid "Disable opacity"
+msgstr "Desativar opacidade"
+
+msgid "Open link..."
+msgstr "Abrir link..."
+
+msgid "New tab"
+msgstr "Nova aba"
+
+msgid "Set name..."
+msgstr "Definir nome..."
+
+msgid "Close tab"
+msgstr "Fechar aba"
+
+msgid "Select colors.."
+msgstr "Selecionar cores..."
+
+msgid "Select background..."
+msgstr "Selecionar plano de fundo..."
+
+msgid "Clear background"
+msgstr "Limpar plano de fundo"
+
+msgid "Show always first tab"
+msgstr "Exibir sempre a primeira aba"
+
+msgid "Input methods"
+msgstr "Métodos de saída"
+
+msgid "Options"
+msgstr "Opções"
+
+msgid "Set opacity level..."
+msgstr "Definir nível de opacidade..."
+
+#, c-format
+msgid "Terminal %d"
+msgstr "Terminal %d"
+
+msgid "- vte-based terminal emulator"
+msgstr "- emulador de terminal baseado no vte"
+
+#, c-format
+msgid "sakura version is %s\n"
+msgstr "sakura versão %s\n"

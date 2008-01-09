@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-07 01:50+0100\n"
+"POT-Creation-Date: 2008-01-09 21:37+0100\n"
 "PO-Revision-Date: 2006-06-20 09:26+0800\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -104,8 +104,8 @@ msgstr ""
 msgid "- vte-based terminal emulator"
 msgstr "- 基于 vte 的终端模拟器"
 
-#, fuzzy
-msgid "sakura version is "
+#, c-format
+msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
 
 #, fuzzy
