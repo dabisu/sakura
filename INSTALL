@@ -17,8 +17,8 @@ Installing sakura
 
 	$ cmake -DCMAKE_INSTALL_PREFIX=/usr .
 
-	Use CMAKE_BUILD_TYPE=Debug or CMAKE_BUILD_TYPE=Release to select
-	the build type. Default is Release.
+	Use CMAKE_BUILD_TYPE=Debug or CMAKE_BUILD_TYPE=Release if you
+	wish to select the build type. Default is Release.
 
 
 Keybindings support
