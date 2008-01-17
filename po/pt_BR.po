@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-09 21:37+0100\n"
+"POT-Creation-Date: 2008-01-17 02:54+0100\n"
 "PO-Revision-Date: 2008-01-09 20:54+0100\n"
 "Last-Translator: <fabio.antunes@hotmail.com>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -70,7 +70,16 @@ msgstr "Definir nome..."
 msgid "Close tab"
 msgstr "Fechar aba"
 
-msgid "Select colors.."
+msgid "Copy"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "Select font..."
+msgstr "Selecionar fonte..."
+
+msgid "Select colors..."
 msgstr "Selecionar cores..."
 
 msgid "Select background..."
@@ -78,6 +87,9 @@ msgstr "Selecionar plano de fundo..."
 
 msgid "Clear background"
 msgstr "Limpar plano de fundo"
+
+msgid "Set opacity level..."
+msgstr "Definir nível de opacidade..."
 
 msgid "Show always first tab"
 msgstr "Exibir sempre a primeira aba"
@@ -87,9 +99,6 @@ msgstr "Métodos de saída"
 
 msgid "Options"
 msgstr "Opções"
-
-msgid "Set opacity level..."
-msgstr "Definir nível de opacidade..."
 
 #, c-format
 msgid "Terminal %d"

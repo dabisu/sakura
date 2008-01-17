@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-09 21:37+0100\n"
+"POT-Creation-Date: 2008-01-17 02:54+0100\n"
 "PO-Revision-Date: 2006-06-20 09:26+0800\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -75,15 +75,26 @@ msgstr "设置名称..."
 msgid "Close tab"
 msgstr "关闭标签"
 
-msgid "Select colors.."
+msgid "Copy"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "Select font..."
+msgstr "选择字体..."
+
+msgid "Select colors..."
 msgstr "选择颜色..."
 
 msgid "Select background..."
 msgstr "选择背景..."
 
-#, fuzzy
-msgid "Clear background"
+msgid "Clear background..."
 msgstr "选择背景..."
+
+msgid "Set opacity level..."
+msgstr ""
 
 msgid "Show always first tab"
 msgstr ""
@@ -92,9 +103,6 @@ msgid "Input methods"
 msgstr "输入法"
 
 msgid "Options"
-msgstr ""
-
-msgid "Set opacity level..."
 msgstr ""
 
 #, c-format

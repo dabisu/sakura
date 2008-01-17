@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-09 21:37+0100\n"
+"POT-Creation-Date: 2008-01-17 02:54+0100\n"
 "PO-Revision-Date: 2007-12-25 17:14+0100\n"
 "Last-Translator: Fontana Nicola <nicola@entidi.id>\n"
 "Language-Team: <nicola@entidi.it>\n"
@@ -73,14 +73,26 @@ msgstr "Impostare il nome..."
 msgid "Close tab"
 msgstr "Chiudere scheda"
 
-msgid "Select colors.."
+msgid "Copy"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "Select font..."
+msgstr "Selezionare il font..."
+
+msgid "Select colors..."
 msgstr "Selezionare i colori..."
 
 msgid "Select background..."
 msgstr "Selezionare lo sfondo..."
 
 msgid "Clear background"
-msgstr "Pulizia sfondo..."
+msgstr "Pulizia sfondo"
+
+msgid "Set opacity level..."
+msgstr ""
 
 msgid "Show always first tab"
 msgstr "Mostrare sempre la prima scheda"
@@ -90,9 +102,6 @@ msgstr "Metodi di input"
 
 msgid "Options"
 msgstr "Opzioni"
-
-msgid "Set opacity level..."
-msgstr ""
 
 #, c-format
 msgid "Terminal %d"

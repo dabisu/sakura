@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-09 21:38+0100\n"
+"POT-Creation-Date: 2008-01-17 02:54+0100\n"
 "PO-Revision-Date: 2008-01-05 09:15+0100\n"
 "Last-Translator: David Gómez <davidge@pleyades.net>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -73,7 +73,16 @@ msgstr "Elegir nombre"
 msgid "Close tab"
 msgstr "Nueva pestaña"
 
-msgid "Select colors.."
+msgid "Copy"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "Select font..."
+msgstr "Seleccionar fuente..."
+
+msgid "Select colors..."
 msgstr "Seleccionar colores..."
 
 msgid "Select background..."
@@ -81,6 +90,9 @@ msgstr "Seleccionar fondo..."
 
 msgid "Clear background"
 msgstr "Limpiar fondo..."
+
+msgid "Set opacity level..."
+msgstr "Fijar nivel de opacidad..."
 
 msgid "Show always first tab"
 msgstr "Mostrar siempre la primera pestaña"
@@ -90,9 +102,6 @@ msgstr "Métodos de entrada"
 
 msgid "Options"
 msgstr "Opciones"
-
-msgid "Set opacity level..."
-msgstr "Fijar nivel de opacidad..."
 
 #, c-format
 msgid "Terminal %d"

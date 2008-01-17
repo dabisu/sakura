@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-09 21:37+0100\n"
+"POT-Creation-Date: 2008-01-17 02:54+0100\n"
 "PO-Revision-Date: 2006-10-17 20:16+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -73,7 +73,16 @@ msgstr "名前を指定"
 msgid "Close tab"
 msgstr "タブを閉じる"
 
-msgid "Select colors.."
+msgid "Copy"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "Select font..."
+msgstr "フォントを選択"
+
+msgid "Select colors..."
 msgstr "配色を選択"
 
 msgid "Select background..."
@@ -81,6 +90,9 @@ msgstr "背景を選択"
 
 msgid "Clear background"
 msgstr "背景をクリア"
+
+msgid "Set opacity level..."
+msgstr ""
 
 msgid "Show always first tab"
 msgstr "常に最初のタブを表示"
@@ -90,9 +102,6 @@ msgstr "入力メソッド"
 
 msgid "Options"
 msgstr "オプション"
-
-msgid "Set opacity level..."
-msgstr ""
 
 #, c-format
 msgid "Terminal %d"

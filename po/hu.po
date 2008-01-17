@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-09 21:37+0100\n"
+"POT-Creation-Date: 2008-01-17 02:54+0100\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -76,15 +76,26 @@ msgstr "Név beállítása..."
 msgid "Close tab"
 msgstr "Lap bezárása"
 
-msgid "Select colors.."
+msgid "Copy"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "Select font..."
+msgstr "Válassz betűt..."
+
+msgid "Select colors..."
 msgstr "Válassz színeket..."
 
 msgid "Select background..."
 msgstr "Háttér választása..."
 
-#, fuzzy
 msgid "Clear background"
-msgstr "Háttér választása..."
+msgstr "Háttér választása"
+
+msgid "Set opacity level..."
+msgstr ""
 
 msgid "Show always first tab"
 msgstr ""
@@ -93,9 +104,6 @@ msgid "Input methods"
 msgstr "Beviteli módok"
 
 msgid "Options"
-msgstr ""
-
-msgid "Set opacity level..."
 msgstr ""
 
 #, c-format
