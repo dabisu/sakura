@@ -1,17 +1,16 @@
 # translation of ja.po to Japanese
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2006.
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2006, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 02:54+0100\n"
-"PO-Revision-Date: 2006-10-17 20:16+0900\n"
+"PO-Revision-Date: 2008-01-29 18:07+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Content-Transfer-Encoding: 8bit"
 
 msgid "Print version number"
 msgstr "バージョン番号を表示"
@@ -26,10 +25,10 @@ msgid "Execute command"
 msgstr "コマンドを実行"
 
 msgid "Login shell"
-msgstr ""
+msgstr "ログインシェル"
 
 msgid "Set window title"
-msgstr ""
+msgstr "ウィンドウタイトルを指定"
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "複数のタブを開いています。本当に Sakura を終了しますか？"
@@ -53,13 +52,13 @@ msgid "Select a background file"
 msgstr "背景ファイルを選択"
 
 msgid "Opacity"
-msgstr ""
+msgstr "不透過率"
 
 msgid "Opacity level (%):"
-msgstr ""
+msgstr "不透過率 (%):"
 
 msgid "Disable opacity"
-msgstr ""
+msgstr "不透過を無効にする"
 
 msgid "Open link..."
 msgstr "リンクを開く"
@@ -74,10 +73,10 @@ msgid "Close tab"
 msgstr "タブを閉じる"
 
 msgid "Copy"
-msgstr ""
+msgstr "コピー"
 
 msgid "Paste"
-msgstr ""
+msgstr "貼り付け"
 
 msgid "Select font..."
 msgstr "フォントを選択"
@@ -92,7 +91,7 @@ msgid "Clear background"
 msgstr "背景をクリア"
 
 msgid "Set opacity level..."
-msgstr ""
+msgstr "不透過率を指定..."
 
 msgid "Show always first tab"
 msgstr "常に最初のタブを表示"
