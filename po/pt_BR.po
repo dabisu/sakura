@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-17 02:54+0100\n"
+"POT-Creation-Date: 2008-03-22 16:45+0100\n"
 "PO-Revision-Date: 2008-03-07 20:36-0300\n"
 "Last-Translator: \n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -12,6 +12,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Imprimir número da versão"
+
+msgid "Show scrollbar"
+msgstr ""
 
 msgid "Select initial terminal font"
 msgstr "Selecionar fonte inicial do terminal"
@@ -27,6 +30,13 @@ msgstr "Login shell"
 
 msgid "Set window title"
 msgstr "Definir título da janela"
+
+msgid "Set columns number"
+msgstr ""
+
+#, fuzzy
+msgid "Set rows number"
+msgstr "Imprimir número da versão"
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Há outras abas abertas. Deseja mesmo fechar o Sakura?"
@@ -111,3 +121,6 @@ msgstr "- emulador de terminal baseado no vte"
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
 
+#, fuzzy
+#~ msgid "Set window geometry"
+#~ msgstr "Definir título da janela"

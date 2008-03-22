@@ -78,6 +78,7 @@ static struct {
 	char *opacity_level_percent;
 	bool *opacity;
 	bool first_tab;
+	bool show_scrollbar;
 	GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
 	GtkWidget *item_open_link;
 	GtkWidget *open_link_separator;
@@ -144,17 +145,22 @@ static void     sakura_set_bgimage();
 static const char *option_font;
 static const char *option_execute;
 static gboolean option_version=FALSE;
+static gboolean option_show_scrollbar=TRUE;
 static gint option_ntabs=1;
 static gint option_login = FALSE;
 static const char *option_title;
+static int option_rows, option_columns;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
+	{ "scrollbar", 's', 0, G_OPTION_ARG_NONE, &option_show_scrollbar, N_("Show scrollbar"), NULL },
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
 	{ "execute", 'e', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
+	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
+	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
     { NULL }
 };
 
@@ -950,9 +956,21 @@ sakura_init()
 		sakura.argv[0]=g_strdup(g_getenv("SHELL"));
 	}
 	sakura.argv[1]=NULL;
+	
+	if (option_show_scrollbar) {
+		sakura.show_scrollbar = option_show_scrollbar;
+	}
 
 	if (option_title) {
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), option_title);
+	}
+
+	if (option_columns) {
+		sakura.term_info.columns = option_columns;
+	}
+
+	if (option_rows) {
+		sakura.term_info.rows = option_rows;
 	}
 
 	if (option_font) {
@@ -1234,10 +1252,14 @@ sakura_add_tab()
 	vte_terminal_match_add(VTE_TERMINAL(term.vte), HTTP_REGEXP);
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term.vte), TRUE);
 
-	term.scrollbar=gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(term.vte)));
+	if (sakura.show_scrollbar) {
+		term.scrollbar=gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(term.vte)));
+	}
 
 	gtk_box_pack_start(GTK_BOX(term.hbox), term.vte, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(term.hbox), term.scrollbar, FALSE, FALSE, 0);
+	if (sakura.show_scrollbar) {
+		gtk_box_pack_start(GTK_BOX(term.hbox), term.scrollbar, FALSE, FALSE, 0);
+	}
 
 	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term.hbox, term.label))==-1) {
 		sakura_error("Cannot create a new tab"); 

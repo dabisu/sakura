@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-04 08:34+0100\n"
+"POT-Creation-Date: 2008-03-22 16:45+0100\n"
 "PO-Revision-Date: 2007-12-25 17:14+0100\n"
 "Last-Translator: Fontana Nicola <nicola@entidi.id>\n"
 "Language-Team: <nicola@entidi.it>\n"
@@ -15,6 +15,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Stampare il numero di versione"
+
+msgid "Show scrollbar"
+msgstr ""
 
 msgid "Select initial terminal font"
 msgstr "Selezionare il font iniziale"
@@ -31,8 +34,12 @@ msgstr ""
 msgid "Set window title"
 msgstr ""
 
-msgid "Set window geometry"
+msgid "Set columns number"
 msgstr ""
+
+#, fuzzy
+msgid "Set rows number"
+msgstr "Stampare il numero di versione"
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Più schede aperte. Vuoi comunque chiudere Sakura?"

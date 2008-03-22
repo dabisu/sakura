@@ -1,0 +1,121 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sakura\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-03-22 12:17+0300\n"
+"PO-Revision-Date: 2008-03-22  13:00+0300\n"
+"Last-Translator: Evgenij Vdovin <evdovin@pochta.ru>\n"
+"Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Print version number"
+msgstr "Вывести номер версии"
+
+msgid "Show scrollbar"
+msgstr "Показать линейку прокрутки"
+
+msgid "Select initial terminal font"
+msgstr "Установить шрифт"
+
+msgid "Select initial number of tabs"
+msgstr "Установить количество вкладок"
+
+msgid "Execute command"
+msgstr "Выполнить команду"
+
+msgid "Login shell"
+msgstr "Логин shell"
+
+msgid "Set window title"
+msgstr "Установить заголовок окна"
+
+msgid "Set columns number"
+msgstr "Установить число столбцов"
+
+msgid "Set rows number"
+msgstr "Установить число строк"
+
+msgid "There are several tabs opened. Do you really want to close Sakura?"
+msgstr "Открыто несколько вкладок. Вы действительно хотите закрыть Сакуру?"
+
+msgid "Select font"
+msgstr "Шрифт"
+
+msgid "Set name"
+msgstr "Заголовок вкладки"
+
+msgid "Select color"
+msgstr "Выбор цветов"
+
+msgid "Select foreground color:"
+msgstr "Текст:"
+
+msgid "Select background color:"
+msgstr "Фон:"
+
+msgid "Select a background file"
+msgstr "Выбор файла с фоновым рисунком"
+
+msgid "Opacity"
+msgstr "Плотность"
+
+msgid "Opacity level (%):"
+msgstr "Уровень плотности (%):"
+
+msgid "Disable opacity"
+msgstr "Отключить плотность"
+
+msgid "Open link..."
+msgstr "Открыть ссылку..."
+
+msgid "New tab"
+msgstr "Новая вкладка"
+
+msgid "Set name..."
+msgstr "Переименовать..."
+
+msgid "Close tab"
+msgstr "Закрыть вкладку"
+
+msgid "Copy"
+msgstr "Копировать"
+
+msgid "Paste"
+msgstr "Вставить"
+
+msgid "Select font..."
+msgstr "Шрифт..."
+
+msgid "Select colors..."
+msgstr "Цвета..."
+
+msgid "Select background..."
+msgstr "Фоновый рисунок..."
+
+msgid "Clear background"
+msgstr "Очистить фон"
+
+msgid "Set opacity level..."
+msgstr "Установить уровень плотности..."
+
+msgid "Show always first tab"
+msgstr "Всегда показывать панель вкладок"
+
+msgid "Input methods"
+msgstr "Методы ввода"
+
+msgid "Options"
+msgstr "Настройки"
+
+#, c-format
+msgid "Terminal %d"
+msgstr "Терминал %d"
+
+msgid "- vte-based terminal emulator"
+msgstr "- эмулятор терминала, основанный на VTE"
+
+#, c-format
+msgid "sakura version is %s\n"
+msgstr "версия Сакуры %s\n"

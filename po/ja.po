@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-04 08:34+0100\n"
+"POT-Creation-Date: 2008-03-22 16:45+0100\n"
 "PO-Revision-Date: 2008-01-29 18:07+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -14,6 +14,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "バージョン番号を表示"
+
+msgid "Show scrollbar"
+msgstr ""
 
 msgid "Select initial terminal font"
 msgstr "ターミナルのフォントを選択"
@@ -30,9 +33,12 @@ msgstr "ログインシェル"
 msgid "Set window title"
 msgstr "ウィンドウタイトルを指定"
 
+msgid "Set columns number"
+msgstr ""
+
 #, fuzzy
-msgid "Set window geometry"
-msgstr "ウィンドウタイトルを指定"
+msgid "Set rows number"
+msgstr "バージョン番号を表示"
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "複数のタブを開いています。本当に Sakura を終了しますか？"
@@ -116,6 +122,10 @@ msgstr "- vte ベースのターミナルエミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#, fuzzy
+#~ msgid "Set window geometry"
+#~ msgstr "ウィンドウタイトルを指定"
 
 #~ msgid "Fake transparency"
 #~ msgstr "擬似透過"

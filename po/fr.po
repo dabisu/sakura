@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-04 08:34+0100\n"
+"POT-Creation-Date: 2008-03-22 16:45+0100\n"
 "PO-Revision-Date: 2007-08-23 00:07+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -16,6 +16,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Afficher le numéro de version"
+
+msgid "Show scrollbar"
+msgstr ""
 
 msgid "Select initial terminal font"
 msgstr "Sélectionner la police de démarrage"
@@ -32,8 +35,12 @@ msgstr ""
 msgid "Set window title"
 msgstr ""
 
-msgid "Set window geometry"
+msgid "Set columns number"
 msgstr ""
+
+#, fuzzy
+msgid "Set rows number"
+msgstr "Afficher le numéro de version"
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Il y a d'autres onglets ouverts. Voulez-vous vraiment fermer Sakura ?"

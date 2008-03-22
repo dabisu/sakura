@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-04 08:34+0100\n"
+"POT-Creation-Date: 2008-03-22 16:45+0100\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -17,6 +17,9 @@ msgstr ""
 "X-Poedit-Country: HUNGARY\n"
 
 msgid "Print version number"
+msgstr ""
+
+msgid "Show scrollbar"
 msgstr ""
 
 msgid "Select initial terminal font"
@@ -34,8 +37,12 @@ msgstr ""
 msgid "Set window title"
 msgstr ""
 
-msgid "Set window geometry"
+msgid "Set columns number"
 msgstr ""
+
+#, fuzzy
+msgid "Set rows number"
+msgstr "Név beállítása"
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Több lap is nyitva van. Bezárod a Sakurát?"

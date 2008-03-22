@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-04 08:34+0100\n"
+"POT-Creation-Date: 2008-03-22 16:45+0100\n"
 "PO-Revision-Date: 2008-01-05 09:15+0100\n"
 "Last-Translator: David Gómez <davidge@pleyades.net>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -15,6 +15,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "imprimir número de versión"
+
+msgid "Show scrollbar"
+msgstr ""
 
 msgid "Select initial terminal font"
 msgstr "seleccionar el tipo de fuente inicial"
@@ -31,8 +34,12 @@ msgstr "Shell de login"
 msgid "Set window title"
 msgstr ""
 
-msgid "Set window geometry"
+msgid "Set columns number"
 msgstr ""
+
+#, fuzzy
+msgid "Set rows number"
+msgstr "imprimir número de versión"
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Hay varias pestañas abiertas. ¿Quiere cerrar Sakura?"
