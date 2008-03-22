@@ -147,7 +147,6 @@ static gboolean option_version=FALSE;
 static gint option_ntabs=1;
 static gint option_login = FALSE;
 static const char *option_title;
-static const char *option_geometry;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
@@ -156,7 +155,6 @@ static GOptionEntry entries[] = {
 	{ "execute", 'e', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
-	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &option_geometry, N_("Set window geometry"), NULL },
     { NULL }
 };
 
@@ -965,12 +963,6 @@ sakura_init()
 		free(cfgtmp);
 	}
 
-	if (option_geometry) {
-		gint geom_x, geom_y;
-		sscanf(option_geometry, "%dx%d", &geom_x, &geom_y);
-		sakura_get_term_row_col(geom_x, geom_y);
-	}
-
 	sakura.menu=gtk_menu_new();
 	sakura.label_count=1;
 
@@ -1163,8 +1155,6 @@ sakura_set_size()
 	gint char_width, char_height;
 
 
-	vte_terminal_set_size(VTE_TERMINAL(term.vte), sakura.term_info.columns, sakura.term_info.rows);
-
 	term=g_array_index(sakura.terminals, struct terminal, 0);	
 	vte_terminal_get_padding(VTE_TERMINAL(term.vte), (int *)&pad_x, (int *)&pad_y);
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term.vte));
@@ -1232,6 +1222,8 @@ sakura_add_tab()
 
 	term.hbox=gtk_hbox_new(FALSE, 0);
 	term.vte=vte_terminal_new();
+
+	vte_terminal_set_size(VTE_TERMINAL(term.vte), DEFAULT_COLUMNS, DEFAULT_ROWS);
 
 	label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term.label=gtk_label_new(label_text);
