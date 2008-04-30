@@ -692,6 +692,7 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 	gtk_widget_destroy(input_dialog);
 }
 
+
 static void
 sakura_show_first_tab (GtkWidget *widget, void *data)
 {
@@ -714,6 +715,44 @@ sakura_show_first_tab (GtkWidget *widget, void *data)
 
 }
 
+
+static void
+sakura_set_title_dialog (GtkWidget *widget, void *data)
+{
+	GtkWidget *input_dialog;
+	GtkWidget *entry;
+	gint response;
+	int page;
+	struct terminal term;
+
+	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term=g_array_index(sakura.terminals, struct terminal,  page);	
+
+	input_dialog=gtk_dialog_new_with_buttons(_("Set title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+			GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
+			GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+
+	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
+	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
+
+	entry=gtk_entry_new();
+	/* Set window label as entry default text */
+	gtk_entry_set_text(GTK_ENTRY(entry), gtk_window_get_title(GTK_WINDOW(sakura.main_window)));
+	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 10);
+	/* Disable accept button until some text is entered */
+	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), input_dialog);
+	gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
+
+	gtk_widget_show(entry);
+
+	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
+	if (response==GTK_RESPONSE_ACCEPT) {
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
+	}
+	gtk_widget_destroy(input_dialog);
+
+}
 
 static void
 sakura_get_term_row_col (gint width, gint height)
@@ -1004,11 +1043,11 @@ sakura_init_popup()
 {
 	GtkWidget *item_new_tab, *item_set_name, *item_close_tab, *item_copy,
 			  *item_paste, *item_select_font, *item_select_colors,
-			  *item_select_background;
+			  *item_select_background, *item_set_title;
 	GtkWidget *item_options, *item_input_methods, *item_opacity_menu, *item_show_first_tab;
 	GtkAction *action_open_link, *action_new_tab, *action_set_name, *action_close_tab,
 			  *action_copy, *action_paste, *action_select_font, *action_select_colors,
-			  *action_select_background, *action_clear_background, *action_opacity;
+			  *action_select_background, *action_clear_background, *action_opacity, *action_set_title;
 	GtkWidget *separator, *separator2, *separator3, *separator4, *separator5;
 	GtkWidget *options_menu;
 
@@ -1025,6 +1064,7 @@ sakura_init_popup()
 	action_select_background=gtk_action_new("select_background", _("Select background..."), NULL, NULL);
 	action_clear_background=gtk_action_new("clear_background", _("Clear background"), NULL, NULL);
 	action_opacity=gtk_action_new("set_opacity", _("Set opacity level..."), NULL, NULL);
+	action_set_title=gtk_action_new("set_title", _("Set window title..."), NULL, NULL);
 
 	/* Create menuitems */
 	sakura.item_open_link=gtk_action_create_menu_item(action_open_link);
@@ -1038,6 +1078,7 @@ sakura_init_popup()
 	item_select_background=gtk_action_create_menu_item(action_select_background);
 	sakura.item_clear_background=gtk_action_create_menu_item(action_clear_background);
 	item_opacity_menu=gtk_action_create_menu_item(action_opacity);
+	item_set_title=gtk_action_create_menu_item(action_set_title);
 
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Show always first tab"));
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
@@ -1084,6 +1125,7 @@ sakura_init_popup()
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_first_tab);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_input_methods), sakura.im_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), options_menu);
@@ -1102,6 +1144,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(action_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);	
 	g_signal_connect(G_OBJECT(action_clear_background), "activate", G_CALLBACK(sakura_clear), NULL);	
 	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_set_opacity), NULL);
+	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 
 	gtk_widget_show_all(sakura.menu);
 
