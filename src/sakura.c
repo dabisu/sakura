@@ -755,9 +755,9 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-	input_dialog=gtk_dialog_new_with_buttons(_("Set title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-			GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	input_dialog=gtk_dialog_new_with_buttons(_("Set window title"), GTK_WINDOW(sakura.main_window), 
+ 	                                         GTK_DIALOG_MODAL, GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
+	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
