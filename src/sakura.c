@@ -750,10 +750,10 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	GtkWidget *entry;
 	gint response;
 	int page;
-	struct terminal term;
+	struct terminal *term;
 
 	page=gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term=g_array_index(sakura.terminals, struct terminal,  page);	
+    term=sakura_get_page_term(sakura, page);
 
 	input_dialog=gtk_dialog_new_with_buttons(_("Set title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 			GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
