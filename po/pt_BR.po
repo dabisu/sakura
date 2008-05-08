@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-30 16:07+0200\n"
+"POT-Creation-Date: 2008-05-08 23:30+0200\n"
 "PO-Revision-Date: 2008-03-07 20:36-0300\n"
 "Last-Translator: \n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -72,6 +72,10 @@ msgid "Set title"
 msgstr "Definir título da janela"
 
 msgid "Open link..."
+msgstr "Abrir link..."
+
+#, fuzzy
+msgid "Copy link..."
 msgstr "Abrir link..."
 
 msgid "New tab"

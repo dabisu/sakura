@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-30 16:07+0200\n"
+"POT-Creation-Date: 2008-05-08 23:30+0200\n"
 "PO-Revision-Date: 2008-04-21 20:07+0100\n"
 "Last-Translator: Jordi Jané <jordi.jane@gmail.com>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -75,6 +75,10 @@ msgid "Set title"
 msgstr "Definir el nom de la finestra"
 
 msgid "Open link..."
+msgstr "Obrir enllaç..."
+
+#, fuzzy
+msgid "Copy link..."
 msgstr "Obrir enllaç..."
 
 msgid "New tab"

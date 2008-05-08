@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-30 16:07+0200\n"
+"POT-Creation-Date: 2008-05-08 23:30+0200\n"
 "PO-Revision-Date: 2007-08-23 00:07+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -75,6 +75,10 @@ msgid "Set title"
 msgstr ""
 
 msgid "Open link..."
+msgstr "Ouvrir le lien..."
+
+#, fuzzy
+msgid "Copy link..."
 msgstr "Ouvrir le lien..."
 
 msgid "New tab"

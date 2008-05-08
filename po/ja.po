@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-30 16:07+0200\n"
+"POT-Creation-Date: 2008-05-08 23:30+0200\n"
 "PO-Revision-Date: 2008-01-29 18:07+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -74,6 +74,10 @@ msgid "Set title"
 msgstr "ウィンドウタイトルを指定"
 
 msgid "Open link..."
+msgstr "リンクを開く"
+
+#, fuzzy
+msgid "Copy link..."
 msgstr "リンクを開く"
 
 msgid "New tab"
