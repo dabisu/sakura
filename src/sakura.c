@@ -802,6 +802,34 @@ sakura_get_term_row_col (gint width, gint height)
 }
 
 
+/* Retrieve the cwd of the specified term page.
+ * Original function was from terminal-screen.c of gnome-terminal, copyright (C) 2001 Havoc Pennington
+ * Adapted by Hong Jen Yee, non-linux shit removed by David Gómez */
+static char*
+sakura_get_term_cwd(struct terminal* term)
+{
+	char *cwd = NULL;
+
+	if (term->pid >= 0) {
+		char *file;
+		char buf[PATH_MAX+1];
+		int len;
+
+		file = g_strdup_printf ("/proc/%ld/cwd", term->pid);
+		len = readlink (file, buf, sizeof (buf) - 1);
+
+		if (len > 0 && buf[0] == '/') {
+			buf[len] = '\0';
+			cwd = g_strdup(buf);
+		}
+
+		g_free(file);
+	}
+
+	return cwd;
+}
+
+
 static gboolean
 sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
@@ -1321,9 +1349,17 @@ sakura_add_tab()
 		gtk_box_pack_start(GTK_BOX(term->hbox), term->scrollbar, FALSE, FALSE, 0);
 	}
 
-    index = gtk_notebook_get_current_page( GTK_NOTEBOOK(sakura.notebook) );
+	/* Select the directory to use for the new tab */
+    index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	if(index >= 0) {
+		struct terminal *prev_term;
+		prev_term = sakura_get_page_term( sakura, index );
+		cwd = sakura_get_term_cwd( prev_term );
+	}
+	if (!cwd) 
+		cwd = g_get_current_dir();
 
-    if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term->hbox, term->label))==-1) {
+	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term->hbox, term->label))==-1) {
 		sakura_error("Cannot create a new tab"); 
 		return;
 	}
@@ -1355,8 +1391,6 @@ sakura_add_tab()
     g_signal_connect(G_OBJECT(term->vte), "eof", G_CALLBACK(sakura_eof), NULL);
     g_signal_connect(G_OBJECT(term->vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
     g_signal_connect_swapped(G_OBJECT(term->vte), "button-press-event", G_CALLBACK(sakura_popup), sakura.menu);
-
-	cwd = g_get_current_dir();
 
 	/* First tab */
 	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
