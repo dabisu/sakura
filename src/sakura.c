@@ -1427,7 +1427,8 @@ sakura_add_tab()
 			g_strfreev(command_argv);
 			option_execute=NULL;
 		} else {
-			term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), sakura.argv[0],
+			/* sakura.argv[0] cannot be used as a parameter, it's different for login shells */
+			term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), g_getenv("SHELL"),
 			                                    sakura.argv, NULL, cwd, TRUE, TRUE, TRUE);
 		}
 	/* Not the first tab */	
@@ -1438,7 +1439,7 @@ sakura_add_tab()
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
-		term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), sakura.argv[0],
+		term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), g_getenv("SHELL"),
 		                                    sakura.argv, NULL, cwd, TRUE, TRUE,TRUE);
 	}
 
