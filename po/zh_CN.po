@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-12 04:31+0200\n"
+"POT-Creation-Date: 2008-05-27 17:52+0200\n"
 "PO-Revision-Date: 2006-06-20 09:26+0800\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -87,6 +87,9 @@ msgstr "设置名称..."
 
 msgid "Close tab"
 msgstr "关闭标签"
+
+msgid "Full screen"
+msgstr ""
 
 msgid "Copy"
 msgstr ""

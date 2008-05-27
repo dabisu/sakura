@@ -1174,8 +1174,8 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_new_tab);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_set_name);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_close_tab);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_full_screen);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator2);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_copy);

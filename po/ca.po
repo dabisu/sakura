@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-12 04:31+0200\n"
+"POT-Creation-Date: 2008-05-27 17:52+0200\n"
 "PO-Revision-Date: 2008-04-21 20:07+0100\n"
 "Last-Translator: Jordi Jané <jordi.jane@gmail.com>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -84,6 +84,9 @@ msgstr "Definir nom"
 
 msgid "Close tab"
 msgstr "Tancar pestanya"
+
+msgid "Full screen"
+msgstr ""
 
 msgid "Copy"
 msgstr "Copiar"

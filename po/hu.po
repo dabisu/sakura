@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-12 04:31+0200\n"
+"POT-Creation-Date: 2008-05-27 17:52+0200\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -88,6 +88,9 @@ msgstr "Név beállítása..."
 
 msgid "Close tab"
 msgstr "Lap bezárása"
+
+msgid "Full screen"
+msgstr ""
 
 msgid "Copy"
 msgstr ""

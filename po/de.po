@@ -2,12 +2,12 @@
 # Copyright (C) 2008 David Gómez
 # This file is distributed under the same license as the Sakura package.
 # Mario Blättermann <Mario Blättermann@t-online.de>, 2008.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-12 12:30+0200\n"
+"POT-Creation-Date: 2008-05-27 17:52+0200\n"
 "PO-Revision-Date: 2008-05-12 12:14+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@t-online.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -88,6 +88,9 @@ msgstr "Name wählen..."
 
 msgid "Close tab"
 msgstr "Reiter schließen"
+
+msgid "Full screen"
+msgstr ""
 
 msgid "Copy"
 msgstr "Kopieren"

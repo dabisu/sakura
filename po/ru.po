@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-12 04:31+0200\n"
+"POT-Creation-Date: 2008-05-27 17:52+0200\n"
 "PO-Revision-Date: 2008-03-22  13:00+0300\n"
 "Last-Translator: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -82,6 +82,9 @@ msgstr "Переименовать..."
 
 msgid "Close tab"
 msgstr "Закрыть вкладку"
+
+msgid "Full screen"
+msgstr ""
 
 msgid "Copy"
 msgstr "Копировать"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-12 04:31+0200\n"
+"POT-Creation-Date: 2008-05-27 17:52+0200\n"
 "PO-Revision-Date: 2007-12-25 17:14+0100\n"
 "Last-Translator: Fontana Nicola <nicola@entidi.id>\n"
 "Language-Team: <nicola@entidi.it>\n"
@@ -85,6 +85,9 @@ msgstr "Impostare il nome..."
 
 msgid "Close tab"
 msgstr "Chiudere scheda"
+
+msgid "Full screen"
+msgstr ""
 
 msgid "Copy"
 msgstr ""
