@@ -161,7 +161,6 @@ static void     sakura_set_bgimage();
 static const char *option_font;
 static const char *option_execute;
 static gboolean option_version=FALSE;
-static gboolean option_show_scrollbar=TRUE;
 static gint option_ntabs=1;
 static gint option_login = FALSE;
 static const char *option_title;
@@ -169,7 +168,6 @@ static int option_rows, option_columns;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
-	{ "scrollbar", 's', 0, G_OPTION_ARG_NONE, &option_show_scrollbar, N_("Show scrollbar"), NULL },
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
 	{ "execute", 'e', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
@@ -740,16 +738,34 @@ sakura_show_first_tab (GtkWidget *widget, void *data)
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-        g_key_file_set_value(sakura.cfg, cfg_group, "show_always_first_tab", "Yes");
+		g_key_file_set_value(sakura.cfg, cfg_group, "show_always_first_tab", "Yes");
 	} else {
 		/* Only hide tabs if the notebook has one page */
 		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		}
-        g_key_file_set_value(sakura.cfg, cfg_group, "show_always_first_tab", "No");
+		g_key_file_set_value(sakura.cfg, cfg_group, "show_always_first_tab", "No");
 	}
 }
 
+
+static void
+sakura_show_scrollbar (GtkWidget *widget, void *data)
+{
+	int page;
+    struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		gtk_widget_show(term->scrollbar);
+		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", TRUE);
+	} else {
+		gtk_widget_hide(term->scrollbar);
+		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", FALSE);
+	}
+}
 
 static void
 sakura_set_title_dialog (GtkWidget *widget, void *data)
@@ -1037,10 +1053,15 @@ sakura_init()
 		g_key_file_set_value(sakura.cfg, cfg_group, "show_always_first_tab", "No");
 	}
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar", NULL)) {
+		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", FALSE);
+	}
+	sakura.show_scrollbar = g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
 		g_key_file_set_value(sakura.cfg, cfg_group, "word_chars", DEFAULT_WORD_CHARS);
 	}
-	sakura.word_chars = g_key_file_get_string(sakura.cfg, cfg_group, "word_chars", NULL);
+	sakura.word_chars = g_key_file_get_value(sakura.cfg, cfg_group, "word_chars", NULL);
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
@@ -1060,10 +1081,6 @@ sakura_init()
 	}
 	sakura.argv[1]=NULL;
 	
-	if (option_show_scrollbar) {
-		sakura.show_scrollbar = option_show_scrollbar;
-	}
-
 	if (option_title) {
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), option_title);
 	}
@@ -1107,8 +1124,9 @@ sakura_init_popup()
 {
 	GtkWidget *item_new_tab, *item_set_name, *item_close_tab, *item_copy,
 	          *item_paste, *item_select_font, *item_select_colors,
-	          *item_select_background, *item_set_title, *item_full_screen;
-	GtkWidget *item_options, *item_input_methods, *item_opacity_menu, *item_show_first_tab;
+	          *item_select_background, *item_set_title, *item_full_screen,
+	          *item_toggle_scrollbar, *item_options, *item_input_methods,
+			  *item_opacity_menu, *item_show_first_tab;
     GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
@@ -1149,7 +1167,9 @@ sakura_init_popup()
 	item_set_title=gtk_action_create_menu_item(action_set_title);
 
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Show always first tab"));
+	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Toggle scrollbar"));
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
+
 	item_options=gtk_menu_item_new_with_label(_("Options"));
 
 	/* Show defaults in menu items */
@@ -1160,6 +1180,12 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_first_tab), FALSE);
 	}
 	g_free(cfgtmp);
+
+	if (sakura.show_scrollbar) {	
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_scrollbar), TRUE);
+	} else {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_scrollbar), FALSE);
+	}
 
 	sakura.open_link_separator=gtk_separator_menu_item_new();
 	separator=gtk_separator_menu_item_new();
@@ -1194,6 +1220,7 @@ sakura_init_popup()
 	options_menu=gtk_menu_new();
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_first_tab);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_toggle_scrollbar);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
 
@@ -1211,6 +1238,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(action_paste), "activate", G_CALLBACK(sakura_paste), NULL);	
 	g_signal_connect(G_OBJECT(action_select_colors), "activate", G_CALLBACK(sakura_color_dialog), NULL);	
 	g_signal_connect(G_OBJECT(item_show_first_tab), "activate", G_CALLBACK(sakura_show_first_tab), NULL);	
+	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar), NULL);	
 	g_signal_connect(G_OBJECT(action_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);	
     g_signal_connect(G_OBJECT(action_copy_link), "activate", G_CALLBACK(sakura_copy_url), NULL);
 	g_signal_connect(G_OBJECT(action_clear_background), "activate", G_CALLBACK(sakura_clear), NULL);	
@@ -1367,14 +1395,10 @@ sakura_add_tab()
     vte_terminal_match_add(VTE_TERMINAL(term->vte), HTTP_REGEXP);
     vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 
-	if (sakura.show_scrollbar) {
-		term->scrollbar=gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(term->vte)));
-	}
+	term->scrollbar=gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(term->vte)));
 
     gtk_box_pack_start(GTK_BOX(term->hbox), term->vte, TRUE, TRUE, 0);
-	if (sakura.show_scrollbar) {
-		gtk_box_pack_start(GTK_BOX(term->hbox), term->scrollbar, FALSE, FALSE, 0);
-	}
+	gtk_box_pack_start(GTK_BOX(term->hbox), term->scrollbar, FALSE, FALSE, 0);
 
 	/* Select the directory to use for the new tab */
     index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -1492,6 +1516,12 @@ sakura_add_tab()
         vte_terminal_set_word_chars( VTE_TERMINAL (term->vte), sakura.word_chars );
     }
 
+	if (sakura.show_scrollbar) {
+		gtk_widget_show(term->scrollbar);
+	} else {
+		gtk_widget_hide(term->scrollbar);
+	}
+	
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
     gtk_widget_grab_focus(term->vte);
 }
