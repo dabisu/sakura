@@ -215,7 +215,7 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 				case GDK_8: topage=7; break;
 				case GDK_9: topage=8; break;
 			}
-			if (topage <= gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))) 
+			if (topage <= npages) 
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
 			return TRUE;
 		} else if (event->keyval==GDK_Left) {
@@ -703,6 +703,7 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
 		char *value;
+		int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 		value=g_strdup_printf("%d", gtk_spin_button_get_value_as_int((GtkSpinButton *) spin_control));
 		sakura.opacity_level = ( ( 100 - (atof(value)) ) / 100 );
@@ -710,16 +711,28 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 		sakura.fake_transparency=!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
 
 		if (sakura.fake_transparency) {
-            SAY("setting term->pid: %d to transparent...", term->pid);
-            vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), TRUE);
-            vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), sakura.opacity_level);
+
+			/* Set fake transparency for all tabs */
+			for (i = (n_pages - 1); i >= 0; i--) {
+				term = sakura_get_page_term(sakura, i);
+				vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), TRUE);
+				vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), sakura.opacity_level);
+			}
+
 			sakura.fake_transparency = TRUE;
-            g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "Yes");
+			g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "Yes");
 		} else {
-            vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), FALSE);
+
+			/* Unset fake transparency for all tabs */
+			for (i = (n_pages - 1); i >= 0; i--) {
+				term = sakura_get_page_term(sakura, i);
+				vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), FALSE);
+			}
+
 			sakura.fake_transparency = FALSE;
-            g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "No");
+			g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "No");
 		}
+
         g_key_file_set_value(sakura.cfg, cfg_group, "opacity_level", sakura.opacity_level_percent);
 	}
 
@@ -806,7 +819,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 }
 
 static void
-sakura_get_term_row_col (gint width, gint height)
+sakura_calculate_row_col (gint width, gint height)
 {
     struct terminal *term;
 	gint x_adjust, y_adjust;
@@ -857,9 +870,12 @@ sakura_get_term_cwd(struct terminal* term)
 static gboolean
 sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
+	SAY("resized event received");
 	if (event->width!=sakura.width || event->height!=sakura.height) {
+		SAY("sakura w & h %ld %ld event w & h %ld %ld", 
+		    sakura.width, sakura.height, event->width, event->height);
 		/* User has resized the application */
-		sakura_get_term_row_col (event->width, event->height);
+		sakura_calculate_row_col (event->width, event->height);
 	}
 
 	return FALSE;
@@ -1396,7 +1412,12 @@ sakura_add_tab()
     vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 
 	term->scrollbar=gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(term->vte)));
-
+	if (sakura.show_scrollbar) {
+		gtk_widget_show(term->scrollbar);
+	} else {
+		gtk_widget_hide(term->scrollbar);
+	}
+	
     gtk_box_pack_start(GTK_BOX(term->hbox), term->vte, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(term->hbox), term->scrollbar, FALSE, FALSE, 0);
 
@@ -1516,12 +1537,6 @@ sakura_add_tab()
         vte_terminal_set_word_chars( VTE_TERMINAL (term->vte), sakura.word_chars );
     }
 
-	if (sakura.show_scrollbar) {
-		gtk_widget_show(term->scrollbar);
-	} else {
-		gtk_widget_hide(term->scrollbar);
-	}
-	
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
     gtk_widget_grab_focus(term->vte);
 }

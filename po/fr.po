@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 17:52+0200\n"
+"POT-Creation-Date: 2008-05-28 20:57+0200\n"
 "PO-Revision-Date: 2007-08-23 00:07+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -16,9 +16,6 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Afficher le numéro de version"
-
-msgid "Show scrollbar"
-msgstr ""
 
 msgid "Select initial terminal font"
 msgstr "Sélectionner la police de démarrage"
@@ -117,6 +114,9 @@ msgstr "Définir le niveau d'opacité..."
 
 msgid "Show always first tab"
 msgstr "Toujours afficher le premier onglet"
+
+msgid "Toggle scrollbar"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Méthodes d'entrée"

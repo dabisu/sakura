@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 17:52+0200\n"
+"POT-Creation-Date: 2008-05-28 20:57+0200\n"
 "PO-Revision-Date: 2008-04-21 20:07+0100\n"
 "Last-Translator: Jordi Jané <jordi.jane@gmail.com>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -15,9 +15,6 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Imprimir el número de versió"
-
-msgid "Show scrollbar"
-msgstr "Mostrar la barra de desplaçament"
 
 msgid "Select initial terminal font"
 msgstr "Sel·leccionar el tipus de font inicial"
@@ -115,6 +112,10 @@ msgstr "Definir el nom de la finestra"
 msgid "Show always first tab"
 msgstr "Mostrar sempre la primera pestanya"
 
+#, fuzzy
+msgid "Toggle scrollbar"
+msgstr "Mostrar la barra de desplaçament"
+
 msgid "Input methods"
 msgstr "Mètodes d'entrada"
 
@@ -132,3 +133,6 @@ msgstr "- emulador de terminal basat en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"
+
+#~ msgid "Show scrollbar"
+#~ msgstr "Mostrar la barra de desplaçament"

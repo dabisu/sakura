@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 17:52+0200\n"
+"POT-Creation-Date: 2008-05-28 20:57+0200\n"
 "PO-Revision-Date: 2008-03-07 20:36-0300\n"
 "Last-Translator: \n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -12,9 +12,6 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Imprimir número da versão"
-
-msgid "Show scrollbar"
-msgstr ""
 
 msgid "Select initial terminal font"
 msgstr "Selecionar fonte inicial do terminal"
@@ -112,6 +109,9 @@ msgstr "Definir título da janela"
 
 msgid "Show always first tab"
 msgstr "Exibir sempre a primeira aba"
+
+msgid "Toggle scrollbar"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Métodos de saída"

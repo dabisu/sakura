@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 17:52+0200\n"
+"POT-Creation-Date: 2008-05-28 20:57+0200\n"
 "PO-Revision-Date: 2008-01-29 18:07+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -14,9 +14,6 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "バージョン番号を表示"
-
-msgid "Show scrollbar"
-msgstr ""
 
 msgid "Select initial terminal font"
 msgstr "ターミナルのフォントを選択"
@@ -113,6 +110,9 @@ msgstr "ウィンドウタイトルを指定"
 
 msgid "Show always first tab"
 msgstr "常に最初のタブを表示"
+
+msgid "Toggle scrollbar"
+msgstr ""
 
 msgid "Input methods"
 msgstr "入力メソッド"

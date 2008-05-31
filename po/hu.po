@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 17:52+0200\n"
+"POT-Creation-Date: 2008-05-28 20:57+0200\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -17,9 +17,6 @@ msgstr ""
 "X-Poedit-Country: HUNGARY\n"
 
 msgid "Print version number"
-msgstr ""
-
-msgid "Show scrollbar"
 msgstr ""
 
 msgid "Select initial terminal font"
@@ -118,6 +115,9 @@ msgid "Set window title..."
 msgstr "Név beállítása..."
 
 msgid "Show always first tab"
+msgstr ""
+
+msgid "Toggle scrollbar"
 msgstr ""
 
 msgid "Input methods"
