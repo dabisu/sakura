@@ -26,7 +26,7 @@ ELSE(NOT MSGFMT)
 				COMMAND ${MSGMERGE} -q -U ${_poFile} --backup=none sakura.pot
 				COMMAND ${MSGFMT} --check -o ${_moFile} ${_poFile} 
 				DEPENDS ${_poFile})
-		INSTALL(FILES ${_moFile}
+		INSTALL(FILES ${CMAKE_BINARY_DIR}/po/${_moFile}
 			   	DESTINATION share/locale/${_lang}/LC_MESSAGES/
 			   	RENAME ${catalogname}.mo)
 	ENDFOREACH(_poFile ${PO_FILES})
