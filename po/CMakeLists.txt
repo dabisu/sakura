@@ -11,10 +11,10 @@ ELSE(NOT MSGFMT)
 
 	SET(catalogname sakura)
 
-	ADD_CUSTOM_TARGET(translations ALL)
+	FILE (GLOB PO_FILES *.po)
+	FILE (GLOB SOURCES ../src/*.c)
 
-	FILE(GLOB PO_FILES *.po)
-	FILE(GLOB SOURCES ../src/*.c)
+	ADD_CUSTOM_TARGET(translations ALL)
 
 	ADD_CUSTOM_COMMAND(TARGET translations
 		COMMAND ${XGETTEXT} -o sakura.pot --keyword=_ --keyword=N_ --no-location --from-code=utf-8 ${SOURCES} 
@@ -22,10 +22,8 @@ ELSE(NOT MSGFMT)
 	FOREACH(_poFile ${PO_FILES})
 		GET_FILENAME_COMPONENT(_lang ${_poFile} NAME_WE)
 		SET(_moFile ${_lang}.mo)
-		ADD_CUSTOM_COMMAND(TARGET translations
+		ADD_CUSTOM_COMMAND(TARGET translations 
 				COMMAND ${MSGMERGE} -q -U ${_poFile} --backup=none sakura.pot
-				DEPENDS ${_poFile})
-		ADD_CUSTOM_COMMAND(TARGET translations
 				COMMAND ${MSGFMT} --check -o ${_moFile} ${_poFile} 
 				DEPENDS ${_poFile})
 		INSTALL(FILES ${_moFile}
