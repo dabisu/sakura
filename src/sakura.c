@@ -144,6 +144,7 @@ static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
 static void     sakura_setname_entry_changed(GtkWidget *, void *);
 static void     sakura_copy(GtkWidget *, void *);
 static void     sakura_paste(GtkWidget *, void *);
+static void		sakura_show_scrollbar(GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error(const char *, ...);
@@ -242,6 +243,14 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 			return TRUE;
 		} else if (event->keyval==GDK_v || event->keyval==GDK_V) {
 			sakura_paste(NULL, NULL);
+			return TRUE;
+		}
+	}
+
+	/* Ctrl-Shift-[S] pressed */
+	if ( (event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK))==(GDK_CONTROL_MASK|GDK_SHIFT_MASK) ) { 
+		if (event->keyval==GDK_s || event->keyval==GDK_S) {
+			sakura_show_scrollbar(NULL, NULL);
 			return TRUE;
 		}
 	}
@@ -771,7 +780,7 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+	if (!g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL)) {
 		gtk_widget_show(term->scrollbar);
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", TRUE);
 	} else {
@@ -779,6 +788,7 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", FALSE);
 	}
 }
+
 
 static void
 sakura_set_title_dialog (GtkWidget *widget, void *data)
