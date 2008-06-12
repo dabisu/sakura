@@ -31,10 +31,13 @@ Keybindings support
 	Ctrl + Shift + 'w'      -> Close current tab
 	Ctrl + Shift + 'c'      -> Copy selected text
 	Ctrl + Shift + 'p'      -> Paste selected text
+	Ctrl + Shift + 's'      -> Toggle scrollbar
 	Ctrl + '+'              -> Increase font size
 	Ctrl + '-'              -> Decrease font size
 	Alt  + 'Left cursor'    -> Previous tab
 	Alt  + 'Right cursor'   -> Next tab
+	Alt  + number 'n'       -> Switch to tab in position number 'n'
+	F11                     -> Fullscreen
 
 
 
