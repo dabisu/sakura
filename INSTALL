@@ -24,20 +24,73 @@ Installing sakura
 Keybindings support
 ===================
 
-	sakura support keyboard bindings. They're not yet configurable
-	(unless you hack the source ;)), but hopefully they'll be!
+    sakura supports keyboard bindings. They are configurable by
+    setting the following properties in your sakura config file
+    (likely to be found at ~/.config/sakura/sakura.conf):
 
-	Ctrl + Shift + 't'      -> New tab
-	Ctrl + Shift + 'w'      -> Close current tab
-	Ctrl + Shift + 'c'      -> Copy selected text
-	Ctrl + Shift + 'p'      -> Paste selected text
+    Accelerators:
+
+        add_tab_accelerator
+        del_tab_accelerator
+        switch_tab_accelerator
+        copy_accelerator
+
+        Accelerators can be set to any mask value from the
+        GdkModifierType in gdktypes.h; see:
+            http://www.krugle.org/examples/p-6R7SuZt1c28ljzpZ/gdktypes.h
+        or, on your own system:
+            /usr/include/gtk-2.0/gdk/gdkkeysyms.h
+
+        Mask values can be combined by ORing them.
+
+        For example, to set the delete tab accelerator to Ctrl + Shift:
+            del_tab_accelerator=5
+        because GDK_SHIFT_MASK has a value of 1 (1 << 0), and
+        GDK_CONTROL_MASK has a value of 4 (1 << 2); ORing them
+        together, you get 5.
+
+        I realise that this configuration is not so friendly to
+        non-programmers, but it is a start. :)
+
+    Keys:
+
+        add_tab_key
+        del_tab_key
+        prev_tab_key
+        next_tab_key
+        copy_key
+        paste_key
+
+        Accelerators can be set to any key value from gdkkeysyms.h; see:
+            http://www.krugle.org/examples/p-6R7SuZt1c28ljzpZ/gdkkeysyms.h
+        or, on your own system:
+            /usr/include/gtk-2.0/gdk/gdkkeysyms.h
+
+        For example, to set the add tab key to 'T':
+            add_tab_key=116
+        because GDK_t has a value of 0x074, which is 116 in decimal. To
+        convert hexadecimal values to decimal, use Perl:
+            perl -e 'printf("%d\n", 0x074)'
+
+        I realise that this configuration is not so friendly to
+        non-programmers, but it is a start. :)
+
+    <add_tab_accelerator> + <add_tab_key>     -> New tab
+    <del_tab_accelerator> + <del_tab_key>     -> Close current tab
+    <copy_accelerator> + <copy_key>           -> Copy selected text
+    <copy_accelerator> + <paste_key>          -> Paste selected text
+    <switch_tab_accelerator> + <prev_tab_key> -> Previous tab
+    <switch_tab_accelerator> + <next_tab_key> -> Next tab
+    <switch_tab_accelerator> + [1-9]          -> Switch to tab N (1-9)
+ 
 	Ctrl + Shift + 's'      -> Toggle scrollbar
-	Ctrl + '+'              -> Increase font size
-	Ctrl + '-'              -> Decrease font size
-	Alt  + 'Left cursor'    -> Previous tab
-	Alt  + 'Right cursor'   -> Next tab
-	Alt  + number 'n'       -> Switch to tab in position number 'n'
 	F11                     -> Fullscreen
+
+    You can also increase and decrease the font size in the GTK+
+    standard way (not configurable):
+ 
+	Ctrl + '+'                                -> Increase font size
+	Ctrl + '-'                                -> Decrease font size
 
 
 
