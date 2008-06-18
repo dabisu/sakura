@@ -93,12 +93,15 @@ static struct {
     gint del_tab_accelerator;
     gint switch_tab_accelerator;
     gint copy_accelerator;
+	gint scrollbar_accelerator;
     gint add_tab_key;
     gint del_tab_key;
     gint prev_tab_key;
     gint next_tab_key;
     gint copy_key;
     gint paste_key;
+	gint scrollbar_key;
+	gint fullscreen_key;
 	char *argv[2];
 } sakura;
 
@@ -122,12 +125,15 @@ struct terminal {
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
 #define DEFAULT_COPY_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
+#define DEFAULT_SCROLLBAR_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_ADD_TAB_KEY  GDK_T
 #define DEFAULT_DEL_TAB_KEY  GDK_W
 #define DEFAULT_PREV_TAB_KEY  GDK_Left
 #define DEFAULT_NEXT_TAB_KEY  GDK_Right
 #define DEFAULT_COPY_KEY  GDK_C
 #define DEFAULT_PASTE_KEY  GDK_V
+#define DEFAULT_SCROLLBAR_KEY  GDK_S
+#define DEFAULT_FULLSCREEN_KEY  GDK_F11
 const char cfg_group[] = "sakura";
 
 static GQuark term_data_id = 0;
@@ -267,16 +273,16 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 		}
 	}
 
-	/* Ctrl-Shift-[S] pressed */
-	if ( (event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK))==(GDK_CONTROL_MASK|GDK_SHIFT_MASK) ) { 
-		if (event->keyval==GDK_s || event->keyval==GDK_S) {
+	/* scrollbar_accelerator-[S] pressed */
+	if ( (event->state & sakura.scrollbar_accelerator)==sakura.copy_accelerator ) { 
+		if (event->keyval==sakura.scrollbar_key) {
 			sakura_show_scrollbar(NULL, NULL);
 			return TRUE;
 		}
 	}
 	
 	/* F11 (fullscreen) pressed */
-	if (event->keyval==GDK_F11){
+	if (event->keyval==sakura.fullscreen_key){
 		sakura_full_screen(NULL, NULL);
 		return TRUE;
 	}
@@ -1134,6 +1140,11 @@ sakura_init()
 	}
 	sakura.copy_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "copy_accelerator", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar_accelerator", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "scrollbar_accelerator", DEFAULT_SCROLLBAR_ACCELERATOR);
+	}
+	sakura.scrollbar_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "scrollbar_accelerator", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
 		g_key_file_set_integer(sakura.cfg, cfg_group, "add_tab_key", DEFAULT_ADD_TAB_KEY);
 	}
@@ -1163,6 +1174,16 @@ sakura_init()
 		g_key_file_set_integer(sakura.cfg, cfg_group, "paste_key", DEFAULT_PASTE_KEY);
 	}
 	sakura.paste_key = g_key_file_get_integer(sakura.cfg, cfg_group, "paste_key", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar_key", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "scrollbar_key", DEFAULT_SCROLLBAR_KEY);
+	}
+	sakura.scrollbar_key = g_key_file_get_integer(sakura.cfg, cfg_group, "scrollbar_key", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "fullscreen_key", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "fullscreen_key", DEFAULT_FULLSCREEN_KEY);
+	}
+	sakura.fullscreen_key = g_key_file_get_integer(sakura.cfg, cfg_group, "fullscreen_key", NULL);
 
     sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
