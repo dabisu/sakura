@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-28 20:57+0200\n"
+"POT-Creation-Date: 2008-06-18 17:38+0200\n"
 "PO-Revision-Date: 2008-04-21 20:11+0100\n"
 "Last-Translator: Jordi Jané <jordi.jane@gmail.com>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -83,7 +83,7 @@ msgid "Close tab"
 msgstr "Cerrar pestaña"
 
 msgid "Full screen"
-msgstr ""
+msgstr "Pantalla completa"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -112,7 +112,6 @@ msgstr "Definir nombre de la ventana"
 msgid "Show always first tab"
 msgstr "Mostrar siempre la primera pestaña"
 
-#, fuzzy
 msgid "Toggle scrollbar"
 msgstr "Mostrar barra de desplazamiento"
 
@@ -133,6 +132,3 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
-
-#~ msgid "Show scrollbar"
-#~ msgstr "Mostrar barra de desplazamiento"

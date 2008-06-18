@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-28 20:57+0200\n"
+"POT-Creation-Date: 2008-06-18 17:38+0200\n"
 "PO-Revision-Date: 2008-04-21 20:07+0100\n"
 "Last-Translator: Jordi Jané <jordi.jane@gmail.com>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -112,7 +112,6 @@ msgstr "Definir el nom de la finestra"
 msgid "Show always first tab"
 msgstr "Mostrar sempre la primera pestanya"
 
-#, fuzzy
 msgid "Toggle scrollbar"
 msgstr "Mostrar la barra de desplaçament"
 
