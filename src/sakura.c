@@ -89,6 +89,16 @@ static struct {
 	char *configfile;
 	char *background;
     char *word_chars;
+    gint add_tab_accelerator;
+    gint del_tab_accelerator;
+    gint switch_tab_accelerator;
+    gint copy_accelerator;
+    gint add_tab_key;
+    gint del_tab_key;
+    gint prev_tab_key;
+    gint next_tab_key;
+    gint copy_key;
+    gint paste_key;
 	char *argv[2];
 } sakura;
 
@@ -108,6 +118,16 @@ struct terminal {
 #define DEFAULT_ROWS 24
 #define DEFAULT_FONT "monospace 11"
 #define DEFAULT_WORD_CHARS  "-A-Za-z0-9,./?%&#_~"
+#define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
+#define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
+#define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
+#define DEFAULT_COPY_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
+#define DEFAULT_ADD_TAB_KEY  GDK_T
+#define DEFAULT_DEL_TAB_KEY  GDK_W
+#define DEFAULT_PREV_TAB_KEY  GDK_Left
+#define DEFAULT_NEXT_TAB_KEY  GDK_Right
+#define DEFAULT_COPY_KEY  GDK_C
+#define DEFAULT_PASTE_KEY  GDK_V
 const char cfg_group[] = "sakura";
 
 static GQuark term_data_id = 0;
@@ -188,22 +208,22 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	if (event->type!=GDK_KEY_PRESS) return FALSE;
 	
-	/* Ctrl-Shift-[T/W] pressed */
-	if ( (event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK))==(GDK_CONTROL_MASK|GDK_SHIFT_MASK) ) { 
-		if (event->keyval==GDK_t || event->keyval==GDK_T) {
-			sakura_add_tab();
-			return TRUE;
-		} else if (event->keyval==GDK_w || event->keyval==GDK_W) {
-			sakura_kill_child();
-			sakura_del_tab();
-			if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
-				sakura_destroy();
-			return TRUE;
-		}
+	/* add_tab_accelerator + T or del_tab_accelerator + W pressed */
+	if ( (event->state & sakura.add_tab_accelerator)==sakura.add_tab_accelerator &&
+         event->keyval==sakura.add_tab_key ) {
+		sakura_add_tab();
+        return TRUE;
+    } else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
+                event->keyval==sakura.del_tab_key ) {
+        sakura_kill_child();
+        sakura_del_tab();
+        if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+            sakura_destroy();
+        return TRUE;
 	}
 	
-	/* Alt + number pressed / Alt+ Left-Right cursor */
-	if ( (event->state & GDK_MOD1_MASK) == GDK_MOD1_MASK ) {
+	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + Left-Right cursor */
+	if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator ) {
 		if ((event->keyval>=GDK_1) && (event->keyval<=GDK_9)) {
 			switch(event->keyval) {
 				case GDK_1: topage=0; break;
@@ -219,14 +239,14 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 			if (topage <= npages) 
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
 			return TRUE;
-		} else if (event->keyval==GDK_Left) {
+		} else if (event->keyval==sakura.prev_tab_key) {
 			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), npages-1);
 			} else {
 				gtk_notebook_prev_page(GTK_NOTEBOOK(sakura.notebook));
 			}
 			return TRUE;
-		} else if (event->keyval==GDK_Right) {
+		} else if (event->keyval==sakura.next_tab_key) {
 			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==(npages-1)) {
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), 0);
 			} else {
@@ -236,12 +256,12 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 		}
 	}
 
-	/* Ctrl-Shift-[C/V] pressed */
-	if ( (event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK))==(GDK_CONTROL_MASK|GDK_SHIFT_MASK) ) { 
-		if (event->keyval==GDK_c || event->keyval==GDK_C) {
+	/* copy_accelerator-[C/V] pressed */
+	if ( (event->state & sakura.copy_accelerator)==sakura.copy_accelerator ) { 
+		if (event->keyval==sakura.copy_key) {
 			sakura_copy(NULL, NULL);
 			return TRUE;
-		} else if (event->keyval==GDK_v || event->keyval==GDK_V) {
+		} else if (event->keyval==sakura.paste_key) {
 			sakura_paste(NULL, NULL);
 			return TRUE;
 		}
@@ -1089,7 +1109,62 @@ sakura_init()
 	}
 	sakura.word_chars = g_key_file_get_value(sakura.cfg, cfg_group, "word_chars", NULL);
 
-	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
+		g_key_file_set_value(sakura.cfg, cfg_group, "word_chars", DEFAULT_WORD_CHARS);
+	}
+	sakura.word_chars = g_key_file_get_string(sakura.cfg, cfg_group, "word_chars", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_accelerator", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "add_tab_accelerator", DEFAULT_ADD_TAB_ACCELERATOR);
+	}
+	sakura.add_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "add_tab_accelerator", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "del_tab_accelerator", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "del_tab_accelerator", DEFAULT_DEL_TAB_ACCELERATOR);
+	}
+	sakura.del_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "del_tab_accelerator", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "switch_tab_accelerator", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "switch_tab_accelerator", DEFAULT_SWITCH_TAB_ACCELERATOR);
+	}
+	sakura.switch_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "switch_tab_accelerator", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_accelerator", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "copy_accelerator", DEFAULT_COPY_ACCELERATOR);
+	}
+	sakura.copy_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "copy_accelerator", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "add_tab_key", DEFAULT_ADD_TAB_KEY);
+	}
+	sakura.add_tab_key = g_key_file_get_integer(sakura.cfg, cfg_group, "add_tab_key", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "del_tab_key", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "del_tab_key", DEFAULT_DEL_TAB_KEY);
+	}
+	sakura.del_tab_key = g_key_file_get_integer(sakura.cfg, cfg_group, "del_tab_key", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "prev_tab_key", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "prev_tab_key", DEFAULT_PREV_TAB_KEY);
+	}
+	sakura.prev_tab_key = g_key_file_get_integer(sakura.cfg, cfg_group, "prev_tab_key", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "next_tab_key", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "next_tab_key", DEFAULT_NEXT_TAB_KEY);
+	}
+	sakura.next_tab_key = g_key_file_get_integer(sakura.cfg, cfg_group, "next_tab_key", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_key", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "copy_key", DEFAULT_COPY_KEY);
+	}
+	sakura.copy_key = g_key_file_get_integer(sakura.cfg, cfg_group, "copy_key", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "paste_key", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "paste_key", DEFAULT_PASTE_KEY);
+	}
+	sakura.paste_key = g_key_file_get_integer(sakura.cfg, cfg_group, "paste_key", NULL);
+
+    sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
 	/* Minimum size*/
