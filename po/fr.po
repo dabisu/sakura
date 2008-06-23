@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-18 17:38+0200\n"
-"PO-Revision-Date: 2007-08-23 00:07+0100\n"
+"PO-Revision-Date: 2008-06-22 16:00+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
 "MIME-Version: 1.0\n"
@@ -27,16 +27,16 @@ msgid "Execute command"
 msgstr "Exécuter une commande"
 
 msgid "Login shell"
-msgstr ""
+msgstr "Shell de connexion"
 
 msgid "Set window title"
-msgstr ""
+msgstr "Définir le titre de la fenêtre"
 
 msgid "Set columns number"
-msgstr ""
+msgstr "Définir le nombre de colonnes"
 
 msgid "Set rows number"
-msgstr ""
+msgstr "Définir le nombre de lignes"
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Il y a d'autres onglets ouverts. Voulez-vous vraiment fermer Sakura ?"
@@ -71,27 +71,26 @@ msgstr "Désactiver l'opacité"
 msgid "Open link..."
 msgstr "Ouvrir le lien..."
 
-#, fuzzy
 msgid "Copy link..."
-msgstr "Ouvrir le lien..."
+msgstr "copier le lien..."
 
 msgid "New tab"
 msgstr "Nouvel onglet"
 
 msgid "Set name..."
-msgstr "Définir un nom..."
+msgstr "Définir le nom..."
 
 msgid "Close tab"
 msgstr "Fermer l'onglet"
 
 msgid "Full screen"
-msgstr ""
+msgstr "Plein écran"
 
 msgid "Copy"
-msgstr ""
+msgstr "Copier"
 
 msgid "Paste"
-msgstr ""
+msgstr "Coller"
 
 msgid "Select font..."
 msgstr "Sélectionner la police..."
@@ -108,15 +107,14 @@ msgstr "Effacer l'arrière plan"
 msgid "Set opacity level..."
 msgstr "Définir le niveau d'opacité..."
 
-#, fuzzy
 msgid "Set window title..."
-msgstr "Définir le niveau d'opacité..."
+msgstr "Définir le titre de la fenêtre..."
 
 msgid "Show always first tab"
 msgstr "Toujours afficher le premier onglet"
 
 msgid "Toggle scrollbar"
-msgstr ""
+msgstr "Permutter le barre de défilement"
 
 msgid "Input methods"
 msgstr "Méthodes d'entrée"
