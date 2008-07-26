@@ -375,6 +375,8 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
+    gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox,
+                                    vte_terminal_get_window_title(VTE_TERMINAL(term->vte)));
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window),
                          vte_terminal_get_window_title(VTE_TERMINAL(term->vte)));
 
