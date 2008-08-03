@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-18 17:38+0200\n"
+"POT-Creation-Date: 2008-08-03 08:39+0200\n"
 "PO-Revision-Date: 2006-06-20 09:26+0800\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -37,6 +37,9 @@ msgid "Set columns number"
 msgstr ""
 
 msgid "Set rows number"
+msgstr ""
+
+msgid "Hold window after exit"
 msgstr ""
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"

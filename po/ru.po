@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-18 17:38+0200\n"
+"POT-Creation-Date: 2008-08-03 08:39+0200\n"
 "PO-Revision-Date: 2008-03-22  13:00+0300\n"
 "Last-Translator: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -33,6 +33,9 @@ msgstr "Установить число столбцов"
 
 msgid "Set rows number"
 msgstr "Установить число строк"
+
+msgid "Hold window after exit"
+msgstr ""
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Открыто несколько вкладок. Вы действительно хотите закрыть Сакуру?"

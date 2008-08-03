@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-18 17:38+0200\n"
+"POT-Creation-Date: 2008-08-03 08:39+0200\n"
 "PO-Revision-Date: 2008-04-21 20:11+0100\n"
 "Last-Translator: Jordi Jané <jordi.jane@gmail.com>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -36,6 +36,9 @@ msgstr "Definir número de columnas"
 
 msgid "Set rows number"
 msgstr "Definir número de líneas"
+
+msgid "Hold window after exit"
+msgstr ""
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Hay varias pestañas abiertas. ¿Quiere cerrar Sakura?"
