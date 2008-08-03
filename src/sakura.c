@@ -192,6 +192,7 @@ static gint option_ntabs=1;
 static gint option_login = FALSE;
 static const char *option_title;
 static int option_rows, option_columns;
+static gboolean option_hold=FALSE;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
@@ -202,6 +203,7 @@ static GOptionEntry entries[] = {
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
 	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
+	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after exit"), NULL },
     { NULL }
 };
 
@@ -324,6 +326,11 @@ sakura_child_exited (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
+	if (option_hold==TRUE) {
+		SAY("hold option has been activated");
+		return;
+	}
+
     SAY("waiting for terminal pid %d", term->pid);
 
     waitpid(term->pid, &status, WNOHANG);
@@ -352,6 +359,11 @@ sakura_eof (GtkWidget *widget, void *data)
 
 		page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 		term = sakura_get_page_term(sakura, page);
+
+	if (option_hold==TRUE) {
+		SAY("hold option has been activated");
+		return;
+	}
 
         SAY("waiting for terminal pid (in eof) %d", term->pid);
 
@@ -1602,6 +1614,10 @@ sakura_add_tab()
 			g_strfreev(command_argv);
 			option_execute=NULL;
 		} else {
+			if (option_hold==TRUE) {
+				sakura_error("Hold option given without any command");
+				option_hold=FALSE;
+			}
 			/* sakura.argv[0] cannot be used as a parameter, it's different for login shells */
 			term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), g_getenv("SHELL"),
 			                                    sakura.argv, NULL, cwd, TRUE, TRUE, TRUE);
