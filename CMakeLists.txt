@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.4 FATAL_ERROR)
 PROJECT (sakura)
 SET (AUTHOR "David Gómez Espinosa" INTERNAL "Author")
-SET (VERSION "2.2.0")
+SET (VERSION "2.2.1")
 
 
 INCLUDE (FindPkgConfig)
