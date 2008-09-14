@@ -80,6 +80,7 @@ static struct {
 	bool *opacity;
 	bool first_tab;
 	bool show_scrollbar;
+	bool show_closebutton;
 	bool full_screen;
 	GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
     GtkWidget *item_copy_link;
@@ -171,6 +172,7 @@ static void     sakura_setname_entry_changed(GtkWidget *, void *);
 static void     sakura_copy(GtkWidget *, void *);
 static void     sakura_paste(GtkWidget *, void *);
 static void		sakura_show_scrollbar(GtkWidget *, void *);
+static void     sakura_del_term(GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error(const char *, ...);
@@ -386,6 +388,7 @@ sakura_title_changed (GtkWidget *widget, void *data)
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
+    gtk_label_set_text(GTK_LABEL(term->label),vte_terminal_get_window_title(VTE_TERMINAL(term->vte)));
 
     gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox,
                                     vte_terminal_get_window_title(VTE_TERMINAL(term->vte)));
@@ -821,9 +824,11 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 	term = sakura_get_page_term(sakura, page);
 
 	if (!g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL)) {
+        sakura.show_scrollbar=true;
 		gtk_widget_show(term->scrollbar);
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", TRUE);
 	} else {
+        sakura.show_scrollbar=false;
 		gtk_widget_hide(term->scrollbar);
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", FALSE);
 	}
@@ -955,7 +960,6 @@ sakura_copy (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-    vte_terminal_copy_primary(VTE_TERMINAL(term->vte));
     vte_terminal_copy_clipboard(VTE_TERMINAL(term->vte));
 }
 
@@ -970,7 +974,7 @@ sakura_paste (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-    vte_terminal_paste_primary(VTE_TERMINAL(term->vte));
+    vte_terminal_paste_clipboard(VTE_TERMINAL(term->vte));
 }
 
 
@@ -1123,6 +1127,11 @@ sakura_init()
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", FALSE);
 	}
 	sakura.show_scrollbar = g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "closebutton", NULL)) {
+		g_key_file_set_boolean(sakura.cfg, cfg_group, "closebutton", TRUE);
+	}
+	sakura.show_closebutton = g_key_file_get_boolean(sakura.cfg, cfg_group, "closebutton", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
 		g_key_file_set_value(sakura.cfg, cfg_group, "word_chars", DEFAULT_WORD_CHARS);
@@ -1490,14 +1499,16 @@ sakura_set_font()
 	static gboolean init = FALSE;
 
 	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+    gtk_widget_show_all(sakura.main_window);
 
 	/* Set the font for all tabs */
 	for (i = (n_pages - 1); i >= 0; i--) {
 		term = sakura_get_page_term(sakura, i);
         vte_terminal_set_font(VTE_TERMINAL(term->vte), sakura.font);
+        if (!sakura.show_scrollbar)
+            gtk_widget_hide(term->scrollbar);
 	}
 
-	gtk_widget_show_all(sakura.main_window);
 	if (!sakura.term_info.init) {
 		if (init)
 			return;
@@ -1512,9 +1523,13 @@ static void
 sakura_add_tab()
 {
     struct terminal *term;
+    GtkWidget *hbox;
+    GtkWidget *close_btn;
+    GtkRcStyle *style;
 	int index;
 	gchar *label_text;
     gchar *cwd = NULL;
+
 
     term = g_new0( struct terminal, 1 );
     term->hbox=gtk_hbox_new(FALSE, 0);
@@ -1525,6 +1540,17 @@ sakura_add_tab()
 	label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
     term->label=gtk_label_new(label_text);
 	g_free(label_text);
+    hbox=gtk_hbox_new(FALSE,2);
+    gtk_box_pack_start(GTK_BOX(hbox), term->label, FALSE, FALSE, 0);
+    if (sakura.show_closebutton)
+    {
+        close_btn=gtk_button_new();
+        g_signal_connect(G_OBJECT(close_btn), "clicked", G_CALLBACK(sakura_del_term), term->hbox);
+        gtk_button_set_relief(GTK_BUTTON(close_btn), GTK_RELIEF_NONE);
+        gtk_button_set_image(GTK_BUTTON(close_btn), gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU));
+        gtk_box_pack_start(GTK_BOX(hbox), close_btn, FALSE, FALSE, 0);
+    }
+	gtk_widget_show_all(hbox);
 
 	/* Init vte */
     vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), SCROLL_LINES);
@@ -1546,7 +1572,7 @@ sakura_add_tab()
 	if (!cwd)
 		cwd = g_get_current_dir();
 
-	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term->hbox, term->label))==-1) {
+	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term->hbox, hbox))==-1) {
 		sakura_error("Cannot create a new tab");
 		return;
 	}
@@ -1610,7 +1636,7 @@ sakura_add_tab()
 				option_execute=NULL;
 
             term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), command_argv[0],
-					command_argv, NULL, cwd, TRUE, TRUE, TRUE);
+					command_argv, NULL, cwd, FALSE, FALSE, FALSE);
 			g_strfreev(command_argv);
 			option_execute=NULL;
 		} else {
@@ -1620,7 +1646,7 @@ sakura_add_tab()
 			}
 			/* sakura.argv[0] cannot be used as a parameter, it's different for login shells */
 			term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), g_getenv("SHELL"),
-			                                    sakura.argv, NULL, cwd, TRUE, TRUE, TRUE);
+			                                    sakura.argv, NULL, cwd, FALSE, FALSE, FALSE);
 		}
 	/* Not the first tab */
 	} else {
@@ -1631,7 +1657,7 @@ sakura_add_tab()
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 		term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), g_getenv("SHELL"),
-		                                    sakura.argv, NULL, cwd, TRUE, TRUE,TRUE);
+		                                    sakura.argv, NULL, cwd, FALSE,FALSE,FALSE);
 	}
 
 	free(cwd);
@@ -1658,14 +1684,34 @@ sakura_add_tab()
 
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
     gtk_widget_grab_focus(term->vte);
-
-	if (sakura.show_scrollbar) {
-		gtk_widget_show(term->scrollbar);
-	} else {
-		gtk_widget_hide(term->scrollbar);
-	}
 }
 
+static void
+sakura_del_term(GtkWidget *hbox, void *data)
+{
+    gint page;
+
+    if (data != NULL)
+        hbox=(GtkWidget *)data;
+
+    page = gtk_notebook_page_num(GTK_NOTEBOOK(sakura.notebook), hbox);
+    if (page != -1)
+    {
+        gtk_widget_hide(hbox);
+
+        gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook), page);
+
+        if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+            char *cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
+            if (strcmp(cfgtmp, "Yes")==0) {
+                gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
+            } else {
+                gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
+            }
+            g_free(cfgtmp);
+        }
+    }
+}
 
 static void
 sakura_del_tab()
