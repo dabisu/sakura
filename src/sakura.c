@@ -71,7 +71,6 @@ static struct {
 		glong rows;
 		gint char_width;
 		gint char_height;
-		gboolean init;
 	} term_info;
 	gint label_count;
 	bool fake_transparency;
@@ -819,18 +818,28 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 {
 	int page;
     struct terminal *term;
+	int n_pages;
+	int i;
 
+	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
 	if (!g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL)) {
         sakura.show_scrollbar=true;
-		gtk_widget_show(term->scrollbar);
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", TRUE);
 	} else {
         sakura.show_scrollbar=false;
-		gtk_widget_hide(term->scrollbar);
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", FALSE);
+	}
+
+	/* Toggle/Untoggle the scrollbar for all tabs */
+	for (i = (n_pages - 1); i >= 0; i--) {
+		term = sakura_get_page_term(sakura, i);
+        if (!sakura.show_scrollbar)
+            gtk_widget_hide(term->scrollbar);
+		else
+			gtk_widget_show(term->scrollbar);
 	}
 }
 
@@ -1214,7 +1223,6 @@ sakura_init()
 	/* Minimum size*/
 	sakura.term_info.columns = DEFAULT_COLUMNS;
 	sakura.term_info.rows = DEFAULT_ROWS;
-	sakura.term_info.init = FALSE;
 
 	sakura.notebook=gtk_notebook_new();
 
@@ -1496,26 +1504,14 @@ sakura_set_font()
 	gint n_pages;
     struct terminal *term;
 	int i;
-	static gboolean init = FALSE;
 
 	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-    gtk_widget_show_all(sakura.main_window);
 
 	/* Set the font for all tabs */
 	for (i = (n_pages - 1); i >= 0; i--) {
 		term = sakura_get_page_term(sakura, i);
         vte_terminal_set_font(VTE_TERMINAL(term->vte), sakura.font);
-        if (!sakura.show_scrollbar)
-            gtk_widget_hide(term->scrollbar);
 	}
-
-	if (!sakura.term_info.init) {
-		if (init)
-			return;
-	}
-
-	sakura_set_size();
-	init = TRUE;
 }
 
 
@@ -1525,7 +1521,6 @@ sakura_add_tab()
     struct terminal *term;
     GtkWidget *hbox;
     GtkWidget *close_btn;
-    GtkRcStyle *style;
 	int index;
 	gchar *label_text;
     gchar *cwd = NULL;
@@ -1617,6 +1612,8 @@ sakura_add_tab()
 
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
+		gtk_widget_show_all(sakura.main_window);
+		sakura_set_size();
 
 		if (option_execute) {
 			int command_argc; char **command_argv;
@@ -1652,6 +1649,7 @@ sakura_add_tab()
 	} else {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		sakura_set_font();
+		gtk_widget_show_all(term->hbox);
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
@@ -1661,6 +1659,8 @@ sakura_add_tab()
 	}
 
 	free(cwd);
+
+	if (!sakura.show_scrollbar) gtk_widget_hide(term->scrollbar);
 
 	/* Configuration per-terminal */
     vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
@@ -1836,10 +1836,10 @@ main(int argc, char **argv)
 	/* Add first tab */
 	for (i=0; i<option_ntabs; i++)
 		sakura_add_tab();
+
 	/* Fill Input Methods menu */
     term = sakura_get_page_term(sakura, 0);
     vte_terminal_im_append_menuitems(VTE_TERMINAL(term->vte), GTK_MENU_SHELL(sakura.im_menu));
-	sakura.term_info.init = TRUE;
 
 	gtk_main();
 
