@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-03 08:39+0200\n"
+"POT-Creation-Date: 2008-09-16 21:15+0200\n"
 "PO-Revision-Date: 2008-03-22  13:00+0300\n"
 "Last-Translator: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -116,6 +116,12 @@ msgstr "Всегда показывать панель вкладок"
 #, fuzzy
 msgid "Toggle scrollbar"
 msgstr "Показать линейку прокрутки"
+
+msgid "Audible Bell"
+msgstr ""
+
+msgid "Visible Bell"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Методы ввода"

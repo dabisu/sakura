@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-03 08:39+0200\n"
+"POT-Creation-Date: 2008-09-16 21:15+0200\n"
 "PO-Revision-Date: 2006-12-22 16:19+0100\n"
 "Last-Translator: Lucas Lommer <drom@kdyne.net>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -120,6 +120,12 @@ msgid "Show always first tab"
 msgstr "Vždy ukazuj první záložku"
 
 msgid "Toggle scrollbar"
+msgstr ""
+
+msgid "Audible Bell"
+msgstr ""
+
+msgid "Visible Bell"
 msgstr ""
 
 msgid "Input methods"

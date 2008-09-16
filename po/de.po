@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-03 08:39+0200\n"
+"POT-Creation-Date: 2008-09-16 21:15+0200\n"
 "PO-Revision-Date: 2008-05-12 12:14+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@t-online.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -121,6 +121,12 @@ msgstr "Immer den ersten Reiter zeigen"
 
 msgid "Toggle scrollbar"
 msgstr "Scrollbalken anzeigen"
+
+msgid "Audible Bell"
+msgstr ""
+
+msgid "Visible Bell"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Eingabemethoden"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-03 08:39+0200\n"
+"POT-Creation-Date: 2008-09-16 21:15+0200\n"
 "PO-Revision-Date: 2007-12-25 17:14+0100\n"
 "Last-Translator: Fontana Nicola <nicola@entidi.id>\n"
 "Language-Team: <nicola@entidi.it>\n"
@@ -118,6 +118,12 @@ msgid "Show always first tab"
 msgstr "Mostrare sempre la prima scheda"
 
 msgid "Toggle scrollbar"
+msgstr ""
+
+msgid "Audible Bell"
+msgstr ""
+
+msgid "Visible Bell"
 msgstr ""
 
 msgid "Input methods"

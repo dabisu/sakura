@@ -80,6 +80,8 @@ static struct {
 	bool first_tab;
 	bool show_scrollbar;
 	bool show_closebutton;
+	bool audible_bell;
+	bool visible_bell;
 	bool full_screen;
 	GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
 	GtkWidget *item_copy_link;
@@ -845,6 +847,44 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 
 
 static void
+sakura_audible_bell (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		vte_terminal_set_audible_bell (VTE_TERMINAL(term->vte), TRUE);
+		g_key_file_set_value(sakura.cfg, cfg_group, "audible_bell", "Yes");
+	} else {
+		vte_terminal_set_audible_bell (VTE_TERMINAL(term->vte), FALSE);
+		g_key_file_set_value(sakura.cfg, cfg_group, "audible_bell", "No");
+	}
+}
+
+
+static void
+sakura_visible_bell (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		vte_terminal_set_visible_bell (VTE_TERMINAL(term->vte), TRUE);
+		g_key_file_set_value(sakura.cfg, cfg_group, "visible_bell", "Yes");
+	} else {
+		vte_terminal_set_visible_bell (VTE_TERMINAL(term->vte), FALSE);
+		g_key_file_set_value(sakura.cfg, cfg_group, "visible_bell", "No");
+	}
+}
+
+
+static void
 sakura_set_title_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *input_dialog;
@@ -1143,6 +1183,20 @@ sakura_init()
 	}
 	sakura.show_closebutton = g_key_file_get_boolean(sakura.cfg, cfg_group, "closebutton", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "audible_bell", NULL)) {
+		g_key_file_set_value(sakura.cfg, cfg_group, "audible_bell", "Yes");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "audible_bell", NULL);
+	sakura.audible_bell= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
+	g_free(cfgtmp);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "visible_bell", NULL)) {
+		g_key_file_set_value(sakura.cfg, cfg_group, "visible_bell", "No");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "visible_bell", NULL);
+	sakura.visible_bell= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
+	g_free(cfgtmp);
+    
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
 		g_key_file_set_value(sakura.cfg, cfg_group, "word_chars", DEFAULT_WORD_CHARS);
 	}
@@ -1280,7 +1334,7 @@ sakura_init_popup()
 	          *item_paste, *item_select_font, *item_select_colors,
 	          *item_select_background, *item_set_title, *item_full_screen,
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
-	          *item_opacity_menu, *item_show_first_tab;
+	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
@@ -1322,12 +1376,16 @@ sakura_init_popup()
 
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Show always first tab"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Toggle scrollbar"));
+	item_audible_bell=gtk_check_menu_item_new_with_label(_("Audible Bell"));
+	item_visible_bell=gtk_check_menu_item_new_with_label(_("Visible Bell"));
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
 
 	item_options=gtk_menu_item_new_with_label(_("Options"));
 
 	/* Show defaults in menu items */
-	gchar *cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
+	gchar *cfgtmp = NULL;
+
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
 	if (strcmp(cfgtmp, "Yes")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_first_tab), TRUE);
 	} else {
@@ -1340,6 +1398,16 @@ sakura_init_popup()
 	} else {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_scrollbar), FALSE);
 	}
+
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "audible_bell", NULL);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_audible_bell),
+                                   (strcmp(cfgtmp, "Yes")==0 ? TRUE : FALSE));
+	g_free(cfgtmp);
+
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "visible_bell", NULL);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_visible_bell),
+	                               (strcmp(cfgtmp, "Yes")==0 ? TRUE : FALSE));
+	g_free(cfgtmp);
 
 	sakura.open_link_separator=gtk_separator_menu_item_new();
 	separator=gtk_separator_menu_item_new();
@@ -1375,6 +1443,8 @@ sakura_init_popup()
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_first_tab);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_toggle_scrollbar);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_audible_bell);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_visible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
 
@@ -1393,6 +1463,8 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(action_select_colors), "activate", G_CALLBACK(sakura_color_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_show_first_tab), "activate", G_CALLBACK(sakura_show_first_tab), NULL);
 	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar), NULL);
+	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
+	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
 	g_signal_connect(G_OBJECT(action_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);
 	g_signal_connect(G_OBJECT(action_copy_link), "activate", G_CALLBACK(sakura_copy_url), NULL);
 	g_signal_connect(G_OBJECT(action_clear_background), "activate", G_CALLBACK(sakura_clear), NULL);
@@ -1682,9 +1754,14 @@ sakura_add_tab()
 		vte_terminal_set_word_chars( VTE_TERMINAL (term->vte), sakura.word_chars );
 	}
 
+	/* Get rid of these nasty bells */
+	vte_terminal_set_audible_bell (VTE_TERMINAL(term->vte), sakura.audible_bell ? TRUE : FALSE);
+	vte_terminal_set_visible_bell (VTE_TERMINAL(term->vte), sakura.visible_bell ? TRUE : FALSE);
+
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
 	gtk_widget_grab_focus(term->vte);
 }
+
 
 static void
 sakura_del_term(GtkWidget *hbox, void *data)

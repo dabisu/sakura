@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-03 08:39+0200\n"
+"POT-Creation-Date: 2008-09-16 21:15+0200\n"
 "PO-Revision-Date: 2008-04-21 20:07+0100\n"
 "Last-Translator: Jordi Jané <jordi.jane@gmail.com>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -117,6 +117,12 @@ msgstr "Mostrar sempre la primera pestanya"
 
 msgid "Toggle scrollbar"
 msgstr "Mostrar la barra de desplaçament"
+
+msgid "Audible Bell"
+msgstr ""
+
+msgid "Visible Bell"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Mètodes d'entrada"
