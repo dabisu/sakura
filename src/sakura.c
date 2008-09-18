@@ -1722,6 +1722,7 @@ sakura_add_tab()
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		sakura_set_font();
 		gtk_widget_show_all(term->hbox);
+		sakura_set_size();
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
