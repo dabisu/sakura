@@ -258,7 +258,7 @@ static void     sakura_setname_entry_changed(GtkWidget *, void *);
 static void     sakura_copy(GtkWidget *, void *);
 static void     sakura_paste(GtkWidget *, void *);
 static void		sakura_show_scrollbar(GtkWidget *, void *);
-static void     sakura_del_term(GtkWidget *, void *);
+static void     sakura_tab_button_close(GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error(const char *, ...);
@@ -291,7 +291,7 @@ static GOptionEntry entries[] = {
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
 	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
-	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after exit"), NULL },
+	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after execute command"), NULL },
     { NULL }
 };
 
@@ -300,7 +300,8 @@ static
 gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	unsigned int topage=0;
-	gint npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	gint npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	gint page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 
 	if (event->type!=GDK_KEY_PRESS) return FALSE;
 
@@ -312,7 +313,8 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
     } else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
                 event->keyval==sakura.del_tab_key ) {
         sakura_kill_child();
-        sakura_del_tab();
+		/* Delete current tab */
+        sakura_del_tab(page);
         if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
             sakura_destroy();
         return TRUE;
@@ -424,7 +426,7 @@ sakura_child_exited (GtkWidget *widget, void *data)
 	waitpid(term->pid, &status, WNOHANG);
 	/* TODO: check wait return */
 
-	sakura_del_tab();
+	sakura_del_tab(page);
 
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
 		sakura_destroy();
@@ -434,7 +436,7 @@ sakura_child_exited (GtkWidget *widget, void *data)
 static void
 sakura_eof (GtkWidget *widget, void *data)
 {
-	int status, page;
+	int status;
 	struct terminal *term;
 
 	SAY("Got EOF signal");
@@ -444,20 +446,19 @@ sakura_eof (GtkWidget *widget, void *data)
 	   child-exited/eof signals */
 	if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
 
-		page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-		term = sakura_get_page_term(sakura, page);
+		term = sakura_get_page_term(sakura, 0);
 
-	if (option_hold==TRUE) {
-		SAY("hold option has been activated");
-		return;
-	}
+		if (option_hold==TRUE) {
+			SAY("hold option has been activated");
+			return;
+		}
 
         SAY("waiting for terminal pid (in eof) %d", term->pid);
 
         waitpid(term->pid, &status, WNOHANG);
 		/* TODO: check wait return */
 
-		sakura_del_tab();
+		sakura_del_tab(0);
 
 		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
 			sakura_destroy();
@@ -1047,6 +1048,9 @@ sakura_calculate_row_col (gint width, gint height)
 {
 	struct terminal *term;
 	gint x_adjust, y_adjust;
+	gint n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
+	if (n_pages==-1) return;
 
 	term = sakura_get_page_term(sakura, 0);
 
@@ -1157,7 +1161,9 @@ sakura_new_tab (GtkWidget *widget, void *data)
 static void
 sakura_close_tab (GtkWidget *widget, void *data)
 {
-	sakura_del_tab();
+	gint page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+
+	sakura_del_tab(page);
 
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
 		sakura_destroy();
@@ -1177,7 +1183,22 @@ sakura_full_screen (GtkWidget *widget, void *data)
 }
 
 
-/* Functions */
+/* Callback for the tabs close buttons */
+static void
+sakura_tab_button_close(GtkWidget *widget, void *data)
+{
+	gint page;
+	GtkWidget *hbox=(GtkWidget *)data;
+
+	page = gtk_notebook_page_num(GTK_NOTEBOOK(sakura.notebook), hbox);
+	sakura_del_tab(page);
+
+	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+		sakura_destroy();
+}
+
+
+/******* Functions ********/
 
 static void
 sakura_init()
@@ -1501,10 +1522,10 @@ sakura_init_popup()
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
-	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, _("Tango palette"));
-	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), _("Linux palette"));
-	item_palette_xterm=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), _("xterm palette"));
-	item_palette_rxvt=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), _("rxvt palette"));
+	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
+	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
+	item_palette_xterm=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "xterm");
+	item_palette_rxvt=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "rxvt");
 	item_options=gtk_menu_item_new_with_label(_("Options"));
 	item_palette=gtk_menu_item_new_with_label(_("Set palette"));
 
@@ -1640,8 +1661,9 @@ sakura_destroy()
 {
 	SAY("Destroying sakura");
 
+	/* Delete all existing tabs */
 	while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) >= 1) {
-		sakura_del_tab();
+		sakura_del_tab(-1);
 	}
 
 	pango_font_description_free(sakura.font);
@@ -1765,7 +1787,7 @@ sakura_add_tab()
 	gtk_box_pack_start(GTK_BOX(hbox), term->label, FALSE, FALSE, 0);
 	if (sakura.show_closebutton) {
 		close_btn=gtk_button_new();
-		g_signal_connect(G_OBJECT(close_btn), "clicked", G_CALLBACK(sakura_del_term), term->hbox);
+		g_signal_connect(G_OBJECT(close_btn), "clicked", G_CALLBACK(sakura_tab_button_close), term->hbox);
 		gtk_button_set_relief(GTK_BUTTON(close_btn), GTK_RELIEF_NONE);
 		gtk_button_set_image(GTK_BUTTON(close_btn), gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU));
 		gtk_box_pack_start(GTK_BOX(hbox), close_btn, FALSE, FALSE, 0);
@@ -1905,44 +1927,14 @@ sakura_add_tab()
 }
 
 
+/* Delete the notebook tab passed as a parameter */
 static void
-sakura_del_term(GtkWidget *hbox, void *data)
+sakura_del_tab(gint page)
 {
-	gint page;
-
-	if (data != NULL)
-		hbox=(GtkWidget *)data;
-
-	page = gtk_notebook_page_num(GTK_NOTEBOOK(sakura.notebook), hbox);
-	if (page != -1) {
-		gtk_widget_hide(hbox);
-
-		gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook), page);
-
-		if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-			char *cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
-			if (strcmp(cfgtmp, "Yes")==0) {
-				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-			} else {
-				gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
-			}
-			g_free(cfgtmp);
-		}
-	}
-}
-
-
-static void
-sakura_del_tab()
-{
-	gint page;
 	struct terminal *term;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
 	gtk_widget_hide(term->hbox);
-	//gtk_widget_hide(term->label);
 
 	gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook), page);
 
