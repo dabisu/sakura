@@ -54,6 +54,90 @@
 #define SAY(format,...) do {} while (0)
 #endif
 
+#define PALETTE_SIZE 16
+
+/* Color palettes. Color lists borrowed from gnome-terminal source (thanks! ;)) */
+const GdkColor tango_palette[PALETTE_SIZE] =
+{
+	{ 0, 0x2e2e, 0x3434, 0x3636 },
+	{ 0, 0xcccc, 0x0000, 0x0000 },
+	{ 0, 0x4e4e, 0x9a9a, 0x0606 },
+	{ 0, 0xc4c4, 0xa0a0, 0x0000 },
+	{ 0, 0x3434, 0x6565, 0xa4a4 },
+	{ 0, 0x7575, 0x5050, 0x7b7b },
+	{ 0, 0x0606, 0x9820, 0x9a9a },
+	{ 0, 0xd3d3, 0xd7d7, 0xcfcf },
+	{ 0, 0x5555, 0x5757, 0x5353 },
+	{ 0, 0xefef, 0x2929, 0x2929 },
+	{ 0, 0x8a8a, 0xe2e2, 0x3434 },
+	{ 0, 0xfcfc, 0xe9e9, 0x4f4f },
+	{ 0, 0x7272, 0x9f9f, 0xcfcf },
+	{ 0, 0xadad, 0x7f7f, 0xa8a8 },
+	{ 0, 0x3434, 0xe2e2, 0xe2e2 },
+	{ 0, 0xeeee, 0xeeee, 0xecec }
+};
+
+const GdkColor linux_palette[PALETTE_SIZE] =
+{
+	{ 0, 0x0000, 0x0000, 0x0000 },
+	{ 0, 0xaaaa, 0x0000, 0x0000 },
+	{ 0, 0x0000, 0xaaaa, 0x0000 },
+	{ 0, 0xaaaa, 0x5555, 0x0000 },
+	{ 0, 0x0000, 0x0000, 0xaaaa },
+	{ 0, 0xaaaa, 0x0000, 0xaaaa },
+	{ 0, 0x0000, 0xaaaa, 0xaaaa },
+	{ 0, 0xaaaa, 0xaaaa, 0xaaaa },
+	{ 0, 0x5555, 0x5555, 0x5555 },
+	{ 0, 0xffff, 0x5555, 0x5555 },
+	{ 0, 0x5555, 0xffff, 0x5555 },
+	{ 0, 0xffff, 0xffff, 0x5555 },
+	{ 0, 0x5555, 0x5555, 0xffff },
+	{ 0, 0xffff, 0x5555, 0xffff },
+	{ 0, 0x5555, 0xffff, 0xffff },
+	{ 0, 0xffff, 0xffff, 0xffff }
+};
+
+const GdkColor xterm_palette[PALETTE_SIZE] =
+{
+	{0, 0x0000, 0x0000, 0x0000 },
+	{0, 0xcdcb, 0x0000, 0x0000 },
+	{0, 0x0000, 0xcdcb, 0x0000 },
+	{0, 0xcdcb, 0xcdcb, 0x0000 },
+	{0, 0x1e1a, 0x908f, 0xffff },
+	{0, 0xcdcb, 0x0000, 0xcdcb },
+	{0, 0x0000, 0xcdcb, 0xcdcb },
+	{0, 0xe5e2, 0xe5e2, 0xe5e2 },
+	{0, 0x4ccc, 0x4ccc, 0x4ccc },
+	{0, 0xffff, 0x0000, 0x0000 },
+	{0, 0x0000, 0xffff, 0x0000 },
+	{0, 0xffff, 0xffff, 0x0000 },
+	{0, 0x4645, 0x8281, 0xb4ae },
+	{0, 0xffff, 0x0000, 0xffff },
+	{0, 0x0000, 0xffff, 0xffff },
+	{0, 0xffff, 0xffff, 0xffff }
+};
+
+const GdkColor rxvt_palette[PALETTE_SIZE] =
+{
+	{ 0, 0x0000, 0x0000, 0x0000 },
+	{ 0, 0xcdcd, 0x0000, 0x0000 },
+	{ 0, 0x0000, 0xcdcd, 0x0000 },
+	{ 0, 0xcdcd, 0xcdcd, 0x0000 },
+	{ 0, 0x0000, 0x0000, 0xcdcd },
+	{ 0, 0xcdcd, 0x0000, 0xcdcd },
+	{ 0, 0x0000, 0xcdcd, 0xcdcd },
+	{ 0, 0xfafa, 0xebeb, 0xd7d7 },
+	{ 0, 0x4040, 0x4040, 0x4040 },
+	{ 0, 0xffff, 0x0000, 0x0000 },
+	{ 0, 0x0000, 0xffff, 0x0000 },
+	{ 0, 0xffff, 0xffff, 0x0000 },
+	{ 0, 0x0000, 0x0000, 0xffff },
+	{ 0, 0xffff, 0x0000, 0xffff },
+	{ 0, 0x0000, 0xffff, 0xffff },
+	{ 0, 0xffff, 0xffff, 0xffff }
+};
+
+
 static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
@@ -62,7 +146,6 @@ static struct {
 	PangoFontDescription *font;
 	GdkColor forecolor;
 	GdkColor backcolor;
-	GdkColor boldcolor;
 	char *current_match;
 	guint width;
 	guint height;
@@ -91,6 +174,7 @@ static struct {
 	char *configfile;
 	char *background;
 	char *word_chars;
+	GdkColor *palette;
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
 	gint switch_tab_accelerator;
@@ -123,6 +207,7 @@ struct terminal {
 #define DEFAULT_ROWS 24
 #define DEFAULT_FONT "monospace 11"
 #define DEFAULT_WORD_CHARS  "-A-Za-z0-9,./?%&#_~"
+#define DEFAULT_PALETTE "linux"
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
@@ -495,8 +580,8 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 	if (response==GTK_RESPONSE_OK) {
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
-	    sakura_set_font();
-            g_key_file_set_value(sakura.cfg, cfg_group, "font", pango_font_description_to_string(sakura.font));
+		sakura_set_font();
+		g_key_file_set_value(sakura.cfg, cfg_group, "font", pango_font_description_to_string(sakura.font));
 	}
 
 	gtk_widget_destroy(font_dialog);
@@ -526,7 +611,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	/* Set tab label as entry default text */
 	gtk_entry_set_text(GTK_ENTRY(entry), gtk_notebook_get_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 6);
 	/* Disable accept button until some text is entered */
 	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), input_dialog);
 	gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
@@ -572,13 +657,13 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	buttonfore=gtk_color_button_new_with_color(&sakura.forecolor);
 	buttonback=gtk_color_button_new_with_color(&sakura.backcolor);
 
-	gtk_container_add(GTK_CONTAINER(hbox_fore), label1);
-	gtk_container_add(GTK_CONTAINER(hbox_fore), buttonfore);
-	gtk_container_add(GTK_CONTAINER(hbox_back), label2);
-	gtk_container_add(GTK_CONTAINER(hbox_back), buttonback);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox_fore, FALSE, FALSE, 10);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox_back, FALSE, FALSE, 10);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(color_dialog)->vbox), vbox, FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(hbox_fore), label1, FALSE, FALSE, 6);
+	gtk_box_pack_end(GTK_BOX(hbox_fore), buttonfore, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(hbox_back), label2, FALSE, FALSE, 6);
+	gtk_box_pack_end(GTK_BOX(hbox_back), buttonback, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox_fore, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox_back, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(color_dialog)->vbox), vbox, FALSE, FALSE, 6);
 
 	gtk_widget_show_all(vbox);
 
@@ -587,10 +672,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	if (response==GTK_RESPONSE_ACCEPT) {
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
-		vte_terminal_set_color_foreground(VTE_TERMINAL(term->vte), &sakura.forecolor);
-		sakura.boldcolor=sakura.forecolor;
-		vte_terminal_set_color_bold(VTE_TERMINAL(term->vte), &sakura.boldcolor);
-		vte_terminal_set_color_background(VTE_TERMINAL(term->vte), &sakura.backcolor);
+		vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+		                        sakura.palette, PALETTE_SIZE);
 
 		gchar *cfgtmp;
 		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
@@ -603,10 +686,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		g_key_file_set_value(sakura.cfg, cfg_group, "backcolor", cfgtmp);
 		g_free(cfgtmp);
 
-		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.boldcolor.red >>8,
-		                         sakura.boldcolor.green>>8, sakura.boldcolor.blue>>8);
-		g_key_file_set_value(sakura.cfg, cfg_group, "boldcolor", cfgtmp);
-		g_free(cfgtmp);
 	}
 
 	gtk_widget_destroy(color_dialog);
@@ -741,9 +820,9 @@ sakura_set_opacity (GtkWidget *widget, void *data)
 
 	check = gtk_check_button_new_with_label(_("Disable opacity"));
 
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), check, FALSE, FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), label, FALSE, FALSE, 2);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), spin_control, FALSE, FALSE, 3);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), check, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), spin_control, FALSE, FALSE, 6);
 
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(sakura_opacity_check), spin_control);
 
@@ -885,6 +964,34 @@ sakura_visible_bell (GtkWidget *widget, void *data)
 
 
 static void
+sakura_set_palette(GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal *term;
+
+	char *palette=(char *)data;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+	
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		if (strcmp(palette, "linux")==0) {
+			sakura.palette=linux_palette;
+		} else if (strcmp(palette, "tango")==0) {
+			sakura.palette=tango_palette;
+		} else if (strcmp(palette, "xterm")==0) {
+			sakura.palette=xterm_palette;
+		} else {
+			sakura.palette=rxvt_palette;
+		}
+		vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+		                        sakura.palette, PALETTE_SIZE);
+		g_key_file_set_value(sakura.cfg, cfg_group, "palette", palette);
+	}
+}
+
+
+static void
 sakura_set_title_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *input_dialog;
@@ -907,7 +1014,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	/* Set window label as entry default text */
 	gtk_entry_set_text(GTK_ENTRY(entry), gtk_window_get_title(GTK_WINDOW(sakura.main_window)));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 6);
 	/* Disable accept button until some text is entered */
 	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), input_dialog);
 	gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
@@ -1124,14 +1231,6 @@ sakura_init()
 	g_free(cfgtmp);
 
 
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "boldcolor", NULL)) {
-		g_key_file_set_value(sakura.cfg, cfg_group, "boldcolor", "#ffffff");
-	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "boldcolor", NULL);
-	gdk_color_parse(cfgtmp, &sakura.boldcolor);
-	g_free(cfgtmp);
-
-
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "opacity_level", NULL)) {
 		g_key_file_set_value(sakura.cfg, cfg_group, "opacity_level", "80");
 	}
@@ -1179,7 +1278,7 @@ sakura_init()
 	sakura.show_scrollbar = g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "closebutton", NULL)) {
-		g_key_file_set_boolean(sakura.cfg, cfg_group, "closebutton", TRUE);
+		g_key_file_set_boolean(sakura.cfg, cfg_group, "closebutton", FALSE);
 	}
 	sakura.show_closebutton = g_key_file_get_boolean(sakura.cfg, cfg_group, "closebutton", NULL);
 
@@ -1202,10 +1301,20 @@ sakura_init()
 	}
 	sakura.word_chars = g_key_file_get_value(sakura.cfg, cfg_group, "word_chars", NULL);
 
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
-		g_key_file_set_value(sakura.cfg, cfg_group, "word_chars", DEFAULT_WORD_CHARS);
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "palette", NULL)) {
+		g_key_file_set_value(sakura.cfg, cfg_group, "palette", DEFAULT_PALETTE);
 	}
-	sakura.word_chars = g_key_file_get_string(sakura.cfg, cfg_group, "word_chars", NULL);
+	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
+	if (strcmp(cfgtmp, "linux")==0) {
+		sakura.palette=linux_palette;
+	} else if (strcmp(cfgtmp, "tango")==0) {
+		sakura.palette=tango_palette;
+	} else if (strcmp(cfgtmp, "xterm")==0) {
+		sakura.palette=xterm_palette;
+	} else {
+		sakura.palette=rxvt_palette;
+	}
+	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_accelerator", NULL)) {
 		g_key_file_set_integer(sakura.cfg, cfg_group, "add_tab_accelerator", DEFAULT_ADD_TAB_ACCELERATOR);
@@ -1334,13 +1443,14 @@ sakura_init_popup()
 	          *item_paste, *item_select_font, *item_select_colors,
 	          *item_select_background, *item_set_title, *item_full_screen,
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
-	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell;
+	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
+	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
 	          *action_full_screen;
 	GtkWidget *separator, *separator2, *separator3, *separator4, *separator5;
-	GtkWidget *options_menu;
+	GtkWidget *options_menu, *palette_menu;
 
 	/* Define actions */
 	action_open_link=gtk_action_new("open_link", _("Open link..."), NULL, NULL);
@@ -1374,13 +1484,18 @@ sakura_init_popup()
 	item_opacity_menu=gtk_action_create_menu_item(action_opacity);
 	item_set_title=gtk_action_create_menu_item(action_set_title);
 
+
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Show always first tab"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Toggle scrollbar"));
-	item_audible_bell=gtk_check_menu_item_new_with_label(_("Audible Bell"));
-	item_visible_bell=gtk_check_menu_item_new_with_label(_("Visible Bell"));
+	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
+	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
-
+	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, _("Tango palette"));
+	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), _("Linux palette"));
+	item_palette_xterm=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), _("xterm palette"));
+	item_palette_rxvt=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), _("rxvt palette"));
 	item_options=gtk_menu_item_new_with_label(_("Options"));
+	item_palette=gtk_menu_item_new_with_label(_("Set palette"));
 
 	/* Show defaults in menu items */
 	gchar *cfgtmp = NULL;
@@ -1407,6 +1522,18 @@ sakura_init_popup()
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "visible_bell", NULL);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_visible_bell),
 	                               (strcmp(cfgtmp, "Yes")==0 ? TRUE : FALSE));
+	g_free(cfgtmp);
+
+	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
+	if (strcmp(cfgtmp, "linux")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_linux), TRUE);
+	} else if (strcmp(cfgtmp, "tango")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_tango), TRUE);
+	} else if (strcmp(cfgtmp, "xterm")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_xterm), TRUE);
+	} else {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_rxvt), TRUE);
+	}
 	g_free(cfgtmp);
 
 	sakura.open_link_separator=gtk_separator_menu_item_new();
@@ -1440,6 +1567,7 @@ sakura_init_popup()
 
 	sakura.im_menu=gtk_menu_new();
 	options_menu=gtk_menu_new();
+	palette_menu=gtk_menu_new();
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_first_tab);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_toggle_scrollbar);
@@ -1447,9 +1575,15 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_visible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_palette);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_tango);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_linux);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_xterm);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_rxvt);
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_input_methods), sakura.im_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), options_menu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_palette), palette_menu);
 
 	/* ... and finally assign callbacks to menuitems */
 	g_signal_connect(G_OBJECT(action_new_tab), "activate", G_CALLBACK(sakura_new_tab), NULL);
@@ -1457,19 +1591,25 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(action_close_tab), "activate", G_CALLBACK(sakura_close_tab), NULL);
 	g_signal_connect(G_OBJECT(action_select_font), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_select_background), "activate",
-							  G_CALLBACK(sakura_background_selection), NULL);
+                              G_CALLBACK(sakura_background_selection), NULL);
 	g_signal_connect(G_OBJECT(action_copy), "activate", G_CALLBACK(sakura_copy), NULL);
 	g_signal_connect(G_OBJECT(action_paste), "activate", G_CALLBACK(sakura_paste), NULL);
 	g_signal_connect(G_OBJECT(action_select_colors), "activate", G_CALLBACK(sakura_color_dialog), NULL);
+
 	g_signal_connect(G_OBJECT(item_show_first_tab), "activate", G_CALLBACK(sakura_show_first_tab), NULL);
 	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar), NULL);
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
+	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_set_opacity), NULL);
+	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
+	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
+	g_signal_connect(G_OBJECT(item_palette_linux), "activate", G_CALLBACK(sakura_set_palette), "linux");
+	g_signal_connect(G_OBJECT(item_palette_xterm), "activate", G_CALLBACK(sakura_set_palette), "xterm");
+	g_signal_connect(G_OBJECT(item_palette_rxvt), "activate", G_CALLBACK(sakura_set_palette), "rxvt");
+
 	g_signal_connect(G_OBJECT(action_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);
 	g_signal_connect(G_OBJECT(action_copy_link), "activate", G_CALLBACK(sakura_copy_url), NULL);
 	g_signal_connect(G_OBJECT(action_clear_background), "activate", G_CALLBACK(sakura_clear), NULL);
-	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_set_opacity), NULL);
-	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_full_screen), "activate", G_CALLBACK(sakura_full_screen), NULL);
 
 
@@ -1654,16 +1794,6 @@ sakura_add_tab()
 
 	sakura_set_page_term(sakura, index, term );
 
-	/* GtkNotebook signals */
-#if GTK_CHECK_VERSION( 2, 10, 0 )
-#if 0
-	g_signal_connect(G_OBJECT(sakura.notebook), "reorder-tab", G_CALLBACK(sakura_reordered_tab), NULL);
-	g_signal_connect(G_OBJECT(sakura.notebook), "page-reordered", G_CALLBACK(sakura_page_reordered), NULL);
-	g_signal_connect(G_OBJECT(sakura.notebook), "move-focus-out", G_CALLBACK(sakura_move_focus_out), NULL);
-	g_signal_connect(G_OBJECT(sakura.notebook), "focus-tab", G_CALLBACK(sakura_focus_tab), NULL);
-#endif
-#endif
-
 	/* vte signals */
     g_signal_connect(G_OBJECT(term->vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
     g_signal_connect(G_OBJECT(term->vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
@@ -1737,10 +1867,8 @@ sakura_add_tab()
 
 	/* Configuration per-terminal */
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
-	/* TODO: Use tango color pallete with vte_terminal_set_colors */
-	vte_terminal_set_color_foreground(VTE_TERMINAL(term->vte), &sakura.forecolor);
-	vte_terminal_set_color_bold(VTE_TERMINAL(term->vte), &sakura.boldcolor);
-	vte_terminal_set_color_background(VTE_TERMINAL(term->vte), &sakura.backcolor);
+	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+	                        sakura.palette, PALETTE_SIZE);
 
 	if (sakura.fake_transparency) {
 		vte_terminal_set_background_saturation(VTE_TERMINAL (term->vte), sakura.opacity_level);

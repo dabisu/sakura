@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-16 21:15+0200\n"
+"POT-Creation-Date: 2008-09-20 20:57+0200\n"
 "PO-Revision-Date: 2006-06-20 09:26+0800\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -122,17 +122,33 @@ msgstr ""
 msgid "Toggle scrollbar"
 msgstr ""
 
-msgid "Audible Bell"
+msgid "Set audible bell"
 msgstr ""
 
-msgid "Visible Bell"
+msgid "Set visible bell"
 msgstr ""
 
 msgid "Input methods"
 msgstr "输入法"
 
+msgid "Tango palette"
+msgstr ""
+
+msgid "Linux palette"
+msgstr ""
+
+msgid "xterm palette"
+msgstr ""
+
+msgid "rxvt palette"
+msgstr ""
+
 msgid "Options"
 msgstr ""
+
+#, fuzzy
+msgid "Set palette"
+msgstr "设置名称"
 
 #, c-format
 msgid "Terminal %d"

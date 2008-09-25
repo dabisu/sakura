@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-16 21:15+0200\n"
+"POT-Creation-Date: 2008-09-20 20:57+0200\n"
 "PO-Revision-Date: 2008-06-22 16:00+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -119,17 +119,33 @@ msgstr "Toujours afficher le premier onglet"
 msgid "Toggle scrollbar"
 msgstr "Permutter le barre de défilement"
 
-msgid "Audible Bell"
+msgid "Set audible bell"
 msgstr ""
 
-msgid "Visible Bell"
+msgid "Set visible bell"
 msgstr ""
 
 msgid "Input methods"
 msgstr "Méthodes d'entrée"
 
+msgid "Tango palette"
+msgstr ""
+
+msgid "Linux palette"
+msgstr ""
+
+msgid "xterm palette"
+msgstr ""
+
+msgid "rxvt palette"
+msgstr ""
+
 msgid "Options"
 msgstr "Options"
+
+#, fuzzy
+msgid "Set palette"
+msgstr "Définir le nom"
 
 #, c-format
 msgid "Terminal %d"

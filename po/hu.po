@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-16 21:15+0200\n"
+"POT-Creation-Date: 2008-09-20 20:57+0200\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -123,17 +123,33 @@ msgstr ""
 msgid "Toggle scrollbar"
 msgstr ""
 
-msgid "Audible Bell"
+msgid "Set audible bell"
 msgstr ""
 
-msgid "Visible Bell"
+msgid "Set visible bell"
 msgstr ""
 
 msgid "Input methods"
 msgstr "Beviteli módok"
 
+msgid "Tango palette"
+msgstr ""
+
+msgid "Linux palette"
+msgstr ""
+
+msgid "xterm palette"
+msgstr ""
+
+msgid "rxvt palette"
+msgstr ""
+
 msgid "Options"
 msgstr ""
+
+#, fuzzy
+msgid "Set palette"
+msgstr "Név beállítása"
 
 #, c-format
 msgid "Terminal %d"
