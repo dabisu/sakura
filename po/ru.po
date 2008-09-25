@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-20 20:57+0200\n"
+"POT-Creation-Date: 2008-09-25 19:06+0200\n"
 "PO-Revision-Date: 2008-03-22  13:00+0300\n"
 "Last-Translator: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -34,7 +34,7 @@ msgstr "Установить число столбцов"
 msgid "Set rows number"
 msgstr "Установить число строк"
 
-msgid "Hold window after exit"
+msgid "Hold window after execute command"
 msgstr ""
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
@@ -70,9 +70,8 @@ msgstr "Отключить плотность"
 msgid "Open link..."
 msgstr "Открыть ссылку..."
 
-#, fuzzy
 msgid "Copy link..."
-msgstr "Открыть ссылку..."
+msgstr ""
 
 msgid "New tab"
 msgstr "Новая вкладка"
@@ -126,24 +125,11 @@ msgstr ""
 msgid "Input methods"
 msgstr "Методы ввода"
 
-msgid "Tango palette"
-msgstr ""
-
-msgid "Linux palette"
-msgstr ""
-
-msgid "xterm palette"
-msgstr ""
-
-msgid "rxvt palette"
-msgstr ""
-
 msgid "Options"
 msgstr "Настройки"
 
-#, fuzzy
 msgid "Set palette"
-msgstr "Заголовок вкладки"
+msgstr ""
 
 #, c-format
 msgid "Terminal %d"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-20 20:57+0200\n"
+"POT-Creation-Date: 2008-09-25 19:06+0200\n"
 "PO-Revision-Date: 2008-06-22 16:00+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -38,7 +38,7 @@ msgstr "Définir le nombre de colonnes"
 msgid "Set rows number"
 msgstr "Définir le nombre de lignes"
 
-msgid "Hold window after exit"
+msgid "Hold window after execute command"
 msgstr ""
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
@@ -128,24 +128,11 @@ msgstr ""
 msgid "Input methods"
 msgstr "Méthodes d'entrée"
 
-msgid "Tango palette"
-msgstr ""
-
-msgid "Linux palette"
-msgstr ""
-
-msgid "xterm palette"
-msgstr ""
-
-msgid "rxvt palette"
-msgstr ""
-
 msgid "Options"
 msgstr "Options"
 
-#, fuzzy
 msgid "Set palette"
-msgstr "Définir le nom"
+msgstr ""
 
 #, c-format
 msgid "Terminal %d"

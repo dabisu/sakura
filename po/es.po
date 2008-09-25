@@ -5,9 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-20 20:57+0200\n"
-"PO-Revision-Date: 2008-04-21 20:11+0100\n"
-"Last-Translator: Jordi Jané <jordi.jane@gmail.com>\n"
+"POT-Creation-Date: 2008-09-25 19:06+0200\n"
+"PO-Revision-Date: 2008-09-25 19:02+0100\n"
+"Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,8 +37,8 @@ msgstr "Definir número de columnas"
 msgid "Set rows number"
 msgstr "Definir número de líneas"
 
-msgid "Hold window after exit"
-msgstr ""
+msgid "Hold window after execute command"
+msgstr "Mantener la ventana tras el final del comando"
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
 msgstr "Hay varias pestañas abiertas. ¿Quiere cerrar Sakura?"
@@ -119,32 +119,19 @@ msgid "Toggle scrollbar"
 msgstr "Mostrar barra de desplazamiento"
 
 msgid "Set audible bell"
-msgstr ""
+msgstr "Activar campana audible"
 
 msgid "Set visible bell"
-msgstr ""
+msgstr "Activar campana visible"
 
 msgid "Input methods"
 msgstr "Métodos de entrada"
 
-msgid "Tango palette"
-msgstr ""
-
-msgid "Linux palette"
-msgstr ""
-
-msgid "xterm palette"
-msgstr ""
-
-msgid "rxvt palette"
-msgstr ""
-
 msgid "Options"
 msgstr "Opciones"
 
-#, fuzzy
 msgid "Set palette"
-msgstr "Definir nombre"
+msgstr "Definir paleta"
 
 #, c-format
 msgid "Terminal %d"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-20 20:57+0200\n"
+"POT-Creation-Date: 2008-09-25 19:06+0200\n"
 "PO-Revision-Date: 2006-06-20 09:26+0800\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Set rows number"
 msgstr ""
 
-msgid "Hold window after exit"
+msgid "Hold window after execute command"
 msgstr ""
 
 msgid "There are several tabs opened. Do you really want to close Sakura?"
@@ -75,9 +75,8 @@ msgstr ""
 msgid "Open link..."
 msgstr "打开链接"
 
-#, fuzzy
 msgid "Copy link..."
-msgstr "打开链接"
+msgstr ""
 
 msgid "New tab"
 msgstr "新建标签"
@@ -131,24 +130,11 @@ msgstr ""
 msgid "Input methods"
 msgstr "输入法"
 
-msgid "Tango palette"
-msgstr ""
-
-msgid "Linux palette"
-msgstr ""
-
-msgid "xterm palette"
-msgstr ""
-
-msgid "rxvt palette"
-msgstr ""
-
 msgid "Options"
 msgstr ""
 
-#, fuzzy
 msgid "Set palette"
-msgstr "设置名称"
+msgstr ""
 
 #, c-format
 msgid "Terminal %d"
