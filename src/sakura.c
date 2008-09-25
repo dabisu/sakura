@@ -672,6 +672,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	if (response==GTK_RESPONSE_ACCEPT) {
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
+		/* FIXME: Apply to all terminals */
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 		                        sakura.palette, PALETTE_SIZE);
 
@@ -984,6 +985,7 @@ sakura_set_palette(GtkWidget *widget, void *data)
 		} else {
 			sakura.palette=rxvt_palette;
 		}
+		/* FIXME: Apply to all terminals */
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 		                        sakura.palette, PALETTE_SIZE);
 		g_key_file_set_value(sakura.cfg, cfg_group, "palette", palette);
@@ -1449,7 +1451,7 @@ sakura_init_popup()
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
 	          *action_full_screen;
-	GtkWidget *separator, *separator2, *separator3, *separator4, *separator5;
+	GtkWidget *separator, *separator2, *separator3, *separator4, *separator5, *separator6;
 	GtkWidget *options_menu, *palette_menu;
 
 	/* Define actions */
@@ -1542,6 +1544,7 @@ sakura_init_popup()
 	separator3=gtk_separator_menu_item_new();
 	separator4=gtk_separator_menu_item_new();
 	separator5=gtk_separator_menu_item_new();
+	separator6=gtk_separator_menu_item_new();
 
 	/* Add items to popup menu */
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_open_link);
@@ -1573,6 +1576,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_toggle_scrollbar);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_visible_bell);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), separator6);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_palette);
