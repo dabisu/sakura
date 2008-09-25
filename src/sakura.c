@@ -174,7 +174,7 @@ static struct {
 	char *configfile;
 	char *background;
 	char *word_chars;
-	GdkColor *palette;
+	const GdkColor *palette;
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
 	gint switch_tab_accelerator;
@@ -636,6 +636,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	GtkWidget *vbox, *hbox_fore, *hbox_back;
 	gint response;
 	int page;
+	int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	struct terminal *term;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -672,7 +673,13 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	if (response==GTK_RESPONSE_ACCEPT) {
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
-		/* FIXME: Apply to all terminals */
+
+		for (i = (n_pages - 1); i >= 0; i--) {
+			term = sakura_get_page_term(sakura, i);
+			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+			                        sakura.palette, PALETTE_SIZE);
+		}
+
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 		                        sakura.palette, PALETTE_SIZE);
 
@@ -967,13 +974,12 @@ sakura_visible_bell (GtkWidget *widget, void *data)
 static void
 sakura_set_palette(GtkWidget *widget, void *data)
 {
-	int page;
 	struct terminal *term;
+	int n_pages, i;
 
 	char *palette=(char *)data;
 
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
+	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		if (strcmp(palette, "linux")==0) {
@@ -985,9 +991,13 @@ sakura_set_palette(GtkWidget *widget, void *data)
 		} else {
 			sakura.palette=rxvt_palette;
 		}
-		/* FIXME: Apply to all terminals */
-		vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-		                        sakura.palette, PALETTE_SIZE);
+
+		for (i = (n_pages - 1); i >= 0; i--) {
+			term = sakura_get_page_term(sakura, i);
+			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+			                        sakura.palette, PALETTE_SIZE);
+		}
+
 		g_key_file_set_value(sakura.cfg, cfg_group, "palette", palette);
 	}
 }
@@ -1485,7 +1495,6 @@ sakura_init_popup()
 	sakura.item_clear_background=gtk_action_create_menu_item(action_clear_background);
 	item_opacity_menu=gtk_action_create_menu_item(action_opacity);
 	item_set_title=gtk_action_create_menu_item(action_set_title);
-
 
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Show always first tab"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Toggle scrollbar"));
