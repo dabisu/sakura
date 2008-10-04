@@ -1546,15 +1546,13 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_scrollbar), FALSE);
 	}
 
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "audible_bell", NULL);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_audible_bell),
-                                   (strcmp(cfgtmp, "Yes")==0 ? TRUE : FALSE));
-	g_free(cfgtmp);
+	if (sakura.audible_bell) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_audible_bell), TRUE);
+	}
 
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "visible_bell", NULL);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_visible_bell),
-	                               (strcmp(cfgtmp, "Yes")==0 ? TRUE : FALSE));
-	g_free(cfgtmp);
+	if (sakura.visible_bell) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_visible_bell), TRUE);
+	}
 
 	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
 	if (strcmp(cfgtmp, "linux")==0) {
