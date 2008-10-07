@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-25 19:06+0200\n"
+"POT-Creation-Date: 2008-10-07 02:25+0200\n"
 "PO-Revision-Date: 2008-03-07 20:36-0300\n"
 "Last-Translator: \n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -111,6 +111,9 @@ msgstr "Definir título da janela"
 
 msgid "Show always first tab"
 msgstr "Exibir sempre a primeira aba"
+
+msgid "Show tab close button"
+msgstr ""
 
 msgid "Toggle scrollbar"
 msgstr ""

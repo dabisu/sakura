@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-25 19:06+0200\n"
+"POT-Creation-Date: 2008-10-07 02:25+0200\n"
 "PO-Revision-Date: 2008-01-29 18:07+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -113,6 +113,9 @@ msgstr "ウィンドウタイトルを指定"
 
 msgid "Show always first tab"
 msgstr "常に最初のタブを表示"
+
+msgid "Show tab close button"
+msgstr ""
 
 msgid "Toggle scrollbar"
 msgstr ""

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-25 19:06+0200\n"
+"POT-Creation-Date: 2008-10-07 02:25+0200\n"
 "PO-Revision-Date: 2006-05-22 00:19+0100\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -117,6 +117,9 @@ msgid "Set window title..."
 msgstr "Név beállítása..."
 
 msgid "Show always first tab"
+msgstr ""
+
+msgid "Show tab close button"
 msgstr ""
 
 msgid "Toggle scrollbar"

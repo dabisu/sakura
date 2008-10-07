@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-25 19:06+0200\n"
+"POT-Creation-Date: 2008-10-07 02:25+0200\n"
 "PO-Revision-Date: 2008-09-25 19:02+0100\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -114,6 +114,9 @@ msgstr "Definir nombre de la ventana"
 
 msgid "Show always first tab"
 msgstr "Mostrar siempre la primera pestaña"
+
+msgid "Show tab close button"
+msgstr ""
 
 msgid "Toggle scrollbar"
 msgstr "Mostrar barra de desplazamiento"
