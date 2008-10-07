@@ -246,13 +246,14 @@ static gboolean sakura_popup (GtkWidget *, GdkEvent *);
 static void     sakura_font_dialog (GtkWidget *, void *);
 static void     sakura_set_name_dialog (GtkWidget *, void *);
 static void     sakura_color_dialog (GtkWidget *, void *);
+static void     sakura_opacity_dialog (GtkWidget *, void *);
+static void     sakura_set_title_dialog (GtkWidget *, void *);
+static void     sakura_select_background_dialog (GtkWidget *, void *);
 static void     sakura_new_tab (GtkWidget *, void *);
 static void     sakura_close_tab (GtkWidget *, void *);
 static void     sakura_full_screen (GtkWidget *, void *);
-static void     sakura_background_selection (GtkWidget *, void *);
 static void     sakura_open_url (GtkWidget *, void *);
 static void     sakura_clear (GtkWidget *, void *);
-static void     sakura_set_opacity (GtkWidget *, void *);
 static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
 static void     sakura_setname_entry_changed(GtkWidget *, void *);
 static void     sakura_copy(GtkWidget *, void *);
@@ -596,6 +597,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *input_dialog;
 	GtkWidget *entry;
+	GtkWidget *name_hbox; /* We need this for correct spacing */
 	gint response;
 	int page;
 	struct terminal *term;
@@ -614,16 +616,18 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gtk_widget_set_name (input_dialog, "set-name-dialog");
 	gtk_rc_parse_string ("widget \"set-name-dialog\" style \"hig-dialog\"\n");
 
+	name_hbox=gtk_hbox_new(FALSE, 0);
 	entry=gtk_entry_new();
 	/* Set tab label as entry default text */
 	gtk_entry_set_text(GTK_ENTRY(entry), gtk_notebook_get_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(name_hbox), entry, TRUE, TRUE, 12);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), name_hbox, FALSE, FALSE, 12);
 	/* Disable accept button until some text is entered */
 	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), input_dialog);
 	gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
 
-	gtk_widget_show(entry);
+	gtk_widget_show_all(name_hbox);
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
@@ -640,7 +644,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	GtkWidget *color_dialog;
 	GtkWidget *label1, *label2;
 	GtkWidget *buttonfore, *buttonback;
-	GtkWidget *vbox, *hbox_fore, *hbox_back;
+	GtkWidget *hbox_fore, *hbox_back;
 	gint response;
 	int page;
 	int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
@@ -656,8 +660,10 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
+	/* Set style */
+	gtk_widget_set_name (color_dialog, "set-color-dialog");
+	gtk_rc_parse_string ("widget \"set-color-dialog\" style \"hig-dialog\"\n");
 
-	vbox=gtk_vbox_new(FALSE, 0);
 	hbox_fore=gtk_hbox_new(FALSE, 12);
 	hbox_back=gtk_hbox_new(FALSE, 12);
 	label1=gtk_label_new(_("Select foreground color:"));
@@ -669,11 +675,10 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_end(GTK_BOX(hbox_fore), buttonfore, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(hbox_back), label2, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_back), buttonback, FALSE, FALSE, 12);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox_fore, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox_back, FALSE, FALSE, 12);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(color_dialog)->vbox), vbox, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(color_dialog)->vbox), hbox_fore, FALSE, FALSE, 6);
+	gtk_box_pack_end(GTK_BOX(GTK_DIALOG(color_dialog)->vbox), hbox_back, FALSE, FALSE, 6);
 
-	gtk_widget_show_all(vbox);
+	gtk_widget_show_all(GTK_DIALOG(color_dialog)->vbox);
 
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
 
@@ -708,7 +713,153 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 
 static void
-sakura_background_selection (GtkWidget *widget, void *data)
+sakura_opacity_check (GtkWidget *widget, void *data)
+{
+	bool state;
+
+	state=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+
+	if (state) {
+		/* Enable spinbutton */
+		gtk_widget_set_sensitive(GTK_WIDGET(data), FALSE);
+	} else {
+		/* Disable spinbutton */
+		gtk_widget_set_sensitive(GTK_WIDGET(data), TRUE);
+	}
+}
+
+
+static void
+sakura_opacity_dialog (GtkWidget *widget, void *data)
+{
+	GtkWidget *opacity_dialog, *spin_control, *spin_label, *check;
+	GtkObject *spinner_adj;
+	GtkWidget *dialog_hbox, *dialog_vbox, *dialog_spin_hbox;
+	gint response;
+	int page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	opacity_dialog=gtk_dialog_new_with_buttons(_("Opacity"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+                                             GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, 
+	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(opacity_dialog), GTK_RESPONSE_ACCEPT);
+	gtk_window_set_modal(GTK_WINDOW(opacity_dialog), TRUE);
+	/* Set style */
+	gtk_widget_set_name (opacity_dialog, "set-opacity-dialog");
+	gtk_rc_parse_string ("widget \"set-opacity-dialog\" style \"hig-dialog\"\n");
+
+	spinner_adj = gtk_adjustment_new (((1.0 - sakura.opacity_level) * 100), 0.0, 99.0, 1.0, 5.0, 5.0);
+	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
+
+	spin_label = gtk_label_new(_("Opacity level (%):"));
+	check = gtk_check_button_new_with_label(_("Disable opacity"));
+	dialog_hbox=gtk_hbox_new(FALSE, 0);
+	dialog_vbox=gtk_vbox_new(FALSE, 0);
+	dialog_spin_hbox=gtk_hbox_new(FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(opacity_dialog)->vbox), dialog_hbox, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(dialog_hbox), dialog_vbox, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(dialog_vbox), check, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(dialog_spin_hbox), spin_label, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(dialog_spin_hbox), spin_control, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(dialog_vbox), dialog_spin_hbox, TRUE, TRUE, 6);
+
+	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(sakura_opacity_check), spin_control);
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), !sakura.fake_transparency);
+
+	gtk_widget_show_all(dialog_hbox);
+
+	response=gtk_dialog_run(GTK_DIALOG(opacity_dialog));
+	if (response==GTK_RESPONSE_ACCEPT) {
+		char *value;
+		int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
+		value=g_strdup_printf("%d", gtk_spin_button_get_value_as_int((GtkSpinButton *) spin_control));
+		sakura.opacity_level = ( ( 100 - (atof(value)) ) / 100 );
+		sakura.opacity_level_percent = value;
+		sakura.fake_transparency=!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+
+		if (sakura.fake_transparency) {
+
+			/* Set fake transparency for all tabs */
+			for (i = (n_pages - 1); i >= 0; i--) {
+				term = sakura_get_page_term(sakura, i);
+				vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), TRUE);
+				vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), sakura.opacity_level);
+			}
+
+			sakura.fake_transparency = TRUE;
+			g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "Yes");
+		} else {
+
+			/* Unset fake transparency for all tabs */
+			for (i = (n_pages - 1); i >= 0; i--) {
+				term = sakura_get_page_term(sakura, i);
+				vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), FALSE);
+			}
+
+			sakura.fake_transparency = FALSE;
+			g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "No");
+		}
+
+		g_key_file_set_value(sakura.cfg, cfg_group, "opacity_level", sakura.opacity_level_percent);
+	}
+
+	gtk_widget_destroy(opacity_dialog);
+}
+
+
+static void
+sakura_set_title_dialog (GtkWidget *widget, void *data)
+{
+	GtkWidget *title_dialog;
+	GtkWidget *entry;
+	GtkWidget *title_hbox;
+	gint response;
+	int page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	title_dialog=gtk_dialog_new_with_buttons(_("Set window title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, 
+	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
+
+	gtk_dialog_set_default_response(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT);
+	gtk_window_set_modal(GTK_WINDOW(title_dialog), TRUE);
+	/* Set style */
+	gtk_widget_set_name (title_dialog, "set-title-dialog");
+	gtk_rc_parse_string ("widget \"set-title-dialog\" style \"hig-dialog\"\n");
+
+	entry=gtk_entry_new();
+	title_hbox=gtk_hbox_new(FALSE, 0);
+	/* Set window label as entry default text */
+	gtk_entry_set_text(GTK_ENTRY(entry), gtk_window_get_title(GTK_WINDOW(sakura.main_window)));
+	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
+	gtk_box_pack_start(GTK_BOX(title_hbox), entry, TRUE, TRUE, 12);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(title_dialog)->vbox), title_hbox, FALSE, FALSE, 12);
+	/* Disable accept button until some text is entered */
+	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), title_dialog);
+	gtk_dialog_set_response_sensitive(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT, FALSE);
+
+	gtk_widget_show_all(title_hbox);
+
+	response=gtk_dialog_run(GTK_DIALOG(title_dialog));
+	if (response==GTK_RESPONSE_ACCEPT) {
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
+	}
+	gtk_widget_destroy(title_dialog);
+
+}
+
+
+static void
+sakura_select_background_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *dialog;
 	gint response;
@@ -790,100 +941,6 @@ sakura_clear (GtkWidget *widget, void *data)
 
 	g_free(sakura.background);
 	sakura.background=NULL;
-}
-
-
-static void
-sakura_opacity_check (GtkWidget *widget, void *data)
-{
-	bool state;
-
-	state=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-	if (state) {
-		/* Enable spinbutton */
-		gtk_widget_set_sensitive(GTK_WIDGET(data), FALSE);
-	} else {
-		/* Disable spinbutton */
-		gtk_widget_set_sensitive(GTK_WIDGET(data), TRUE);
-	}
-}
-
-
-static void
-sakura_set_opacity (GtkWidget *widget, void *data)
-{
-	GtkWidget *input_dialog, *spin_control, *label, *check;
-	GtkObject *spinner_adj;
-	gint response;
-	int page;
-	struct terminal *term;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
-
-	input_dialog=gtk_dialog_new_with_buttons(_("Opacity"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-                                             GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, 
-	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
-	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
-	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
-
-	spinner_adj = gtk_adjustment_new (((1.0 - sakura.opacity_level) * 100), 0.0, 99.0, 1.0, 5.0, 5.0);
-	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
-
-	label = gtk_label_new(_("Opacity level (%):"));
-
-	check = gtk_check_button_new_with_label(_("Disable opacity"));
-
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), check, FALSE, FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), label, FALSE, FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), spin_control, FALSE, FALSE, 6);
-
-	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(sakura_opacity_check), spin_control);
-
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), !sakura.fake_transparency);
-
-	gtk_widget_show(check);
-	gtk_widget_show(label);
-	gtk_widget_show(spin_control);
-
-	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
-	if (response==GTK_RESPONSE_ACCEPT) {
-		char *value;
-		int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-
-		value=g_strdup_printf("%d", gtk_spin_button_get_value_as_int((GtkSpinButton *) spin_control));
-		sakura.opacity_level = ( ( 100 - (atof(value)) ) / 100 );
-		sakura.opacity_level_percent = value;
-		sakura.fake_transparency=!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-
-		if (sakura.fake_transparency) {
-
-			/* Set fake transparency for all tabs */
-			for (i = (n_pages - 1); i >= 0; i--) {
-				term = sakura_get_page_term(sakura, i);
-				vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), TRUE);
-				vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), sakura.opacity_level);
-			}
-
-			sakura.fake_transparency = TRUE;
-			g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "Yes");
-		} else {
-
-			/* Unset fake transparency for all tabs */
-			for (i = (n_pages - 1); i >= 0; i--) {
-				term = sakura_get_page_term(sakura, i);
-				vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), FALSE);
-			}
-
-			sakura.fake_transparency = FALSE;
-			g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "No");
-		}
-
-		g_key_file_set_value(sakura.cfg, cfg_group, "opacity_level", sakura.opacity_level_percent);
-	}
-
-	gtk_widget_destroy(input_dialog);
 }
 
 
@@ -1028,45 +1085,6 @@ sakura_set_palette(GtkWidget *widget, void *data)
 
 
 static void
-sakura_set_title_dialog (GtkWidget *widget, void *data)
-{
-	GtkWidget *input_dialog;
-	GtkWidget *entry;
-	gint response;
-	int page;
-	struct terminal *term;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
-
-	input_dialog=gtk_dialog_new_with_buttons(_("Set window title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, 
-	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
-
-	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
-	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
-
-	entry=gtk_entry_new();
-	/* Set window label as entry default text */
-	gtk_entry_set_text(GTK_ENTRY(entry), gtk_window_get_title(GTK_WINDOW(sakura.main_window)));
-	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 6);
-	/* Disable accept button until some text is entered */
-	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), input_dialog);
-	gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
-
-	gtk_widget_show(entry);
-
-	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
-	if (response==GTK_RESPONSE_ACCEPT) {
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
-	}
-	gtk_widget_destroy(input_dialog);
-
-}
-
-
-static void
 sakura_calculate_row_col (gint width, gint height)
 {
 	struct terminal *term;
@@ -1136,12 +1154,12 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 static void
 sakura_setname_entry_changed (GtkWidget *widget, void *data)
 {
-	GtkDialog *input_dialog=(GtkDialog *)data;
+	GtkDialog *title_dialog=(GtkDialog *)data;
 
 	if (strcmp(gtk_entry_get_text(GTK_ENTRY(widget)), "")==0) {
-		gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
+		gtk_dialog_set_response_sensitive(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT, FALSE);
 	} else {
-		gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, TRUE);
+		gtk_dialog_set_response_sensitive(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT, TRUE);
 	}
 }
 
@@ -1439,7 +1457,7 @@ sakura_init()
 
 	/* Set dialog style */
 	gtk_rc_parse_string ("style \"hig-dialog\" {\n"
-	                     "GtkDialog::action-area-border = 0\n"
+	                     "GtkDialog::action-area-border = 12\n"
                          "GtkDialog::button-spacing = 12\n"
                          "}\n");
 
@@ -1661,7 +1679,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(action_close_tab), "activate", G_CALLBACK(sakura_close_tab), NULL);
 	g_signal_connect(G_OBJECT(action_select_font), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_select_background), "activate",
-                              G_CALLBACK(sakura_background_selection), NULL);
+                              G_CALLBACK(sakura_select_background_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_copy), "activate", G_CALLBACK(sakura_copy), NULL);
 	g_signal_connect(G_OBJECT(action_paste), "activate", G_CALLBACK(sakura_paste), NULL);
 	g_signal_connect(G_OBJECT(action_select_colors), "activate", G_CALLBACK(sakura_color_dialog), NULL);
@@ -1671,7 +1689,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar), NULL);
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
-	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_set_opacity), NULL);
+	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_opacity_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
 	g_signal_connect(G_OBJECT(item_palette_linux), "activate", G_CALLBACK(sakura_set_palette), "linux");

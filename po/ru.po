@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-07 02:25+0200\n"
+"POT-Creation-Date: 2008-10-07 03:05+0200\n"
 "PO-Revision-Date: 2008-03-22  13:00+0300\n"
 "Last-Translator: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -55,9 +55,6 @@ msgstr "Текст:"
 msgid "Select background color:"
 msgstr "Фон:"
 
-msgid "Select a background file"
-msgstr "Выбор файла с фоновым рисунком"
-
 msgid "Opacity"
 msgstr "Плотность"
 
@@ -66,6 +63,9 @@ msgstr "Уровень плотности (%):"
 
 msgid "Disable opacity"
 msgstr "Отключить плотность"
+
+msgid "Select a background file"
+msgstr "Выбор файла с фоновым рисунком"
 
 msgid "Open link..."
 msgstr "Открыть ссылку..."

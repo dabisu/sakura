@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-07 02:25+0200\n"
+"POT-Creation-Date: 2008-10-07 03:05+0200\n"
 "PO-Revision-Date: 2008-05-12 12:14+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@t-online.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -62,9 +62,6 @@ msgstr "Vordergrundfarbe wählen:"
 msgid "Select background color:"
 msgstr "Hintergrundfarbe wählen:"
 
-msgid "Select a background file"
-msgstr "Datei für Hintergrundbild wählen"
-
 msgid "Opacity"
 msgstr "Transparenz"
 
@@ -73,6 +70,9 @@ msgstr "Transparenzgrad (%):"
 
 msgid "Disable opacity"
 msgstr "Transparenz abschalten"
+
+msgid "Select a background file"
+msgstr "Datei für Hintergrundbild wählen"
 
 msgid "Open link..."
 msgstr "Öffne Link..."

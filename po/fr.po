@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-07 02:25+0200\n"
+"POT-Creation-Date: 2008-10-07 03:05+0200\n"
 "PO-Revision-Date: 2008-06-22 16:00+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -59,9 +59,6 @@ msgstr "Sélectionner la couleur de premier plan"
 msgid "Select background color:"
 msgstr "Sélectionner la couleur d'arrière plan"
 
-msgid "Select a background file"
-msgstr "Sélectionner une image de fond"
-
 msgid "Opacity"
 msgstr "Opacité"
 
@@ -70,6 +67,9 @@ msgstr "Niveau d'opacité (%)"
 
 msgid "Disable opacity"
 msgstr "Désactiver l'opacité"
+
+msgid "Select a background file"
+msgstr "Sélectionner une image de fond"
 
 msgid "Open link..."
 msgstr "Ouvrir le lien..."
