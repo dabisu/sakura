@@ -606,7 +606,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	term = sakura_get_page_term(sakura, page);
 
 	input_dialog=gtk_dialog_new_with_buttons(_("Set name"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, 
+	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
@@ -655,7 +655,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window),
 	                                                            GTK_DIALOG_MODAL,
-	                                                            GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, 
+	                                                            GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 	                                                            GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
@@ -743,7 +743,7 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 	term = sakura_get_page_term(sakura, page);
 
 	opacity_dialog=gtk_dialog_new_with_buttons(_("Opacity"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-                                             GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, 
+                                             GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
 	gtk_dialog_set_default_response(GTK_DIALOG(opacity_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(opacity_dialog), TRUE);
@@ -827,7 +827,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	term = sakura_get_page_term(sakura, page);
 
 	title_dialog=gtk_dialog_new_with_buttons(_("Set window title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, 
+	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT);
@@ -1061,7 +1061,7 @@ sakura_set_palette(GtkWidget *widget, void *data)
 	char *palette=(char *)data;
 
 	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-	
+
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		if (strcmp(palette, "linux")==0) {
 			sakura.palette=linux_palette;
@@ -1369,7 +1369,7 @@ sakura_init()
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "visible_bell", NULL);
 	sakura.visible_bell= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
-    
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
 		g_key_file_set_value(sakura.cfg, cfg_group, "word_chars", DEFAULT_WORD_CHARS);
 	}
@@ -1530,7 +1530,6 @@ sakura_init_popup()
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
 	          *action_full_screen;
-	GtkWidget *separator, *separator2, *separator3, *separator4, *separator5, *separator6;
 	GtkWidget *options_menu, *palette_menu;
 
 	/* Define actions */
@@ -1622,12 +1621,6 @@ sakura_init_popup()
 	g_free(cfgtmp);
 
 	sakura.open_link_separator=gtk_separator_menu_item_new();
-	separator=gtk_separator_menu_item_new();
-	separator2=gtk_separator_menu_item_new();
-	separator3=gtk_separator_menu_item_new();
-	separator4=gtk_separator_menu_item_new();
-	separator5=gtk_separator_menu_item_new();
-	separator6=gtk_separator_menu_item_new();
 
 	/* Add items to popup menu */
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_open_link);
@@ -1636,19 +1629,19 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_new_tab);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_set_name);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_close_tab);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_full_screen);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator2);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_copy);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_paste);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator3);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_select_colors);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_select_font);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_select_background);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_clear_background);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator4);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_options);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), separator5);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_input_methods);
 
 	sakura.im_menu=gtk_menu_new();
@@ -1660,7 +1653,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_toggle_scrollbar);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_visible_bell);
-	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), separator6);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_palette);
