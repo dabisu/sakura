@@ -199,6 +199,12 @@ struct terminal {
 	GtkWidget *label;
 };
 
+enum SAKURA_CONFIG_KEY_TYPE {
+	SAKURA_CONFIG_KEY_TYPE_INT=0,
+	SAKURA_CONFIG_KEY_TYPE_STRING,
+	SAKURA_CONFIG_KEY_TYPE_NUM,
+};
+
 #define ICON_DIR "/usr/share/pixmaps"
 #define SCROLL_LINES 4096
 #define HTTP_REGEXP "((f|F)(t|T)(p|P)|((h|H)(t|T)(t|T)(p|P)(s|S)*))://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
@@ -275,6 +281,9 @@ static void     sakura_del_tab();
 static void     sakura_set_font();
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
+static void     sakura_key_file_set_key(GKeyFile *cfg,const gchar *cfg_group,const gchar *keyname,guint value);
+static gint     sakura_key_file_get_key_type(GKeyFile *cfg,const gchar *cfg_group);
+static guint    sakura_key_file_get_key(GKeyFile *cfg,const gchar *cfg_group,const gchar *keyname);
 
 static const char *option_font;
 static const char *option_execute;
@@ -1416,44 +1425,44 @@ sakura_init()
 	sakura.scrollbar_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "scrollbar_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
-		g_key_file_set_integer(sakura.cfg, cfg_group, "add_tab_key", DEFAULT_ADD_TAB_KEY);
+		sakura_key_file_set_key(sakura.cfg, cfg_group, "add_tab_key", DEFAULT_ADD_TAB_KEY);
 	}
-	sakura.add_tab_key = g_key_file_get_integer(sakura.cfg, cfg_group, "add_tab_key", NULL);
+	sakura.add_tab_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "add_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "del_tab_key", NULL)) {
-		g_key_file_set_integer(sakura.cfg, cfg_group, "del_tab_key", DEFAULT_DEL_TAB_KEY);
+		sakura_key_file_set_key(sakura.cfg, cfg_group, "del_tab_key", DEFAULT_DEL_TAB_KEY);
 	}
-	sakura.del_tab_key = g_key_file_get_integer(sakura.cfg, cfg_group, "del_tab_key", NULL);
+	sakura.del_tab_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "del_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "prev_tab_key", NULL)) {
-		g_key_file_set_integer(sakura.cfg, cfg_group, "prev_tab_key", DEFAULT_PREV_TAB_KEY);
+		sakura_key_file_set_key(sakura.cfg, cfg_group, "prev_tab_key", DEFAULT_PREV_TAB_KEY);
 	}
-	sakura.prev_tab_key = g_key_file_get_integer(sakura.cfg, cfg_group, "prev_tab_key", NULL);
+	sakura.prev_tab_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "prev_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "next_tab_key", NULL)) {
-		g_key_file_set_integer(sakura.cfg, cfg_group, "next_tab_key", DEFAULT_NEXT_TAB_KEY);
+		sakura_key_file_set_key(sakura.cfg, cfg_group, "next_tab_key", DEFAULT_NEXT_TAB_KEY);
 	}
-	sakura.next_tab_key = g_key_file_get_integer(sakura.cfg, cfg_group, "next_tab_key", NULL);
+	sakura.next_tab_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "next_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_key", NULL)) {
-		g_key_file_set_integer(sakura.cfg, cfg_group, "copy_key", DEFAULT_COPY_KEY);
+		sakura_key_file_set_key(sakura.cfg, cfg_group, "copy_key", DEFAULT_COPY_KEY);
 	}
-	sakura.copy_key = g_key_file_get_integer(sakura.cfg, cfg_group, "copy_key", NULL);
+	sakura.copy_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "copy_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "paste_key", NULL)) {
-		g_key_file_set_integer(sakura.cfg, cfg_group, "paste_key", DEFAULT_PASTE_KEY);
+		sakura_key_file_set_key(sakura.cfg, cfg_group, "paste_key", DEFAULT_PASTE_KEY);
 	}
-	sakura.paste_key = g_key_file_get_integer(sakura.cfg, cfg_group, "paste_key", NULL);
+	sakura.paste_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "paste_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar_key", NULL)) {
-		g_key_file_set_integer(sakura.cfg, cfg_group, "scrollbar_key", DEFAULT_SCROLLBAR_KEY);
+		sakura_key_file_set_key(sakura.cfg, cfg_group, "scrollbar_key", DEFAULT_SCROLLBAR_KEY);
 	}
-	sakura.scrollbar_key = g_key_file_get_integer(sakura.cfg, cfg_group, "scrollbar_key", NULL);
+	sakura.scrollbar_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "scrollbar_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "fullscreen_key", NULL)) {
-		g_key_file_set_integer(sakura.cfg, cfg_group, "fullscreen_key", DEFAULT_FULLSCREEN_KEY);
+		sakura_key_file_set_key(sakura.cfg, cfg_group, "fullscreen_key", DEFAULT_FULLSCREEN_KEY);
 	}
-	sakura.fullscreen_key = g_key_file_get_integer(sakura.cfg, cfg_group, "fullscreen_key", NULL);
+	sakura.fullscreen_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "fullscreen_key");
 
 	/* Set dialog style */
 	gtk_rc_parse_string ("style \"hig-dialog\" {\n"
@@ -2041,6 +2050,40 @@ sakura_set_bgimage(char *infile)
 
 
 static void
+sakura_key_file_set_key(GKeyFile *cfg,const gchar *cfg_group, const gchar *keyname,guint value) 
+{
+	gchar *valname,*tmp;
+	if((cfg==NULL)||(cfg_group==NULL)||(keyname==NULL)) {
+		return;
+	}
+	valname=gdk_keyval_name(value);
+	g_key_file_set_string(cfg, cfg_group,keyname, valname);
+}
+
+
+static guint
+sakura_key_file_get_key(GKeyFile *cfg,const gchar *cfg_group,const gchar *keyname)
+{
+	gchar *value;
+	guint retval=GDK_VoidSymbol;
+
+	value=g_key_file_get_string(cfg, cfg_group, keyname, NULL);
+	if (value!=NULL){
+		retval=gdk_keyval_from_name(value);
+		g_free(value);
+	}
+
+	/* For backwards compatibility with integer values */
+	/* If gdk_keyval_from_name fail, it seems to be integer value*/
+	if ((retval==GDK_VoidSymbol)||(retval==0)) {
+		retval=g_key_file_get_integer(cfg, cfg_group, keyname, NULL);
+	}
+
+	return retval;
+}
+
+
+static void
 sakura_error(const char *format, ...)
 {
 	GtkWidget *dialog;
@@ -2108,4 +2151,3 @@ main(int argc, char **argv)
 
 	return 0;
 }
-
