@@ -199,11 +199,6 @@ struct terminal {
 	GtkWidget *label;
 };
 
-enum SAKURA_CONFIG_KEY_TYPE {
-	SAKURA_CONFIG_KEY_TYPE_INT=0,
-	SAKURA_CONFIG_KEY_TYPE_STRING,
-	SAKURA_CONFIG_KEY_TYPE_NUM,
-};
 
 #define ICON_DIR "/usr/share/pixmaps"
 #define SCROLL_LINES 4096
@@ -282,7 +277,6 @@ static void     sakura_set_font();
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
 static void     sakura_key_file_set_key(GKeyFile *cfg,const gchar *cfg_group,const gchar *keyname,guint value);
-static gint     sakura_key_file_get_key_type(GKeyFile *cfg,const gchar *cfg_group);
 static guint    sakura_key_file_get_key(GKeyFile *cfg,const gchar *cfg_group,const gchar *keyname);
 
 static const char *option_font;
