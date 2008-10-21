@@ -599,7 +599,7 @@ static void
 sakura_set_name_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *input_dialog;
-	GtkWidget *entry;
+	GtkWidget *entry, *label;
 	GtkWidget *name_hbox; /* We need this for correct spacing */
 	gint response;
 	int page;
@@ -621,9 +621,11 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	name_hbox=gtk_hbox_new(FALSE, 0);
 	entry=gtk_entry_new();
+	label=gtk_label_new(_("New tab text"));
 	/* Set tab label as entry default text */
 	gtk_entry_set_text(GTK_ENTRY(entry), gtk_notebook_get_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
+	gtk_box_pack_start(GTK_BOX(name_hbox), label, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(name_hbox), entry, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), name_hbox, FALSE, FALSE, 12);
 	/* Disable accept button until some text is entered */
@@ -634,8 +636,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
-		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook),
-		                                term->hbox, gtk_entry_get_text(GTK_ENTRY(entry)));
+		gtk_label_set_text(GTK_LABEL(term->label), gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(input_dialog);
 }
@@ -820,7 +821,7 @@ static void
 sakura_set_title_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *title_dialog;
-	GtkWidget *entry;
+	GtkWidget *entry, *label;
 	GtkWidget *title_hbox;
 	gint response;
 	int page;
@@ -840,10 +841,12 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	gtk_rc_parse_string ("widget \"set-title-dialog\" style \"hig-dialog\"\n");
 
 	entry=gtk_entry_new();
+	label=gtk_label_new(_("New window title"));
 	title_hbox=gtk_hbox_new(FALSE, 0);
 	/* Set window label as entry default text */
 	gtk_entry_set_text(GTK_ENTRY(entry), gtk_window_get_title(GTK_WINDOW(sakura.main_window)));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
+	gtk_box_pack_start(GTK_BOX(title_hbox), label, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(title_hbox), entry, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(title_dialog)->vbox), title_hbox, FALSE, FALSE, 12);
 	/* Disable accept button until some text is entered */
@@ -1270,7 +1273,7 @@ sakura_init()
 
 		/* Workaround for cfgpool to g_key_file update. We update the config
 		 * file here if needed. This support should be removed in future
-		 * versions as everyone is supposed to be using a recent (no cfgpool)
+		 * versions (3.0?) as everyone is supposed to be using a recent (no cfgpool)
 		 * sakura release in the future */
 		rename(sakura.configfile, "/tmp/sakura.cfg.old");
 		g_file_get_contents("/tmp/sakura.cfg.old", &file_contents, NULL, NULL);

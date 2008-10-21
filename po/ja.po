@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-07 03:05+0200\n"
+"POT-Creation-Date: 2008-10-22 01:25+0200\n"
 "PO-Revision-Date: 2008-01-29 18:07+0900\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -48,6 +48,10 @@ msgstr "フォントを選択"
 msgid "Set name"
 msgstr "名前を選択"
 
+#, fuzzy
+msgid "New tab text"
+msgstr "新規タブ"
+
 msgid "Select color"
 msgstr "配色を選択"
 
@@ -65,6 +69,10 @@ msgstr "不透過率 (%):"
 
 msgid "Disable opacity"
 msgstr "不透過を無効にする"
+
+#, fuzzy
+msgid "New window title"
+msgstr "ウィンドウタイトルを指定"
 
 msgid "Select a background file"
 msgstr "背景ファイルを選択"

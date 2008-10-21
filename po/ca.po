@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-07 03:05+0200\n"
+"POT-Creation-Date: 2008-10-22 01:25+0200\n"
 "PO-Revision-Date: 2008-04-21 20:07+0100\n"
 "Last-Translator: Jordi Jané <jordi.jane@gmail.com>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -49,6 +49,10 @@ msgstr "Sel·leccioni font"
 msgid "Set name"
 msgstr "Definir nom"
 
+#, fuzzy
+msgid "New tab text"
+msgstr "Nova pestanya"
+
 msgid "Select color"
 msgstr "Sel·leccionar color"
 
@@ -66,6 +70,10 @@ msgstr "Nivell d'opacitat (%)"
 
 msgid "Disable opacity"
 msgstr "Deshabil·litar opacitat"
+
+#, fuzzy
+msgid "New window title"
+msgstr "Definir el nom de la finestra"
 
 msgid "Select a background file"
 msgstr "Sel·leccionar fitxer de fons"

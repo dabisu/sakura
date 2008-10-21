@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-07 03:05+0200\n"
+"POT-Creation-Date: 2008-10-22 01:25+0200\n"
 "PO-Revision-Date: 2008-06-22 16:00+0100\n"
 "Last-Translator: Fabrice Thiroux <fabrice.thiroux@free.fr>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -50,6 +50,10 @@ msgstr "Sélectionner la police"
 msgid "Set name"
 msgstr "Définir le nom"
 
+#, fuzzy
+msgid "New tab text"
+msgstr "Nouvel onglet"
+
 msgid "Select color"
 msgstr "Sélectionner une couleur"
 
@@ -67,6 +71,10 @@ msgstr "Niveau d'opacité (%)"
 
 msgid "Disable opacity"
 msgstr "Désactiver l'opacité"
+
+#, fuzzy
+msgid "New window title"
+msgstr "Définir le titre de la fenêtre"
 
 msgid "Select a background file"
 msgstr "Sélectionner une image de fond"

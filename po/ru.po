@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-07 03:05+0200\n"
+"POT-Creation-Date: 2008-10-22 01:25+0200\n"
 "PO-Revision-Date: 2008-03-22  13:00+0300\n"
 "Last-Translator: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -46,6 +46,10 @@ msgstr "Шрифт"
 msgid "Set name"
 msgstr "Заголовок вкладки"
 
+#, fuzzy
+msgid "New tab text"
+msgstr "Новая вкладка"
+
 msgid "Select color"
 msgstr "Выбор цветов"
 
@@ -63,6 +67,10 @@ msgstr "Уровень плотности (%):"
 
 msgid "Disable opacity"
 msgstr "Отключить плотность"
+
+#, fuzzy
+msgid "New window title"
+msgstr "Установить заголовок окна"
 
 msgid "Select a background file"
 msgstr "Выбор файла с фоновым рисунком"

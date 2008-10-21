@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-07 03:05+0200\n"
+"POT-Creation-Date: 2008-10-22 01:25+0200\n"
 "PO-Revision-Date: 2007-12-25 17:14+0100\n"
 "Last-Translator: Fontana Nicola <nicola@entidi.id>\n"
 "Language-Team: <nicola@entidi.it>\n"
@@ -49,6 +49,10 @@ msgstr "Selezionare il font"
 msgid "Set name"
 msgstr "Impostare il nome"
 
+#, fuzzy
+msgid "New tab text"
+msgstr "Nuova scheda"
+
 msgid "Select color"
 msgstr "Selezionare il colore"
 
@@ -66,6 +70,10 @@ msgstr ""
 
 msgid "Disable opacity"
 msgstr ""
+
+#, fuzzy
+msgid "New window title"
+msgstr "Impostare il nome..."
 
 msgid "Select a background file"
 msgstr "Selezionare il file di background"
