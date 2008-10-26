@@ -180,6 +180,7 @@ static struct {
 	gint switch_tab_accelerator;
 	gint copy_accelerator;
 	gint scrollbar_accelerator;
+	gint open_url_accelerator;
 	gint add_tab_key;
 	gint del_tab_key;
 	gint prev_tab_key;
@@ -214,6 +215,7 @@ struct terminal {
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
 #define DEFAULT_COPY_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SCROLLBAR_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
+#define DEFAULT_OPEN_URL_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_ADD_TAB_KEY  GDK_T
 #define DEFAULT_DEL_TAB_KEY  GDK_W
 #define DEFAULT_PREV_TAB_KEY  GDK_Left
@@ -243,7 +245,6 @@ static void     sakura_eof (GtkWidget *, void *);
 static void     sakura_title_changed (GtkWidget *, void *);
 static gboolean sakura_delete_window (GtkWidget *, void *);
 static void     sakura_destroy_window (GtkWidget *, void *);
-static gboolean sakura_popup (GtkWidget *, GdkEvent *);
 static void     sakura_font_dialog (GtkWidget *, void *);
 static void     sakura_set_name_dialog (GtkWidget *, void *);
 static void     sakura_color_dialog (GtkWidget *, void *);
@@ -382,6 +383,65 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	/* F11 (fullscreen) pressed */
 	if (event->keyval==sakura.fullscreen_key){
 		sakura_full_screen(NULL, NULL);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
+sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
+{
+	struct terminal *term;
+	glong column, row;
+	int page, tag;
+
+	if (button_event->type != GDK_BUTTON_PRESS)
+		return FALSE;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	SAY("Current page is %d", page);
+	term = sakura_get_page_term(sakura, page);
+
+	/* Find out if cursor it's over a matched expression...*/
+
+	/* Get the column and row relative to pointer position */
+	column = ((glong) (button_event->x) / vte_terminal_get_char_width(
+			VTE_TERMINAL(term->vte)));
+	row = ((glong) (button_event->y) / vte_terminal_get_char_height(
+			VTE_TERMINAL(term->vte)));
+	sakura.current_match = vte_terminal_match_check(VTE_TERMINAL(term->vte), column, row, &tag);
+
+	/* Left button: open the URL if any */
+	if (button_event->button == 1 &&
+	    ((button_event->state & sakura.open_url_accelerator) == sakura.open_url_accelerator)
+	    && sakura.current_match) {
+
+		sakura_open_url(NULL, NULL);
+
+		return TRUE;
+	}
+
+	/* Right button: show the popup menu */
+	if (button_event->button == 3) {
+		GtkMenu *menu;
+		menu = GTK_MENU (widget);
+
+		if (sakura.current_match) {
+			/* Show the extra options in the menu */
+			gtk_widget_show(sakura.item_open_link);
+			gtk_widget_show(sakura.item_copy_link);
+			gtk_widget_show(sakura.open_link_separator);
+		} else {
+			/* Hide all the options */
+			gtk_widget_hide(sakura.item_open_link);
+			gtk_widget_hide(sakura.item_copy_link);
+			gtk_widget_hide(sakura.open_link_separator);
+		}
+
+		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, button_event->button, button_event->time);
+
 		return TRUE;
 	}
 
@@ -1420,6 +1480,11 @@ sakura_init()
 		g_key_file_set_integer(sakura.cfg, cfg_group, "scrollbar_accelerator", DEFAULT_SCROLLBAR_ACCELERATOR);
 	}
 	sakura.scrollbar_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "scrollbar_accelerator", NULL);
+	
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "open_url_accelerator", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "open_url_accelerator", DEFAULT_OPEN_URL_ACCELERATOR);
+	}
+	sakura.open_url_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "open_url_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
 		sakura_key_file_set_key(sakura.cfg, cfg_group, "add_tab_key", DEFAULT_ADD_TAB_KEY);
@@ -1894,7 +1959,7 @@ sakura_add_tab()
     g_signal_connect(G_OBJECT(term->vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
     g_signal_connect(G_OBJECT(term->vte), "eof", G_CALLBACK(sakura_eof), NULL);
     g_signal_connect(G_OBJECT(term->vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
-    g_signal_connect_swapped(G_OBJECT(term->vte), "button-press-event", G_CALLBACK(sakura_popup), sakura.menu);
+    g_signal_connect_swapped(G_OBJECT(term->vte), "button-press-event", G_CALLBACK(sakura_button_press), sakura.menu);
 
 	/* Notebook signals */
 	if (sakura.show_closebutton) {
