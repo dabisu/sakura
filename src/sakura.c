@@ -1826,6 +1826,7 @@ sakura_add_tab()
 	int index;
 	gchar *label_text;
 	gchar *cwd = NULL;
+	gint w, h;
 
 
 	term = g_new0( struct terminal, 1 );
@@ -1843,7 +1844,11 @@ sakura_add_tab()
 	if (sakura.show_closebutton) {
 		close_btn=gtk_button_new();
 		gtk_button_set_relief(GTK_BUTTON(close_btn), GTK_RELIEF_NONE);
-		gtk_button_set_image(GTK_BUTTON(close_btn), gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU));
+		GtkWidget *image=gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+		gtk_container_add (GTK_CONTAINER (close_btn), image);
+		/* FIXME: Use GtkWidget set-style signal to properly reflect the changes */
+		gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (close_btn), GTK_ICON_SIZE_MENU, &w, &h);
+		gtk_widget_set_size_request(close_btn, w+2, h+2);
 		gtk_box_pack_start(GTK_BOX(tab_hbox), close_btn, FALSE, FALSE, 0);
 	}
 	gtk_widget_show_all(tab_hbox);
