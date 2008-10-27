@@ -42,17 +42,15 @@
 #define N_(String) (String)
 #define GETTEXT_PACKAGE "sakura"
 
-#ifndef NDEBUG
 #define SAY(format,...) do {\
-    fwide(stderr, -1);\
-    fprintf(stderr, "[%d] ", getpid());\
-    if (format) fprintf(stderr, format, ##__VA_ARGS__);\
-    fputc('\n', stderr);\
-    fflush(stderr);\
+	if (strcmp("Debug", BUILDTYPE)==0) {\
+	    fwide(stderr, -1);\
+	    fprintf(stderr, "[%d] ", getpid());\
+	    if (format) fprintf(stderr, format, ##__VA_ARGS__);\
+	    fputc('\n', stderr);\
+		fflush(stderr);\
+	}\
 } while (0)
-#else
-#define SAY(format,...) do {} while (0)
-#endif
 
 #define PALETTE_SIZE 16
 

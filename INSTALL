@@ -26,14 +26,9 @@ Keybindings support
 
     sakura supports keyboard bindings. They are configurable by
     setting the following properties in your sakura config file
-    (likely to be found at ~/.config/sakura/sakura.conf):
+    (~/.config/sakura/sakura.conf):
 
     Accelerators:
-
-        add_tab_accelerator
-        del_tab_accelerator
-        switch_tab_accelerator
-        copy_accelerator
 
         Accelerators can be set to any mask value from the
         GdkModifierType in gdktypes.h; see:
@@ -54,40 +49,27 @@ Keybindings support
 
     Keys:
 
-        add_tab_key
-        del_tab_key
-        prev_tab_key
-        next_tab_key
-        copy_key
-        paste_key
-
-        Accelerators can be set to any key value from gdkkeysyms.h; see:
-            http://www.krugle.org/examples/p-6R7SuZt1c28ljzpZ/gdkkeysyms.h
-        or, on your own system:
-            /usr/include/gtk-2.0/gdk/gdkkeysyms.h
-
         For example, to set the add tab key to 'T':
-            add_tab_key=116
-        because GDK_t has a value of 0x074, which is 116 in decimal. To
-        convert hexadecimal values to decimal, use Perl:
-            perl -e 'printf("%d\n", 0x074)'
+            add_tab_key=T
 
-        I realise that this configuration is not so friendly to
-        non-programmers, but it is a start. :)
+		Before sakura used keycodes instead of strings. They're still valid.	
 
-    <add_tab_accelerator> + <add_tab_key>     -> New tab
-    <del_tab_accelerator> + <del_tab_key>     -> Close current tab
-    <copy_accelerator> + <copy_key>           -> Copy selected text
-    <copy_accelerator> + <paste_key>          -> Paste selected text
-    <switch_tab_accelerator> + <prev_tab_key> -> Previous tab
-    <switch_tab_accelerator> + <next_tab_key> -> Next tab
-    <switch_tab_accelerator> + [1-9]          -> Switch to tab N (1-9)
- 
-	Ctrl + Shift + 's'      -> Toggle scrollbar
-	F11                     -> Fullscreen
 
-    You can also increase and decrease the font size in the GTK+
-    standard way (not configurable):
+	Defaults:	
+
+    Ctrl + Shift + N                 -> New tab
+    Ctrl + Shift + W                 -> Close current tab
+    Ctrl + C                         -> Copy selected text
+    Ctrl + V                         -> Paste selected text
+    Alt  + Left cursor               -> Previous tab
+    Alt + Right cursor               -> Next tab
+    Alt + [1-9]                      -> Switch to tab N (1-9)
+	Ctrl + Shift + S                 -> Toggle scrollbar
+	Ctrl + Shift + Mouse left button -> Open link
+	F11                              -> Fullscreen
+
+    You can also increase and decrease the font size in the GTK+ 
+	standard way (not configurable):
  
 	Ctrl + '+'                                -> Increase font size
 	Ctrl + '-'                                -> Decrease font size
