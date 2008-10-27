@@ -579,57 +579,6 @@ sakura_destroy_window (GtkWidget *widget, void *data)
 }
 
 
-static gboolean
-sakura_popup (GtkWidget *widget, GdkEvent *event)
-{
-	GtkMenu *menu;
-	GdkEventButton *event_button;
-	struct terminal *term;
-	glong column, row;
-	int page, tag;
-
-	menu = GTK_MENU (widget);
-
-	if (event->type == GDK_BUTTON_PRESS) {
-
-		event_button = (GdkEventButton *) event;
-
-		page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-		SAY("Current page is %d", page);
-		term = sakura_get_page_term(sakura, page);
-
-		/* Find out if cursor it's over a matched expression...*/
-
-		/* Get the column and row relative to pointer position */
-		column=((glong)(event_button->x) / vte_terminal_get_char_width(VTE_TERMINAL(term->vte)));
-		row=((glong)(event_button->y) / vte_terminal_get_char_height(VTE_TERMINAL(term->vte)));
-	        sakura.current_match=vte_terminal_match_check(VTE_TERMINAL(term->vte), column, row, &tag);
-
-		SAY("current match is %s",sakura.current_match);
-
-		if (sakura.current_match) {
-			/* Show the extra options in the menu */
-			gtk_widget_show(sakura.item_open_link);
-			gtk_widget_show(sakura.item_copy_link);
-			gtk_widget_show(sakura.open_link_separator);
-		} else {
-			/* Hide all the options */
-			gtk_widget_hide(sakura.item_open_link);
-			gtk_widget_hide(sakura.item_copy_link);
-			gtk_widget_hide(sakura.open_link_separator);
-		}
-
-		if (event_button->button == 3) {
-			gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
-			                event_button->button, event_button->time);
-		   return TRUE;
-		}
-	}
-
-	return FALSE;
-}
-
-
 static void
 sakura_font_dialog (GtkWidget *widget, void *data)
 {
@@ -971,7 +920,7 @@ sakura_open_url (GtkWidget *widget, void *data)
 	if (browser) {
 		cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
 	} else {
-		if( browser = g_find_program_in_path("xdg-open") ) {
+		if ( browser = g_find_program_in_path("xdg-open") ) {
 			cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
 			g_free( browser );
 		} else
@@ -1185,7 +1134,7 @@ sakura_get_term_cwd(struct terminal* term)
 		char buf[PATH_MAX+1];
 		int len;
 
-		file = g_strdup_printf ("/proc/%ld/cwd", term->pid);
+		file = g_strdup_printf ("/proc/%d/cwd", term->pid);
 		len = readlink (file, buf, sizeof (buf) - 1);
 
 		if (len > 0 && buf[0] == '/') {
@@ -1205,7 +1154,7 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
 	SAY("resized event received");
 	if (event->width!=sakura.width || event->height!=sakura.height) {
-		SAY("sakura w & h %ld %ld event w & h %ld %ld",
+		SAY("sakura w & h %d %d event w & h %d %d",
 		sakura.width, sakura.height, event->width, event->height);
 		/* User has resized the application */
 		sakura_calculate_row_col (event->width, event->height);
@@ -2117,7 +2066,8 @@ sakura_set_bgimage(char *infile)
 static void
 sakura_key_file_set_key(GKeyFile *cfg,const gchar *cfg_group, const gchar *keyname,guint value) 
 {
-	gchar *valname,*tmp;
+	gchar *valname;
+
 	if((cfg==NULL)||(cfg_group==NULL)||(keyname==NULL)) {
 		return;
 	}
