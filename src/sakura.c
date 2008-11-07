@@ -1097,6 +1097,8 @@ sakura_set_palette(GtkWidget *widget, void *data)
 }
 
 
+/* Every the window change its size by an user action (resize, fullscreen), calculate
+ * the new values for the number of columns and rows */
 static void
 sakura_calculate_row_col (gint width, gint height)
 {
@@ -1118,6 +1120,7 @@ sakura_calculate_row_col (gint width, gint height)
 	sakura.term_info.columns = (width - x_adjust) / sakura.term_info.char_width;
 	y_adjust += sakura.main_window->allocation.height - term->vte->allocation.height;
 	sakura.term_info.rows = (height - y_adjust) / sakura.term_info.char_height;
+	SAY("columns %d rows %d", sakura.term_info.columns, sakura.term_info.rows);
 }
 
 
@@ -1156,8 +1159,13 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 	if (event->width!=sakura.width || event->height!=sakura.height) {
 		SAY("sakura w & h %d %d event w & h %d %d",
 		sakura.width, sakura.height, event->width, event->height);
-		/* User has resized the application */
+		/* Window has been resized by the user. Recalculate sizes */
 		sakura_calculate_row_col (event->width, event->height);
+		/* FIXME: Should it be inside row_col */
+		sakura.width=event->width; sakura.height=event->height;
+	} else { 
+		SAY("Do nothing. sakura w & h %d %d event w & h %d %d",
+		sakura.width, sakura.height, event->width, event->height);
 	}
 
 	return FALSE;
@@ -1485,6 +1493,7 @@ sakura_init()
 	/* Minimum size*/
 	sakura.term_info.columns = DEFAULT_COLUMNS;
 	sakura.term_info.rows = DEFAULT_ROWS;
+	SAY("columns %d rows %d", sakura.term_info.columns, sakura.term_info.rows);
 
 	sakura.notebook=gtk_notebook_new();
 
