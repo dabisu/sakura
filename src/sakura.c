@@ -25,6 +25,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <wchar.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -451,9 +452,6 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 static void
 sakura_page_removed (GtkWidget *widget, void *data)
 {
-	int status, page;
-	struct terminal *term;
-
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==1) {
 		/* If the first tab is disabled, window size changes and we need
 		 * to recalculate its size */
@@ -935,7 +933,7 @@ sakura_open_url (GtkWidget *widget, void *data)
 	if (browser) {
 		cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
 	} else {
-		if ( browser = g_find_program_in_path("xdg-open") ) {
+		if ( (browser = g_find_program_in_path("xdg-open")) ) {
 			cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
 			g_free( browser );
 		} else
@@ -1135,7 +1133,7 @@ sakura_calculate_row_col (gint width, gint height)
 	sakura.term_info.columns = (width - x_adjust) / sakura.term_info.char_width;
 	y_adjust += sakura.main_window->allocation.height - term->vte->allocation.height;
 	sakura.term_info.rows = (height - y_adjust) / sakura.term_info.char_height;
-	SAY("columns %d rows %d", sakura.term_info.columns, sakura.term_info.rows);
+	SAY("columns %ld rows %ld", sakura.term_info.columns, sakura.term_info.rows);
 }
 
 

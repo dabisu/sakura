@@ -13,9 +13,9 @@ IF (NOT PKG_CONFIG_FOUND)
 	MESSAGE (FATAL_ERROR "pkg-config not found...")
 ENDIF (NOT PKG_CONFIG_FOUND)
 
-pkg_check_modules (GTK REQUIRED gtk+-2.0>=2.6)
+pkg_check_modules (GTK REQUIRED gtk+-2.0>=2.10)
 IF (NOT GTK_FOUND)
-	MESSAGE(FATAL_ERROR "You don't seem to have gtk >= 2.6 development libraries installed...")
+	MESSAGE(FATAL_ERROR "You don't seem to have gtk >= 2.10 development libraries installed...")
 ENDIF (NOT GTK_FOUND)
 
 pkg_check_modules (VTE REQUIRED vte>=0.11)
@@ -29,6 +29,8 @@ ADD_DEFINITIONS (-DBUILDTYPE=\\\"${CMAKE_BUILD_TYPE}\\\")
 
 IF (${CMAKE_BUILD_TYPE} MATCHES "Debug")
 	SET (CMAKE_C_FLAGS "-Wall")
+ELSE (${CMAKE_BUILD_TYPE} NOT MATCHES "Debug")
+	SET (CMAKE_C_FLAGS "")
 ENDIF (${CMAKE_BUILD_TYPE} MATCHES "Debug")
 
 INCLUDE_DIRECTORIES (. ${GTK_INCLUDE_DIRS} ${VTE_INCLUDE_DIRS})
