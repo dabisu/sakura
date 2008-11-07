@@ -273,6 +273,7 @@ static void     sakura_destroy();
 static void     sakura_add_tab();
 static void     sakura_del_tab();
 static void     sakura_set_font();
+static void     sakura_set_size();
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
 static void     sakura_key_file_set_key(GKeyFile *cfg,const gchar *cfg_group,const gchar *keyname,guint value);
@@ -444,6 +445,20 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 	}
 
 	return FALSE;
+}
+
+
+static void
+sakura_page_removed (GtkWidget *widget, void *data)
+{
+	int status, page;
+	struct terminal *term;
+
+	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==1) {
+		/* If the first tab is disabled, window size changes and we need
+		 * to recalculate its size */
+		sakura_set_size();
+	}
 }
 
 
@@ -1163,10 +1178,7 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 		sakura_calculate_row_col (event->width, event->height);
 		/* FIXME: Should it be inside row_col */
 		sakura.width=event->width; sakura.height=event->height;
-	} else { 
-		SAY("Do nothing. sakura w & h %d %d event w & h %d %d",
-		sakura.width, sakura.height, event->width, event->height);
-	}
+	} 
 
 	return FALSE;
 }
@@ -1493,7 +1505,6 @@ sakura_init()
 	/* Minimum size*/
 	sakura.term_info.columns = DEFAULT_COLUMNS;
 	sakura.term_info.rows = DEFAULT_ROWS;
-	SAY("columns %d rows %d", sakura.term_info.columns, sakura.term_info.rows);
 
 	sakura.notebook=gtk_notebook_new();
 
@@ -1918,6 +1929,7 @@ sakura_add_tab()
     g_signal_connect_swapped(G_OBJECT(term->vte), "button-press-event", G_CALLBACK(sakura_button_press), sakura.menu);
 
 	/* Notebook signals */
+	g_signal_connect(G_OBJECT(sakura.notebook), "page-removed", G_CALLBACK(sakura_page_removed), NULL);
 	if (sakura.show_closebutton) {
 		g_signal_connect(G_OBJECT(close_btn), "clicked", G_CALLBACK(sakura_closebutton_clicked), term->hbox);
 	}
@@ -2019,11 +2031,9 @@ sakura_del_tab(gint page)
 	struct terminal *term;
 	term = sakura_get_page_term(sakura, page);
 
-	gtk_widget_hide(term->hbox);
-
-	gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook), page);
-
-	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
+	/* Do the first tab checks BEFORE deleting the tab, to ensure correct
+	 * sizes are calculated when the tab is deleted */
+	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 2) {
         char *cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
 		if (strcmp(cfgtmp, "Yes")==0) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
@@ -2032,6 +2042,9 @@ sakura_del_tab(gint page)
 		}
 		g_free(cfgtmp);
 	}
+
+	gtk_widget_hide(term->hbox);
+	gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook), page);
 }
 
 
