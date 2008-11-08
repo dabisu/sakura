@@ -136,7 +136,6 @@ const GdkColor rxvt_palette[PALETTE_SIZE] =
 	{ 0, 0xffff, 0xffff, 0xffff }
 };
 
-
 static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
@@ -188,6 +187,7 @@ static struct {
 	gint paste_key;
 	gint scrollbar_key;
 	gint fullscreen_key;
+	GRegex *http_regexp;
 	char *argv[2];
 } sakura;
 
@@ -202,7 +202,7 @@ struct terminal {
 
 #define ICON_DIR "/usr/share/pixmaps"
 #define SCROLL_LINES 4096
-#define HTTP_REGEXP "((f|F)(t|T)(p|P)|((h|H)(t|T)(t|T)(p|P)(s|S)*))://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
+#define HTTP_REGEXP "(ftp|http)s?://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
 #define CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
 #define DEFAULT_ROWS 24
@@ -1538,6 +1538,8 @@ sakura_init()
 	sakura.label_count=1;
 	sakura.full_screen=FALSE;
 
+	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, 0, &gerror);
+
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 
 	/* Init notebook */
@@ -1885,7 +1887,7 @@ sakura_add_tab()
 
 	/* Init vte */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), SCROLL_LINES);
-	vte_terminal_match_add(VTE_TERMINAL(term->vte), HTTP_REGEXP);
+	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 
 	term->scrollbar=gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(term->vte)));

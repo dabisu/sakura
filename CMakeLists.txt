@@ -13,14 +13,19 @@ IF (NOT PKG_CONFIG_FOUND)
 	MESSAGE (FATAL_ERROR "pkg-config not found...")
 ENDIF (NOT PKG_CONFIG_FOUND)
 
+pkg_check_modules (GLIB REQUIRED glib-2.0>=2.14)
+IF (NOT GLIB_FOUND)
+	MESSAGE(FATAL_ERROR "You don't seem to have glib >= 2.14 development libraries installed...")
+ENDIF (NOT GLIB_FOUND)
+
 pkg_check_modules (GTK REQUIRED gtk+-2.0>=2.10)
 IF (NOT GTK_FOUND)
 	MESSAGE(FATAL_ERROR "You don't seem to have gtk >= 2.10 development libraries installed...")
 ENDIF (NOT GTK_FOUND)
 
-pkg_check_modules (VTE REQUIRED vte>=0.11)
+pkg_check_modules (VTE REQUIRED vte>=0.16.15)
 IF (NOT VTE_FOUND)
-	MESSAGE(FATAL_ERROR "You don't seem to have vte >= 0.11 development libraries installed...")
+	MESSAGE(FATAL_ERROR "You don't seem to have vte >= 0.16.15 development libraries installed...")
 ENDIF (NOT VTE_FOUND)
 
 ADD_DEFINITIONS (-DVERSION=\\\"${VERSION}\\\")
