@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-22 01:25+0200\n"
-"PO-Revision-Date: 2008-09-25 19:02+0100\n"
+"PO-Revision-Date: 2008-11-21 16:27+0100\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
 "MIME-Version: 1.0\n"
@@ -49,9 +49,8 @@ msgstr "Seleccionar fuente"
 msgid "Set name"
 msgstr "Definir nombre"
 
-#, fuzzy
 msgid "New tab text"
-msgstr "Nueva pestaña"
+msgstr "Nuevo título de la pestaña"
 
 msgid "Select color"
 msgstr "Seleccionar color"
@@ -71,9 +70,8 @@ msgstr "Nivel de opacidad (%)"
 msgid "Disable opacity"
 msgstr "Deshabilitar opacidad"
 
-#, fuzzy
 msgid "New window title"
-msgstr "Definir nombre de la ventana"
+msgstr "Nuevo título de la venta"
 
 msgid "Select a background file"
 msgstr "Seleccionar fichero de fondo"
@@ -124,7 +122,7 @@ msgid "Show always first tab"
 msgstr "Mostrar siempre la primera pestaña"
 
 msgid "Show tab close button"
-msgstr ""
+msgstr "Mostrar boton para cerrar pestaña"
 
 msgid "Toggle scrollbar"
 msgstr "Mostrar barra de desplazamiento"
@@ -155,3 +153,4 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
+

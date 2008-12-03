@@ -200,7 +200,7 @@ struct terminal {
 };
 
 
-#define ICON_DIR "/usr/share/pixmaps"
+#define ICON_FILE "terminal-tango.svg"
 #define SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|http)s?://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
 #define CONFIGFILE "sakura.conf"
@@ -1499,7 +1499,7 @@ sakura_init()
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
-	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), ICON_DIR "/terminal-tango.png", &gerror);
+	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), DATADIR "/pixmaps/" ICON_FILE, &gerror);
 	/* Minimum size*/
 	sakura.term_info.columns = DEFAULT_COLUMNS;
 	sakura.term_info.rows = DEFAULT_ROWS;

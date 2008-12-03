@@ -48,7 +48,7 @@ ADD_SUBDIRECTORY (po)
 
 INSTALL (TARGETS sakura RUNTIME DESTINATION bin)	
 INSTALL (FILES sakura.desktop DESTINATION share/applications)
-INSTALL (FILES terminal-tango.png DESTINATION share/pixmaps)
+INSTALL (FILES terminal-tango.svg DESTINATION share/pixmaps)
 
 FILE (GLOB MO_FILES po/*.mo)
 
