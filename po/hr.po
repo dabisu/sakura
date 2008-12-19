@@ -1,0 +1,155 @@
+# Copyright (C) 2006
+# This file is distributed under the same license as the sakura package.
+# David Gómez <david@pleyades.net>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Sakura 2.3.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-12-16 14:28+0100\n"
+"PO-Revision-Date: 2008-12-16 14:30+0100\n"
+"Last-Translator: Dražen Odobašić <dodobasic@gmail.com>\n"
+"Language-Team: <david@pleyades.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Print version number"
+msgstr "Ispiši inačicu"
+
+msgid "Select initial terminal font"
+msgstr "Postavi početni font terminala"
+
+msgid "Select initial number of tabs"
+msgstr "Postavi početni broj kartica"
+
+msgid "Execute command"
+msgstr "Izvrši naredbu"
+
+msgid "Login shell"
+msgstr "Prijavna ljuska"
+
+msgid "Set window title"
+msgstr "Postavi naslov prozora"
+
+msgid "Set columns number"
+msgstr "Postavi broj stupaca"
+
+msgid "Set rows number"
+msgstr "Postavi broj redaka"
+
+msgid "Hold window after execute command"
+msgstr "Zadrži prozor nakon izvršavanja naredbe"
+
+msgid "There are several tabs opened. Do you really want to close Sakura?"
+msgstr "Otvoreno je nekoliko kartica. Da li zbilja želite zatvoriti Sakura terminal?"
+
+msgid "Select font"
+msgstr "Postavite font"
+
+msgid "Set name"
+msgstr "Postavite naziv"
+
+msgid "New tab text"
+msgstr "Naziv kartice"
+
+msgid "Select color"
+msgstr "Postavite boju"
+
+msgid "Select foreground color:"
+msgstr "Odaberite boju fonta:"
+
+msgid "Select background color:"
+msgstr "Odaberite boju pozadine:"
+
+msgid "Opacity"
+msgstr "Zasićenost"
+
+msgid "Opacity level (%):"
+msgstr "Nivo zasićenosti (%):"
+
+msgid "Disable opacity"
+msgstr "Onemogući zasićenost"
+
+msgid "New window title"
+msgstr "Novi naslov prozora"
+
+msgid "Select a background file"
+msgstr "Odaberite slikovnu datoteku s pozadinom"
+
+msgid "Open link..."
+msgstr "Otvori link..."
+
+msgid "Copy link..."
+msgstr "Kopiraj link..."
+
+msgid "New tab"
+msgstr "Nova kartica"
+
+msgid "Set name..."
+msgstr "Postavi naziv..."
+
+msgid "Close tab"
+msgstr "Zatvori karticu"
+
+msgid "Full screen"
+msgstr "Prikaz preko cijelog zaslona"
+
+msgid "Copy"
+msgstr "Kopiraj"
+
+msgid "Paste"
+msgstr "Zalijepi"
+
+msgid "Select font..."
+msgstr "Postavi font..."
+
+msgid "Select colors..."
+msgstr "Postavi boje..."
+
+msgid "Select background..."
+msgstr "Postavi pozadinu..."
+
+msgid "Clear background"
+msgstr "Ukolni pozadinu"
+
+msgid "Set opacity level..."
+msgstr "Postavi nivo zasićenosti..."
+
+msgid "Set window title..."
+msgstr "Postavi naslov prozora"
+
+msgid "Show always first tab"
+msgstr "Uvijek prikaži prvu karticu"
+
+msgid "Show tab close button"
+msgstr "Prikaži gumb za zatvaranje kartice"
+
+msgid "Toggle scrollbar"
+msgstr "Prikaži kliznu traku"
+
+msgid "Set audible bell"
+msgstr "Postavi zvučno zvono"
+
+msgid "Set visible bell"
+msgstr "Postavi vidljivo zvono"
+
+msgid "Input methods"
+msgstr "Metode unosa"
+
+msgid "Options"
+msgstr "Mogućnosti"
+
+msgid "Set palette"
+msgstr "Postavi paletu"
+
+#, c-format
+msgid "Terminal %d"
+msgstr "Terminal %d"
+
+msgid "- vte-based terminal emulator"
+msgstr "- emulator terminala temeljen na vte-u"
+
+#, c-format
+msgid "sakura version is %s\n"
+msgstr "inačica Sakure je %s\n"
