@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-22 01:25+0200\n"
-"PO-Revision-Date: 2006-12-22 16:19+0100\n"
+"POT-Creation-Date: 2008-12-25 18:57+0100\n"
+"PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: Lucas Lommer <drom@kdyne.net>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,11 @@ msgstr ""
 msgid "Hold window after execute command"
 msgstr ""
 
-msgid "There are several tabs opened. Do you really want to close Sakura?"
+#, fuzzy, c-format
+msgid ""
+"There are %d tabs opened.\n"
+"\n"
+"Do you really want to close Sakura?"
 msgstr "Máte otevřeno několik záložek. Skutečně chcete uzavřít program Sakura?"
 
 msgid "Select font"
@@ -157,3 +161,4 @@ msgstr "- emulátor terminálu založený na VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
+

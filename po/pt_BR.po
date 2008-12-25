@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-22 01:25+0200\n"
-"PO-Revision-Date: 2008-03-07 20:36-0300\n"
+"POT-Creation-Date: 2008-12-25 18:57+0100\n"
+"PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: \n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,11 @@ msgstr ""
 msgid "Hold window after execute command"
 msgstr ""
 
-msgid "There are several tabs opened. Do you really want to close Sakura?"
+#, fuzzy, c-format
+msgid ""
+"There are %d tabs opened.\n"
+"\n"
+"Do you really want to close Sakura?"
 msgstr "Há outras abas abertas. Deseja mesmo fechar o Sakura?"
 
 msgid "Select font"
@@ -151,3 +155,4 @@ msgstr "- emulador de terminal baseado no vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
+

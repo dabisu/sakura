@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-22 01:25+0200\n"
-"PO-Revision-Date: 2006-06-20 09:26+0800\n"
+"POT-Creation-Date: 2008-12-25 18:57+0100\n"
+"PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,11 @@ msgstr ""
 msgid "Hold window after execute command"
 msgstr ""
 
-msgid "There are several tabs opened. Do you really want to close Sakura?"
+#, fuzzy, c-format
+msgid ""
+"There are %d tabs opened.\n"
+"\n"
+"Do you really want to close Sakura?"
 msgstr "已经打开多个标签，确实要关闭 Sakura 吗？"
 
 msgid "Select font"
@@ -157,3 +161,4 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+

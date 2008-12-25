@@ -564,11 +564,12 @@ sakura_delete_window (GtkWidget *widget, void *data)
 {
 	GtkWidget *dialog;
 	guint response;
+	gint npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
-	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))>1) {
+	if (npages > 1) {
 		dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 									  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-									  _("There are several tabs opened. Do you really want to close Sakura?"));
+									  _("There are %d tabs opened.\n\nDo you really want to close Sakura?"), npages);
 
 		response=gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
