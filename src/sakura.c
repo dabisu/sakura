@@ -1538,7 +1538,8 @@ sakura_init()
 	sakura.label_count=1;
 	sakura.full_screen=FALSE;
 
-	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, 0, &gerror);
+	gerror=NULL;
+	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, &gerror);
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 
