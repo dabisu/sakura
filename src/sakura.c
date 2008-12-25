@@ -47,6 +47,7 @@
 	if (strcmp("Debug", BUILDTYPE)==0) {\
 	    fwide(stderr, -1);\
 	    fprintf(stderr, "[%d] ", getpid());\
+	    fprintf(stderr, "[%s] ", __FUNCTION__);\
 	    if (format) fprintf(stderr, format, ##__VA_ARGS__);\
 	    fputc('\n', stderr);\
 		fflush(stderr);\
@@ -147,12 +148,10 @@ static struct {
 	char *current_match;
 	guint width;
 	guint height;
-	struct {
-		glong columns;
-		glong rows;
-		gint char_width;
-		gint char_height;
-	} term_info;
+	glong columns;
+	glong rows;
+	gint char_width;
+	gint char_height;
 	gint label_count;
 	bool fake_transparency;
 	float opacity_level;
@@ -455,7 +454,7 @@ sakura_page_removed (GtkWidget *widget, void *data)
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==1) {
 		/* If the first tab is disabled, window size changes and we need
 		 * to recalculate its size */
-		sakura_set_size();
+		sakura_set_size(sakura.columns, sakura.rows);
 	}
 }
 
@@ -1110,30 +1109,34 @@ sakura_set_palette(GtkWidget *widget, void *data)
 }
 
 
-/* Every the window change its size by an user action (resize, fullscreen), calculate
+/* Every the window changes its size by an user action (resize, fullscreen), calculate
  * the new values for the number of columns and rows */
 static void
 sakura_calculate_row_col (gint width, gint height)
 {
 	struct terminal *term;
-	gint x_adjust, y_adjust;
+	gint x_padding, y_padding;
 	gint n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	if (n_pages==-1) return;
 
+	SAY("Calculating row_col");
 	term = sakura_get_page_term(sakura, 0);
 
 	/* This is to prevent a race with ConfigureEvents when the window is being destroyed */
 	if (!VTE_IS_TERMINAL(term->vte)) return;
 
-	vte_terminal_get_padding( VTE_TERMINAL(term->vte), &x_adjust, &y_adjust );
-	sakura.term_info.char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
-	sakura.term_info.char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
-	x_adjust += sakura.main_window->allocation.width - term->vte->allocation.width;
-	sakura.term_info.columns = (width - x_adjust) / sakura.term_info.char_width;
-	y_adjust += sakura.main_window->allocation.height - term->vte->allocation.height;
-	sakura.term_info.rows = (height - y_adjust) / sakura.term_info.char_height;
-	SAY("columns %ld rows %ld", sakura.term_info.columns, sakura.term_info.rows);
+	vte_terminal_get_padding( VTE_TERMINAL(term->vte), &x_padding, &y_padding );
+	sakura.char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
+	sakura.char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
+	/* Ignore resize events in sakura window is in fullscreen */
+	if (!sakura.full_screen) {
+		sakura.columns = term->vte->allocation.width/sakura.char_width;
+		sakura.rows = term->vte->allocation.height/sakura.char_height;
+		sakura.width = sakura.main_window->allocation.width + x_padding;
+		sakura.height = sakura.main_window->allocation.height + y_padding;
+		SAY("new columns %ld and rows %ld", sakura.columns, sakura.rows);
+	}
 }
 
 
@@ -1168,14 +1171,11 @@ sakura_get_term_cwd(struct terminal* term)
 static gboolean
 sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
-	SAY("resized event received");
 	if (event->width!=sakura.width || event->height!=sakura.height) {
 		SAY("sakura w & h %d %d event w & h %d %d",
 		sakura.width, sakura.height, event->width, event->height);
 		/* Window has been resized by the user. Recalculate sizes */
 		sakura_calculate_row_col (event->width, event->height);
-		/* FIXME: Should it be inside row_col */
-		sakura.width=event->width; sakura.height=event->height;
 	} 
 
 	return FALSE;
@@ -1246,8 +1246,8 @@ static void
 sakura_full_screen (GtkWidget *widget, void *data)
 {
 	if (sakura.full_screen!=TRUE) {
-		gtk_window_fullscreen(GTK_WINDOW(sakura.main_window));
 		sakura.full_screen=TRUE;
+		gtk_window_fullscreen(GTK_WINDOW(sakura.main_window));
 	} else {
 		gtk_window_unfullscreen(GTK_WINDOW(sakura.main_window));
 		sakura.full_screen=FALSE;
@@ -1500,9 +1500,9 @@ sakura_init()
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), DATADIR "/pixmaps/" ICON_FILE, &gerror);
-	/* Minimum size*/
-	sakura.term_info.columns = DEFAULT_COLUMNS;
-	sakura.term_info.rows = DEFAULT_ROWS;
+	/* Default terminal size*/
+	sakura.columns = DEFAULT_COLUMNS;
+	sakura.rows = DEFAULT_ROWS;
 
 	sakura.notebook=gtk_notebook_new();
 
@@ -1519,11 +1519,11 @@ sakura_init()
 	}
 
 	if (option_columns) {
-		sakura.term_info.columns = option_columns;
+		sakura.columns = option_columns;
 	}
 
 	if (option_rows) {
-		sakura.term_info.rows = option_rows;
+		sakura.rows = option_rows;
 	}
 
 	if (option_font) {
@@ -1793,7 +1793,7 @@ sakura_destroy()
 
 
 static void
-sakura_set_size()
+sakura_set_size(gint columns, gint rows)
 {
 	struct terminal *term;
 	GtkRequisition main_request;
@@ -1803,6 +1803,11 @@ sakura_set_size()
 	gint char_width, char_height;
 
 	term = sakura_get_page_term(sakura, 0);
+
+	/* New values used to resize the window */
+	sakura.columns = columns;
+	sakura.rows = rows;
+
 	vte_terminal_get_padding(VTE_TERMINAL(term->vte), (int *)&pad_x, (int *)&pad_y);
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
@@ -1822,10 +1827,11 @@ sakura_set_size()
 	gtk_widget_size_request (term->vte, &term_request);
 	sakura.width = main_request.width - term_request.width;
 	sakura.height = main_request.height - term_request.height;
-	sakura.width += pad_x + char_width * sakura.term_info.columns;
-	sakura.height += pad_y + char_height * sakura.term_info.rows;
+	sakura.width += pad_x + char_width * sakura.columns;
+	sakura.height += pad_y + char_height * sakura.rows;
 	if (GTK_WIDGET_MAPPED (sakura.main_window)) {
 		gtk_window_resize (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
+		SAY("Resizing to %d columns %d rows", sakura.columns, sakura.rows);
 	} else {
 		gtk_window_set_default_size (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
 	}
@@ -1864,8 +1870,6 @@ sakura_add_tab()
 	term = g_new0( struct terminal, 1 );
 	term->hbox=gtk_hbox_new(FALSE, 0);
 	term->vte=vte_terminal_new();
-
-	vte_terminal_set_size(VTE_TERMINAL(term->vte), DEFAULT_COLUMNS, DEFAULT_ROWS);
 
 	/* Create label (and optional close button) for tabs */
 	label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
@@ -1947,7 +1951,8 @@ sakura_add_tab()
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
 		gtk_widget_show_all(sakura.main_window);
-		sakura_set_size();
+		/* We need only to call set_size for the first tab */
+		sakura_set_size(sakura.columns, sakura.rows);
 
 		if (option_execute) {
 			int command_argc; char **command_argv;
@@ -1984,7 +1989,7 @@ sakura_add_tab()
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		sakura_set_font();
 		gtk_widget_show_all(term->hbox);
-		sakura_set_size();
+		sakura_set_size(sakura.columns, sakura.rows);
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
@@ -1995,7 +2000,11 @@ sakura_add_tab()
 
 	free(cwd);
 
-	if (!sakura.show_scrollbar) gtk_widget_hide(term->scrollbar);
+	/* Recalculate sizes if the scrollbar is disabled */
+	if (!sakura.show_scrollbar) {
+		gtk_widget_hide(term->scrollbar);
+		sakura_set_size(sakura.columns, sakura.rows);
+	}
 
 	/* Configuration per-terminal */
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
