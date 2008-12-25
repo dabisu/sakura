@@ -45,7 +45,6 @@
 
 #define SAY(format,...) do {\
 	if (strcmp("Debug", BUILDTYPE)==0) {\
-	    fwide(stderr, -1);\
 	    fprintf(stderr, "[%d] ", getpid());\
 	    fprintf(stderr, "[%s] ", __FUNCTION__);\
 	    if (format) fprintf(stderr, format, ##__VA_ARGS__);\
@@ -1832,7 +1831,7 @@ sakura_set_size(gint columns, gint rows)
 	sakura.height += pad_y + char_height * sakura.rows;
 	if (GTK_WIDGET_MAPPED (sakura.main_window)) {
 		gtk_window_resize (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
-		SAY("Resizing to %d columns %d rows", sakura.columns, sakura.rows);
+		SAY("Resizing to %ld columns %ld rows", sakura.columns, sakura.rows);
 	} else {
 		gtk_window_set_default_size (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
 	}
