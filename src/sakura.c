@@ -162,6 +162,7 @@ static struct {
 	bool audible_bell;
 	bool visible_bell;
 	bool full_screen;
+	bool keep_fc; /* Global flag to indicate that we don't want changes in the files and columns values */
 	GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
 	GtkWidget *item_copy_link;
 	GtkWidget *item_open_link;
@@ -272,11 +273,11 @@ static void     sakura_destroy();
 static void     sakura_add_tab();
 static void     sakura_del_tab();
 static void     sakura_set_font();
-static void     sakura_set_size();
+static void     sakura_set_size(gint, gint);
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
-static void     sakura_key_file_set_key(GKeyFile *cfg,const gchar *cfg_group,const gchar *keyname,guint value);
-static guint    sakura_key_file_get_key(GKeyFile *cfg,const gchar *cfg_group,const gchar *keyname);
+static void     sakura_key_file_set_key(GKeyFile *, const gchar *, const gchar *, guint);
+static guint    sakura_key_file_get_key(GKeyFile *, const gchar *, const gchar *);
 
 static const char *option_font;
 static const char *option_execute;
@@ -468,6 +469,7 @@ sakura_increase_font (GtkWidget *widget, void *data)
 	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)+1) * PANGO_SCALE);
 
 	sakura_set_font();
+	sakura_set_size(sakura.columns, sakura.rows);
 }
 
 
@@ -480,6 +482,7 @@ sakura_decrease_font (GtkWidget *widget, void *data)
 	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)-1) * PANGO_SCALE);
 
 	sakura_set_font();
+	sakura_set_size(sakura.columns, sakura.rows);
 }
 
 
@@ -608,6 +611,7 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
 		sakura_set_font();
+		sakura_set_size(sakura.columns, sakura.rows);
 		g_key_file_set_value(sakura.cfg, cfg_group, "font", pango_font_description_to_string(sakura.font));
 	}
 
@@ -1017,6 +1021,8 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 	int n_pages;
 	int i;
 
+	sakura.keep_fc=1;
+
 	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
@@ -1131,13 +1137,17 @@ sakura_calculate_row_col (gint width, gint height)
 	sakura.char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	sakura.char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
 	/* Ignore resize events in sakura window is in fullscreen */
-	if (!sakura.full_screen) {
-		sakura.columns = term->vte->allocation.width/sakura.char_width;
-		sakura.rows = term->vte->allocation.height/sakura.char_height;
-		sakura.width = sakura.main_window->allocation.width + x_padding;
-		sakura.height = sakura.main_window->allocation.height + y_padding;
+	if (!sakura.keep_fc) {	
+		/* We cannot trust in vte allocation values, they're unreliable */
+		/* FIXME: Round values properly */
+		sakura.columns = (width/sakura.char_width);
+		sakura.rows = (height/sakura.char_height);
+		sakura.keep_fc=false;
 		SAY("new columns %ld and rows %ld", sakura.columns, sakura.rows);
 	}
+	sakura.width = sakura.main_window->allocation.width + x_padding;
+	sakura.height = sakura.main_window->allocation.height + y_padding;
+	//}
 }
 
 
@@ -1538,6 +1548,7 @@ sakura_init()
 	sakura.menu=gtk_menu_new();
 	sakura.label_count=1;
 	sakura.full_screen=FALSE;
+	sakura.keep_fc=false;
 
 	gerror=NULL;
 	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, &gerror);
@@ -1807,8 +1818,8 @@ sakura_set_size(gint columns, gint rows)
 	term = sakura_get_page_term(sakura, 0);
 
 	/* New values used to resize the window */
-	sakura.columns = columns;
-	sakura.rows = rows;
+	//sakura.columns = columns;
+	//sakura.rows = rows;
 
 	vte_terminal_get_padding(VTE_TERMINAL(term->vte), (int *)&pad_x, (int *)&pad_y);
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
@@ -1910,6 +1921,9 @@ sakura_add_tab()
 	}
 	if (!cwd)
 		cwd = g_get_current_dir();
+
+	/* Keep values when adding tabs */
+	sakura.keep_fc=true;
 
 	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term->hbox, tab_hbox))==-1) {
 		sakura_error("Cannot create a new tab");
@@ -2032,6 +2046,10 @@ sakura_add_tab()
 
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
 	gtk_widget_grab_focus(term->vte);
+
+	/* FIXME: Possible race here. Find some way to force to process all configure
+	 * events before setting keep_fc again to false */
+	sakura.keep_fc=false;
 }
 
 
@@ -2052,6 +2070,7 @@ sakura_del_tab(gint page)
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		}
 		g_free(cfgtmp);
+		sakura.keep_fc=true;
 	}
 
 	gtk_widget_hide(term->hbox);

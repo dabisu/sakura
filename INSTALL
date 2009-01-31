@@ -62,8 +62,8 @@ Keybindings support
     Ctrl + C                         -> Copy selected text
     Ctrl + V                         -> Paste selected text
     Alt  + Left cursor               -> Previous tab
-    Alt + Right cursor               -> Next tab
-    Alt + [1-9]                      -> Switch to tab N (1-9)
+    Alt  + Right cursor              -> Next tab
+    Alt  + [1-9]                     -> Switch to tab N (1-9)
 	Ctrl + Shift + S                 -> Toggle scrollbar
 	Ctrl + Shift + Mouse left button -> Open link
 	F11                              -> Fullscreen
