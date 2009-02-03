@@ -161,6 +161,7 @@ static struct {
 	bool show_closebutton;
 	bool audible_bell;
 	bool visible_bell;
+	bool blinking_cursor;
 	bool full_screen;
 	bool keep_fc; /* Global flag to indicate that we don't want changes in the files and columns values */
 	GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
@@ -1085,6 +1086,25 @@ sakura_visible_bell (GtkWidget *widget, void *data)
 
 
 static void
+sakura_blinking_cursor (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), VTE_CURSOR_BLINK_ON);
+		g_key_file_set_value(sakura.cfg, cfg_group, "blinking_cursor", "Yes");
+	} else {
+		vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), VTE_CURSOR_BLINK_OFF);
+		g_key_file_set_value(sakura.cfg, cfg_group, "blinking_cursor", "No");
+	}
+}
+
+
+static void
 sakura_set_palette(GtkWidget *widget, void *data)
 {
 	struct terminal *term;
@@ -1412,6 +1432,13 @@ sakura_init()
 	sakura.visible_bell= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "blinking_cursor", NULL)) {
+		g_key_file_set_value(sakura.cfg, cfg_group, "blinking_cursor", "No");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "blinking_cursor", NULL);
+	sakura.blinking_cursor= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
+	g_free(cfgtmp);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
 		g_key_file_set_value(sakura.cfg, cfg_group, "word_chars", DEFAULT_WORD_CHARS);
 	}
@@ -1575,6 +1602,7 @@ sakura_init_popup()
 	          *item_select_background, *item_set_title, *item_full_screen,
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
 	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
+                  *item_blinking_cursor,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
 	          *item_show_close_button;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
@@ -1620,6 +1648,7 @@ sakura_init_popup()
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Toggle scrollbar"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
+	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
 	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
 	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
@@ -1657,6 +1686,10 @@ sakura_init_popup()
 
 	if (sakura.visible_bell) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_visible_bell), TRUE);
+	}
+
+	if (sakura.blinking_cursor) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_blinking_cursor), TRUE);
 	}
 
 	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
@@ -1704,6 +1737,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_toggle_scrollbar);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_visible_bell);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_blinking_cursor);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
@@ -1733,6 +1767,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar), NULL);
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
+	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
 	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_opacity_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
@@ -2043,6 +2078,10 @@ sakura_add_tab()
 	/* Get rid of these nasty bells */
 	vte_terminal_set_audible_bell (VTE_TERMINAL(term->vte), sakura.audible_bell ? TRUE : FALSE);
 	vte_terminal_set_visible_bell (VTE_TERMINAL(term->vte), sakura.visible_bell ? TRUE : FALSE);
+
+	/* Disable stupid blinking cursor */
+	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
+
 
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
 	gtk_widget_grab_focus(term->vte);
