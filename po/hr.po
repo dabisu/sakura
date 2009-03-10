@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-25 18:57+0100\n"
+"POT-Creation-Date: 2009-02-04 08:53+0100\n"
 "PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: Dražen Odobašić <dodobasic@gmail.com>\n"
 "Language-Team:  <david@pleyades.net>\n"
@@ -46,7 +46,8 @@ msgid ""
 "There are %d tabs opened.\n"
 "\n"
 "Do you really want to close Sakura?"
-msgstr "Otvoreno je nekoliko kartica. Da li zbilja želite zatvoriti Sakura terminal?"
+msgstr ""
+"Otvoreno je nekoliko kartica. Da li zbilja želite zatvoriti Sakura terminal?"
 
 msgid "Select font"
 msgstr "Postavite font"
@@ -138,6 +139,9 @@ msgstr "Postavi zvučno zvono"
 msgid "Set visible bell"
 msgstr "Postavi vidljivo zvono"
 
+msgid "Set blinking cursor"
+msgstr ""
+
 msgid "Input methods"
 msgstr "Metode unosa"
 
@@ -157,4 +161,3 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
-

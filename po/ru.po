@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-25 18:57+0100\n"
+"POT-Creation-Date: 2009-02-04 08:53+0100\n"
 "PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -137,6 +137,9 @@ msgstr ""
 msgid "Set visible bell"
 msgstr ""
 
+msgid "Set blinking cursor"
+msgstr ""
+
 msgid "Input methods"
 msgstr "Методы ввода"
 
@@ -159,4 +162,3 @@ msgstr "версия Сакуры %s\n"
 
 #~ msgid "Show scrollbar"
 #~ msgstr "Показать линейку прокрутки"
-

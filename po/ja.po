@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-25 18:57+0100\n"
+"POT-Creation-Date: 2009-02-04 08:53+0100\n"
 "PO-Revision-Date: 2008-12-25 19:06+0100\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -141,6 +141,9 @@ msgstr ""
 msgid "Set visible bell"
 msgstr ""
 
+msgid "Set blinking cursor"
+msgstr ""
+
 msgid "Input methods"
 msgstr "入力メソッド"
 
@@ -160,4 +163,3 @@ msgstr "- vte ベースのターミナルエミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
-

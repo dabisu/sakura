@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-25 18:57+0100\n"
+"POT-Creation-Date: 2009-02-04 08:53+0100\n"
 "PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@t-online.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -143,6 +143,9 @@ msgstr ""
 msgid "Set visible bell"
 msgstr ""
 
+msgid "Set blinking cursor"
+msgstr ""
+
 msgid "Input methods"
 msgstr "Eingabemethoden"
 
@@ -165,4 +168,3 @@ msgstr "Sakura-Version ist %s\n"
 
 #~ msgid "Show scrollbar"
 #~ msgstr "Scrollbalken anzeigen"
-

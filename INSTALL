@@ -57,10 +57,10 @@ Keybindings support
 
 	Defaults:	
 
-    Ctrl + Shift + N                 -> New tab
+    Ctrl + Shift + T                 -> New tab
     Ctrl + Shift + W                 -> Close current tab
-    Ctrl + C                         -> Copy selected text
-    Ctrl + V                         -> Paste selected text
+    Ctrl + Shift + C                 -> Copy selected text
+    Ctrl + Shift + V                 -> Paste selected text
     Alt  + Left cursor               -> Previous tab
     Alt  + Right cursor              -> Next tab
     Alt  + [1-9]                     -> Switch to tab N (1-9)

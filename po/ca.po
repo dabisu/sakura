@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-25 18:57+0100\n"
+"POT-Creation-Date: 2009-02-04 08:53+0100\n"
 "PO-Revision-Date: 2008-12-25 19:04+0100\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -142,6 +142,9 @@ msgstr ""
 msgid "Set visible bell"
 msgstr ""
 
+msgid "Set blinking cursor"
+msgstr ""
+
 msgid "Input methods"
 msgstr "Mètodes d'entrada"
 
@@ -165,4 +168,3 @@ msgstr "La versió de sakura és %s\n"
 
 #~ msgid "Show scrollbar"
 #~ msgstr "Mostrar la barra de desplaçament"
-
