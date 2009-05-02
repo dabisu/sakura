@@ -402,7 +402,6 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 		return FALSE;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	SAY("Current page is %d", page);
 	term = sakura_get_page_term(sakura, page);
 
 	/* Find out if cursor it's over a matched expression...*/
