@@ -1,10 +1,9 @@
 [Desktop Entry]
-Encoding=UTF-8
 Name=Sakura
 Comment=Use the command line
 TryExec=sakura
 Exec=sakura
-Icon=terminal-tango.png
+Icon=terminal-tango
 Type=Application
 Categories=GTK;Utility;TerminalEmulator;
 StartupNotify=true
