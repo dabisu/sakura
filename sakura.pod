@@ -1,0 +1,174 @@
+=encoding utf8
+
+=head1 NAME
+
+sakura - A simple but powerful libvte-based terminal emulator.
+
+=head1 SYNOPSIS
+
+sakura [options...]
+
+=head1 DESCRIPTION
+
+sakura is a terminal emulator based on GTK+ and VTE. It's a terminal emulator with few dependencies, so you don't need a full GNOME desktop installed to have a decent terminal emulator.
+
+=head1 HELP OPTIONS
+
+=over 8
+
+=item B<-?, --help>
+
+Show help options.
+
+=item B<--help-all>
+
+Show all help options
+
+=item B<--help-gtk>
+
+Show GTK+ Options
+
+=back
+
+=head1 APPLICATION OPTIONS
+
+=over 8
+
+=item B<-v, --version>
+
+Print version number
+
+=item B<-f, --font>
+
+Select initial terminal font
+
+=item B<-n, --ntabs>
+
+Select initial number of tabs
+
+=item B<-e, --execute>
+
+Execute command
+
+=item B<-l, --login>
+
+Login shell
+
+=item B<-t, --title>
+
+Set window title
+
+=item B<-c, --columns>
+
+Set columns numbe
+
+=item B<-r, --rows>
+
+Set rows number
+
+=item B<-h, --hold>
+
+Hold window after execute command
+
+=item B<--display=DISPLAY>
+
+X display to use
+
+=back
+
+=head1 GTK+ OPTIONS
+
+=over 8
+
+=item B<--class=CLASS>
+
+Program class as used by the window manager
+
+=item B<--name=NAME>
+
+Program name as used by the window manager
+
+=item B<--screen=SCREEN>
+
+X screen to use
+
+=item B<--sync>
+
+Make X calls synchronous
+
+=item B<--gtk-module=MODULES>
+
+Load additional GTK+ modules
+
+=item B<--g-fatal-warnings>
+
+Make all warnings fatal
+
+=back
+
+=head1 KEYBINDINGS SUPPORT
+
+B<sakura> supports keyboard bindings. They are configurable by setting the following properties in your sakura config file (~/.config/sakura/sakura.conf).
+
+=head2 ACCELERATORS
+
+Accelerators can be set to any mask value from the GdkModifierType in gdktypes.h; see:
+
+http://www.krugle.org/examples/p-6R7SuZt1c28ljzpZ/gdktypes.h
+
+or, on your own system:
+
+/usr/include/gtk-2.0/gdk/gdkkeysyms.h
+
+Mask values can be combined by ORing them.
+
+For example, to set the delete tab accelerator to Ctrl + Shift:
+
+del_tab_accelerator=5
+
+because GDK_SHIFT_MASK has a value of 1 (1 << 0), and GDK_CONTROL_MASK has a value of 4 (1 << 2); ORing them together, you get 5.
+
+I realise that this configuration is not so friendly to non-programmers, but it is a start. :)
+
+=head2 KEYS
+
+For example, to set the add tab key to 'T':
+            
+add_tab_key=T
+
+Before sakura used keycodes instead of strings. They're still valid.	
+
+
+=head2 DEFAULTS	
+
+    Ctrl + Shift + T                 -> New tab
+    Ctrl + Shift + W                 -> Close current tab
+    Ctrl + Shift + C                 -> Copy selected text
+    Ctrl + Shift + V                 -> Paste selected text
+    Alt  + Left cursor               -> Previous tab
+    Alt  + Right cursor              -> Next tab
+    Alt  + [1-9]                     -> Switch to tab N (1-9)
+    Ctrl + Shift + S                 -> Toggle scrollbar
+    Ctrl + Shift + Mouse left button -> Open link
+    F11                              -> Fullscreen
+
+You can also increase and decrease the font size in the GTK+ standard way (not configurable):
+ 
+    Ctrl + '+'                       -> Increase font size
+    Ctrl + '-'                       -> Decrease font size
+
+=head1 BUGS
+
+B<sakura> is hosted on Launchpad. Bugs can be filed at:
+
+https://bugs.launchpad.net/sakura
+
+=head1 AUTHORS
+
+B<sakura> was written by David Gómez <david@pleyades.net>. 
+
+This manual page was written by Andrew Starr-Bochicchio <a.starr.b@gmail.com>.
+
+Both are released under the GNU General Public License, version 2 or later.
+
+=cut

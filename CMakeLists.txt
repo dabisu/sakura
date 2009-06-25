@@ -28,6 +28,8 @@ IF (NOT VTE_FOUND)
 	MESSAGE(FATAL_ERROR "You don't seem to have vte >= 0.16.15 development libraries installed...")
 ENDIF (NOT VTE_FOUND)
 
+FIND_PROGRAM(POD2MAN pod2man)	
+
 ADD_DEFINITIONS (-DVERSION=\\\"${VERSION}\\\")
 ADD_DEFINITIONS (-DDATADIR=\\\"${CMAKE_INSTALL_PREFIX}/share\\\")
 ADD_DEFINITIONS (-DBUILDTYPE=\\\"${CMAKE_BUILD_TYPE}\\\")
@@ -49,6 +51,7 @@ ADD_SUBDIRECTORY (po)
 INSTALL (TARGETS sakura RUNTIME DESTINATION bin)	
 INSTALL (FILES sakura.desktop DESTINATION share/applications)
 INSTALL (FILES terminal-tango.svg DESTINATION share/pixmaps)
+INSTALL (FILES sakura.1 DESTINATION share/man/man1)	
 INSTALL (FILES INSTALL DESTINATION share/doc/sakura)	
 
 FILE (GLOB MO_FILES po/*.mo)
@@ -58,6 +61,11 @@ SET_DIRECTORY_PROPERTIES (PROPERTIES
 SET (EXECUTABLE_OUTPUT_PATH src)
 
 ADD_CUSTOM_TARGET (distclean
-	rm -f Makefile cmake_install.cmake CMakeCache.txt install_manifest.txt
+	rm -f Makefile cmake_install.cmake CMakeCache.txt install_manifest.txt sakura.1
 	COMMAND rm -f po/*.mo po/sakura.pot po/Makefile po/cmake_install.cmake 
 	COMMAND rm -rf CMakeFiles po/CMakeFiles)
+
+IF (POD2MAN)	
+ADD_CUSTOM_TARGET(man ALL
+	COMMAND pod2man -u --section=1 --release=${VERSION} --center '' sakura.pod sakura.1)
+ENDIF (POD2MAN)
