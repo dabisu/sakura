@@ -197,6 +197,7 @@ struct terminal {
 	pid_t pid;          /* pid of the forked proccess */
 	GtkWidget *scrollbar;
 	GtkWidget *label;
+	gchar *label_text;
 };
 
 
@@ -550,15 +551,20 @@ sakura_title_changed (GtkWidget *widget, void *data)
 {
 	int page;
 	struct terminal *term;
+	const char *title;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
-	gtk_label_set_text(GTK_LABEL(term->label),vte_terminal_get_window_title(VTE_TERMINAL(term->vte)));
+	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
+	
+	if (strcmp(title,"")!=0) {
+		gtk_label_set_text(GTK_LABEL(term->label), title);
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
+	} else { /* Use the default values */
+		gtk_label_set_text(GTK_LABEL(term->label), term->label_text);
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
+	}
 
-	gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox,
-                                    vte_terminal_get_window_title(VTE_TERMINAL(term->vte)));
-	gtk_window_set_title(GTK_WINDOW(sakura.main_window),
-                         vte_terminal_get_window_title(VTE_TERMINAL(term->vte)));
 }
 
 
@@ -1909,7 +1915,7 @@ sakura_add_tab()
 	GtkWidget *tab_hbox;
 	GtkWidget *close_btn;
 	int index;
-	gchar *label_text;
+	//gchar *label_text;
 	gchar *cwd = NULL;
 	gint w, h;
 
@@ -1919,9 +1925,9 @@ sakura_add_tab()
 	term->vte=vte_terminal_new();
 
 	/* Create label (and optional close button) for tabs */
-	label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
-	term->label=gtk_label_new(label_text);
-	g_free(label_text);
+	term->label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
+	term->label=gtk_label_new(term->label_text);
+	//g_free(label_text);
 	tab_hbox=gtk_hbox_new(FALSE,2);
 	gtk_box_pack_start(GTK_BOX(tab_hbox), term->label, FALSE, FALSE, 0);
 	if (sakura.show_closebutton) {
