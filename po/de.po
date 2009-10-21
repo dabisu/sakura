@@ -5,11 +5,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.1.0\n"
+"Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-02 11:16+0200\n"
-"PO-Revision-Date: 2008-12-25 19:01+0100\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@t-online.de>\n"
+"PO-Revision-Date: 2009-10-21 11:48+0100\n"
+"Last-Translator: Thorsten Mühlfelder <thenktor@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,15 +40,15 @@ msgid "Set rows number"
 msgstr "Zeilennummer wählen"
 
 msgid "Hold window after execute command"
-msgstr ""
+msgstr "Fenster nach Ausführen des Befehls nicht schließen"
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There are %d tabs opened.\n"
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
-"Es sind mehrere Reiter geöffnet.\n"
+"Es sind %d Reiter geöffnet.\n"
 "Wollen Sie Sakura wirklich schließen?"
 
 msgid "Select font"
@@ -57,7 +57,6 @@ msgstr "Schrift auswählen"
 msgid "Set name"
 msgstr "Name wählen"
 
-#, fuzzy
 msgid "New tab text"
 msgstr "Neuer Reiter"
 
@@ -79,7 +78,6 @@ msgstr "Transparenzgrad (%):"
 msgid "Disable opacity"
 msgstr "Transparenz abschalten"
 
-#, fuzzy
 msgid "New window title"
 msgstr "Fenstertitel wählen"
 
@@ -102,7 +100,7 @@ msgid "Close tab"
 msgstr "Reiter schließen"
 
 msgid "Full screen"
-msgstr ""
+msgstr "Vollbild"
 
 msgid "Copy"
 msgstr "Kopieren"
@@ -132,19 +130,19 @@ msgid "Show always first tab"
 msgstr "Immer den ersten Reiter zeigen"
 
 msgid "Show tab close button"
-msgstr ""
+msgstr "Zeige Schließen-Knopf auf jedem Reiter"
 
 msgid "Toggle scrollbar"
 msgstr "Scrollbalken anzeigen"
 
 msgid "Set audible bell"
-msgstr ""
+msgstr "Hörbarer Alarm"
 
 msgid "Set visible bell"
-msgstr ""
+msgstr "Sichtbarer Alarm"
 
 msgid "Set blinking cursor"
-msgstr ""
+msgstr "Blinkender Cursor"
 
 msgid "Input methods"
 msgstr "Eingabemethoden"
@@ -153,7 +151,7 @@ msgid "Options"
 msgstr "Optionen"
 
 msgid "Set palette"
-msgstr ""
+msgstr "Palette"
 
 #, c-format
 msgid "Terminal %d"
@@ -168,3 +166,4 @@ msgstr "Sakura-Version ist %s\n"
 
 #~ msgid "Show scrollbar"
 #~ msgstr "Scrollbalken anzeigen"
+
