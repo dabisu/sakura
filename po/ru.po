@@ -83,7 +83,7 @@ msgid "Open link..."
 msgstr "Открыть ссылку..."
 
 msgid "Copy link..."
-msgstr ""
+msgstr "Копировать ссылку..."
 
 msgid "New tab"
 msgstr "Новая вкладка"
@@ -95,7 +95,7 @@ msgid "Close tab"
 msgstr "Закрыть вкладку"
 
 msgid "Full screen"
-msgstr ""
+msgstr "На полный экран"
 
 msgid "Copy"
 msgstr "Копировать"
@@ -125,20 +125,20 @@ msgid "Show always first tab"
 msgstr "Всегда показывать панель вкладок"
 
 msgid "Show tab close button"
-msgstr ""
+msgstr "Показывать кнопку закрытия вкладки"
 
 #, fuzzy
 msgid "Toggle scrollbar"
-msgstr "Показать линейку прокрутки"
+msgstr "Линейка прокрутки"
 
 msgid "Set audible bell"
-msgstr ""
+msgstr "Звуковое оповещение"
 
 msgid "Set visible bell"
-msgstr ""
+msgstr "Визуальное оповещение"
 
 msgid "Set blinking cursor"
-msgstr ""
+msgstr "Мигающий курсор"
 
 msgid "Input methods"
 msgstr "Методы ввода"
@@ -147,7 +147,7 @@ msgid "Options"
 msgstr "Настройки"
 
 msgid "Set palette"
-msgstr ""
+msgstr "Установить палитру"
 
 #, c-format
 msgid "Terminal %d"
