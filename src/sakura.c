@@ -557,7 +557,7 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	term = sakura_get_page_term(sakura, page);
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
 	
-	if (strcmp(title,"")!=0) {
+	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
 		gtk_label_set_text(GTK_LABEL(term->label), title);
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
 	} else { /* Use the default values */
