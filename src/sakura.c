@@ -552,18 +552,22 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	int page;
 	struct terminal *term;
 	const char *title;
+	gchar *window_title;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
+	window_title = g_strconcat("sakura - ", title, NULL);
 	
 	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
 		gtk_label_set_text(GTK_LABEL(term->label), title);
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), window_title);
 	} else { /* Use the default values */
 		gtk_label_set_text(GTK_LABEL(term->label), term->label_text);
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
 	}
+
+	g_free(window_title);
 
 }
 
@@ -1650,7 +1654,7 @@ sakura_init_popup()
 
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Show always first tab"));
 	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show tab close button"));
-	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Toggle scrollbar"));
+	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));

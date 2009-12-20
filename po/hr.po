@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-02 11:16+0200\n"
+"POT-Creation-Date: 2009-12-19 12:41+0100\n"
 "PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: Dražen Odobašić <dodobasic@gmail.com>\n"
 "Language-Team:  <david@pleyades.net>\n"
@@ -14,33 +14,43 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../src/sakura.c:294
 msgid "Print version number"
 msgstr "Ispiši inačicu"
 
+#: ../src/sakura.c:295
 msgid "Select initial terminal font"
 msgstr "Postavi početni font terminala"
 
+#: ../src/sakura.c:296
 msgid "Select initial number of tabs"
 msgstr "Postavi početni broj kartica"
 
+#: ../src/sakura.c:297
 msgid "Execute command"
 msgstr "Izvrši naredbu"
 
+#: ../src/sakura.c:298
 msgid "Login shell"
 msgstr "Prijavna ljuska"
 
+#: ../src/sakura.c:299 ../src/sakura.c:867
 msgid "Set window title"
 msgstr "Postavi naslov prozora"
 
+#: ../src/sakura.c:300
 msgid "Set columns number"
 msgstr "Postavi broj stupaca"
 
+#: ../src/sakura.c:301
 msgid "Set rows number"
 msgstr "Postavi broj redaka"
 
+#: ../src/sakura.c:302
 msgid "Hold window after execute command"
 msgstr "Zadrži prozor nakon izvršavanja naredbe"
 
+#: ../src/sakura.c:585
 #, fuzzy, c-format
 msgid ""
 "There are %d tabs opened.\n"
@@ -49,115 +59,156 @@ msgid ""
 msgstr ""
 "Otvoreno je nekoliko kartica. Da li zbilja želite zatvoriti Sakura terminal?"
 
+#: ../src/sakura.c:614
 msgid "Select font"
 msgstr "Postavite font"
 
+#: ../src/sakura.c:645
 msgid "Set name"
 msgstr "Postavite naziv"
 
+#: ../src/sakura.c:658
 msgid "New tab text"
 msgstr "Naziv kartice"
 
+#: ../src/sakura.c:694
 msgid "Select color"
 msgstr "Postavite boju"
 
+#: ../src/sakura.c:707
 msgid "Select foreground color:"
 msgstr "Odaberite boju fonta:"
 
+#: ../src/sakura.c:708
 msgid "Select background color:"
 msgstr "Odaberite boju pozadine:"
 
+#: ../src/sakura.c:783
 msgid "Opacity"
 msgstr "Zasićenost"
 
+#: ../src/sakura.c:795
 msgid "Opacity level (%):"
 msgstr "Nivo zasićenosti (%):"
 
+#: ../src/sakura.c:796
 msgid "Disable opacity"
 msgstr "Onemogući zasićenost"
 
+#: ../src/sakura.c:878
 msgid "New window title"
 msgstr "Novi naslov prozora"
 
+#: ../src/sakura.c:908
 msgid "Select a background file"
 msgstr "Odaberite slikovnu datoteku s pozadinom"
 
+#. Define actions
+#: ../src/sakura.c:1624
 msgid "Open link..."
 msgstr "Otvori link..."
 
+#: ../src/sakura.c:1625
 msgid "Copy link..."
 msgstr "Kopiraj link..."
 
+#: ../src/sakura.c:1626
 msgid "New tab"
 msgstr "Nova kartica"
 
+#: ../src/sakura.c:1627
 msgid "Set name..."
 msgstr "Postavi naziv..."
 
+#: ../src/sakura.c:1628
 msgid "Close tab"
 msgstr "Zatvori karticu"
 
+#: ../src/sakura.c:1629
 msgid "Full screen"
 msgstr "Prikaz preko cijelog zaslona"
 
+#: ../src/sakura.c:1630
 msgid "Copy"
 msgstr "Kopiraj"
 
+#: ../src/sakura.c:1631
 msgid "Paste"
 msgstr "Zalijepi"
 
+#: ../src/sakura.c:1632
 msgid "Select font..."
 msgstr "Postavi font..."
 
+#: ../src/sakura.c:1633
 msgid "Select colors..."
 msgstr "Postavi boje..."
 
+#: ../src/sakura.c:1634
 msgid "Select background..."
 msgstr "Postavi pozadinu..."
 
+#: ../src/sakura.c:1635
 msgid "Clear background"
 msgstr "Ukolni pozadinu"
 
+#: ../src/sakura.c:1636
 msgid "Set opacity level..."
 msgstr "Postavi nivo zasićenosti..."
 
+#: ../src/sakura.c:1637
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"
 
+#: ../src/sakura.c:1655
 msgid "Show always first tab"
 msgstr "Uvijek prikaži prvu karticu"
 
+#: ../src/sakura.c:1656
 msgid "Show tab close button"
 msgstr "Prikaži gumb za zatvaranje kartice"
 
-msgid "Toggle scrollbar"
+#: ../src/sakura.c:1657
+#, fuzzy
+msgid "Show scrollbar"
 msgstr "Prikaži kliznu traku"
 
+#: ../src/sakura.c:1658
 msgid "Set audible bell"
 msgstr "Postavi zvučno zvono"
 
+#: ../src/sakura.c:1659
 msgid "Set visible bell"
 msgstr "Postavi vidljivo zvono"
 
+#: ../src/sakura.c:1660
 msgid "Set blinking cursor"
 msgstr ""
 
+#: ../src/sakura.c:1661
 msgid "Input methods"
 msgstr "Metode unosa"
 
+#: ../src/sakura.c:1666
 msgid "Options"
 msgstr "Mogućnosti"
 
+#: ../src/sakura.c:1667
 msgid "Set palette"
 msgstr "Postavi paletu"
 
+#. Create label (and optional close button) for tabs
+#: ../src/sakura.c:1932
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
+#. Options parsing
+#: ../src/sakura.c:2235
 msgid "- vte-based terminal emulator"
 msgstr "- emulator terminala temeljen na vte-u"
 
+#: ../src/sakura.c:2242
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-02 11:16+0200\n"
+"POT-Creation-Date: 2009-12-19 12:41+0100\n"
 "PO-Revision-Date: 2008-12-25 19:03+0100\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -13,33 +13,43 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../src/sakura.c:294
 msgid "Print version number"
 msgstr "Imprimir número de versión"
 
+#: ../src/sakura.c:295
 msgid "Select initial terminal font"
 msgstr "Seleccionar el tipo de fuente inicial"
 
+#: ../src/sakura.c:296
 msgid "Select initial number of tabs"
 msgstr "Seleccionar el número inicial de pestañas"
 
+#: ../src/sakura.c:297
 msgid "Execute command"
 msgstr "Ejecutar comando"
 
+#: ../src/sakura.c:298
 msgid "Login shell"
 msgstr "Shell de login"
 
+#: ../src/sakura.c:299 ../src/sakura.c:867
 msgid "Set window title"
 msgstr "Definir nombre de la ventana"
 
+#: ../src/sakura.c:300
 msgid "Set columns number"
 msgstr "Definir número de columnas"
 
+#: ../src/sakura.c:301
 msgid "Set rows number"
 msgstr "Definir número de líneas"
 
+#: ../src/sakura.c:302
 msgid "Hold window after execute command"
 msgstr "Mantener la ventana tras el final del comando"
 
+#: ../src/sakura.c:585
 #, c-format
 msgid ""
 "There are %d tabs opened.\n"
@@ -50,116 +60,156 @@ msgstr ""
 "\n"
 "¿Quiere cerrar Sakura?"
 
+#: ../src/sakura.c:614
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
+#: ../src/sakura.c:645
 msgid "Set name"
 msgstr "Definir nombre"
 
+#: ../src/sakura.c:658
 msgid "New tab text"
 msgstr "Nuevo título de la pestaña"
 
+#: ../src/sakura.c:694
 msgid "Select color"
 msgstr "Seleccionar color"
 
+#: ../src/sakura.c:707
 msgid "Select foreground color:"
 msgstr "Seleccionar color de fuente"
 
+#: ../src/sakura.c:708
 msgid "Select background color:"
 msgstr "Seleccionar color de fondo"
 
+#: ../src/sakura.c:783
 msgid "Opacity"
 msgstr "Opacidad"
 
+#: ../src/sakura.c:795
 msgid "Opacity level (%):"
 msgstr "Nivel de opacidad (%)"
 
+#: ../src/sakura.c:796
 msgid "Disable opacity"
 msgstr "Deshabilitar opacidad"
 
+#: ../src/sakura.c:878
 msgid "New window title"
 msgstr "Nuevo título de la venta"
 
+#: ../src/sakura.c:908
 msgid "Select a background file"
 msgstr "Seleccionar fichero de fondo"
 
+#. Define actions
+#: ../src/sakura.c:1624
 msgid "Open link..."
 msgstr "Abrir enlace..."
 
+#: ../src/sakura.c:1625
 msgid "Copy link..."
 msgstr "Copiar enlace..."
 
+#: ../src/sakura.c:1626
 msgid "New tab"
 msgstr "Nueva pestaña"
 
+#: ../src/sakura.c:1627
 msgid "Set name..."
 msgstr "Elegir nombre"
 
+#: ../src/sakura.c:1628
 msgid "Close tab"
 msgstr "Cerrar pestaña"
 
+#: ../src/sakura.c:1629
 msgid "Full screen"
 msgstr "Pantalla completa"
 
+#: ../src/sakura.c:1630
 msgid "Copy"
 msgstr "Copiar"
 
+#: ../src/sakura.c:1631
 msgid "Paste"
 msgstr "Pegar"
 
+#: ../src/sakura.c:1632
 msgid "Select font..."
 msgstr "Seleccionar fuente..."
 
+#: ../src/sakura.c:1633
 msgid "Select colors..."
 msgstr "Seleccionar colores..."
 
+#: ../src/sakura.c:1634
 msgid "Select background..."
 msgstr "Seleccionar fondo..."
 
+#: ../src/sakura.c:1635
 msgid "Clear background"
 msgstr "Limpiar fondo..."
 
+#: ../src/sakura.c:1636
 msgid "Set opacity level..."
 msgstr "Definir nivel de opacidad..."
 
+#: ../src/sakura.c:1637
 msgid "Set window title..."
 msgstr "Definir nombre de la ventana"
 
+#: ../src/sakura.c:1655
 msgid "Show always first tab"
 msgstr "Mostrar siempre la primera pestaña"
 
+#: ../src/sakura.c:1656
 msgid "Show tab close button"
 msgstr "Mostrar boton para cerrar pestaña"
 
-msgid "Toggle scrollbar"
+#: ../src/sakura.c:1657
+msgid "Show scrollbar"
 msgstr "Mostrar barra de desplazamiento"
 
+#: ../src/sakura.c:1658
 msgid "Set audible bell"
 msgstr "Activar campana audible"
 
+#: ../src/sakura.c:1659
 msgid "Set visible bell"
 msgstr "Activar campana visible"
 
+#: ../src/sakura.c:1660
 msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
 
+#: ../src/sakura.c:1661
 msgid "Input methods"
 msgstr "Métodos de entrada"
 
+#: ../src/sakura.c:1666
 msgid "Options"
 msgstr "Opciones"
 
+#: ../src/sakura.c:1667
 msgid "Set palette"
 msgstr "Definir paleta"
 
+#. Create label (and optional close button) for tabs
+#: ../src/sakura.c:1932
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
+#. Options parsing
+#: ../src/sakura.c:2235
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal basado en libvte"
 
 # c-format
+#: ../src/sakura.c:2242
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
