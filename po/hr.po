@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-21 14:14+0100\n"
+"POT-Creation-Date: 2009-12-25 16:37+0100\n"
 "PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: Dražen Odobašić <dodobasic@gmail.com>\n"
 "Language-Team:  <david@pleyades.net>\n"
@@ -41,9 +41,9 @@ msgstr "Postavi broj redaka"
 msgid "Hold window after execute command"
 msgstr "Zadrži prozor nakon izvršavanja naredbe"
 
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
-"There are %d tabs opened.\n"
+"There are running processes.\n"
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
@@ -162,3 +162,12 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are %d tabs opened.\n"
+#~ "\n"
+#~ "Do you really want to close Sakura?"
+#~ msgstr ""
+#~ "Otvoreno je nekoliko kartica. Da li zbilja želite zatvoriti Sakura "
+#~ "terminal?"

@@ -243,7 +243,7 @@ static void     sakura_decrease_font (GtkWidget *, void *);
 static void     sakura_child_exited (GtkWidget *, void *);
 static void     sakura_eof (GtkWidget *, void *);
 static void     sakura_title_changed (GtkWidget *, void *);
-static gboolean sakura_delete_window (GtkWidget *, void *);
+static gboolean sakura_delete_event (GtkWidget *, void *);
 static void     sakura_destroy_window (GtkWidget *, void *);
 static void     sakura_font_dialog (GtkWidget *, void *);
 static void     sakura_set_name_dialog (GtkWidget *, void *);
@@ -573,24 +573,36 @@ sakura_title_changed (GtkWidget *widget, void *data)
 
 
 static gboolean
-sakura_delete_window (GtkWidget *widget, void *data)
+sakura_delete_event (GtkWidget *widget, void *data)
 {
+	struct terminal *term;
 	GtkWidget *dialog;
 	guint response;
-	gint npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	gint npages;
+	gint i;
+	pid_t pgid;
+	
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
-	if (npages > 1) {
-		dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-									  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-									  _("There are %d tabs opened.\n\nDo you really want to close Sakura?"), npages);
+	/* Check for each tab if there are running processes. Use tcgetpgrp to compare to the shell PGID */
+	for (i=0; i < npages; i++) {
 
-		response=gtk_dialog_run(GTK_DIALOG(dialog));
-		gtk_widget_destroy(dialog);
+		term = sakura_get_page_term(sakura, i);
+		pgid = tcgetpgrp(vte_terminal_get_pty(VTE_TERMINAL(term->vte)));
 
-		if (response==GTK_RESPONSE_YES)
-			return FALSE;
-		else {
-			return TRUE;
+		if ( (pgid != -1) && (pgid != term->pid)) {
+			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+										  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+										  _("There are running processes.\n\nDo you really want to close Sakura?"));
+
+			response=gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
+
+			if (response==GTK_RESPONSE_YES)
+				return FALSE;
+			else {
+				return TRUE;
+			}
 		}
 	}
 
@@ -1596,7 +1608,7 @@ sakura_init()
 
 	sakura_init_popup();
 
-	g_signal_connect(G_OBJECT(sakura.main_window), "delete_event", G_CALLBACK(sakura_delete_window), NULL);
+	g_signal_connect(G_OBJECT(sakura.main_window), "delete_event", G_CALLBACK(sakura_delete_event), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "destroy", G_CALLBACK(sakura_destroy_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
@@ -1919,9 +1931,8 @@ sakura_add_tab()
 	GtkWidget *tab_hbox;
 	GtkWidget *close_btn;
 	int index;
-	//gchar *label_text;
 	gchar *cwd = NULL;
-	gint w, h;
+	//gint w, h;
 
 
 	term = g_new0( struct terminal, 1 );
@@ -1931,19 +1942,18 @@ sakura_add_tab()
 	/* Create label (and optional close button) for tabs */
 	term->label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term->label=gtk_label_new(term->label_text);
-	//g_free(label_text);
 	tab_hbox=gtk_hbox_new(FALSE,2);
 	gtk_box_pack_start(GTK_BOX(tab_hbox), term->label, FALSE, FALSE, 0);
+
 	if (sakura.show_closebutton) {
 		close_btn=gtk_button_new();
 		gtk_button_set_relief(GTK_BUTTON(close_btn), GTK_RELIEF_NONE);
 		GtkWidget *image=gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
 		gtk_container_add (GTK_CONTAINER (close_btn), image);
 		/* FIXME: Use GtkWidget set-style signal to properly reflect the changes */
-		gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (close_btn), GTK_ICON_SIZE_MENU, &w, &h);
-		gtk_widget_set_size_request(close_btn, w+2, h+2);
 		gtk_box_pack_start(GTK_BOX(tab_hbox), close_btn, FALSE, FALSE, 0);
 	}
+
 	gtk_widget_show_all(tab_hbox);
 
 	/* Init vte */
