@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-25 16:37+0100\n"
+"POT-Creation-Date: 2009-12-26 06:15+0100\n"
 "PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -83,6 +83,13 @@ msgstr "设置名称..."
 
 msgid "Select a background file"
 msgstr "选择一个背景图片"
+
+#, fuzzy
+msgid ""
+"There is a running process in this terminal.\n"
+"\n"
+"Do you really want to close it?"
+msgstr "已经打开多个标签，确实要关闭 Sakura 吗？"
 
 msgid "Open link..."
 msgstr "打开链接"

@@ -1313,12 +1313,38 @@ sakura_closebutton_clicked(GtkWidget *widget, void *data)
 {
 	gint page;
 	GtkWidget *hbox=(GtkWidget *)data;
-
+	struct terminal *term;
+	pid_t pgid;
+	GtkWidget *dialog;
+	gint response;
+	
 	page = gtk_notebook_page_num(GTK_NOTEBOOK(sakura.notebook), hbox);
-	sakura_del_tab(page);
+	term = sakura_get_page_term(sakura, page);
 
-	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
-		sakura_destroy();
+	/* Check if there are running processes for this tab. Use tcgetpgrp to compare to the shell PGID */
+	pgid = tcgetpgrp(vte_terminal_get_pty(VTE_TERMINAL(term->vte)));
+
+	if ( (pgid != -1) && (pgid != term->pid)) {
+		dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+									  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+									  _("There is a running process in this terminal.\n\nDo you really want to close it?"));
+
+		response=gtk_dialog_run(GTK_DIALOG(dialog));
+		gtk_widget_destroy(dialog);
+
+		if (response==GTK_RESPONSE_YES) {
+			sakura_del_tab(page);
+
+			if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+				sakura_destroy();
+		}
+	} else {  /* No processes, hell with tab */
+
+		sakura_del_tab(page);
+
+		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+			sakura_destroy();
+	}
 }
 
 
@@ -1932,7 +1958,6 @@ sakura_add_tab()
 	GtkWidget *close_btn;
 	int index;
 	gchar *cwd = NULL;
-	//gint w, h;
 
 
 	term = g_new0( struct terminal, 1 );

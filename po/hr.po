@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-25 16:37+0100\n"
+"POT-Creation-Date: 2009-12-26 06:15+0100\n"
 "PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: Dražen Odobašić <dodobasic@gmail.com>\n"
 "Language-Team:  <david@pleyades.net>\n"
@@ -81,6 +81,14 @@ msgstr "Novi naslov prozora"
 
 msgid "Select a background file"
 msgstr "Odaberite slikovnu datoteku s pozadinom"
+
+#, fuzzy
+msgid ""
+"There is a running process in this terminal.\n"
+"\n"
+"Do you really want to close it?"
+msgstr ""
+"Otvoreno je nekoliko kartica. Da li zbilja želite zatvoriti Sakura terminal?"
 
 msgid "Open link..."
 msgstr "Otvori link..."
