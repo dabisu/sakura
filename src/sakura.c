@@ -840,6 +840,7 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 				term = sakura_get_page_term(sakura, i);
 				vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), TRUE);
 				vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), sakura.opacity_level);
+				vte_terminal_set_background_tint_color(VTE_TERMINAL(term->vte), &sakura.backcolor);
 			}
 
 			sakura.fake_transparency = TRUE;
@@ -2109,6 +2110,7 @@ sakura_add_tab()
 	if (sakura.fake_transparency) {
 		vte_terminal_set_background_saturation(VTE_TERMINAL (term->vte), sakura.opacity_level);
 		vte_terminal_set_background_transparent(VTE_TERMINAL (term->vte),TRUE);
+		vte_terminal_set_background_tint_color(VTE_TERMINAL(term->vte), &sakura.backcolor);
 	}
 
 	if (sakura.background) {
