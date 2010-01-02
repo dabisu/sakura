@@ -65,7 +65,7 @@ ADD_CUSTOM_TARGET (distclean
 	COMMAND rm -f po/*.mo po/sakura.pot po/Makefile po/cmake_install.cmake 
 	COMMAND rm -rf CMakeFiles po/CMakeFiles)
 
-IF (POD2MAN)	
+IF (${POD2MAN})	
 ADD_CUSTOM_TARGET(man ALL
 	COMMAND pod2man -u --section=1 --release=${VERSION} --center '' sakura.pod sakura.1)
-ENDIF (POD2MAN)
+ENDIF (${POD2MAN})
