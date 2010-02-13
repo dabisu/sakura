@@ -53,7 +53,7 @@ INSTALL (TARGETS sakura RUNTIME DESTINATION bin)
 INSTALL (FILES sakura.desktop DESTINATION share/applications)
 INSTALL (FILES terminal-tango.svg DESTINATION share/pixmaps)
 IF (POD2MAN)	
-	INSTALL (FILES sakura.1 DESTINATION share/man/man1)	
+	INSTALL (FILES ${sakura_BINARY_DIR}/sakura.1 DESTINATION share/man/man1)	
 ENDIF (POD2MAN)
 INSTALL (FILES INSTALL DESTINATION share/doc/sakura)	
 
@@ -70,5 +70,5 @@ ADD_CUSTOM_TARGET (distclean
 
 IF (POD2MAN) 
 ADD_CUSTOM_TARGET(man ALL
-	COMMAND ${POD2MAN} -u --section=1 --release=${VERSION} --center '' sakura.pod sakura.1)
+	COMMAND ${POD2MAN} -u --section=1 --release=${VERSION} --center '' ${sakura_SOURCE_DIR}/sakura.pod sakura.1)
 ENDIF (POD2MAN)	
