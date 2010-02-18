@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-26 06:15+0100\n"
+"POT-Creation-Date: 2010-02-18 17:36+0900\n"
 "PO-Revision-Date: 2009-12-19 12:07+0100\n"
 "Last-Translator: Mattia Bertoni <tia.tif@fastwebnet.it>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -42,6 +42,9 @@ msgstr "Imposta il numero di righe"
 
 msgid "Hold window after execute command"
 msgstr "Blocca la finestra dopo l'esecuzione di un comando"
+
+msgid "X geometry specification"
+msgstr ""
 
 #, fuzzy
 msgid ""

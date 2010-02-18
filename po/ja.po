@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-26 06:15+0100\n"
+"POT-Creation-Date: 2010-02-18 17:36+0900\n"
 "PO-Revision-Date: 2008-12-25 19:06+0100\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -37,6 +37,9 @@ msgid "Set rows number"
 msgstr ""
 
 msgid "Hold window after execute command"
+msgstr ""
+
+msgid "X geometry specification"
 msgstr ""
 
 #, fuzzy

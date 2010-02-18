@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-26 06:15+0100\n"
+"POT-Creation-Date: 2010-02-18 17:36+0900\n"
 "PO-Revision-Date: 2009-03-18 18:56+0100\n"
 "Last-Translator: Lucas Lommer <llommer@svn.gnome.org>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -42,6 +42,9 @@ msgstr "Nastaví počet řádek"
 
 msgid "Hold window after execute command"
 msgstr "Zachovat okno po vykonání příkazu"
+
+msgid "X geometry specification"
+msgstr ""
 
 #, fuzzy
 msgid ""

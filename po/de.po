@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-26 06:15+0100\n"
+"POT-Creation-Date: 2010-02-18 17:36+0900\n"
 "PO-Revision-Date: 2009-10-21 11:48+0100\n"
 "Last-Translator: Thorsten Mühlfelder <thenktor@gmx.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -41,6 +41,9 @@ msgstr "Zeilennummer wählen"
 
 msgid "Hold window after execute command"
 msgstr "Fenster nach Ausführen des Befehls nicht schließen"
+
+msgid "X geometry specification"
+msgstr ""
 
 #, fuzzy
 msgid ""
