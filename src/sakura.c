@@ -275,6 +275,7 @@ static void     sakura_destroy();
 static void     sakura_add_tab();
 static void     sakura_del_tab();
 static void     sakura_set_font();
+static void     sakura_set_geometry_hints();
 static void     sakura_set_size(gint, gint);
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
@@ -289,6 +290,7 @@ static gint option_login = FALSE;
 static const char *option_title;
 static int option_rows, option_columns;
 static gboolean option_hold=FALSE;
+static const char *option_geometry;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
@@ -300,6 +302,7 @@ static GOptionEntry entries[] = {
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
 	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
 	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after execute command"), NULL },
+    { "geometry", 0, 0, G_OPTION_ARG_STRING, &option_geometry, N_("X geometry specification"), NULL },
     { NULL }
 };
 
@@ -1053,6 +1056,7 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 	if (!g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL)) {
 		sakura.show_scrollbar=true;
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", TRUE);
+    sakura_set_size(sakura.columns, sakura.rows);
 	} else {
 		sakura.show_scrollbar=false;
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", FALSE);
@@ -1837,6 +1841,31 @@ sakura_init_popup()
 	}
 }
 
+static void
+sakura_set_geometry_hints()
+{
+	struct terminal *term;
+	GdkGeometry hints;
+	gint pad_x, pad_y;
+	gint char_width, char_height;
+
+	term = sakura_get_page_term(sakura, 0);
+	vte_terminal_get_padding(VTE_TERMINAL(term->vte), (int *)&pad_x, (int *)&pad_y);
+	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
+	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
+
+	hints.min_width = char_width + pad_x;
+	hints.min_height = char_height + pad_y;
+	hints.base_width = pad_x;
+	hints.base_height = pad_y;
+	hints.width_inc = char_width;
+	hints.height_inc = char_height;
+	gtk_window_set_geometry_hints (GTK_WINDOW (sakura.main_window),
+	                               GTK_WIDGET (term->vte),
+	                               &hints,
+	                               GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
+}
+
 
 static void
 sakura_destroy()
@@ -1894,9 +1923,9 @@ sakura_set_size(gint columns, gint rows)
 	struct terminal *term;
 	GtkRequisition main_request;
 	GtkRequisition term_request;
-	GdkGeometry hints;
 	gint pad_x, pad_y;
 	gint char_width, char_height;
+	GdkGeometry hints;
 
 	term = sakura_get_page_term(sakura, 0);
 
@@ -2046,7 +2075,26 @@ sakura_add_tab()
 
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
-		gtk_widget_show_all(sakura.main_window);
+
+        gtk_widget_show_all(sakura.notebook);
+        if (!sakura.show_scrollbar) {
+            gtk_widget_hide(term->scrollbar);
+        }
+        sakura_set_geometry_hints();
+        if (option_geometry) {
+            if (!gtk_window_parse_geometry(GTK_WINDOW(sakura.main_window), option_geometry)) {
+                fprintf(stderr, "Invalid geometry.\n");
+                gtk_widget_show(sakura.main_window);
+            }
+            else {
+                gtk_widget_show(sakura.main_window);
+                sakura.columns = VTE_TERMINAL(term->vte)->column_count;
+                sakura.rows = VTE_TERMINAL(term->vte)->row_count;
+            }
+        }
+        else {
+            gtk_widget_show(sakura.main_window);
+        }
 		/* We need only to call set_size for the first tab */
 		sakura_set_size(sakura.columns, sakura.rows);
 
@@ -2082,6 +2130,10 @@ sakura_add_tab()
 		}
 	/* Not the first tab */
 	} else {
+
+		if (!sakura.show_scrollbar) {
+			gtk_widget_hide(term->scrollbar);
+		}
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		sakura_set_font();
 		gtk_widget_show_all(term->hbox);
@@ -2095,12 +2147,6 @@ sakura_add_tab()
 	}
 
 	free(cwd);
-
-	/* Recalculate sizes if the scrollbar is disabled */
-	if (!sakura.show_scrollbar) {
-		gtk_widget_hide(term->scrollbar);
-		sakura_set_size(sakura.columns, sakura.rows);
-	}
 
 	/* Configuration per-terminal */
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
