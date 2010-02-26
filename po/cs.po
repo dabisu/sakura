@@ -1,6 +1,6 @@
 # Czech translation of sakura.
 # Copyright (C) 2006 THE sakura'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the sacura package.
+# This file is distributed under the same license as the sakura package.
 # Lucas Lommer <llommer@svn.gnome.org>, 2006, 2009, 2010.
 # 
 msgid ""
