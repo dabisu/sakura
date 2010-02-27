@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-24 21:11+0900\n"
-"PO-Revision-Date: 2010-02-23 23:02+0100\n"
+"POT-Creation-Date: 2010-02-27 12:06+0900\n"
+"PO-Revision-Date: 2010-02-25 15:32+0100\n"
 "Last-Translator: Lucas Lommer <llommer@svn.gnome.org>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "Zachovat okno po vykonání příkazu"
 
 #: ../src/sakura.c:305
 msgid "X geometry specification"
-msgstr ""
+msgstr "Volba rozměru v ose X"
 
 #: ../src/sakura.c:599
 msgid ""
@@ -62,9 +62,9 @@ msgid ""
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
-"Máte otevřeno %d karet.\n"
+"Aplikace obsahuje běžící procesy.\n"
 "\n"
-"Skutečně chcete ukončit program Sakura?"
+"Opravdu chcete ukončit aplikaci Sakura?"
 
 #: ../src/sakura.c:629
 msgid "Select font"
@@ -111,15 +111,14 @@ msgid "Select a background file"
 msgstr "Vyberte obrázek na pozadí"
 
 #: ../src/sakura.c:1335
-#, fuzzy
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
 "Do you really want to close it?"
 msgstr ""
-"Máte otevřeno %d karet.\n"
+"V tomto terminálu běží proces.\n"
 "\n"
-"Skutečně chcete ukončit program Sakura?"
+"Opravdu jej chcete uzavřít?"
 
 #. Define actions
 #: ../src/sakura.c:1667
