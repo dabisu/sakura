@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-24 21:11+0900\n"
+"POT-Creation-Date: 2010-02-27 12:06+0900\n"
 "PO-Revision-Date: 2008-12-25 19:03+0100\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team:  <davidge@pleyades.net>\n"
@@ -108,15 +108,13 @@ msgid "Select a background file"
 msgstr "Seleccionar fichero de fondo"
 
 #: ../src/sakura.c:1335
-#, fuzzy
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
 "Do you really want to close it?"
 msgstr ""
-"Hay procesos ejecutandose\n"
-"\n"
-"¿Seguro que desea cerrar Sakura?"
+"Hay procesos ejecutandose en este terminal\n"
+"¿Seguro que desea cerrarlo?"
 
 #. Define actions
 #: ../src/sakura.c:1667
