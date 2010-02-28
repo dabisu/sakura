@@ -1056,7 +1056,6 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 	if (!g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL)) {
 		sakura.show_scrollbar=true;
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", TRUE);
-    sakura_set_size(sakura.columns, sakura.rows);
 	} else {
 		sakura.show_scrollbar=false;
 		g_key_file_set_boolean(sakura.cfg, cfg_group, "scrollbar", FALSE);
@@ -2020,7 +2019,7 @@ sakura_add_tab()
 
 	gtk_box_pack_start(GTK_BOX(term->hbox), term->vte, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(term->hbox), term->scrollbar, FALSE, FALSE, 0);
-
+	
 	/* Select the directory to use for the new tab */
 	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	if(index >= 0) {
@@ -2081,21 +2080,18 @@ sakura_add_tab()
             gtk_widget_hide(term->scrollbar);
         }
         sakura_set_geometry_hints();
-        if (option_geometry) {
-            if (!gtk_window_parse_geometry(GTK_WINDOW(sakura.main_window), option_geometry)) {
-                fprintf(stderr, "Invalid geometry.\n");
-                gtk_widget_show(sakura.main_window);
-            }
-            else {
-                gtk_widget_show(sakura.main_window);
-                sakura.columns = VTE_TERMINAL(term->vte)->column_count;
-                sakura.rows = VTE_TERMINAL(term->vte)->row_count;
-            }
-        }
-        else {
+		if (option_geometry) {
+			if (!gtk_window_parse_geometry(GTK_WINDOW(sakura.main_window), option_geometry)) {
+				fprintf(stderr, "Invalid geometry.\n");
+				gtk_widget_show(sakura.main_window);
+			} else {
+				gtk_widget_show(sakura.main_window);
+				sakura.columns = VTE_TERMINAL(term->vte)->column_count;
+				sakura.rows = VTE_TERMINAL(term->vte)->row_count;
+			}
+		} else {
             gtk_widget_show(sakura.main_window);
-        }
-		/* We need only to call set_size for the first tab */
+		}
 		sakura_set_size(sakura.columns, sakura.rows);
 
 		if (option_execute) {
@@ -2131,12 +2127,12 @@ sakura_add_tab()
 	/* Not the first tab */
 	} else {
 
-		if (!sakura.show_scrollbar) {
-			gtk_widget_hide(term->scrollbar);
-		}
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		sakura_set_font();
 		gtk_widget_show_all(term->hbox);
+		if (!sakura.show_scrollbar) {
+			gtk_widget_hide(term->scrollbar);
+		}	
 		sakura_set_size(sakura.columns, sakura.rows);
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
