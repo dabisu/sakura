@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 17:47+0900\n"
+"POT-Creation-Date: 2010-03-09 02:14+0900\n"
 "PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -58,9 +58,8 @@ msgstr "选择字体"
 msgid "Set name"
 msgstr "设置名称"
 
-#, fuzzy
-msgid "New tab text"
-msgstr "新建标签"
+msgid "Tab new text"
+msgstr ""
 
 msgid "Select color"
 msgstr "选择颜色"
@@ -174,6 +173,10 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+
+#, fuzzy
+#~ msgid "New tab text"
+#~ msgstr "新建标签"
 
 #, fuzzy
 #~ msgid ""

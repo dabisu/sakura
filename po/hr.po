@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 17:47+0900\n"
+"POT-Creation-Date: 2010-03-09 02:14+0900\n"
 "PO-Revision-Date: 2008-12-25 19:01+0100\n"
 "Last-Translator: Dražen Odobašić <dodobasic@gmail.com>\n"
 "Language-Team:  <david@pleyades.net>\n"
@@ -58,8 +58,8 @@ msgstr "Postavite font"
 msgid "Set name"
 msgstr "Postavite naziv"
 
-msgid "New tab text"
-msgstr "Naziv kartice"
+msgid "Tab new text"
+msgstr ""
 
 msgid "Select color"
 msgstr "Postavite boju"
@@ -173,6 +173,9 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#~ msgid "New tab text"
+#~ msgstr "Naziv kartice"
 
 #, fuzzy
 #~ msgid ""
