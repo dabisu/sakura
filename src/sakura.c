@@ -653,6 +653,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gint response;
 	int page;
 	struct terminal *term;
+	const gchar *text;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
@@ -670,9 +671,13 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	name_hbox=gtk_hbox_new(FALSE, 0);
 	entry=gtk_entry_new();
-	label=gtk_label_new(_("New tab text"));
-	/* Set tab label as entry default text */
-	gtk_entry_set_text(GTK_ENTRY(entry), gtk_notebook_get_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox));
+	label=gtk_label_new(_("Tab new text"));
+	/* Set tab label as entry default text (when first tab is not displayed, get_tab_label_text
+	   returns a null value, so check accordingly */
+	text = gtk_notebook_get_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox);
+	if (text) {
+		gtk_entry_set_text(GTK_ENTRY(entry), text);
+	}
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 	gtk_box_pack_start(GTK_BOX(name_hbox), label, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(name_hbox), entry, TRUE, TRUE, 12);
@@ -1694,7 +1699,7 @@ sakura_init_popup()
 	item_opacity_menu=gtk_action_create_menu_item(action_opacity);
 	item_set_title=gtk_action_create_menu_item(action_set_title);
 
-	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Show always first tab"));
+	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Always show tab bar"));
 	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show tab close button"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
