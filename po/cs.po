@@ -2,19 +2,20 @@
 # Copyright (C) 2006 THE sakura'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the sakura package.
 # Lucas Lommer <llommer@svn.gnome.org>, 2006, 2009, 2010.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 02:14+0900\n"
-"PO-Revision-Date: 2010-02-25 15:32+0100\n"
-"Last-Translator: Lucas Lommer <llommer@svn.gnome.org>\n"
+"POT-Creation-Date: 2010-03-09 03:47+0900\n"
+"PO-Revision-Date: 2010-03-03 11:59+0000\n"
+"Last-Translator: Drom <Unknown>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2010-03-22 04:45+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 msgid "Print version number"
 msgstr "Vytiskne informaci o verzi"
