@@ -183,6 +183,7 @@ static struct {
 	gint del_tab_key;
 	gint prev_tab_key;
 	gint next_tab_key;
+	gint new_window_key;
 	gint copy_key;
 	gint paste_key;
 	gint scrollbar_key;
@@ -220,6 +221,7 @@ struct terminal {
 #define DEFAULT_DEL_TAB_KEY  GDK_W
 #define DEFAULT_PREV_TAB_KEY  GDK_Left
 #define DEFAULT_NEXT_TAB_KEY  GDK_Right
+#define DEFAULT_NEW_WINDOW_KEY GDK_N
 #define DEFAULT_COPY_KEY  GDK_C
 #define DEFAULT_PASTE_KEY  GDK_V
 #define DEFAULT_SCROLLBAR_KEY  GDK_S
@@ -373,6 +375,21 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 		} else if (event->keyval==sakura.paste_key) {
 			sakura_paste(NULL, NULL);
 			return TRUE;
+		} else if (event->keyval==sakura.new_window_key) {
+			/**
+                         * vfork then exec.
+                         */
+			SAY("Forking a new process");
+			pid_t pid = vfork();
+			if (pid == 0) {
+				execlp("sakura", "sakura", NULL);
+			}
+			else if (pid < 0) {
+				fprintf(stderr, "Failed to fork\n");
+			}
+			else {
+				return TRUE;
+			}
 		}
 	}
 
@@ -561,7 +578,7 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	term = sakura_get_page_term(sakura, page);
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
 	window_title = g_strconcat("sakura - ", title, NULL);
-	
+
 	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
 		gtk_label_set_text(GTK_LABEL(term->label), title);
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), window_title);
@@ -584,7 +601,7 @@ sakura_delete_event (GtkWidget *widget, void *data)
 	gint npages;
 	gint i;
 	pid_t pgid;
-	
+
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	/* Check for each tab if there are running processes. Use tcgetpgrp to compare to the shell PGID */
@@ -1182,7 +1199,7 @@ sakura_calculate_row_col (gint width, gint height)
 	sakura.char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	sakura.char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
 	/* Ignore resize events in sakura window is in fullscreen */
-	if (!sakura.keep_fc) {	
+	if (!sakura.keep_fc) {
 		/* We cannot trust in vte allocation values, they're unreliable */
 		/* FIXME: Round values properly */
 		sakura.columns = (width/sakura.char_width);
@@ -1232,7 +1249,7 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 		sakura.width, sakura.height, event->width, event->height);
 		/* Window has been resized by the user. Recalculate sizes */
 		sakura_calculate_row_col (event->width, event->height);
-	} 
+	}
 
 	return FALSE;
 }
@@ -1321,7 +1338,7 @@ sakura_closebutton_clicked(GtkWidget *widget, void *data)
 	pid_t pgid;
 	GtkWidget *dialog;
 	gint response;
-	
+
 	page = gtk_notebook_page_num(GTK_NOTEBOOK(sakura.notebook), hbox);
 	term = sakura_get_page_term(sakura, page);
 
@@ -1534,7 +1551,7 @@ sakura_init()
 		g_key_file_set_integer(sakura.cfg, cfg_group, "scrollbar_accelerator", DEFAULT_SCROLLBAR_ACCELERATOR);
 	}
 	sakura.scrollbar_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "scrollbar_accelerator", NULL);
-	
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "open_url_accelerator", NULL)) {
 		g_key_file_set_integer(sakura.cfg, cfg_group, "open_url_accelerator", DEFAULT_OPEN_URL_ACCELERATOR);
 	}
@@ -1559,6 +1576,11 @@ sakura_init()
 		sakura_key_file_set_key(sakura.cfg, cfg_group, "next_tab_key", DEFAULT_NEXT_TAB_KEY);
 	}
 	sakura.next_tab_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "next_tab_key");
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "new_window_key", NULL)) {
+		sakura_key_file_set_key(sakura.cfg, cfg_group, "new_window_key", DEFAULT_NEW_WINDOW_KEY);
+	}
+	sakura.new_window_key = sakura_key_file_get_key(sakura.cfg, cfg_group, "new_window_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_key", NULL)) {
 		sakura_key_file_set_key(sakura.cfg, cfg_group, "copy_key", DEFAULT_COPY_KEY);
@@ -2019,7 +2041,7 @@ sakura_add_tab()
 
 	gtk_box_pack_start(GTK_BOX(term->hbox), term->vte, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(term->hbox), term->scrollbar, FALSE, FALSE, 0);
-	
+
 	/* Select the directory to use for the new tab */
 	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	if(index >= 0) {
@@ -2132,7 +2154,7 @@ sakura_add_tab()
 		gtk_widget_show_all(term->hbox);
 		if (!sakura.show_scrollbar) {
 			gtk_widget_hide(term->scrollbar);
-		}	
+		}
 		sakura_set_size(sakura.columns, sakura.rows);
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
@@ -2243,7 +2265,7 @@ sakura_set_bgimage(char *infile)
 
 
 static void
-sakura_key_file_set_key(GKeyFile *cfg,const gchar *cfg_group, const gchar *keyname,guint value) 
+sakura_key_file_set_key(GKeyFile *cfg,const gchar *cfg_group, const gchar *keyname,guint value)
 {
 	gchar *valname;
 
