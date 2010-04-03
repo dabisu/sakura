@@ -255,6 +255,7 @@ static void     sakura_set_title_dialog (GtkWidget *, void *);
 static void     sakura_select_background_dialog (GtkWidget *, void *);
 static void     sakura_new_tab (GtkWidget *, void *);
 static void     sakura_close_tab (GtkWidget *, void *);
+static void     sakura_new_window (GtkWidget *, void *);
 static void     sakura_full_screen (GtkWidget *, void *);
 static void     sakura_open_url (GtkWidget *, void *);
 static void     sakura_clear (GtkWidget *, void *);
@@ -376,20 +377,8 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 			sakura_paste(NULL, NULL);
 			return TRUE;
 		} else if (event->keyval==sakura.new_window_key) {
-			/**
-                         * vfork then exec.
-                         */
-			SAY("Forking a new process");
-			pid_t pid = vfork();
-			if (pid == 0) {
-				execlp("sakura", "sakura", NULL);
-			}
-			else if (pid < 0) {
-				fprintf(stderr, "Failed to fork\n");
-			}
-			else {
-				return TRUE;
-			}
+			sakura_new_window(NULL, NULL);
+			return TRUE;
 		}
 	}
 
@@ -1314,6 +1303,22 @@ sakura_close_tab (GtkWidget *widget, void *data)
 		sakura_destroy();
 }
 
+static void
+sakura_new_window (GtkWidget *widget, void *data)
+{
+	/**
+	 * vfork then exec.
+	 */
+	SAY("Forking a new process");
+	pid_t pid = vfork();
+	if (pid == 0) {
+		execlp("sakura", "sakura", NULL);
+	}
+	else if (pid < 0) {
+		fprintf(stderr, "Failed to fork\n");
+	}
+}
+
 
 static void
 sakura_full_screen (GtkWidget *widget, void *data)
@@ -1670,7 +1675,7 @@ sakura_init()
 static void
 sakura_init_popup()
 {
-	GtkWidget *item_new_tab, *item_set_name, *item_close_tab, *item_copy,
+	GtkWidget *item_new_tab, *item_set_name, *item_close_tab, *item_copy, *item_new_window,
 	          *item_paste, *item_select_font, *item_select_colors,
 	          *item_select_background, *item_set_title, *item_full_screen,
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
@@ -1679,6 +1684,7 @@ sakura_init_popup()
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
 	          *item_show_close_button;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
+                  *action_new_window,
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
 	          *action_full_screen;
@@ -1688,6 +1694,7 @@ sakura_init_popup()
 	action_open_link=gtk_action_new("open_link", _("Open link..."), NULL, NULL);
 	action_copy_link=gtk_action_new("copy_link", _("Copy link..."), NULL, NULL);
 	action_new_tab=gtk_action_new("new_tab", _("New tab"), NULL, GTK_STOCK_NEW);
+        action_new_window=gtk_action_new("new_window", _("New window"), NULL, NULL);
 	action_set_name=gtk_action_new("set_name", _("Set name..."), NULL, NULL);
 	action_close_tab=gtk_action_new("close_tab", _("Close tab"), NULL, GTK_STOCK_CLOSE);
 	action_full_screen=gtk_action_new("full_screen", _("Full screen"), NULL, GTK_STOCK_FULLSCREEN);
@@ -1704,6 +1711,7 @@ sakura_init_popup()
 	sakura.item_open_link=gtk_action_create_menu_item(action_open_link);
 	sakura.item_copy_link=gtk_action_create_menu_item(action_copy_link);
 	item_new_tab=gtk_action_create_menu_item(action_new_tab);
+        item_new_window=gtk_action_create_menu_item(action_new_window);
 	item_set_name=gtk_action_create_menu_item(action_set_name);
 	item_close_tab=gtk_action_create_menu_item(action_close_tab);
 	item_full_screen=gtk_action_create_menu_item(action_full_screen);
@@ -1784,6 +1792,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_copy_link);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_new_tab);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_new_window);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_set_name);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_close_tab);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
@@ -1826,6 +1835,7 @@ sakura_init_popup()
 
 	/* ... and finally assign callbacks to menuitems */
 	g_signal_connect(G_OBJECT(action_new_tab), "activate", G_CALLBACK(sakura_new_tab), NULL);
+	g_signal_connect(G_OBJECT(action_new_window), "activate", G_CALLBACK(sakura_new_window), NULL);
 	g_signal_connect(G_OBJECT(action_set_name), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_close_tab), "activate", G_CALLBACK(sakura_close_tab), NULL);
 	g_signal_connect(G_OBJECT(action_select_font), "activate", G_CALLBACK(sakura_font_dialog), NULL);
