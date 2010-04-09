@@ -7,50 +7,54 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 02:14+0900\n"
-"PO-Revision-Date: 2008-12-25 19:01+0100\n"
-"Last-Translator: yanghong <yanghong@ccoss.com.cn>\n"
+"POT-Creation-Date: 2010-03-09 03:47+0900\n"
+"PO-Revision-Date: 2010-03-19 15:00+0000\n"
+"Last-Translator: Heling Yao <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-03-22 04:45+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 msgid "Print version number"
-msgstr ""
+msgstr "显示版本号"
 
 msgid "Select initial terminal font"
-msgstr ""
+msgstr "选择初始终端字体"
 
 msgid "Select initial number of tabs"
-msgstr ""
+msgstr "选择初始标签数"
 
 msgid "Execute command"
-msgstr ""
+msgstr "执行命令"
 
 msgid "Login shell"
-msgstr ""
+msgstr "登录 shell"
 
 msgid "Set window title"
-msgstr ""
+msgstr "设置窗口标题"
 
 msgid "Set columns number"
-msgstr ""
+msgstr "设置列数"
 
 msgid "Set rows number"
-msgstr ""
+msgstr "设置行数"
 
 msgid "Hold window after execute command"
-msgstr ""
+msgstr "运行后保留窗口"
 
 msgid "X geometry specification"
-msgstr ""
+msgstr "尺寸设定"
 
-#, fuzzy
 msgid ""
 "There are running processes.\n"
 "\n"
 "Do you really want to close Sakura?"
-msgstr "已经打开多个标签，确实要关闭 Sakura 吗？"
+msgstr ""
+"有进程正在运行。\n"
+"\n"
+"您真的要关闭 Sakura 吗？"
 
 msgid "Select font"
 msgstr "选择字体"
@@ -59,7 +63,7 @@ msgid "Set name"
 msgstr "设置名称"
 
 msgid "Tab new text"
-msgstr ""
+msgstr "输入文本"
 
 msgid "Select color"
 msgstr "选择颜色"
@@ -71,36 +75,41 @@ msgid "Select background color:"
 msgstr "选择背景色："
 
 msgid "Opacity"
-msgstr ""
+msgstr "透明度"
 
 msgid "Opacity level (%):"
-msgstr ""
+msgstr "透明度(%):"
 
 msgid "Disable opacity"
-msgstr ""
+msgstr "不透明"
 
-#, fuzzy
 msgid "New window title"
-msgstr "设置名称..."
+msgstr "新窗口标题"
 
 msgid "Select a background file"
 msgstr "选择一个背景图片"
 
-#, fuzzy
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
 "Do you really want to close it?"
-msgstr "已经打开多个标签，确实要关闭 Sakura 吗？"
+msgstr ""
+"终端中有进程正在执行。\n"
+"\n"
+"您真的要关闭它吗？"
 
 msgid "Open link..."
 msgstr "打开链接"
 
 msgid "Copy link..."
-msgstr ""
+msgstr "复制链接"
 
 msgid "New tab"
 msgstr "新建标签"
+
+#, fuzzy
+msgid "New window"
+msgstr "设置名称..."
 
 msgid "Set name..."
 msgstr "设置名称..."
@@ -109,13 +118,13 @@ msgid "Close tab"
 msgstr "关闭标签"
 
 msgid "Full screen"
-msgstr ""
+msgstr "全屏"
 
 msgid "Copy"
-msgstr ""
+msgstr "复制"
 
 msgid "Paste"
-msgstr ""
+msgstr "粘贴"
 
 msgid "Select font..."
 msgstr "选择字体..."
@@ -127,45 +136,44 @@ msgid "Select background..."
 msgstr "选择背景..."
 
 msgid "Clear background"
-msgstr ""
+msgstr "清除背景"
 
 msgid "Set opacity level..."
-msgstr ""
+msgstr "设置透明度..."
 
-#, fuzzy
 msgid "Set window title..."
-msgstr "设置名称..."
+msgstr "设置窗口标题..."
 
-msgid "Show always first tab"
-msgstr ""
+msgid "Always show first tab"
+msgstr "总是显示第一个标签页"
 
 msgid "Show tab close button"
-msgstr ""
+msgstr "显示关闭标签页按钮"
 
 msgid "Show scrollbar"
-msgstr ""
+msgstr "显示滚动条"
 
 msgid "Set audible bell"
-msgstr ""
+msgstr "设定蜂鸣提醒"
 
 msgid "Set visible bell"
-msgstr ""
+msgstr "设置可视提醒"
 
 msgid "Set blinking cursor"
-msgstr ""
+msgstr "设置闪烁光标"
 
 msgid "Input methods"
 msgstr "输入法"
 
 msgid "Options"
-msgstr ""
+msgstr "选项"
 
 msgid "Set palette"
-msgstr ""
+msgstr "设置调色板"
 
 #, c-format
 msgid "Terminal %d"
-msgstr ""
+msgstr "终端 %d"
 
 msgid "- vte-based terminal emulator"
 msgstr "- 基于 vte 的终端模拟器"
@@ -173,14 +181,3 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
-
-#, fuzzy
-#~ msgid "New tab text"
-#~ msgstr "新建标签"
-
-#, fuzzy
-#~ msgid ""
-#~ "There are %d tabs opened.\n"
-#~ "\n"
-#~ "Do you really want to close Sakura?"
-#~ msgstr "已经打开多个标签，确实要关闭 Sakura 吗？"

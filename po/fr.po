@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 02:14+0900\n"
-"PO-Revision-Date: 2008-12-25 19:05+0100\n"
+"POT-Creation-Date: 2010-03-09 03:47+0900\n"
+"PO-Revision-Date: 2010-03-03 12:11+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
-"Language-Team:  <fabrice.thiroux@free.fr>\n"
+"Language-Team: <fabrice.thiroux@free.fr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-03-22 04:45+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 msgid "Print version number"
 msgstr "Afficher le numéro de version"
@@ -44,15 +46,11 @@ msgstr ""
 msgid "X geometry specification"
 msgstr ""
 
-#, fuzzy
 msgid ""
 "There are running processes.\n"
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
-"Il y a %d onglets ouverts.\n"
-"\n"
-"Voulez-vous vraiment fermer Sakura ?"
 
 msgid "Select font"
 msgstr "Sélectionner la police"
@@ -87,15 +85,11 @@ msgstr "Définir le titre de la fenêtre"
 msgid "Select a background file"
 msgstr "Sélectionner une image de fond"
 
-#, fuzzy
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
 "Do you really want to close it?"
 msgstr ""
-"Il y a %d onglets ouverts.\n"
-"\n"
-"Voulez-vous vraiment fermer Sakura ?"
 
 msgid "Open link..."
 msgstr "Ouvrir le lien..."
@@ -105,6 +99,10 @@ msgstr "copier le lien..."
 
 msgid "New tab"
 msgstr "Nouvel onglet"
+
+#, fuzzy
+msgid "New window"
+msgstr "Définir le titre de la fenêtre"
 
 msgid "Set name..."
 msgstr "Définir le nom..."
@@ -139,15 +137,14 @@ msgstr "Définir le niveau d'opacité..."
 msgid "Set window title..."
 msgstr "Définir le titre de la fenêtre..."
 
-msgid "Show always first tab"
-msgstr "Toujours afficher le premier onglet"
+msgid "Always show tab bar"
+msgstr ""
 
 msgid "Show tab close button"
 msgstr ""
 
-#, fuzzy
 msgid "Show scrollbar"
-msgstr "Permutter le barre de défilement"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr ""
@@ -177,6 +174,9 @@ msgstr "Émulateur de terminal utilisant VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura version %s\n"
+
+#~ msgid "Show always first tab"
+#~ msgstr "Toujours afficher le premier onglet"
 
 #, fuzzy
 #~ msgid "New tab text"
