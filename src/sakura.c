@@ -2235,6 +2235,13 @@ sakura_del_tab(gint page)
 
 	gtk_widget_hide(term->hbox);
 	gtk_notebook_remove_page(GTK_NOTEBOOK(sakura.notebook), page);
+
+	/* Find the next page, if it exists, and grab focus */
+	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) > 0) {
+		page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+		term = sakura_get_page_term(sakura, page);
+		gtk_widget_grab_focus(term->vte);
+	}
 }
 
 
