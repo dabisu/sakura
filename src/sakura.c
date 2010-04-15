@@ -1712,9 +1712,9 @@ sakura_init_popup()
 	sakura.item_open_link=gtk_action_create_menu_item(action_open_link);
 	sakura.item_copy_link=gtk_action_create_menu_item(action_copy_link);
 	item_new_tab=gtk_action_create_menu_item(action_new_tab);
-        item_new_window=gtk_action_create_menu_item(action_new_window);
 	item_set_name=gtk_action_create_menu_item(action_set_name);
 	item_close_tab=gtk_action_create_menu_item(action_close_tab);
+	item_new_window=gtk_action_create_menu_item(action_new_window);
 	item_full_screen=gtk_action_create_menu_item(action_full_screen);
 	item_copy=gtk_action_create_menu_item(action_copy);
 	item_paste=gtk_action_create_menu_item(action_paste);
@@ -1793,9 +1793,10 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_copy_link);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_new_tab);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_new_window);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_set_name);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_close_tab);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_new_window);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_full_screen);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
@@ -1804,12 +1805,10 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_select_colors);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_select_font);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_select_background);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_clear_background);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_options);
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_input_methods);
+	//gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 
 	sakura.im_menu=gtk_menu_new();
 	options_menu=gtk_menu_new();
@@ -1822,13 +1821,16 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_visible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_blinking_cursor);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
-	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_select_background);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_palette);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_tango);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_linux);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_xterm);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_rxvt);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_input_methods);
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_input_methods), sakura.im_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), options_menu);
