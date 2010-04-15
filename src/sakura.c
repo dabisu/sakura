@@ -144,6 +144,8 @@ static struct {
 	PangoFontDescription *font;
 	GdkColor forecolor;
 	GdkColor backcolor;
+	guint16 backalpha;
+	bool has_rgba;
 	char *current_match;
 	guint width;
 	guint height;
@@ -735,6 +737,11 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	buttonfore=gtk_color_button_new_with_color(&sakura.forecolor);
 	buttonback=gtk_color_button_new_with_color(&sakura.backcolor);
 
+	if (sakura.has_rgba) {
+		gtk_color_button_set_use_alpha(GTK_COLOR_BUTTON(buttonback), TRUE);
+		gtk_color_button_set_alpha(GTK_COLOR_BUTTON(buttonback), sakura.backalpha);
+	}
+
 	gtk_box_pack_start(GTK_BOX(hbox_fore), label1, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_fore), buttonfore, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(hbox_back), label2, FALSE, FALSE, 12);
@@ -750,14 +757,21 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
 
+		if (sakura.has_rgba) {
+			sakura.backalpha = gtk_color_button_get_alpha(GTK_COLOR_BUTTON(buttonback));
+		}
+
 		for (i = (n_pages - 1); i >= 0; i--) {
 			term = sakura_get_page_term(sakura, i);
+			if (sakura.has_rgba) {
+				/* HACK: need to force change the background to make this work.
+				   User's with slow workstations may see a flicker when this happens. */
+				vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &sakura.forecolor);
+				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), sakura.backalpha);
+			}
 			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 			                        sakura.palette, PALETTE_SIZE);
 		}
-
-		vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-		                        sakura.palette, PALETTE_SIZE);
 
 		gchar *cfgtmp;
 		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
@@ -769,6 +783,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		                         sakura.backcolor.green>>8, sakura.backcolor.blue>>8);
 		g_key_file_set_value(sakura.cfg, cfg_group, "backcolor", cfgtmp);
 		g_free(cfgtmp);
+
+		g_key_file_set_integer(sakura.cfg, cfg_group, "backalpha", sakura.backalpha);
 
 	}
 
@@ -1441,6 +1457,12 @@ sakura_init()
 	g_free(cfgtmp);
 
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "backalpha", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "backalpha", 65535);
+	}
+	sakura.backalpha = g_key_file_get_integer(sakura.cfg, cfg_group, "backalpha", NULL);
+
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "opacity_level", NULL)) {
 		g_key_file_set_value(sakura.cfg, cfg_group, "opacity_level", "80");
 	}
@@ -1622,6 +1644,19 @@ sakura_init()
 	sakura.rows = DEFAULT_ROWS;
 
 	sakura.notebook=gtk_notebook_new();
+
+	/* Figure out if we have rgba capabilities. */
+	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
+	GdkColormap *colormap = gdk_screen_get_rgba_colormap(screen);
+	if (colormap != NULL && gdk_screen_is_composited (screen)) {
+		gtk_widget_set_colormap (GTK_WIDGET (sakura.main_window), colormap);
+		/* Should probably set as false if WM looses capabilities */
+		sakura.has_rgba = true;
+	}
+	else {
+		/* Probably not needed, as is likely the default initializer */
+		sakura.has_rgba = false;
+	}
 
 	/* Set argv for forked childs */
 	if (option_login) {
@@ -2178,6 +2213,10 @@ sakura_add_tab()
 	free(cwd);
 
 	/* Configuration per-terminal */
+	if (sakura.has_rgba) {
+		vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &sakura.forecolor);
+		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), sakura.backalpha);
+	}
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
 	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 	                        sakura.palette, PALETTE_SIZE);
