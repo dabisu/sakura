@@ -568,7 +568,7 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
-	window_title = g_strconcat("sakura - ", title, NULL);
+	window_title = g_strconcat(title, " - sakura", NULL);
 
 	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
 		gtk_label_set_text(GTK_LABEL(term->label), title);
