@@ -563,7 +563,7 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	int page;
 	struct terminal *term;
 	const char *title;
-	gchar *window_title;
+	gchar *window_title, *chopped_title;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
@@ -571,8 +571,10 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	window_title = g_strconcat(title, " - sakura", NULL);
 
 	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
-		gtk_label_set_text(GTK_LABEL(term->label), title);
+		chopped_title = g_strndup(title, 40); /* Should it be configurable? */
+		gtk_label_set_text(GTK_LABEL(term->label), chopped_title); 
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), window_title);
+		free(chopped_title);
 	} else { /* Use the default values */
 		gtk_label_set_text(GTK_LABEL(term->label), term->label_text);
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
@@ -809,6 +811,7 @@ sakura_opacity_check (GtkWidget *widget, void *data)
 }
 
 
+/* FIXME: Merge this dialog and the colors dialog into one. This one is a mess */
 static void
 sakura_opacity_dialog (GtkWidget *widget, void *data)
 {
@@ -831,7 +834,7 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 	gtk_widget_set_name (opacity_dialog, "set-opacity-dialog");
 	gtk_rc_parse_string ("widget \"set-opacity-dialog\" style \"hig-dialog\"\n");
 
-	spinner_adj = gtk_adjustment_new (((1.0 - sakura.opacity_level) * 100), 0.0, 99.0, 1.0, 5.0, 5.0);
+	spinner_adj = gtk_adjustment_new (((1.0 - sakura.opacity_level) * 100), 0.0, 99.0, 1.0, 5.0, 0);
 	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
 
 	spin_label = gtk_label_new(_("Opacity level (%):"));
@@ -842,7 +845,11 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(opacity_dialog)->vbox), dialog_hbox, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(dialog_hbox), dialog_vbox, FALSE, FALSE, 12);
-	gtk_box_pack_start(GTK_BOX(dialog_vbox), check, FALSE, FALSE, 6);
+	if (!sakura.has_rgba) { /* Ignore it if there is a composite manager */
+		gtk_box_pack_start(GTK_BOX(dialog_vbox), check, FALSE, FALSE, 6);
+	} else
+		sakura.fake_transparency = TRUE;
+
 	gtk_box_pack_start(GTK_BOX(dialog_spin_hbox), spin_label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(dialog_spin_hbox), spin_control, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(dialog_vbox), dialog_spin_hbox, TRUE, TRUE, 6);
@@ -862,29 +869,44 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 		sakura.opacity_level = ( ( 100 - (atof(value)) ) / 100 );
 		sakura.opacity_level_percent = value;
 		sakura.fake_transparency=!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+		if (sakura.has_rgba) sakura.fake_transparency= TRUE; /* Set it to true just to ignore it. I know, this is an ugly hack :-/ */
 
 		if (sakura.fake_transparency) {
 
-			/* Set fake transparency for all tabs */
+			/* Set transparency for all tabs */
 			for (i = (n_pages - 1); i >= 0; i--) {
 				term = sakura_get_page_term(sakura, i);
-				vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), TRUE);
-				vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), sakura.opacity_level);
-				vte_terminal_set_background_tint_color(VTE_TERMINAL(term->vte), &sakura.backcolor);
+				if (sakura.has_rgba) {
+					/* Another hack. Forecolor is not ok, we need a white one */
+					GdkColor color; color.red=255; color.blue=255; color.green=255;
+					vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &color);
+					/* Map opacity level to alpha */
+					sakura.backalpha = (atol(value)*65535)/100;
+					vte_terminal_set_opacity(VTE_TERMINAL (term->vte), sakura.backalpha);
+					vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+					                        sakura.palette, PALETTE_SIZE);
+					g_key_file_set_integer(sakura.cfg, cfg_group, "backalpha", sakura.backalpha);
+					sakura.fake_transparency = TRUE;
+				} else {
+					/* Fake transparency, there is no composite manager */
+					vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), TRUE);
+					vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), sakura.opacity_level);
+					vte_terminal_set_background_tint_color(VTE_TERMINAL(term->vte), &sakura.backcolor);
+					sakura.fake_transparency = TRUE;
+					g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "Yes");
+				}
 			}
 
-			sakura.fake_transparency = TRUE;
-			g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "Yes");
 		} else {
 
 			/* Unset fake transparency for all tabs */
 			for (i = (n_pages - 1); i >= 0; i--) {
 				term = sakura_get_page_term(sakura, i);
 				vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte), FALSE);
+				sakura.fake_transparency = FALSE;
+				g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "No");
 			}
 
-			sakura.fake_transparency = FALSE;
-			g_key_file_set_value(sakura.cfg, cfg_group, "fake_transparency", "No");
 		}
 
 		g_key_file_set_value(sakura.cfg, cfg_group, "opacity_level", sakura.opacity_level_percent);
