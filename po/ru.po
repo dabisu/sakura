@@ -3,23 +3,23 @@ msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-09 03:47+0900\n"
-"PO-Revision-Date: 2010-04-09 19:20+0000\n"
+"PO-Revision-Date: 2010-04-21 06:01+0000\n"
 "Last-Translator: Evgenij Vdovin <Unknown>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-10 03:45+0000\n"
+"X-Launchpad-Export-Date: 2010-04-22 03:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 msgid "Print version number"
 msgstr "Вывести номер версии"
 
 msgid "Select initial terminal font"
-msgstr "Установить шрифт"
+msgstr "Выбрать шрифт"
 
 msgid "Select initial number of tabs"
-msgstr "Установить количество вкладок"
+msgstr "Начальное число вкладок"
 
 msgid "Execute command"
 msgstr "Выполнить команду"
@@ -28,7 +28,7 @@ msgid "Login shell"
 msgstr "Логин shell"
 
 msgid "Set window title"
-msgstr "Установить заголовок окна"
+msgstr "Изменение заголовка окна"
 
 msgid "Set columns number"
 msgstr "Установить число столбцов"
@@ -40,7 +40,7 @@ msgid "Hold window after execute command"
 msgstr "Удерживать окно после выполнения команды"
 
 msgid "X geometry specification"
-msgstr ""
+msgstr "Определение геометрии окна X"
 
 msgid ""
 "There are running processes.\n"
@@ -48,37 +48,38 @@ msgid ""
 "Do you really want to close Sakura?"
 msgstr ""
 "Не все процессы завершены.\n"
+"\n"
 "Вы уверены, что хотите выйти из программы?"
 
 msgid "Select font"
-msgstr "Шрифт"
+msgstr "Выбор шрифта"
 
 msgid "Set name"
-msgstr "Заголовок вкладки"
+msgstr "Изменение заголовка вкладки"
 
 msgid "Tab new text"
-msgstr ""
+msgstr "Новоый заголовок:"
 
 msgid "Select color"
-msgstr "Выбор цветов"
+msgstr "Выбор цвета"
 
 msgid "Select foreground color:"
-msgstr "Текст:"
+msgstr "Цвет текста:"
 
 msgid "Select background color:"
-msgstr "Фон:"
+msgstr "Цвет фона:"
 
 msgid "Opacity"
-msgstr "Плотность"
+msgstr "Прозрачность"
 
 msgid "Opacity level (%):"
-msgstr "Уровень плотности (%):"
+msgstr "Уровень прозрачности (%):"
 
 msgid "Disable opacity"
-msgstr "Отключить плотность"
+msgstr "Отключить прозрачность"
 
 msgid "New window title"
-msgstr "Установить заголовок окна"
+msgstr "Новый заголовок:"
 
 msgid "Select a background file"
 msgstr "Выбор файла с фоновым рисунком"
@@ -102,7 +103,7 @@ msgid "New tab"
 msgstr "Новая вкладка"
 
 msgid "Set name..."
-msgstr "Переименовать..."
+msgstr "Заголовок вкладки..."
 
 msgid "Close tab"
 msgstr "Закрыть вкладку"
@@ -126,13 +127,13 @@ msgid "Select background..."
 msgstr "Фоновый рисунок..."
 
 msgid "Clear background"
-msgstr "Очистить фон"
+msgstr "Убрать фоновый рисунок"
 
 msgid "Set opacity level..."
-msgstr "Уровень плотности..."
+msgstr "Уровень прозрачности..."
 
 msgid "Set window title..."
-msgstr "Заголовок окна"
+msgstr "Заголовок окна..."
 
 msgid "Show always first tab"
 msgstr "Всегда показывать панель вкладок"
@@ -170,4 +171,10 @@ msgstr "- эмулятор терминала, основанный на VTE"
 
 #, c-format
 msgid "sakura version is %s\n"
-msgstr "версия Сакуры %s\n"
+msgstr "Версия Сакуры %s\n"
+
+#~ msgid "New window"
+#~ msgstr "Новое окно"
+
+#~ msgid "Always show tab bar"
+#~ msgstr "Всегда показывать панель вкладок"
