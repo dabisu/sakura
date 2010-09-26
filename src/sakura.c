@@ -372,7 +372,10 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	}
 
 	/* copy_accelerator-[C/V] pressed */
+	SAY("copy acc: %d", sakura.copy_accelerator);
+	SAY("ev+copy: %d", (event->state & sakura.copy_accelerator));
 	if ( (event->state & sakura.copy_accelerator)==sakura.copy_accelerator ) {
+		SAY("%d %d", event->keyval, sakura.copy_key);
 		if (event->keyval==sakura.copy_key) {
 			sakura_copy(NULL, NULL);
 			return TRUE;
@@ -2051,6 +2054,7 @@ sakura_set_size(gint columns, gint rows)
 	sakura.height = main_request.height - term_request.height;
 	sakura.width += pad_x + char_width * sakura.columns;
 	sakura.height += pad_y + char_height * sakura.rows;
+	/* FIXME: Deprecated GTK_WIDGET_MAPPED. Replace it when gtk+-2.20 is widely used */
 	if (GTK_WIDGET_MAPPED (sakura.main_window)) {
 		gtk_window_resize (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
 		SAY("Resizing to %ld columns %ld rows", sakura.columns, sakura.rows);

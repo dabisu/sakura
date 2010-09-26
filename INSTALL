@@ -31,9 +31,7 @@ Keybindings support
     Accelerators:
 
         Accelerators can be set to any mask value from the
-        GdkModifierType in gdktypes.h; see:
-            http://www.krugle.org/examples/p-6R7SuZt1c28ljzpZ/gdktypes.h
-        or, on your own system:
+        GdkModifierType in gdktypes.h. For reference look at:
             /usr/include/gtk-2.0/gdk/gdkkeysyms.h
 
         Mask values can be combined by ORing them.
