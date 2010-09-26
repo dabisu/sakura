@@ -339,7 +339,8 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + Left-Right cursor */
 	if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator ) {
-		if ((event->keyval>=GDK_1) && (event->keyval<=GDK_9) && (event->keyval<=GDK_1-1+npages)) {
+		if ((event->keyval>=GDK_1) && (event->keyval<=GDK_9) && (event->keyval<=GDK_1-1+npages)
+				&& (event->keyval!=GDK_1+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
 			switch(event->keyval) {
 				case GDK_1: topage=0; break;
 				case GDK_2: topage=1; break;
