@@ -1428,6 +1428,10 @@ sakura_init()
 
 	term_data_id = g_quark_from_static_string("sakura_term");
 
+	/* Harcode TERM enviroment variable. With versions of vte>=0.26.0 behaviour seems to be different 
+	   and if TERM is not defined we get errors from several applications */
+	g_setenv("TERM", "xterm", FALSE);
+
 	/* Config file initialization*/
 	sakura.cfg = g_key_file_new();
 
