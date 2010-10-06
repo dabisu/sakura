@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-22 04:45+0000\n"
+"X-Launchpad-Export-Date: 2010-04-15 03:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 msgid "Print version number"
@@ -182,3 +182,6 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+
+#~ msgid "Always show tab bar"
+#~ msgstr "总是显示第一个标签页"
