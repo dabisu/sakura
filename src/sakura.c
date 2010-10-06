@@ -1002,6 +1002,9 @@ sakura_copy_url (GtkWidget *widget, void *data)
 
 	clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
 	gtk_clipboard_set_text(clip, sakura.current_match, -1 );
+	clip = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+	gtk_clipboard_set_text(clip, sakura.current_match, -1 );
+
 }
 
 
