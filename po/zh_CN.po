@@ -182,6 +182,3 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
-
-#~ msgid "Always show tab bar"
-#~ msgstr "总是显示第一个标签页"

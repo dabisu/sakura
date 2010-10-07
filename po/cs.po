@@ -181,12 +181,3 @@ msgstr "- emulátor terminálu založený na VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
-<<<<<<< TREE
-=======
-
-#~ msgid "New window"
-#~ msgstr "Nové okno"
-
-#~ msgid "Always show tab bar"
-#~ msgstr "Vždy zobrazit lištu karet"
->>>>>>> MERGE-SOURCE
