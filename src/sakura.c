@@ -229,6 +229,7 @@ struct terminal {
 #define DEFAULT_PASTE_KEY  GDK_V
 #define DEFAULT_SCROLLBAR_KEY  GDK_S
 #define DEFAULT_FULLSCREEN_KEY  GDK_F11
+#define ERROR_BUFFER_LENGTH 256
 const char cfg_group[] = "sakura";
 
 static GQuark term_data_id = 0;
@@ -2405,12 +2406,13 @@ sakura_error(const char *format, ...)
 	va_list args;
 
 	va_start(args, format);
+	char* buff = malloc(sizeof(char)*ERROR_BUFFER_LENGTH);
+	vsnprintf(buff, sizeof(char)*ERROR_BUFFER_LENGTH, format, args);
+	va_end(args);
 
 	dialog = gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_DESTROY_WITH_PARENT,
-	                                GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, format, args);
+	                                GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", buff);
 	gtk_dialog_run (GTK_DIALOG (dialog));
-
-	va_end(args);
 	gtk_widget_destroy (dialog);
 }
 
