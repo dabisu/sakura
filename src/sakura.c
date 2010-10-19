@@ -2404,9 +2404,10 @@ sakura_error(const char *format, ...)
 {
 	GtkWidget *dialog;
 	va_list args;
+	char* buff;
 
 	va_start(args, format);
-	char* buff = malloc(sizeof(char)*ERROR_BUFFER_LENGTH);
+	buff = malloc(sizeof(char)*ERROR_BUFFER_LENGTH);
 	vsnprintf(buff, sizeof(char)*ERROR_BUFFER_LENGTH, format, args);
 	va_end(args);
 
@@ -2414,6 +2415,7 @@ sakura_error(const char *format, ...)
 	                                GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", buff);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
+	free(buff);
 }
 
 
