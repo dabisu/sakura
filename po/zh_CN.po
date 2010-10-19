@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-03 21:11+0900\n"
+"POT-Creation-Date: 2010-10-19 03:58-0700\n"
 "PO-Revision-Date: 2010-03-19 15:00+0000\n"
 "Last-Translator: Heling Yao <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -28,6 +28,10 @@ msgid "Select initial number of tabs"
 msgstr "选择初始标签数"
 
 msgid "Execute command"
+msgstr "执行命令"
+
+#, fuzzy
+msgid "Execute command (xterm compatible)"
 msgstr "执行命令"
 
 msgid "Login shell"

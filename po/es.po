@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 03:47+0900\n"
+"POT-Creation-Date: 2010-10-19 03:58-0700\n"
 "PO-Revision-Date: 2010-04-09 19:59+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -26,6 +26,10 @@ msgid "Select initial number of tabs"
 msgstr "Seleccionar el número inicial de pestañas"
 
 msgid "Execute command"
+msgstr "Ejecutar comando"
+
+#, fuzzy
+msgid "Execute command (xterm compatible)"
 msgstr "Ejecutar comando"
 
 msgid "Login shell"

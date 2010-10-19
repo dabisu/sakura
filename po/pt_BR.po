@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-03 21:11+0900\n"
+"POT-Creation-Date: 2010-10-19 03:58-0700\n"
 "PO-Revision-Date: 2010-03-03 12:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -23,6 +23,10 @@ msgid "Select initial number of tabs"
 msgstr "Selecionar número inicial de abas"
 
 msgid "Execute command"
+msgstr "Executar comando"
+
+#, fuzzy
+msgid "Execute command (xterm compatible)"
 msgstr "Executar comando"
 
 msgid "Login shell"

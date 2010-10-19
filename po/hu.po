@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-03 21:11+0900\n"
+"POT-Creation-Date: 2010-10-19 03:58-0700\n"
 "PO-Revision-Date: 2010-03-03 12:14+0000\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -28,6 +28,9 @@ msgid "Select initial number of tabs"
 msgstr ""
 
 msgid "Execute command"
+msgstr ""
+
+msgid "Execute command (xterm compatible)"
 msgstr ""
 
 msgid "Login shell"

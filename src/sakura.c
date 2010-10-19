@@ -290,7 +290,7 @@ static guint    sakura_key_file_get_key(GKeyFile *, const gchar *, const gchar *
 
 static const char *option_font;
 static const char *option_execute;
-static const char **option_xterm_args;
+static gchar **option_xterm_args;
 static gboolean option_xterm_execute=FALSE;
 static gboolean option_version=FALSE;
 static gint option_ntabs=1;
@@ -305,8 +305,8 @@ static GOptionEntry entries[] = {
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
 	{ "execute", 'x', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
-	{ "xterm-execute", 'e', 0, G_OPTION_NONE, &option_xterm_execute, N_("Execute command (xterm compatible)"), "[command args ...]"}, 
-	{ G_OPTION_REMAINING, 0, 0, G_OPTION_STRING_ARRAY, &option_xterm_args, NULL, NULL },
+	{ "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (xterm compatible)"), NULL }, 
+	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
@@ -2221,7 +2221,7 @@ sakura_add_tab()
 			} else {
 				gchar *command_joined;
 				/* the xterm -e command takes all extra arguments */
-				command_joined = g_strjoinv(' ', option_xterm_args);
+				command_joined = g_strjoinv(" ", option_xterm_args);
 				if (!g_shell_parse_argv(command_joined, &command_argc, &command_argv, &gerror)) {
 					sakura_error("Cannot parse command line arguments");
 					exit(1);
@@ -2234,16 +2234,13 @@ sakura_add_tab()
 			if (path) {
 				free(path);
 			} else {
-				g_free(option_execute);
 				option_execute=NULL;
 				g_strfreev(option_xterm_args);
 				option_xterm_args=NULL;
 			}
 
-			term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), command_argv[0],
-			                                    command_argv, NULL, cwd, FALSE, FALSE, FALSE);
+			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL ,G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL);
 			g_strfreev(command_argv);
-			g_free(option_execute);
 			option_execute=NULL;
 			g_strfreev(option_xterm_args);
 			option_xterm_args=NULL;
@@ -2445,9 +2442,10 @@ main(int argc, char **argv)
 	GError *error=NULL;
 	GOptionContext *context;
 	int i;
-	int x;
-	char **nargv=NULL;
-	int nargc;
+	int n;
+	char **nargv;
+	nargv = (char**)malloc((argc+1)*sizeof(char*));
+	int nargc=argc;
 
 	/* Localization */
 	setlocale(LC_ALL, "");
@@ -2458,21 +2456,19 @@ main(int argc, char **argv)
 
 	/* Rewrites argv to include a -- after the -e argument this is required to make
 	 * sure GOption doesn't grab any arguments meant for the command being called */
-	x=0;
-	for(int n=0; n<argc; i++) {
+	n=0;
+	for(i=0; i<argc; i++) {
 		if(g_strcmp0(argv[i],"-e") == 0)
 		{
-			nargv[x]="-e";
-			x++;
-			nargv[x]="--";			
+			nargv[n]="-e";
+			n++;
+			nargv[n]="--";			
 			nargc = argc+1;
 		} else {
-			nargv[x]=g_strdup(argv[n]);
+			nargv[n]=g_strdup(argv[i]);
 		}
-		x++;
+		n++;
 	}
-	g_strfreev(argv);
-	argv = NULL;
 
 	/* Options parsing */
 	context = g_option_context_new (_("- vte-based terminal emulator"));
@@ -2493,6 +2489,8 @@ main(int argc, char **argv)
 	g_option_context_free(context);
 
 	gtk_init(&nargc, &nargv);
+
+	g_strfreev(nargv);
 
 	/* Init stuff */
 	sakura_init();
