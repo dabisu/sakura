@@ -291,6 +291,8 @@ static guint    sakura_key_file_get_key(GKeyFile *, const gchar *, const gchar *
 
 static const char *option_font;
 static const char *option_execute;
+static gchar **option_xterm_args;
+static gboolean option_xterm_execute=FALSE;
 static gboolean option_version=FALSE;
 static gint option_ntabs=1;
 static gint option_login = FALSE;
@@ -303,7 +305,9 @@ static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
-	{ "execute", 'e', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
+	{ "execute", 'x', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
+	{ "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (xterm compatible)"), NULL }, 
+	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
@@ -2205,27 +2209,42 @@ sakura_add_tab()
 		}
 		sakura_set_size(sakura.columns, sakura.rows);
 
-		if (option_execute) {
+		if (option_execute||option_xterm_execute) {
 			int command_argc; char **command_argv;
 			GError *gerror;
 			gchar *path;
 
-			if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
-				sakura_error("Cannot parse command line arguments");
-				exit(1);
+			if(option_execute) {
+				if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
+					sakura_error("Cannot parse command line arguments");
+					exit(1);
+				}
+			} else {
+				gchar *command_joined;
+				/* the xterm -e command takes all extra arguments */
+				command_joined = g_strjoinv(" ", option_xterm_args);
+				if (!g_shell_parse_argv(command_joined, &command_argc, &command_argv, &gerror)) {
+					sakura_error("Cannot parse command line arguments");
+					exit(1);
+				}
+				g_free(command_joined);
 			}
 
 			/* Check if the command is valid */
 			path=g_find_program_in_path(command_argv[0]);
-			if (path)
+			if (path) {
 				free(path);
-			else
+			} else {
 				option_execute=NULL;
+				g_strfreev(option_xterm_args);
+				option_xterm_args=NULL;
+			}
 
-			term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), command_argv[0],
-			                                    command_argv, NULL, cwd, FALSE, FALSE, FALSE);
+			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL ,G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL);
 			g_strfreev(command_argv);
 			option_execute=NULL;
+			g_strfreev(option_xterm_args);
+			option_xterm_args=NULL;
 		} else {
 			if (option_hold==TRUE) {
 				sakura_error("Hold option given without any command");
@@ -2427,6 +2446,10 @@ main(int argc, char **argv)
 	GError *error=NULL;
 	GOptionContext *context;
 	int i;
+	int n;
+	char **nargv;
+	nargv = (char**)malloc((argc+1)*sizeof(char*));
+	int nargc=argc;
 
 	/* Localization */
 	setlocale(LC_ALL, "");
@@ -2435,12 +2458,28 @@ main(int argc, char **argv)
 	bindtextdomain(GETTEXT_PACKAGE, localedir);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
+	/* Rewrites argv to include a -- after the -e argument this is required to make
+	 * sure GOption doesn't grab any arguments meant for the command being called */
+	n=0;
+	for(i=0; i<argc; i++) {
+		if(g_strcmp0(argv[i],"-e") == 0)
+		{
+			nargv[n]="-e";
+			n++;
+			nargv[n]="--";			
+			nargc = argc+1;
+		} else {
+			nargv[n]=g_strdup(argv[i]);
+		}
+		n++;
+	}
+
 	/* Options parsing */
 	context = g_option_context_new (_("- vte-based terminal emulator"));
 	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
 	g_option_group_set_translation_domain(gtk_get_option_group(TRUE), GETTEXT_PACKAGE);
 	g_option_context_add_group (context, gtk_get_option_group(TRUE));
-	g_option_context_parse (context, &argc, &argv, &error);
+	g_option_context_parse (context, &nargc, &nargv, &error);
 
 	if (option_version) {
 		fprintf(stderr, _("sakura version is %s\n"), VERSION);
@@ -2453,7 +2492,9 @@ main(int argc, char **argv)
 
 	g_option_context_free(context);
 
-	gtk_init(&argc, &argv);
+	gtk_init(&nargc, &nargv);
+
+	g_strfreev(nargv);
 
 	/* Init stuff */
 	sakura_init();

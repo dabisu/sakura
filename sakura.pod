@@ -46,9 +46,13 @@ Select initial terminal font
 
 Select initial number of tabs
 
-=item B<-e, --execute>
+=item B<-x, --execute>
 
 Execute command
+
+=item B<-e, --xterm-execute>
+
+Execute command (compatible with xterm's -e option)
 
 =item B<-l, --login>
 

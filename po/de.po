@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 03:47+0900\n"
+"POT-Creation-Date: 2010-10-19 03:58-0700\n"
 "PO-Revision-Date: 2010-05-26 11:28+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <inquata@gmail.com>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -28,6 +28,10 @@ msgid "Select initial number of tabs"
 msgstr "Anzahl der Reiter beim Programmstart wählen"
 
 msgid "Execute command"
+msgstr "Befehl ausführen"
+
+#, fuzzy
+msgid "Execute command (xterm compatible)"
 msgstr "Befehl ausführen"
 
 msgid "Login shell"

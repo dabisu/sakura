@@ -23,7 +23,7 @@ IF (NOT GTK_FOUND)
 	MESSAGE(FATAL_ERROR "You don't seem to have gtk >= 2.10 development libraries installed...")
 ENDIF (NOT GTK_FOUND)
 
-pkg_check_modules (VTE REQUIRED vte>=0.16.15)
+pkg_check_modules (VTE REQUIRED vte>=0.26)
 IF (NOT VTE_FOUND)
 	MESSAGE(FATAL_ERROR "You don't seem to have vte >= 0.16.15 development libraries installed...")
 ENDIF (NOT VTE_FOUND)
