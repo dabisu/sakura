@@ -198,7 +198,7 @@ static struct {
 struct terminal {
 	GtkWidget *hbox;
 	GtkWidget *vte;     /* Reference to VTE terminal */
-	pid_t pid;          /* pid of the forked proccess */
+	GPid pid;          /* pid of the forked proccess */
 	GtkWidget *scrollbar;
 	GtkWidget *label;
 	gchar *label_text;
@@ -2240,7 +2240,7 @@ sakura_add_tab()
 				option_xterm_args=NULL;
 			}
 
-			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL ,G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL);
+			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL ,G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
 			g_strfreev(command_argv);
 			option_execute=NULL;
 			g_strfreev(option_xterm_args);
