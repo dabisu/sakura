@@ -165,6 +165,8 @@ static struct {
 	bool audible_bell;
 	bool visible_bell;
 	bool blinking_cursor;
+	bool borderless;
+	bool maximized;
 	bool full_screen;
 	bool keep_fc; /* Global flag to indicate that we don't want changes in the files and columns values */
 	GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
@@ -306,7 +308,7 @@ static GOptionEntry entries[] = {
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
 	{ "execute", 'x', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
-	{ "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (xterm compatible)"), NULL }, 
+	{ "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (xterm compatible)"), NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
@@ -582,7 +584,7 @@ sakura_title_changed (GtkWidget *widget, void *data)
 
 	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
 		chopped_title = g_strndup(title, 40); /* Should it be configurable? */
-		gtk_label_set_text(GTK_LABEL(term->label), chopped_title); 
+		gtk_label_set_text(GTK_LABEL(term->label), chopped_title);
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), window_title);
 		free(chopped_title);
 	} else { /* Use the default values */
@@ -1192,6 +1194,32 @@ sakura_blinking_cursor (GtkWidget *widget, void *data)
 
 
 static void
+sakura_borderless (GtkWidget *widget, void *data)
+{
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		gtk_window_set_decorated (GTK_WINDOW(sakura.main_window), FALSE);
+		g_key_file_set_value(sakura.cfg, cfg_group, "borderless", "Yes");
+	} else {
+		gtk_window_set_decorated (GTK_WINDOW(sakura.main_window), TRUE);
+		g_key_file_set_value(sakura.cfg, cfg_group, "borderless", "No");
+	}
+}
+
+
+static void
+sakura_maximized (GtkWidget *widget, void *data)
+{
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		gtk_window_maximize (GTK_WINDOW(sakura.main_window));
+		g_key_file_set_value(sakura.cfg, cfg_group, "maximized", "Yes");
+	} else {
+		gtk_window_unmaximize (GTK_WINDOW(sakura.main_window));
+		g_key_file_set_value(sakura.cfg, cfg_group, "maximized", "No");
+	}
+}
+
+
+static void
 sakura_set_palette(GtkWidget *widget, void *data)
 {
 	struct terminal *term;
@@ -1436,7 +1464,7 @@ sakura_init()
 
 	term_data_id = g_quark_from_static_string("sakura_term");
 
-	/* Harcode TERM enviroment variable. With versions of vte>=0.26.0 behaviour seems to be different 
+	/* Harcode TERM enviroment variable. With versions of vte>=0.26.0 behaviour seems to be different
 	   and if TERM is not defined we get errors from several applications */
 	g_setenv("TERM", "xterm", FALSE);
 
@@ -1572,6 +1600,20 @@ sakura_init()
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "blinking_cursor", NULL);
 	sakura.blinking_cursor= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
+	g_free(cfgtmp);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "borderless", NULL)) {
+		g_key_file_set_value(sakura.cfg, cfg_group, "borderless", "No");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "borderless", NULL);
+	sakura.borderless= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
+	g_free(cfgtmp);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "maximized", NULL)) {
+		g_key_file_set_value(sakura.cfg, cfg_group, "maximized", "No");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "maximized", NULL);
+	sakura.maximized= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
@@ -1755,7 +1797,7 @@ sakura_init_popup()
 	          *item_select_background, *item_set_title, *item_full_screen,
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
 	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
-                  *item_blinking_cursor,
+	          *item_blinking_cursor, *item_borderless_maximized,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
 	          *item_show_close_button;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
@@ -1805,6 +1847,7 @@ sakura_init_popup()
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
+	item_borderless_maximized=gtk_check_menu_item_new_with_label(_("Make Sakura borderless and maximized"));
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
 	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
 	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
@@ -1846,6 +1889,10 @@ sakura_init_popup()
 
 	if (sakura.blinking_cursor) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_blinking_cursor), TRUE);
+	}
+
+	if (sakura.borderless && sakura.maximized) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_borderless_maximized), TRUE);
 	}
 
 	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
@@ -1896,6 +1943,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_visible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_blinking_cursor);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_borderless_maximized);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
@@ -1912,7 +1960,7 @@ sakura_init_popup()
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), options_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_palette), palette_menu);
 
-	//gtk_menu_shell_append(GTK_MENU_SHELL(sakura.labels_menu), item_label_new_tab); 
+	//gtk_menu_shell_append(GTK_MENU_SHELL(sakura.labels_menu), item_label_new_tab);
 
 	/* ... and finally assign callbacks to menuitems */
 	g_signal_connect(G_OBJECT(action_new_tab), "activate", G_CALLBACK(sakura_new_tab), NULL);
@@ -1932,6 +1980,8 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
+	g_signal_connect(G_OBJECT(item_borderless_maximized), "activate", G_CALLBACK(sakura_borderless), NULL);
+	g_signal_connect(G_OBJECT(item_borderless_maximized), "activate", G_CALLBACK(sakura_maximized), NULL);
 	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_opacity_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
@@ -2304,6 +2354,11 @@ sakura_add_tab()
 	/* Disable stupid blinking cursor */
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
 
+	/* Apply user defined window configuration */
+	gtk_window_set_decorated (GTK_WINDOW(sakura.main_window), sakura.borderless ? FALSE : TRUE);
+	if (sakura.maximized) {
+		gtk_window_maximize (GTK_WINDOW(sakura.main_window));
+	}
 
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
 	gtk_widget_grab_focus(term->vte);
@@ -2466,7 +2521,7 @@ main(int argc, char **argv)
 		{
 			nargv[n]="-e";
 			n++;
-			nargv[n]="--";			
+			nargv[n]="--";
 			nargc = argc+1;
 		} else {
 			nargv[n]=g_strdup(argv[i]);
