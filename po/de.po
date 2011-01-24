@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-19 03:58-0700\n"
+"POT-Creation-Date: 2011-01-25 00:33+0900\n"
 "PO-Revision-Date: 2010-05-26 11:28+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <inquata@gmail.com>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -166,6 +166,9 @@ msgstr "Sichtbarer Alarm"
 
 msgid "Set blinking cursor"
 msgstr "Blinkender Cursor"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Eingabemethoden"

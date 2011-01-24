@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-19 03:58-0700\n"
+"POT-Creation-Date: 2011-01-25 00:33+0900\n"
 "PO-Revision-Date: 2010-03-03 12:16+0000\n"
 "Last-Translator: nTia89 <tia.tif@fastwebnet.it>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -161,6 +161,9 @@ msgstr "Imposta l'avviso visivo"
 
 msgid "Set blinking cursor"
 msgstr "Imposta il cursore lampeggiante"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Metodi di input"

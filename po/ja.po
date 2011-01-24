@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-19 03:58-0700\n"
+"POT-Creation-Date: 2011-01-25 00:33+0900\n"
 "PO-Revision-Date: 2010-04-11 06:27+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -163,6 +163,9 @@ msgstr "可視のベルを表示"
 
 msgid "Set blinking cursor"
 msgstr "ブリキングのカーソルを表示"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Input methods"
 msgstr "入力メソッド"

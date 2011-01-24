@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-19 03:58-0700\n"
+"POT-Creation-Date: 2011-01-25 00:33+0900\n"
 "PO-Revision-Date: 2010-04-09 19:25+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -157,6 +157,9 @@ msgid "Set visible bell"
 msgstr ""
 
 msgid "Set blinking cursor"
+msgstr ""
+
+msgid "Borderless and maximized"
 msgstr ""
 
 msgid "Input methods"
