@@ -202,6 +202,7 @@ struct terminal {
 	GtkWidget *scrollbar;
 	GtkWidget *label;
 	gchar *label_text;
+	GtkBorder border;   /* inner-property data */
 };
 
 
@@ -2047,6 +2048,8 @@ sakura_set_size(gint columns, gint rows)
 	//sakura.rows = rows;
 
 	vte_terminal_get_padding(VTE_TERMINAL(term->vte), (int *)&pad_x, (int *)&pad_y);
+	gtk_widget_style_get(term->vte, "inner-border", &term->border, NULL);
+	SAY("l%d r%d t%d b%d", term->border.left, term->border.right, term->border.top, term->border.bottom);
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
 
