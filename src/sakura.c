@@ -2293,19 +2293,20 @@ sakura_add_tab()
 				option_xterm_args=NULL;
 			}
 
-			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL ,G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
+			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL, 
+										   G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
 			g_strfreev(command_argv);
 			option_execute=NULL;
 			g_strfreev(option_xterm_args);
 			option_xterm_args=NULL;
-		} else {
+		} else { /* No execute option */
 			if (option_hold==TRUE) {
 				sakura_error("Hold option given without any command");
 				option_hold=FALSE;
 			}
-			/* sakura.argv[0] cannot be used as a parameter, it's different for login shells */
-			term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), g_getenv("SHELL"),
-			                                    sakura.argv, NULL, cwd, FALSE, FALSE, FALSE);
+			/* TODO: Check the new command_full works ok with login shells */
+			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, NULL,
+										   G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
 		}
 	/* Not the first tab */
 	} else {
@@ -2321,8 +2322,8 @@ sakura_add_tab()
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
-		term->pid=vte_terminal_fork_command(VTE_TERMINAL(term->vte), g_getenv("SHELL"),
-		                                    sakura.argv, NULL, cwd, FALSE, FALSE, FALSE);
+		vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, NULL,
+									   G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
 	}
 
 	free(cwd);
