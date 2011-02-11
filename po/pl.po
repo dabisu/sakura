@@ -1,0 +1,179 @@
+# Polish translation for sakura
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the sakura package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sakura\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-03-09 03:47+0900\n"
+"PO-Revision-Date: 2011-01-24 15:40+0000\n"
+"Last-Translator: Mateusz Micał <Unknown>\n"
+"Language-Team: Polish <pl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-01-25 04:49+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
+
+msgid "Print version number"
+msgstr "Pokaż wersję"
+
+msgid "Select initial terminal font"
+msgstr "Wybierz domyślną czcionkę"
+
+msgid "Select initial number of tabs"
+msgstr "Wybierz domyślną ilość zakładek"
+
+msgid "Execute command"
+msgstr "Wykonaj polecenie"
+
+msgid "Login shell"
+msgstr "Powłoka logowania"
+
+msgid "Set window title"
+msgstr "Ustaw tytuł okna"
+
+msgid "Set columns number"
+msgstr "Ustaw liczbę kolumn"
+
+msgid "Set rows number"
+msgstr "Ustaw liczbę wierszy"
+
+msgid "Hold window after execute command"
+msgstr "Nie wyłączaj okna po wykonaniu polecenia"
+
+msgid "X geometry specification"
+msgstr "Ustawienia geometrii serwera X"
+
+msgid ""
+"There are running processes.\n"
+"\n"
+"Do you really want to close Sakura?"
+msgstr ""
+"Dalej działają uruchomione procesy.\n"
+"\n"
+"Czy na pewno chcesz zamknąć Sakura?"
+
+msgid "Select font"
+msgstr "Wybierz czcionkę"
+
+msgid "Set name"
+msgstr "Ustaw nazwę"
+
+msgid "Tab new text"
+msgstr "Nowy tekst zakładki"
+
+msgid "Select color"
+msgstr "Wybierz kolor"
+
+msgid "Select foreground color:"
+msgstr "Wybierz kolor pierwszego planu:"
+
+msgid "Select background color:"
+msgstr "Wybierz kolor tła:"
+
+msgid "Opacity"
+msgstr "Przezroczystość"
+
+msgid "Opacity level (%):"
+msgstr "Przezroczystość (%):"
+
+msgid "Disable opacity"
+msgstr "Wyłącz przezroczystość"
+
+msgid "New window title"
+msgstr "Nowy tytuł okna"
+
+msgid "Select a background file"
+msgstr "Wybierz plik tła"
+
+msgid ""
+"There is a running process in this terminal.\n"
+"\n"
+"Do you really want to close it?"
+msgstr ""
+"W tym terminalu dalej działa proces.\n"
+"\n"
+"Czy na pewno chcesz go zamknąć?"
+
+msgid "Open link..."
+msgstr "Otwórz link..."
+
+msgid "Copy link..."
+msgstr "Kopiuj link..."
+
+msgid "New tab"
+msgstr "Nowa zakładka"
+
+msgid "Set name..."
+msgstr "Ustaw nazwę..."
+
+msgid "Close tab"
+msgstr "Zamknij zakładkę"
+
+msgid "Full screen"
+msgstr "Pełny ekran"
+
+msgid "Copy"
+msgstr "Kopiuj"
+
+msgid "Paste"
+msgstr "Wklej"
+
+msgid "Select font..."
+msgstr "Wybierz czcionkę..."
+
+msgid "Select colors..."
+msgstr "Wybierz kolory..."
+
+msgid "Select background..."
+msgstr "Wybierz tło..."
+
+msgid "Clear background"
+msgstr "Wyczyść tło..."
+
+msgid "Set opacity level..."
+msgstr "Ustaw przezroczystość..."
+
+msgid "Set window title..."
+msgstr "Ustaw tytuł okna..."
+
+msgid "Show always first tab"
+msgstr "Pokazuj zawsze pierwszą zakładkę"
+
+msgid "Show tab close button"
+msgstr "Pokazuj przycisk zamknięcia zakładki"
+
+msgid "Show scrollbar"
+msgstr "Pokaż pasek przesuwania"
+
+msgid "Set audible bell"
+msgstr "Dźwiękowy sygnał"
+
+msgid "Set visible bell"
+msgstr "Migający sygnał"
+
+msgid "Set blinking cursor"
+msgstr "Migający kursor"
+
+msgid "Input methods"
+msgstr "Metody wprowadzania"
+
+msgid "Options"
+msgstr "Ustawienia"
+
+msgid "Set palette"
+msgstr "Ustaw paletę"
+
+#, c-format
+msgid "Terminal %d"
+msgstr "Terminal %d"
+
+msgid "- vte-based terminal emulator"
+msgstr "- emulator terminala oparty na vte"
+
+#, c-format
+msgid "sakura version is %s\n"
+msgstr "wersja sakura to %s\n"
