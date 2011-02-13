@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-25 00:33+0900\n"
-"PO-Revision-Date: 2010-04-09 19:59+0000\n"
+"PO-Revision-Date: 2011-02-13 19:59+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
 "Language: \n"
@@ -28,9 +28,8 @@ msgstr "Seleccionar el número inicial de pestañas"
 msgid "Execute command"
 msgstr "Ejecutar comando"
 
-#, fuzzy
 msgid "Execute command (xterm compatible)"
-msgstr "Ejecutar comando"
+msgstr "Ejecutar comando (compatible con xterm)"
 
 msgid "Login shell"
 msgstr "Shell de login"
@@ -109,9 +108,8 @@ msgstr "Copiar enlace..."
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#, fuzzy
 msgid "New window"
-msgstr "Nuevo título de la venta"
+msgstr "Nueva ventana"
 
 msgid "Set name..."
 msgstr "Elegir nombre"
@@ -187,9 +185,3 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
-
-#~ msgid "Show always first tab"
-#~ msgstr "Mostrar siempre la primera pestaña"
-
-#~ msgid "New tab text"
-#~ msgstr "Nuevo título de la pestaña"
