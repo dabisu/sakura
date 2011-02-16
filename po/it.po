@@ -5,15 +5,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 03:47+0900\n"
+"POT-Creation-Date: 2011-02-11 23:48+0900\n"
 "PO-Revision-Date: 2010-10-06 14:01+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-08 04:34+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 "X-Poedit-Country: ITALY\n"
 "Language: \n"
 "X-Poedit-Language: Italian\n"
@@ -30,6 +30,9 @@ msgstr "Seleziona il numero di schede iniziali"
 
 msgid "Execute command"
 msgstr "Esegui il comando"
+
+msgid "Execute command (xterm compatible)"
+msgstr ""
 
 msgid "Login shell"
 msgstr "Shell di login"
@@ -109,6 +112,9 @@ msgstr "Copia il link..."
 msgid "New tab"
 msgstr "Nuova scheda"
 
+msgid "New window"
+msgstr ""
+
 msgid "Set name..."
 msgstr "Imposta il nome..."
 
@@ -142,8 +148,8 @@ msgstr "Imposta il livello di opacità..."
 msgid "Set window title..."
 msgstr "Imposta il titolo della finestra..."
 
-msgid "Show always first tab"
-msgstr "Mostra sempre la prima scheda"
+msgid "Always show tab bar"
+msgstr ""
 
 msgid "Show tab close button"
 msgstr "Mostra il bottone di chiusura"
@@ -159,6 +165,9 @@ msgstr "Imposta l'avviso visivo"
 
 msgid "Set blinking cursor"
 msgstr "Imposta il cursore lampeggiante"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Metodi di input"
@@ -182,6 +191,9 @@ msgstr "La versione di Sakura è %s\n"
 
 #~ msgid "New tab text"
 #~ msgstr "Nuova scheda"
+
+#~ msgid "Show always first tab"
+#~ msgstr "Mostra sempre la prima scheda"
 
 #~ msgid ""
 #~ "There are %d tabs opened.\n"

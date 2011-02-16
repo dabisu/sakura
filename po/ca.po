@@ -5,15 +5,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 03:47+0900\n"
+"POT-Creation-Date: 2011-02-11 23:48+0900\n"
 "PO-Revision-Date: 2010-10-06 13:57+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-08 04:34+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -27,6 +27,9 @@ msgstr "Sel·leccionar el número inicial de pestanyes"
 
 msgid "Execute command"
 msgstr "Executar ordre"
+
+msgid "Execute command (xterm compatible)"
+msgstr ""
 
 msgid "Login shell"
 msgstr "Shell de login"
@@ -106,6 +109,9 @@ msgstr "Copiar enllaç..."
 msgid "New tab"
 msgstr "Nova pestanya"
 
+msgid "New window"
+msgstr ""
+
 msgid "Set name..."
 msgstr "Definir nom"
 
@@ -139,8 +145,8 @@ msgstr "Fixar nivell d'opacitat..."
 msgid "Set window title..."
 msgstr "Definir el nom de la finestra"
 
-msgid "Show always first tab"
-msgstr "Mostrar sempre la primera pestanya"
+msgid "Always show tab bar"
+msgstr ""
 
 msgid "Show tab close button"
 msgstr "Mostrar el botó de tancament de pestanya"
@@ -156,6 +162,9 @@ msgstr "Definir la senyal visible"
 
 msgid "Set blinking cursor"
 msgstr "Definir el cursor"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Mètodes d'entrada"
@@ -178,6 +187,9 @@ msgstr "- emulador de terminal basat en libvte"
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"
 
+#~ msgid "Show always first tab"
+#~ msgstr "Mostrar sempre la primera pestanya"
+
 #~ msgid ""
 #~ "There are %d tabs opened.\n"
 #~ "\n"
@@ -186,3 +198,6 @@ msgstr "La versió de sakura és %s\n"
 #~ "Hi ha %d pestanyes obertes.\n"
 #~ "\n"
 #~ "¿Vol tancar Sakura?"
+
+#~ msgid "Toggle scrollbar"
+#~ msgstr "Mostrar la barra de desplaçament"

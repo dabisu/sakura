@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 03:47+0900\n"
+"POT-Creation-Date: 2011-02-11 23:48+0900\n"
 "PO-Revision-Date: 2010-10-06 17:20+0000\n"
 "Last-Translator: Dražen Odobašić <dodobas@geoinfo.geof.hr>\n"
 "Language-Team: brentaal <Unknown>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-08 04:34+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -28,6 +28,9 @@ msgstr "Postavi početni broj kartica"
 
 msgid "Execute command"
 msgstr "Izvrši naredbu"
+
+msgid "Execute command (xterm compatible)"
+msgstr ""
 
 msgid "Login shell"
 msgstr "Prijavna ljuska"
@@ -107,6 +110,9 @@ msgstr "Kopiraj link..."
 msgid "New tab"
 msgstr "Nova kartica"
 
+msgid "New window"
+msgstr ""
+
 msgid "Set name..."
 msgstr "Postavi naziv..."
 
@@ -140,8 +146,8 @@ msgstr "Postavi nivo zasićenosti..."
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"
 
-msgid "Show always first tab"
-msgstr "Uvijek prikaži prvu karticu"
+msgid "Always show tab bar"
+msgstr ""
 
 msgid "Show tab close button"
 msgstr "Prikaži gumb za zatvaranje kartice"
@@ -157,6 +163,9 @@ msgstr "Postavi vidljivo zvono"
 
 msgid "Set blinking cursor"
 msgstr "Koristi treptajući pokazivač"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Input methods"
 msgstr "Metode unosa"
@@ -180,3 +189,6 @@ msgstr "inačica Sakure je %s\n"
 
 #~ msgid "New tab text"
 #~ msgstr "Naziv kartice"
+
+#~ msgid "Show always first tab"
+#~ msgstr "Uvijek prikaži prvu karticu"
