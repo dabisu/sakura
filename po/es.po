@@ -5,16 +5,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-25 00:33+0900\n"
-"PO-Revision-Date: 2011-02-13 19:59+0000\n"
+"POT-Creation-Date: 2011-02-11 23:48+0900\n"
+"PO-Revision-Date: 2011-02-14 01:25+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-10 03:45+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
+"Language: \n"
 
 msgid "Print version number"
 msgstr "Imprimir número de versión"
@@ -185,3 +186,12 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
+<<<<<<< TREE
+=======
+
+#~ msgid "New tab text"
+#~ msgstr "Nuevo título de la pestaña"
+
+#~ msgid "Show always first tab"
+#~ msgstr "Mostrar siempre la primera pestaña"
+>>>>>>> MERGE-SOURCE

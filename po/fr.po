@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-11 23:19+0900\n"
+"POT-Creation-Date: 2011-02-11 23:48+0900\n"
 "PO-Revision-Date: 2010-10-06 14:04+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -14,8 +14,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-08 04:34+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
+"Language: \n"
 
 msgid "Print version number"
 msgstr "Afficher le numéro de version"
@@ -29,9 +30,16 @@ msgstr "Sélectionner le nombre d'onglets au démarrage"
 msgid "Execute command"
 msgstr "Exécuter une command"
 
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Execute command (xterm compatible)"
+<<<<<<< TREE
 msgstr "Exécuter une commande"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 msgid "Login shell"
 msgstr "Shell de connexion"
@@ -111,9 +119,16 @@ msgstr "copier le lien..."
 msgid "New tab"
 msgstr "Nouvel onglet"
 
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "New window"
+<<<<<<< TREE
 msgstr "Définir le titre de la fenêtre"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 msgid "Set name..."
 msgstr "Définir le nom..."
@@ -192,10 +207,13 @@ msgstr "Sakura version %s\n"
 #~ msgid "Show always first tab"
 #~ msgstr "Toujours afficher le premier onglet"
 
+<<<<<<< TREE
 #, fuzzy
 #~ msgid "New tab text"
 #~ msgstr "Nouvel onglet"
 
+=======
+>>>>>>> MERGE-SOURCE
 #~ msgid ""
 #~ "There are %d tabs opened.\n"
 #~ "\n"
