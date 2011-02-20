@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-11 23:48+0900\n"
+"POT-Creation-Date: 2011-02-20 22:51+0900\n"
 "PO-Revision-Date: 2010-10-06 13:57+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -15,7 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
 "X-Generator: Launchpad (build 12351)\n"
-"Language: \n"
 
 msgid "Print version number"
 msgstr "Imprimir el número de versió"
@@ -29,16 +28,8 @@ msgstr "Sel·leccionar el número inicial de pestanyes"
 msgid "Execute command"
 msgstr "Executar ordre"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Execute command (xterm compatible)"
-<<<<<<< TREE
-msgstr "Executar ordre"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Login shell"
 msgstr "Shell de login"
@@ -118,16 +109,8 @@ msgstr "Copiar enllaç..."
 msgid "New tab"
 msgstr "Nova pestanya"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "New window"
-<<<<<<< TREE
-msgstr "Definir el nom de la finestra"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Set name..."
 msgstr "Definir nom"
@@ -203,25 +186,3 @@ msgstr "- emulador de terminal basat en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"
-
-#~ msgid "Show always first tab"
-#~ msgstr "Mostrar sempre la primera pestanya"
-
-<<<<<<< TREE
-#, fuzzy
-#~ msgid "New tab text"
-#~ msgstr "Nova pestanya"
-
-=======
->>>>>>> MERGE-SOURCE
-#~ msgid ""
-#~ "There are %d tabs opened.\n"
-#~ "\n"
-#~ "Do you really want to close Sakura?"
-#~ msgstr ""
-#~ "Hi ha %d pestanyes obertes.\n"
-#~ "\n"
-#~ "¿Vol tancar Sakura?"
-
-#~ msgid "Toggle scrollbar"
-#~ msgstr "Mostrar la barra de desplaçament"

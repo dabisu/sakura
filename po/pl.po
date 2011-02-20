@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-11 23:48+0900\n"
+"POT-Creation-Date: 2011-02-20 22:52+0900\n"
 "PO-Revision-Date: 2011-01-24 15:40+0000\n"
 "Last-Translator: Mateusz Micał <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -17,7 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
 "X-Generator: Launchpad (build 12351)\n"
-"Language: pl\n"
 
 msgid "Print version number"
 msgstr "Pokaż wersję"
@@ -31,16 +30,8 @@ msgstr "Wybierz domyślną ilość zakładek"
 msgid "Execute command"
 msgstr "Wykonaj polecenie"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Execute command (xterm compatible)"
-<<<<<<< TREE
-msgstr "Wykonaj polecenie"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Login shell"
 msgstr "Powłoka logowania"
@@ -120,16 +111,8 @@ msgstr "Kopiuj link..."
 msgid "New tab"
 msgstr "Nowa zakładka"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "New window"
-<<<<<<< TREE
-msgstr "Nowy tytuł okna"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Set name..."
 msgstr "Ustaw nazwę..."

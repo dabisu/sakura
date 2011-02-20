@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-11 23:48+0900\n"
+"POT-Creation-Date: 2011-02-20 22:55+0900\n"
 "PO-Revision-Date: 2010-04-14 06:29+0000\n"
 "Last-Translator: Heling Yao <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -17,7 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
 "X-Generator: Launchpad (build 12351)\n"
-"Language: \n"
 
 msgid "Print version number"
 msgstr "显示版本号"
@@ -31,16 +30,8 @@ msgstr "选择初始标签数"
 msgid "Execute command"
 msgstr "执行命令"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Execute command (xterm compatible)"
-<<<<<<< TREE
-msgstr "执行命令"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Login shell"
 msgstr "登录 shell"
@@ -120,16 +111,8 @@ msgstr "复制链接"
 msgid "New tab"
 msgstr "新建标签"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "New window"
-<<<<<<< TREE
-msgstr "设置名称..."
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Set name..."
 msgstr "设置名称..."
@@ -204,12 +187,3 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
-<<<<<<< TREE
-=======
-
-#~ msgid "Show always first tab"
-#~ msgstr "总是显示第一个标签页"
-
-#~ msgid "Always show first tab"
-#~ msgstr "总是显示第一个标签页"
->>>>>>> MERGE-SOURCE

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-11 23:48+0900\n"
+"POT-Creation-Date: 2011-02-20 22:49+0900\n"
 "PO-Revision-Date: 2010-10-06 17:56+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -14,7 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
 "X-Generator: Launchpad (build 12351)\n"
-"Language: ja\n"
 
 msgid "Print version number"
 msgstr "バージョン番号を表示"
@@ -28,16 +27,8 @@ msgstr "タブの数を選択"
 msgid "Execute command"
 msgstr "コマンドを実行"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Execute command (xterm compatible)"
-<<<<<<< TREE
-msgstr "コマンドを実行"
-=======
-msgstr ""
->>>>>>> MERGE-SOURCE
+msgstr "コマンドを実行（xterm互換)"
 
 msgid "Login shell"
 msgstr "ログインシェル"
@@ -117,16 +108,8 @@ msgstr "リンクをコピー"
 msgid "New tab"
 msgstr "新規タブ"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "New window"
-<<<<<<< TREE
-msgstr "ウィンドウタイトルを指定"
-=======
-msgstr ""
->>>>>>> MERGE-SOURCE
+msgstr "新規ウインドウ"
 
 msgid "Set name..."
 msgstr "名前を指定"
@@ -201,21 +184,3 @@ msgstr "- vte ベースのターミナルエミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
-
-#~ msgid "Show always first tab"
-#~ msgstr "常に最初のタブを表示"
-<<<<<<< TREE
-=======
-
-#~ msgid ""
-#~ "There are %d tabs opened.\n"
-#~ "\n"
-#~ "Do you really want to close Sakura?"
-#~ msgstr ""
-#~ "%dタブを開いています。\n"
-#~ "\n"
-#~ "本当に Sakura を終了しますか？"
-
-#~ msgid "New tab text"
-#~ msgstr "タブの新しい文"
->>>>>>> MERGE-SOURCE

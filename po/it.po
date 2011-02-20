@@ -31,16 +31,8 @@ msgstr "Seleziona il numero di schede iniziali"
 msgid "Execute command"
 msgstr "Esegui il comando"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Execute command (xterm compatible)"
-<<<<<<< TREE
-msgstr "Esegui il comando"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Login shell"
 msgstr "Shell di login"
@@ -120,16 +112,8 @@ msgstr "Copia il link..."
 msgid "New tab"
 msgstr "Nuova scheda"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "New window"
-<<<<<<< TREE
-msgstr "Nuovo titolo della finestra"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Set name..."
 msgstr "Imposta il nome..."
@@ -205,20 +189,3 @@ msgstr "- emulatore di terminale basato su VTE"
 msgid "sakura version is %s\n"
 msgstr "La versione di Sakura è %s\n"
 
-#~ msgid "Show always first tab"
-#~ msgstr "Mostra sempre la prima scheda"
-
-#~ msgid "New tab text"
-#~ msgstr "Nuova scheda"
-
-#~ msgid "Show always first tab"
-#~ msgstr "Mostra sempre la prima scheda"
-
-#~ msgid ""
-#~ "There are %d tabs opened.\n"
-#~ "\n"
-#~ "Do you really want to close Sakura?"
-#~ msgstr ""
-#~ "Ci sono %d schede aperte.\n"
-#~ "\n"
-#~ "Vuoi realmente chiudere Sakura?"

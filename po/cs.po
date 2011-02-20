@@ -7,6 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-02-20 22:53+0900\n"
 "PO-Revision-Date: 2010-06-05 01:16+0200\n"
 "Last-Translator: Lucas Lommer <llommer@svn.gnome.org>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -16,7 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
 "X-Generator: Launchpad (build 12351)\n"
-"Language: cs\n"
 
 msgid "Print version number"
 msgstr "Vytiskne informaci o verzi"
@@ -30,16 +30,8 @@ msgstr "Výchozí počet karet"
 msgid "Execute command"
 msgstr "Spustit příkaz"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Execute command (xterm compatible)"
-<<<<<<< TREE
-msgstr "Spustit příkaz"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Login shell"
 msgstr "Přihlašovací shell"
@@ -195,12 +187,3 @@ msgstr "- emulátor terminálu založený na VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
-<<<<<<< TREE
-=======
-
-#~ msgid "New tab text"
-#~ msgstr "Text nové karty"
-
-#~ msgid "Show always first tab"
-#~ msgstr "Vždy zobrazit první kartu"
->>>>>>> MERGE-SOURCE

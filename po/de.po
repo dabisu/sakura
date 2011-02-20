@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-11 23:19+0900\n"
+"POT-Creation-Date: 2011-02-20 22:54+0900\n"
 "PO-Revision-Date: 2010-10-06 16:14+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <inquata@gmail.com>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -17,7 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
 "X-Generator: Launchpad (build 12351)\n"
-"Language: \n"
 
 msgid "Print version number"
 msgstr "Versionsnummer anzeigen"
@@ -31,16 +30,8 @@ msgstr "Anzahl der Reiter beim Programmstart wählen"
 msgid "Execute command"
 msgstr "Befehl ausführen"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Execute command (xterm compatible)"
-<<<<<<< TREE
-msgstr "Befehl ausführen"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Login shell"
 msgstr "Login-Shell"
@@ -120,16 +111,8 @@ msgstr "Kopiere Link..."
 msgid "New tab"
 msgstr "Neuer Reiter"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "New window"
-<<<<<<< TREE
-msgstr "Fenstertitel wählen"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Set name..."
 msgstr "Name wählen..."
@@ -204,23 +187,3 @@ msgstr "- vte-basierter Terminal-Emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
-
-#~ msgid "Show always first tab"
-#~ msgstr "Immer den ersten Reiter zeigen"
-
-#~ msgid "New tab text"
-#~ msgstr "Neuer Reiter"
-
-#~ msgid "Show always first tab"
-#~ msgstr "Immer den ersten Reiter zeigen"
-
-#~ msgid ""
-#~ "There are %d tabs opened.\n"
-#~ "\n"
-#~ "Do you really want to close Sakura?"
-#~ msgstr ""
-#~ "Es sind %d Reiter geöffnet.\n"
-#~ "Wollen Sie Sakura wirklich schließen?"
-
-#~ msgid "Toggle scrollbar"
-#~ msgstr "Scrollbalken anzeigen"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-11 23:48+0900\n"
+"POT-Creation-Date: 2011-02-20 22:54+0900\n"
 "PO-Revision-Date: 2010-10-06 17:20+0000\n"
 "Last-Translator: Dražen Odobašić <dodobas@geoinfo.geof.hr>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -16,7 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-02-16 04:32+0000\n"
 "X-Generator: Launchpad (build 12351)\n"
-"Language: \n"
 
 msgid "Print version number"
 msgstr "Ispiši inačicu"
@@ -30,16 +29,8 @@ msgstr "Postavi početni broj kartica"
 msgid "Execute command"
 msgstr "Izvrši naredbu"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Execute command (xterm compatible)"
-<<<<<<< TREE
-msgstr "Izvrši naredbu"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Login shell"
 msgstr "Prijavna ljuska"
@@ -119,16 +110,8 @@ msgstr "Kopiraj link..."
 msgid "New tab"
 msgstr "Nova kartica"
 
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "New window"
-<<<<<<< TREE
-msgstr "Novi naslov prozora"
-=======
 msgstr ""
->>>>>>> MERGE-SOURCE
 
 msgid "Set name..."
 msgstr "Postavi naziv..."
@@ -203,12 +186,3 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
-
-#~ msgid "Show always first tab"
-#~ msgstr "Uvijek prikaži prvu karticu"
-
-#~ msgid "New tab text"
-#~ msgstr "Naziv kartice"
-
-#~ msgid "Show always first tab"
-#~ msgstr "Uvijek prikaži prvu karticu"
