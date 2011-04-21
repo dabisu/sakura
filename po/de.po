@@ -67,7 +67,7 @@ msgid "Set name"
 msgstr "Name wählen"
 
 msgid "Tab new text"
-msgstr ""
+msgstr "Reiter neuer Name"
 
 msgid "Select color"
 msgstr "Farbe wählen"
@@ -112,7 +112,7 @@ msgid "New tab"
 msgstr "Neuer Reiter"
 
 msgid "New window"
-msgstr ""
+msgstr "Neues Fenster"
 
 msgid "Set name..."
 msgstr "Name wählen..."
@@ -148,7 +148,7 @@ msgid "Set window title..."
 msgstr "Fenstertitel wählen..."
 
 msgid "Always show tab bar"
-msgstr ""
+msgstr "Reiterleiste immer anzeigen"
 
 msgid "Show tab close button"
 msgstr "Zeige Schließen-Knopf auf jedem Reiter"
@@ -166,7 +166,7 @@ msgid "Set blinking cursor"
 msgstr "Blinkender Cursor"
 
 msgid "Borderless and maximized"
-msgstr ""
+msgstr "Randlos und maximiert"
 
 msgid "Input methods"
 msgstr "Eingabemethoden"
