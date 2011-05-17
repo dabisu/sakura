@@ -1481,23 +1481,11 @@ sakura_init()
 	sakura.configfile=g_build_filename(configdir, CONFIGFILE, NULL);
 	g_free(configdir);
 
+	/* Open config file */
 	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)) {
-		char *file_contents;
-		char *new_file_contents;
-
-		/* Workaround for cfgpool to g_key_file update. We update the config
-		 * file here if needed. This support should be removed in future
-		 * versions (3.0?) as everyone is supposed to be using a recent (no cfgpool)
-		 * sakura release in the future */
-		rename(sakura.configfile, "/tmp/sakura.cfg.old");
-		g_file_get_contents("/tmp/sakura.cfg.old", &file_contents, NULL, NULL);
-		new_file_contents=g_strconcat("[sakura]\n", file_contents, NULL);
-		g_file_set_contents(sakura.configfile, new_file_contents, strlen(new_file_contents), NULL);
-		g_free(file_contents); g_free(new_file_contents);
-		unlink("/tmp/sakura.cfg.old");
-		g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror);
+		fprintf(stderr, "Not valid config file format");
+		exit(EXIT_FAILURE);
 	}
-
 
 	/* Add default values if needed */
 	gchar *cfgtmp = NULL;
