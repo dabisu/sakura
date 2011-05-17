@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-21 22:18+0900\n"
+"POT-Creation-Date: 2011-05-17 19:29+0200\n"
 "PO-Revision-Date: 2010-04-21 06:01+0000\n"
 "Last-Translator: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -45,6 +45,9 @@ msgstr "Удерживать окно после выполнения коман
 
 msgid "X geometry specification"
 msgstr "Определение геометрии окна X"
+
+msgid "Configuration has been modified by another proccess. Overwrite?"
+msgstr ""
 
 msgid ""
 "There are running processes.\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-21 22:18+0900\n"
+"POT-Creation-Date: 2011-05-17 19:29+0200\n"
 "PO-Revision-Date: 2011-02-12 17:09+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -50,6 +50,9 @@ msgstr "명령  실행 후 창 고정"
 
 msgid "X geometry specification"
 msgstr "프로그램의 위치"
+
+msgid "Configuration has been modified by another proccess. Overwrite?"
+msgstr ""
 
 msgid ""
 "There are running processes.\n"

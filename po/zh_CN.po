@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-21 22:18+0900\n"
+"POT-Creation-Date: 2011-05-17 19:29+0200\n"
 "PO-Revision-Date: 2010-04-14 06:29+0000\n"
 "Last-Translator: Heling Yao <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -50,6 +50,9 @@ msgstr "运行后保留窗口"
 
 msgid "X geometry specification"
 msgstr "尺寸设定"
+
+msgid "Configuration has been modified by another proccess. Overwrite?"
+msgstr ""
 
 msgid ""
 "There are running processes.\n"

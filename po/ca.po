@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-21 22:18+0900\n"
+"POT-Creation-Date: 2011-05-17 19:29+0200\n"
 "PO-Revision-Date: 2010-10-06 13:57+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -48,6 +48,9 @@ msgstr "Mantenir la finestra després de l'execució del comandament"
 
 msgid "X geometry specification"
 msgstr "Especificació de la geometria X"
+
+msgid "Configuration has been modified by another proccess. Overwrite?"
+msgstr ""
 
 msgid ""
 "There are running processes.\n"
