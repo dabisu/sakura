@@ -5,6 +5,6 @@ TryExec=sakura
 Exec=sakura
 Icon=terminal-tango
 Type=Application
-Categories=GTK;Utility;TerminalEmulator;
+Categories=GTK;Utility;TerminalEmulator;System;
 StartupNotify=true
 X-Ubuntu-Gettext-Domain=sakura
