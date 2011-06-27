@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-23 10:08+0200\n"
+"POT-Creation-Date: 2011-06-27 15:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,6 +48,9 @@ msgid "Hold window after execute command"
 msgstr ""
 
 msgid "X geometry specification"
+msgstr ""
+
+msgid "Use alternate configuration file"
 msgstr ""
 
 msgid "Configuration has been modified by another proccess. Overwrite?"

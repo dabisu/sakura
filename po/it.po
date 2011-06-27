@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-17 19:34+0200\n"
+"POT-Creation-Date: 2011-06-27 15:39+0200\n"
 "PO-Revision-Date: 2010-10-06 14:01+0000\n"
 "Last-Translator: nTia89 <tia.tif@fastwebnet.it>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -51,6 +51,9 @@ msgstr "Blocca la finestra dopo l'esecuzione di un comando"
 
 msgid "X geometry specification"
 msgstr "Specificazione della geometria di X"
+
+msgid "Use alternate configuration file"
+msgstr ""
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr ""

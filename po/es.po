@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-23 10:08+0200\n"
+"POT-Creation-Date: 2011-06-27 15:39+0200\n"
 "PO-Revision-Date: 2011-02-21 11:10+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -48,6 +48,9 @@ msgstr "Mantener la ventana tras el final del comando"
 
 msgid "X geometry specification"
 msgstr "Especificación de geometría de las X"
+
+msgid "Use alternate configuration file"
+msgstr ""
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "La configuración ha sido modificada por otro proceso. ¿Sobreescribir?"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-23 10:08+0200\n"
+"POT-Creation-Date: 2011-06-27 15:39+0200\n"
 "PO-Revision-Date: 2011-04-28 11:38+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <Unknown>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -49,6 +49,9 @@ msgid "Hold window after execute command"
 msgstr "Fenster nach Ausführen des Befehls nicht schließen"
 
 msgid "X geometry specification"
+msgstr ""
+
+msgid "Use alternate configuration file"
 msgstr ""
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
