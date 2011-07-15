@@ -2563,8 +2563,7 @@ main(int argc, char **argv)
 	int i;
 	int n;
 	char **nargv;
-	nargv = (char**)malloc((argc+1)*sizeof(char*));
-	int nargc=argc;
+	int nargc;
 
 	/* Localization */
 	setlocale(LC_ALL, "");
@@ -2575,7 +2574,11 @@ main(int argc, char **argv)
 
 	/* Rewrites argv to include a -- after the -e argument this is required to make
 	 * sure GOption doesn't grab any arguments meant for the command being called */
-	n=0;
+
+	/* Initialize nargv */
+	nargv = (char**)calloc((argc+1), sizeof(char*));
+   	n=0; nargc=argc;
+
 	for(i=0; i<argc; i++) {
 		if(g_strcmp0(argv[i],"-e") == 0)
 		{
