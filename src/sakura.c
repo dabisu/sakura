@@ -2120,12 +2120,12 @@ sakura_destroy()
 {
 	SAY("Destroying sakura");
 
-	g_key_file_free(sakura.cfg);
-
 	/* Delete all existing tabs */
 	while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) >= 1) {
 		sakura_del_tab(-1);
 	}
+
+	g_key_file_free(sakura.cfg);
 
 	pango_font_description_free(sakura.font);
 
