@@ -213,7 +213,7 @@ struct terminal {
 #define ICON_FILE "terminal-tango.svg"
 #define SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|http)s?://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*"
-#define CONFIGFILE "sakura.conf"
+#define DEFAULT_CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
 #define DEFAULT_ROWS 24
 #define DEFAULT_FONT "monospace 11"
@@ -323,6 +323,7 @@ static const char *option_title;
 static int option_rows, option_columns;
 static gboolean option_hold=FALSE;
 static const char *option_geometry;
+static char *option_config_file;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
@@ -336,8 +337,9 @@ static GOptionEntry entries[] = {
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
 	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
 	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after execute command"), NULL },
-    { "geometry", 0, 0, G_OPTION_ARG_STRING, &option_geometry, N_("X geometry specification"), NULL },
-    { NULL }
+	{ "geometry", 0, 0, G_OPTION_ARG_STRING, &option_geometry, N_("X geometry specification"), NULL },
+	{ "config-file", 0, 0, G_OPTION_ARG_FILENAME, &option_config_file, N_("Use alternate configuration file"), NULL },
+	{ NULL }
 };
 
 
@@ -1565,8 +1567,13 @@ sakura_init()
 		g_mkdir( g_get_user_config_dir(), 0755 );
 	if( ! g_file_test( configdir, G_FILE_TEST_EXISTS) )
 		g_mkdir( configdir, 0755 );
-	/* Use more standard-conforming path for config files, if available. */
-	sakura.configfile=g_build_filename(configdir, CONFIGFILE, NULL);
+	if (option_config_file) {
+		sakura.configfile=option_config_file;
+		printf("The config file is: %s", option_config_file);
+	} else {
+		/* Use more standard-conforming path for config files, if available. */
+		sakura.configfile=g_build_filename(configdir, DEFAULT_CONFIGFILE, NULL);
+	}
 	g_free(configdir);
 
 	/* Open config file */

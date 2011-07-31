@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-23 10:08+0200\n"
+"POT-Creation-Date: 2011-06-27 15:39+0200\n"
 "PO-Revision-Date: 2010-10-06 14:04+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -48,6 +48,9 @@ msgid "Hold window after execute command"
 msgstr "Conserver la fenêtre après l'execution d'une commande"
 
 msgid "X geometry specification"
+msgstr ""
+
+msgid "Use alternate configuration file"
 msgstr ""
 
 msgid "Configuration has been modified by another proccess. Overwrite?"

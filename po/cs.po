@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-23 10:08+0200\n"
+"POT-Creation-Date: 2011-06-27 15:39+0200\n"
 "PO-Revision-Date: 2010-06-05 01:16+0200\n"
 "Last-Translator: Lucas Lommer <llommer@svn.gnome.org>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -50,6 +50,9 @@ msgstr "Zachovat okno po vykonání příkazu"
 
 msgid "X geometry specification"
 msgstr "Volba rozměru v ose X"
+
+msgid "Use alternate configuration file"
+msgstr ""
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr ""
