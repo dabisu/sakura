@@ -250,19 +250,16 @@ static GQuark term_data_id = 0;
 #define  sakura_set_config_integer(key, value) do {\
 	g_key_file_set_integer(sakura.cfg, cfg_group, key, value);\
 	sakura.config_modified=TRUE;\
-	SAY("MODIFIED!!");\
 	} while(0);
 
 #define  sakura_set_config_string(key, value) do {\
 	g_key_file_set_value(sakura.cfg, cfg_group, key, value);\
 	sakura.config_modified=TRUE;\
-	SAY("MODIFIED!!");\
 	} while(0);
 
 #define  sakura_set_config_boolean(key, value) do {\
 	g_key_file_set_boolean(sakura.cfg, cfg_group, key, value);\
 	sakura.config_modified=TRUE;\
-	SAY("MODIFIED!!");\
 	} while(0);
 
 
@@ -1563,6 +1560,7 @@ sakura_init()
 
 	/* Config file initialization*/
 	sakura.cfg = g_key_file_new();
+	sakura.config_modified=false;
 
 	configdir = g_build_filename( g_get_user_config_dir(), "sakura", NULL );
 	if( ! g_file_test( g_get_user_config_dir(), G_FILE_TEST_EXISTS) )
@@ -1580,8 +1578,11 @@ sakura_init()
 
 	/* Open config file */
 	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)) {
-		fprintf(stderr, "Not valid config file format");
-		exit(EXIT_FAILURE);
+		/* If there's no file, ignore the error. A new one is created */
+		if (gerror->code==G_KEY_FILE_ERROR_UNKNOWN_ENCODING || gerror->code==G_KEY_FILE_ERROR_INVALID_VALUE) {
+			fprintf(stderr, "Not valid config file format\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 	
 	/* Add GFile monitor to control file external changes */
@@ -1861,7 +1862,6 @@ sakura_init()
 	sakura.label_count=1;
 	sakura.full_screen=FALSE;
 	sakura.keep_fc=false;
-	sakura.config_modified=false;
 	sakura.externally_modified=false;
 
 	gerror=NULL;
@@ -2127,12 +2127,12 @@ sakura_destroy()
 {
 	SAY("Destroying sakura");
 
-	g_key_file_free(sakura.cfg);
-
 	/* Delete all existing tabs */
 	while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) >= 1) {
 		sakura_del_tab(-1);
 	}
+
+	g_key_file_free(sakura.cfg);
 
 	pango_font_description_free(sakura.font);
 
@@ -2514,7 +2514,6 @@ sakura_set_config_key(const gchar *key, guint value) {
 	valname=gdk_keyval_name(value);
 	g_key_file_set_string(sakura.cfg, cfg_group, key, valname);
 	sakura.config_modified=TRUE;
-	SAY("MODIFIED!!");
 	//FIXME: free() valname?
 } 
 
@@ -2570,8 +2569,7 @@ main(int argc, char **argv)
 	int i;
 	int n;
 	char **nargv;
-	nargv = (char**)malloc((argc+1)*sizeof(char*));
-	int nargc=argc;
+	int nargc;
 
 	/* Localization */
 	setlocale(LC_ALL, "");
@@ -2582,7 +2580,11 @@ main(int argc, char **argv)
 
 	/* Rewrites argv to include a -- after the -e argument this is required to make
 	 * sure GOption doesn't grab any arguments meant for the command being called */
-	n=0;
+
+	/* Initialize nargv */
+	nargv = (char**)calloc((argc+1), sizeof(char*));
+   	n=0; nargc=argc;
+
 	for(i=0; i<argc; i++) {
 		if(g_strcmp0(argv[i],"-e") == 0)
 		{
