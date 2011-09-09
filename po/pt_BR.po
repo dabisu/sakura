@@ -2,19 +2,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-31 02:44+0200\n"
-"PO-Revision-Date: 2010-03-03 12:18+0000\n"
-"Last-Translator: David Gómez <david@pleyades.net>\n"
+"POT-Creation-Date: 2011-09-08 22:58+0200\n"
+"PO-Revision-Date: 2011-09-08 20:45+0000\n"
+"Last-Translator: Valter Nazianzeno <Unknown>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-01 04:35+0000\n"
-"X-Generator: Launchpad (build 13405)\n"
+"X-Launchpad-Export-Date: 2011-09-09 04:34+0000\n"
+"X-Generator: Launchpad (build 13900)\n"
 "Language: \n"
 
 msgid "Print version number"
-msgstr "Imprimir número da versão"
+msgstr "Mostrar número da versão"
 
 msgid "Select initial terminal font"
 msgstr "Selecionar fonte inicial do terminal"
@@ -26,7 +26,7 @@ msgid "Execute command"
 msgstr "Executar comando"
 
 msgid "Execute command (xterm compatible)"
-msgstr ""
+msgstr "Executar comando (compatível com o xterm)"
 
 msgid "Login shell"
 msgstr "Login shell"
@@ -35,28 +35,31 @@ msgid "Set window title"
 msgstr "Definir título da janela"
 
 msgid "Set columns number"
-msgstr ""
+msgstr "Definir número de colunas"
 
 msgid "Set rows number"
-msgstr ""
+msgstr "Definir número de linhas"
 
 msgid "Hold window after execute command"
-msgstr ""
+msgstr "Mostrar a janela depois de executar o comando"
 
 msgid "X geometry specification"
-msgstr ""
+msgstr "Especificação geométrica de X"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Usar arquivo de configuração alternativo"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
-msgstr ""
+msgstr "A configuração foi modificada por outro processo. Sobrescrever?"
 
 msgid ""
 "There are running processes.\n"
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
+"Existem processos sendo executados.\n"
+"\n"
+"Tem certeza que deseja fechar Sakura?"
 
 msgid "Select font"
 msgstr "Selecionar fonte"
@@ -65,7 +68,7 @@ msgid "Set name"
 msgstr "Definir nome"
 
 msgid "Tab new text"
-msgstr ""
+msgstr "Novo nome da aba"
 
 msgid "Select color"
 msgstr "Selecionar cor"
@@ -96,6 +99,9 @@ msgid ""
 "\n"
 "Do you really want to close it?"
 msgstr ""
+"Existem processos sendo executados nesse terminal.\n"
+"\n"
+"Tem certeza que deseja fechar ele?"
 
 msgid "Open link..."
 msgstr "Abrir link..."
@@ -107,7 +113,7 @@ msgid "New tab"
 msgstr "Nova aba"
 
 msgid "New window"
-msgstr ""
+msgstr "Nova Janela"
 
 msgid "Set name..."
 msgstr "Definir nome..."
@@ -116,7 +122,7 @@ msgid "Close tab"
 msgstr "Fechar aba"
 
 msgid "Full screen"
-msgstr ""
+msgstr "Tela cheia"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -143,25 +149,25 @@ msgid "Set window title..."
 msgstr "Definir título da janela"
 
 msgid "Always show tab bar"
-msgstr ""
+msgstr "Sempre mostrar a barra de abas"
 
 msgid "Show tab close button"
-msgstr ""
+msgstr "Mostrar botão de fechar abas"
 
 msgid "Show scrollbar"
-msgstr ""
+msgstr "Mostra barra de rolagem"
 
 msgid "Set audible bell"
-msgstr ""
+msgstr "Ativar aviso sonoro"
 
 msgid "Set visible bell"
-msgstr ""
+msgstr "Ativar aviso visual"
 
 msgid "Set blinking cursor"
-msgstr ""
+msgstr "Ativar cursor piscando"
 
 msgid "Borderless and maximized"
-msgstr ""
+msgstr "Sem borda e maximizado"
 
 msgid "Input methods"
 msgstr "Métodos de saída"
@@ -170,7 +176,7 @@ msgid "Options"
 msgstr "Opções"
 
 msgid "Set palette"
-msgstr ""
+msgstr "Definir paleta"
 
 #, c-format
 msgid "Terminal %d"
@@ -182,6 +188,3 @@ msgstr "- emulador de terminal baseado no vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
-
-#~ msgid "Show always first tab"
-#~ msgstr "Exibir sempre a primeira aba"
