@@ -206,7 +206,7 @@ struct terminal {
 	GtkWidget *scrollbar;
 	GtkWidget *label;
 	gchar *label_text;
-	GtkBorder border;   /* inner-property data */
+	GtkBorder *border;   /* inner-property data */
 };
 
 
@@ -225,15 +225,15 @@ struct terminal {
 #define DEFAULT_COPY_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SCROLLBAR_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_OPEN_URL_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
-#define DEFAULT_ADD_TAB_KEY  GDK_T
-#define DEFAULT_DEL_TAB_KEY  GDK_W
-#define DEFAULT_PREV_TAB_KEY  GDK_Left
-#define DEFAULT_NEXT_TAB_KEY  GDK_Right
-#define DEFAULT_NEW_WINDOW_KEY GDK_N
-#define DEFAULT_COPY_KEY  GDK_C
-#define DEFAULT_PASTE_KEY  GDK_V
-#define DEFAULT_SCROLLBAR_KEY  GDK_S
-#define DEFAULT_FULLSCREEN_KEY  GDK_F11
+#define DEFAULT_ADD_TAB_KEY  GDK_KEY_T
+#define DEFAULT_DEL_TAB_KEY  GDK_KEY_W
+#define DEFAULT_PREV_TAB_KEY  GDK_KEY_Left
+#define DEFAULT_NEXT_TAB_KEY  GDK_KEY_Right
+#define DEFAULT_NEW_WINDOW_KEY GDK_KEY_N
+#define DEFAULT_COPY_KEY  GDK_KEY_C
+#define DEFAULT_PASTE_KEY  GDK_KEY_V
+#define DEFAULT_SCROLLBAR_KEY  GDK_KEY_S
+#define DEFAULT_FULLSCREEN_KEY  GDK_KEY_F11
 #define ERROR_BUFFER_LENGTH 256
 const char cfg_group[] = "sakura";
 
@@ -369,18 +369,18 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + Left-Right cursor */
 	if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator ) {
-		if ((event->keyval>=GDK_1) && (event->keyval<=GDK_9) && (event->keyval<=GDK_1-1+npages)
-				&& (event->keyval!=GDK_1+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
+		if ((event->keyval>=GDK_KEY_1) && (event->keyval<=GDK_KEY_9) && (event->keyval<=GDK_KEY_1-1+npages)
+				&& (event->keyval!=GDK_KEY_1+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
 			switch(event->keyval) {
-				case GDK_1: topage=0; break;
-				case GDK_2: topage=1; break;
-				case GDK_3: topage=2; break;
-				case GDK_4: topage=3; break;
-				case GDK_5: topage=4; break;
-				case GDK_6: topage=5; break;
-				case GDK_7: topage=6; break;
-				case GDK_8: topage=7; break;
-				case GDK_9: topage=8; break;
+				case GDK_KEY_1: topage=0; break;
+				case GDK_KEY_2: topage=1; break;
+				case GDK_KEY_3: topage=2; break;
+				case GDK_KEY_4: topage=3; break;
+				case GDK_KEY_5: topage=4; break;
+				case GDK_KEY_6: topage=5; break;
+				case GDK_KEY_7: topage=6; break;
+				case GDK_KEY_8: topage=7; break;
+				case GDK_KEY_9: topage=8; break;
 			}
 			if (topage <= npages)
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
@@ -787,7 +787,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 	gtk_box_pack_start(GTK_BOX(name_hbox), label, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(name_hbox), entry, TRUE, TRUE, 12);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), name_hbox, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(input_dialog))), name_hbox, FALSE, FALSE, 12);
 	/* Disable accept button until some text is entered */
 	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), input_dialog);
 	gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
@@ -844,10 +844,10 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_end(GTK_BOX(hbox_fore), buttonfore, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(hbox_back), label2, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_back), buttonback, FALSE, FALSE, 12);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(color_dialog)->vbox), hbox_fore, FALSE, FALSE, 6);
-	gtk_box_pack_end(GTK_BOX(GTK_DIALOG(color_dialog)->vbox), hbox_back, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_fore, FALSE, FALSE, 6);
+	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_back, FALSE, FALSE, 6);
 
-	gtk_widget_show_all(GTK_DIALOG(color_dialog)->vbox);
+	gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog)));
 
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
 
@@ -912,7 +912,7 @@ static void
 sakura_opacity_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *opacity_dialog, *spin_control, *spin_label, *check;
-	GtkObject *spinner_adj;
+	GtkAdjustment *spinner_adj;
 	GtkWidget *dialog_hbox, *dialog_vbox, *dialog_spin_hbox;
 	gint response;
 	int page;
@@ -939,7 +939,7 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 	dialog_vbox=gtk_vbox_new(FALSE, 0);
 	dialog_spin_hbox=gtk_hbox_new(FALSE, 0);
 
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(opacity_dialog)->vbox), dialog_hbox, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(opacity_dialog))), dialog_hbox, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(dialog_hbox), dialog_vbox, FALSE, FALSE, 12);
 	if (!sakura.has_rgba) { /* Ignore it if there is a composite manager */
 		gtk_box_pack_start(GTK_BOX(dialog_vbox), check, FALSE, FALSE, 6);
@@ -1043,7 +1043,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 	gtk_box_pack_start(GTK_BOX(title_hbox), label, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(title_hbox), entry, TRUE, TRUE, 12);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(title_dialog)->vbox), title_hbox, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(title_dialog))), title_hbox, FALSE, FALSE, 12);
 	/* Disable accept button until some text is entered */
 	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), title_dialog);
 	gtk_dialog_set_response_sensitive(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT, FALSE);
@@ -1342,6 +1342,7 @@ sakura_calculate_row_col (gint width, gint height)
 {
 	struct terminal *term;
 	gint x_padding, y_padding;
+	GtkBorder *border = NULL;
 	gint n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	if (n_pages==-1) return;
@@ -1352,7 +1353,9 @@ sakura_calculate_row_col (gint width, gint height)
 	/* This is to prevent a race with ConfigureEvents when the window is being destroyed */
 	if (!VTE_IS_TERMINAL(term->vte)) return;
 
-	vte_terminal_get_padding( VTE_TERMINAL(term->vte), &x_padding, &y_padding );
+	gtk_widget_style_get(term->vte, "inner-border", &border, NULL);
+	x_padding = border->left + border->right;
+	y_padding = border->top + border->bottom;
 	sakura.char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	sakura.char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
 	/* Ignore resize events in sakura window is in fullscreen */
@@ -1364,8 +1367,8 @@ sakura_calculate_row_col (gint width, gint height)
 		sakura.keep_fc=false;
 		SAY("new columns %ld and rows %ld", sakura.columns, sakura.rows);
 	}
-	sakura.width = sakura.main_window->allocation.width + x_padding;
-	sakura.height = sakura.main_window->allocation.height + y_padding;
+	sakura.width = gtk_widget_get_allocated_width(sakura.main_window) + x_padding;
+	sakura.height = gtk_widget_get_allocated_height(sakura.main_window) + y_padding;
 	//}
 }
 
@@ -1820,9 +1823,7 @@ sakura_init()
 
 	/* Figure out if we have rgba capabilities. */
 	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
-	GdkColormap *colormap = gdk_screen_get_rgba_colormap(screen);
-	if (colormap != NULL && gdk_screen_is_composited (screen)) {
-		gtk_widget_set_colormap (GTK_WIDGET (sakura.main_window), colormap);
+	if (gdk_screen_is_composited (screen)) {
 		/* Should probably set as false if WM looses capabilities */
 		sakura.has_rgba = true;
 	}
@@ -2100,12 +2101,15 @@ static void
 sakura_set_geometry_hints()
 {
 	struct terminal *term;
+	GtkBorder *border = NULL;
 	GdkGeometry hints;
 	gint pad_x, pad_y;
 	gint char_width, char_height;
 
 	term = sakura_get_page_term(sakura, 0);
-	vte_terminal_get_padding(VTE_TERMINAL(term->vte), (int *)&pad_x, (int *)&pad_y);
+	gtk_widget_style_get(term->vte, "inner-border", &border, NULL);
+	pad_x = border->left + border->right;
+	pad_y = border->top + border->bottom;
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
 
@@ -2162,9 +2166,10 @@ sakura_set_size(gint columns, gint rows)
 	//sakura.columns = columns;
 	//sakura.rows = rows;
 
-	vte_terminal_get_padding(VTE_TERMINAL(term->vte), (int *)&pad_x, (int *)&pad_y);
 	gtk_widget_style_get(term->vte, "inner-border", &term->border, NULL);
-	SAY("l%d r%d t%d b%d", term->border.left, term->border.right, term->border.top, term->border.bottom);
+	pad_x = term->border->left + term->border->right;
+	pad_y = term->border->top + term->border->bottom;
+	SAY("l%d r%d t%d b%d", term->border->left, term->border->right, term->border->top, term->border->bottom);
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
 
@@ -2186,7 +2191,7 @@ sakura_set_size(gint columns, gint rows)
 	sakura.width += pad_x + char_width * sakura.columns;
 	sakura.height += pad_y + char_height * sakura.rows;
 	/* FIXME: Deprecated GTK_WIDGET_MAPPED. Replace it when gtk+-2.20 is widely used */
-	if (GTK_WIDGET_MAPPED (sakura.main_window)) {
+	if (gtk_widget_get_mapped (sakura.main_window)) {
 		gtk_window_resize (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
 		SAY("Resizing to %ld columns %ld rows", sakura.columns, sakura.rows);
 	} else {
@@ -2521,7 +2526,7 @@ static guint
 sakura_get_config_key(const gchar *key)
 {
 	gchar *value;
-	guint retval=GDK_VoidSymbol;
+	guint retval=GDK_KEY_VoidSymbol;
 
 	value=g_key_file_get_string(sakura.cfg, cfg_group, key, NULL);
 	if (value!=NULL){
@@ -2531,7 +2536,7 @@ sakura_get_config_key(const gchar *key)
 
 	/* For backwards compatibility with integer values */
 	/* If gdk_keyval_from_name fail, it seems to be integer value*/
-	if ((retval==GDK_VoidSymbol)||(retval==0)) {
+	if ((retval==GDK_KEY_VoidSymbol)||(retval==0)) {
 		retval=g_key_file_get_integer(sakura.cfg, cfg_group, key, NULL);
 	}
 
