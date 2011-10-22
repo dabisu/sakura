@@ -1019,11 +1019,6 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	GtkWidget *entry, *label;
 	GtkWidget *title_hbox;
 	gint response;
-	int page;
-	struct terminal *term;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
 
 	title_dialog=gtk_dialog_new_with_buttons(_("Set window title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
@@ -1151,12 +1146,6 @@ sakura_clear (GtkWidget *widget, void *data)
 static void
 sakura_show_first_tab (GtkWidget *widget, void *data)
 {
-	int page;
-	struct terminal *term;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
-
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		sakura_set_config_string("show_always_first_tab", "Yes");
@@ -1173,12 +1162,6 @@ sakura_show_first_tab (GtkWidget *widget, void *data)
 static void
 sakura_show_close_button (GtkWidget *widget, void *data)
 {
-	int page;
-	struct terminal *term;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
-
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		sakura_set_config_boolean("closebutton", TRUE);
 	} else {
