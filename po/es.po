@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-08 22:57+0200\n"
+"POT-Creation-Date: 2011-10-23 10:39+0200\n"
 "PO-Revision-Date: 2011-08-02 21:35+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -152,6 +152,12 @@ msgstr "Definir nombre de la ventana"
 
 msgid "Always show tab bar"
 msgstr "Mostrar siempre la barra de pestañas"
+
+msgid "Tabs on bottom"
+msgstr ""
+
+msgid "Less questions"
+msgstr ""
 
 msgid "Show tab close button"
 msgstr "Mostrar boton para cerrar pestaña"
