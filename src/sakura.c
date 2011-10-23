@@ -162,6 +162,8 @@ static struct {
 	bool first_tab;
 	bool show_scrollbar;
 	bool show_closebutton;
+	bool tabs_on_bottom;
+	bool less_questions;
 	bool audible_bell;
 	bool visible_bell;
 	bool blinking_cursor;
@@ -289,6 +291,8 @@ static void     sakura_setname_entry_changed(GtkWidget *, void *);
 static void     sakura_copy(GtkWidget *, void *);
 static void     sakura_paste(GtkWidget *, void *);
 static void     sakura_show_first_tab (GtkWidget *widget, void *data);
+static void     sakura_tabs_on_bottom (GtkWidget *widget, void *data);
+static void     sakura_less_questions (GtkWidget *widget, void *data);
 static void     sakura_show_close_button (GtkWidget *widget, void *data);
 static void		sakura_show_scrollbar(GtkWidget *, void *);
 static void     sakura_closebutton_clicked(GtkWidget *, void *);
@@ -689,29 +693,32 @@ sakura_delete_event (GtkWidget *widget, void *data)
 	gint i;
 	pid_t pgid;
 
-	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	if (!sakura.less_questions) {
+		npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
-	/* Check for each tab if there are running processes. Use tcgetpgrp to compare to the shell PGID */
-	for (i=0; i < npages; i++) {
+		/* Check for each tab if there are running processes. Use tcgetpgrp to compare to the shell PGID */
+		for (i=0; i < npages; i++) {
 
-		term = sakura_get_page_term(sakura, i);
-		pgid = tcgetpgrp(vte_terminal_get_pty(VTE_TERMINAL(term->vte)));
+			term = sakura_get_page_term(sakura, i);
+			pgid = tcgetpgrp(vte_terminal_get_pty(VTE_TERMINAL(term->vte)));
 
-		if ( (pgid != -1) && (pgid != term->pid)) {
-			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-										  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-										  _("There are running processes.\n\nDo you really want to close Sakura?"));
+			if ( (pgid != -1) && (pgid != term->pid)) {
+				dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+											  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+											  _("There are running processes.\n\nDo you really want to close Sakura?"));
 
-			response=gtk_dialog_run(GTK_DIALOG(dialog));
-			gtk_widget_destroy(dialog);
+				response=gtk_dialog_run(GTK_DIALOG(dialog));
+				gtk_widget_destroy(dialog);
 
-			if (response==GTK_RESPONSE_YES) {
-				sakura_config_done();
-				return FALSE;
-			} else {
-				return TRUE;
-			}
-		} 
+				if (response==GTK_RESPONSE_YES) {
+					sakura_config_done();
+					return FALSE;
+				} else {
+					return TRUE;
+				}
+			} 
+		
+		}
 	}
 
 	sakura_config_done();
@@ -1158,6 +1165,41 @@ sakura_show_first_tab (GtkWidget *widget, void *data)
 	}
 }
 
+static void
+sakura_tabs_on_bottom (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(sakura.notebook), GTK_POS_BOTTOM);
+		sakura_set_config_boolean("tabs_on_bottom", TRUE);
+	} else {
+		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(sakura.notebook), GTK_POS_TOP);
+		sakura_set_config_boolean("tabs_on_bottom", FALSE);
+	}
+}
+
+static void
+sakura_less_questions (GtkWidget *widget, void *data)
+{
+	int page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		sakura.less_questions=TRUE;
+		sakura_set_config_boolean("less_questions", TRUE);
+	} else {
+		sakura.less_questions=FALSE;
+		sakura_set_config_boolean("less_questions", FALSE);
+	}
+}
 
 static void
 sakura_show_close_button (GtkWidget *widget, void *data)
@@ -1501,21 +1543,21 @@ sakura_closebutton_clicked(GtkWidget *widget, void *data)
 
 	/* Check if there are running processes for this tab. Use tcgetpgrp to compare to the shell PGID */
 	pgid = tcgetpgrp(vte_terminal_get_pty(VTE_TERMINAL(term->vte)));
+	
+	if ( (pgid != -1) && (pgid != term->pid) && (!sakura.less_questions) ) {
+			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+										  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+										  _("There is a running process in this terminal.\n\nDo you really want to close it?"));
 
-	if ( (pgid != -1) && (pgid != term->pid)) {
-		dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-									  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-									  _("There is a running process in this terminal.\n\nDo you really want to close it?"));
+			response=gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
 
-		response=gtk_dialog_run(GTK_DIALOG(dialog));
-		gtk_widget_destroy(dialog);
+			if (response==GTK_RESPONSE_YES) {
+				sakura_del_tab(page);
 
-		if (response==GTK_RESPONSE_YES) {
-			sakura_del_tab(page);
-
-			if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
-				sakura_destroy();
-		}
+				if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+					sakura_destroy();
+			}
 	} else {  /* No processes, hell with tab */
 
 		sakura_del_tab(page);
@@ -1660,6 +1702,16 @@ sakura_init()
 	}
 	sakura.show_closebutton = g_key_file_get_boolean(sakura.cfg, cfg_group, "closebutton", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "tabs_on_bottom", NULL)) {
+		sakura_set_config_boolean("tabs_on_bottom", FALSE);
+	}
+	sakura.tabs_on_bottom = g_key_file_get_boolean(sakura.cfg, cfg_group, "tabs_on_bottom", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "less_questions", NULL)) {
+		sakura_set_config_boolean("less_questions", FALSE);
+	}
+	sakura.less_questions = g_key_file_get_boolean(sakura.cfg, cfg_group, "less_questions", NULL);
+	
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "audible_bell", NULL)) {
 		sakura_set_config_string("audible_bell", "Yes");
 	}
@@ -1877,7 +1929,7 @@ sakura_init_popup()
 	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_borderless_maximized,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
-	          *item_show_close_button;
+	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
                   *action_new_window,
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
@@ -1920,6 +1972,8 @@ sakura_init_popup()
 	item_set_title=gtk_action_create_menu_item(action_set_title);
 
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Always show tab bar"));
+	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs on bottom"));
+	item_less_questions=gtk_check_menu_item_new_with_label(_("Less questions"));
 	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show tab close button"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
@@ -1949,6 +2003,18 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_close_button), TRUE);
 	} else {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_close_button), FALSE);
+	}
+
+	if (sakura.tabs_on_bottom) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_tabs_on_bottom), TRUE);
+	} else {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_tabs_on_bottom), FALSE);
+	}
+
+	if (sakura.less_questions) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_less_questions), TRUE);
+	} else {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_less_questions), FALSE);
 	}
 
 	if (sakura.show_scrollbar) {
@@ -2016,6 +2082,8 @@ sakura_init_popup()
 	palette_menu=gtk_menu_new();
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_first_tab);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_tabs_on_bottom);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_less_questions);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_close_button);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_toggle_scrollbar);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_audible_bell);
@@ -2053,6 +2121,8 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(action_select_colors), "activate", G_CALLBACK(sakura_color_dialog), NULL);
 
 	g_signal_connect(G_OBJECT(item_show_first_tab), "activate", G_CALLBACK(sakura_show_first_tab), NULL);
+	g_signal_connect(G_OBJECT(item_tabs_on_bottom), "activate", G_CALLBACK(sakura_tabs_on_bottom), NULL);
+	g_signal_connect(G_OBJECT(item_less_questions), "activate", G_CALLBACK(sakura_less_questions), NULL);
 	g_signal_connect(G_OBJECT(item_show_close_button), "activate", G_CALLBACK(sakura_show_close_button), NULL);
 	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar), NULL);
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
@@ -2225,6 +2295,10 @@ sakura_add_tab()
 		gtk_container_add (GTK_CONTAINER (close_btn), image);
 		/* FIXME: Use GtkWidget set-style signal to properly reflect the changes */
 		gtk_box_pack_start(GTK_BOX(tab_hbox), close_btn, FALSE, FALSE, 0);
+	}
+
+	if (sakura.tabs_on_bottom) {
+		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(sakura.notebook), GTK_POS_BOTTOM);
 	}
 
 	gtk_widget_show_all(tab_hbox);
