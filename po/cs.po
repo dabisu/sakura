@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-23 10:39+0200\n"
+"POT-Creation-Date: 2011-10-24 10:48+0200\n"
 "PO-Revision-Date: 2010-06-05 11:33+0000\n"
 "Last-Translator: Drom <Unknown>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -89,9 +89,6 @@ msgstr "Průhlednost"
 
 msgid "Opacity level (%):"
 msgstr "Úroveň průhlednosti (%):"
-
-msgid "Disable opacity"
-msgstr "Vypnout průhlednost"
 
 msgid "New window title"
 msgstr "Název nového okna"
@@ -199,3 +196,6 @@ msgstr "- emulátor terminálu založený na VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
+
+#~ msgid "Disable opacity"
+#~ msgstr "Vypnout průhlednost"

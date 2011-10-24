@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-23 10:39+0200\n"
+"POT-Creation-Date: 2011-10-24 10:48+0200\n"
 "PO-Revision-Date: 2011-08-02 21:35+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -87,9 +87,6 @@ msgstr "Opacidad"
 
 msgid "Opacity level (%):"
 msgstr "Nivel de opacidad (%)"
-
-msgid "Disable opacity"
-msgstr "Deshabilitar opacidad"
 
 msgid "New window title"
 msgstr "Nuevo título de la venta"
@@ -197,3 +194,6 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
+
+#~ msgid "Disable opacity"
+#~ msgstr "Deshabilitar opacidad"

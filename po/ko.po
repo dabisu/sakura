@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-23 10:39+0200\n"
+"POT-Creation-Date: 2011-10-24 10:48+0200\n"
 "PO-Revision-Date: 2011-02-12 17:09+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -89,9 +89,6 @@ msgstr "투명도"
 
 msgid "Opacity level (%):"
 msgstr "투명도 (%)"
-
-msgid "Disable opacity"
-msgstr "투명도 불가"
 
 msgid "New window title"
 msgstr "새 창 제목"
@@ -199,6 +196,9 @@ msgstr "- vte 기반의 터미널 에뮬레이터"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다. 일본 c8Rom\n"
+
+#~ msgid "Disable opacity"
+#~ msgstr "투명도 불가"
 
 #~ msgid "Show always first tab"
 #~ msgstr "항상 첫 탭 보기"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-23 10:39+0200\n"
+"POT-Creation-Date: 2011-10-24 10:48+0200\n"
 "PO-Revision-Date: 2011-04-28 11:38+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <Unknown>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -89,9 +89,6 @@ msgstr "Transparenz"
 
 msgid "Opacity level (%):"
 msgstr "Transparenzgrad (%):"
-
-msgid "Disable opacity"
-msgstr "Transparenz abschalten"
 
 msgid "New window title"
 msgstr "Fenstertitel wählen"
@@ -199,3 +196,6 @@ msgstr "- vte-basierter Terminal-Emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
+
+#~ msgid "Disable opacity"
+#~ msgstr "Transparenz abschalten"
