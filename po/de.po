@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 10:48+0200\n"
+"POT-Creation-Date: 2011-10-26 13:09+0200\n"
 "PO-Revision-Date: 2011-04-28 11:38+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <Unknown>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -150,13 +150,19 @@ msgstr "Transparenzgrad wählen..."
 msgid "Set window title..."
 msgstr "Fenstertitel wählen..."
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "Eingabemethoden"
+
+msgid "Options"
+msgstr "Optionen"
+
 msgid "Always show tab bar"
 msgstr "Reiterleiste immer anzeigen"
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -164,6 +170,9 @@ msgstr "Zeige Schließen-Knopf auf jedem Reiter"
 
 msgid "Show scrollbar"
 msgstr "Scrollbalken anzeigen"
+
+msgid "Borderless and maximized"
+msgstr "Rahmenlos und maximiert"
 
 msgid "Set audible bell"
 msgstr "Hörbarer Alarm"
@@ -173,15 +182,6 @@ msgstr "Sichtbarer Alarm"
 
 msgid "Set blinking cursor"
 msgstr "Blinkender Cursor"
-
-msgid "Borderless and maximized"
-msgstr "Rahmenlos und maximiert"
-
-msgid "Input methods"
-msgstr "Eingabemethoden"
-
-msgid "Options"
-msgstr "Optionen"
 
 msgid "Set palette"
 msgstr "Palette"

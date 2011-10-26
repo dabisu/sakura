@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 12:43+0200\n"
+"POT-Creation-Date: 2011-10-26 13:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,19 +143,28 @@ msgstr ""
 msgid "Set window title..."
 msgstr ""
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
 msgid "Always show tab bar"
 msgstr ""
 
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Less questions"
-msgstr ""
-
 msgid "Show tab close button"
 msgstr ""
 
 msgid "Show scrollbar"
+msgstr ""
+
+msgid "Borderless and maximized"
 msgstr ""
 
 msgid "Set audible bell"
@@ -165,15 +174,6 @@ msgid "Set visible bell"
 msgstr ""
 
 msgid "Set blinking cursor"
-msgstr ""
-
-msgid "Borderless and maximized"
-msgstr ""
-
-msgid "Input methods"
-msgstr ""
-
-msgid "Options"
 msgstr ""
 
 msgid "Set palette"

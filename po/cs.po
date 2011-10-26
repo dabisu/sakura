@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 10:48+0200\n"
+"POT-Creation-Date: 2011-10-26 13:09+0200\n"
 "PO-Revision-Date: 2010-06-05 11:33+0000\n"
 "Last-Translator: Drom <Unknown>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -150,13 +150,19 @@ msgstr "Nastavit úroveň průhlednosti…"
 msgid "Set window title..."
 msgstr "Nastavit název okna…"
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "Vstupní metody"
+
+msgid "Options"
+msgstr "Volby"
+
 msgid "Always show tab bar"
 msgstr "Vždy zobrazit lištu karet"
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -164,6 +170,9 @@ msgstr "Zobrazit tlačítko uzavření karty"
 
 msgid "Show scrollbar"
 msgstr "Zobrazit posuvník"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "Nastavit akustické upozornění"
@@ -173,15 +182,6 @@ msgstr "Nastavit vizuální upozornění"
 
 msgid "Set blinking cursor"
 msgstr "Nastavit blikající kurzor"
-
-msgid "Borderless and maximized"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Vstupní metody"
-
-msgid "Options"
-msgstr "Volby"
 
 msgid "Set palette"
 msgstr "Nastavit paletu"

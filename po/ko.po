@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 10:48+0200\n"
+"POT-Creation-Date: 2011-10-26 13:09+0200\n"
 "PO-Revision-Date: 2011-02-12 17:09+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -150,13 +150,19 @@ msgstr "투명도 설정"
 msgid "Set window title..."
 msgstr "창 제목 성정..."
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "입력기"
+
+msgid "Options"
+msgstr "설정"
+
 msgid "Always show tab bar"
 msgstr ""
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -164,6 +170,9 @@ msgstr "탭 닫기 버튼 보기"
 
 msgid "Show scrollbar"
 msgstr "스크롤바 보이기"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "소리 나게 설정"
@@ -173,15 +182,6 @@ msgstr "소리 보이게 설정"
 
 msgid "Set blinking cursor"
 msgstr "커서 깜빡임 설정"
-
-msgid "Borderless and maximized"
-msgstr ""
-
-msgid "Input methods"
-msgstr "입력기"
-
-msgid "Options"
-msgstr "설정"
 
 msgid "Set palette"
 msgstr "파레트 설정"

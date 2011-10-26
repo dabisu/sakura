@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 10:48+0200\n"
+"POT-Creation-Date: 2011-10-26 13:09+0200\n"
 "PO-Revision-Date: 2011-06-23 07:43+0000\n"
 "Last-Translator: centerpoint <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -150,13 +150,19 @@ msgstr "设置透明度..."
 msgid "Set window title..."
 msgstr "设置窗口标题..."
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "输入法"
+
+msgid "Options"
+msgstr "选项"
+
 msgid "Always show tab bar"
 msgstr "总是显示第一个标签页"
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -164,6 +170,9 @@ msgstr "显示关闭标签页按钮"
 
 msgid "Show scrollbar"
 msgstr "显示滚动条"
+
+msgid "Borderless and maximized"
+msgstr "无边框且最大化"
 
 msgid "Set audible bell"
 msgstr "设定蜂鸣提醒"
@@ -173,15 +182,6 @@ msgstr "设置可视提醒"
 
 msgid "Set blinking cursor"
 msgstr "设置闪烁光标"
-
-msgid "Borderless and maximized"
-msgstr "无边框且最大化"
-
-msgid "Input methods"
-msgstr "输入法"
-
-msgid "Options"
-msgstr "选项"
 
 msgid "Set palette"
 msgstr "设置调色板"

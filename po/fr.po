@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 10:48+0200\n"
+"POT-Creation-Date: 2011-10-26 13:09+0200\n"
 "PO-Revision-Date: 2011-06-30 06:22+0000\n"
 "Last-Translator: Franquet Loïc <Unknown>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -149,13 +149,19 @@ msgstr "Définir le niveau d'opacité..."
 msgid "Set window title..."
 msgstr "Définir le titre de la fenêtre..."
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "Méthodes d'entrée"
+
+msgid "Options"
+msgstr "Options"
+
 msgid "Always show tab bar"
 msgstr "Toujours afficher la barre d'onglets"
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -163,6 +169,9 @@ msgstr "Afficher le bouton de fermeture de l'onglet"
 
 msgid "Show scrollbar"
 msgstr "Afficher la barre de défilement"
+
+msgid "Borderless and maximized"
+msgstr "Sans bordure et maximisation"
 
 msgid "Set audible bell"
 msgstr "Utiliser un avertissement audio"
@@ -172,15 +181,6 @@ msgstr "Utiliser un avertissement visuel"
 
 msgid "Set blinking cursor"
 msgstr "Utliser un curseur clignotant"
-
-msgid "Borderless and maximized"
-msgstr "Sans bordure et maximisation"
-
-msgid "Input methods"
-msgstr "Méthodes d'entrée"
-
-msgid "Options"
-msgstr "Options"
 
 msgid "Set palette"
 msgstr "Sélectionner une palette de couleurs"

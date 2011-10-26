@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 10:48+0200\n"
+"POT-Creation-Date: 2011-10-26 13:09+0200\n"
 "PO-Revision-Date: 2011-08-02 21:39+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -147,13 +147,19 @@ msgstr "不透過率を指定..."
 msgid "Set window title..."
 msgstr "ウィンドウタイトルを指定"
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "入力メソッド"
+
+msgid "Options"
+msgstr "設定"
+
 msgid "Always show tab bar"
 msgstr "タブバーを常に表示する"
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -161,6 +167,9 @@ msgstr "タブの閉じるボタンを表示"
 
 msgid "Show scrollbar"
 msgstr "スクロールバーを表示"
+
+msgid "Borderless and maximized"
+msgstr "ボーダーレスと最大化"
 
 msgid "Set audible bell"
 msgstr "可聴なベルを表示"
@@ -170,15 +179,6 @@ msgstr "可視のベルを表示"
 
 msgid "Set blinking cursor"
 msgstr "ブリキングのカーソルを表示"
-
-msgid "Borderless and maximized"
-msgstr "ボーダーレスと最大化"
-
-msgid "Input methods"
-msgstr "入力メソッド"
-
-msgid "Options"
-msgstr "設定"
 
 msgid "Set palette"
 msgstr "パレットを表示"

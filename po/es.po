@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 10:48+0200\n"
+"POT-Creation-Date: 2011-10-26 13:09+0200\n"
 "PO-Revision-Date: 2011-08-02 21:35+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -147,13 +147,19 @@ msgstr "Definir nivel de opacidad..."
 msgid "Set window title..."
 msgstr "Definir nombre de la ventana"
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "Métodos de entrada"
+
+msgid "Options"
+msgstr "Opciones"
+
 msgid "Always show tab bar"
 msgstr "Mostrar siempre la barra de pestañas"
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -161,6 +167,9 @@ msgstr "Mostrar boton para cerrar pestaña"
 
 msgid "Show scrollbar"
 msgstr "Mostrar barra de desplazamiento"
+
+msgid "Borderless and maximized"
+msgstr "Sin borde y maximizada"
 
 msgid "Set audible bell"
 msgstr "Activar campana audible"
@@ -170,15 +179,6 @@ msgstr "Activar campana visible"
 
 msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
-
-msgid "Borderless and maximized"
-msgstr "Sin borde y maximizada"
-
-msgid "Input methods"
-msgstr "Métodos de entrada"
-
-msgid "Options"
-msgstr "Opciones"
 
 msgid "Set palette"
 msgstr "Definir paleta"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 10:48+0200\n"
+"POT-Creation-Date: 2011-10-26 13:09+0200\n"
 "PO-Revision-Date: 2011-01-24 15:40+0000\n"
 "Last-Translator: Mateusz Micał <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -150,13 +150,19 @@ msgstr "Ustaw przezroczystość..."
 msgid "Set window title..."
 msgstr "Ustaw tytuł okna..."
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "Metody wprowadzania"
+
+msgid "Options"
+msgstr "Ustawienia"
+
 msgid "Always show tab bar"
 msgstr ""
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -164,6 +170,9 @@ msgstr "Pokazuj przycisk zamknięcia zakładki"
 
 msgid "Show scrollbar"
 msgstr "Pokaż pasek przesuwania"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "Dźwiękowy sygnał"
@@ -173,15 +182,6 @@ msgstr "Migający sygnał"
 
 msgid "Set blinking cursor"
 msgstr "Migający kursor"
-
-msgid "Borderless and maximized"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Metody wprowadzania"
-
-msgid "Options"
-msgstr "Ustawienia"
 
 msgid "Set palette"
 msgstr "Ustaw paletę"
