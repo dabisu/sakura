@@ -141,11 +141,11 @@ static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
 	GtkWidget *menu;
-	GtkWidget *im_menu;
+	GtkWidget *im_menu;			/* Menu for input methods */
 	PangoFontDescription *font;
 	GdkColor forecolor;
 	GdkColor backcolor;
-	bool has_rgba;
+	bool has_rgba;				/* RGBA capabilities */
 	char *current_match;
 	guint width;
 	guint height;
@@ -155,7 +155,7 @@ static struct {
 	gint char_height;
 	gint label_count;
 	guint opacity_level;
-	bool *opacity;
+	VteTerminalCursorShape cursor_type;
 	bool first_tab;
 	bool show_scrollbar;
 	bool show_closebutton;
@@ -177,7 +177,7 @@ static struct {
 	GKeyFile *cfg;
 	char *configfile;
 	char *background;
-	char *word_chars;
+	char *word_chars;			/* Set of characters users for regex matching */
 	const GdkColor *palette;
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
@@ -1268,6 +1268,35 @@ sakura_maximized (GtkWidget *widget, void *data)
 
 
 static void
+sakura_set_cursor(GtkWidget *widget, void *data)
+{
+	struct terminal *term;
+	int n_pages, i;
+
+	char *cursor_string = (char *)data;
+	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+
+		if (strcmp(cursor_string, "block")==0) {
+			sakura.cursor_type=VTE_CURSOR_SHAPE_BLOCK;
+		} else if (strcmp(cursor_string, "underline")==0) {
+			sakura.cursor_type=VTE_CURSOR_SHAPE_UNDERLINE;
+		} else if (strcmp(cursor_string, "ibeam")==0) {
+			sakura.cursor_type=VTE_CURSOR_SHAPE_IBEAM;
+		} 
+
+		for (i = (n_pages - 1); i >= 0; i--) {
+			term = sakura_get_page_term(sakura, i);
+			vte_terminal_set_cursor_shape(VTE_TERMINAL(term->vte), sakura.cursor_type);
+		}
+
+		sakura_set_config_integer("cursor_type", sakura.cursor_type);
+	}
+}
+
+
+static void
 sakura_set_palette(GtkWidget *widget, void *data)
 {
 	struct terminal *term;
@@ -1651,6 +1680,11 @@ sakura_init()
 	sakura.blinking_cursor= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "cursor_type", NULL)) {
+		sakura_set_config_string("cursor_type", "VTE_CURSOR_SHAPE_BLOCK");
+	}
+	sakura.cursor_type = g_key_file_get_integer(sakura.cfg, cfg_group, "cursor_type", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "borderless", NULL)) {
 		sakura_set_config_string("borderless", "No");
 	}
@@ -1846,13 +1880,14 @@ sakura_init_popup()
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
 	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_borderless_maximized, *item_aspect_options, *item_terminal_options,
+			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
 	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
 	          *action_new_window, *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
 	          *action_full_screen;
-	GtkWidget *options_menu, *aspect_options_menu, *terminal_options_menu, *palette_menu;
+	GtkWidget *options_menu, *aspect_options_menu, *terminal_options_menu, *cursor_menu, *palette_menu;
 
 	/* Define actions */
 	action_open_link=gtk_action_new("open_link", _("Open link..."), NULL, NULL);
@@ -1888,7 +1923,8 @@ sakura_init_popup()
 	item_opacity_menu=gtk_action_create_menu_item(action_opacity);
 	item_set_title=gtk_action_create_menu_item(action_set_title);
 
-	item_less_questions=gtk_check_menu_item_new_with_label(_("Less questions"));
+	/* FIXME: Localize */
+	item_less_questions=gtk_check_menu_item_new_with_label("Show confirmation dialogs");
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
 	item_options=gtk_menu_item_new_with_label(_("Options"));
 
@@ -1905,6 +1941,11 @@ sakura_init_popup()
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
+	/* FIXME:Localize */
+	item_cursor=gtk_menu_item_new_with_label("Set cursor type");
+	item_cursor_block=gtk_radio_menu_item_new_with_label(NULL, "Block");
+	item_cursor_underline=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), "Underline");
+	item_cursor_ibeam=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), "IBeam");
 	item_palette=gtk_menu_item_new_with_label(_("Set palette"));
 	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
 	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
@@ -1958,6 +1999,17 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_blinking_cursor), TRUE);
 	}
 
+	switch (sakura.cursor_type){
+		case VTE_CURSOR_SHAPE_BLOCK:
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_cursor_block), TRUE);
+			break;
+		case VTE_CURSOR_SHAPE_UNDERLINE:
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_cursor_underline), TRUE);
+			break;
+		case VTE_CURSOR_SHAPE_IBEAM:
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_cursor_ibeam), TRUE);
+	}
+
 	if (sakura.borderless && sakura.maximized) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_borderless_maximized), TRUE);
 	}
@@ -2004,6 +2056,7 @@ sakura_init_popup()
 	options_menu=gtk_menu_new();
 	aspect_options_menu=gtk_menu_new();
 	terminal_options_menu=gtk_menu_new();
+	cursor_menu=gtk_menu_new();
 	palette_menu=gtk_menu_new();
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
@@ -2023,6 +2076,10 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(terminal_options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(terminal_options_menu), item_visible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(terminal_options_menu), item_blinking_cursor);
+	gtk_menu_shell_append(GTK_MENU_SHELL(terminal_options_menu), item_cursor);
+	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_block);
+	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_underline);
+	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_ibeam);
 	gtk_menu_shell_append(GTK_MENU_SHELL(terminal_options_menu), item_palette);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_tango);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_linux);
@@ -2035,6 +2092,7 @@ sakura_init_popup()
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), options_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_aspect_options), aspect_options_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_terminal_options), terminal_options_menu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_cursor), cursor_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_palette), palette_menu);
 
 	/* ... and finally assign callbacks to menuitems */
@@ -2061,6 +2119,9 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_borderless_maximized), "activate", G_CALLBACK(sakura_maximized), NULL);
 	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_opacity_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
+	g_signal_connect(G_OBJECT(item_cursor_block), "activate", G_CALLBACK(sakura_set_cursor), "block");
+	g_signal_connect(G_OBJECT(item_cursor_underline), "activate", G_CALLBACK(sakura_set_cursor), "underline");
+	g_signal_connect(G_OBJECT(item_cursor_ibeam), "activate", G_CALLBACK(sakura_set_cursor), "ibeam");
 	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
 	g_signal_connect(G_OBJECT(item_palette_linux), "activate", G_CALLBACK(sakura_set_palette), "linux");
 	g_signal_connect(G_OBJECT(item_palette_xterm), "activate", G_CALLBACK(sakura_set_palette), "xterm");
@@ -2412,6 +2473,9 @@ sakura_add_tab()
 
 	/* Disable stupid blinking cursor */
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
+
+	/* Change cursor */	
+	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
 
 	/* Apply user defined window configuration */
 	gtk_window_set_decorated (GTK_WINDOW(sakura.main_window), sakura.borderless ? FALSE : TRUE);
