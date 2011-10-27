@@ -5,15 +5,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 12:43+0200\n"
-"PO-Revision-Date: 2010-10-06 13:57+0000\n"
+"POT-Creation-Date: 2011-10-26 13:13+0200\n"
+"PO-Revision-Date: 2011-10-26 17:25+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-25 04:39+0000\n"
-"X-Generator: Launchpad (build 14185)\n"
+"X-Launchpad-Export-Date: 2011-10-27 05:12+0000\n"
+"X-Generator: Launchpad (build 14197)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -148,13 +148,19 @@ msgstr "Fixar nivell d'opacitat..."
 msgid "Set window title..."
 msgstr "Definir el nom de la finestra"
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "Mètodes d'entrada"
+
+msgid "Options"
+msgstr "Opcions"
+
 msgid "Always show tab bar"
 msgstr ""
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -162,6 +168,9 @@ msgstr "Mostrar el botó de tancament de pestanya"
 
 msgid "Show scrollbar"
 msgstr "Mostrar la barra de desplaçament"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "Definir la senyal acústica"
@@ -171,15 +180,6 @@ msgstr "Definir la senyal visible"
 
 msgid "Set blinking cursor"
 msgstr "Definir el cursor"
-
-msgid "Borderless and maximized"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Mètodes d'entrada"
-
-msgid "Options"
-msgstr "Opcions"
 
 msgid "Set palette"
 msgstr "Definir paleta de colors"

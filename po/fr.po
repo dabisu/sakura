@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 12:43+0200\n"
-"PO-Revision-Date: 2011-06-30 06:22+0000\n"
-"Last-Translator: Loïc <Unknown>\n"
+"POT-Creation-Date: 2011-10-26 13:13+0200\n"
+"PO-Revision-Date: 2011-10-26 17:26+0000\n"
+"Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-25 04:39+0000\n"
-"X-Generator: Launchpad (build 14185)\n"
+"X-Launchpad-Export-Date: 2011-10-27 05:12+0000\n"
+"X-Generator: Launchpad (build 14197)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -149,13 +149,19 @@ msgstr "Définir le niveau d'opacité..."
 msgid "Set window title..."
 msgstr "Définir le titre de la fenêtre..."
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "Méthodes d'entrée"
+
+msgid "Options"
+msgstr "Options"
+
 msgid "Always show tab bar"
 msgstr "Toujours afficher la barre d'onglets"
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -163,6 +169,9 @@ msgstr "Afficher le bouton de fermeture de l'onglet"
 
 msgid "Show scrollbar"
 msgstr "Afficher la barre de défilement"
+
+msgid "Borderless and maximized"
+msgstr "Sans bordure et maximisation"
 
 msgid "Set audible bell"
 msgstr "Utiliser un avertissement audio"
@@ -172,15 +181,6 @@ msgstr "Utiliser un avertissement visuel"
 
 msgid "Set blinking cursor"
 msgstr "Utliser un curseur clignotant"
-
-msgid "Borderless and maximized"
-msgstr "Sans bordure et maximisation"
-
-msgid "Input methods"
-msgstr "Méthodes d'entrée"
-
-msgid "Options"
-msgstr "Options"
 
 msgid "Set palette"
 msgstr "Sélectionner une palette de couleurs"

@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 12:43+0200\n"
-"PO-Revision-Date: 2010-10-06 17:20+0000\n"
+"POT-Creation-Date: 2011-10-26 13:13+0200\n"
+"PO-Revision-Date: 2011-10-26 17:26+0000\n"
 "Last-Translator: Dražen Odobašić <dodobas@geoinfo.geof.hr>\n"
 "Language-Team: brentaal <Unknown>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-25 04:39+0000\n"
-"X-Generator: Launchpad (build 14185)\n"
+"X-Launchpad-Export-Date: 2011-10-27 05:12+0000\n"
+"X-Generator: Launchpad (build 14197)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -149,13 +149,19 @@ msgstr "Postavi nivo zasićenosti..."
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "Metode unosa"
+
+msgid "Options"
+msgstr "Mogućnosti"
+
 msgid "Always show tab bar"
 msgstr ""
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -163,6 +169,9 @@ msgstr "Prikaži gumb za zatvaranje kartice"
 
 msgid "Show scrollbar"
 msgstr "Prikaži kliznu traku"
+
+msgid "Borderless and maximized"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "Postavi zvučno zvono"
@@ -172,15 +181,6 @@ msgstr "Postavi vidljivo zvono"
 
 msgid "Set blinking cursor"
 msgstr "Koristi treptajući pokazivač"
-
-msgid "Borderless and maximized"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Metode unosa"
-
-msgid "Options"
-msgstr "Mogućnosti"
 
 msgid "Set palette"
 msgstr "Postavi paletu"

@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 12:43+0200\n"
-"PO-Revision-Date: 2011-06-11 23:11+0000\n"
-"Last-Translator: Anton Lashkov <Unknown>\n"
+"POT-Creation-Date: 2011-10-26 13:13+0200\n"
+"PO-Revision-Date: 2011-10-26 17:26+0000\n"
+"Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-25 04:39+0000\n"
-"X-Generator: Launchpad (build 14185)\n"
+"X-Launchpad-Export-Date: 2011-10-27 05:12+0000\n"
+"X-Generator: Launchpad (build 14197)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -145,13 +145,19 @@ msgstr "Уровень прозрачности..."
 msgid "Set window title..."
 msgstr "Заголовок окна..."
 
+msgid "Less questions"
+msgstr ""
+
+msgid "Input methods"
+msgstr "Методы ввода"
+
+msgid "Options"
+msgstr "Настройки"
+
 msgid "Always show tab bar"
 msgstr "Всегда показывать панель вкладок"
 
 msgid "Tabs on bottom"
-msgstr ""
-
-msgid "Less questions"
 msgstr ""
 
 msgid "Show tab close button"
@@ -159,6 +165,9 @@ msgstr "Показывать кнопку закрытия вкладки"
 
 msgid "Show scrollbar"
 msgstr "Показать линейку прокрутки"
+
+msgid "Borderless and maximized"
+msgstr "На весь экран без рамки."
 
 msgid "Set audible bell"
 msgstr "Звуковое оповещение"
@@ -168,15 +177,6 @@ msgstr "Визуальное оповещение"
 
 msgid "Set blinking cursor"
 msgstr "Мигающий курсор"
-
-msgid "Borderless and maximized"
-msgstr "На весь экран без рамки."
-
-msgid "Input methods"
-msgstr "Методы ввода"
-
-msgid "Options"
-msgstr "Настройки"
 
 msgid "Set palette"
 msgstr "Палитра"
