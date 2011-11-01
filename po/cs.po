@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2010-06-05 11:33+0000\n"
 "Last-Translator: Drom <Unknown>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -150,12 +150,6 @@ msgstr "Nastavit úroveň průhlednosti…"
 msgid "Set window title..."
 msgstr "Nastavit název okna…"
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Vstupní metody"
-
 msgid "Options"
 msgstr "Volby"
 
@@ -185,6 +179,9 @@ msgstr "Nastavit blikající kurzor"
 
 msgid "Set palette"
 msgstr "Nastavit paletu"
+
+msgid "Input methods"
+msgstr "Vstupní metody"
 
 #, c-format
 msgid "Terminal %d"

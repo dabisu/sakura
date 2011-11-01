@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2011-02-12 17:09+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -150,12 +150,6 @@ msgstr "투명도 설정"
 msgid "Set window title..."
 msgstr "창 제목 성정..."
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "입력기"
-
 msgid "Options"
 msgstr "설정"
 
@@ -185,6 +179,9 @@ msgstr "커서 깜빡임 설정"
 
 msgid "Set palette"
 msgstr "파레트 설정"
+
+msgid "Input methods"
+msgstr "입력기"
 
 #, c-format
 msgid "Terminal %d"

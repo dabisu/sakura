@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2010-10-06 13:57+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -148,12 +148,6 @@ msgstr "Fixar nivell d'opacitat..."
 msgid "Set window title..."
 msgstr "Definir el nom de la finestra"
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Mètodes d'entrada"
-
 msgid "Options"
 msgstr "Opcions"
 
@@ -183,6 +177,9 @@ msgstr "Definir el cursor"
 
 msgid "Set palette"
 msgstr "Definir paleta de colors"
+
+msgid "Input methods"
+msgstr "Mètodes d'entrada"
 
 #, c-format
 msgid "Terminal %d"

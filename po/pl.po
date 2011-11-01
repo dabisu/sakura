@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2011-01-24 15:40+0000\n"
 "Last-Translator: Mateusz Micał <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -150,12 +150,6 @@ msgstr "Ustaw przezroczystość..."
 msgid "Set window title..."
 msgstr "Ustaw tytuł okna..."
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Metody wprowadzania"
-
 msgid "Options"
 msgstr "Ustawienia"
 
@@ -185,6 +179,9 @@ msgstr "Migający kursor"
 
 msgid "Set palette"
 msgstr "Ustaw paletę"
+
+msgid "Input methods"
+msgstr "Metody wprowadzania"
 
 #, c-format
 msgid "Terminal %d"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2011-04-28 11:38+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <Unknown>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -150,12 +150,6 @@ msgstr "Transparenzgrad wählen..."
 msgid "Set window title..."
 msgstr "Fenstertitel wählen..."
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Eingabemethoden"
-
 msgid "Options"
 msgstr "Optionen"
 
@@ -185,6 +179,9 @@ msgstr "Blinkender Cursor"
 
 msgid "Set palette"
 msgstr "Palette"
+
+msgid "Input methods"
+msgstr "Eingabemethoden"
 
 #, c-format
 msgid "Terminal %d"

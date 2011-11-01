@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2011-08-02 21:39+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -147,12 +147,6 @@ msgstr "不透過率を指定..."
 msgid "Set window title..."
 msgstr "ウィンドウタイトルを指定"
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "入力メソッド"
-
 msgid "Options"
 msgstr "設定"
 
@@ -182,6 +176,9 @@ msgstr "ブリキングのカーソルを表示"
 
 msgid "Set palette"
 msgstr "パレットを表示"
+
+msgid "Input methods"
+msgstr "入力メソッド"
 
 #, c-format
 msgid "Terminal %d"

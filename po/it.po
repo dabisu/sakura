@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2010-10-06 14:01+0000\n"
 "Last-Translator: nTia89 <tia.tif@fastwebnet.it>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -151,12 +151,6 @@ msgstr "Imposta il livello di opacità..."
 msgid "Set window title..."
 msgstr "Imposta il titolo della finestra..."
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Metodi di input"
-
 msgid "Options"
 msgstr "Opzioni"
 
@@ -186,6 +180,9 @@ msgstr "Imposta il cursore lampeggiante"
 
 msgid "Set palette"
 msgstr "Imposta la tavolozza dei colori"
+
+msgid "Input methods"
+msgstr "Metodi di input"
 
 #, c-format
 msgid "Terminal %d"

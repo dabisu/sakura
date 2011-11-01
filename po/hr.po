@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2010-10-06 17:20+0000\n"
 "Last-Translator: Dražen Odobašić <dodobas@geoinfo.geof.hr>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -149,12 +149,6 @@ msgstr "Postavi nivo zasićenosti..."
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Metode unosa"
-
 msgid "Options"
 msgstr "Mogućnosti"
 
@@ -184,6 +178,9 @@ msgstr "Koristi treptajući pokazivač"
 
 msgid "Set palette"
 msgstr "Postavi paletu"
+
+msgid "Input methods"
+msgstr "Metode unosa"
 
 #, c-format
 msgid "Terminal %d"

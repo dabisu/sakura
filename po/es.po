@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2011-08-02 21:35+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -147,12 +147,6 @@ msgstr "Definir nivel de opacidad..."
 msgid "Set window title..."
 msgstr "Definir nombre de la ventana"
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Métodos de entrada"
-
 msgid "Options"
 msgstr "Opciones"
 
@@ -182,6 +176,9 @@ msgstr "Activar parpadeo del cursor"
 
 msgid "Set palette"
 msgstr "Definir paleta"
+
+msgid "Input methods"
+msgstr "Métodos de entrada"
 
 #, c-format
 msgid "Terminal %d"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:09+0200\n"
+"POT-Creation-Date: 2011-11-01 18:50+0100\n"
 "PO-Revision-Date: 2011-06-23 07:43+0000\n"
 "Last-Translator: centerpoint <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -150,12 +150,6 @@ msgstr "设置透明度..."
 msgid "Set window title..."
 msgstr "设置窗口标题..."
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "输入法"
-
 msgid "Options"
 msgstr "选项"
 
@@ -185,6 +179,9 @@ msgstr "设置闪烁光标"
 
 msgid "Set palette"
 msgstr "设置调色板"
+
+msgid "Input methods"
+msgstr "输入法"
 
 #, c-format
 msgid "Terminal %d"
