@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:13+0200\n"
-"PO-Revision-Date: 2011-10-26 17:24+0000\n"
+"POT-Creation-Date: 2011-11-01 18:54+0100\n"
+"PO-Revision-Date: 2011-11-01 19:01+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-27 05:12+0000\n"
-"X-Generator: Launchpad (build 14197)\n"
+"X-Launchpad-Export-Date: 2011-11-02 04:47+0000\n"
+"X-Generator: Launchpad (build 14214)\n"
 "Language: pl\n"
 
 msgid "Print version number"
@@ -150,12 +150,6 @@ msgstr "Ustaw przezroczystość..."
 msgid "Set window title..."
 msgstr "Ustaw tytuł okna..."
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "Metody wprowadzania"
-
 msgid "Options"
 msgstr "Ustawienia"
 
@@ -185,6 +179,9 @@ msgstr "Migający kursor"
 
 msgid "Set palette"
 msgstr "Ustaw paletę"
+
+msgid "Input methods"
+msgstr "Metody wprowadzania"
 
 #, c-format
 msgid "Terminal %d"

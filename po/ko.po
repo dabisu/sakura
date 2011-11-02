@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-26 13:13+0200\n"
-"PO-Revision-Date: 2011-10-26 17:24+0000\n"
+"POT-Creation-Date: 2011-11-01 18:54+0100\n"
+"PO-Revision-Date: 2011-11-01 19:01+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-27 05:12+0000\n"
-"X-Generator: Launchpad (build 14197)\n"
+"X-Launchpad-Export-Date: 2011-11-02 04:47+0000\n"
+"X-Generator: Launchpad (build 14214)\n"
 "Language: ko\n"
 
 msgid "Print version number"
@@ -150,12 +150,6 @@ msgstr "투명도 설정"
 msgid "Set window title..."
 msgstr "창 제목 성정..."
 
-msgid "Less questions"
-msgstr ""
-
-msgid "Input methods"
-msgstr "입력기"
-
 msgid "Options"
 msgstr "설정"
 
@@ -185,6 +179,9 @@ msgstr "커서 깜빡임 설정"
 
 msgid "Set palette"
 msgstr "파레트 설정"
+
+msgid "Input methods"
+msgstr "입력기"
 
 #, c-format
 msgid "Terminal %d"
