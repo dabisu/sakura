@@ -525,7 +525,7 @@ sakura_increase_font (GtkWidget *widget, void *data)
 	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)+1) * PANGO_SCALE);
 
 	sakura_set_font();
-	//sakura_set_size(sakura.columns, sakura.rows);
+	sakura_set_size(sakura.columns, sakura.rows);
 }
 
 
@@ -538,20 +538,24 @@ sakura_decrease_font (GtkWidget *widget, void *data)
 	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)-1) * PANGO_SCALE);
 
 	sakura_set_font();
-	//sakura_set_size(sakura.columns, sakura.rows);
+	sakura_set_size(sakura.columns, sakura.rows);
 }
 
 
 static void
 sakura_child_exited (GtkWidget *widget, void *data)
 {
-	int status, page;
+	gint status, page, npages;
 	struct terminal *term;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-	sakura_config_done();
+	/* Only write configuration to disk if it's the last tab */
+	if (npages==1) {
+		sakura_config_done();
+	}
 
 	if (option_hold==TRUE) {
 		SAY("hold option has been activated");
@@ -565,7 +569,8 @@ sakura_child_exited (GtkWidget *widget, void *data)
 
 	sakura_del_tab(page);
 
-	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	if (npages==0)
 		sakura_destroy();
 }
 
@@ -573,12 +578,17 @@ sakura_child_exited (GtkWidget *widget, void *data)
 static void
 sakura_eof (GtkWidget *widget, void *data)
 {
-	int status;
+	gint status, npages;
 	struct terminal *term;
 
 	SAY("Got EOF signal");
 
-	sakura_config_done();
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
+	/* Only write configuration to disk if it's the last tab */
+	if (npages==1) {
+		sakura_config_done();
+	}
 
 	/* Workaround for libvte strange behaviour. There is not child-exited signal for
 	   the last terminal, so we need to kill it here.  Check with libvte authors about
@@ -599,7 +609,8 @@ sakura_eof (GtkWidget *widget, void *data)
 
 		sakura_del_tab(0);
 
-		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+		npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+		if (npages==0)
 			sakura_destroy();
 	}
 }
@@ -707,6 +718,7 @@ sakura_delete_event (GtkWidget *widget, void *data)
 			term = sakura_get_page_term(sakura, i);
 			pgid = tcgetpgrp(vte_terminal_get_pty(VTE_TERMINAL(term->vte)));
 
+			/* If running processes are found, we ask one time and exit */
 			if ( (pgid != -1) && (pgid != term->pid)) {
 				dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 											  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
@@ -754,7 +766,7 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
 		sakura_set_font();
-		//sakura_set_size(sakura.columns, sakura.rows);
+		sakura_set_size(sakura.columns, sakura.rows);
 		sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
 	}
 
