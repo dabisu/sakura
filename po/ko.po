@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:38+0100\n"
+"POT-Creation-Date: 2011-11-08 11:45+0100\n"
 "PO-Revision-Date: 2011-02-12 17:09+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -69,10 +69,12 @@ msgstr ""
 msgid "Select font"
 msgstr "글꼴 선택"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "이름 설정"
 
-msgid "Tab new text"
+#, fuzzy
+msgid "New text"
 msgstr "탭 새문자"
 
 msgid "Select color"
@@ -114,8 +116,9 @@ msgstr "링크 복사..."
 msgid "New tab"
 msgstr "새 탭"
 
-msgid "Set name..."
-msgstr "이름 설정..."
+#, fuzzy
+msgid "Set tab name..."
+msgstr "이름 설정"
 
 msgid "Close tab"
 msgstr "탭 닫기"
@@ -190,6 +193,9 @@ msgstr "- vte 기반의 터미널 에뮬레이터"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다. 일본 c8Rom\n"
+
+#~ msgid "Set name..."
+#~ msgstr "이름 설정..."
 
 #~ msgid "Disable opacity"
 #~ msgstr "투명도 불가"

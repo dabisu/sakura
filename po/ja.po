@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:38+0100\n"
+"POT-Creation-Date: 2011-11-08 11:45+0100\n"
 "PO-Revision-Date: 2011-08-02 21:39+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -66,10 +66,12 @@ msgstr ""
 msgid "Select font"
 msgstr "フォントを選択"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "名前を選択"
 
-msgid "Tab new text"
+#, fuzzy
+msgid "New text"
 msgstr "タブの新しい文"
 
 msgid "Select color"
@@ -111,8 +113,9 @@ msgstr "リンクをコピー"
 msgid "New tab"
 msgstr "新規タブ"
 
-msgid "Set name..."
-msgstr "名前を指定"
+#, fuzzy
+msgid "Set tab name..."
+msgstr "名前を選択"
 
 msgid "Close tab"
 msgstr "タブを閉じる"
@@ -187,6 +190,9 @@ msgstr "- vte ベースのターミナルエミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "Set name..."
+#~ msgstr "名前を指定"
 
 #~ msgid "New window"
 #~ msgstr "新規ウインドウ"

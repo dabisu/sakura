@@ -783,7 +783,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-	input_dialog=gtk_dialog_new_with_buttons(_("Set name"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+	input_dialog=gtk_dialog_new_with_buttons(_("Set tab name"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
 
@@ -796,7 +796,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	name_hbox=gtk_hbox_new(FALSE, 0);
 	entry=gtk_entry_new();
-	label=gtk_label_new(_("Tab new text"));
+	label=gtk_label_new(_("New text"));
 	/* Set tab label as entry default text (when first tab is not displayed, get_tab_label_text
 	   returns a null value, so check accordingly */
 	text = gtk_notebook_get_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox);
@@ -1882,7 +1882,7 @@ sakura_init_popup()
 	action_open_link=gtk_action_new("open_link", _("Open link..."), NULL, NULL);
 	action_copy_link=gtk_action_new("copy_link", _("Copy link..."), NULL, NULL);
 	action_new_tab=gtk_action_new("new_tab", _("New tab"), NULL, GTK_STOCK_NEW);
-	action_set_name=gtk_action_new("set_name", _("Set name..."), NULL, NULL);
+	action_set_name=gtk_action_new("set_name", _("Set tab name..."), NULL, NULL);
 	action_close_tab=gtk_action_new("close_tab", _("Close tab"), NULL, GTK_STOCK_CLOSE);
 	action_full_screen=gtk_action_new("full_screen", _("Full screen"), NULL, GTK_STOCK_FULLSCREEN);
 	action_copy=gtk_action_new("copy", _("Copy"), NULL, GTK_STOCK_COPY);
@@ -2049,6 +2049,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_show_first_tab);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_tabs_on_bottom);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_show_close_button);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_toggle_scrollbar);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_borderless_maximized);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_less_questions);

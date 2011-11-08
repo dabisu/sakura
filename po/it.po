@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:38+0100\n"
+"POT-Creation-Date: 2011-11-08 11:45+0100\n"
 "PO-Revision-Date: 2010-10-06 14:01+0000\n"
 "Last-Translator: nTia89 <tia.tif@fastwebnet.it>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -70,10 +70,12 @@ msgstr ""
 msgid "Select font"
 msgstr "Seleziona il font"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "Imposta il nome"
 
-msgid "Tab new text"
+#, fuzzy
+msgid "New text"
 msgstr "Nuovo testo della scheda"
 
 msgid "Select color"
@@ -115,8 +117,9 @@ msgstr "Copia il link..."
 msgid "New tab"
 msgstr "Nuova scheda"
 
-msgid "Set name..."
-msgstr "Imposta il nome..."
+#, fuzzy
+msgid "Set tab name..."
+msgstr "Imposta il nome"
 
 msgid "Close tab"
 msgstr "Chiudi la scheda"
@@ -191,6 +194,9 @@ msgstr "- emulatore di terminale basato su VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versione di Sakura è %s\n"
+
+#~ msgid "Set name..."
+#~ msgstr "Imposta il nome..."
 
 #~ msgid "Disable opacity"
 #~ msgstr "Disabilita l'opacità"

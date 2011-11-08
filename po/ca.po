@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:38+0100\n"
+"POT-Creation-Date: 2011-11-08 11:45+0100\n"
 "PO-Revision-Date: 2010-10-06 13:57+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -67,10 +67,12 @@ msgstr ""
 msgid "Select font"
 msgstr "Sel·leccioni font"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "Definir nom"
 
-msgid "Tab new text"
+#, fuzzy
+msgid "New text"
 msgstr "Text nou per l'etiqueta"
 
 msgid "Select color"
@@ -112,7 +114,8 @@ msgstr "Copiar enllaç..."
 msgid "New tab"
 msgstr "Nova pestanya"
 
-msgid "Set name..."
+#, fuzzy
+msgid "Set tab name..."
 msgstr "Definir nom"
 
 msgid "Close tab"
@@ -189,6 +192,9 @@ msgstr "- emulador de terminal basat en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"
+
+#~ msgid "Set name..."
+#~ msgstr "Definir nom"
 
 #~ msgid "Disable opacity"
 #~ msgstr "Deshabil·litar opacitat"

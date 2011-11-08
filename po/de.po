@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:38+0100\n"
+"POT-Creation-Date: 2011-11-08 11:45+0100\n"
 "PO-Revision-Date: 2011-04-28 11:38+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <Unknown>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -69,10 +69,12 @@ msgstr ""
 msgid "Select font"
 msgstr "Schrift auswählen"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "Name wählen"
 
-msgid "Tab new text"
+#, fuzzy
+msgid "New text"
 msgstr "Reiter neuer Name"
 
 msgid "Select color"
@@ -114,8 +116,9 @@ msgstr "Kopiere Link..."
 msgid "New tab"
 msgstr "Neuer Reiter"
 
-msgid "Set name..."
-msgstr "Name wählen..."
+#, fuzzy
+msgid "Set tab name..."
+msgstr "Name wählen"
 
 msgid "Close tab"
 msgstr "Reiter schließen"
@@ -190,6 +193,9 @@ msgstr "- vte-basierter Terminal-Emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
+
+#~ msgid "Set name..."
+#~ msgstr "Name wählen..."
 
 #~ msgid "New window"
 #~ msgstr "Neues Fenster"

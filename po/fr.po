@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:38+0100\n"
+"POT-Creation-Date: 2011-11-08 11:45+0100\n"
 "PO-Revision-Date: 2011-06-30 06:22+0000\n"
 "Last-Translator: Franquet Loïc <Unknown>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -68,10 +68,12 @@ msgstr ""
 msgid "Select font"
 msgstr "Sélectionner la police"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "Définir le nom"
 
-msgid "Tab new text"
+#, fuzzy
+msgid "New text"
 msgstr "Nouvel onglet"
 
 msgid "Select color"
@@ -113,8 +115,9 @@ msgstr "copier le lien..."
 msgid "New tab"
 msgstr "Nouvel onglet"
 
-msgid "Set name..."
-msgstr "Définir le nom..."
+#, fuzzy
+msgid "Set tab name..."
+msgstr "Définir le nom"
 
 msgid "Close tab"
 msgstr "Fermer l'onglet"
@@ -189,6 +192,9 @@ msgstr "Émulateur de terminal utilisant VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura version %s\n"
+
+#~ msgid "Set name..."
+#~ msgstr "Définir le nom..."
 
 #~ msgid "New window"
 #~ msgstr "Nouvelle fenêtre"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:38+0100\n"
+"POT-Creation-Date: 2011-11-08 11:45+0100\n"
 "PO-Revision-Date: 2010-10-06 17:20+0000\n"
 "Last-Translator: Dražen Odobašić <dodobas@geoinfo.geof.hr>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -68,10 +68,12 @@ msgstr ""
 msgid "Select font"
 msgstr "Postavite font"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "Postavite naziv"
 
-msgid "Tab new text"
+#, fuzzy
+msgid "New text"
 msgstr "Kartica za novi tekst"
 
 msgid "Select color"
@@ -113,8 +115,9 @@ msgstr "Kopiraj link..."
 msgid "New tab"
 msgstr "Nova kartica"
 
-msgid "Set name..."
-msgstr "Postavi naziv..."
+#, fuzzy
+msgid "Set tab name..."
+msgstr "Postavite naziv"
 
 msgid "Close tab"
 msgstr "Zatvori karticu"
@@ -189,6 +192,9 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#~ msgid "Set name..."
+#~ msgstr "Postavi naziv..."
 
 #~ msgid "Disable opacity"
 #~ msgstr "Onemogući zasićenost"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:38+0100\n"
+"POT-Creation-Date: 2011-11-08 11:45+0100\n"
 "PO-Revision-Date: 2010-03-03 12:14+0000\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -66,11 +66,13 @@ msgstr ""
 msgid "Select font"
 msgstr "Válassz betűt"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "Név beállítása"
 
-msgid "Tab new text"
-msgstr ""
+#, fuzzy
+msgid "New text"
+msgstr "Új lap"
 
 msgid "Select color"
 msgstr "Válassz színt"
@@ -108,8 +110,9 @@ msgstr ""
 msgid "New tab"
 msgstr "Új lap"
 
-msgid "Set name..."
-msgstr "Név beállítása..."
+#, fuzzy
+msgid "Set tab name..."
+msgstr "Név beállítása"
 
 msgid "Close tab"
 msgstr "Lap bezárása"
@@ -184,3 +187,6 @@ msgstr ""
 #, c-format
 msgid "sakura version is %s\n"
 msgstr ""
+
+#~ msgid "Set name..."
+#~ msgstr "Név beállítása..."
