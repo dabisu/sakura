@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:45+0100\n"
+"POT-Creation-Date: 2011-11-08 20:13+0100\n"
 "PO-Revision-Date: 2010-10-06 17:20+0000\n"
 "Last-Translator: Dražen Odobašić <dodobas@geoinfo.geof.hr>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -158,7 +158,8 @@ msgstr ""
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
+#, fuzzy
+msgid "Show close button on tabs"
 msgstr "Prikaži gumb za zatvaranje kartice"
 
 msgid "Show scrollbar"
@@ -175,6 +176,18 @@ msgstr "Postavi vidljivo zvono"
 
 msgid "Set blinking cursor"
 msgstr "Koristi treptajući pokazivač"
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "Postavi paletu"

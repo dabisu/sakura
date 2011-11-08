@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:45+0100\n"
+"POT-Creation-Date: 2011-11-08 20:13+0100\n"
 "PO-Revision-Date: 2010-03-03 12:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -148,7 +148,7 @@ msgstr ""
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
+msgid "Show close button on tabs"
 msgstr ""
 
 msgid "Show scrollbar"
@@ -164,6 +164,18 @@ msgid "Set visible bell"
 msgstr ""
 
 msgid "Set blinking cursor"
+msgstr ""
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
 msgstr ""
 
 msgid "Set palette"

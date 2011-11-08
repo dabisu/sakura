@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:45+0100\n"
+"POT-Creation-Date: 2011-11-08 20:13+0100\n"
 "PO-Revision-Date: 2011-04-28 11:38+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <Unknown>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -159,7 +159,8 @@ msgstr "Reiterleiste immer anzeigen"
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
+#, fuzzy
+msgid "Show close button on tabs"
 msgstr "Zeige Schließen-Knopf auf jedem Reiter"
 
 msgid "Show scrollbar"
@@ -176,6 +177,18 @@ msgstr "Sichtbarer Alarm"
 
 msgid "Set blinking cursor"
 msgstr "Blinkender Cursor"
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "Palette"

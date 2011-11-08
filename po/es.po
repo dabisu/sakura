@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:45+0100\n"
+"POT-Creation-Date: 2011-11-08 20:13+0100\n"
 "PO-Revision-Date: 2011-08-02 21:35+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -156,7 +156,8 @@ msgstr "Mostrar siempre la barra de pestañas"
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
+#, fuzzy
+msgid "Show close button on tabs"
 msgstr "Mostrar boton para cerrar pestaña"
 
 msgid "Show scrollbar"
@@ -173,6 +174,18 @@ msgstr "Activar campana visible"
 
 msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "Definir paleta"

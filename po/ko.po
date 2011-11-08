@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:45+0100\n"
+"POT-Creation-Date: 2011-11-08 20:13+0100\n"
 "PO-Revision-Date: 2011-02-12 17:09+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -159,7 +159,8 @@ msgstr ""
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
+#, fuzzy
+msgid "Show close button on tabs"
 msgstr "탭 닫기 버튼 보기"
 
 msgid "Show scrollbar"
@@ -176,6 +177,18 @@ msgstr "소리 보이게 설정"
 
 msgid "Set blinking cursor"
 msgstr "커서 깜빡임 설정"
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "파레트 설정"

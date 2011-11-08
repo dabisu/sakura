@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:45+0100\n"
+"POT-Creation-Date: 2011-11-08 20:13+0100\n"
 "PO-Revision-Date: 2011-06-11 23:11+0000\n"
 "Last-Translator: Anton Lashkov <Unknown>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -154,7 +154,8 @@ msgstr "Всегда показывать панель вкладок"
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
+#, fuzzy
+msgid "Show close button on tabs"
 msgstr "Показывать кнопку закрытия вкладки"
 
 msgid "Show scrollbar"
@@ -171,6 +172,18 @@ msgstr "Визуальное оповещение"
 
 msgid "Set blinking cursor"
 msgstr "Мигающий курсор"
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "Палитра"

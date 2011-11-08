@@ -419,6 +419,7 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	if ( (event->state & sakura.scrollbar_accelerator)==sakura.scrollbar_accelerator ) {
 		if (event->keyval==sakura.scrollbar_key) {
 			sakura_show_scrollbar(NULL, NULL);
+			/* TODO:Is it needed for some themes without floating scrollbar?*/
 			//sakura_set_size(sakura.columns, sakura.rows);
 			return TRUE;
 		}
@@ -1914,10 +1915,10 @@ sakura_init_popup()
 
 	/* FIXME: Use actions for all items, or no use'em at all */
 	/* FIXME:Localize */
-	item_other_options=gtk_menu_item_new_with_label("Other options");
+	item_other_options=gtk_menu_item_new_with_label("Other");
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Always show tab bar"));
 	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs on bottom"));
-	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show tab close button"));
+	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show close button on tabs"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
 	item_borderless_maximized=gtk_check_menu_item_new_with_label(_("Borderless and maximized"));
 	/* FIXME: Localize */
@@ -1926,11 +1927,10 @@ sakura_init_popup()
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
-	/* FIXME:Localize */
-	item_cursor=gtk_menu_item_new_with_label("Set cursor type");
-	item_cursor_block=gtk_radio_menu_item_new_with_label(NULL, "Block");
-	item_cursor_underline=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), "Underline");
-	item_cursor_ibeam=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), "IBeam");
+	item_cursor=gtk_menu_item_new_with_label(_("Set cursor type"));
+	item_cursor_block=gtk_radio_menu_item_new_with_label(NULL, _("Block"));
+	item_cursor_underline=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), _("Underline"));
+	item_cursor_ibeam=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), _("IBeam"));
 	item_palette=gtk_menu_item_new_with_label(_("Set palette"));
 	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
 	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
@@ -2122,6 +2122,7 @@ sakura_init_popup()
 static void
 sakura_set_geometry_hints()
 {
+#if 0
 	struct terminal *term;
 	GtkBorder *border = NULL;
 	GdkGeometry hints;
@@ -2135,16 +2136,21 @@ sakura_set_geometry_hints()
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
 
-	hints.min_width = char_width + pad_x;
-	hints.min_height = char_height + pad_y;
-	hints.base_width = pad_x;
-	hints.base_height = pad_y;
+	//hints.min_width = char_width + pad_x;
+	//hints.min_height = char_height + pad_y;
+	//hints.base_width = pad_x;
+	//hints.base_height = pad_y;
+	hints.min_width = char_width;
+	hints.min_height = char_height;
+	hints.base_width = char_width;
+	hints.base_height = char_height;
 	hints.width_inc = char_width;
 	hints.height_inc = char_height;
-	gtk_window_set_geometry_hints (GTK_WINDOW (sakura.main_window),
-	                               GTK_WIDGET (term->vte),
-	                               &hints,
+	/* FIXME: Do we really need to set hints for user resize. If needed, be careful to
+	   side-effects to sakura_set_size */
+	gtk_window_set_geometry_hints (GTK_WINDOW (sakura.main_window), GTK_WIDGET (term->vte), &hints,
 	                               GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
+#endif
 }
 
 
@@ -2193,16 +2199,17 @@ sakura_set_size(gint columns, gint rows)
 	sakura.height = pad_y + (char_height * sakura.rows);
 
 	if (npages>=2) {
-		int kk, kk1; gtk_widget_get_preferred_height(sakura.notebook, &kk, &kk1);
-		sakura.height += kk;
-		/* FIXME: And for the width ????*/
+		gint min_height, natural_height; 
+		gtk_widget_get_preferred_height(sakura.notebook, &min_height, &natural_height);
+		SAY("NOTEBOOK min height %d natural height %d", min_height, natural_height);
+		/* Constant are a supermegaugly hack. FIX THEM*/
+		/* FIXME: Get notebook padding*/
+		sakura.height += min_height-5 ;
+		sakura.width += 8;
 	}
 
-	//gtk_window_set_default_size (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
 	gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
 	SAY("RESIZED TO %d %d", sakura.width, sakura.height);
-		int kk, kk1; gtk_widget_get_preferred_height(sakura.notebook, &kk, &kk1);
-		SAY("NOTEBOOK RULZ! %d %d", kk, kk1);
 }
 
 
@@ -2406,7 +2413,7 @@ sakura_add_tab()
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 			sakura_set_size(sakura.rows, sakura.columns);
 		int kk, kk1; gtk_widget_get_preferred_height(sakura.notebook, &kk, &kk1);
-		SAY("NOTEBOOK RULZ! %d %d", kk, kk1);
+		SAY("NOTEBOOK preferred height %d %d", kk, kk1);
 		}
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
@@ -2451,6 +2458,8 @@ sakura_add_tab()
 	if (sakura.maximized) {
 		gtk_window_maximize (GTK_WINDOW(sakura.main_window));
 	}
+	
+	sakura_set_size(sakura.rows, sakura.columns);
 
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
 	gtk_widget_grab_focus(term->vte);

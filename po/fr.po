@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 11:45+0100\n"
+"POT-Creation-Date: 2011-11-08 20:13+0100\n"
 "PO-Revision-Date: 2011-06-30 06:22+0000\n"
 "Last-Translator: Franquet Loïc <Unknown>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -158,7 +158,8 @@ msgstr "Toujours afficher la barre d'onglets"
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
+#, fuzzy
+msgid "Show close button on tabs"
 msgstr "Afficher le bouton de fermeture de l'onglet"
 
 msgid "Show scrollbar"
@@ -175,6 +176,18 @@ msgstr "Utiliser un avertissement visuel"
 
 msgid "Set blinking cursor"
 msgstr "Utliser un curseur clignotant"
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "Sélectionner une palette de couleurs"
