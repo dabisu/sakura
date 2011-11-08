@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:50+0100\n"
+"POT-Creation-Date: 2011-11-08 11:38+0100\n"
 "PO-Revision-Date: 2011-08-02 21:39+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -111,9 +111,6 @@ msgstr "リンクをコピー"
 msgid "New tab"
 msgstr "新規タブ"
 
-msgid "New window"
-msgstr "新規ウインドウ"
-
 msgid "Set name..."
 msgstr "名前を指定"
 
@@ -190,6 +187,9 @@ msgstr "- vte ベースのターミナルエミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "New window"
+#~ msgstr "新規ウインドウ"
 
 #~ msgid "Disable opacity"
 #~ msgstr "不透過を無効にする"

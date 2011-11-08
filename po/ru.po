@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:50+0100\n"
+"POT-Creation-Date: 2011-11-08 11:38+0100\n"
 "PO-Revision-Date: 2011-06-11 23:11+0000\n"
 "Last-Translator: Anton Lashkov <Unknown>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -109,9 +109,6 @@ msgstr "Копировать ссылку..."
 msgid "New tab"
 msgstr "Новая вкладка"
 
-msgid "New window"
-msgstr "Новое окно"
-
 msgid "Set name..."
 msgstr "Заголовок вкладки..."
 
@@ -188,6 +185,9 @@ msgstr "- эмулятор терминала, основанный на VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Версия Сакуры %s\n"
+
+#~ msgid "New window"
+#~ msgstr "Новое окно"
 
 #~ msgid "Disable opacity"
 #~ msgstr "Отключить прозрачность"

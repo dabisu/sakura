@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:50+0100\n"
+"POT-Creation-Date: 2011-11-08 11:38+0100\n"
 "PO-Revision-Date: 2011-06-23 07:43+0000\n"
 "Last-Translator: centerpoint <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -114,9 +114,6 @@ msgstr "复制链接"
 msgid "New tab"
 msgstr "新建标签"
 
-msgid "New window"
-msgstr "新窗口"
-
 msgid "Set name..."
 msgstr "设置名称..."
 
@@ -193,6 +190,9 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+
+#~ msgid "New window"
+#~ msgstr "新窗口"
 
 #~ msgid "Disable opacity"
 #~ msgstr "不透明"

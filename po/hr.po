@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:50+0100\n"
+"POT-Creation-Date: 2011-11-08 11:38+0100\n"
 "PO-Revision-Date: 2010-10-06 17:20+0000\n"
 "Last-Translator: Dražen Odobašić <dodobas@geoinfo.geof.hr>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -112,9 +112,6 @@ msgstr "Kopiraj link..."
 
 msgid "New tab"
 msgstr "Nova kartica"
-
-msgid "New window"
-msgstr ""
 
 msgid "Set name..."
 msgstr "Postavi naziv..."

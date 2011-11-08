@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:50+0100\n"
+"POT-Creation-Date: 2011-11-08 11:38+0100\n"
 "PO-Revision-Date: 2010-10-06 14:01+0000\n"
 "Last-Translator: nTia89 <tia.tif@fastwebnet.it>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -114,9 +114,6 @@ msgstr "Copia il link..."
 
 msgid "New tab"
 msgstr "Nuova scheda"
-
-msgid "New window"
-msgstr ""
 
 msgid "Set name..."
 msgstr "Imposta il nome..."

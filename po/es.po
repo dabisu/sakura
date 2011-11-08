@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:50+0100\n"
+"POT-Creation-Date: 2011-11-08 11:38+0100\n"
 "PO-Revision-Date: 2011-08-02 21:35+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -111,9 +111,6 @@ msgstr "Copiar enlace..."
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-msgid "New window"
-msgstr "Nueva ventana"
-
 msgid "Set name..."
 msgstr "Elegir nombre"
 
@@ -191,6 +188,9 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
+
+#~ msgid "New window"
+#~ msgstr "Nueva ventana"
 
 #~ msgid "Disable opacity"
 #~ msgstr "Deshabilitar opacidad"
