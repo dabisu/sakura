@@ -663,7 +663,7 @@ sakura_config_done()
 
 		if (sakura.externally_modified) {
 			GtkWidget *dialog;
-			guint response;
+			gint response;
 
 			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 					GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
@@ -704,7 +704,7 @@ sakura_delete_event (GtkWidget *widget, void *data)
 {
 	struct terminal *term;
 	GtkWidget *dialog;
-	guint response;
+	gint response;
 	gint npages;
 	gint i;
 	pid_t pgid;
@@ -1441,13 +1441,43 @@ sakura_new_tab (GtkWidget *widget, void *data)
 static void
 sakura_close_tab (GtkWidget *widget, void *data)
 {
-	gint page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	pid_t pgid;
+	GtkWidget *dialog;
+	gint response;
+	struct terminal *term;
+	gint page, npages;
 
-	sakura_del_tab(page);
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
 
-	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+	/* Only write configuration to disk if it's the last tab */
+	if (npages==1) {
+		sakura_config_done();
+	}
+
+	/* Check if there are running processes for this tab. Use tcgetpgrp to compare to the shell PGID */
+	pgid = tcgetpgrp(vte_terminal_get_pty(VTE_TERMINAL(term->vte)));
+	
+	if ( (pgid != -1) && (pgid != term->pid) && (!sakura.less_questions) ) {
+			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+										  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+										  _("There is a running process in this terminal.\n\nDo you really want to close it?"));
+
+			response=gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
+
+			if (response==GTK_RESPONSE_YES) {
+				sakura_del_tab(page);
+			}
+	} else
+		sakura_del_tab(page);
+
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	if (npages==0)
 		sakura_destroy();
 }
+
 
 static void
 sakura_new_window (GtkWidget *widget, void *data)
