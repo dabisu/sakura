@@ -424,7 +424,7 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	if ( (event->state & sakura.scrollbar_accelerator)==sakura.scrollbar_accelerator ) {
 		if (event->keyval==sakura.scrollbar_key) {
 			sakura_show_scrollbar(NULL, NULL);
-			sakura_set_size(sakura.columns, sakura.rows);
+			//sakura_set_size(sakura.columns, sakura.rows);
 			return TRUE;
 		}
 	}
@@ -525,7 +525,7 @@ sakura_increase_font (GtkWidget *widget, void *data)
 	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)+1) * PANGO_SCALE);
 
 	sakura_set_font();
-	sakura_set_size(sakura.columns, sakura.rows);
+	//sakura_set_size(sakura.columns, sakura.rows);
 }
 
 
@@ -538,7 +538,7 @@ sakura_decrease_font (GtkWidget *widget, void *data)
 	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)-1) * PANGO_SCALE);
 
 	sakura_set_font();
-	sakura_set_size(sakura.columns, sakura.rows);
+	//sakura_set_size(sakura.columns, sakura.rows);
 }
 
 
@@ -754,7 +754,7 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 		pango_font_description_free(sakura.font);
 		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
 		sakura_set_font();
-		sakura_set_size(sakura.columns, sakura.rows);
+		//sakura_set_size(sakura.columns, sakura.rows);
 		sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
 	}
 
@@ -1336,46 +1336,6 @@ sakura_set_palette(GtkWidget *widget, void *data)
 }
 
 
-/* Every the window changes its size by an user action (resize, fullscreen), calculate
- * the new values for the number of columns and rows */
-static void
-sakura_calculate_row_col (gint window_width, gint window_height)
-{
-	struct terminal *term;
-	gint x_padding, y_padding;
-	GtkBorder *border = NULL;
-	gint n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-
-	if (n_pages==-1) return;
-
-	term = sakura_get_page_term(sakura, 0);
-
-	/* This is to prevent a race with ConfigureEvents when the window is being destroyed */
-	if (!VTE_IS_TERMINAL(term->vte)) return;
-
-	gtk_widget_style_get(term->vte, "inner-border", &border, NULL);
-	x_padding = border->left + border->right;
-	y_padding = border->top + border->bottom;
-	SAY("Padding from inner-border: X:%d+%d Y:%d+%d", border->left, border->right, border->top, border->bottom);
-	sakura.char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
-	sakura.char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
-	SAY("Window Width %d and height %d", window_width, window_height);
-	SAY("Char width %d and height %d", sakura.char_width, sakura.char_height);
-	/* Ignore resize events in sakura window is in fullscreen */
-	if (!sakura.keep_fc) {
-		/* We cannot trust in vte allocation values, they're unreliable */
-		/* FIXME: Round values properly */
-		sakura.columns = (window_width/sakura.char_width);
-		sakura.rows = (window_height/sakura.char_height);
-		sakura.keep_fc=false;
-		SAY("new columns %ld and rows %ld", sakura.columns, sakura.rows);
-	}
-	sakura.width = gtk_widget_get_allocated_width(sakura.main_window) + x_padding;
-	sakura.height = gtk_widget_get_allocated_height(sakura.main_window) + y_padding;
-	SAY("Sakura width %d and height %d", sakura.width, sakura.height);
-}
-
-
 /* Retrieve the cwd of the specified term page.
  * Original function was from terminal-screen.c of gnome-terminal, copyright (C) 2001 Havoc Pennington
  * Adapted by Hong Jen Yee, non-linux shit removed by David Gómez */
@@ -1407,22 +1367,13 @@ sakura_get_term_cwd(struct terminal* term)
 static gboolean
 sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
-	struct terminal *term;
-	glong vte_rows, vte_columns;
 
 	if (event->width!=sakura.width || event->height!=sakura.height) {
-		SAY("RESIZE. Actual %d %d ConfigureEvent w %d h %d",
+		SAY("Configure event received. Current w %d h %d ConfigureEvent w %d h %d",
 		sakura.width, sakura.height, event->width, event->height);
-	term = sakura_get_page_term(sakura, 0);
-
-	vte_rows = vte_terminal_get_row_count(VTE_TERMINAL(term->vte));
-	vte_columns = vte_terminal_get_column_count(VTE_TERMINAL(term->vte));
-	SAY("vte rows %ld vte columns %ld", vte_rows, vte_columns);
-		//gtk_window_resize (GTK_WINDOW (sakura.main_window), event->width, event->height);
-		/* Window has been resized by the user. Recalculate sizes */
-		//sakura_calculate_row_col (event->width, event->height);
+	
 	}
-
+		
 	return FALSE;
 }
 
@@ -1896,7 +1847,7 @@ sakura_init_popup()
 	          *item_select_background, *item_set_title, *item_full_screen,
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
 	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
-	          *item_blinking_cursor, *item_borderless_maximized, *item_aspect_options, *item_terminal_options,
+	          *item_blinking_cursor, *item_borderless_maximized, *item_other_options, 
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
 	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions;
@@ -1904,7 +1855,7 @@ sakura_init_popup()
 	          *action_new_window, *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
 	          *action_full_screen;
-	GtkWidget *options_menu, *aspect_options_menu, *cursor_menu, *palette_menu;
+	GtkWidget *options_menu, *other_options_menu, *cursor_menu, *palette_menu;
 
 	/* Define actions */
 	action_open_link=gtk_action_new("open_link", _("Open link..."), NULL, NULL);
@@ -1942,15 +1893,16 @@ sakura_init_popup()
 
 	item_options=gtk_menu_item_new_with_label(_("Options"));
 
-	/* FIXME: Localize */
-	item_less_questions=gtk_check_menu_item_new_with_label("Show confirmation dialogs");
+	/* FIXME: Use actions for all items, or no use'em at all */
 	/* FIXME:Localize */
-	item_aspect_options=gtk_menu_item_new_with_label("Other options");
+	item_other_options=gtk_menu_item_new_with_label("Other options");
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Always show tab bar"));
 	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs on bottom"));
 	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show tab close button"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
 	item_borderless_maximized=gtk_check_menu_item_new_with_label(_("Borderless and maximized"));
+	/* FIXME: Localize */
+	item_less_questions=gtk_check_menu_item_new_with_label("Hide exit confirm dialog");
 	/* FIXME:Localize */
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
@@ -2066,7 +2018,7 @@ sakura_init_popup()
 
 	sakura.im_menu=gtk_menu_new();
 	options_menu=gtk_menu_new();
-	aspect_options_menu=gtk_menu_new();
+	other_options_menu=gtk_menu_new();
 	cursor_menu=gtk_menu_new();
 	palette_menu=gtk_menu_new();
 
@@ -2076,31 +2028,30 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_select_font);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_select_background);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
-	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_less_questions);
-	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
-	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_aspect_options);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_show_first_tab);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_tabs_on_bottom);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_show_close_button);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_toggle_scrollbar);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_borderless_maximized);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_audible_bell);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_visible_bell);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_blinking_cursor);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_cursor);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_other_options);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_show_first_tab);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_tabs_on_bottom);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_show_close_button);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_toggle_scrollbar);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_borderless_maximized);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_less_questions);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_audible_bell);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_visible_bell);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_blinking_cursor);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_cursor);
 	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_block);
 	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_underline);
 	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_ibeam);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_palette);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_palette);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_tango);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_linux);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_xterm);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_rxvt);
-	gtk_menu_shell_append(GTK_MENU_SHELL(aspect_options_menu), item_input_methods);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_input_methods);
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_input_methods), sakura.im_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), options_menu);
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_aspect_options), aspect_options_menu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_other_options), other_options_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_cursor), cursor_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_palette), palette_menu);
 
@@ -2210,66 +2161,31 @@ sakura_set_size(gint columns, gint rows)
 	struct terminal *term;
 	gint pad_x, pad_y;
 	gint char_width, char_height;
-	glong vte_rows, vte_columns;
-	GdkGeometry hints;
+	guint npages;
 
 	term = sakura_get_page_term(sakura, 0);
-
-	//vte_rows = vte_terminal_get_row_count(VTE_TERMINAL(term->vte));
-	//vte_columns = vte_terminal_get_column_count(VTE_TERMINAL(term->vte));
-	//SAY("vte rows %ld vte columns %ld", vte_rows, vte_columns);
-	//if ( (vte_rows==24) && (vte_columns==80) ) {
-	//	SAY("GOING OUT");
-	//	return;
-	//}
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	gtk_widget_style_get(term->vte, "inner-border", &term->border, NULL);
 	pad_x = term->border->left + term->border->right;
 	pad_y = term->border->top + term->border->bottom;
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
-	//SAY("char width %d char height %d", char_width, char_height);
-
-	// This is NOT the place to set geometry hints
-#if 0
-	hints.min_width = char_width + pad_x;
-	hints.min_height = char_height + pad_y;
-	hints.base_width = pad_x;
-	hints.base_height = pad_y;
-	hints.width_inc = char_width;
-	hints.height_inc = char_height;
-	gtk_window_set_geometry_hints (GTK_WINDOW (sakura.main_window), GTK_WIDGET (term->vte), &hints,
-	                               GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
-#endif
-
-	int main_awidth, term_awidth, main_aheight, term_aheight, n_awidth, n_aheight;
-	main_awidth=gtk_widget_get_allocated_width(sakura.main_window);
-	term_awidth=gtk_widget_get_allocated_width(term->vte);
-	n_awidth=gtk_widget_get_allocated_width(sakura.notebook);
-	main_aheight=gtk_widget_get_allocated_height(sakura.main_window);
-	term_aheight=gtk_widget_get_allocated_height(term->vte);
-	n_aheight=gtk_widget_get_allocated_height(sakura.notebook);
-	
-	SAY("main allocw %d term allocw %d", main_awidth, term_awidth);
-	SAY("main alloch %d term alloch %d", main_aheight, term_aheight);
-	SAY("notebook allocw %d notebook alloch %d", n_awidth, n_aheight);
-	SAY("DIFFERENCE get_alloc w %d h %d", main_awidth-term_awidth, main_aheight-term_aheight);
 
 	sakura.width = pad_x + (char_width * sakura.columns);
 	sakura.height = pad_y + (char_height * sakura.rows);
-	//SAY("plus padding & columns/rows %d %d", sakura.width, sakura.height);
 
-	/* ADD CHECK: At this point get_row_count() should be equal to sakura.rows */
-
-	//SAY("2 vte rows %ld vte columns %ld", vte_rows, vte_columns);
-	if (gtk_widget_get_mapped (sakura.main_window)) {
-		//vte_terminal_set_size(VTE_TERMINAL(term->vte), sakura.columns, sakura.rows);
-		SAY("Resizing to %d  %d", sakura.width, sakura.height);
-		gtk_window_resize (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
-	} else {
-		//gtk_window_set_default_size (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
+	if (npages>=2) {
+		int kk, kk1; gtk_widget_get_preferred_height(sakura.notebook, &kk, &kk1);
+		sakura.height += kk;
+		/* FIXME: And for the width ????*/
 	}
-	//SAY("3 vte rows %ld vte columns %ld", vte_rows, vte_columns);
+
+	//gtk_window_set_default_size (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
+	gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
+	SAY("RESIZED TO %d %d", sakura.width, sakura.height);
+		int kk, kk1; gtk_widget_get_preferred_height(sakura.notebook, &kk, &kk1);
+		SAY("NOTEBOOK RULZ! %d %d", kk, kk1);
 }
 
 
@@ -2391,7 +2307,10 @@ sakura_add_tab()
 		g_free(cfgtmp);
 
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
+		/* FIXME: font should be set up */
 		//sakura_set_font();
+		/* Set size before showing the widgets */
+		sakura_set_size(sakura.columns, sakura.rows);
 		vte_terminal_set_font(VTE_TERMINAL(term->vte), sakura.font);
 
         gtk_widget_show_all(sakura.notebook);
@@ -2411,8 +2330,6 @@ sakura_add_tab()
 		} else {
             gtk_widget_show(sakura.main_window);
 		}
-		//TOO SOON? after show...
-		//sakura_set_size(sakura.columns, sakura.rows);
 
 		if (option_execute||option_xterm_execute) {
 			int command_argc; char **command_argv;
@@ -2472,6 +2389,8 @@ sakura_add_tab()
 		if (npages==2) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 			sakura_set_size(sakura.rows, sakura.columns);
+		int kk, kk1; gtk_widget_get_preferred_height(sakura.notebook, &kk, &kk1);
+		SAY("NOTEBOOK RULZ! %d %d", kk, kk1);
 		}
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
@@ -2516,9 +2435,6 @@ sakura_add_tab()
 	if (sakura.maximized) {
 		gtk_window_maximize (GTK_WINDOW(sakura.main_window));
 	}
-
-	/* At the end it's better mayhaps */
-	sakura_set_size(sakura.columns, sakura.rows);
 
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
 	gtk_widget_grab_focus(term->vte);
