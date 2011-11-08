@@ -1347,11 +1347,9 @@ sakura_get_term_cwd(struct terminal* term)
 static gboolean
 sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
-
 	if (event->width!=sakura.width || event->height!=sakura.height) {
 		SAY("Configure event received. Current w %d h %d ConfigureEvent w %d h %d",
 		sakura.width, sakura.height, event->width, event->height);
-	
 	}
 		
 	return FALSE;
@@ -2139,6 +2137,11 @@ sakura_set_size(gint columns, gint rows)
 	term = sakura_get_page_term(sakura, 0);
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
+	/* Mayhaps an user resize happened. Check if row and columns have changed */
+	sakura.columns=vte_terminal_get_column_count(VTE_TERMINAL(term->vte));
+	sakura.rows=vte_terminal_get_row_count(VTE_TERMINAL(term->vte));
+	SAY("New columns %ld and rows %ld", sakura.columns, sakura.rows);
+
 	gtk_widget_style_get(term->vte, "inner-border", &term->border, NULL);
 	pad_x = term->border->left + term->border->right;
 	pad_y = term->border->top + term->border->bottom;
@@ -2158,6 +2161,7 @@ sakura_set_size(gint columns, gint rows)
 		sakura.width += 8;
 	}
 
+	/* GTK ignores resizes for maximized windows, so we don't need no check if it's maximized or not */
 	gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
 	SAY("RESIZED TO %d %d", sakura.width, sakura.height);
 }
@@ -2362,8 +2366,6 @@ sakura_add_tab()
 		if (npages==2) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 			sakura_set_size(sakura.rows, sakura.columns);
-		int kk, kk1; gtk_widget_get_preferred_height(sakura.notebook, &kk, &kk1);
-		SAY("NOTEBOOK preferred height %d %d", kk, kk1);
 		}
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
