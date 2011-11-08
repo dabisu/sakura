@@ -1871,13 +1871,13 @@ sakura_init_popup()
 
 	/* FIXME: Use actions for all items, or no use'em at all */
 	/* FIXME:Localize */
-	item_other_options=gtk_menu_item_new_with_label("Other");
+	item_other_options=gtk_menu_item_new_with_label("More");
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Always show tab bar"));
 	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs on bottom"));
 	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show close button on tabs"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
 	/* FIXME: Localize */
-	item_less_questions=gtk_check_menu_item_new_with_label("Hide exit confirm dialog");
+	item_less_questions=gtk_check_menu_item_new_with_label("Don't show exit dialog");
 	/* FIXME:Localize */
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
@@ -2157,7 +2157,10 @@ sakura_set_size(gint columns, gint rows)
 		SAY("NOTEBOOK min height %d natural height %d", min_height, natural_height);
 		/* Constant are a supermegaugly hack. FIX THEM*/
 		/* FIXME: Get notebook padding*/
-		sakura.height += min_height-5 ;
+		if (!sakura.show_scrollbar) 
+			sakura.height += min_height-5;
+		else
+			sakura.height += min_height-20;
 		sakura.width += 8;
 	}
 
