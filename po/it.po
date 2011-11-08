@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 20:13+0100\n"
+"POT-Creation-Date: 2011-11-08 21:48+0100\n"
 "PO-Revision-Date: 2010-10-06 14:01+0000\n"
 "Last-Translator: nTia89 <tia.tif@fastwebnet.it>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -166,9 +166,6 @@ msgstr "Mostra il bottone di chiusura"
 
 msgid "Show scrollbar"
 msgstr "Visualizza la barra di scorrimento"
-
-msgid "Borderless and maximized"
-msgstr ""
 
 msgid "Set audible bell"
 msgstr "Imposta l'avviso acustico"

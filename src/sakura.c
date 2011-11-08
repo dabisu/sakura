@@ -164,8 +164,6 @@ static struct {
 	bool audible_bell;
 	bool visible_bell;
 	bool blinking_cursor;
-	bool borderless;
-	bool maximized;
 	bool full_screen;
 	bool keep_fc;				/* Global flag to indicate that we don't want changes in the files and columns values */
 	bool config_modified;		/* Configuration has been modified */
@@ -1258,32 +1256,6 @@ sakura_blinking_cursor (GtkWidget *widget, void *data)
 
 
 static void
-sakura_borderless (GtkWidget *widget, void *data)
-{
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-		gtk_window_set_decorated (GTK_WINDOW(sakura.main_window), FALSE);
-		sakura_set_config_string("borderless", "Yes");
-	} else {
-		gtk_window_set_decorated (GTK_WINDOW(sakura.main_window), TRUE);
-		sakura_set_config_string("borderless", "No");
-	}
-}
-
-
-static void
-sakura_maximized (GtkWidget *widget, void *data)
-{
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-		gtk_window_maximize (GTK_WINDOW(sakura.main_window));
-		sakura_set_config_string("maximized", "Yes");
-	} else {
-		gtk_window_unmaximize (GTK_WINDOW(sakura.main_window));
-		sakura_set_config_string("maximized", "No");
-	}
-}
-
-
-static void
 sakura_set_cursor(GtkWidget *widget, void *data)
 {
 	struct terminal *term;
@@ -1678,20 +1650,6 @@ sakura_init()
 	}
 	sakura.cursor_type = g_key_file_get_integer(sakura.cfg, cfg_group, "cursor_type", NULL);
 
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "borderless", NULL)) {
-		sakura_set_config_string("borderless", "No");
-	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "borderless", NULL);
-	sakura.borderless= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
-	g_free(cfgtmp);
-
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "maximized", NULL)) {
-		sakura_set_config_string("maximized", "No");
-	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "maximized", NULL);
-	sakura.maximized= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
-	g_free(cfgtmp);
-
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
 		sakura_set_config_string("word_chars", DEFAULT_WORD_CHARS);
 	}
@@ -1869,7 +1827,7 @@ sakura_init_popup()
 	          *item_select_background, *item_set_title, *item_full_screen,
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
 	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
-	          *item_blinking_cursor, *item_borderless_maximized, *item_other_options, 
+	          *item_blinking_cursor, *item_other_options, 
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
 	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions;
@@ -1920,7 +1878,6 @@ sakura_init_popup()
 	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs on bottom"));
 	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show close button on tabs"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
-	item_borderless_maximized=gtk_check_menu_item_new_with_label(_("Borderless and maximized"));
 	/* FIXME: Localize */
 	item_less_questions=gtk_check_menu_item_new_with_label("Hide exit confirm dialog");
 	/* FIXME:Localize */
@@ -1996,10 +1953,6 @@ sakura_init_popup()
 			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_cursor_ibeam), TRUE);
 	}
 
-	if (sakura.borderless && sakura.maximized) {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_borderless_maximized), TRUE);
-	}
-
 	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
 	if (strcmp(cfgtmp, "linux")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_linux), TRUE);
@@ -2051,7 +2004,6 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_show_close_button);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_toggle_scrollbar);
-	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_borderless_maximized);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_less_questions);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_visible_bell);
@@ -2092,8 +2044,6 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
-	g_signal_connect(G_OBJECT(item_borderless_maximized), "activate", G_CALLBACK(sakura_borderless), NULL);
-	g_signal_connect(G_OBJECT(item_borderless_maximized), "activate", G_CALLBACK(sakura_maximized), NULL);
 	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_opacity_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_cursor_block), "activate", G_CALLBACK(sakura_set_cursor), "block");
@@ -2453,12 +2403,7 @@ sakura_add_tab()
 	/* Change cursor */	
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
 
-	/* Apply user defined window configuration */
-	gtk_window_set_decorated (GTK_WINDOW(sakura.main_window), sakura.borderless ? FALSE : TRUE);
-	if (sakura.maximized) {
-		gtk_window_maximize (GTK_WINDOW(sakura.main_window));
-	}
-	
+	/*FIXME: Needed?*/
 	sakura_set_size(sakura.rows, sakura.columns);
 
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */

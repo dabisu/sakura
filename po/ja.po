@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 20:13+0100\n"
+"POT-Creation-Date: 2011-11-08 21:48+0100\n"
 "PO-Revision-Date: 2011-08-02 21:39+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -163,9 +163,6 @@ msgstr "タブの閉じるボタンを表示"
 msgid "Show scrollbar"
 msgstr "スクロールバーを表示"
 
-msgid "Borderless and maximized"
-msgstr "ボーダーレスと最大化"
-
 msgid "Set audible bell"
 msgstr "可聴なベルを表示"
 
@@ -203,6 +200,9 @@ msgstr "- vte ベースのターミナルエミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "Borderless and maximized"
+#~ msgstr "ボーダーレスと最大化"
 
 #~ msgid "Set name..."
 #~ msgstr "名前を指定"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 20:13+0100\n"
+"POT-Creation-Date: 2011-11-08 21:48+0100\n"
 "PO-Revision-Date: 2010-03-03 12:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -152,9 +152,6 @@ msgid "Show close button on tabs"
 msgstr ""
 
 msgid "Show scrollbar"
-msgstr ""
-
-msgid "Borderless and maximized"
 msgstr ""
 
 msgid "Set audible bell"

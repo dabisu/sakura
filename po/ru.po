@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 20:13+0100\n"
+"POT-Creation-Date: 2011-11-08 21:48+0100\n"
 "PO-Revision-Date: 2011-06-11 23:11+0000\n"
 "Last-Translator: Anton Lashkov <Unknown>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -161,9 +161,6 @@ msgstr "Показывать кнопку закрытия вкладки"
 msgid "Show scrollbar"
 msgstr "Показать линейку прокрутки"
 
-msgid "Borderless and maximized"
-msgstr "На весь экран без рамки."
-
 msgid "Set audible bell"
 msgstr "Звуковое оповещение"
 
@@ -201,6 +198,9 @@ msgstr "- эмулятор терминала, основанный на VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Версия Сакуры %s\n"
+
+#~ msgid "Borderless and maximized"
+#~ msgstr "На весь экран без рамки."
 
 #~ msgid "Set name..."
 #~ msgstr "Заголовок вкладки..."

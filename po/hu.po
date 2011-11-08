@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 20:13+0100\n"
+"POT-Creation-Date: 2011-11-08 21:48+0100\n"
 "PO-Revision-Date: 2010-03-03 12:14+0000\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -157,9 +157,6 @@ msgid "Show close button on tabs"
 msgstr ""
 
 msgid "Show scrollbar"
-msgstr ""
-
-msgid "Borderless and maximized"
 msgstr ""
 
 msgid "Set audible bell"
