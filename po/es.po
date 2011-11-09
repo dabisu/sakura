@@ -5,15 +5,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:54+0100\n"
-"PO-Revision-Date: 2011-11-01 19:01+0000\n"
+"POT-Creation-Date: 2011-11-08 23:44+0100\n"
+"PO-Revision-Date: 2011-11-08 20:55+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-02 04:47+0000\n"
-"X-Generator: Launchpad (build 14214)\n"
+"X-Launchpad-Export-Date: 2011-11-09 04:46+0000\n"
+"X-Generator: Launchpad (build 14263)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -68,11 +68,11 @@ msgstr ""
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
-msgid "Set name"
-msgstr "Definir nombre"
+msgid "Set tab name"
+msgstr ""
 
-msgid "Tab new text"
-msgstr "Nuevo texto de la pestaña"
+msgid "New text"
+msgstr "Texto nuevo"
 
 msgid "Select color"
 msgstr "Seleccionar color"
@@ -112,11 +112,8 @@ msgstr "Copiar enlace..."
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-msgid "New window"
-msgstr "Nueva ventana"
-
-msgid "Set name..."
-msgstr "Elegir nombre"
+msgid "Set tab name..."
+msgstr ""
 
 msgid "Close tab"
 msgstr "Cerrar pestaña"
@@ -157,14 +154,11 @@ msgstr "Mostrar siempre la barra de pestañas"
 msgid "Tabs on bottom"
 msgstr "Pestañas debajo"
 
-msgid "Show tab close button"
-msgstr "Mostrar boton para cerrar pestaña"
+msgid "Show close button on tabs"
+msgstr "Mostrar botón de cerrar en las pestañas"
 
 msgid "Show scrollbar"
 msgstr "Mostrar barra de desplazamiento"
-
-msgid "Borderless and maximized"
-msgstr "Sin borde y maximizada"
 
 msgid "Set audible bell"
 msgstr "Activar campana audible"
@@ -174,6 +168,18 @@ msgstr "Activar campana visible"
 
 msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr "Bloque"
+
+msgid "Underline"
+msgstr "Subrayado"
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "Definir paleta"

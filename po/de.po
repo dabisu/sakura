@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:54+0100\n"
-"PO-Revision-Date: 2011-11-01 19:01+0000\n"
+"POT-Creation-Date: 2011-11-08 23:44+0100\n"
+"PO-Revision-Date: 2011-11-08 12:21+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-02 04:47+0000\n"
-"X-Generator: Launchpad (build 14214)\n"
+"X-Launchpad-Export-Date: 2011-11-09 04:46+0000\n"
+"X-Generator: Launchpad (build 14263)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -71,11 +71,11 @@ msgstr ""
 msgid "Select font"
 msgstr "Schrift auswählen"
 
-msgid "Set name"
-msgstr "Name wählen"
+msgid "Set tab name"
+msgstr ""
 
-msgid "Tab new text"
-msgstr "Neuer Reitertext"
+msgid "New text"
+msgstr ""
 
 msgid "Select color"
 msgstr "Farbe wählen"
@@ -116,11 +116,8 @@ msgstr "Kopiere Link..."
 msgid "New tab"
 msgstr "Neuer Reiter"
 
-msgid "New window"
-msgstr "Neues Fenster"
-
-msgid "Set name..."
-msgstr "Name wählen..."
+msgid "Set tab name..."
+msgstr ""
 
 msgid "Close tab"
 msgstr "Reiter schließen"
@@ -161,14 +158,11 @@ msgstr "Reiterleiste immer anzeigen"
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
-msgstr "Schließen-Knopf auf jedem Reiter anzeigen"
+msgid "Show close button on tabs"
+msgstr ""
 
 msgid "Show scrollbar"
 msgstr "Bildlaufleiste anzeigen"
-
-msgid "Borderless and maximized"
-msgstr "Rahmenlos und maximiert"
 
 msgid "Set audible bell"
 msgstr "Hörbarer Alarm"
@@ -178,6 +172,18 @@ msgstr "Sichtbarer Alarm"
 
 msgid "Set blinking cursor"
 msgstr "Blinkender Cursor"
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "Palette"

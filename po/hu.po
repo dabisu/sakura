@@ -5,15 +5,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:54+0100\n"
+"POT-Creation-Date: 2011-11-08 23:44+0100\n"
 "PO-Revision-Date: 2010-03-03 12:14+0000\n"
 "Last-Translator: SZERVÑC Attila <Unknown>\n"
 "Language-Team: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-02 04:47+0000\n"
-"X-Generator: Launchpad (build 14214)\n"
+"X-Launchpad-Export-Date: 2011-11-09 04:46+0000\n"
+"X-Generator: Launchpad (build 14263)\n"
 "X-Poedit-Country: HUNGARY\n"
 "Language: \n"
 "X-Poedit-Language: Hungarian\n"
@@ -66,10 +66,10 @@ msgstr ""
 msgid "Select font"
 msgstr "Válassz betűt"
 
-msgid "Set name"
-msgstr "Név beállítása"
+msgid "Set tab name"
+msgstr ""
 
-msgid "Tab new text"
+msgid "New text"
 msgstr ""
 
 msgid "Select color"
@@ -108,11 +108,8 @@ msgstr ""
 msgid "New tab"
 msgstr "Új lap"
 
-msgid "New window"
+msgid "Set tab name..."
 msgstr ""
-
-msgid "Set name..."
-msgstr "Név beállítása..."
 
 msgid "Close tab"
 msgstr "Lap bezárása"
@@ -153,13 +150,10 @@ msgstr ""
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
+msgid "Show close button on tabs"
 msgstr ""
 
 msgid "Show scrollbar"
-msgstr ""
-
-msgid "Borderless and maximized"
 msgstr ""
 
 msgid "Set audible bell"
@@ -169,6 +163,18 @@ msgid "Set visible bell"
 msgstr ""
 
 msgid "Set blinking cursor"
+msgstr ""
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
 msgstr ""
 
 msgid "Set palette"

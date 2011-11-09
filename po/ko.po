@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 18:54+0100\n"
-"PO-Revision-Date: 2011-11-01 19:01+0000\n"
+"POT-Creation-Date: 2011-11-08 23:44+0100\n"
+"PO-Revision-Date: 2011-11-08 12:21+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-02 04:47+0000\n"
-"X-Generator: Launchpad (build 14214)\n"
+"X-Launchpad-Export-Date: 2011-11-09 04:46+0000\n"
+"X-Generator: Launchpad (build 14263)\n"
 "Language: ko\n"
 
 msgid "Print version number"
@@ -69,11 +69,11 @@ msgstr ""
 msgid "Select font"
 msgstr "글꼴 선택"
 
-msgid "Set name"
-msgstr "이름 설정"
+msgid "Set tab name"
+msgstr ""
 
-msgid "Tab new text"
-msgstr "탭 새문자"
+msgid "New text"
+msgstr ""
 
 msgid "Select color"
 msgstr "색상 선택"
@@ -114,11 +114,8 @@ msgstr "링크 복사..."
 msgid "New tab"
 msgstr "새 탭"
 
-msgid "New window"
+msgid "Set tab name..."
 msgstr ""
-
-msgid "Set name..."
-msgstr "이름 설정..."
 
 msgid "Close tab"
 msgstr "탭 닫기"
@@ -159,14 +156,11 @@ msgstr ""
 msgid "Tabs on bottom"
 msgstr ""
 
-msgid "Show tab close button"
-msgstr "탭 닫기 버튼 보기"
+msgid "Show close button on tabs"
+msgstr ""
 
 msgid "Show scrollbar"
 msgstr "스크롤바 보이기"
-
-msgid "Borderless and maximized"
-msgstr ""
 
 msgid "Set audible bell"
 msgstr "소리 나게 설정"
@@ -176,6 +170,18 @@ msgstr "소리 보이게 설정"
 
 msgid "Set blinking cursor"
 msgstr "커서 깜빡임 설정"
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "파레트 설정"
