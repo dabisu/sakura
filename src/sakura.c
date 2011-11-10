@@ -520,6 +520,7 @@ sakura_increase_font (GtkWidget *widget, void *data)
 
 	sakura_set_font();
 	sakura_set_size(sakura.columns, sakura.rows);
+	sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
 }
 
 
@@ -532,7 +533,8 @@ sakura_decrease_font (GtkWidget *widget, void *data)
 	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)-1) * PANGO_SCALE);
 
 	sakura_set_font();
-	sakura_set_size(sakura.columns, sakura.rows);
+	sakura_set_size(sakura.columns, sakura.rows);	
+	sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
 }
 
 
@@ -2439,7 +2441,7 @@ sakura_add_tab()
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
 
 	/*FIXME: Needed?*/
-	sakura_set_size(sakura.rows, sakura.columns);
+	//sakura_set_size(sakura.rows, sakura.columns);
 
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
 	gtk_widget_grab_focus(term->vte);
