@@ -791,6 +791,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	/* Set style */
 	gtk_widget_set_name (input_dialog, "set-name-dialog");
+	/* FIXME: Update to GtkCssProvider */
 	gtk_rc_parse_string ("widget \"set-name-dialog\" style \"hig-dialog\"\n");
 
 	name_hbox=gtk_hbox_new(FALSE, 0);
@@ -846,6 +847,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
 	/* Set style */
 	gtk_widget_set_name (color_dialog, "set-color-dialog");
+	/* FIXME: Update to GtkCssProvider */
 	gtk_rc_parse_string ("widget \"set-color-dialog\" style \"hig-dialog\"\n");
 
 	hbox_fore=gtk_hbox_new(FALSE, 12);
@@ -935,6 +937,7 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 
 	/* Set style */
 	gtk_widget_set_name (opacity_dialog, "set-opacity-dialog");
+	/* FIXME: Update to GtkCssProvider */
 	gtk_rc_parse_string ("widget \"set-opacity-dialog\" style \"hig-dialog\"\n");
 
 	spinner_adj = gtk_adjustment_new ((sakura.opacity_level), 0.0, 99.0, 1.0, 5.0, 0);
@@ -998,6 +1001,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	gtk_window_set_modal(GTK_WINDOW(title_dialog), TRUE);
 	/* Set style */
 	gtk_widget_set_name (title_dialog, "set-title-dialog");
+	/* FIXME: Update to GtkCssProvider */
 	gtk_rc_parse_string ("widget \"set-title-dialog\" style \"hig-dialog\"\n");
 
 	entry=gtk_entry_new();
@@ -1467,10 +1471,16 @@ sakura_closebutton_clicked(GtkWidget *widget, void *data)
 	struct terminal *term;
 	pid_t pgid;
 	GtkWidget *dialog;
-	gint response;
+	gint npages, response;
 
 	page = gtk_notebook_page_num(GTK_NOTEBOOK(sakura.notebook), hbox);
 	term = sakura_get_page_term(sakura, page);
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
+	/* Only write configuration to disk if it's the last tab */
+	if (npages==1) {
+		sakura_config_done();
+	}
 
 	/* Check if there are running processes for this tab. Use tcgetpgrp to compare to the shell PGID */
 	pgid = tcgetpgrp(vte_terminal_get_pty(VTE_TERMINAL(term->vte)));
@@ -1608,7 +1618,7 @@ sakura_init()
 	sakura.show_scrollbar = g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "closebutton", NULL)) {
-		sakura_set_config_boolean("closebutton", FALSE);
+		sakura_set_config_boolean("closebutton", TRUE);
 	}
 	sakura.show_closebutton = g_key_file_get_boolean(sakura.cfg, cfg_group, "closebutton", NULL);
 
@@ -1739,6 +1749,7 @@ sakura_init()
 	sakura.fullscreen_key = sakura_get_config_key("fullscreen_key");
 
 	/* Set dialog style */
+	/* FIXME: Update to GtkCssProvider */
 	gtk_rc_parse_string ("style \"hig-dialog\" {\n"
 	                     "GtkDialog::action-area-border = 12\n"
                          "GtkDialog::button-spacing = 12\n"
@@ -2152,13 +2163,19 @@ sakura_set_size(gint columns, gint rows)
 		gint min_height, natural_height; 
 		gtk_widget_get_preferred_height(sakura.notebook, &min_height, &natural_height);
 		SAY("NOTEBOOK min height %d natural height %d", min_height, natural_height);
+		guint16 hb, vb;
+		hb=gtk_notebook_get_tab_hborder(GTK_NOTEBOOK(sakura.notebook));
+		vb=gtk_notebook_get_tab_vborder(GTK_NOTEBOOK(sakura.notebook));
+		SAY("notebook borders h %d v %d", hb, vb);
+		SAY("padding x %d y %d", pad_x, pad_y);
 		/* Constant are a supermegaugly hack. FIX THEM*/
 		/* FIXME: Get notebook padding*/
 		if (!sakura.show_scrollbar) 
 			sakura.height += min_height-5;
 		else
 			sakura.height += min_height-20;
-		sakura.width += 8;
+		//sakura.width += 8;
+		sakura.width += (hb*2)+ (pad_x*2);
 	}
 
 	/* GTK ignores resizes for maximized windows, so we don't need no check if it's maximized or not */
@@ -2189,7 +2206,7 @@ sakura_add_tab()
 {
 	struct terminal *term;
 	GtkWidget *tab_hbox;
-	GtkWidget *close_btn;
+	GtkWidget *close_button;
 	int index;
 	int npages;
 	gchar *cwd = NULL;
@@ -2207,12 +2224,31 @@ sakura_add_tab()
 	gtk_box_pack_start(GTK_BOX(tab_hbox), term->label, FALSE, FALSE, 0);
 
 	if (sakura.show_closebutton) {
-		close_btn=gtk_button_new();
-		gtk_button_set_relief(GTK_BUTTON(close_btn), GTK_RELIEF_NONE);
+		close_button=gtk_button_new();
+		gtk_widget_set_name(close_button, "closebutton");
+		gtk_button_set_relief(GTK_BUTTON(close_button), GTK_RELIEF_NONE);
 		GtkWidget *image=gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-		gtk_container_add (GTK_CONTAINER (close_btn), image);
-		/* FIXME: Use GtkWidget set-style signal to properly reflect the changes */
-		gtk_box_pack_start(GTK_BOX(tab_hbox), close_btn, FALSE, FALSE, 0);
+		/* Default stock buttons have a significant border. We want small buttons for our tabs, so we
+		   need to set our own style */
+		GtkCssProvider *provider = gtk_css_provider_new();
+		gchar *css = g_strdup_printf (
+				"* {\n"
+				"-GtkButton-default-border : 0;\n"
+				"-GtkButton-default-outside-border : 0;\n"
+				"-GtkButton-inner-border: 0;\n"
+				"-GtkWidget-focus-line-width : 0;\n"
+				"-GtkWidget-focus-padding : 0;\n"
+				"padding: 0;\n"
+				"}");
+
+		gtk_css_provider_load_from_data(provider, css, -1, NULL);
+		GtkStyleContext *context = gtk_widget_get_style_context (close_button);
+	    gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+		gtk_container_add (GTK_CONTAINER (close_button), image);
+		gtk_box_pack_start(GTK_BOX(tab_hbox), close_button, FALSE, FALSE, 0);
+
+		// FIXME: Destroy provider ??			
 	}
 
 	if (sakura.tabs_on_bottom) {
@@ -2270,7 +2306,7 @@ sakura_add_tab()
 	/* Notebook signals */
 	g_signal_connect(G_OBJECT(sakura.notebook), "page-removed", G_CALLBACK(sakura_page_removed), NULL);
 	if (sakura.show_closebutton) {
-		g_signal_connect(G_OBJECT(close_btn), "clicked", G_CALLBACK(sakura_closebutton_clicked), term->hbox);
+		g_signal_connect(G_OBJECT(close_button), "clicked", G_CALLBACK(sakura_closebutton_clicked), term->hbox);
 	}
 
 	/* First tab */
@@ -2285,11 +2321,9 @@ sakura_add_tab()
 		g_free(cfgtmp);
 
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
-		/* FIXME: font should be set up */
-		//sakura_set_font();
-		/* Set size before showing the widgets */
+		sakura_set_font();
+		/* Set size before showing the widgets but after setting the font */
 		sakura_set_size(sakura.columns, sakura.rows);
-		vte_terminal_set_font(VTE_TERMINAL(term->vte), sakura.font);
 
         gtk_widget_show_all(sakura.notebook);
         if (!sakura.show_scrollbar) {
@@ -2356,8 +2390,7 @@ sakura_add_tab()
 		}
 	/* Not the first tab */
 	} else {
-		vte_terminal_set_font(VTE_TERMINAL(term->vte), sakura.font);
-		//sakura_set_font();
+		sakura_set_font();
 		gtk_widget_show_all(term->hbox);
 		if (!sakura.show_scrollbar) {
 			gtk_widget_hide(term->scrollbar);
