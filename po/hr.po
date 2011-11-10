@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 21:48+0100\n"
+"POT-Creation-Date: 2011-11-10 19:52+0100\n"
 "PO-Revision-Date: 2010-10-06 17:20+0000\n"
 "Last-Translator: Dražen Odobašić <dodobas@geoinfo.geof.hr>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -152,10 +152,13 @@ msgstr "Postavi naslov prozora"
 msgid "Options"
 msgstr "Mogućnosti"
 
+msgid "More"
+msgstr ""
+
 msgid "Always show tab bar"
 msgstr ""
 
-msgid "Tabs on bottom"
+msgid "Tabs at bottom"
 msgstr ""
 
 #, fuzzy
@@ -164,6 +167,9 @@ msgstr "Prikaži gumb za zatvaranje kartice"
 
 msgid "Show scrollbar"
 msgstr "Prikaži kliznu traku"
+
+msgid "Don't show exit dialog"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "Postavi zvučno zvono"

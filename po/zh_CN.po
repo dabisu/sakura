@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 21:48+0100\n"
+"POT-Creation-Date: 2011-11-10 19:52+0100\n"
 "PO-Revision-Date: 2011-06-23 07:43+0000\n"
 "Last-Translator: centerpoint <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -153,10 +153,13 @@ msgstr "设置窗口标题..."
 msgid "Options"
 msgstr "选项"
 
+msgid "More"
+msgstr ""
+
 msgid "Always show tab bar"
 msgstr "总是显示第一个标签页"
 
-msgid "Tabs on bottom"
+msgid "Tabs at bottom"
 msgstr ""
 
 #, fuzzy
@@ -165,6 +168,9 @@ msgstr "显示关闭标签页按钮"
 
 msgid "Show scrollbar"
 msgstr "显示滚动条"
+
+msgid "Don't show exit dialog"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "设定蜂鸣提醒"

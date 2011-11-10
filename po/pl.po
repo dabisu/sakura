@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 21:48+0100\n"
+"POT-Creation-Date: 2011-11-10 19:52+0100\n"
 "PO-Revision-Date: 2011-01-24 15:40+0000\n"
 "Last-Translator: Mateusz Micał <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -153,10 +153,13 @@ msgstr "Ustaw tytuł okna..."
 msgid "Options"
 msgstr "Ustawienia"
 
+msgid "More"
+msgstr ""
+
 msgid "Always show tab bar"
 msgstr ""
 
-msgid "Tabs on bottom"
+msgid "Tabs at bottom"
 msgstr ""
 
 #, fuzzy
@@ -165,6 +168,9 @@ msgstr "Pokazuj przycisk zamknięcia zakładki"
 
 msgid "Show scrollbar"
 msgstr "Pokaż pasek przesuwania"
+
+msgid "Don't show exit dialog"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "Dźwiękowy sygnał"

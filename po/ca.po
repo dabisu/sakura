@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 21:48+0100\n"
+"POT-Creation-Date: 2011-11-10 19:52+0100\n"
 "PO-Revision-Date: 2010-10-06 13:57+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -151,10 +151,13 @@ msgstr "Definir el nom de la finestra"
 msgid "Options"
 msgstr "Opcions"
 
+msgid "More"
+msgstr ""
+
 msgid "Always show tab bar"
 msgstr ""
 
-msgid "Tabs on bottom"
+msgid "Tabs at bottom"
 msgstr ""
 
 #, fuzzy
@@ -163,6 +166,9 @@ msgstr "Mostrar el botó de tancament de pestanya"
 
 msgid "Show scrollbar"
 msgstr "Mostrar la barra de desplaçament"
+
+msgid "Don't show exit dialog"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "Definir la senyal acústica"

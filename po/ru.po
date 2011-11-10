@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 21:48+0100\n"
+"POT-Creation-Date: 2011-11-10 19:52+0100\n"
 "PO-Revision-Date: 2011-06-11 23:11+0000\n"
 "Last-Translator: Anton Lashkov <Unknown>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -148,10 +148,13 @@ msgstr "Заголовок окна..."
 msgid "Options"
 msgstr "Настройки"
 
+msgid "More"
+msgstr ""
+
 msgid "Always show tab bar"
 msgstr "Всегда показывать панель вкладок"
 
-msgid "Tabs on bottom"
+msgid "Tabs at bottom"
 msgstr ""
 
 #, fuzzy
@@ -160,6 +163,9 @@ msgstr "Показывать кнопку закрытия вкладки"
 
 msgid "Show scrollbar"
 msgstr "Показать линейку прокрутки"
+
+msgid "Don't show exit dialog"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "Звуковое оповещение"

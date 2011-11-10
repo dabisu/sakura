@@ -1870,15 +1870,12 @@ sakura_init_popup()
 	item_options=gtk_menu_item_new_with_label(_("Options"));
 
 	/* FIXME: Use actions for all items, or no use'em at all */
-	/* FIXME:Localize */
-	item_other_options=gtk_menu_item_new_with_label("More");
+	item_other_options=gtk_menu_item_new_with_label(_("More"));
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Always show tab bar"));
-	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs on bottom"));
+	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs at bottom"));
 	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show close button on tabs"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
-	/* FIXME: Localize */
-	item_less_questions=gtk_check_menu_item_new_with_label("Don't show exit dialog");
-	/* FIXME:Localize */
+	item_less_questions=gtk_check_menu_item_new_with_label(_("Don't show exit dialog"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));

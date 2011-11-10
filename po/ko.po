@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 21:48+0100\n"
+"POT-Creation-Date: 2011-11-10 19:52+0100\n"
 "PO-Revision-Date: 2011-02-12 17:09+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -153,10 +153,13 @@ msgstr "창 제목 성정..."
 msgid "Options"
 msgstr "설정"
 
+msgid "More"
+msgstr ""
+
 msgid "Always show tab bar"
 msgstr ""
 
-msgid "Tabs on bottom"
+msgid "Tabs at bottom"
 msgstr ""
 
 #, fuzzy
@@ -165,6 +168,9 @@ msgstr "탭 닫기 버튼 보기"
 
 msgid "Show scrollbar"
 msgstr "스크롤바 보이기"
+
+msgid "Don't show exit dialog"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "소리 나게 설정"
