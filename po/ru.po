@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-11 16:05+0100\n"
+"POT-Creation-Date: 2011-11-11 16:44+0100\n"
 "PO-Revision-Date: 2011-06-11 23:11+0000\n"
 "Last-Translator: Anton Lashkov <Unknown>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -25,7 +25,8 @@ msgstr "Начальное число вкладок"
 msgid "Execute command"
 msgstr "Выполнить команду"
 
-msgid "Execute command (xterm compatible)"
+#, fuzzy
+msgid "Execute command (last option in the command line)"
 msgstr "Выполнить команду (совместимо с xterm)"
 
 msgid "Login shell"

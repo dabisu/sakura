@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-11 16:05+0100\n"
+"POT-Creation-Date: 2011-11-11 16:44+0100\n"
 "PO-Revision-Date: 2011-08-02 21:39+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -27,7 +27,8 @@ msgstr "タブの数を選択"
 msgid "Execute command"
 msgstr "コマンドを実行"
 
-msgid "Execute command (xterm compatible)"
+#, fuzzy
+msgid "Execute command (last option in the command line)"
 msgstr "コマンドを実行（xterm互換)"
 
 msgid "Login shell"

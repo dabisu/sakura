@@ -331,7 +331,7 @@ static GOptionEntry entries[] = {
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
 	{ "execute", 'x', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
-	{ "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (xterm compatible)"), NULL },
+	{ "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (last option in the command line)"), NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
@@ -2383,6 +2383,7 @@ sakura_add_tab()
 
 			if(option_execute) {
 				/* -x option */
+				SAY("ARG: %s", option_execute);
 				if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
 					switch (gerror->code) {
 						case G_SHELL_ERROR_EMPTY_STRING:
@@ -2397,8 +2398,10 @@ sakura_add_tab()
 							sakura_error("Error in exec option command line arguments");
 							exit(1);
 					}
+				} else {
 				}
 			} else {
+				/* -e option - last in the command line */
 				gchar *command_joined;
 				/* the xterm -e command takes all extra arguments */
 				command_joined = g_strjoinv(" ", option_xterm_args);
@@ -2422,26 +2425,21 @@ sakura_add_tab()
 			/* Check if the command is valid */
 			path=g_find_program_in_path(command_argv[0]);
 			if (path) {
-				free(path);
+				vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL, 
+											   G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
 			} else {
-				option_execute=NULL;
-				g_strfreev(option_xterm_args);
-				option_xterm_args=NULL;
+				sakura_error("%s binary not found", command_argv[0]);
+				exit(1);
 			}
-
-			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL, 
-										   G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL);
-			g_strfreev(command_argv);
-			option_execute=NULL;
-			g_strfreev(option_xterm_args);
-			option_xterm_args=NULL;
+			free(path);
+			g_strfreev(command_argv); g_strfreev(option_xterm_args);
 		} else { /* No execute option */
 			if (option_hold==TRUE) {
 				sakura_error("Hold option given without any command");
 				option_hold=FALSE;
 			}
 			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, NULL,
-										   G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL);
+										   G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
 		}
 	/* Not the first tab */
 	} else {

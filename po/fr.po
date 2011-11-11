@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-11 16:05+0100\n"
+"POT-Creation-Date: 2011-11-11 16:44+0100\n"
 "PO-Revision-Date: 2011-06-30 06:22+0000\n"
 "Last-Translator: Franquet Loïc <Unknown>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -29,7 +29,8 @@ msgstr "Sélectionner le nombre d'onglets au démarrage"
 msgid "Execute command"
 msgstr "Exécuter une command"
 
-msgid "Execute command (xterm compatible)"
+#, fuzzy
+msgid "Execute command (last option in the command line)"
 msgstr "Exécuter la commande (compatible xterm)"
 
 msgid "Login shell"
