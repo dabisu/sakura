@@ -168,6 +168,7 @@ static struct {
 	bool keep_fc;				/* Global flag to indicate that we don't want changes in the files and columns values */
 	bool config_modified;		/* Configuration has been modified */
 	bool externally_modified;	/* Configuration file has been modified by another proccess */
+	bool resized;
 	GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
 	GtkWidget *item_copy_link;
 	GtkWidget *item_open_link;
@@ -619,17 +620,19 @@ sakura_title_changed (GtkWidget *widget, void *data)
 {
 	struct terminal *term;
 	const char *title;
-	gint page;
-
+	gint page, npages;
+	
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
-	//window_title = g_strconcat(title, " - sakura", NULL);
 
 	sakura_set_tab_label_text(title);
-
-	//g_free(window_title);
+	if (npages==1) 
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
+	else 
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
 
 }
 
@@ -1018,6 +1021,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	response=gtk_dialog_run(GTK_DIALOG(title_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
+		SAY("JODER %s", gtk_window_get_title(GTK_WINDOW(sakura.main_window)));
 	}
 	gtk_widget_destroy(title_dialog);
 
@@ -1350,6 +1354,7 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 	if (event->width!=sakura.width || event->height!=sakura.height) {
 		SAY("Configure event received. Current w %d h %d ConfigureEvent w %d h %d",
 		sakura.width, sakura.height, event->width, event->height);
+		sakura.resized=TRUE;
 	}
 		
 	return FALSE;
@@ -1772,6 +1777,8 @@ sakura_init()
 		sakura.has_rgba = false;
 	}
 
+	/* Command line options initialization */
+
 	/* Set argv for forked childs. Real argv vector starts at argv[1] because we're
 	   using G_SPAWN_FILE_AND_ARGV_ZERO to be able to launch login shells */
 	sakura.argv[0]=g_strdup(g_getenv("SHELL"));
@@ -1804,6 +1811,7 @@ sakura_init()
 
 	sakura.label_count=1;
 	sakura.full_screen=FALSE;
+	sakura.resized=FALSE;
 	sakura.keep_fc=false;
 	sakura.externally_modified=false;
 
@@ -2142,9 +2150,12 @@ sakura_set_size(gint columns, gint rows)
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	/* Mayhaps an user resize happened. Check if row and columns have changed */
-	sakura.columns=vte_terminal_get_column_count(VTE_TERMINAL(term->vte));
-	sakura.rows=vte_terminal_get_row_count(VTE_TERMINAL(term->vte));
-	SAY("New columns %ld and rows %ld", sakura.columns, sakura.rows);
+	if (sakura.resized) {
+		sakura.columns=vte_terminal_get_column_count(VTE_TERMINAL(term->vte));
+		sakura.rows=vte_terminal_get_row_count(VTE_TERMINAL(term->vte));
+		SAY("New columns %ld and rows %ld", sakura.columns, sakura.rows);
+		sakura.resized=FALSE;
+	}
 
 	gtk_widget_style_get(term->vte, "inner-border", &term->border, NULL);
 	pad_x = term->border->left + term->border->right;
@@ -2371,6 +2382,7 @@ sakura_add_tab()
 			gchar *path;
 
 			if(option_execute) {
+				/* -x option */
 				if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
 					sakura_error("Cannot parse command line arguments");
 					exit(1);
@@ -2460,9 +2472,6 @@ sakura_add_tab()
 	/* Change cursor */	
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
 
-	/*FIXME: Needed?*/
-	//sakura_set_size(sakura.rows, sakura.columns);
-
 	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
 	gtk_widget_grab_focus(term->vte);
 
@@ -2477,11 +2486,22 @@ static void
 sakura_del_tab(gint page)
 {
 	struct terminal *term;
+	gint npages;
+
+	term = sakura_get_page_term(sakura, page);
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
+	/* When there's only one tab use the shell title, if provided */
+	if (npages==2) {
+		term = sakura_get_page_term(sakura, 0);
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), vte_terminal_get_window_title(VTE_TERMINAL(term->vte)));
+	}
+
 	term = sakura_get_page_term(sakura, page);
 
 	/* Do the first tab checks BEFORE deleting the tab, to ensure correct
 	 * sizes are calculated when the tab is deleted */
-	if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 2) {
+	if ( npages == 2) {
         char *cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
 		if (strcmp(cfgtmp, "Yes")==0) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
