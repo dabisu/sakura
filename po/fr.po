@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-10 19:52+0100\n"
+"POT-Creation-Date: 2011-11-11 16:05+0100\n"
 "PO-Revision-Date: 2011-06-30 06:22+0000\n"
 "Last-Translator: Franquet Loïc <Unknown>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -201,6 +201,9 @@ msgstr "Méthodes d'entrée"
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
+
+msgid "Error message"
+msgstr ""
 
 msgid "- vte-based terminal emulator"
 msgstr "Émulateur de terminal utilisant VTE"

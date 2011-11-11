@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-10 19:52+0100\n"
+"POT-Creation-Date: 2011-11-11 16:05+0100\n"
 "PO-Revision-Date: 2011-06-11 23:11+0000\n"
 "Last-Translator: Anton Lashkov <Unknown>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -197,6 +197,9 @@ msgstr "Методы ввода"
 #, c-format
 msgid "Terminal %d"
 msgstr "Терминал %d"
+
+msgid "Error message"
+msgstr ""
 
 msgid "- vte-based terminal emulator"
 msgstr "- эмулятор терминала, основанный на VTE"

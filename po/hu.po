@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-10 19:52+0100\n"
+"POT-Creation-Date: 2011-11-11 16:05+0100\n"
 "PO-Revision-Date: 2010-03-03 12:14+0000\n"
 "Last-Translator: Szervác Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -194,6 +194,9 @@ msgstr "Beviteli módok"
 
 #, c-format
 msgid "Terminal %d"
+msgstr ""
+
+msgid "Error message"
 msgstr ""
 
 msgid "- vte-based terminal emulator"

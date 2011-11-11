@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-10 19:52+0100\n"
+"POT-Creation-Date: 2011-11-11 16:05+0100\n"
 "PO-Revision-Date: 2011-08-02 21:39+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -199,6 +199,9 @@ msgstr "入力メソッド"
 #, c-format
 msgid "Terminal %d"
 msgstr "ターミナル %d"
+
+msgid "Error message"
+msgstr ""
 
 msgid "- vte-based terminal emulator"
 msgstr "- vte ベースのターミナルエミュレータ"

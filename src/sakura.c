@@ -2315,7 +2315,7 @@ sakura_add_tab()
 
 	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term->hbox, tab_hbox))==-1) {
 		sakura_error("Cannot create a new tab");
-		return;
+		exit(1);
 	}
 
 #if GTK_CHECK_VERSION( 2, 10, 0 )
@@ -2378,22 +2378,43 @@ sakura_add_tab()
 
 		if (option_execute||option_xterm_execute) {
 			int command_argc; char **command_argv;
-			GError *gerror;
+			GError *gerror = NULL;
 			gchar *path;
 
 			if(option_execute) {
 				/* -x option */
 				if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
-					sakura_error("Cannot parse command line arguments");
-					exit(1);
+					switch (gerror->code) {
+						case G_SHELL_ERROR_EMPTY_STRING:
+							sakura_error("Empty exec string");
+							exit(1);
+							break;
+						case G_SHELL_ERROR_BAD_QUOTING: 
+							sakura_error("Cannot parse command line arguments: mangled quoting");
+							exit(1);
+							break;
+						case G_SHELL_ERROR_FAILED:
+							sakura_error("Error in exec option command line arguments");
+							exit(1);
+					}
 				}
 			} else {
 				gchar *command_joined;
 				/* the xterm -e command takes all extra arguments */
 				command_joined = g_strjoinv(" ", option_xterm_args);
 				if (!g_shell_parse_argv(command_joined, &command_argc, &command_argv, &gerror)) {
-					sakura_error("Cannot parse command line arguments");
-					exit(1);
+					switch (gerror->code) {
+						case G_SHELL_ERROR_EMPTY_STRING:
+							sakura_error("Empty exec string");
+							exit(1);
+							break;
+						case G_SHELL_ERROR_BAD_QUOTING: 
+							sakura_error("Cannot parse command line arguments: mangled quoting");
+							exit(1);
+						case G_SHELL_ERROR_FAILED:
+							sakura_error("Error in exec option command line arguments");
+							exit(1);
+					}
 				}
 				g_free(command_joined);
 			}
@@ -2549,7 +2570,7 @@ sakura_set_bgimage(char *infile)
 
 		pixbuf = gdk_pixbuf_new_from_file (infile, &gerror);
 		if (!pixbuf) {
-			sakura_error("Not using image file, %s\n", gerror->message);
+			sakura_error("Error loading image file: %s\n", gerror->message);
 		} else {
             vte_terminal_set_background_image(VTE_TERMINAL(term->vte), pixbuf);
             vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), TRUE);
@@ -2607,6 +2628,7 @@ sakura_error(const char *format, ...)
 
 	dialog = gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_DESTROY_WITH_PARENT,
 	                                GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", buff);
+	gtk_window_set_title(GTK_WINDOW(dialog), _("Error message"));
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 	free(buff);
