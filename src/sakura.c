@@ -630,6 +630,7 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	const char *title;
 	gint page, npages;
 	
+	SAY("A");
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
@@ -2473,8 +2474,12 @@ sakura_del_tab(gint page)
 
 	/* When there's only one tab use the shell title, if provided */
 	if (npages==2) {
+		const char *title;
+
 		term = sakura_get_page_term(sakura, 0);
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), vte_terminal_get_window_title(VTE_TERMINAL(term->vte)));
+		title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
+		if (title!=NULL) 
+			gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
 	}
 
 	term = sakura_get_page_term(sakura, page);
