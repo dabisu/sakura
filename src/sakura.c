@@ -137,6 +137,15 @@ const GdkColor rxvt_palette[PALETTE_SIZE] =
 	{ 0, 0xffff, 0xffff, 0xffff }
 };
 
+#define CLOSE_BUTTON_CSS "* {\n"\
+				"-GtkButton-default-border : 0;\n"\
+				"-GtkButton-default-outside-border : 0;\n"\
+				"-GtkButton-inner-border: 0;\n"\
+				"-GtkWidget-focus-line-width : 0;\n"\
+				"-GtkWidget-focus-padding : 0;\n"\
+				"padding: 0;\n"\
+				"}"
+
 static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
@@ -305,7 +314,6 @@ static void     sakura_add_tab();
 static void     sakura_del_tab();
 static void     sakura_set_font();
 static void     sakura_set_tab_label_text();
-static void     sakura_set_geometry_hints();
 static void     sakura_set_size(gint, gint);
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
@@ -856,7 +864,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	buttonfore=gtk_color_button_new_with_color(&sakura.forecolor);
 	buttonback=gtk_color_button_new_with_color(&sakura.backcolor);
 
-	/* This rounding sucks. Maybe we should allow to set opacity only in "Set opacity" and not in the colors dialog...*/
+	/* This rounding sucks...*/
 	backalpha = roundf((sakura.opacity_level*65535)/99);
 	if (sakura.has_rgba) {
 		gtk_color_button_set_use_alpha(GTK_COLOR_BUTTON(buttonback), TRUE);
@@ -1021,7 +1029,6 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	response=gtk_dialog_run(GTK_DIALOG(title_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
-		SAY("JODER %s", gtk_window_get_title(GTK_WINDOW(sakura.main_window)));
 	}
 	gtk_widget_destroy(title_dialog);
 
@@ -1108,8 +1115,6 @@ sakura_clear (GtkWidget *widget, void *data)
 
 	vte_terminal_set_background_image(VTE_TERMINAL(term->vte), NULL);
 
-	// FIXME: is this really needed? IMHO, this should be done just before
-	// dumping the config to the config file.
 	sakura_set_config_string("background", "none");
 
 	g_free(sakura.background);
@@ -1759,6 +1764,7 @@ sakura_init()
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), DATADIR "/pixmaps/" ICON_FILE, &gerror);
+
 	/* Default terminal size*/
 	sakura.columns = DEFAULT_COLUMNS;
 	sakura.rows = DEFAULT_ROWS;
@@ -2080,41 +2086,6 @@ sakura_init_popup()
 
 
 static void
-sakura_set_geometry_hints()
-{
-#if 0
-	struct terminal *term;
-	GtkBorder *border = NULL;
-	GdkGeometry hints;
-	gint pad_x, pad_y;
-	gint char_width, char_height;
-
-	term = sakura_get_page_term(sakura, 0);
-	gtk_widget_style_get(term->vte, "inner-border", &border, NULL);
-	pad_x = border->left + border->right;
-	pad_y = border->top + border->bottom;
-	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
-	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
-
-	//hints.min_width = char_width + pad_x;
-	//hints.min_height = char_height + pad_y;
-	//hints.base_width = pad_x;
-	//hints.base_height = pad_y;
-	hints.min_width = char_width;
-	hints.min_height = char_height;
-	hints.base_width = char_width;
-	hints.base_height = char_height;
-	hints.width_inc = char_width;
-	hints.height_inc = char_height;
-	/* FIXME: Do we really need to set hints for user resize. If needed, be careful to
-	   side-effects to sakura_set_size */
-	gtk_window_set_geometry_hints (GTK_WINDOW (sakura.main_window), GTK_WIDGET (term->vte), &hints,
-	                               GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
-#endif
-}
-
-
-static void
 sakura_destroy()
 {
 	SAY("Destroying sakura");
@@ -2264,15 +2235,7 @@ sakura_add_tab()
 		/* Default stock buttons have a significant border. We want small buttons for our tabs, so we
 		   need to set our own style */
 		GtkCssProvider *provider = gtk_css_provider_new();
-		gchar *css = g_strdup_printf (
-				"* {\n"
-				"-GtkButton-default-border : 0;\n"
-				"-GtkButton-default-outside-border : 0;\n"
-				"-GtkButton-inner-border: 0;\n"
-				"-GtkWidget-focus-line-width : 0;\n"
-				"-GtkWidget-focus-padding : 0;\n"
-				"padding: 0;\n"
-				"}");
+		gchar *css = g_strdup_printf (CLOSE_BUTTON_CSS);
 
 		gtk_css_provider_load_from_data(provider, css, -1, NULL);
 		GtkStyleContext *context = gtk_widget_get_style_context (close_button);
@@ -2362,7 +2325,7 @@ sakura_add_tab()
         if (!sakura.show_scrollbar) {
             gtk_widget_hide(term->scrollbar);
         }
-        sakura_set_geometry_hints();
+
 		if (option_geometry) {
 			if (!gtk_window_parse_geometry(GTK_WINDOW(sakura.main_window), option_geometry)) {
 				fprintf(stderr, "Invalid geometry.\n");
