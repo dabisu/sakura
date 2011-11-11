@@ -2439,7 +2439,7 @@ sakura_add_tab()
 				option_hold=FALSE;
 			}
 			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, NULL,
-										   G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
+										   G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL);
 		}
 	/* Not the first tab */
 	} else {
