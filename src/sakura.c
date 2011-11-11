@@ -215,6 +215,8 @@ struct terminal {
 #define DEFAULT_FONT "monospace 11"
 #define DEFAULT_WORD_CHARS  "-A-Za-z0-9,./?%&#_~"
 #define DEFAULT_PALETTE "linux"
+#define TAB_MAX_SIZE 40
+#define TAB_MIN_SIZE 6
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
@@ -301,6 +303,7 @@ static void     sakura_destroy();
 static void     sakura_add_tab();
 static void     sakura_del_tab();
 static void     sakura_set_font();
+static void     sakura_set_tab_label_text();
 static void     sakura_set_geometry_hints();
 static void     sakura_set_size(gint, gint);
 static void     sakura_kill_child();
@@ -611,31 +614,22 @@ sakura_eof (GtkWidget *widget, void *data)
 	}
 }
 
-
 static void
 sakura_title_changed (GtkWidget *widget, void *data)
 {
-	int page;
 	struct terminal *term;
 	const char *title;
-	gchar *window_title, *chopped_title;
+	gint page;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
+
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
-	window_title = g_strconcat(title, " - sakura", NULL);
+	//window_title = g_strconcat(title, " - sakura", NULL);
 
-	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
-		chopped_title = g_strndup(title, 40); /* Should it be configurable? */
-		gtk_label_set_text(GTK_LABEL(term->label), chopped_title);
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), window_title);
-		free(chopped_title);
-	} else { /* Use the default values */
-		gtk_label_set_text(GTK_LABEL(term->label), term->label_text);
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
-	}
+	sakura_set_tab_label_text(title);
 
-	g_free(window_title);
+	//g_free(window_title);
 
 }
 
@@ -817,7 +811,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
-		gtk_label_set_text(GTK_LABEL(term->label), gtk_entry_get_text(GTK_ENTRY(entry)));
+		sakura_set_tab_label_text(gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(input_dialog);
 }
@@ -2199,6 +2193,32 @@ sakura_set_font()
 	for (i = (n_pages - 1); i >= 0; i--) {
 		term = sakura_get_page_term(sakura, i);
 		vte_terminal_set_font(VTE_TERMINAL(term->vte), sakura.font);
+	}
+}
+
+static void
+sakura_set_tab_label_text(char *title)
+{
+	int page;
+	struct terminal *term;
+	gchar *chopped_title;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
+		/* Chop to max size. TODO: Should it be configurable by the user? */
+		chopped_title = g_strndup(title, TAB_MAX_SIZE); 
+		/* Honor the minimum tab label size */
+		while (strlen(chopped_title)< TAB_MIN_SIZE) {
+			char *old_ptr = chopped_title;
+			chopped_title = g_strconcat(chopped_title, " ", NULL);
+			free(old_ptr);
+		}
+		gtk_label_set_text(GTK_LABEL(term->label), chopped_title);
+		free(chopped_title);
+	} else { /* Use the default values */
+		gtk_label_set_text(GTK_LABEL(term->label), term->label_text);
 	}
 }
 
