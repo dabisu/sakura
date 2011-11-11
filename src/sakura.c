@@ -299,9 +299,9 @@ static void     sakura_show_first_tab (GtkWidget *widget, void *data);
 static void     sakura_tabs_on_bottom (GtkWidget *widget, void *data);
 static void     sakura_less_questions (GtkWidget *widget, void *data);
 static void     sakura_show_close_button (GtkWidget *widget, void *data);
-static void		sakura_show_scrollbar(GtkWidget *, void *);
+static void     sakura_show_scrollbar(GtkWidget *, void *);
 static void     sakura_closebutton_clicked(GtkWidget *, void *);
-static void		sakura_conf_changed(GtkWidget *, void *);
+static void     sakura_conf_changed(GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error(const char *, ...);
@@ -319,7 +319,7 @@ static void     sakura_kill_child();
 static void     sakura_set_bgimage();
 static void     sakura_set_config_key(const gchar *, guint);
 static guint    sakura_get_config_key(const gchar *);
-static void		sakura_config_done();
+static void     sakura_config_done();
 
 static const char *option_font;
 static const char *option_execute;
@@ -363,17 +363,17 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* add_tab_accelerator + T or del_tab_accelerator + W pressed */
 	if ( (event->state & sakura.add_tab_accelerator)==sakura.add_tab_accelerator &&
-         event->keyval==sakura.add_tab_key ) {
+	 	  event->keyval==sakura.add_tab_key ) {
 		sakura_add_tab();
-        return TRUE;
-    } else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
-                event->keyval==sakura.del_tab_key ) {
-        sakura_kill_child();
+		return TRUE;
+	} else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
+			event->keyval==sakura.del_tab_key ) {
+		sakura_kill_child();
 		/* Delete current tab */
-        sakura_del_tab(page);
-        if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
-            sakura_destroy();
-        return TRUE;
+		sakura_del_tab(page);
+		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+			sakura_destroy();
+		return TRUE;
 	}
 
 	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + Left-Right cursor */
@@ -2232,6 +2232,7 @@ sakura_add_tab()
 		gtk_widget_set_name(close_button, "closebutton");
 		gtk_button_set_relief(GTK_BUTTON(close_button), GTK_RELIEF_NONE);
 		GtkWidget *image=gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+		/* FIXME: Make provider global? We're doing this for every new tab...*/
 		/* Default stock buttons have a significant border. We want small buttons for our tabs, so we
 		   need to set our own style */
 		GtkCssProvider *provider = gtk_css_provider_new();
@@ -2244,7 +2245,8 @@ sakura_add_tab()
 		gtk_container_add (GTK_CONTAINER (close_button), image);
 		gtk_box_pack_start(GTK_BOX(tab_hbox), close_button, FALSE, FALSE, 0);
 
-		// FIXME: Destroy provider ??			
+		// FIXME: Destroy provider if we don't go global			
+		free(css);
 	}
 
 	if (sakura.tabs_on_bottom) {
@@ -2281,23 +2283,19 @@ sakura_add_tab()
 		exit(1);
 	}
 
-#if GTK_CHECK_VERSION( 2, 10, 0 )
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(sakura.notebook), term->hbox, TRUE);
 	// TODO: Set group id to support detached tabs
-#if 0
-	gtk_notebook_set_tab_detachable(GTK_NOTEBOOK(sakura.notebook), term->hbox, TRUE);
-#endif
-#endif
+	// gtk_notebook_set_tab_detachable(GTK_NOTEBOOK(sakura.notebook), term->hbox, TRUE);
 
 	sakura_set_page_term(sakura, index, term );
 
 	/* vte signals */
-    g_signal_connect(G_OBJECT(term->vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
-    g_signal_connect(G_OBJECT(term->vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
-    g_signal_connect(G_OBJECT(term->vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
-    g_signal_connect(G_OBJECT(term->vte), "eof", G_CALLBACK(sakura_eof), NULL);
-    g_signal_connect(G_OBJECT(term->vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
-    g_signal_connect_swapped(G_OBJECT(term->vte), "button-press-event", G_CALLBACK(sakura_button_press), sakura.menu);
+	g_signal_connect(G_OBJECT(term->vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
+	g_signal_connect(G_OBJECT(term->vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
+	g_signal_connect(G_OBJECT(term->vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
+	g_signal_connect(G_OBJECT(term->vte), "eof", G_CALLBACK(sakura_eof), NULL);
+	g_signal_connect(G_OBJECT(term->vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
+	g_signal_connect_swapped(G_OBJECT(term->vte), "button-press-event", G_CALLBACK(sakura_button_press), sakura.menu);
 
 	/* Notebook signals */
 	g_signal_connect(G_OBJECT(sakura.notebook), "page-removed", G_CALLBACK(sakura_page_removed), NULL);
@@ -2321,10 +2319,10 @@ sakura_add_tab()
 		/* Set size before showing the widgets but after setting the font */
 		sakura_set_size(sakura.columns, sakura.rows);
 
-        gtk_widget_show_all(sakura.notebook);
-        if (!sakura.show_scrollbar) {
-            gtk_widget_hide(term->scrollbar);
-        }
+		gtk_widget_show_all(sakura.notebook);
+		if (!sakura.show_scrollbar) {
+			gtk_widget_hide(term->scrollbar);
+		}
 
 		if (option_geometry) {
 			if (!gtk_window_parse_geometry(GTK_WINDOW(sakura.main_window), option_geometry)) {
@@ -2533,9 +2531,9 @@ sakura_set_bgimage(char *infile)
 		if (!pixbuf) {
 			sakura_error("Error loading image file: %s\n", gerror->message);
 		} else {
-            vte_terminal_set_background_image(VTE_TERMINAL(term->vte), pixbuf);
-            vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), TRUE);
-            vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte),FALSE);
+			vte_terminal_set_background_image(VTE_TERMINAL(term->vte), pixbuf);
+			vte_terminal_set_background_saturation(VTE_TERMINAL(term->vte), TRUE);
+			vte_terminal_set_background_transparent(VTE_TERMINAL(term->vte),FALSE);
 
 			sakura_set_config_string("background", infile);
 		}
@@ -2544,7 +2542,8 @@ sakura_set_bgimage(char *infile)
 
 
 static void
-sakura_set_config_key(const gchar *key, guint value) {
+sakura_set_config_key(const gchar *key, guint value)
+{
 	char *valname;
 
 	valname=gdk_keyval_name(value);
@@ -2552,6 +2551,7 @@ sakura_set_config_key(const gchar *key, guint value) {
 	sakura.config_modified=TRUE;
 	//FIXME: free() valname?
 } 
+
 
 static guint
 sakura_get_config_key(const gchar *key)
