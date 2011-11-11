@@ -5,16 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-11 16:44+0100\n"
-"PO-Revision-Date: 2011-08-02 21:35+0000\n"
+"POT-Creation-Date: 2011-11-12 00:29+0100\n"
+"PO-Revision-Date: 2011-11-10 20:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-03 04:33+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
 msgstr "Imprimir número de versión"
@@ -28,9 +28,8 @@ msgstr "Seleccionar el número inicial de pestañas"
 msgid "Execute command"
 msgstr "Ejecutar comando"
 
-#, fuzzy
 msgid "Execute command (last option in the command line)"
-msgstr "Ejecutar comando (compatible con xterm)"
+msgstr "Ejecutar comando (última opción en la linea de comandos)"
 
 msgid "Login shell"
 msgstr "Shell de login"
@@ -68,13 +67,11 @@ msgstr ""
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
-#, fuzzy
 msgid "Set tab name"
-msgstr "Definir nombre"
+msgstr "Definir nombre de pestaña"
 
-#, fuzzy
 msgid "New text"
-msgstr "Nuevo texto de la pestaña"
+msgstr "Texto nuevo"
 
 msgid "Select color"
 msgstr "Seleccionar color"
@@ -114,9 +111,8 @@ msgstr "Copiar enlace..."
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#, fuzzy
 msgid "Set tab name..."
-msgstr "Definir nombre"
+msgstr "Definir nombre de pestaña..."
 
 msgid "Close tab"
 msgstr "Cerrar pestaña"
@@ -152,23 +148,22 @@ msgid "Options"
 msgstr "Opciones"
 
 msgid "More"
-msgstr ""
+msgstr "Más"
 
 msgid "Always show tab bar"
 msgstr "Mostrar siempre la barra de pestañas"
 
 msgid "Tabs at bottom"
-msgstr ""
+msgstr "Pestañas en la parte inferior"
 
-#, fuzzy
 msgid "Show close button on tabs"
-msgstr "Mostrar boton para cerrar pestaña"
+msgstr "Mostrar botón de cerrar en las pestañas"
 
 msgid "Show scrollbar"
 msgstr "Mostrar barra de desplazamiento"
 
 msgid "Don't show exit dialog"
-msgstr ""
+msgstr "No mostrar el diálogo de salida"
 
 msgid "Set audible bell"
 msgstr "Activar campana audible"
@@ -180,16 +175,16 @@ msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
 
 msgid "Set cursor type"
-msgstr ""
+msgstr "Definir tipo de cursor"
 
 msgid "Block"
-msgstr ""
+msgstr "Bloque"
 
 msgid "Underline"
-msgstr ""
+msgstr "Subrayado"
 
 msgid "IBeam"
-msgstr ""
+msgstr "IBeam"
 
 msgid "Set palette"
 msgstr "Definir paleta"
@@ -211,15 +206,3 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
-
-#~ msgid "Borderless and maximized"
-#~ msgstr "Sin borde y maximizada"
-
-#~ msgid "Set name..."
-#~ msgstr "Elegir nombre"
-
-#~ msgid "New window"
-#~ msgstr "Nueva ventana"
-
-#~ msgid "Disable opacity"
-#~ msgstr "Deshabilitar opacidad"

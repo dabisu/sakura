@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-11 16:44+0100\n"
-"PO-Revision-Date: 2011-06-23 07:43+0000\n"
-"Last-Translator: centerpoint <Unknown>\n"
+"POT-Creation-Date: 2011-11-12 00:30+0100\n"
+"PO-Revision-Date: 2011-11-10 20:12+0000\n"
+"Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-01 04:35+0000\n"
-"X-Generator: Launchpad (build 13405)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
 msgstr "显示版本号"
@@ -70,13 +70,11 @@ msgstr ""
 msgid "Select font"
 msgstr "选择字体"
 
-#, fuzzy
 msgid "Set tab name"
-msgstr "设置名称"
+msgstr ""
 
-#, fuzzy
 msgid "New text"
-msgstr "输入文本"
+msgstr ""
 
 msgid "Select color"
 msgstr "选择颜色"
@@ -117,9 +115,8 @@ msgstr "复制链接"
 msgid "New tab"
 msgstr "新建标签"
 
-#, fuzzy
 msgid "Set tab name..."
-msgstr "设置名称"
+msgstr ""
 
 msgid "Close tab"
 msgstr "关闭标签"
@@ -213,15 +210,3 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
-
-#~ msgid "Borderless and maximized"
-#~ msgstr "无边框且最大化"
-
-#~ msgid "Set name..."
-#~ msgstr "设置名称..."
-
-#~ msgid "New window"
-#~ msgstr "新窗口"
-
-#~ msgid "Disable opacity"
-#~ msgstr "不透明"

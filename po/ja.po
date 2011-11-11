@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-11 16:44+0100\n"
-"PO-Revision-Date: 2011-08-02 21:39+0000\n"
+"POT-Creation-Date: 2011-11-12 00:29+0100\n"
+"PO-Revision-Date: 2011-11-10 20:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-03 04:33+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
 msgstr "バージョン番号を表示"
@@ -71,9 +71,8 @@ msgstr "フォントを選択"
 msgid "Set tab name"
 msgstr "名前を選択"
 
-#, fuzzy
 msgid "New text"
-msgstr "タブの新しい文"
+msgstr "新規テキスト"
 
 msgid "Select color"
 msgstr "配色を選択"
@@ -152,17 +151,16 @@ msgid "Options"
 msgstr "設定"
 
 msgid "More"
-msgstr ""
+msgstr "もっと"
 
 msgid "Always show tab bar"
 msgstr "タブバーを常に表示する"
 
 msgid "Tabs at bottom"
-msgstr ""
+msgstr "タブを下に表示"
 
-#, fuzzy
 msgid "Show close button on tabs"
-msgstr "タブの閉じるボタンを表示"
+msgstr "タブに閉じるボタンを表示"
 
 msgid "Show scrollbar"
 msgstr "スクロールバーを表示"
@@ -183,13 +181,13 @@ msgid "Set cursor type"
 msgstr ""
 
 msgid "Block"
-msgstr ""
+msgstr "ブロック"
 
 msgid "Underline"
-msgstr ""
+msgstr "下線"
 
 msgid "IBeam"
-msgstr ""
+msgstr "Iビーム"
 
 msgid "Set palette"
 msgstr "パレットを表示"
@@ -210,15 +208,3 @@ msgstr "- vte ベースのターミナルエミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
-
-#~ msgid "Borderless and maximized"
-#~ msgstr "ボーダーレスと最大化"
-
-#~ msgid "Set name..."
-#~ msgstr "名前を指定"
-
-#~ msgid "New window"
-#~ msgstr "新規ウインドウ"
-
-#~ msgid "Disable opacity"
-#~ msgstr "不透過を無効にする"

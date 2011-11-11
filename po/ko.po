@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-11 16:44+0100\n"
-"PO-Revision-Date: 2011-02-12 17:09+0000\n"
+"POT-Creation-Date: 2011-11-12 00:29+0100\n"
+"PO-Revision-Date: 2011-11-11 03:58+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-01 04:35+0000\n"
-"X-Generator: Launchpad (build 13405)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
 msgstr "버전 보기"
@@ -30,8 +30,9 @@ msgstr "탭 초기 갯수 선택"
 msgid "Execute command"
 msgstr "명령 실행"
 
+#, fuzzy
 msgid "Execute command (last option in the command line)"
-msgstr ""
+msgstr "명령을 실행 (xterm 호환)"
 
 msgid "Login shell"
 msgstr "로그인 쉘"
@@ -52,10 +53,10 @@ msgid "X geometry specification"
 msgstr "프로그램의 위치"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "대체 구성 파일을 사용"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
-msgstr ""
+msgstr "설정이 다른 프로세스에 의해 수정되었습니다. 덮어 쓰시겠습니까?"
 
 msgid ""
 "There are running processes.\n"
@@ -69,28 +70,26 @@ msgstr ""
 msgid "Select font"
 msgstr "글꼴 선택"
 
-#, fuzzy
 msgid "Set tab name"
-msgstr "이름 설정"
+msgstr "탭 이름 설정"
 
-#, fuzzy
 msgid "New text"
-msgstr "탭 새문자"
+msgstr "새 텍스트"
 
 msgid "Select color"
 msgstr "색상 선택"
 
 msgid "Select foreground color:"
-msgstr "배경색 선택:"
+msgstr "전경색 선택:"
 
 msgid "Select background color:"
-msgstr "배경 색 선택"
+msgstr "배경색 선택:"
 
 msgid "Opacity"
 msgstr "투명도"
 
 msgid "Opacity level (%):"
-msgstr "투명도 (%)"
+msgstr "투명도 (%):"
 
 msgid "New window title"
 msgstr "새 창 제목"
@@ -116,9 +115,8 @@ msgstr "링크 복사..."
 msgid "New tab"
 msgstr "새 탭"
 
-#, fuzzy
 msgid "Set tab name..."
-msgstr "이름 설정"
+msgstr "탭 이름 설정..."
 
 msgid "Close tab"
 msgstr "탭 닫기"
@@ -145,7 +143,7 @@ msgid "Clear background"
 msgstr "배경 지우기"
 
 msgid "Set opacity level..."
-msgstr "투명도 설정"
+msgstr "투명도 설정..."
 
 msgid "Set window title..."
 msgstr "창 제목 성정..."
@@ -154,23 +152,22 @@ msgid "Options"
 msgstr "설정"
 
 msgid "More"
-msgstr ""
+msgstr "더 많이"
 
 msgid "Always show tab bar"
-msgstr ""
+msgstr "탭바 항상 보이게 함"
 
 msgid "Tabs at bottom"
-msgstr ""
+msgstr "탭을 아래에 표시"
 
-#, fuzzy
 msgid "Show close button on tabs"
-msgstr "탭 닫기 버튼 보기"
+msgstr "탭에 닫기 단추 보이기"
 
 msgid "Show scrollbar"
 msgstr "스크롤바 보이기"
 
 msgid "Don't show exit dialog"
-msgstr ""
+msgstr "종료 대화 상자를 표시하지 않음"
 
 msgid "Set audible bell"
 msgstr "소리 나게 설정"
@@ -182,16 +179,16 @@ msgid "Set blinking cursor"
 msgstr "커서 깜빡임 설정"
 
 msgid "Set cursor type"
-msgstr ""
+msgstr "커서 유형을 설정"
 
 msgid "Block"
-msgstr ""
+msgstr "블럭"
 
 msgid "Underline"
-msgstr ""
+msgstr "밑줄"
 
 msgid "IBeam"
-msgstr ""
+msgstr "IBeam"
 
 msgid "Set palette"
 msgstr "파레트 설정"
@@ -204,20 +201,11 @@ msgid "Terminal %d"
 msgstr "터미널 %d"
 
 msgid "Error message"
-msgstr ""
+msgstr "오류 메시지"
 
 msgid "- vte-based terminal emulator"
 msgstr "- vte 기반의 터미널 에뮬레이터"
 
 #, c-format
 msgid "sakura version is %s\n"
-msgstr "sakura 버전은 %s 입니다. 일본 c8Rom\n"
-
-#~ msgid "Set name..."
-#~ msgstr "이름 설정..."
-
-#~ msgid "Disable opacity"
-#~ msgstr "투명도 불가"
-
-#~ msgid "Show always first tab"
-#~ msgstr "항상 첫 탭 보기"
+msgstr "sakura 버전은 %s 입니다\n"

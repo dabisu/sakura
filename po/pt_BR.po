@@ -2,19 +2,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-11 16:44+0100\n"
-"PO-Revision-Date: 2010-03-03 12:18+0000\n"
+"POT-Creation-Date: 2011-11-12 00:30+0100\n"
+"PO-Revision-Date: 2011-11-10 20:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-01 04:35+0000\n"
-"X-Generator: Launchpad (build 13405)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
-msgstr "Imprimir número da versão"
+msgstr "Mostrar número da versão"
 
 msgid "Select initial terminal font"
 msgstr "Selecionar fonte inicial do terminal"
@@ -35,28 +35,31 @@ msgid "Set window title"
 msgstr "Definir título da janela"
 
 msgid "Set columns number"
-msgstr ""
+msgstr "Definir número de colunas"
 
 msgid "Set rows number"
-msgstr ""
+msgstr "Definir número de linhas"
 
 msgid "Hold window after execute command"
-msgstr ""
+msgstr "Mostrar a janela depois de executar o comando"
 
 msgid "X geometry specification"
-msgstr ""
+msgstr "Especificação geométrica de X"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Usar arquivo de configuração alternativo"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
-msgstr ""
+msgstr "A configuração foi modificada por outro processo. Sobrescrever?"
 
 msgid ""
 "There are running processes.\n"
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
+"Existem processos sendo executados.\n"
+"\n"
+"Tem certeza que deseja fechar Sakura?"
 
 msgid "Select font"
 msgstr "Selecionar fonte"
@@ -95,6 +98,9 @@ msgid ""
 "\n"
 "Do you really want to close it?"
 msgstr ""
+"Existem processos sendo executados nesse terminal.\n"
+"\n"
+"Tem certeza que deseja fechar ele?"
 
 msgid "Open link..."
 msgstr "Abrir link..."
@@ -113,7 +119,7 @@ msgid "Close tab"
 msgstr "Fechar aba"
 
 msgid "Full screen"
-msgstr ""
+msgstr "Tela cheia"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -146,7 +152,7 @@ msgid "More"
 msgstr ""
 
 msgid "Always show tab bar"
-msgstr ""
+msgstr "Sempre mostrar a barra de abas"
 
 msgid "Tabs at bottom"
 msgstr ""
@@ -155,19 +161,19 @@ msgid "Show close button on tabs"
 msgstr ""
 
 msgid "Show scrollbar"
-msgstr ""
+msgstr "Mostra barra de rolagem"
 
 msgid "Don't show exit dialog"
 msgstr ""
 
 msgid "Set audible bell"
-msgstr ""
+msgstr "Ativar aviso sonoro"
 
 msgid "Set visible bell"
-msgstr ""
+msgstr "Ativar aviso visual"
 
 msgid "Set blinking cursor"
-msgstr ""
+msgstr "Ativar cursor piscando"
 
 msgid "Set cursor type"
 msgstr ""
@@ -182,7 +188,7 @@ msgid "IBeam"
 msgstr ""
 
 msgid "Set palette"
-msgstr ""
+msgstr "Definir paleta"
 
 msgid "Input methods"
 msgstr "Métodos de saída"
@@ -200,9 +206,3 @@ msgstr "- emulador de terminal baseado no vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
-
-#~ msgid "Set name..."
-#~ msgstr "Definir nome..."
-
-#~ msgid "Disable opacity"
-#~ msgstr "Desativar opacidade"

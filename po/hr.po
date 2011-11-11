@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-11 16:44+0100\n"
-"PO-Revision-Date: 2010-10-06 17:20+0000\n"
+"POT-Creation-Date: 2011-11-12 00:29+0100\n"
+"PO-Revision-Date: 2011-11-10 20:12+0000\n"
 "Last-Translator: Dražen Odobašić <dodobas@geoinfo.geof.hr>\n"
 "Language-Team: brentaal <Unknown>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-01 04:35+0000\n"
-"X-Generator: Launchpad (build 13405)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
 msgstr "Ispiši inačicu"
@@ -68,13 +68,11 @@ msgstr ""
 msgid "Select font"
 msgstr "Postavite font"
 
-#, fuzzy
 msgid "Set tab name"
-msgstr "Postavite naziv"
+msgstr ""
 
-#, fuzzy
 msgid "New text"
-msgstr "Kartica za novi tekst"
+msgstr ""
 
 msgid "Select color"
 msgstr "Postavite boju"
@@ -115,9 +113,8 @@ msgstr "Kopiraj link..."
 msgid "New tab"
 msgstr "Nova kartica"
 
-#, fuzzy
 msgid "Set tab name..."
-msgstr "Postavite naziv"
+msgstr ""
 
 msgid "Close tab"
 msgstr "Zatvori karticu"
@@ -161,9 +158,8 @@ msgstr ""
 msgid "Tabs at bottom"
 msgstr ""
 
-#, fuzzy
 msgid "Show close button on tabs"
-msgstr "Prikaži gumb za zatvaranje kartice"
+msgstr ""
 
 msgid "Show scrollbar"
 msgstr "Prikaži kliznu traku"
@@ -211,9 +207,3 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
-
-#~ msgid "Set name..."
-#~ msgstr "Postavi naziv..."
-
-#~ msgid "Disable opacity"
-#~ msgstr "Onemogući zasićenost"
