@@ -193,6 +193,7 @@ static struct {
 	gint copy_accelerator;
 	gint scrollbar_accelerator;
 	gint open_url_accelerator;
+	gint font_size_accelerator;
 	gint add_tab_key;
 	gint del_tab_key;
 	gint prev_tab_key;
@@ -233,6 +234,7 @@ struct terminal {
 #define DEFAULT_COPY_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SCROLLBAR_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_OPEN_URL_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
+#define DEFAULT_FONT_SIZE_ACCELERATOR (GDK_CONTROL_MASK)
 #define DEFAULT_ADD_TAB_KEY  GDK_KEY_T
 #define DEFAULT_DEL_TAB_KEY  GDK_KEY_W
 #define DEFAULT_PREV_TAB_KEY  GDK_KEY_Left
@@ -356,6 +358,7 @@ static
 gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	unsigned int topage=0;
+
 	gint npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	gint page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 
@@ -412,8 +415,8 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	}
 
 	/* copy_accelerator-[C/V] pressed */
-	SAY("copy acc: %d", sakura.copy_accelerator);
-	SAY("ev+copy: %d", (event->state & sakura.copy_accelerator));
+	//SAY("copy acc: %d", sakura.copy_accelerator);
+	//SAY("ev+copy: %d", (event->state & sakura.copy_accelerator));
 	if ( (event->state & sakura.copy_accelerator)==sakura.copy_accelerator ) {
 		SAY("%d %d", event->keyval, sakura.copy_key);
 		if (event->keyval==sakura.copy_key) {
@@ -435,18 +438,23 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 		}
 	}
 
+	/* font_size_accelerator-[+] or [-] pressed */
+	if ( (event->state & sakura.font_size_accelerator)==sakura.font_size_accelerator ) {
+		if (event->keyval==GDK_KEY_plus) {
+			SAY("Plus key pressed");
+			sakura_increase_font(NULL, NULL);
+			return TRUE;
+		} else if (event->keyval==GDK_KEY_minus) {
+			SAY("Minus key pressed");
+			sakura_decrease_font(NULL, NULL);
+			return TRUE;
+		}
+	}
+
 	/* F11 (fullscreen) pressed */
 	if (event->keyval==sakura.fullscreen_key){
 		sakura_full_screen(NULL, NULL);
 		return TRUE;
-	}
-
-	/* FIXME: Add new accelerator */
-	if ( (event->state & sakura.scrollbar_accelerator)==sakura.scrollbar_accelerator ) {
-		if (event->keyval==GDK_KEY_plus) {
-			SAY("Plus key pressed");
-			return TRUE;
-		}
 	}
 
 	return FALSE;
@@ -1714,6 +1722,11 @@ sakura_init()
 		sakura_set_config_integer("open_url_accelerator", DEFAULT_OPEN_URL_ACCELERATOR);
 	}
 	sakura.open_url_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "open_url_accelerator", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "font_size_accelerator", NULL)) {
+		sakura_set_config_integer("font_size_accelerator", DEFAULT_FONT_SIZE_ACCELERATOR);
+	}
+	sakura.font_size_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "font_size_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
 		sakura_set_config_key("add_tab_key", DEFAULT_ADD_TAB_KEY);
