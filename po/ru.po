@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-12 00:29+0100\n"
-"PO-Revision-Date: 2011-11-10 20:12+0000\n"
+"POT-Creation-Date: 2011-11-12 11:00+0100\n"
+"PO-Revision-Date: 2011-11-12 11:00+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "Language: \n"
@@ -23,9 +23,8 @@ msgid "Select initial number of tabs"
 msgstr "Начальное число вкладок"
 
 msgid "Execute command"
-msgstr "Выполнить команду"
+msgstr ""
 
-#, fuzzy
 msgid "Execute command (last option in the command line)"
 msgstr "Выполнить команду (совместимо с xterm)"
 
@@ -48,10 +47,10 @@ msgid "X geometry specification"
 msgstr "Определение геометрии окна X"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Использовать альтернативный файл конфигурации"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
-msgstr "Настройки могут быть изменены в другом процессе. Перезаписать?"
+msgstr "Настройки были изменены другим процессом. Перезаписать?"
 
 msgid ""
 "There are running processes.\n"
@@ -65,11 +64,9 @@ msgstr ""
 msgid "Select font"
 msgstr "Выбор шрифта"
 
-#, fuzzy
 msgid "Set tab name"
-msgstr "Изменение заголовка вкладки"
+msgstr "Установить заголовок вкладки"
 
-#, fuzzy
 msgid "New text"
 msgstr "Новоый заголовок:"
 
@@ -112,9 +109,8 @@ msgstr "Копировать ссылку..."
 msgid "New tab"
 msgstr "Новая вкладка"
 
-#, fuzzy
 msgid "Set tab name..."
-msgstr "Изменение заголовка вкладки"
+msgstr "Установить заголовок вкладки..."
 
 msgid "Close tab"
 msgstr "Закрыть вкладку"
@@ -150,23 +146,22 @@ msgid "Options"
 msgstr "Настройки"
 
 msgid "More"
-msgstr ""
+msgstr "Далее"
 
 msgid "Always show tab bar"
 msgstr "Всегда показывать панель вкладок"
 
 msgid "Tabs at bottom"
-msgstr ""
+msgstr "Панель вкладок внизу"
 
-#, fuzzy
 msgid "Show close button on tabs"
-msgstr "Показывать кнопку закрытия вкладки"
+msgstr "Показывать кнопку закрытия на вкладке"
 
 msgid "Show scrollbar"
 msgstr "Показать линейку прокрутки"
 
 msgid "Don't show exit dialog"
-msgstr ""
+msgstr "Не показывать диалог выхода"
 
 msgid "Set audible bell"
 msgstr "Звуковое оповещение"
@@ -178,16 +173,16 @@ msgid "Set blinking cursor"
 msgstr "Мигающий курсор"
 
 msgid "Set cursor type"
-msgstr ""
+msgstr "Установить вид курсора"
 
 msgid "Block"
-msgstr ""
+msgstr "Блочный"
 
 msgid "Underline"
-msgstr ""
+msgstr "_-образный"
 
 msgid "IBeam"
-msgstr ""
+msgstr "I-образный"
 
 msgid "Set palette"
 msgstr "Палитра"
@@ -200,7 +195,7 @@ msgid "Terminal %d"
 msgstr "Терминал %d"
 
 msgid "Error message"
-msgstr ""
+msgstr "Сообщение об ошибке"
 
 msgid "- vte-based terminal emulator"
 msgstr "- эмулятор терминала, основанный на VTE"
