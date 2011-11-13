@@ -27,9 +27,8 @@ msgstr "タブの数を選択"
 msgid "Execute command"
 msgstr "コマンドを実行"
 
-#, fuzzy
 msgid "Execute command (last option in the command line)"
-msgstr "コマンドを実行（xterm互換)"
+msgstr "コマンドを実行（コマンド行の最終オプション)"
 
 msgid "Login shell"
 msgstr "ログインシェル"
@@ -67,9 +66,8 @@ msgstr ""
 msgid "Select font"
 msgstr "フォントを選択"
 
-#, fuzzy
 msgid "Set tab name"
-msgstr "名前を選択"
+msgstr "タブ名前を指定"
 
 msgid "New text"
 msgstr "新規テキスト"
@@ -113,9 +111,8 @@ msgstr "リンクをコピー"
 msgid "New tab"
 msgstr "新規タブ"
 
-#, fuzzy
 msgid "Set tab name..."
-msgstr "名前を選択"
+msgstr "タブ名前を指定"
 
 msgid "Close tab"
 msgstr "タブを閉じる"
@@ -166,7 +163,7 @@ msgid "Show scrollbar"
 msgstr "スクロールバーを表示"
 
 msgid "Don't show exit dialog"
-msgstr ""
+msgstr "終了ダイアログを表示しない"
 
 msgid "Set audible bell"
 msgstr "可聴なベルを表示"
@@ -178,7 +175,7 @@ msgid "Set blinking cursor"
 msgstr "ブリキングのカーソルを表示"
 
 msgid "Set cursor type"
-msgstr ""
+msgstr "カーソル種を指定"
 
 msgid "Block"
 msgstr "ブロック"
@@ -200,7 +197,7 @@ msgid "Terminal %d"
 msgstr "ターミナル %d"
 
 msgid "Error message"
-msgstr ""
+msgstr "エラーメッセージ"
 
 msgid "- vte-based terminal emulator"
 msgstr "- vte ベースのターミナルエミュレータ"
