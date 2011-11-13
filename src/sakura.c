@@ -226,7 +226,8 @@ struct terminal {
 #define DEFAULT_CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
 #define DEFAULT_ROWS 24
-#define DEFAULT_FONT "monospace 11"
+#define DEFAULT_FONT "Ubuntu Mono,monospace 13"
+#define FONT_MINIMAL_SIZE (PANGO_SCALE*6)
 #define DEFAULT_WORD_CHARS  "-A-Za-z0-9,./?%&#_~"
 #define DEFAULT_PALETTE "linux"
 #define TAB_MAX_SIZE 40
@@ -558,11 +559,12 @@ sakura_page_removed (GtkWidget *widget, void *data)
 static void
 sakura_increase_font (GtkWidget *widget, void *data)
 {
-	gint size;
+	gint new_size;
 
-	size=pango_font_description_get_size(sakura.font);
-	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)+1) * PANGO_SCALE);
+	/* Increment font size one unit */
+	new_size=pango_font_description_get_size(sakura.font)+PANGO_SCALE;
 
+	pango_font_description_set_size(sakura.font, new_size);
 	sakura_set_font();
 	sakura_set_size(sakura.columns, sakura.rows);
 	sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
@@ -572,14 +574,18 @@ sakura_increase_font (GtkWidget *widget, void *data)
 static void
 sakura_decrease_font (GtkWidget *widget, void *data)
 {
-	gint size;
+	gint new_size;
 
-	size=pango_font_description_get_size(sakura.font);
-	pango_font_description_set_size(sakura.font, ((size/PANGO_SCALE)-1) * PANGO_SCALE);
-
-	sakura_set_font();
-	sakura_set_size(sakura.columns, sakura.rows);	
-	sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
+	/* Decrement font size one unit */
+	new_size=pango_font_description_get_size(sakura.font)-PANGO_SCALE;
+	
+	/* Set a minimal size */
+	if (new_size >= FONT_MINIMAL_SIZE ) {
+		pango_font_description_set_size(sakura.font, new_size);
+		sakura_set_font();
+		sakura_set_size(sakura.columns, sakura.rows);	
+		sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
+	}
 }
 
 
@@ -1647,6 +1653,9 @@ sakura_init()
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "font", NULL)) {
 		sakura_set_config_string("font", DEFAULT_FONT);
 	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "font", NULL);
+	sakura.font = pango_font_description_from_string(cfgtmp);
+	free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "show_always_first_tab", NULL)) {
 		sakura_set_config_string("show_always_first_tab", "No");
@@ -1863,11 +1872,7 @@ sakura_init()
 
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
-	} else {
-        cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "font", NULL);
-		sakura.font = pango_font_description_from_string(cfgtmp);
-		free(cfgtmp);
-	}
+	} 
 
 	sakura.label_count=1;
 	sakura.full_screen=FALSE;
