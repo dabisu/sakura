@@ -30,9 +30,8 @@ msgstr "탭 초기 갯수 선택"
 msgid "Execute command"
 msgstr "명령 실행"
 
-#, fuzzy
 msgid "Execute command (last option in the command line)"
-msgstr "명령을 실행 (xterm 호환)"
+msgstr "명령을 실행 (명령줄에 마지막 희망)"
 
 msgid "Login shell"
 msgstr "로그인 쉘"
