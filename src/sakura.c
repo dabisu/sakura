@@ -190,10 +190,12 @@ static struct {
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
 	gint switch_tab_accelerator;
+	gint move_tab_accelerator;
 	gint copy_accelerator;
 	gint scrollbar_accelerator;
 	gint open_url_accelerator;
 	gint font_size_accelerator;
+	gint set_tab_name_accelerator;
 	gint add_tab_key;
 	gint del_tab_key;
 	gint prev_tab_key;
@@ -201,6 +203,7 @@ static struct {
 	gint copy_key;
 	gint paste_key;
 	gint scrollbar_key;
+	gint set_tab_name_key;
 	gint fullscreen_key;
 	GRegex *http_regexp;
 	char *argv[3];
@@ -228,21 +231,25 @@ struct terminal {
 #define DEFAULT_PALETTE "linux"
 #define TAB_MAX_SIZE 40
 #define TAB_MIN_SIZE 6
+#define FORWARD 1
+#define BACKWARDS 2
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
+#define DEFAULT_MOVE_TAB_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_COPY_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SCROLLBAR_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_OPEN_URL_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_FONT_SIZE_ACCELERATOR (GDK_CONTROL_MASK)
+#define DEFAULT_SET_TAB_NAME_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_ADD_TAB_KEY  GDK_KEY_T
 #define DEFAULT_DEL_TAB_KEY  GDK_KEY_W
 #define DEFAULT_PREV_TAB_KEY  GDK_KEY_Left
 #define DEFAULT_NEXT_TAB_KEY  GDK_KEY_Right
-#define DEFAULT_NEW_WINDOW_KEY GDK_KEY_N
 #define DEFAULT_COPY_KEY  GDK_KEY_C
 #define DEFAULT_PASTE_KEY  GDK_KEY_V
 #define DEFAULT_SCROLLBAR_KEY  GDK_KEY_S
+#define DEFAULT_SET_TAB_NAME_KEY  GDK_KEY_N
 #define DEFAULT_FULLSCREEN_KEY  GDK_KEY_F11
 #define ERROR_BUFFER_LENGTH 256
 const char cfg_group[] = "sakura";
@@ -314,8 +321,9 @@ static void     sakura_init_popup();
 static void     sakura_destroy();
 static void     sakura_add_tab();
 static void     sakura_del_tab();
+static void		sakura_move_tab(gint);
 static void     sakura_set_font();
-static void     sakura_set_tab_label_text();
+static void     sakura_set_tab_label_text(const gchar *);
 static void     sakura_set_size(gint, gint);
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
@@ -379,7 +387,7 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 		return TRUE;
 	}
 
-	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + Left-Right cursor */
+	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + (left/right) cursor pressed */
 	if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator ) {
 		if ((event->keyval>=GDK_KEY_1) && (event->keyval<=GDK_KEY_9) && (event->keyval<=GDK_KEY_1-1+npages)
 				&& (event->keyval!=GDK_KEY_1+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
@@ -414,11 +422,22 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 		}
 	}
 
+	/* move_tab_accelerator + (left/right) cursor pressed */
+	if ( (event->state & sakura.move_tab_accelerator)==sakura.move_tab_accelerator ) {
+		if (event->keyval==sakura.prev_tab_key) {
+			sakura_move_tab(BACKWARDS);
+			return TRUE;
+		} else if (event->keyval==sakura.next_tab_key) {
+			sakura_move_tab(FORWARD);
+			return TRUE;
+		}
+	}
+
 	/* copy_accelerator-[C/V] pressed */
 	//SAY("copy acc: %d", sakura.copy_accelerator);
 	//SAY("ev+copy: %d", (event->state & sakura.copy_accelerator));
 	if ( (event->state & sakura.copy_accelerator)==sakura.copy_accelerator ) {
-		SAY("%d %d", event->keyval, sakura.copy_key);
+		//SAY("%d %d", event->keyval, sakura.copy_key);
 		if (event->keyval==sakura.copy_key) {
 			sakura_copy(NULL, NULL);
 			return TRUE;
@@ -438,14 +457,20 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 		}
 	}
 
+	/* set_tab_name_accelerator-[N] pressed */
+	if ( (event->state & sakura.set_tab_name_accelerator)==sakura.set_tab_name_accelerator ) {
+		if (event->keyval==sakura.set_tab_name_key) {
+			sakura_set_name_dialog(NULL, NULL);
+			return TRUE;
+		}
+	}
+
 	/* font_size_accelerator-[+] or [-] pressed */
 	if ( (event->state & sakura.font_size_accelerator)==sakura.font_size_accelerator ) {
 		if (event->keyval==GDK_KEY_plus) {
-			SAY("Plus key pressed");
 			sakura_increase_font(NULL, NULL);
 			return TRUE;
 		} else if (event->keyval==GDK_KEY_minus) {
-			SAY("Minus key pressed");
 			sakura_decrease_font(NULL, NULL);
 			return TRUE;
 		}
@@ -638,7 +663,6 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	const char *title;
 	gint page, npages;
 	
-	SAY("A");
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
@@ -646,9 +670,10 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
 
 	sakura_set_tab_label_text(title);
-	if (npages==1) 
+	if (npages==1) {
+		/* Beware: It doesn't work in Unity because there is a Compiz bug: #257391 */
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
-	else 
+	} else 
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
 
 }
@@ -1708,6 +1733,11 @@ sakura_init()
 	}
 	sakura.switch_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "switch_tab_accelerator", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "move_tab_accelerator", NULL)) {
+		sakura_set_config_integer("move_tab_accelerator", DEFAULT_MOVE_TAB_ACCELERATOR);
+	}
+	sakura.move_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "move_tab_accelerator", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_accelerator", NULL)) {
 		sakura_set_config_integer("copy_accelerator", DEFAULT_COPY_ACCELERATOR);
 	}
@@ -1727,6 +1757,11 @@ sakura_init()
 		sakura_set_config_integer("font_size_accelerator", DEFAULT_FONT_SIZE_ACCELERATOR);
 	}
 	sakura.font_size_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "font_size_accelerator", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_tab_name_accelerator", NULL)) {
+		sakura_set_config_integer("set_tab_name_accelerator", DEFAULT_SET_TAB_NAME_ACCELERATOR);
+	}
+	sakura.set_tab_name_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_tab_name_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
 		sakura_set_config_key("add_tab_key", DEFAULT_ADD_TAB_KEY);
@@ -1762,6 +1797,11 @@ sakura_init()
 		sakura_set_config_key("scrollbar_key", DEFAULT_SCROLLBAR_KEY);
 	}
 	sakura.scrollbar_key = sakura_get_config_key("scrollbar_key");
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_tab_name_key", NULL)) {
+		sakura_set_config_key("set_tab_name_key", DEFAULT_SET_TAB_NAME_KEY);
+	}
+	sakura.set_tab_name_key = sakura_get_config_key("set_tab_name_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "fullscreen_key", NULL)) {
 		sakura_set_config_key("fullscreen_key", DEFAULT_FULLSCREEN_KEY);
@@ -2192,8 +2232,29 @@ sakura_set_font()
 	}
 }
 
+
 static void
-sakura_set_tab_label_text(char *title)
+sakura_move_tab(gint direction)
+{
+	gint page, n_pages;
+	GtkWidget *child;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	child=gtk_notebook_get_nth_page(GTK_NOTEBOOK(sakura.notebook), page);
+
+	if (direction==FORWARD) {
+		if (page!=n_pages-1)
+			gtk_notebook_reorder_child(GTK_NOTEBOOK(sakura.notebook), child, page+1);
+	} else {
+		if (page!=0)
+			gtk_notebook_reorder_child(GTK_NOTEBOOK(sakura.notebook), child, page-1);
+	}
+}
+
+
+static void
+sakura_set_tab_label_text(const gchar *title)
 {
 	int page;
 	struct terminal *term;
