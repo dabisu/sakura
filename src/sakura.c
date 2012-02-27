@@ -2205,13 +2205,12 @@ sakura_set_size(gint columns, gint rows)
 		vb=gtk_notebook_get_tab_vborder(GTK_NOTEBOOK(sakura.notebook));
 		SAY("notebook borders h %d v %d", hb, vb);
 		SAY("padding x %d y %d", pad_x, pad_y);
-		/* Constant are a supermegaugly hack. FIX THEM*/
-		/* FIXME: Get notebook padding*/
+		/* TODO: Yeah i know, this is utterly shit. Remove this ugly hack and set geometry hints*/
 		if (!sakura.show_scrollbar) 
 			sakura.height += min_height-5;
 		else
 			sakura.height += min_height-20;
-		//sakura.width += 8;
+		sakura.width += 8;
 		sakura.width += (hb*2)+ (pad_x*2);
 	}
 
