@@ -734,7 +734,8 @@ sakura_config_done()
 				fprintf(stderr, "%s\n", gerror->message);
 				exit(EXIT_FAILURE);
 			}
-			g_io_channel_close(cfgfile);
+			g_io_channel_shutdown(cfgfile, TRUE, &gerror);
+			g_io_channel_unref(cfgfile);
 		}
 	}
 }
@@ -841,7 +842,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	/* FIXME: Update to GtkCssProvider */
 	gtk_rc_parse_string ("widget \"set-name-dialog\" style \"hig-dialog\"\n");
 
-	name_hbox=gtk_hbox_new(FALSE, 0);
+	name_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	entry=gtk_entry_new();
 	label=gtk_label_new(_("New text"));
 	/* Set tab label as entry default text (when first tab is not displayed, get_tab_label_text
@@ -897,8 +898,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	/* FIXME: Update to GtkCssProvider */
 	gtk_rc_parse_string ("widget \"set-color-dialog\" style \"hig-dialog\"\n");
 
-	hbox_fore=gtk_hbox_new(FALSE, 12);
-	hbox_back=gtk_hbox_new(FALSE, 12);
+	hbox_fore=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
+	hbox_back=gtk_box_new(FALSE, 12);
 	label1=gtk_label_new(_("Select foreground color:"));
 	label2=gtk_label_new(_("Select background color:"));
 	buttonfore=gtk_color_button_new_with_color(&sakura.forecolor);
@@ -923,6 +924,9 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
 
 	if (response==GTK_RESPONSE_ACCEPT) {
+		/* TODO: Remove deprecated get_color */
+		//gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_dialog), &sakura.forecolor);
+		//gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_dialog), &sakura.backcolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
 		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
 
@@ -991,9 +995,9 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
 
 	spin_label = gtk_label_new(_("Opacity level (%):"));
-	dialog_hbox=gtk_hbox_new(FALSE, 0);
-	dialog_vbox=gtk_vbox_new(FALSE, 0);
-	dialog_spin_hbox=gtk_hbox_new(FALSE, 0);
+	dialog_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	dialog_vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	dialog_spin_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(opacity_dialog))), dialog_hbox, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(dialog_hbox), dialog_vbox, FALSE, FALSE, 12);
@@ -1053,7 +1057,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 
 	entry=gtk_entry_new();
 	label=gtk_label_new(_("New window title"));
-	title_hbox=gtk_hbox_new(FALSE, 0);
+	title_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	/* Set window label as entry default text */
 	gtk_entry_set_text(GTK_ENTRY(entry), gtk_window_get_title(GTK_WINDOW(sakura.main_window)));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
@@ -2297,13 +2301,13 @@ sakura_add_tab()
 
 
 	term = g_new0( struct terminal, 1 );
-	term->hbox=gtk_hbox_new(FALSE, 0);
+	term->hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	term->vte=vte_terminal_new();
 
 	/* Create label (and optional close button) for tabs */
 	term->label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term->label=gtk_label_new(term->label_text);
-	tab_hbox=gtk_hbox_new(FALSE,2);
+	tab_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start(GTK_BOX(tab_hbox), term->label, FALSE, FALSE, 0);
 
 	if (sakura.show_closebutton) {
