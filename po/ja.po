@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 15:39+0200\n"
-"PO-Revision-Date: 2011-02-21 13:28+0000\n"
+"POT-Creation-Date: 2011-11-12 00:29+0100\n"
+"PO-Revision-Date: 2011-11-10 20:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-18 04:33+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
 msgstr "バージョン番号を表示"
@@ -27,8 +27,8 @@ msgstr "タブの数を選択"
 msgid "Execute command"
 msgstr "コマンドを実行"
 
-msgid "Execute command (xterm compatible)"
-msgstr "コマンドを実行（xterm互換)"
+msgid "Execute command (last option in the command line)"
+msgstr "コマンドを実行（コマンド行の最終オプション)"
 
 msgid "Login shell"
 msgstr "ログインシェル"
@@ -49,7 +49,7 @@ msgid "X geometry specification"
 msgstr "X幾何学指定"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "代理設定ファイルを使う"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "設定は外のプロセスに変化されました。書換えますか？"
@@ -66,11 +66,11 @@ msgstr ""
 msgid "Select font"
 msgstr "フォントを選択"
 
-msgid "Set name"
-msgstr "名前を選択"
+msgid "Set tab name"
+msgstr "タブ名前を指定"
 
-msgid "Tab new text"
-msgstr "タブの新しい文"
+msgid "New text"
+msgstr "新規テキスト"
 
 msgid "Select color"
 msgstr "配色を選択"
@@ -86,9 +86,6 @@ msgstr "不透過率"
 
 msgid "Opacity level (%):"
 msgstr "不透過率 (%):"
-
-msgid "Disable opacity"
-msgstr "不透過を無効にする"
 
 msgid "New window title"
 msgstr "ウィンドウタイトルを指定"
@@ -114,11 +111,8 @@ msgstr "リンクをコピー"
 msgid "New tab"
 msgstr "新規タブ"
 
-msgid "New window"
-msgstr "新規ウインドウ"
-
-msgid "Set name..."
-msgstr "名前を指定"
+msgid "Set tab name..."
+msgstr "タブ名前を指定"
 
 msgid "Close tab"
 msgstr "タブを閉じる"
@@ -150,14 +144,26 @@ msgstr "不透過率を指定..."
 msgid "Set window title..."
 msgstr "ウィンドウタイトルを指定"
 
+msgid "Options"
+msgstr "設定"
+
+msgid "More"
+msgstr "もっと"
+
 msgid "Always show tab bar"
 msgstr "タブバーを常に表示する"
 
-msgid "Show tab close button"
-msgstr "タブの閉じるボタンを表示"
+msgid "Tabs at bottom"
+msgstr "タブを下に表示"
+
+msgid "Show close button on tabs"
+msgstr "タブに閉じるボタンを表示"
 
 msgid "Show scrollbar"
 msgstr "スクロールバーを表示"
+
+msgid "Don't show exit dialog"
+msgstr "終了ダイアログを表示しない"
 
 msgid "Set audible bell"
 msgstr "可聴なベルを表示"
@@ -168,21 +174,30 @@ msgstr "可視のベルを表示"
 msgid "Set blinking cursor"
 msgstr "ブリキングのカーソルを表示"
 
-msgid "Borderless and maximized"
-msgstr "ボーダーレスと最大化"
+msgid "Set cursor type"
+msgstr "カーソル種を指定"
 
-msgid "Input methods"
-msgstr "入力メソッド"
+msgid "Block"
+msgstr "ブロック"
 
-msgid "Options"
-msgstr "設定"
+msgid "Underline"
+msgstr "下線"
+
+msgid "IBeam"
+msgstr "Iビーム"
 
 msgid "Set palette"
 msgstr "パレットを表示"
 
+msgid "Input methods"
+msgstr "入力メソッド"
+
 #, c-format
 msgid "Terminal %d"
 msgstr "ターミナル %d"
+
+msgid "Error message"
+msgstr "エラーメッセージ"
 
 msgid "- vte-based terminal emulator"
 msgstr "- vte ベースのターミナルエミュレータ"

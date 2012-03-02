@@ -5,16 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 15:39+0200\n"
-"PO-Revision-Date: 2011-02-21 11:10+0000\n"
+"POT-Creation-Date: 2011-11-12 00:29+0100\n"
+"PO-Revision-Date: 2011-11-10 20:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-18 04:33+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
 msgstr "Imprimir número de versión"
@@ -28,8 +28,8 @@ msgstr "Seleccionar el número inicial de pestañas"
 msgid "Execute command"
 msgstr "Ejecutar comando"
 
-msgid "Execute command (xterm compatible)"
-msgstr "Ejecutar comando (compatible con xterm)"
+msgid "Execute command (last option in the command line)"
+msgstr "Ejecutar comando (última opción en la linea de comandos)"
 
 msgid "Login shell"
 msgstr "Shell de login"
@@ -50,7 +50,7 @@ msgid "X geometry specification"
 msgstr "Especificación de geometría de las X"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Usar fichero de configuración alternativo"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "La configuración ha sido modificada por otro proceso. ¿Sobreescribir?"
@@ -67,11 +67,11 @@ msgstr ""
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
-msgid "Set name"
-msgstr "Definir nombre"
+msgid "Set tab name"
+msgstr "Definir nombre de pestaña"
 
-msgid "Tab new text"
-msgstr "Nuevo texto de la pestaña"
+msgid "New text"
+msgstr "Texto nuevo"
 
 msgid "Select color"
 msgstr "Seleccionar color"
@@ -87,9 +87,6 @@ msgstr "Opacidad"
 
 msgid "Opacity level (%):"
 msgstr "Nivel de opacidad (%)"
-
-msgid "Disable opacity"
-msgstr "Deshabilitar opacidad"
 
 msgid "New window title"
 msgstr "Nuevo título de la venta"
@@ -114,11 +111,8 @@ msgstr "Copiar enlace..."
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-msgid "New window"
-msgstr "Nueva ventana"
-
-msgid "Set name..."
-msgstr "Elegir nombre"
+msgid "Set tab name..."
+msgstr "Definir nombre de pestaña..."
 
 msgid "Close tab"
 msgstr "Cerrar pestaña"
@@ -150,14 +144,26 @@ msgstr "Definir nivel de opacidad..."
 msgid "Set window title..."
 msgstr "Definir nombre de la ventana"
 
+msgid "Options"
+msgstr "Opciones"
+
+msgid "More"
+msgstr "Más"
+
 msgid "Always show tab bar"
 msgstr "Mostrar siempre la barra de pestañas"
 
-msgid "Show tab close button"
-msgstr "Mostrar boton para cerrar pestaña"
+msgid "Tabs at bottom"
+msgstr "Pestañas en la parte inferior"
+
+msgid "Show close button on tabs"
+msgstr "Mostrar botón de cerrar en las pestañas"
 
 msgid "Show scrollbar"
 msgstr "Mostrar barra de desplazamiento"
+
+msgid "Don't show exit dialog"
+msgstr "No mostrar el diálogo de salida"
 
 msgid "Set audible bell"
 msgstr "Activar campana audible"
@@ -168,21 +174,30 @@ msgstr "Activar campana visible"
 msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
 
-msgid "Borderless and maximized"
-msgstr "Sin borde y maximizada"
+msgid "Set cursor type"
+msgstr "Definir tipo de cursor"
 
-msgid "Input methods"
-msgstr "Métodos de entrada"
+msgid "Block"
+msgstr "Bloque"
 
-msgid "Options"
-msgstr "Opciones"
+msgid "Underline"
+msgstr "Subrayado"
+
+msgid "IBeam"
+msgstr "IBeam"
 
 msgid "Set palette"
 msgstr "Definir paleta"
 
+msgid "Input methods"
+msgstr "Métodos de entrada"
+
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
+
+msgid "Error message"
+msgstr ""
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal basado en libvte"

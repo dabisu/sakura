@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 15:39+0200\n"
-"PO-Revision-Date: 2010-10-06 14:04+0000\n"
+"POT-Creation-Date: 2011-11-12 00:30+0100\n"
+"PO-Revision-Date: 2011-11-10 20:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-18 04:33+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
 msgstr "Afficher le numéro de version"
@@ -29,8 +29,9 @@ msgstr "Sélectionner le nombre d'onglets au démarrage"
 msgid "Execute command"
 msgstr "Exécuter une command"
 
-msgid "Execute command (xterm compatible)"
-msgstr ""
+#, fuzzy
+msgid "Execute command (last option in the command line)"
+msgstr "Exécuter la commande (compatible xterm)"
 
 msgid "Login shell"
 msgstr "Shell de connexion"
@@ -48,13 +49,13 @@ msgid "Hold window after execute command"
 msgstr "Conserver la fenêtre après l'execution d'une commande"
 
 msgid "X geometry specification"
-msgstr ""
+msgstr "Méthode de saisie X"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Utiliser le fichier de configuration alternatif"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
-msgstr ""
+msgstr "La configuration a été modifié par un autre processus. L'écraser?"
 
 msgid ""
 "There are running processes.\n"
@@ -68,11 +69,13 @@ msgstr ""
 msgid "Select font"
 msgstr "Sélectionner la police"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "Définir le nom"
 
-msgid "Tab new text"
-msgstr ""
+#, fuzzy
+msgid "New text"
+msgstr "Nouvel onglet"
 
 msgid "Select color"
 msgstr "Sélectionner une couleur"
@@ -88,9 +91,6 @@ msgstr "Opacité"
 
 msgid "Opacity level (%):"
 msgstr "Niveau d'opacité (%)"
-
-msgid "Disable opacity"
-msgstr "Désactiver l'opacité"
 
 msgid "New window title"
 msgstr "Définir le titre de la fenêtre"
@@ -116,11 +116,9 @@ msgstr "copier le lien..."
 msgid "New tab"
 msgstr "Nouvel onglet"
 
-msgid "New window"
-msgstr ""
-
-msgid "Set name..."
-msgstr "Définir le nom..."
+#, fuzzy
+msgid "Set tab name..."
+msgstr "Définir le nom"
 
 msgid "Close tab"
 msgstr "Fermer l'onglet"
@@ -152,14 +150,27 @@ msgstr "Définir le niveau d'opacité..."
 msgid "Set window title..."
 msgstr "Définir le titre de la fenêtre..."
 
-msgid "Always show tab bar"
+msgid "Options"
+msgstr "Options"
+
+msgid "More"
 msgstr ""
 
-msgid "Show tab close button"
+msgid "Always show tab bar"
+msgstr "Toujours afficher la barre d'onglets"
+
+msgid "Tabs at bottom"
+msgstr ""
+
+#, fuzzy
+msgid "Show close button on tabs"
 msgstr "Afficher le bouton de fermeture de l'onglet"
 
 msgid "Show scrollbar"
 msgstr "Afficher la barre de défilement"
+
+msgid "Don't show exit dialog"
+msgstr ""
 
 msgid "Set audible bell"
 msgstr "Utiliser un avertissement audio"
@@ -170,21 +181,30 @@ msgstr "Utiliser un avertissement visuel"
 msgid "Set blinking cursor"
 msgstr "Utliser un curseur clignotant"
 
-msgid "Borderless and maximized"
+msgid "Set cursor type"
 msgstr ""
 
-msgid "Input methods"
-msgstr "Méthodes d'entrée"
+msgid "Block"
+msgstr ""
 
-msgid "Options"
-msgstr "Options"
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
 
 msgid "Set palette"
 msgstr "Sélectionner une palette de couleurs"
 
+msgid "Input methods"
+msgstr "Méthodes d'entrée"
+
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
+
+msgid "Error message"
+msgstr ""
 
 msgid "- vte-based terminal emulator"
 msgstr "Émulateur de terminal utilisant VTE"

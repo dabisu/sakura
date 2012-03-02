@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-31 02:44+0200\n"
+"POT-Creation-Date: 2012-02-27 14:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Execute command"
 msgstr ""
 
-msgid "Execute command (xterm compatible)"
+msgid "Execute command (last option in the command line)"
 msgstr ""
 
 msgid "Login shell"
@@ -65,10 +65,10 @@ msgstr ""
 msgid "Select font"
 msgstr ""
 
-msgid "Set name"
+msgid "Set tab name"
 msgstr ""
 
-msgid "Tab new text"
+msgid "New text"
 msgstr ""
 
 msgid "Select color"
@@ -84,9 +84,6 @@ msgid "Opacity"
 msgstr ""
 
 msgid "Opacity level (%):"
-msgstr ""
-
-msgid "Disable opacity"
 msgstr ""
 
 msgid "New window title"
@@ -110,10 +107,7 @@ msgstr ""
 msgid "New tab"
 msgstr ""
 
-msgid "New window"
-msgstr ""
-
-msgid "Set name..."
+msgid "Set tab name..."
 msgstr ""
 
 msgid "Close tab"
@@ -146,13 +140,25 @@ msgstr ""
 msgid "Set window title..."
 msgstr ""
 
+msgid "Options"
+msgstr ""
+
+msgid "More"
+msgstr ""
+
 msgid "Always show tab bar"
 msgstr ""
 
-msgid "Show tab close button"
+msgid "Tabs at bottom"
+msgstr ""
+
+msgid "Show close button on tabs"
 msgstr ""
 
 msgid "Show scrollbar"
+msgstr ""
+
+msgid "Don't show exit dialog"
 msgstr ""
 
 msgid "Set audible bell"
@@ -164,20 +170,29 @@ msgstr ""
 msgid "Set blinking cursor"
 msgstr ""
 
-msgid "Borderless and maximized"
+msgid "Set cursor type"
 msgstr ""
 
-msgid "Input methods"
+msgid "Block"
 msgstr ""
 
-msgid "Options"
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
 msgstr ""
 
 msgid "Set palette"
 msgstr ""
 
+msgid "Input methods"
+msgstr ""
+
 #, c-format
 msgid "Terminal %d"
+msgstr ""
+
+msgid "Error message"
 msgstr ""
 
 msgid "- vte-based terminal emulator"

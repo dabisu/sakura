@@ -2,19 +2,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 15:39+0200\n"
-"PO-Revision-Date: 2010-03-03 12:18+0000\n"
+"POT-Creation-Date: 2011-11-12 00:30+0100\n"
+"PO-Revision-Date: 2011-11-10 20:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-18 04:33+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 msgid "Print version number"
-msgstr "Imprimir número da versão"
+msgstr "Mostrar número da versão"
 
 msgid "Select initial terminal font"
 msgstr "Selecionar fonte inicial do terminal"
@@ -25,7 +25,7 @@ msgstr "Selecionar número inicial de abas"
 msgid "Execute command"
 msgstr "Executar comando"
 
-msgid "Execute command (xterm compatible)"
+msgid "Execute command (last option in the command line)"
 msgstr ""
 
 msgid "Login shell"
@@ -35,37 +35,42 @@ msgid "Set window title"
 msgstr "Definir título da janela"
 
 msgid "Set columns number"
-msgstr ""
+msgstr "Definir número de colunas"
 
 msgid "Set rows number"
-msgstr ""
+msgstr "Definir número de linhas"
 
 msgid "Hold window after execute command"
-msgstr ""
+msgstr "Mostrar a janela depois de executar o comando"
 
 msgid "X geometry specification"
-msgstr ""
+msgstr "Especificação geométrica de X"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Usar arquivo de configuração alternativo"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
-msgstr ""
+msgstr "A configuração foi modificada por outro processo. Sobrescrever?"
 
 msgid ""
 "There are running processes.\n"
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
+"Existem processos sendo executados.\n"
+"\n"
+"Tem certeza que deseja fechar Sakura?"
 
 msgid "Select font"
 msgstr "Selecionar fonte"
 
-msgid "Set name"
+#, fuzzy
+msgid "Set tab name"
 msgstr "Definir nome"
 
-msgid "Tab new text"
-msgstr ""
+#, fuzzy
+msgid "New text"
+msgstr "Nova aba"
 
 msgid "Select color"
 msgstr "Selecionar cor"
@@ -82,9 +87,6 @@ msgstr "Opacidade"
 msgid "Opacity level (%):"
 msgstr "Nível de opacidade (%):"
 
-msgid "Disable opacity"
-msgstr "Desativar opacidade"
-
 msgid "New window title"
 msgstr "Definir título da janela"
 
@@ -96,6 +98,9 @@ msgid ""
 "\n"
 "Do you really want to close it?"
 msgstr ""
+"Existem processos sendo executados nesse terminal.\n"
+"\n"
+"Tem certeza que deseja fechar ele?"
 
 msgid "Open link..."
 msgstr "Abrir link..."
@@ -106,17 +111,15 @@ msgstr "Copiar link..."
 msgid "New tab"
 msgstr "Nova aba"
 
-msgid "New window"
-msgstr ""
-
-msgid "Set name..."
-msgstr "Definir nome..."
+#, fuzzy
+msgid "Set tab name..."
+msgstr "Definir nome"
 
 msgid "Close tab"
 msgstr "Fechar aba"
 
 msgid "Full screen"
-msgstr ""
+msgstr "Tela cheia"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -142,39 +145,60 @@ msgstr "Definir nível de opacidade..."
 msgid "Set window title..."
 msgstr "Definir título da janela"
 
-msgid "Always show tab bar"
+msgid "Options"
+msgstr "Opções"
+
+msgid "More"
 msgstr ""
 
-msgid "Show tab close button"
+msgid "Always show tab bar"
+msgstr "Sempre mostrar a barra de abas"
+
+msgid "Tabs at bottom"
+msgstr ""
+
+msgid "Show close button on tabs"
 msgstr ""
 
 msgid "Show scrollbar"
+msgstr "Mostra barra de rolagem"
+
+msgid "Don't show exit dialog"
 msgstr ""
 
 msgid "Set audible bell"
-msgstr ""
+msgstr "Ativar aviso sonoro"
 
 msgid "Set visible bell"
-msgstr ""
+msgstr "Ativar aviso visual"
 
 msgid "Set blinking cursor"
+msgstr "Ativar cursor piscando"
+
+msgid "Set cursor type"
 msgstr ""
 
-msgid "Borderless and maximized"
+msgid "Block"
 msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
+
+msgid "Set palette"
+msgstr "Definir paleta"
 
 msgid "Input methods"
 msgstr "Métodos de saída"
 
-msgid "Options"
-msgstr "Opções"
-
-msgid "Set palette"
-msgstr ""
-
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
+
+msgid "Error message"
+msgstr ""
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal baseado no vte"
