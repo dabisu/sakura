@@ -78,6 +78,11 @@ Hold window after execute command
 
 X display to use
 
+=item B<--config-file=FILENAME>
+
+Use alternate configurtation file. Path is relative to the sakura config dir.
+(Example: ~/.config/sakura/FILENAME).
+
 =back
 
 =head1 GTK+ OPTIONS
