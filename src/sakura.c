@@ -1589,8 +1589,7 @@ sakura_init()
 	if( ! g_file_test( configdir, G_FILE_TEST_EXISTS) )
 		g_mkdir( configdir, 0755 );
 	if (option_config_file) {
-		sakura.configfile=option_config_file;
-		printf("The config file is: %s", option_config_file);
+		sakura.configfile=g_build_filename(configdir, option_config_file, NULL);
 	} else {
 		/* Use more standard-conforming path for config files, if available. */
 		sakura.configfile=g_build_filename(configdir, DEFAULT_CONFIGFILE, NULL);
