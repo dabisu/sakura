@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-12 11:00+0100\n"
+"POT-Creation-Date: 2012-03-04 11:36-0800\n"
 "PO-Revision-Date: 2011-11-12 11:00+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -159,6 +159,9 @@ msgstr "Показывать кнопку закрытия на вкладке"
 
 msgid "Show scrollbar"
 msgstr "Показать линейку прокрутки"
+
+msgid "Show resize grip"
+msgstr ""
 
 msgid "Don't show exit dialog"
 msgstr "Не показывать диалог выхода"

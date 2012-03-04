@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-12 00:30+0100\n"
+"POT-Creation-Date: 2012-03-04 11:36-0800\n"
 "PO-Revision-Date: 2011-11-10 20:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -162,6 +162,9 @@ msgstr ""
 
 msgid "Show scrollbar"
 msgstr "Mostra barra de rolagem"
+
+msgid "Show resize grip"
+msgstr ""
 
 msgid "Don't show exit dialog"
 msgstr ""

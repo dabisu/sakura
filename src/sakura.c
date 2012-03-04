@@ -167,6 +167,7 @@ static struct {
 	VteTerminalCursorShape cursor_type;
 	bool first_tab;
 	bool show_scrollbar;
+	bool show_resize_grip;
 	bool show_closebutton;
 	bool tabs_on_bottom;
 	bool less_questions;
@@ -311,6 +312,7 @@ static void     sakura_tabs_on_bottom (GtkWidget *widget, void *data);
 static void     sakura_less_questions (GtkWidget *widget, void *data);
 static void     sakura_show_close_button (GtkWidget *widget, void *data);
 static void     sakura_show_scrollbar(GtkWidget *, void *);
+static void     sakura_show_resize_grip(GtkWidget *, void *);
 static void     sakura_closebutton_clicked(GtkWidget *, void *);
 static void     sakura_conf_changed(GtkWidget *, void *);
 
@@ -1222,6 +1224,17 @@ sakura_show_close_button (GtkWidget *widget, void *data)
 	}
 }
 
+static void
+sakura_show_resize_grip (GtkWidget *widget, void *data)
+{
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		sakura_set_config_boolean("resize_grip", TRUE);
+		gtk_window_set_has_resize_grip(GTK_WINDOW(sakura.main_window), TRUE);
+	} else {
+		sakura_set_config_boolean("resize_grip", FALSE);
+		gtk_window_set_has_resize_grip(GTK_WINDOW(sakura.main_window), FALSE);
+	}
+}
 
 static void
 sakura_show_scrollbar (GtkWidget *widget, void *data)
@@ -1674,6 +1687,11 @@ sakura_init()
 	}
 	sakura.show_scrollbar = g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "resize_grip", NULL)) {
+		sakura_set_config_boolean("resize_grip", FALSE);
+	}
+	sakura.show_resize_grip = g_key_file_get_boolean(sakura.cfg, cfg_group, "resize_grip", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "closebutton", NULL)) {
 		sakura_set_config_boolean("closebutton", TRUE);
 	}
@@ -1835,6 +1853,7 @@ sakura_init()
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), DATADIR "/pixmaps/" ICON_FILE, &gerror);
+	gtk_window_set_has_resize_grip(GTK_WINDOW(sakura.main_window), sakura.show_resize_grip);
 
 	/* Default terminal size*/
 	sakura.columns = DEFAULT_COLUMNS;
@@ -1916,7 +1935,8 @@ sakura_init_popup()
 	          *item_blinking_cursor, *item_other_options, 
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
-	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions;
+	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions,
+		  *item_toggle_resize_grip;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
@@ -1963,6 +1983,7 @@ sakura_init_popup()
 	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs at bottom"));
 	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show close button on tabs"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
+	item_toggle_resize_grip=gtk_check_menu_item_new_with_label(_("Show resize grip"));
 	item_less_questions=gtk_check_menu_item_new_with_label(_("Don't show exit dialog"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
@@ -2011,6 +2032,12 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_scrollbar), TRUE);
 	} else {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_scrollbar), FALSE);
+	}
+
+	if (sakura.show_resize_grip) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_resize_grip), TRUE);
+	} else {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_resize_grip), FALSE);
 	}
 
 	if (sakura.audible_bell) {
@@ -2087,6 +2114,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_show_close_button);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_toggle_scrollbar);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_toggle_resize_grip);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_less_questions);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_visible_bell);
@@ -2124,6 +2152,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_less_questions), "activate", G_CALLBACK(sakura_less_questions), NULL);
 	g_signal_connect(G_OBJECT(item_show_close_button), "activate", G_CALLBACK(sakura_show_close_button), NULL);
 	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar), NULL);
+	g_signal_connect(G_OBJECT(item_toggle_resize_grip), "activate", G_CALLBACK(sakura_show_resize_grip), NULL);
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);

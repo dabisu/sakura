@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-12 00:29+0100\n"
+"POT-Creation-Date: 2012-03-04 11:36-0800\n"
 "PO-Revision-Date: 2011-11-11 03:58+0000\n"
 "Last-Translator: Bundo <bundo@bundo.biz>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -164,6 +164,9 @@ msgstr "탭에 닫기 단추 보이기"
 
 msgid "Show scrollbar"
 msgstr "스크롤바 보이기"
+
+msgid "Show resize grip"
+msgstr ""
 
 msgid "Don't show exit dialog"
 msgstr "종료 대화 상자를 표시하지 않음"
