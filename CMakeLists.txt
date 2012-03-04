@@ -4,7 +4,7 @@ IF (COMMAND CMAKE_POLICY)
 ENDIF (COMMAND CMAKE_POLICY)	
 PROJECT (sakura)
 SET (AUTHOR "David Gómez Espinosa" INTERNAL "Author")
-SET (VERSION "3.0.0")
+SET (VERSION "3.0.1")
 
 
 INCLUDE (FindPkgConfig)
