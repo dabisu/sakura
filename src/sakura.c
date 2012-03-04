@@ -216,6 +216,7 @@ struct terminal {
 	GtkWidget *scrollbar;
 	GtkWidget *label;
 	gchar *label_text;
+	bool label_set_byuser;
 	GtkBorder *border;   /* inner-property data */
 };
 
@@ -668,10 +669,13 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	struct terminal *term;
 	const char *title;
 	gint page, npages;
-	
+
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
+
+	/* User set values overrides any other one */
+	if (term->label_set_byuser) return;
 
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
 
@@ -864,6 +868,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
 		sakura_set_tab_label_text(gtk_entry_get_text(GTK_ENTRY(entry)));
+		term->label_set_byuser=true;
 	}
 	gtk_widget_destroy(input_dialog);
 }
@@ -2306,6 +2311,7 @@ sakura_add_tab()
 	/* Create label (and optional close button) for tabs */
 	term->label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term->label=gtk_label_new(term->label_text);
+	term->label_set_byuser=false;
 	tab_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start(GTK_BOX(tab_hbox), term->label, FALSE, FALSE, 0);
 
