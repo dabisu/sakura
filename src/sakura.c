@@ -36,7 +36,6 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
 #include <pango/pango.h>
 #include <vte/vte.h>
 
@@ -146,6 +145,11 @@ const GdkColor rxvt_palette[PALETTE_SIZE] =
 				"padding: 0;\n"\
 				"}"
 
+#define HIG_DIALOG_CSS "* {\n"\
+				"-GtkDialog-action-area-border : 12;\n"\
+				"-GtkDialog-button-spacing : 12;\n"\
+				"}"
+
 static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
@@ -184,6 +188,7 @@ static struct {
 	GtkWidget *item_open_link;
 	GtkWidget *open_link_separator;
 	GKeyFile *cfg;
+	GtkCssProvider *provider;
 	char *configfile;
 	char *background;
 	char *word_chars;			/* Set of characters for word boundaries */
@@ -844,9 +849,11 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
 
 	/* Set style */
-	gtk_widget_set_name (input_dialog, "set-name-dialog");
-	/* FIXME: Update to GtkCssProvider */
-	gtk_rc_parse_string ("widget \"set-name-dialog\" style \"hig-dialog\"\n");
+	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
+	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
+	GtkStyleContext *context = gtk_widget_get_style_context (input_dialog);
+	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_free(css);
 
 	name_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	entry=gtk_entry_new();
@@ -901,9 +908,11 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
 	/* Set style */
-	gtk_widget_set_name (color_dialog, "set-color-dialog");
-	/* FIXME: Update to GtkCssProvider */
-	gtk_rc_parse_string ("widget \"set-color-dialog\" style \"hig-dialog\"\n");
+	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
+	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
+	GtkStyleContext *context = gtk_widget_get_style_context (color_dialog);
+	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_free(css);
 
 	hbox_fore=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
 	hbox_back=gtk_box_new(FALSE, 12);
@@ -994,9 +1003,11 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 	gtk_window_set_modal(GTK_WINDOW(opacity_dialog), TRUE);
 
 	/* Set style */
-	gtk_widget_set_name (opacity_dialog, "set-opacity-dialog");
-	/* FIXME: Update to GtkCssProvider */
-	gtk_rc_parse_string ("widget \"set-opacity-dialog\" style \"hig-dialog\"\n");
+	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
+	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
+	GtkStyleContext *context = gtk_widget_get_style_context (opacity_dialog);
+	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_free(css);
 
 	spinner_adj = gtk_adjustment_new ((sakura.opacity_level), 0.0, 99.0, 1.0, 5.0, 0);
 	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
@@ -1058,9 +1069,11 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	gtk_dialog_set_default_response(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(title_dialog), TRUE);
 	/* Set style */
-	gtk_widget_set_name (title_dialog, "set-title-dialog");
-	/* FIXME: Update to GtkCssProvider */
-	gtk_rc_parse_string ("widget \"set-title-dialog\" style \"hig-dialog\"\n");
+	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
+	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
+	GtkStyleContext *context = gtk_widget_get_style_context (title_dialog);
+	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_free(css);
 
 	entry=gtk_entry_new();
 	label=gtk_label_new(_("New window title"));
@@ -1140,7 +1153,7 @@ sakura_open_url (GtkWidget *widget, void *data)
 	} else {
 		if ( (browser = g_find_program_in_path("xdg-open")) ) {
 			cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
-			g_free( browser );
+			g_free(browser);
 		} else
 			cmd=g_strdup_printf("firefox %s", sakura.current_match);
 	}
@@ -1843,12 +1856,7 @@ sakura_init()
 	}
 	sakura.fullscreen_key = sakura_get_config_key("fullscreen_key");
 
-	/* Set dialog style */
-	/* FIXME: Update to GtkCssProvider */
-	gtk_rc_parse_string ("style \"hig-dialog\" {\n"
-	                     "GtkDialog::action-area-border = 12\n"
-                         "GtkDialog::button-spacing = 12\n"
-                         "}\n");
+	sakura.provider = gtk_css_provider_new();
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
@@ -2349,21 +2357,19 @@ sakura_add_tab()
 		gtk_widget_set_name(close_button, "closebutton");
 		gtk_button_set_relief(GTK_BUTTON(close_button), GTK_RELIEF_NONE);
 		GtkWidget *image=gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-		/* FIXME: Make provider global? We're doing this for every new tab...*/
 		/* Default stock buttons have a significant border. We want small buttons for our tabs, so we
 		   need to set our own style */
-		GtkCssProvider *provider = gtk_css_provider_new();
 		gchar *css = g_strdup_printf (CLOSE_BUTTON_CSS);
 
-		gtk_css_provider_load_from_data(provider, css, -1, NULL);
+		gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
 		GtkStyleContext *context = gtk_widget_get_style_context (close_button);
-	    gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	    gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 		gtk_container_add (GTK_CONTAINER (close_button), image);
 		gtk_box_pack_start(GTK_BOX(tab_hbox), close_button, FALSE, FALSE, 0);
 
-		// FIXME: Destroy provider if we don't go global			
-		free(css);
+		g_free(css);
+		// FIXME: Destroy (unref) provider if we don't go global			
 	}
 
 	if (sakura.tabs_on_bottom) {
@@ -2735,6 +2741,7 @@ main(int argc, char **argv)
 	textdomain(GETTEXT_PACKAGE);
 	bindtextdomain(GETTEXT_PACKAGE, localedir);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	g_free(localedir);
 
 	/* Rewrites argv to include a -- after the -e argument this is required to make
 	 * sure GOption doesn't grab any arguments meant for the command being called */
