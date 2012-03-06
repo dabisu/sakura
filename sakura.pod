@@ -64,7 +64,7 @@ Set window title
 
 =item B<-c, --columns>
 
-Set columns numbe
+Set columns number
 
 =item B<-r, --rows>
 

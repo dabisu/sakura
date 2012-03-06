@@ -809,15 +809,14 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 	GtkWidget *font_dialog;
 	gint response;
 
-	font_dialog=gtk_font_selection_dialog_new(_("Select font"));
-	gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog),
-	                                        pango_font_description_to_string(sakura.font));
+	font_dialog=gtk_font_chooser_dialog_new(_("Select font"), GTK_WINDOW(sakura.main_window));
+	gtk_font_chooser_set_font_desc(GTK_FONT_CHOOSER(font_dialog), sakura.font);
 
 	response=gtk_dialog_run(GTK_DIALOG(font_dialog));
 
 	if (response==GTK_RESPONSE_OK) {
 		pango_font_description_free(sakura.font);
-		sakura.font=pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(font_dialog)));
+		sakura.font=gtk_font_chooser_get_font_desc(GTK_FONT_CHOOSER(font_dialog));
 		sakura_set_font();
 		sakura_set_size(sakura.columns, sakura.rows);
 		sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
