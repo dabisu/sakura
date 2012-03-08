@@ -158,6 +158,7 @@ static struct {
 	PangoFontDescription *font;
 	GdkColor forecolor;
 	GdkColor backcolor;
+	const GdkColor *palette;
 	bool has_rgba;				/* RGBA capabilities */
 	char *current_match;
 	guint width;
@@ -192,7 +193,6 @@ static struct {
 	char *configfile;
 	char *background;
 	char *word_chars;			/* Set of characters for word boundaries */
-	const GdkColor *palette;
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
 	gint switch_tab_accelerator;
@@ -892,7 +892,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gint response;
 	guint16 backalpha;
 	int page;		
-	GdkColor white; white.red=255; white.blue=255; white.green=255;
 	int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	struct terminal *term;
 
@@ -919,6 +918,9 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	label2=gtk_label_new(_("Select background color:"));
 	buttonfore=gtk_color_button_new_with_color(&sakura.forecolor);
 	buttonback=gtk_color_button_new_with_color(&sakura.backcolor);
+	/* When the times comes (gtk-3.4) */
+	// buttonfore=gtk_color_button_new_with_rgba(&sakura.forecolor);
+	// buttonback=gtk_color_button_new_with_rgba(&sakura.backcolor);*/
 
 	/* This rounding sucks...*/
 	backalpha = roundf((sakura.opacity_level*65535)/99);
@@ -952,8 +954,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		for (i = (n_pages - 1); i >= 0; i--) {
 			term = sakura_get_page_term(sakura, i);
 			if (sakura.has_rgba) {
-				/* We to change the background color before setting opacity */
-				vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
 				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), backalpha);
 			}
 			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
@@ -986,7 +986,6 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 	GtkWidget *opacity_dialog, *spin_control, *spin_label;//, *check;
 	GtkAdjustment *spinner_adj;
 	GtkWidget *dialog_hbox, *dialog_vbox, *dialog_spin_hbox;
-	GdkColor white; white.red=255; white.blue=255; white.green=255;
 	gint response;
 	guint16 backalpha;
 	int page;
@@ -1035,12 +1034,15 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 		backalpha = (sakura.opacity_level*65535)/100;
 
 		/* Set transparency for all tabs */
+		GdkColor white={0, 255, 255, 255};
 		for (i = (n_pages - 1); i >= 0; i--) {
 			term = sakura_get_page_term(sakura, i);
 			if (sakura.has_rgba) {
-				/* Forecolor is not ok, we need a white one */
+				/* This is needed for set_opacity to have effect */
 				vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
 				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), backalpha);
+				/* Reset colors again because we had set a white background. TODO: Check if it's
+				   still needed with set_colors_rgba */
 				vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 										sakura.palette, PALETTE_SIZE);
 			}
@@ -1392,6 +1394,8 @@ sakura_set_palette(GtkWidget *widget, void *data)
 			term = sakura_get_page_term(sakura, i);
 			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 			                        sakura.palette, PALETTE_SIZE);
+			//vte_terminal_set_colors_rgba(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+			//                        sakura.palette, PALETTE_SIZE);
 		}
 
 		sakura_set_config_string("palette", palette);
@@ -1649,6 +1653,7 @@ sakura_init()
 	 * doesn't exist, but we have just read it!
 	 */
 
+	/* TODO: Use RGBA colors, with rgba_parse when gtk-3.4 deprecates some functions using GdkColor. Maybe we can convert all sakura to GdkRGBA colors  */
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "forecolor", NULL)) {
 		sakura_set_config_string("forecolor", "#c0c0c0");
 	}
@@ -2337,7 +2342,6 @@ sakura_add_tab()
 	int index;
 	int npages;
 	gchar *cwd = NULL;
-	GdkColor white; white.red=255; white.blue=255; white.green=255;
 
 
 	term = g_new0( struct terminal, 1 );
@@ -2382,7 +2386,7 @@ sakura_add_tab()
 	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 
-	term->scrollbar=gtk_vscrollbar_new(vte_terminal_get_adjustment(VTE_TERMINAL(term->vte)));
+	term->scrollbar=gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, vte_terminal_get_adjustment(VTE_TERMINAL(term->vte)));
 
 	gtk_box_pack_start(GTK_BOX(term->hbox), term->vte, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(term->hbox), term->scrollbar, FALSE, FALSE, 0);
@@ -2552,7 +2556,6 @@ sakura_add_tab()
 	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 	                        sakura.palette, PALETTE_SIZE);
 	if (sakura.has_rgba) {
-		vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
 		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), (sakura.opacity_level*65535)/99); /* 0-99 value */
 	}
 
