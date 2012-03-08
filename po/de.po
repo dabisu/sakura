@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-04 11:36-0800\n"
-"PO-Revision-Date: 2011-11-10 20:12+0000\n"
+"POT-Creation-Date: 2012-03-08 02:07+0100\n"
+"PO-Revision-Date: 2011-11-19 23:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-11 04:46+0000\n"
-"X-Generator: Launchpad (build 14277)\n"
+"X-Launchpad-Export-Date: 2012-03-08 04:42+0000\n"
+"X-Generator: Launchpad (build 14914)\n"
 
 msgid "Print version number"
 msgstr "Versionsnummer anzeigen"
@@ -71,13 +71,11 @@ msgstr ""
 msgid "Select font"
 msgstr "Schrift auswählen"
 
-#, fuzzy
 msgid "Set tab name"
-msgstr "Name wählen"
+msgstr "Reiternamen setzen"
 
-#, fuzzy
 msgid "New text"
-msgstr "Reiter neuer Name"
+msgstr "Neuer Text"
 
 msgid "Select color"
 msgstr "Farbe wählen"
@@ -118,9 +116,8 @@ msgstr "Kopiere Link..."
 msgid "New tab"
 msgstr "Neuer Reiter"
 
-#, fuzzy
 msgid "Set tab name..."
-msgstr "Name wählen"
+msgstr "Reiternamen setzen..."
 
 msgid "Close tab"
 msgstr "Reiter schließen"
@@ -156,17 +153,16 @@ msgid "Options"
 msgstr "Optionen"
 
 msgid "More"
-msgstr ""
+msgstr "Weitere"
 
 msgid "Always show tab bar"
 msgstr "Reiterleiste immer anzeigen"
 
 msgid "Tabs at bottom"
-msgstr ""
+msgstr "Reiter unten"
 
-#, fuzzy
 msgid "Show close button on tabs"
-msgstr "Zeige Schließen-Knopf auf jedem Reiter"
+msgstr "„Schließen“-Knopf auf Reitern anzeigen"
 
 msgid "Show scrollbar"
 msgstr "Bildlaufleiste anzeigen"
@@ -175,7 +171,7 @@ msgid "Show resize grip"
 msgstr ""
 
 msgid "Don't show exit dialog"
-msgstr ""
+msgstr "Beenden-Dialog nicht anzeigen"
 
 msgid "Set audible bell"
 msgstr "Hörbarer Alarm"
@@ -190,13 +186,13 @@ msgid "Set cursor type"
 msgstr ""
 
 msgid "Block"
-msgstr ""
+msgstr "Blockieren"
 
 msgid "Underline"
-msgstr ""
+msgstr "Unterstreichen"
 
 msgid "IBeam"
-msgstr ""
+msgstr "IBeam"
 
 msgid "Set palette"
 msgstr "Palette"
@@ -209,7 +205,7 @@ msgid "Terminal %d"
 msgstr "Terminal %d"
 
 msgid "Error message"
-msgstr ""
+msgstr "Fehlermeldung"
 
 msgid "- vte-based terminal emulator"
 msgstr "- vte-basierter Terminal-Emulator"
