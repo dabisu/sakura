@@ -5,15 +5,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 02:07+0100\n"
-"PO-Revision-Date: 2011-11-12 00:33+0000\n"
-"Last-Translator: nTia89 <tia.tif@fastwebnet.it>\n"
+"POT-Creation-Date: 2012-03-08 17:57+0100\n"
+"PO-Revision-Date: 2012-03-08 16:36+0000\n"
+"Last-Translator: mattia.b89 <Unknown>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-08 04:42+0000\n"
+"X-Launchpad-Export-Date: 2012-03-09 04:49+0000\n"
 "X-Generator: Launchpad (build 14914)\n"
 "X-Poedit-Country: ITALY\n"
 "X-Poedit-Language: Italian\n"
@@ -32,7 +32,7 @@ msgid "Execute command"
 msgstr "Esegui il comando"
 
 msgid "Execute command (last option in the command line)"
-msgstr ""
+msgstr "Esegui il comando (l'ultima scelta nella riga di comando)"
 
 msgid "Login shell"
 msgstr "Shell di login"
@@ -53,10 +53,11 @@ msgid "X geometry specification"
 msgstr "Specificazione della geometria di X"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Usa un file di configurazione alternativo"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr ""
+"La configurazione è stata modificata da un altro processo. Sovrascrivere?"
 
 msgid ""
 "There are running processes.\n"
@@ -71,7 +72,7 @@ msgid "Select font"
 msgstr "Seleziona il font"
 
 msgid "Set tab name"
-msgstr ""
+msgstr "Imposta il nome della scheda"
 
 msgid "New text"
 msgstr "Nuovo testo"
@@ -152,25 +153,25 @@ msgid "Options"
 msgstr "Opzioni"
 
 msgid "More"
-msgstr ""
+msgstr "Altro"
 
 msgid "Always show tab bar"
-msgstr ""
+msgstr "Mostra sempre la barra delle schede"
 
 msgid "Tabs at bottom"
-msgstr ""
+msgstr "Schede in basso"
 
 msgid "Show close button on tabs"
-msgstr ""
+msgstr "Mostra il pulsante di chiusura sulle schede"
 
 msgid "Show scrollbar"
 msgstr "Visualizza la barra di scorrimento"
 
 msgid "Show resize grip"
-msgstr ""
+msgstr "Mostra grip di ridimensionamento"
 
 msgid "Don't show exit dialog"
-msgstr ""
+msgstr "Non mostrare il dialogo di uscita"
 
 msgid "Set audible bell"
 msgstr "Imposta l'avviso acustico"
@@ -182,16 +183,16 @@ msgid "Set blinking cursor"
 msgstr "Imposta il cursore lampeggiante"
 
 msgid "Set cursor type"
-msgstr ""
+msgstr "Imposta il modello di cursore"
 
 msgid "Block"
-msgstr ""
+msgstr "Blocco"
 
 msgid "Underline"
-msgstr ""
+msgstr "Sottolineato"
 
 msgid "IBeam"
-msgstr ""
+msgstr "IBeam"
 
 msgid "Set palette"
 msgstr "Imposta la tavolozza dei colori"
@@ -204,7 +205,7 @@ msgid "Terminal %d"
 msgstr "Terminale %d"
 
 msgid "Error message"
-msgstr ""
+msgstr "Messaggio d'errore"
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulatore di terminale basato su VTE"
