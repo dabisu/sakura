@@ -1860,12 +1860,23 @@ sakura_init()
 	}
 	sakura.fullscreen_key = sakura_get_config_key("fullscreen_key");
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "icon_file", NULL)) {
+		sakura_set_config_string("icon_file", ICON_FILE);
+	}
+	/* We don't need a global because it's not configurable within sakura */
+
 	sakura.provider = gtk_css_provider_new();
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
-	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), DATADIR "/pixmaps/" ICON_FILE, &gerror);
 	gtk_window_set_has_resize_grip(GTK_WINDOW(sakura.main_window), sakura.show_resize_grip);
+
+	/**/
+	//gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), DATADIR "/pixmaps/" ICON_FILE, &gerror);
+	char *icon = g_key_file_get_value(sakura.cfg, cfg_group, "icon_file", NULL);
+	char *icon_path = g_strdup_printf(DATADIR "/pixmaps/%s", icon);
+	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), icon_path, &gerror);
+	g_free(icon); g_free(icon_path); icon=NULL; icon_path=NULL;
 
 	/* Default terminal size*/
 	sakura.columns = DEFAULT_COLUMNS;
