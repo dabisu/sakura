@@ -501,7 +501,7 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 {
 	struct terminal *term;
 	glong column, row;
-	int page, tag;
+	gint page, tag;
 
 	if (button_event->type != GDK_BUTTON_PRESS)
 		return FALSE;
@@ -838,7 +838,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	GtkWidget *entry, *label;
 	GtkWidget *name_hbox; /* We need this for correct spacing */
 	gint response;
-	int page;
+	gint page;
 	struct terminal *term;
 	const gchar *text;
 
@@ -896,7 +896,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	GtkWidget *hbox_fore, *hbox_back;
 	gint response;
 	guint16 backalpha;
-	int page;		
+	gint page;		
 	int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	struct terminal *term;
 
@@ -993,7 +993,7 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 	GtkWidget *dialog_hbox, *dialog_vbox, *dialog_spin_hbox;
 	gint response;
 	guint16 backalpha;
-	int page;
+	gint page;
 	struct terminal *term;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -1176,7 +1176,7 @@ sakura_open_url (GtkWidget *widget, void *data)
 static void
 sakura_clear (GtkWidget *widget, void *data)
 {
-	int page;
+	gint page;
 	struct terminal *term;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -1259,9 +1259,9 @@ sakura_show_resize_grip (GtkWidget *widget, void *data)
 static void
 sakura_show_scrollbar (GtkWidget *widget, void *data)
 {
-	int page;
+	gint page;
 	struct terminal *term;
-	int n_pages;
+	gint n_pages;
 	int i;
 
 	sakura.keep_fc=1;
@@ -1292,7 +1292,7 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 static void
 sakura_audible_bell (GtkWidget *widget, void *data)
 {
-	int page;
+	gint page;
 	struct terminal *term;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -1311,7 +1311,7 @@ sakura_audible_bell (GtkWidget *widget, void *data)
 static void
 sakura_visible_bell (GtkWidget *widget, void *data)
 {
-	int page;
+	gint page;
 	struct terminal *term;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -1330,7 +1330,7 @@ sakura_visible_bell (GtkWidget *widget, void *data)
 static void
 sakura_blinking_cursor (GtkWidget *widget, void *data)
 {
-	int page;
+	gint page;
 	struct terminal *term;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -1467,7 +1467,7 @@ sakura_setname_entry_changed (GtkWidget *widget, void *data)
 static void
 sakura_copy (GtkWidget *widget, void *data)
 {
-	int page;
+	gint page;
 	struct terminal *term;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -1481,7 +1481,7 @@ sakura_copy (GtkWidget *widget, void *data)
 static void
 sakura_paste (GtkWidget *widget, void *data)
 {
-	int page;
+	gint page;
 	struct terminal *term;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -2340,8 +2340,6 @@ static gint sakura_find_tab(VteTerminal *vte_term)
 		page++;
 	} while (page < n_pages);
 
-	SAY("%d", matched_page);
-
 	return (matched_page);
 }
 
@@ -2349,11 +2347,9 @@ static gint sakura_find_tab(VteTerminal *vte_term)
 static void
 sakura_set_tab_label_text(const gchar *title, gint page)
 {
-	//int page;
 	struct terminal *term;
 	gchar *chopped_title;
 
-	//page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
 	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
@@ -2685,7 +2681,7 @@ sakura_set_bgimage(char *infile)
 {
 	GError *gerror=NULL;
 	GdkPixbuf *pixbuf=NULL;
-	int page;
+	gint page;
 	struct terminal *term;
 
 	if (!infile) SAY("File parameter is NULL");
