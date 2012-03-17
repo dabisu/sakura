@@ -330,9 +330,10 @@ static void     sakura_init_popup();
 static void     sakura_destroy();
 static void     sakura_add_tab();
 static void     sakura_del_tab();
-static void		sakura_move_tab(gint);
+static void     sakura_move_tab(gint);
+static gint     sakura_find_tab(VteTerminal *);
 static void     sakura_set_font();
-static void     sakura_set_tab_label_text(const gchar *);
+static void     sakura_set_tab_label_text(const gchar *, gint page);
 static void     sakura_set_size(gint, gint);
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
@@ -670,24 +671,28 @@ sakura_eof (GtkWidget *widget, void *data)
 	}
 }
 
+/* This handler is called when window title changes, and is used to change window and notebook pages titles */
 static void
 sakura_title_changed (GtkWidget *widget, void *data)
 {
 	struct terminal *term;
 	const char *title;
-	gint page, npages;
+	gint n_pages;
+	gint modified_page;
+	VteTerminal *vte_term=(VteTerminal *)widget;
 
-	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
-
-	/* User set values overrides any other one */
-	if (term->label_set_byuser) return;
+	modified_page = sakura_find_tab(vte_term);
+	n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, modified_page);
 
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
 
-	sakura_set_tab_label_text(title);
-	if (npages==1) {
+	/* User set values overrides any other one, but title should be changed */
+	if (!term->label_set_byuser) 
+		sakura_set_tab_label_text(title, modified_page);
+
+	/* FIXME: Check if title has been set by the user */
+	if (n_pages==1) {
 		/* Beware: It doesn't work in Unity because there is a Compiz bug: #257391 */
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
 	} else 
@@ -875,7 +880,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
-		sakura_set_tab_label_text(gtk_entry_get_text(GTK_ENTRY(entry)));
+		sakura_set_tab_label_text(gtk_entry_get_text(GTK_ENTRY(entry)), page);
 		term->label_set_byuser=true;
 	}
 	gtk_widget_destroy(input_dialog);
@@ -1093,6 +1098,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(title_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
+		/* Bug #257391 shadow reachs here too... */
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(title_dialog);
@@ -1871,8 +1877,7 @@ sakura_init()
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
 	gtk_window_set_has_resize_grip(GTK_WINDOW(sakura.main_window), sakura.show_resize_grip);
 
-	/**/
-	//gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), DATADIR "/pixmaps/" ICON_FILE, &gerror);
+	/* Add datadir path to icon name */
 	char *icon = g_key_file_get_value(sakura.cfg, cfg_group, "icon_file", NULL);
 	char *icon_path = g_strdup_printf(DATADIR "/pixmaps/%s", icon);
 	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), icon_path, &gerror);
@@ -1883,7 +1888,6 @@ sakura_init()
 	sakura.rows = DEFAULT_ROWS;
 
 	sakura.notebook=gtk_notebook_new();
-	//gtk_notebook_popup_enable(GTK_NOTEBOOK(sakura.notebook));
 
 	/* Figure out if we have rgba capabilities. */
 	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
@@ -2317,14 +2321,39 @@ sakura_move_tab(gint direction)
 }
 
 
-static void
-sakura_set_tab_label_text(const gchar *title)
+/* Find the notebook page for the vte terminal passed as a parameter */
+static gint sakura_find_tab(VteTerminal *vte_term)
 {
-	int page;
+	gint matched_page, page, n_pages;
+	struct terminal *term;
+
+	n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	
+	matched_page = -1;
+	page = 0;
+
+	do {
+		term = sakura_get_page_term(sakura, page);
+		if ((VteTerminal *)term->vte == vte_term) {
+			matched_page=page;
+		}
+		page++;
+	} while (page < n_pages);
+
+	SAY("%d", matched_page);
+
+	return (matched_page);
+}
+
+
+static void
+sakura_set_tab_label_text(const gchar *title, gint page)
+{
+	//int page;
 	struct terminal *term;
 	gchar *chopped_title;
 
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	//page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
 	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
