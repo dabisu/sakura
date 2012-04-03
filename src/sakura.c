@@ -2,7 +2,7 @@
  *  Filename: sakura.c
  *  Description: VTE-based terminal emulator
  *
- *           Copyright (C) 2006-2008  David Gómez <david@pleyades.net>
+ *           Copyright (C) 2006-2012  David Gómez <david@pleyades.net>
  *           Copyright (C) 2008       Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -381,6 +381,12 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	gint page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 
 	if (event->type!=GDK_KEY_PRESS) return FALSE;
+
+	/* Check is Caps lock is enabled. If it is, change keyval to make keybindings work with
+	   both lowercase and uppercase letters */
+	if (gdk_keymap_get_caps_lock_state(gdk_keymap_get_default())) {
+		event->keyval=gdk_keyval_to_upper(event->keyval);
+	}
 
 	/* add_tab_accelerator + T or del_tab_accelerator + W pressed */
 	if ( (event->state & sakura.add_tab_accelerator)==sakura.add_tab_accelerator &&
