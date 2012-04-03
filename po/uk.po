@@ -1,0 +1,211 @@
+# Ukrainian translation for sakura
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
+# This file is distributed under the same license as the sakura package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sakura\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"PO-Revision-Date: 2012-03-29 10:47+0000\n"
+"Last-Translator: Andriy Nezhivy <andriynezhivy@i.ua>\n"
+"Language-Team: Ukrainian <uk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2012-03-30 04:32+0000\n"
+"X-Generator: Launchpad (build 15032)\n"
+
+msgid "Print version number"
+msgstr "Показати версію"
+
+msgid "Select initial terminal font"
+msgstr "Оберіть початкаовий шрифт терміналу"
+
+msgid "Select initial number of tabs"
+msgstr "Оберіть початкову кількість вкладок терміналу"
+
+msgid "Execute command"
+msgstr "Виконати команду"
+
+msgid "Execute command (last option in the command line)"
+msgstr "Виконати команду (остання опція в командному рядку)"
+
+msgid "Login shell"
+msgstr "Оболонка входу"
+
+msgid "Set window title"
+msgstr "Встановити заголовок вікна"
+
+msgid "Set columns number"
+msgstr "Встановити кількість стовпців"
+
+msgid "Set rows number"
+msgstr "Встановити кількість рядків"
+
+msgid "Hold window after execute command"
+msgstr "Тримати вікно після виконання команди"
+
+msgid "X geometry specification"
+msgstr "X геометрія специфікації"
+
+msgid "Use alternate configuration file"
+msgstr "Використати інший файл конфігурації"
+
+msgid "Configuration has been modified by another proccess. Overwrite?"
+msgstr "Конфігурація була змінена іншим процесом. Переписати?"
+
+msgid ""
+"There are running processes.\n"
+"\n"
+"Do you really want to close Sakura?"
+msgstr ""
+"Є запущені процеси.\n"
+"Ви дійсно хочете закрити Sakura?"
+
+msgid "Select font"
+msgstr "Обрати шрифт"
+
+msgid "Set tab name"
+msgstr "Вказати ім'я вкладки"
+
+msgid "New text"
+msgstr "Новий текст"
+
+msgid "Select color"
+msgstr "Обрати колір"
+
+msgid "Select foreground color:"
+msgstr "Оберіть колір:"
+
+msgid "Select background color:"
+msgstr "Оберіть колір тла:"
+
+msgid "Opacity"
+msgstr "Прозорість"
+
+msgid "Opacity level (%):"
+msgstr "Рівень прозорості (%):"
+
+msgid "New window title"
+msgstr "Новий заголовок вікна"
+
+msgid "Select a background file"
+msgstr "Обрати файл тла"
+
+msgid ""
+"There is a running process in this terminal.\n"
+"\n"
+"Do you really want to close it?"
+msgstr ""
+"В цьому терміналі є запущені процеси.\n"
+"\n"
+"Ви хочете закрити його?"
+
+msgid "Open link..."
+msgstr "Відкрити посилання..."
+
+msgid "Copy link..."
+msgstr "Копіювати посилання..."
+
+msgid "New tab"
+msgstr "Нова вкладка"
+
+msgid "Set tab name..."
+msgstr "Встановити нове ім'я вкладки..."
+
+msgid "Close tab"
+msgstr "Закрити вкладку"
+
+msgid "Full screen"
+msgstr "Повноекранний режим"
+
+msgid "Copy"
+msgstr "Копіювати"
+
+msgid "Paste"
+msgstr "Вставити"
+
+msgid "Select font..."
+msgstr "Обрати шрифт..."
+
+msgid "Select colors..."
+msgstr "Обрати кольори..."
+
+msgid "Select background..."
+msgstr "Обрати тло..."
+
+msgid "Clear background"
+msgstr "Очистити тло"
+
+msgid "Set opacity level..."
+msgstr "Обрати рівень прозорості..."
+
+msgid "Set window title..."
+msgstr "Встановити заголовок вікна..."
+
+msgid "Options"
+msgstr "Параметри"
+
+msgid "More"
+msgstr "Більше"
+
+msgid "Always show tab bar"
+msgstr "Завжди показувати панель вкладок"
+
+msgid "Tabs at bottom"
+msgstr "Вкладки знизу"
+
+msgid "Show close button on tabs"
+msgstr "Показувати кнопки закриття на вкладках"
+
+msgid "Show scrollbar"
+msgstr "Показувати скроллбар"
+
+msgid "Show resize grip"
+msgstr "Показувати маркер зміни розміру"
+
+msgid "Don't show exit dialog"
+msgstr "Не показувати діалог виходу"
+
+msgid "Set audible bell"
+msgstr "Встановити звуковий сигнал"
+
+msgid "Set visible bell"
+msgstr "Встановити візуальний сигнал"
+
+msgid "Set blinking cursor"
+msgstr "Встановити мерехтіння курсора"
+
+msgid "Set cursor type"
+msgstr "Оберіть тип курсора"
+
+msgid "Block"
+msgstr "Блок"
+
+msgid "Underline"
+msgstr "Підкреслення"
+
+msgid "IBeam"
+msgstr "IBeam"
+
+msgid "Set palette"
+msgstr "Оберіть палітру"
+
+msgid "Input methods"
+msgstr "Методи вводу"
+
+#, c-format
+msgid "Terminal %d"
+msgstr "Термінал %d"
+
+msgid "Error message"
+msgstr "Повідомлення про помилку"
+
+msgid "- vte-based terminal emulator"
+msgstr "Термінальний емулятор базований на vte"
+
+#, c-format
+msgid "sakura version is %s\n"
+msgstr "версія Sakura %s\n"
