@@ -2593,7 +2593,8 @@ sakura_add_tab()
 	free(cwd);
 
 	/* Configuration for the newly created terminal */
-
+	GdkColor white={0, 255, 255, 255};
+	vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
 	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 	                        sakura.palette, PALETTE_SIZE);
