@@ -610,7 +610,8 @@ sakura_child_exited (GtkWidget *widget, void *data)
 	gint status, page, npages;
 	struct terminal *term;
 
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	page = gtk_notebook_page_num(GTK_NOTEBOOK(sakura.notebook),
+				gtk_widget_get_parent(widget));
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
