@@ -1425,18 +1425,32 @@ sakura_get_term_cwd(struct terminal* term)
 	char *cwd = NULL;
 
 	if (term->pid >= 0) {
-		char *file;
-		char buf[PATH_MAX+1];
+		char *file, *buf;
+		struct stat sb;
 		int len;
 
 		file = g_strdup_printf ("/proc/%d/cwd", term->pid);
-		len = readlink (file, buf, sizeof (buf) - 1);
+
+		if (g_stat(file, &sb) == -1) {
+			g_free(file);
+			return cwd;
+		}
+
+		buf = malloc(sb.st_size + 1);
+
+		if(buf == NULL) {
+			g_free(file);
+			return cwd;
+		}
+
+		len = readlink(file, buf, sb.st_size + 1);
 
 		if (len > 0 && buf[0] == '/') {
 			buf[len] = '\0';
 			cwd = g_strdup(buf);
 		}
 
+		g_free(buf);
 		g_free(file);
 	}
 
