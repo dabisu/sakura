@@ -318,6 +318,7 @@ static void     sakura_show_scrollbar(GtkWidget *, void *);
 static void     sakura_show_resize_grip(GtkWidget *, void *);
 static void     sakura_closebutton_clicked(GtkWidget *, void *);
 static void     sakura_conf_changed(GtkWidget *, void *);
+static void     sakura_window_show_event(GtkWidget *, gpointer);
 
 /* Misc */
 static void     sakura_error(const char *, ...);
@@ -808,6 +809,14 @@ static void
 sakura_destroy_window (GtkWidget *widget, void *data)
 {
 	sakura_destroy();
+}
+
+
+static void
+sakura_window_show_event(GtkWidget *widget, gpointer data)
+{
+	// set size when the window is first shown
+	sakura_set_size();
 }
 
 
@@ -1972,6 +1981,7 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "destroy", G_CALLBACK(sakura_destroy_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
+	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_window_show_event), NULL);
 }
 
 
