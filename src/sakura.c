@@ -2271,6 +2271,9 @@ sakura_set_size(void)
 	gint pad_x, pad_y;
 	gint char_width, char_height;
 	guint npages;
+	gint min_width, natural_width;
+	gint page;
+
 
 	term = sakura_get_page_term(sakura, 0);
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
@@ -2292,7 +2295,7 @@ sakura_set_size(void)
 	sakura.width = pad_x + (char_width * sakura.columns);
 	sakura.height = pad_y + (char_height * sakura.rows);
 
-	if (npages>=2) {
+	if (npages>=2 || sakura.first_tab) {
 		gint min_height, natural_height; 
 		gtk_widget_get_preferred_height(sakura.notebook, &min_height, &natural_height);
 		SAY("NOTEBOOK min height %d natural height %d", min_height, natural_height);
@@ -2301,13 +2304,24 @@ sakura_set_size(void)
 		vb=gtk_notebook_get_tab_vborder(GTK_NOTEBOOK(sakura.notebook));
 		SAY("notebook borders h %d v %d", hb, vb);
 		SAY("padding x %d y %d", pad_x, pad_y);
+
 		/* TODO: Yeah i know, this is utterly shit. Remove this ugly hack and set geometry hints*/
 		if (!sakura.show_scrollbar) 
-			sakura.height += min_height-5;
+			sakura.height += min_height - 10;
 		else
-			sakura.height += min_height-20;
+			sakura.height += min_height - 47;
+
 		sakura.width += 8;
 		sakura.width += (hb*2)+ (pad_x*2);
+	}
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	gtk_widget_get_preferred_width(term->scrollbar, &min_width, &natural_width);
+	SAY("SCROLLBAR min width %d natural width %d", min_width, natural_width);
+	if(sakura.show_scrollbar) {
+		sakura.width += min_width;
 	}
 
 	/* GTK ignores resizes for maximized windows, so we don't need no check if it's maximized or not */
