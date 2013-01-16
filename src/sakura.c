@@ -2289,6 +2289,7 @@ sakura_set_size(void)
 	gtk_widget_style_get(term->vte, "inner-border", &term->border, NULL);
 	pad_x = term->border->left + term->border->right;
 	pad_y = term->border->top + term->border->bottom;
+	SAY("padding x %d y %d", pad_x, pad_y);
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
 
@@ -2296,20 +2297,21 @@ sakura_set_size(void)
 	sakura.height = pad_y + (char_height * sakura.rows);
 
 	if (npages>=2 || sakura.first_tab) {
-		gint min_height, natural_height; 
-		gtk_widget_get_preferred_height(sakura.notebook, &min_height, &natural_height);
-		SAY("NOTEBOOK min height %d natural height %d", min_height, natural_height);
+		//gint min_height, natural_height; 
+		//gtk_widget_get_preferred_height(sakura.notebook, &min_height, &natural_height);
+		//SAY("NOTEBOOK min height %d natural height %d", min_height, natural_height);
 		guint16 hb, vb;
 		hb=gtk_notebook_get_tab_hborder(GTK_NOTEBOOK(sakura.notebook));
 		vb=gtk_notebook_get_tab_vborder(GTK_NOTEBOOK(sakura.notebook));
 		SAY("notebook borders h %d v %d", hb, vb);
-		SAY("padding x %d y %d", pad_x, pad_y);
 
 		/* TODO: Yeah i know, this is utterly shit. Remove this ugly hack and set geometry hints*/
 		if (!sakura.show_scrollbar) 
-			sakura.height += min_height - 10;
+			//sakura.height += min_height - 10;
+			sakura.height += 10;
 		else
-			sakura.height += min_height - 47;
+			//sakura.height += min_height - 47;
+			sakura.height += 47;
 
 		sakura.width += 8;
 		sakura.width += (hb*2)+ (pad_x*2);
