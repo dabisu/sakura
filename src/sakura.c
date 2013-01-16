@@ -165,8 +165,6 @@ static struct {
 	guint height;
 	glong columns;
 	glong rows;
-	gint char_width;
-	gint char_height;
 	gint label_count;
 	guint opacity_level;
 	VteTerminalCursorShape cursor_type;
@@ -320,6 +318,7 @@ static void     sakura_show_scrollbar(GtkWidget *, void *);
 static void     sakura_show_resize_grip(GtkWidget *, void *);
 static void     sakura_closebutton_clicked(GtkWidget *, void *);
 static void     sakura_conf_changed(GtkWidget *, void *);
+static void     sakura_window_show_event(GtkWidget *, gpointer);
 
 /* Misc */
 static void     sakura_error(const char *, ...);
@@ -334,7 +333,7 @@ static void     sakura_move_tab(gint);
 static gint     sakura_find_tab(VteTerminal *);
 static void     sakura_set_font();
 static void     sakura_set_tab_label_text(const gchar *, gint page);
-static void     sakura_set_size(gint, gint);
+static void     sakura_set_size(void);
 static void     sakura_kill_child();
 static void     sakura_set_bgimage();
 static void     sakura_set_config_key(const gchar *, guint);
@@ -467,8 +466,6 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	if ( (event->state & sakura.scrollbar_accelerator)==sakura.scrollbar_accelerator ) {
 		if (event->keyval==sakura.scrollbar_key) {
 			sakura_show_scrollbar(NULL, NULL);
-			/* TODO:Is it needed for some themes without floating scrollbar?*/
-			//sakura_set_size(sakura.columns, sakura.rows);
 			return TRUE;
 		}
 	}
@@ -566,7 +563,7 @@ sakura_page_removed (GtkWidget *widget, void *data)
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==1) {
 		/* If the first tab is disabled, window size changes and we need
 		 * to recalculate its size */
-		sakura_set_size(sakura.columns, sakura.rows);
+		sakura_set_size();
 	}
 }
 
@@ -581,7 +578,7 @@ sakura_increase_font (GtkWidget *widget, void *data)
 
 	pango_font_description_set_size(sakura.font, new_size);
 	sakura_set_font();
-	sakura_set_size(sakura.columns, sakura.rows);
+	sakura_set_size();
 	sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
 }
 
@@ -598,7 +595,7 @@ sakura_decrease_font (GtkWidget *widget, void *data)
 	if (new_size >= FONT_MINIMAL_SIZE ) {
 		pango_font_description_set_size(sakura.font, new_size);
 		sakura_set_font();
-		sakura_set_size(sakura.columns, sakura.rows);	
+		sakura_set_size();
 		sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
 	}
 }
@@ -816,6 +813,14 @@ sakura_destroy_window (GtkWidget *widget, void *data)
 
 
 static void
+sakura_window_show_event(GtkWidget *widget, gpointer data)
+{
+	// set size when the window is first shown
+	sakura_set_size();
+}
+
+
+static void
 sakura_font_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *font_dialog;
@@ -830,7 +835,7 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 		pango_font_description_free(sakura.font);
 		sakura.font=gtk_font_chooser_get_font_desc(GTK_FONT_CHOOSER(font_dialog));
 		sakura_set_font();
-		sakura_set_size(sakura.columns, sakura.rows);
+		sakura_set_size();
 		sakura_set_config_string("font", pango_font_description_to_string(sakura.font));
 	}
 
@@ -1206,13 +1211,16 @@ sakura_show_first_tab (GtkWidget *widget, void *data)
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		sakura_set_config_string("show_always_first_tab", "Yes");
+		sakura.first_tab = true;
 	} else {
 		/* Only hide tabs if the notebook has one page */
 		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		}
 		sakura_set_config_string("show_always_first_tab", "No");
+		sakura.first_tab = false;
 	}
+	sakura_set_size();
 }
 
 static void
@@ -1293,6 +1301,7 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 		else
 			gtk_widget_show(term->scrollbar);
 	}
+	sakura_set_size();
 }
 
 
@@ -1725,6 +1734,9 @@ sakura_init()
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "show_always_first_tab", NULL)) {
 		sakura_set_config_string("show_always_first_tab", "No");
 	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
+	sakura.first_tab = (strcmp(cfgtmp, "Yes")==0) ? true : false;
+	free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar", NULL)) {
 		sakura_set_config_boolean("scrollbar", FALSE);
@@ -1969,6 +1981,7 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "destroy", G_CALLBACK(sakura_destroy_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
+	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_window_show_event), NULL);
 }
 
 
@@ -2050,13 +2063,11 @@ sakura_init_popup()
 	/* Show defaults in menu items */
 	gchar *cfgtmp = NULL;
 
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
-	if (strcmp(cfgtmp, "Yes")==0) {
+	if (sakura.first_tab) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_first_tab), TRUE);
 	} else {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_first_tab), FALSE);
 	}
-	g_free(cfgtmp);
 
 	if (sakura.show_closebutton) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_close_button), TRUE);
@@ -2254,12 +2265,15 @@ sakura_destroy()
 
 
 static void
-sakura_set_size(gint columns, gint rows)
+sakura_set_size(void)
 {
 	struct terminal *term;
 	gint pad_x, pad_y;
 	gint char_width, char_height;
 	guint npages;
+	gint min_width, natural_width;
+	gint page;
+
 
 	term = sakura_get_page_term(sakura, 0);
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
@@ -2281,7 +2295,7 @@ sakura_set_size(gint columns, gint rows)
 	sakura.width = pad_x + (char_width * sakura.columns);
 	sakura.height = pad_y + (char_height * sakura.rows);
 
-	if (npages>=2) {
+	if (npages>=2 || sakura.first_tab) {
 		gint min_height, natural_height; 
 		gtk_widget_get_preferred_height(sakura.notebook, &min_height, &natural_height);
 		SAY("NOTEBOOK min height %d natural height %d", min_height, natural_height);
@@ -2290,16 +2304,36 @@ sakura_set_size(gint columns, gint rows)
 		vb=gtk_notebook_get_tab_vborder(GTK_NOTEBOOK(sakura.notebook));
 		SAY("notebook borders h %d v %d", hb, vb);
 		SAY("padding x %d y %d", pad_x, pad_y);
+
 		/* TODO: Yeah i know, this is utterly shit. Remove this ugly hack and set geometry hints*/
 		if (!sakura.show_scrollbar) 
-			sakura.height += min_height-5;
+			sakura.height += min_height - 10;
 		else
-			sakura.height += min_height-20;
+			sakura.height += min_height - 47;
+
 		sakura.width += 8;
 		sakura.width += (hb*2)+ (pad_x*2);
 	}
 
-	/* GTK ignores resizes for maximized windows, so we don't need no check if it's maximized or not */
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	gtk_widget_get_preferred_width(term->scrollbar, &min_width, &natural_width);
+	SAY("SCROLLBAR min width %d natural width %d", min_width, natural_width);
+	if(sakura.show_scrollbar) {
+		sakura.width += min_width;
+	}
+
+	/* GTK does not ignore resize for maximized windows on some systems,
+	so we do need check if it's maximized or not */
+	GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(sakura.main_window));
+	if(gdk_window != NULL) {
+		if(gdk_window_get_state(gdk_window) & GDK_WINDOW_STATE_MAXIMIZED) {
+			SAY("window is maximized, will not resize");
+			return;
+		}
+	}
+
 	gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
 	SAY("RESIZED TO %d %d", sakura.width, sakura.height);
 }
@@ -2489,18 +2523,16 @@ sakura_add_tab()
 	/* First tab */
 	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)); 
 	if (npages == 1) {
-		gchar *cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
-		if (strcmp(cfgtmp, "Yes")==0) {
+		if (sakura.first_tab) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		} else {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		}
-		g_free(cfgtmp);
 
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
 		/* Set size before showing the widgets but after setting the font */
-		sakura_set_size(sakura.columns, sakura.rows);
+		sakura_set_size();
 
 		gtk_widget_show_all(sakura.notebook);
 		if (!sakura.show_scrollbar) {
@@ -2595,7 +2627,7 @@ sakura_add_tab()
 
 		if (npages==2) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-			sakura_set_size(sakura.rows, sakura.columns);
+			sakura_set_size();
 		}
 		/* Call set_current page after showing the widget: gtk ignores this
 		 * function in the window is not visible *sigh*. Gtk documentation
@@ -2669,13 +2701,11 @@ sakura_del_tab(gint page)
 	/* Do the first tab checks BEFORE deleting the tab, to ensure correct
 	 * sizes are calculated when the tab is deleted */
 	if ( npages == 2) {
-        char *cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
-		if (strcmp(cfgtmp, "Yes")==0) {
+		if (sakura.first_tab) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		} else {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		}
-		g_free(cfgtmp);
 		sakura.keep_fc=true;
 	}
 
