@@ -68,6 +68,10 @@ Keybindings support
 	Ctrl + Shift + S                 -> Toggle/Untoggle scrollbar
 	Ctrl + Shift + Mouse left button -> Open link
 	F11                              -> Fullscreen
+	Shift + PageUp                   -> Move up through scrollback by page
+	Shift + PageDown                 -> Move down through scrollback by page
+	Ctrl + Shift + Up                -> Move up through scrollback by line
+	Ctrl + Shift + Down              -> Move down through scrollback by line
 
     You can also increase and decrease the font size in the GTK+ 
 	standard way (not configurable):
