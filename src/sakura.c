@@ -2554,8 +2554,8 @@ sakura_add_tab()
             gtk_widget_show(sakura.main_window);
 		}
 
+		int command_argc=0; char **command_argv;
 		if (option_execute||option_xterm_execute) {
-			int command_argc; char **command_argv;
 			GError *gerror = NULL;
 			gchar *path;
 
@@ -2582,36 +2582,44 @@ sakura_add_tab()
 				/* -e option - last in the command line */
 				gchar *command_joined;
 				/* the xterm -e command takes all extra arguments */
-				command_joined = g_strjoinv(" ", option_xterm_args);
-				if (!g_shell_parse_argv(command_joined, &command_argc, &command_argv, &gerror)) {
-					switch (gerror->code) {
-						case G_SHELL_ERROR_EMPTY_STRING:
-							sakura_error("Empty exec string");
-							exit(1);
-							break;
-						case G_SHELL_ERROR_BAD_QUOTING: 
-							sakura_error("Cannot parse command line arguments: mangled quoting");
-							exit(1);
-						case G_SHELL_ERROR_FAILED:
-							sakura_error("Error in exec option command line arguments");
-							exit(1);
+				if (option_xterm_args) {
+					command_joined = g_strjoinv(" ", option_xterm_args);
+					if (!g_shell_parse_argv(command_joined, &command_argc, &command_argv, &gerror)) {
+						switch (gerror->code) {
+							case G_SHELL_ERROR_EMPTY_STRING:
+								sakura_error("Empty exec string");
+								exit(1);
+								break;
+							case G_SHELL_ERROR_BAD_QUOTING: 
+								sakura_error("Cannot parse command line arguments: mangled quoting");
+								exit(1);
+							case G_SHELL_ERROR_FAILED:
+								sakura_error("Error in exec option command line arguments");
+								exit(1);
+						}
 					}
+					g_free(command_joined);
 				}
-				g_free(command_joined);
 			}
 
 			/* Check if the command is valid */
-			path=g_find_program_in_path(command_argv[0]);
-			if (path) {
-				vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL, 
-											   G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
-			} else {
-				sakura_error("%s binary not found", command_argv[0]);
-				exit(1);
+			if (command_argc > 0) {
+				path=g_find_program_in_path(command_argv[0]);
+				if (path) {
+					vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL, 
+							G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
+				} else {
+					sakura_error("%s binary not found", command_argv[0]);
+					command_argc==0;
+					//exit(1);
+				}
+				free(path);
+				g_strfreev(command_argv); g_strfreev(option_xterm_args);
 			}
-			free(path);
-			g_strfreev(command_argv); g_strfreev(option_xterm_args);
-		} else { /* No execute option */
+		} // else { /* No execute option */
+		
+		/* Only fork if there is no execute option or if it has failed */	
+		if (!option_execute || (command_argc==0)) {	
 			if (option_hold==TRUE) {
 				sakura_error("Hold option given without any command");
 				option_hold=FALSE;
