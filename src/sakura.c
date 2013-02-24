@@ -2610,7 +2610,7 @@ sakura_add_tab()
 							G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
 				} else {
 					sakura_error("%s binary not found", command_argv[0]);
-					command_argc==0;
+					command_argc=0;
 					//exit(1);
 				}
 				free(path);
@@ -2868,7 +2868,10 @@ main(int argc, char **argv)
 	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
 	g_option_group_set_translation_domain(gtk_get_option_group(TRUE), GETTEXT_PACKAGE);
 	g_option_context_add_group (context, gtk_get_option_group(TRUE));
-	g_option_context_parse (context, &nargc, &nargv, &error);
+	if (!g_option_context_parse (context, &nargc, &nargv, &error)) {
+		fprintf(stderr, "%s\n", error->message);
+		exit(1);
+	}
 
 	if (option_version) {
 		fprintf(stderr, _("sakura version is %s\n"), VERSION);
