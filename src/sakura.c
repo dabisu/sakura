@@ -2636,7 +2636,7 @@ sakura_add_tab()
 					vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL, 
 							G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
 				} else {
-					sakura_error("%s binary not found", command_argv[0]);
+					sakura_error("%s command not found", command_argv[0]);
 					command_argc=0;
 					//exit(1);
 				}
