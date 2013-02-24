@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-04 00:35+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2012-03-08 16:36+0000\n"
 "Last-Translator: mattia.b89 <Unknown>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -27,6 +27,10 @@ msgstr "Seleziona il font iniziale"
 
 msgid "Select initial number of tabs"
 msgstr "Seleziona il numero di schede iniziali"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "Imposta il cursore lampeggiante"
 
 msgid "Execute command"
 msgstr "Esegui il comando"
@@ -209,6 +213,10 @@ msgstr "Messaggio d'errore"
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulatore di terminale basato su VTE"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "Imposta il cursore lampeggiante"
 
 #, c-format
 msgid "sakura version is %s\n"

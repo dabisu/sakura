@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-02 03:43+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2012-07-17 07:08+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -30,6 +30,10 @@ msgstr "Select initial terminal font"
 # CLI: Do not translate!
 msgid "Select initial number of tabs"
 msgstr "Select initial number of tabs"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "הגדרת סמן מהבהב"
 
 # CLI: Do not translate!
 msgid "Execute command"
@@ -226,6 +230,10 @@ msgstr "הודעת שגיאה"
 # - אמולטור מסוף מבוסס vte
 msgid "- vte-based terminal emulator"
 msgstr "- vte-based terminal emulator"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "הגדרת סמן מהבהב"
 
 # CLI: Do not translate!
 #, c-format

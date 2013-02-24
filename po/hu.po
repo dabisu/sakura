@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-04 00:35+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2011-11-11 19:21+0000\n"
 "Last-Translator: SZERVÑC Attila <Unknown>\n"
 "Language-Team: hu\n"
@@ -25,6 +25,9 @@ msgid "Select initial terminal font"
 msgstr ""
 
 msgid "Select initial number of tabs"
+msgstr ""
+
+msgid "Set working directory"
 msgstr ""
 
 msgid "Execute command"
@@ -201,6 +204,10 @@ msgid "Error message"
 msgstr ""
 
 msgid "- vte-based terminal emulator"
+msgstr ""
+
+#, c-format
+msgid "Cannot change working directory\n"
 msgstr ""
 
 #, c-format

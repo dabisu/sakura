@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 17:06+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2012-05-02 07:58+0000\n"
 "Last-Translator: Wylmer Wang <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -26,6 +26,10 @@ msgstr "选择初始终端字体"
 
 msgid "Select initial number of tabs"
 msgstr "选择初始标签数"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "设置闪烁光标"
 
 msgid "Execute command"
 msgstr "执行命令"
@@ -207,6 +211,10 @@ msgstr "错误消息"
 
 msgid "- vte-based terminal emulator"
 msgstr "- 基于 vte 的终端模拟器"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "设置闪烁光标"
 
 #, c-format
 msgid "sakura version is %s\n"

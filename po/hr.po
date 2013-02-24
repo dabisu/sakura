@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-02 03:28+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2012-06-06 09:02+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -25,6 +25,10 @@ msgstr "Postavi početni font terminala"
 
 msgid "Select initial number of tabs"
 msgstr "Postavi početni broj kartica"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "Koristi treptajući pokazivač"
 
 msgid "Execute command"
 msgstr "Izvrši naredbu"
@@ -206,6 +210,10 @@ msgstr "Poruka o pogrešci"
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulator terminala temeljen na vte-u"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "Koristi treptajući pokazivač"
 
 #, c-format
 msgid "sakura version is %s\n"
