@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-04 00:35+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2011-11-11 19:21+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -26,6 +26,10 @@ msgstr "Volba výchozího písma terminálu"
 
 msgid "Select initial number of tabs"
 msgstr "Výchozí počet karet"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "Nastavit blikající kurzor"
 
 msgid "Execute command"
 msgstr "Spustit příkaz"
@@ -211,6 +215,10 @@ msgstr ""
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulátor terminálu založený na VTE"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "Nastavit blikající kurzor"
 
 #, c-format
 msgid "sakura version is %s\n"

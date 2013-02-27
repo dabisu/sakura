@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-06 16:27+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2012-03-29 10:47+0000\n"
 "Last-Translator: Andriy Nezhivy <andriynezhivy@i.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -26,6 +26,10 @@ msgstr "Оберіть початкаовий шрифт терміналу"
 
 msgid "Select initial number of tabs"
 msgstr "Оберіть початкову кількість вкладок терміналу"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "Встановити мерехтіння курсора"
 
 msgid "Execute command"
 msgstr "Виконати команду"
@@ -206,6 +210,10 @@ msgstr "Повідомлення про помилку"
 
 msgid "- vte-based terminal emulator"
 msgstr "Термінальний емулятор базований на vte"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "Встановити мерехтіння курсора"
 
 #, c-format
 msgid "sakura version is %s\n"

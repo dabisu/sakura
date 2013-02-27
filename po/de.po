@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-04 00:35+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2011-11-19 23:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -26,6 +26,10 @@ msgstr "Terminalschrift beim Programmstart auswählen"
 
 msgid "Select initial number of tabs"
 msgstr "Anzahl der Reiter beim Programmstart wählen"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "Blinkender Cursor"
 
 msgid "Execute command"
 msgstr "Befehl ausführen"
@@ -209,6 +213,10 @@ msgstr "Fehlermeldung"
 
 msgid "- vte-based terminal emulator"
 msgstr "- vte-basierter Terminal-Emulator"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "Blinkender Cursor"
 
 #, c-format
 msgid "sakura version is %s\n"

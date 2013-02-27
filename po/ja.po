@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-04 00:35+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2012-03-11 00:56+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -23,6 +23,10 @@ msgstr "ターミナルのフォントを選択"
 
 msgid "Select initial number of tabs"
 msgstr "タブの数を選択"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "ブリキングのカーソルを表示"
 
 msgid "Execute command"
 msgstr "コマンドを実行"
@@ -204,6 +208,10 @@ msgstr "エラーメッセージ"
 
 msgid "- vte-based terminal emulator"
 msgstr "- vte ベースのターミナルエミュレータ"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "ブリキングのカーソルを表示"
 
 #, c-format
 msgid "sakura version is %s\n"

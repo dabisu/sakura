@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-04 00:35+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2012-03-08 22:13+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -24,6 +24,10 @@ msgstr "Seleccionar el tipo de fuente inicial"
 
 msgid "Select initial number of tabs"
 msgstr "Seleccionar el número inicial de pestañas"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "Activar parpadeo del cursor"
 
 msgid "Execute command"
 msgstr "Ejecutar comando"
@@ -204,6 +208,10 @@ msgstr "Mensaje de error"
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal basado en libvte"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "Activar parpadeo del cursor"
 
 # c-format
 #, c-format

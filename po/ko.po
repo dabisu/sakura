@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-02 03:28+0200\n"
+"POT-Creation-Date: 2013-02-24 18:56+0700\n"
 "PO-Revision-Date: 2012-07-17 04:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -26,6 +26,10 @@ msgstr "터미널 초기 글꼴 선택"
 
 msgid "Select initial number of tabs"
 msgstr "탭 초기 갯수 선택"
+
+#, fuzzy
+msgid "Set working directory"
+msgstr "커서 깜빡임 설정"
 
 msgid "Execute command"
 msgstr "명령 실행"
@@ -207,6 +211,10 @@ msgstr "오류 메시지"
 
 msgid "- vte-based terminal emulator"
 msgstr "- vte 기반의 터미널 에뮬레이터"
+
+#, fuzzy, c-format
+msgid "Cannot change working directory\n"
+msgstr "커서 깜빡임 설정"
 
 #, c-format
 msgid "sakura version is %s\n"

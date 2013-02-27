@@ -359,6 +359,7 @@ static guint    sakura_get_config_key(const gchar *);
 static void     sakura_config_done();
 
 static const char *option_font;
+static const char *option_workdir;
 static const char *option_execute;
 static gchar **option_xterm_args;
 static gboolean option_xterm_execute=FALSE;
@@ -375,6 +376,7 @@ static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
+	{ "working-directory", 'd', 0, G_OPTION_ARG_STRING, &option_workdir, N_("Set working directory"), NULL },
 	{ "execute", 'x', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
 	{ "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (last option in the command line)"), NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
@@ -2897,6 +2899,11 @@ main(int argc, char **argv)
 	g_option_context_add_group (context, gtk_get_option_group(TRUE));
 	if (!g_option_context_parse (context, &nargc, &nargv, &error)) {
 		fprintf(stderr, "%s\n", error->message);
+		exit(1);
+	}
+	
+	if (option_workdir && chdir(option_workdir)) {
+		fprintf(stderr, _("Cannot change working directory\n"));
 		exit(1);
 	}
 
