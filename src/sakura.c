@@ -168,14 +168,17 @@ const GdkColor solarized_palette[PALETTE_SIZE] = {
 				"-GtkDialog-button-spacing : 12;\n"\
 				"}"
 
+#define NUM_COLORSETS 6
+
 static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
 	GtkWidget *menu;
 	GtkWidget *im_menu;			/* Menu for input methods */
 	PangoFontDescription *font;
-	GdkColor forecolor;
-	GdkColor backcolor;
+	GdkColor forecolors[NUM_COLORSETS];
+	GdkColor backcolors[NUM_COLORSETS];
+	gint opacities[NUM_COLORSETS];
 	const GdkColor *palette;
 	bool has_rgba;				/* RGBA capabilities */
 	char *current_match;
@@ -184,7 +187,6 @@ static struct {
 	glong columns;
 	glong rows;
 	gint label_count;
-	guint opacity_level;
 	VteTerminalCursorShape cursor_type;
 	bool first_tab;
 	bool show_scrollbar;
@@ -227,6 +229,8 @@ static struct {
 	gint scrollbar_key;
 	gint set_tab_name_key;
 	gint fullscreen_key;
+	gint set_colorset_accelerator;
+	gint set_colorset_keys[NUM_COLORSETS];
 	GRegex *http_regexp;
 	char *argv[3];
 } sakura;
@@ -240,6 +244,7 @@ struct terminal {
 	gchar *label_text;
 	bool label_set_byuser;
 	GtkBorder *border;   /* inner-property data */
+	int colorset;
 };
 
 
@@ -275,6 +280,12 @@ struct terminal {
 #define DEFAULT_SCROLLBAR_KEY  GDK_KEY_S
 #define DEFAULT_SET_TAB_NAME_KEY  GDK_KEY_N
 #define DEFAULT_FULLSCREEN_KEY  GDK_KEY_F11
+#define DEFAULT_SELECT_COLORSET_ACCELERATOR (GDK_MOD1_MASK)
+/* make this an array instead of #defines to get a compile time
+ * error instead of a runtime if NUM_COLORSETS changes */
+static int cs_keys[NUM_COLORSETS] = 
+		{GDK_KEY_F1, GDK_KEY_F2, GDK_KEY_F3, GDK_KEY_F4, GDK_KEY_F5, GDK_KEY_F6};
+
 #define ERROR_BUFFER_LENGTH 256
 const char cfg_group[] = "sakura";
 
@@ -316,7 +327,6 @@ static void     sakura_destroy_window (GtkWidget *, void *);
 static void     sakura_font_dialog (GtkWidget *, void *);
 static void     sakura_set_name_dialog (GtkWidget *, void *);
 static void     sakura_color_dialog (GtkWidget *, void *);
-static void     sakura_opacity_dialog (GtkWidget *, void *);
 static void     sakura_set_title_dialog (GtkWidget *, void *);
 static void     sakura_select_background_dialog (GtkWidget *, void *);
 static void     sakura_new_tab (GtkWidget *, void *);
@@ -357,6 +367,9 @@ static void     sakura_set_bgimage();
 static void     sakura_set_config_key(const gchar *, guint);
 static guint    sakura_get_config_key(const gchar *);
 static void     sakura_config_done();
+static void     sakura_set_colorset (int);
+static void     sakura_set_colors (void);
+static guint16  sakura_opacity_to_alpha( gint );
 
 static const char *option_font;
 static const char *option_workdir;
@@ -515,6 +528,16 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 		return TRUE;
 	}
 
+	/* Change in colorset */
+	if ( (event->state & sakura.set_colorset_accelerator)==sakura.set_colorset_accelerator ) {
+		int i;
+		for(i=0; i<NUM_COLORSETS; i++) {
+			if (event->keyval==sakura.set_colorset_keys[i]){
+				sakura_set_colorset(i);
+				return TRUE;
+			}
+		}
+	}
 	return FALSE;
 }
 
@@ -918,20 +941,116 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gtk_widget_destroy(input_dialog);
 }
 
+static void 
+sakura_set_colorset (int cs)
+{
+	int n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	gint page;
+	struct terminal *term;
+
+	if (cs<0 || cs>= NUM_COLORSETS)
+		return;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);	
+	term->colorset=cs;
+
+	sakura_set_colors();
+}
+
+static void 
+sakura_set_colors ()
+{
+	int i;
+	int n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	struct terminal *term;
+	GdkColor white={0, 255, 255, 255};
+
+	/* Re-apply in each notebook tab its terminals colors */
+	for (i = (n_pages - 1); i >= 0; i--) {
+		term = sakura_get_page_term(sakura, i);
+		if (sakura.has_rgba) {
+			/* This is needed for set_opacity to have effect. The opacity does
+			   take effect when switching tabs, so this setting to white is 
+			   actually needed only in the shown tab.*/
+			vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
+			vte_terminal_set_opacity(VTE_TERMINAL (term->vte),
+			                 sakura_opacity_to_alpha(sakura.opacities[term->colorset]));
+		}
+		vte_terminal_set_colors(VTE_TERMINAL(term->vte), 
+		                        &sakura.forecolors[term->colorset], 
+		                        &sakura.backcolors[term->colorset],
+		                        sakura.palette, PALETTE_SIZE);
+	}
+
+}
+
+/* Callback from the color change dialog. Updates the contents of that
+ * dialog, passed as 'data' from user input. */
+static void
+sakura_color_dialog_changed( GtkWidget *widget, void *data)
+{
+	int selected=-1;
+	GtkDialog *dialog = (GtkDialog*)data;
+	GtkColorButton *fore_button = g_object_get_data (G_OBJECT(dialog), "buttonfore");
+	GtkColorButton *back_button = g_object_get_data (G_OBJECT(dialog), "buttonback");
+	GtkComboBox *set = g_object_get_data (G_OBJECT(dialog), "set_combo");
+	GtkSpinButton *opacity_spin = g_object_get_data( G_OBJECT(dialog), "opacity_spin");
+	GdkColor *fore_colors = g_object_get_data( G_OBJECT(dialog), "fore");
+	GdkColor *back_colors = g_object_get_data( G_OBJECT(dialog), "back");
+	gint *opacity = g_object_get_data( G_OBJECT(dialog), "opacity");
+	selected = gtk_combo_box_get_active( set );
+
+	/* if we come here as a result of a change in the active colorset,
+	 * load the new colorset to the buttons.
+	 * Else, the colorselect buttons or opacity spin have gotten a new
+	 * value, store that.
+	 */
+	if( (GtkWidget*)set == widget ) {
+		gint new_opacity=opacity[selected];
+		gtk_color_button_set_color(fore_button, &fore_colors[selected]);
+		gtk_color_button_set_color(back_button, &back_colors[selected]);
+		gtk_spin_button_set_value(opacity_spin, new_opacity);	
+		
+		if( sakura.has_rgba )
+			gtk_color_button_set_alpha(back_button, sakura_opacity_to_alpha(new_opacity));
+	}
+	else {
+		gtk_color_button_get_color(fore_button, &fore_colors[selected]);
+		gtk_color_button_get_color(back_button, &back_colors[selected]);
+		gtk_spin_button_update(opacity_spin);
+		opacity[selected] = gtk_spin_button_get_value_as_int(opacity_spin);
+	}
+
+}
+
+/* This code is refactored verbatim (incl. comments!) from sakura_color_dialog. */
+static guint16
+sakura_opacity_to_alpha( gint opacity )
+{
+	/* This rounding sucks...*/
+	return roundf((opacity*65535)/99);
+}
 
 static void
 sakura_color_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *color_dialog;
-	GtkWidget *label1, *label2;
-	GtkWidget *buttonfore, *buttonback;
-	GtkWidget *hbox_fore, *hbox_back;
+	GtkWidget *label1, *label2, *set_label, *opacity_label;
+	GtkWidget *buttonfore, *buttonback, *set_combo, *opacity_spin;
+	GtkAdjustment *spinner_adj;
+	GtkWidget *hbox_fore, *hbox_back, *hbox_sets, *hbox_opacity;
 	gint response;
 	guint16 backalpha;
-	gint page;		
-	int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	struct terminal *term;
-
+	gint page;
+	int cs;
+	int i;
+	gchar combo_text[3];
+	GdkColor temp_fore[NUM_COLORSETS];
+	GdkColor temp_back[NUM_COLORSETS];
+	gint temp_opacity[NUM_COLORSETS];
+	
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
@@ -949,146 +1068,130 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 	g_free(css);
 
+
+	// add the drop-down combobox that selects current colorset to edit.
+	// TODO: preset the current colorset
+	hbox_sets=gtk_box_new(FALSE, 12);
+	set_label=gtk_label_new(_("Colourset to edit"));
+	set_combo=gtk_combo_box_text_new();
+	for(cs=0; cs<NUM_COLORSETS; cs++){
+		g_snprintf(combo_text, 2, "%d", cs+1);	
+		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(set_combo), NULL, combo_text);
+	}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(set_combo), term->colorset);
+
 	hbox_fore=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
 	hbox_back=gtk_box_new(FALSE, 12);
 	label1=gtk_label_new(_("Select foreground color:"));
 	label2=gtk_label_new(_("Select background color:"));
-	buttonfore=gtk_color_button_new_with_color(&sakura.forecolor);
-	buttonback=gtk_color_button_new_with_color(&sakura.backcolor);
+	buttonfore=gtk_color_button_new_with_color(&sakura.forecolors[term->colorset]);
+	buttonback=gtk_color_button_new_with_color(&sakura.backcolors[term->colorset]);
 	/* When the times comes (gtk-3.4) */
 	// buttonfore=gtk_color_button_new_with_rgba(&sakura.forecolor);
 	// buttonback=gtk_color_button_new_with_rgba(&sakura.backcolor);*/
 
-	/* This rounding sucks...*/
-	backalpha = roundf((sakura.opacity_level*65535)/99);
+	backalpha = sakura_opacity_to_alpha(sakura.opacities[term->colorset]);
 	if (sakura.has_rgba) {
 		gtk_color_button_set_use_alpha(GTK_COLOR_BUTTON(buttonback), TRUE);
 		gtk_color_button_set_alpha(GTK_COLOR_BUTTON(buttonback), backalpha);
 	}
 
+	/* Opacity control */
+	hbox_opacity=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12); 
+	spinner_adj = gtk_adjustment_new ((sakura.opacities[term->colorset]), 0.0, 99.0, 1.0, 5.0, 0);
+	opacity_spin = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
+	opacity_label = gtk_label_new(_("Opacity level (%):"));
+	gtk_box_pack_start(GTK_BOX(hbox_opacity), opacity_label, FALSE, FALSE, 12);
+	gtk_box_pack_end(GTK_BOX(hbox_opacity), opacity_spin, FALSE, FALSE, 12);
+
 	gtk_box_pack_start(GTK_BOX(hbox_fore), label1, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_fore), buttonfore, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(hbox_back), label2, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_back), buttonback, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(hbox_sets), set_label, FALSE, FALSE, 12);
+	gtk_box_pack_end(GTK_BOX(hbox_sets), set_combo, FALSE, FALSE, 12);
+	
+
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_sets, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_fore, FALSE, FALSE, 6);
-	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_back, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_back, FALSE, FALSE, 6);
+	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_opacity, FALSE, FALSE, 6);
 
 	gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog)));
 
+	/* When user switches the colorset to change, the callback needs access
+	 * to these selector widgets
+   */
+	g_object_set_data(G_OBJECT(color_dialog), "set_combo", set_combo);
+	g_object_set_data(G_OBJECT(color_dialog), "buttonfore", buttonfore);
+	g_object_set_data(G_OBJECT(color_dialog), "buttonback", buttonback);
+	g_object_set_data(G_OBJECT(color_dialog), "opacity_spin", opacity_spin);
+	g_object_set_data(G_OBJECT(color_dialog), "fore", temp_fore);
+	g_object_set_data(G_OBJECT(color_dialog), "back", temp_back);
+	g_object_set_data(G_OBJECT(color_dialog), "opacity", temp_opacity);
+
+	g_signal_connect(G_OBJECT(buttonfore), "color-set", 
+	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+	g_signal_connect(G_OBJECT(buttonback), "color-set", 
+	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+	g_signal_connect(G_OBJECT(set_combo), "changed", 
+	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+	g_signal_connect(G_OBJECT(opacity_spin), "changed", 
+	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+
+	for(i=0; i<NUM_COLORSETS; i++)
+	{
+		temp_fore[i] = sakura.forecolors[i];
+		temp_back[i] = sakura.backcolors[i];
+		temp_opacity[i] = sakura.opacities[i];
+	}
+
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
+	
 
 	if (response==GTK_RESPONSE_ACCEPT) {
-		/* TODO: Remove deprecated get_color */
-		//gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_dialog), &sakura.forecolor);
-		//gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_dialog), &sakura.backcolor);
-		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
-		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
+		GdkColor fg, bg;
+		/* Save all colorsets to both the global struct and configuration.*/
+		for( i=0; i<NUM_COLORSETS; i++)
+		{
+			char name[20]; 
+			gchar *cfgtmp;
+			
+			sakura.forecolors[i]=temp_fore[i];
+			sakura.backcolors[i]=temp_back[i];
+			sakura.opacities[i]=temp_opacity[i];
+			
+			sprintf(name, "colorset%d_fore", i+1);
+			cfgtmp = g_strdup_printf("#%02x%02x%02x", 
+			                         sakura.forecolors[i].red >> 8,
+			                         sakura.forecolors[i].green >> 8,
+			                         sakura.forecolors[i].blue >> 8);
+			sakura_set_config_string(name, cfgtmp);
+			g_free(cfgtmp);
 
-		if (sakura.has_rgba) {
-			backalpha = gtk_color_button_get_alpha(GTK_COLOR_BUTTON(buttonback));
+			sprintf(name, "colorset%d_back", i+1);
+			cfgtmp = g_strdup_printf("#%02x%02x%02x", 
+			                         sakura.backcolors[i].red >> 8,
+			                         sakura.backcolors[i].green >> 8,
+			                         sakura.backcolors[i].blue >> 8);
+			sakura_set_config_string(name, cfgtmp);
+			g_free(cfgtmp);
+
+			sprintf(name, "colorset%d_opacity", i+1);
+			sakura_set_config_integer(name, sakura.opacities[i]);
 		}
 
-		for (i = (n_pages - 1); i >= 0; i--) {
-			term = sakura_get_page_term(sakura, i);
-			if (sakura.has_rgba) {
-				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), backalpha);
-			}
-			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-			                        sakura.palette, PALETTE_SIZE);
-		}
-
-		gchar *cfgtmp;
-		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
-		                         sakura.forecolor.green>>8, sakura.forecolor.blue>>8);
-		sakura_set_config_string("forecolor", cfgtmp);
-		g_free(cfgtmp);
-
-		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.backcolor.red >>8,
-		                         sakura.backcolor.green>>8, sakura.backcolor.blue>>8);
-		sakura_set_config_string("backcolor", cfgtmp);
-		g_free(cfgtmp);
-
-		sakura.opacity_level= roundf((backalpha*99)/65535);     /* Opacity value is between 0 and 99 */
-		sakura_set_config_integer("opacity_level", sakura.opacity_level);  
-
+		/* Apply the new colorsets to all tabs
+		 * Set the current tab's colorset to the last selected one in the dialog.
+		 * This is probably what the new user expects, and the experienced user
+		 * hopefully will not mind.
+		 */
+		term->colorset = gtk_combo_box_get_active(GTK_COMBO_BOX(set_combo));
+		sakura_set_colors();
 	}
 
 	gtk_widget_destroy(color_dialog);
-}
 
-
-static void
-sakura_opacity_dialog (GtkWidget *widget, void *data)
-{
-	GtkWidget *opacity_dialog, *spin_control, *spin_label;//, *check;
-	GtkAdjustment *spinner_adj;
-	GtkWidget *dialog_hbox, *dialog_vbox, *dialog_spin_hbox;
-	gint response;
-	guint16 backalpha;
-	gint page;
-	struct terminal *term;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
-
-	opacity_dialog=gtk_dialog_new_with_buttons(_("Opacity"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-                                             GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
-	gtk_dialog_set_default_response(GTK_DIALOG(opacity_dialog), GTK_RESPONSE_ACCEPT);
-	gtk_window_set_modal(GTK_WINDOW(opacity_dialog), TRUE);
-
-	/* Set style */
-	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
-	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
-	GtkStyleContext *context = gtk_widget_get_style_context (opacity_dialog);
-	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-	g_free(css);
-
-	spinner_adj = gtk_adjustment_new ((sakura.opacity_level), 0.0, 99.0, 1.0, 5.0, 0);
-	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
-
-	spin_label = gtk_label_new(_("Opacity level (%):"));
-	dialog_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	dialog_vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	dialog_spin_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(opacity_dialog))), dialog_hbox, FALSE, FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(dialog_hbox), dialog_vbox, FALSE, FALSE, 12);
-	gtk_box_pack_start(GTK_BOX(dialog_spin_hbox), spin_label, FALSE, FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(dialog_spin_hbox), spin_control, FALSE, FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(dialog_vbox), dialog_spin_hbox, TRUE, TRUE, 6);
-
-	gtk_widget_show_all(dialog_hbox);
-
-	response=gtk_dialog_run(GTK_DIALOG(opacity_dialog));
-
-	if (response==GTK_RESPONSE_ACCEPT) {
-		int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-
-		sakura.opacity_level = gtk_spin_button_get_value_as_int((GtkSpinButton *) spin_control);
-		
-		/* Map opacity level to alpha */
-		backalpha = (sakura.opacity_level*65535)/100;
-
-		/* Set transparency for all tabs */
-		GdkColor white={0, 255, 255, 255};
-		for (i = (n_pages - 1); i >= 0; i--) {
-			term = sakura_get_page_term(sakura, i);
-			if (sakura.has_rgba) {
-				/* This is needed for set_opacity to have effect */
-				vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
-				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), backalpha);
-				/* Reset colors again because we had set a white background. TODO: Check if it's
-				   still needed with set_colors_rgba */
-				vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-										sakura.palette, PALETTE_SIZE);
-			}
-		}
-
-		sakura_set_config_integer("opacity_level", sakura.opacity_level);
-	}
-
-	gtk_widget_destroy(opacity_dialog);
 }
 
 
@@ -1436,10 +1539,10 @@ sakura_set_palette(GtkWidget *widget, void *data)
 
 		for (i = (n_pages - 1); i >= 0; i--) {
 			term = sakura_get_page_term(sakura, i);
-			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+			vte_terminal_set_colors(VTE_TERMINAL(term->vte),
+			                        &sakura.forecolors[term->colorset], 
+			                        &sakura.backcolors[term->colorset],
 			                        sakura.palette, PALETTE_SIZE);
-			//vte_terminal_set_colors_rgba(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-			//                        sakura.palette, PALETTE_SIZE);
 		}
 
 		sakura_set_config_string("palette", palette);
@@ -1660,10 +1763,25 @@ sakura_conf_changed (GtkWidget *widget, void *data)
 /******* Functions ********/
 
 static void
+get_config_color(char *config_name, char *default_color, GdkColor *get_to )
+{
+	gchar *cfgtmp = NULL;
+	/* TODO: Use RGBA colors, with rgba_parse when gtk-3.4 deprecates some functions using GdkColor. Maybe we can convert all sakura to GdkRGBA colors  */
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, config_name, NULL)) {
+		sakura_set_config_string(config_name, default_color);
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, config_name, NULL);
+	gdk_color_parse(cfgtmp, get_to);
+	g_free(cfgtmp);
+}
+
+
+static void
 sakura_init()
 {
 	GError *gerror=NULL;
 	char* configdir = NULL;
+	int i;
 
 	term_data_id = g_quark_from_static_string("sakura_term");
 
@@ -1711,220 +1829,225 @@ sakura_init()
 	 * doesn't exist, but we have just read it!
 	 */
 
-	/* TODO: Use RGBA colors, with rgba_parse when gtk-3.4 deprecates some functions using GdkColor. Maybe we can convert all sakura to GdkRGBA colors  */
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "forecolor", NULL)) {
-		sakura_set_config_string("forecolor", "#c0c0c0");
+	for( i=0; i<NUM_COLORSETS; i++)
+	{
+		char name[20]; 
+		sprintf(name, "colorset%d_fore", i+1);
+		get_config_color(name, "#c0c0c0", &sakura.forecolors[i]);
+		sprintf(name, "colorset%d_back", i+1);
+		get_config_color(name, "#000000", &sakura.backcolors[i]);
+
+		sprintf(name, "colorset%d_opacity", i+1);
+		if (!g_key_file_has_key(sakura.cfg, cfg_group, name, NULL)) {
+						sakura_set_config_integer(name, 99);
+		}
+		sakura.opacities[i] = g_key_file_get_integer(sakura.cfg, 
+										cfg_group, name, NULL);
+
+		sprintf(name, "colorset%d_key", i+1);
+		if (!g_key_file_has_key(sakura.cfg, cfg_group, name, NULL)) {
+						sakura_set_config_key(name, cs_keys[i]);
+		}
+		sakura.set_colorset_keys[i]= sakura_get_config_key(name);
 	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "forecolor", NULL);
-	gdk_color_parse(cfgtmp, &sakura.forecolor);
-	g_free(cfgtmp);
-
-
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "backcolor", NULL)) {
-		sakura_set_config_string("backcolor", "#000000");
-	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "backcolor", NULL);
-	gdk_color_parse(cfgtmp, &sakura.backcolor);
-	g_free(cfgtmp);
-
-
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "opacity_level", NULL)) {
-		sakura_set_config_integer("opacity_level", 99);
-	}
-	sakura.opacity_level = g_key_file_get_integer(sakura.cfg, cfg_group, "opacity_level", NULL);
-
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "background", NULL)) {
-		sakura_set_config_string("background", "none");
+					sakura_set_config_string("background", "none");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "background", NULL);
 	if (strcmp(cfgtmp, "none")==0) {
-		sakura.background=NULL;
+					sakura.background=NULL;
 	} else {
-		sakura.background=g_strdup(cfgtmp);
+					sakura.background=g_strdup(cfgtmp);
 	}
 	g_free(cfgtmp);
 
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "font", NULL)) {
-		sakura_set_config_string("font", DEFAULT_FONT);
+					sakura_set_config_string("font", DEFAULT_FONT);
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "font", NULL);
 	sakura.font = pango_font_description_from_string(cfgtmp);
 	free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "show_always_first_tab", NULL)) {
-		sakura_set_config_string("show_always_first_tab", "No");
+					sakura_set_config_string("show_always_first_tab", "No");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
 	sakura.first_tab = (strcmp(cfgtmp, "Yes")==0) ? true : false;
 	free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar", NULL)) {
-		sakura_set_config_boolean("scrollbar", FALSE);
+					sakura_set_config_boolean("scrollbar", FALSE);
 	}
 	sakura.show_scrollbar = g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "resize_grip", NULL)) {
-		sakura_set_config_boolean("resize_grip", FALSE);
+					sakura_set_config_boolean("resize_grip", FALSE);
 	}
 	sakura.show_resize_grip = g_key_file_get_boolean(sakura.cfg, cfg_group, "resize_grip", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "closebutton", NULL)) {
-		sakura_set_config_boolean("closebutton", TRUE);
+					sakura_set_config_boolean("closebutton", TRUE);
 	}
 	sakura.show_closebutton = g_key_file_get_boolean(sakura.cfg, cfg_group, "closebutton", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "tabs_on_bottom", NULL)) {
-		sakura_set_config_boolean("tabs_on_bottom", FALSE);
+					sakura_set_config_boolean("tabs_on_bottom", FALSE);
 	}
 	sakura.tabs_on_bottom = g_key_file_get_boolean(sakura.cfg, cfg_group, "tabs_on_bottom", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "less_questions", NULL)) {
-		sakura_set_config_boolean("less_questions", FALSE);
+					sakura_set_config_boolean("less_questions", FALSE);
 	}
 	sakura.less_questions = g_key_file_get_boolean(sakura.cfg, cfg_group, "less_questions", NULL);
-	
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "audible_bell", NULL)) {
-		sakura_set_config_string("audible_bell", "Yes");
+					sakura_set_config_string("audible_bell", "Yes");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "audible_bell", NULL);
 	sakura.audible_bell= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "visible_bell", NULL)) {
-		sakura_set_config_string("visible_bell", "No");
+					sakura_set_config_string("visible_bell", "No");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "visible_bell", NULL);
 	sakura.visible_bell= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "blinking_cursor", NULL)) {
-		sakura_set_config_string("blinking_cursor", "No");
+					sakura_set_config_string("blinking_cursor", "No");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "blinking_cursor", NULL);
 	sakura.blinking_cursor= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "cursor_type", NULL)) {
-		sakura_set_config_string("cursor_type", "VTE_CURSOR_SHAPE_BLOCK");
+					sakura_set_config_string("cursor_type", "VTE_CURSOR_SHAPE_BLOCK");
 	}
 	sakura.cursor_type = g_key_file_get_integer(sakura.cfg, cfg_group, "cursor_type", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
-		sakura_set_config_string("word_chars", DEFAULT_WORD_CHARS);
+					sakura_set_config_string("word_chars", DEFAULT_WORD_CHARS);
 	}
 	sakura.word_chars = g_key_file_get_value(sakura.cfg, cfg_group, "word_chars", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "palette", NULL)) {
-		sakura_set_config_string("palette", DEFAULT_PALETTE);
+					sakura_set_config_string("palette", DEFAULT_PALETTE);
 	}
 	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
 	if (strcmp(cfgtmp, "linux")==0) {
-		sakura.palette=linux_palette;
+					sakura.palette=linux_palette;
 	} else if (strcmp(cfgtmp, "tango")==0) {
-		sakura.palette=tango_palette;
+					sakura.palette=tango_palette;
 	} else if (strcmp(cfgtmp, "xterm")==0) {
-		sakura.palette=xterm_palette;
+					sakura.palette=xterm_palette;
 	} else if (strcmp(cfgtmp, "rxvt")==0) {
-		sakura.palette=rxvt_palette;
+					sakura.palette=rxvt_palette;
 	} else {
-		sakura.palette=solarized_palette;
+					sakura.palette=solarized_palette;
 	}
 	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_accelerator", NULL)) {
-		sakura_set_config_integer("add_tab_accelerator", DEFAULT_ADD_TAB_ACCELERATOR);
+					sakura_set_config_integer("add_tab_accelerator", DEFAULT_ADD_TAB_ACCELERATOR);
 	}
 	sakura.add_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "add_tab_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "del_tab_accelerator", NULL)) {
-		sakura_set_config_integer("del_tab_accelerator", DEFAULT_DEL_TAB_ACCELERATOR);
+					sakura_set_config_integer("del_tab_accelerator", DEFAULT_DEL_TAB_ACCELERATOR);
 	}
 	sakura.del_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "del_tab_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "switch_tab_accelerator", NULL)) {
-		sakura_set_config_integer("switch_tab_accelerator", DEFAULT_SWITCH_TAB_ACCELERATOR);
+					sakura_set_config_integer("switch_tab_accelerator", DEFAULT_SWITCH_TAB_ACCELERATOR);
 	}
 	sakura.switch_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "switch_tab_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "move_tab_accelerator", NULL)) {
-		sakura_set_config_integer("move_tab_accelerator", DEFAULT_MOVE_TAB_ACCELERATOR);
+					sakura_set_config_integer("move_tab_accelerator", DEFAULT_MOVE_TAB_ACCELERATOR);
 	}
 	sakura.move_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "move_tab_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_accelerator", NULL)) {
-		sakura_set_config_integer("copy_accelerator", DEFAULT_COPY_ACCELERATOR);
+					sakura_set_config_integer("copy_accelerator", DEFAULT_COPY_ACCELERATOR);
 	}
 	sakura.copy_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "copy_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar_accelerator", NULL)) {
-		sakura_set_config_integer("scrollbar_accelerator", DEFAULT_SCROLLBAR_ACCELERATOR);
+					sakura_set_config_integer("scrollbar_accelerator", DEFAULT_SCROLLBAR_ACCELERATOR);
 	}
 	sakura.scrollbar_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "scrollbar_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "open_url_accelerator", NULL)) {
-		sakura_set_config_integer("open_url_accelerator", DEFAULT_OPEN_URL_ACCELERATOR);
+					sakura_set_config_integer("open_url_accelerator", DEFAULT_OPEN_URL_ACCELERATOR);
 	}
 	sakura.open_url_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "open_url_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "font_size_accelerator", NULL)) {
-		sakura_set_config_integer("font_size_accelerator", DEFAULT_FONT_SIZE_ACCELERATOR);
+					sakura_set_config_integer("font_size_accelerator", DEFAULT_FONT_SIZE_ACCELERATOR);
 	}
 	sakura.font_size_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "font_size_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_tab_name_accelerator", NULL)) {
-		sakura_set_config_integer("set_tab_name_accelerator", DEFAULT_SET_TAB_NAME_ACCELERATOR);
+					sakura_set_config_integer("set_tab_name_accelerator", DEFAULT_SET_TAB_NAME_ACCELERATOR);
 	}
 	sakura.set_tab_name_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_tab_name_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
-		sakura_set_config_key("add_tab_key", DEFAULT_ADD_TAB_KEY);
+					sakura_set_config_key("add_tab_key", DEFAULT_ADD_TAB_KEY);
 	}
 	sakura.add_tab_key = sakura_get_config_key("add_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "del_tab_key", NULL)) {
-		sakura_set_config_key("del_tab_key", DEFAULT_DEL_TAB_KEY);
+					sakura_set_config_key("del_tab_key", DEFAULT_DEL_TAB_KEY);
 	}
 	sakura.del_tab_key = sakura_get_config_key("del_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "prev_tab_key", NULL)) {
-		sakura_set_config_key("prev_tab_key", DEFAULT_PREV_TAB_KEY);
+					sakura_set_config_key("prev_tab_key", DEFAULT_PREV_TAB_KEY);
 	}
 	sakura.prev_tab_key = sakura_get_config_key("prev_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "next_tab_key", NULL)) {
-		sakura_set_config_key("next_tab_key", DEFAULT_NEXT_TAB_KEY);
+					sakura_set_config_key("next_tab_key", DEFAULT_NEXT_TAB_KEY);
 	}
 	sakura.next_tab_key = sakura_get_config_key("next_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_key", NULL)) {
-		sakura_set_config_key( "copy_key", DEFAULT_COPY_KEY);
+					sakura_set_config_key( "copy_key", DEFAULT_COPY_KEY);
 	}
 	sakura.copy_key = sakura_get_config_key("copy_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "paste_key", NULL)) {
-		sakura_set_config_key("paste_key", DEFAULT_PASTE_KEY);
+					sakura_set_config_key("paste_key", DEFAULT_PASTE_KEY);
 	}
 	sakura.paste_key = sakura_get_config_key("paste_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar_key", NULL)) {
-		sakura_set_config_key("scrollbar_key", DEFAULT_SCROLLBAR_KEY);
+					sakura_set_config_key("scrollbar_key", DEFAULT_SCROLLBAR_KEY);
 	}
 	sakura.scrollbar_key = sakura_get_config_key("scrollbar_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_tab_name_key", NULL)) {
-		sakura_set_config_key("set_tab_name_key", DEFAULT_SET_TAB_NAME_KEY);
+					sakura_set_config_key("set_tab_name_key", DEFAULT_SET_TAB_NAME_KEY);
 	}
 	sakura.set_tab_name_key = sakura_get_config_key("set_tab_name_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "fullscreen_key", NULL)) {
-		sakura_set_config_key("fullscreen_key", DEFAULT_FULLSCREEN_KEY);
+					sakura_set_config_key("fullscreen_key", DEFAULT_FULLSCREEN_KEY);
 	}
 	sakura.fullscreen_key = sakura_get_config_key("fullscreen_key");
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_colorset_accelerator", NULL)) {
+					sakura_set_config_integer("set_colorset_accelerator", DEFAULT_SELECT_COLORSET_ACCELERATOR);
+	}
+	sakura.set_colorset_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_colorset_accelerator", NULL);
+
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "icon_file", NULL)) {
-		sakura_set_config_string("icon_file", ICON_FILE);
+					sakura_set_config_string("icon_file", ICON_FILE);
 	}
 	/* We don't need a global because it's not configurable within sakura */
 
@@ -2024,7 +2147,7 @@ sakura_init_popup()
 			  *item_toggle_resize_grip;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
-	          *action_select_background, *action_clear_background, *action_opacity, *action_set_title,
+	          *action_select_background, *action_clear_background, *action_set_title,
 	          *action_full_screen;
 	GtkWidget *options_menu, *other_options_menu, *cursor_menu, *palette_menu;
 
@@ -2041,7 +2164,6 @@ sakura_init_popup()
 	action_select_colors=gtk_action_new("select_colors", _("Select colors..."), NULL, GTK_STOCK_SELECT_COLOR);
 	action_select_background=gtk_action_new("select_background", _("Select background..."), NULL, NULL);
 	action_clear_background=gtk_action_new("clear_background", _("Clear background"), NULL, NULL);
-	action_opacity=gtk_action_new("set_opacity", _("Set opacity level..."), NULL, NULL);
 	action_set_title=gtk_action_new("set_title", _("Set window title..."), NULL, NULL);
 
 	/* Create menuitems */
@@ -2057,7 +2179,6 @@ sakura_init_popup()
 	item_select_colors=gtk_action_create_menu_item(action_select_colors);
 	item_select_background=gtk_action_create_menu_item(action_select_background);
 	sakura.item_clear_background=gtk_action_create_menu_item(action_clear_background);
-	item_opacity_menu=gtk_action_create_menu_item(action_opacity);
 	item_set_title=gtk_action_create_menu_item(action_set_title);
 
 	item_options=gtk_menu_item_new_with_label(_("Options"));
@@ -2188,7 +2309,6 @@ sakura_init_popup()
 	cursor_menu=gtk_menu_new();
 	palette_menu=gtk_menu_new();
 
-	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_opacity_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_set_title);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_select_colors);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_select_font);
@@ -2243,7 +2363,6 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
-	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_opacity_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_cursor_block), "activate", G_CALLBACK(sakura_set_cursor), "block");
 	g_signal_connect(G_OBJECT(item_cursor_underline), "activate", G_CALLBACK(sakura_set_cursor), "underline");
@@ -2474,6 +2593,7 @@ sakura_add_tab()
 	term->label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term->label=gtk_label_new(term->label_text);
 	term->label_set_byuser=false;
+	term->colorset=0;
 	tab_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start(GTK_BOX(tab_hbox), term->label, FALSE, FALSE, 0);
 
@@ -2519,6 +2639,8 @@ sakura_add_tab()
 		struct terminal *prev_term;
 		prev_term = sakura_get_page_term( sakura, index );
 		cwd = sakura_get_term_cwd( prev_term );
+
+		term->colorset = prev_term->colorset;
 	}
 	if (!cwd)
 		cwd = g_get_current_dir();
@@ -2682,10 +2804,13 @@ sakura_add_tab()
 	GdkColor white={0, 255, 255, 255};
 	vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
-	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+	vte_terminal_set_colors(VTE_TERMINAL(term->vte), 
+	                        &sakura.forecolors[term->colorset],
+	                        &sakura.backcolors[term->colorset],
 	                        sakura.palette, PALETTE_SIZE);
 	if (sakura.has_rgba) {
-		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), (sakura.opacity_level*65535)/99); /* 0-99 value */
+		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), 
+		               sakura_opacity_to_alpha(sakura.opacities[term->colorset]));
 	}
 
 	if (sakura.background) {
