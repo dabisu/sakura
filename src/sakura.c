@@ -55,7 +55,7 @@
 
 #define PALETTE_SIZE 16
 
-/* Color palettes. Some color lists were borrowed from gnome-terminal source (thanks! ;)) 
+/* Color palettes. Some color lists were borrowed from gnome-terminal source and fourterm. (thanks! ;)) 
  * Text displayed in the first 8 colors (0-7) is meek (uses thin strokes).
  * Text displayed in the second 8 colors (8-15) is bold (uses thick strokes). */
 
@@ -97,62 +97,44 @@ const GdkColor linux_palette[PALETTE_SIZE] = {
 	{ 0, 0xffff, 0xffff, 0xffff }
 };
 
-const GdkColor xterm_palette[PALETTE_SIZE] = {
-	{0, 0x0000, 0x0000, 0x0000 },
-	{0, 0xcdcb, 0x0000, 0x0000 },
-	{0, 0x0000, 0xcdcb, 0x0000 },
-	{0, 0xcdcb, 0xcdcb, 0x0000 },
-	{0, 0x1e1a, 0x908f, 0xffff },
-	{0, 0xcdcb, 0x0000, 0xcdcb },
-	{0, 0x0000, 0xcdcb, 0xcdcb },
-	{0, 0xe5e2, 0xe5e2, 0xe5e2 },
-	{0, 0x4ccc, 0x4ccc, 0x4ccc },
-	{0, 0xffff, 0x0000, 0x0000 },
-	{0, 0x0000, 0xffff, 0x0000 },
-	{0, 0xffff, 0xffff, 0x0000 },
-	{0, 0x4645, 0x8281, 0xb4ae },
-	{0, 0xffff, 0x0000, 0xffff },
-	{0, 0x0000, 0xffff, 0xffff },
-	{0, 0xffff, 0xffff, 0xffff }
-};
-
-const GdkColor rxvt_palette[PALETTE_SIZE] = {
-	{ 0, 0x0000, 0x0000, 0x0000 },
-	{ 0, 0xcdcd, 0x0000, 0x0000 },
-	{ 0, 0x0000, 0xcdcd, 0x0000 },
-	{ 0, 0xcdcd, 0xcdcd, 0x0000 },
-	{ 0, 0x0000, 0x0000, 0xcdcd },
-	{ 0, 0xcdcd, 0x0000, 0xcdcd },
-	{ 0, 0x0000, 0xcdcd, 0xcdcd },
-	{ 0, 0xfafa, 0xebeb, 0xd7d7 },
-	{ 0, 0x4040, 0x4040, 0x4040 },
-	{ 0, 0xffff, 0x0000, 0x0000 },
-	{ 0, 0x0000, 0xffff, 0x0000 },
-	{ 0, 0xffff, 0xffff, 0x0000 },
-	{ 0, 0x0000, 0x0000, 0xffff },
-	{ 0, 0xffff, 0x0000, 0xffff },
-	{ 0, 0x0000, 0xffff, 0xffff },
-	{ 0, 0xffff, 0xffff, 0xffff }
-};
-
-const GdkColor solarized_palette[PALETTE_SIZE] = {
-    { 0, 0x0707, 0x3636, 0x4242 }, // 0  black (used as background color)
+const GdkColor solarized_dark_palette[PALETTE_SIZE] = {
+    { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02 black (used as background color)
     { 0, 0xdcdc, 0x3232, 0x2f2f }, // 1  red
     { 0, 0x8585, 0x9999, 0x0000 }, // 2  green
     { 0, 0xb5b5, 0x8989, 0x0000 }, // 3  yellow
     { 0, 0x2626, 0x8b8b, 0xd2d2 }, // 4  blue
     { 0, 0xd3d3, 0x3636, 0x8282 }, // 5  magenta
     { 0, 0x2a2a, 0xa1a1, 0x9898 }, // 6  cyan
-    { 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 7  white (used as foreground color)
-    { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  bright black
-    { 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9  bright red
-    { 0, 0x5858, 0x6e6e, 0x7575 }, // 10 bright green
-    { 0, 0x6565, 0x7b7b, 0x8383 }, // 11 bright yellow
-    { 0, 0x8383, 0x9494, 0x9696 }, // 12 brigth blue
-    { 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 bright magenta
-    { 0, 0x9393, 0xa1a1, 0xa1a1 }, // 14 bright cyan
-    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }  // 15 bright white
+    { 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 7  base2 white (used as foreground color)
+    { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  base3 bright black
+    { 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9  orange
+    { 0, 0x5858, 0x6e6e, 0x7575 }, // 10 base01 bright green
+    { 0, 0x6565, 0x7b7b, 0x8383 }, // 11 base00 bright yellow
+    { 0, 0x8383, 0x9494, 0x9696 }, // 12 base0 brigth blue
+    { 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 violet
+    { 0, 0x9393, 0xa1a1, 0xa1a1 }, // 14 base1 cyan
+    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }  // 15 base3 white
 };
+
+const GdkColor solarized_ligth_palette[PALETTE_SIZE] = {
+	{ 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 0 S_base2
+	{ 0, 0xdcdc, 0x3232, 0x2f2f }, // 1 S_red
+	{ 0, 0x8585, 0x9999, 0x0000 }, // 2 S_green
+	{ 0, 0xb5b5, 0x8989, 0x0000 }, // 3 S_yellow
+	{ 0, 0x2626, 0x8b8b, 0xd2d2 }, // 4 S_blue
+	{ 0, 0xd3d3, 0x3636, 0x8282 }, // 5 S_magenta
+	{ 0, 0x2a2a, 0xa1a1, 0x9898 }, // 6 S_cyan
+	{ 0, 0x0707, 0x3636, 0x4242 }, // 7 S_base02
+	{ 0, 0xfdfd, 0xf6f6, 0xe3e3 }, // 8 S_base3
+	{ 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9 S_orange
+	{ 0, 0x9393, 0xa1a1, 0xa1a1 }, // 10 S_base1
+	{ 0, 0x8383, 0x9494, 0x9696 }, // 11 S_base0
+	{ 0, 0x6565, 0x7b7b, 0x8383 }, // 12 S_base00
+	{ 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 S_violet
+	{ 0, 0x5858, 0x6e6e, 0x7575 }, // 14 S_base01
+	{ 0, 0x0000, 0x2b2b, 0x3636 } // 15 S_base03
+};
+
 
 #define CLOSE_BUTTON_CSS "* {\n"\
 				"-GtkButton-default-border : 0;\n"\
@@ -174,8 +156,8 @@ static struct {
 	GtkWidget *menu;
 	GtkWidget *im_menu;			/* Menu for input methods */
 	PangoFontDescription *font;
-	GdkColor forecolor;
-	GdkColor backcolor;
+	GdkColor *forecolor;
+	GdkColor *backcolor;
 	const GdkColor *palette;
 	bool has_rgba;				/* RGBA capabilities */
 	char *current_match;
@@ -252,7 +234,7 @@ struct terminal {
 #define DEFAULT_FONT "Ubuntu Mono,monospace 13"
 #define FONT_MINIMAL_SIZE (PANGO_SCALE*6)
 #define DEFAULT_WORD_CHARS  "-A-Za-z0-9,./?%&#_~"
-#define DEFAULT_PALETTE "linux"
+#define DEFAULT_PALETTE "solarized_dark"
 #define TAB_MAX_SIZE 40
 #define TAB_MIN_SIZE 6
 #define FORWARD 1
@@ -953,8 +935,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	hbox_back=gtk_box_new(FALSE, 12);
 	label1=gtk_label_new(_("Select foreground color:"));
 	label2=gtk_label_new(_("Select background color:"));
-	buttonfore=gtk_color_button_new_with_color(&sakura.forecolor);
-	buttonback=gtk_color_button_new_with_color(&sakura.backcolor);
+	buttonfore=gtk_color_button_new_with_color(sakura.forecolor);
+	buttonback=gtk_color_button_new_with_color(sakura.backcolor);
 	/* When the times comes (gtk-3.4) */
 	// buttonfore=gtk_color_button_new_with_rgba(&sakura.forecolor);
 	// buttonback=gtk_color_button_new_with_rgba(&sakura.backcolor);*/
@@ -981,8 +963,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		/* TODO: Remove deprecated get_color */
 		//gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_dialog), &sakura.forecolor);
 		//gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_dialog), &sakura.backcolor);
-		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), &sakura.forecolor);
-		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), &sakura.backcolor);
+		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonfore), sakura.forecolor);
+		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttonback), sakura.backcolor);
 
 		if (sakura.has_rgba) {
 			backalpha = gtk_color_button_get_alpha(GTK_COLOR_BUTTON(buttonback));
@@ -993,20 +975,24 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 			if (sakura.has_rgba) {
 				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), backalpha);
 			}
-			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+			vte_terminal_set_colors(VTE_TERMINAL(term->vte), sakura.forecolor, sakura.backcolor,
 			                        sakura.palette, PALETTE_SIZE);
 		}
 
 		gchar *cfgtmp;
-		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.forecolor.red >>8,
-		                         sakura.forecolor.green>>8, sakura.forecolor.blue>>8);
-		sakura_set_config_string("forecolor", cfgtmp);
-		g_free(cfgtmp);
+		if (sakura.forecolor) {
+			cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.forecolor->red >>8,
+					sakura.forecolor->green>>8, sakura.forecolor->blue>>8);
+			sakura_set_config_string("forecolor", cfgtmp);
+			g_free(cfgtmp);
+		}
 
-		cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.backcolor.red >>8,
-		                         sakura.backcolor.green>>8, sakura.backcolor.blue>>8);
-		sakura_set_config_string("backcolor", cfgtmp);
-		g_free(cfgtmp);
+		if (sakura.backcolor) {
+			cfgtmp = g_strdup_printf("#%02x%02x%02x", sakura.backcolor->red >>8,
+					sakura.backcolor->green>>8, sakura.backcolor->blue>>8);
+			sakura_set_config_string("backcolor", cfgtmp);
+			g_free(cfgtmp);
+		}
 
 		sakura.opacity_level= roundf((backalpha*99)/65535);     /* Opacity value is between 0 and 99 */
 		sakura_set_config_integer("opacity_level", sakura.opacity_level);  
@@ -1080,7 +1066,7 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), backalpha);
 				/* Reset colors again because we had set a white background. TODO: Check if it's
 				   still needed with set_colors_rgba */
-				vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+				vte_terminal_set_colors(VTE_TERMINAL(term->vte), sakura.forecolor, sakura.backcolor,
 										sakura.palette, PALETTE_SIZE);
 			}
 		}
@@ -1426,18 +1412,16 @@ sakura_set_palette(GtkWidget *widget, void *data)
 			sakura.palette=linux_palette;
 		} else if (strcmp(palette, "tango")==0) {
 			sakura.palette=tango_palette;
-		} else if (strcmp(palette, "xterm")==0) {
-			sakura.palette=xterm_palette;
-		} else if (strcmp(palette, "rxvt")==0) {
-			sakura.palette=rxvt_palette;
+		} else if (strcmp(palette, "solarized_dark")==0) {
+			sakura.palette=solarized_dark_palette;
 		} else {
-			sakura.palette=solarized_palette;	
+			sakura.palette=solarized_ligth_palette;	
 		}
 
 		for (i = (n_pages - 1); i >= 0; i--) {
 			term = sakura_get_page_term(sakura, i);
-			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-			                        sakura.palette, PALETTE_SIZE);
+			/* If the user selects a pallete, use the palette fg and bg colors */
+			vte_terminal_set_colors(VTE_TERMINAL(term->vte), NULL, NULL, sakura.palette, PALETTE_SIZE);
 			//vte_terminal_set_colors_rgba(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
 			//                        sakura.palette, PALETTE_SIZE);
 		}
@@ -1713,19 +1697,25 @@ sakura_init()
 
 	/* TODO: Use RGBA colors, with rgba_parse when gtk-3.4 deprecates some functions using GdkColor. Maybe we can convert all sakura to GdkRGBA colors  */
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "forecolor", NULL)) {
-		sakura_set_config_string("forecolor", "#c0c0c0");
+		//sakura_set_config_string("forecolor", "#c0c0c0");
+		sakura.forecolor=NULL;
+	} else {
+		cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "forecolor", NULL);
+		sakura.forecolor = (GdkColor *)malloc(sizeof(GdkColor));
+		gdk_color_parse(cfgtmp, sakura.forecolor);
+		g_free(cfgtmp);
 	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "forecolor", NULL);
-	gdk_color_parse(cfgtmp, &sakura.forecolor);
-	g_free(cfgtmp);
 
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "backcolor", NULL)) {
-		sakura_set_config_string("backcolor", "#000000");
+		//sakura_set_config_string("backcolor", "#000000");
+		sakura.backcolor=NULL;
+	} else {
+		cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "backcolor", NULL);
+		sakura.backcolor = (GdkColor *)malloc(sizeof(GdkColor));
+		gdk_color_parse(cfgtmp, sakura.backcolor);
+		g_free(cfgtmp);
 	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "backcolor", NULL);
-	gdk_color_parse(cfgtmp, &sakura.backcolor);
-	g_free(cfgtmp);
 
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "opacity_level", NULL)) {
@@ -1824,12 +1814,10 @@ sakura_init()
 		sakura.palette=linux_palette;
 	} else if (strcmp(cfgtmp, "tango")==0) {
 		sakura.palette=tango_palette;
-	} else if (strcmp(cfgtmp, "xterm")==0) {
-		sakura.palette=xterm_palette;
-	} else if (strcmp(cfgtmp, "rxvt")==0) {
-		sakura.palette=rxvt_palette;
+	} else if (strcmp(cfgtmp, "solarized_dark")==0) {
+		sakura.palette=solarized_dark_palette;
 	} else {
-		sakura.palette=solarized_palette;
+		sakura.palette=solarized_ligth_palette;
 	}
 	g_free(cfgtmp);
 
@@ -2019,7 +2007,7 @@ sakura_init_popup()
 	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_other_options, 
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
-	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt, *item_palette_solarized,
+	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_solarized_dark, *item_palette_solarized_ligth,
 	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions,
 			  *item_toggle_resize_grip;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
@@ -2080,9 +2068,8 @@ sakura_init_popup()
 	item_palette=gtk_menu_item_new_with_label(_("Set palette"));
 	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
 	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
-	item_palette_xterm=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "xterm");
-	item_palette_rxvt=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "rxvt");
-	item_palette_solarized=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "solarized");
+	item_palette_solarized_dark=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "solarized dark");
+	item_palette_solarized_ligth=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "solarized ligth");
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
 
 	/* Show defaults in menu items */
@@ -2152,12 +2139,10 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_linux), TRUE);
 	} else if (strcmp(cfgtmp, "tango")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_tango), TRUE);
-	} else if (strcmp(cfgtmp, "xterm")==0) {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_xterm), TRUE);
-	} else if (strcmp(cfgtmp, "rxvt")==0) {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_rxvt), TRUE);
+	} else if (strcmp(cfgtmp, "solarized_dark")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_solarized_dark), TRUE);
 	} else {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_solarized), TRUE);
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_solarized_ligth), TRUE);
 	}
 	g_free(cfgtmp);
 
@@ -2212,9 +2197,8 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_palette);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_tango);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_linux);
-	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_xterm);
-	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_rxvt);
-	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_dark);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_ligth);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_input_methods);
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_input_methods), sakura.im_menu);
@@ -2250,9 +2234,8 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_cursor_ibeam), "activate", G_CALLBACK(sakura_set_cursor), "ibeam");
 	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
 	g_signal_connect(G_OBJECT(item_palette_linux), "activate", G_CALLBACK(sakura_set_palette), "linux");
-	g_signal_connect(G_OBJECT(item_palette_xterm), "activate", G_CALLBACK(sakura_set_palette), "xterm");
-	g_signal_connect(G_OBJECT(item_palette_rxvt), "activate", G_CALLBACK(sakura_set_palette), "rxvt");
-	g_signal_connect(G_OBJECT(item_palette_solarized), "activate", G_CALLBACK(sakura_set_palette), "solarized");
+	g_signal_connect(G_OBJECT(item_palette_solarized_dark), "activate", G_CALLBACK(sakura_set_palette), "solarized_dark");
+	g_signal_connect(G_OBJECT(item_palette_solarized_ligth), "activate", G_CALLBACK(sakura_set_palette), "solarized_ligth");
 
 	g_signal_connect(G_OBJECT(action_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);
 	g_signal_connect(G_OBJECT(action_copy_link), "activate", G_CALLBACK(sakura_copy_url), NULL);
@@ -2682,7 +2665,7 @@ sakura_add_tab()
 	GdkColor white={0, 255, 255, 255};
 	vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
-	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+	vte_terminal_set_colors(VTE_TERMINAL(term->vte), sakura.forecolor, sakura.backcolor,
 	                        sakura.palette, PALETTE_SIZE);
 	if (sakura.has_rgba) {
 		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), (sakura.opacity_level*65535)/99); /* 0-99 value */
