@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-24 18:56+0700\n"
+"POT-Creation-Date: 2013-06-20 20:21+0200\n"
 "PO-Revision-Date: 2011-11-11 19:21+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -84,17 +84,20 @@ msgstr "Nový název karty"
 msgid "Select color"
 msgstr "Zvolte barvu"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "Zvolte barvu textu:"
 
 msgid "Select background color:"
 msgstr "Zvolte barvu pozadí:"
 
-msgid "Opacity"
-msgstr "Průhlednost"
-
 msgid "Opacity level (%):"
 msgstr "Úroveň průhlednosti (%):"
+
+msgid "Opacity"
+msgstr "Průhlednost"
 
 msgid "New window title"
 msgstr "Název nového okna"
@@ -147,9 +150,6 @@ msgstr "Zvolte pozadí…"
 
 msgid "Clear background"
 msgstr "Vymazat pozadí"
-
-msgid "Set opacity level..."
-msgstr "Nastavit úroveň průhlednosti…"
 
 msgid "Set window title..."
 msgstr "Nastavit název okna…"
@@ -223,3 +223,6 @@ msgstr "Nastavit blikající kurzor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Nastavit úroveň průhlednosti…"

@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-06-20 20:21+0200\n"
 "PO-Revision-Date: 2013-05-30 14:24+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,6 +25,9 @@ msgid "Select initial terminal font"
 msgstr ""
 
 msgid "Select initial number of tabs"
+msgstr ""
+
+msgid "Set working directory"
 msgstr ""
 
 msgid "Execute command"
@@ -74,16 +78,19 @@ msgstr ""
 msgid "Select color"
 msgstr ""
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr ""
 
 msgid "Select background color:"
 msgstr ""
 
-msgid "Opacity"
+msgid "Opacity level (%):"
 msgstr ""
 
-msgid "Opacity level (%):"
+msgid "Opacity"
 msgstr ""
 
 msgid "New window title"
@@ -132,9 +139,6 @@ msgid "Select background..."
 msgstr ""
 
 msgid "Clear background"
-msgstr ""
-
-msgid "Set opacity level..."
 msgstr ""
 
 msgid "Set window title..."
@@ -199,6 +203,10 @@ msgid "Error message"
 msgstr ""
 
 msgid "- vte-based terminal emulator"
+msgstr ""
+
+#, c-format
+msgid "Cannot change working directory\n"
 msgstr ""
 
 #, c-format

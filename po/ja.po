@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-24 18:56+0700\n"
+"POT-Creation-Date: 2013-06-20 20:21+0200\n"
 "PO-Revision-Date: 2012-03-11 00:56+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -79,17 +79,20 @@ msgstr "新規テキスト"
 msgid "Select color"
 msgstr "配色を選択"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "前景色を選択:"
 
 msgid "Select background color:"
 msgstr "背景色を選択:"
 
-msgid "Opacity"
-msgstr "不透過率"
-
 msgid "Opacity level (%):"
 msgstr "不透過率 (%):"
+
+msgid "Opacity"
+msgstr "不透過率"
 
 msgid "New window title"
 msgstr "ウィンドウタイトルを指定"
@@ -141,9 +144,6 @@ msgstr "背景を選択"
 
 msgid "Clear background"
 msgstr "背景をクリア"
-
-msgid "Set opacity level..."
-msgstr "不透過率を指定..."
 
 msgid "Set window title..."
 msgstr "ウィンドウタイトルを指定"
@@ -216,3 +216,6 @@ msgstr "ブリキングのカーソルを表示"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "不透過率を指定..."

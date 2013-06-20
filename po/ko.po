@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-24 18:56+0700\n"
+"POT-Creation-Date: 2013-06-20 20:21+0200\n"
 "PO-Revision-Date: 2012-07-17 04:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -82,17 +82,20 @@ msgstr "새 텍스트"
 msgid "Select color"
 msgstr "색상 선택"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "전경색 선택:"
 
 msgid "Select background color:"
 msgstr "배경색 선택:"
 
-msgid "Opacity"
-msgstr "투명도"
-
 msgid "Opacity level (%):"
 msgstr "투명도 (%):"
+
+msgid "Opacity"
+msgstr "투명도"
 
 msgid "New window title"
 msgstr "새 창 제목"
@@ -144,9 +147,6 @@ msgstr "배경 선택..."
 
 msgid "Clear background"
 msgstr "배경 지우기"
-
-msgid "Set opacity level..."
-msgstr "투명도 설정..."
 
 msgid "Set window title..."
 msgstr "창 제목 성정..."
@@ -219,3 +219,6 @@ msgstr "커서 깜빡임 설정"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "투명도 설정..."

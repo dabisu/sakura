@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-23 16:04+0200\n"
+"POT-Creation-Date: 2013-06-20 20:21+0200\n"
 "PO-Revision-Date: 2012-10-02 01:34+0000\n"
 "Last-Translator: zobi8225 <thomas@luquet.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -81,17 +81,20 @@ msgstr "Nouveau texte"
 msgid "Select color"
 msgstr "Sélectionner une couleur"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "Sélectionner la couleur de premier plan"
 
 msgid "Select background color:"
 msgstr "Sélectionner la couleur d'arrière plan"
 
-msgid "Opacity"
-msgstr "Opacité"
-
 msgid "Opacity level (%):"
 msgstr "Niveau d'opacité (%)"
+
+msgid "Opacity"
+msgstr "Opacité"
 
 msgid "New window title"
 msgstr "Définir le titre de la fenêtre"
@@ -143,9 +146,6 @@ msgstr "Définir l'arrière plan..."
 
 msgid "Clear background"
 msgstr "Effacer l'arrière plan"
-
-msgid "Set opacity level..."
-msgstr "Définir le niveau d'opacité..."
 
 msgid "Set window title..."
 msgstr "Définir le titre de la fenêtre..."
@@ -218,3 +218,6 @@ msgstr "Utliser un curseur clignotant"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura version %s\n"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Définir le niveau d'opacité..."

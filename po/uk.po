@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-24 18:56+0700\n"
+"POT-Creation-Date: 2013-06-20 20:21+0200\n"
 "PO-Revision-Date: 2012-03-29 10:47+0000\n"
 "Last-Translator: Andriy Nezhivy <andriynezhivy@i.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -81,17 +81,20 @@ msgstr "Новий текст"
 msgid "Select color"
 msgstr "Обрати колір"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "Оберіть колір:"
 
 msgid "Select background color:"
 msgstr "Оберіть колір тла:"
 
-msgid "Opacity"
-msgstr "Прозорість"
-
 msgid "Opacity level (%):"
 msgstr "Рівень прозорості (%):"
+
+msgid "Opacity"
+msgstr "Прозорість"
 
 msgid "New window title"
 msgstr "Новий заголовок вікна"
@@ -143,9 +146,6 @@ msgstr "Обрати тло..."
 
 msgid "Clear background"
 msgstr "Очистити тло"
-
-msgid "Set opacity level..."
-msgstr "Обрати рівень прозорості..."
 
 msgid "Set window title..."
 msgstr "Встановити заголовок вікна..."
@@ -218,3 +218,6 @@ msgstr "Встановити мерехтіння курсора"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "версія Sakura %s\n"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Обрати рівень прозорості..."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-24 18:56+0700\n"
+"POT-Creation-Date: 2013-06-20 20:21+0200\n"
 "PO-Revision-Date: 2012-06-06 09:02+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -81,17 +81,20 @@ msgstr "Novi tekst"
 msgid "Select color"
 msgstr "Postavite boju"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "Odaberite boju fonta:"
 
 msgid "Select background color:"
 msgstr "Odaberite boju pozadine:"
 
-msgid "Opacity"
-msgstr "Zasićenost"
-
 msgid "Opacity level (%):"
 msgstr "Nivo zasićenosti (%):"
+
+msgid "Opacity"
+msgstr "Zasićenost"
 
 msgid "New window title"
 msgstr "Novi naslov prozora"
@@ -143,9 +146,6 @@ msgstr "Postavi pozadinu..."
 
 msgid "Clear background"
 msgstr "Ukolni pozadinu"
-
-msgid "Set opacity level..."
-msgstr "Postavi nivo zasićenosti..."
 
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"
@@ -218,3 +218,6 @@ msgstr "Koristi treptajući pokazivač"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Postavi nivo zasićenosti..."
