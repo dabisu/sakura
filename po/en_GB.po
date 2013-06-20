@@ -1,0 +1,206 @@
+# English (United Kingdom) translation for sakura
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the sakura package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sakura\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"PO-Revision-Date: 2013-05-30 14:24+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-05-31 05:13+0000\n"
+"X-Generator: Launchpad (build 16660)\n"
+
+msgid "Print version number"
+msgstr ""
+
+msgid "Select initial terminal font"
+msgstr ""
+
+msgid "Select initial number of tabs"
+msgstr ""
+
+msgid "Execute command"
+msgstr ""
+
+msgid "Execute command (last option in the command line)"
+msgstr ""
+
+msgid "Login shell"
+msgstr ""
+
+msgid "Set window title"
+msgstr ""
+
+msgid "Set columns number"
+msgstr ""
+
+msgid "Set rows number"
+msgstr ""
+
+msgid "Hold window after execute command"
+msgstr ""
+
+msgid "X geometry specification"
+msgstr ""
+
+msgid "Use alternate configuration file"
+msgstr ""
+
+msgid "Configuration has been modified by another proccess. Overwrite?"
+msgstr ""
+
+msgid ""
+"There are running processes.\n"
+"\n"
+"Do you really want to close Sakura?"
+msgstr ""
+
+msgid "Select font"
+msgstr ""
+
+msgid "Set tab name"
+msgstr ""
+
+msgid "New text"
+msgstr ""
+
+msgid "Select color"
+msgstr ""
+
+msgid "Select foreground color:"
+msgstr ""
+
+msgid "Select background color:"
+msgstr ""
+
+msgid "Opacity"
+msgstr ""
+
+msgid "Opacity level (%):"
+msgstr ""
+
+msgid "New window title"
+msgstr ""
+
+msgid "Select a background file"
+msgstr ""
+
+msgid ""
+"There is a running process in this terminal.\n"
+"\n"
+"Do you really want to close it?"
+msgstr ""
+
+msgid "Open link..."
+msgstr ""
+
+msgid "Copy link..."
+msgstr ""
+
+msgid "New tab"
+msgstr ""
+
+msgid "Set tab name..."
+msgstr ""
+
+msgid "Close tab"
+msgstr ""
+
+msgid "Full screen"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid "Paste"
+msgstr ""
+
+msgid "Select font..."
+msgstr ""
+
+msgid "Select colors..."
+msgstr ""
+
+msgid "Select background..."
+msgstr ""
+
+msgid "Clear background"
+msgstr ""
+
+msgid "Set opacity level..."
+msgstr ""
+
+msgid "Set window title..."
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "More"
+msgstr ""
+
+msgid "Always show tab bar"
+msgstr ""
+
+msgid "Tabs at bottom"
+msgstr ""
+
+msgid "Show close button on tabs"
+msgstr ""
+
+msgid "Show scrollbar"
+msgstr ""
+
+msgid "Show resize grip"
+msgstr ""
+
+msgid "Don't show exit dialog"
+msgstr ""
+
+msgid "Set audible bell"
+msgstr ""
+
+msgid "Set visible bell"
+msgstr ""
+
+msgid "Set blinking cursor"
+msgstr ""
+
+msgid "Set cursor type"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "IBeam"
+msgstr ""
+
+msgid "Set palette"
+msgstr ""
+
+msgid "Input methods"
+msgstr ""
+
+#, c-format
+msgid "Terminal %d"
+msgstr ""
+
+msgid "Error message"
+msgstr ""
+
+msgid "- vte-based terminal emulator"
+msgstr ""
+
+#, c-format
+msgid "sakura version is %s\n"
+msgstr ""
