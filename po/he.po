@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: sakura 3.0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-17 00:10+0100\n"
-"PO-Revision-Date: 2012-07-17 07:08+0000\n"
+"PO-Revision-Date: 2013-06-20 17:43+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-07-18 05:12+0000\n"
-"X-Generator: Launchpad (build 15637)\n"
+"X-Launchpad-Export-Date: 2013-06-21 05:12+0000\n"
+"X-Generator: Launchpad (build 16677)\n"
 "Language: he\n"
 "X-Poedit-Language: Hebrew\n"
 
@@ -63,40 +63,38 @@ msgstr "Hold window after execute command"
 msgid "X geometry specification"
 msgstr "X geometry specification"
 
-# חליף
 msgid "Use alternate configuration file"
-msgstr "שימוש בקובץ תצורה חלופי"
+msgstr "השתמש בקובץ תצורה חלופי"
 
-# לכתוב על הקובץ הקיים
 msgid "Configuration has been modified by another proccess. Overwrite?"
-msgstr "קובץ התצורה שונה על ידי תהליך אחר. האם ברצונך להחליפו?"
+msgstr "קובץ תצורה שונה על ידי תהליך אחר. האם ברצונך להחליפו?"
 
 msgid ""
 "There are running processes.\n"
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
-"קייים תהליכים שמורצים כעת.\n"
+"קיימים תהליכים שמורצים כעת.\n"
 "\n"
 "האם ברצונך לסגור את Sakura?"
 
 msgid "Select font"
-msgstr "בחירת גופן"
+msgstr "בחר גופן"
 
 msgid "Set tab name"
-msgstr "הגדרת שם לשונית"
+msgstr "קבע שם לשונית"
 
 msgid "New text"
 msgstr "תמליל חדש"
 
 msgid "Select color"
-msgstr "בחירת צבע"
+msgstr "בחר צבע"
 
 msgid "Select foreground color:"
-msgstr "בחירת צבע רקע קדמי:"
+msgstr "בחר צבע תמליל:"
 
 msgid "Select background color:"
-msgstr "בחירת צבע רקע אחורי:"
+msgstr "בחר צבע רקע:"
 
 msgid "Opacity"
 msgstr "עמימות"
@@ -108,7 +106,7 @@ msgid "New window title"
 msgstr "כותרת חלון חדשה"
 
 msgid "Select a background file"
-msgstr "בחירת קובץ רקע"
+msgstr "בחר קובץ רקע"
 
 # לסוגרו
 msgid ""
@@ -121,47 +119,46 @@ msgstr ""
 "האם ברצונך לסגורו?"
 
 msgid "Open link..."
-msgstr "פתיחת קישור..."
+msgstr "פתח קישור..."
 
 msgid "Copy link..."
-msgstr "העתקת קישור..."
+msgstr "העתק קישור..."
 
 msgid "New tab"
-msgstr "לשונית חדשה"
+msgstr "כרטיסייה חדשה"
 
 msgid "Set tab name..."
-msgstr "הגדרת שם לשונית..."
+msgstr "קבע שם כרטיסייה..."
 
 msgid "Close tab"
-msgstr "סגירת לשונית"
+msgstr "סגור כרטיסייה"
 
 msgid "Full screen"
-msgstr "מסך־מלא"
+msgstr "מסך מלא"
 
 msgid "Copy"
-msgstr "העתקה"
+msgstr "העתק"
 
 msgid "Paste"
-msgstr "הדבקה"
+msgstr "הדבק"
 
 msgid "Select font..."
-msgstr "בחירת גופן..."
+msgstr "בחר גופן..."
 
 msgid "Select colors..."
-msgstr "בחירת צבעים..."
+msgstr "בחר צבעים..."
 
 msgid "Select background..."
-msgstr "בחירת רקע..."
+msgstr "בחר רקע..."
 
 msgid "Clear background"
-msgstr "איפוס רקע"
+msgstr "טהר רקע"
 
-# שקיפות
 msgid "Set opacity level..."
-msgstr "הגדרת רמת עמימות..."
+msgstr "קבע רמת עמימות..."
 
 msgid "Set window title..."
-msgstr "הגדרת כותרת חלון..."
+msgstr "קבע כותרת חלון..."
 
 msgid "Options"
 msgstr "אפשרויות"
@@ -170,35 +167,34 @@ msgid "More"
 msgstr "עוד"
 
 msgid "Always show tab bar"
-msgstr "הצגה תמידית של סרגל הלשוניות"
+msgstr "הצג תמיד סרגל כרטיסיות"
 
-# בתחתית
 msgid "Tabs at bottom"
-msgstr "לשוניות תחתונות"
+msgstr "כרטיסיות תחתונות"
 
 msgid "Show close button on tabs"
-msgstr "הצגת לחצן סגירה על לשוניות"
+msgstr "הצג לחצן סגירה על כרטיסיות"
 
 msgid "Show scrollbar"
-msgstr "הצגת פס גלילה"
+msgstr "הצג פס גלילה"
 
 msgid "Show resize grip"
-msgstr "הצגת מאחז שינוי גודל"
+msgstr "הצג מאחז שינוי גודל"
 
 msgid "Don't show exit dialog"
-msgstr "לא להציג דו־שיח יציאה"
+msgstr "אל תציג דו שיח יציאה"
 
 msgid "Set audible bell"
-msgstr "הגדרת פעמון שמיע"
+msgstr "קבע פעמון שמיע"
 
 msgid "Set visible bell"
-msgstr "הגדרת פעמון נראה"
+msgstr "קבע פעמון נראה"
 
 msgid "Set blinking cursor"
-msgstr "הגדרת סמן מהבהב"
+msgstr "קבע סמן מהבהב"
 
 msgid "Set cursor type"
-msgstr "הגדרת סוג סמן"
+msgstr "קבע טיפוס סמן"
 
 msgid "Block"
 msgstr "קטע"
@@ -210,7 +206,7 @@ msgid "IBeam"
 msgstr "IBeam"
 
 msgid "Set palette"
-msgstr "הגדרת לוח צבעים"
+msgstr "קבע לוח צבעים"
 
 msgid "Input methods"
 msgstr "שיטות קלט"
