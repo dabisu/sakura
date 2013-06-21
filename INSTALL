@@ -72,6 +72,7 @@ Keybindings support
 	Shift + PageDown                 -> Move down through scrollback by page
 	Ctrl + Shift + Up                -> Move up through scrollback by line
 	Ctrl + Shift + Down              -> Move down through scrollback by line
+	Ctrl + Shift + [F1-F6]           -> Select the colorset for the current tab
 
     You can also increase and decrease the font size in the GTK+ 
 	standard way (not configurable):
