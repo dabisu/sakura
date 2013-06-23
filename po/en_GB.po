@@ -7,40 +7,40 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 20:21+0200\n"
-"PO-Revision-Date: 2013-05-30 14:24+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-06-21 02:02+0200\n"
+"PO-Revision-Date: 2013-06-20 17:39+0000\n"
+"Last-Translator: Sid Roberts <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-31 05:13+0000\n"
-"X-Generator: Launchpad (build 16660)\n"
+"X-Launchpad-Export-Date: 2013-06-21 05:12+0000\n"
+"X-Generator: Launchpad (build 16677)\n"
 
 msgid "Print version number"
-msgstr ""
+msgstr "Print version number"
 
 msgid "Select initial terminal font"
-msgstr ""
+msgstr "Select initial terminal font"
 
 msgid "Select initial number of tabs"
-msgstr ""
+msgstr "Select initial number of tabs"
 
 msgid "Set working directory"
 msgstr ""
 
 msgid "Execute command"
-msgstr ""
+msgstr "Execute command"
 
 msgid "Execute command (last option in the command line)"
 msgstr ""
 
 msgid "Login shell"
-msgstr ""
+msgstr "Login shell"
 
 msgid "Set window title"
-msgstr ""
+msgstr "Set window title"
 
 msgid "Set columns number"
 msgstr ""
@@ -55,7 +55,7 @@ msgid "X geometry specification"
 msgstr ""
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Use alternate configuration file"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr ""
@@ -65,142 +65,148 @@ msgid ""
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
+"There are running processes.\n"
+"\n"
+"Do you really want to close Sakura?"
 
 msgid "Select font"
-msgstr ""
+msgstr "Select font"
 
 msgid "Set tab name"
-msgstr ""
+msgstr "Set tab name"
 
 msgid "New text"
-msgstr ""
+msgstr "New text"
 
 msgid "Select color"
-msgstr ""
+msgstr "Select colour"
 
 msgid "Colourset to edit"
 msgstr ""
 
 msgid "Select foreground color:"
-msgstr ""
+msgstr "Select foreground colour:"
 
 msgid "Select background color:"
-msgstr ""
+msgstr "Select background colour:"
 
 msgid "Opacity level (%):"
-msgstr ""
+msgstr "Opacity level (%):"
 
 msgid "Opacity"
-msgstr ""
+msgstr "Opacity"
 
 msgid "New window title"
-msgstr ""
+msgstr "New window title"
 
 msgid "Select a background file"
-msgstr ""
+msgstr "Select a background file"
 
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
 "Do you really want to close it?"
 msgstr ""
+"There is a running process in this terminal.\n"
+"\n"
+"Do you really want to close it?"
 
 msgid "Open link..."
-msgstr ""
+msgstr "Open link..."
 
 msgid "Copy link..."
-msgstr ""
+msgstr "Copy link..."
 
 msgid "New tab"
-msgstr ""
+msgstr "New tab"
 
 msgid "Set tab name..."
-msgstr ""
+msgstr "Set tab name..."
 
 msgid "Close tab"
-msgstr ""
+msgstr "Close tab"
 
 msgid "Full screen"
-msgstr ""
+msgstr "Full screen"
 
 msgid "Copy"
-msgstr ""
+msgstr "Copy"
 
 msgid "Paste"
-msgstr ""
+msgstr "Paste"
 
 msgid "Select font..."
-msgstr ""
+msgstr "Select font..."
 
 msgid "Select colors..."
-msgstr ""
+msgstr "Select colours..."
 
 msgid "Select background..."
-msgstr ""
+msgstr "Select background..."
 
 msgid "Clear background"
-msgstr ""
+msgstr "Clear background"
 
 msgid "Set window title..."
-msgstr ""
+msgstr "Set window title..."
 
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 msgid "More"
-msgstr ""
+msgstr "More"
 
 msgid "Always show tab bar"
-msgstr ""
+msgstr "Always show tab bar"
 
 msgid "Tabs at bottom"
-msgstr ""
+msgstr "Tabs at bottom"
 
 msgid "Show close button on tabs"
-msgstr ""
+msgstr "Show close button on tabs"
 
 msgid "Show scrollbar"
-msgstr ""
+msgstr "Show scrollbar"
 
 msgid "Show resize grip"
-msgstr ""
+msgstr "Show resize grip"
 
 msgid "Don't show exit dialog"
 msgstr ""
 
 msgid "Set audible bell"
-msgstr ""
+msgstr "Set audible bell"
 
 msgid "Set visible bell"
-msgstr ""
+msgstr "Set visible bell"
 
 msgid "Set blinking cursor"
-msgstr ""
+msgstr "Set blinking cursor"
 
 msgid "Set cursor type"
-msgstr ""
+msgstr "Set cursor type"
 
 msgid "Block"
-msgstr ""
+msgstr "Block"
 
 msgid "Underline"
-msgstr ""
+msgstr "Underline"
 
 msgid "IBeam"
 msgstr ""
 
 msgid "Set palette"
-msgstr ""
+msgstr "Set palette"
 
 msgid "Input methods"
-msgstr ""
+msgstr "Input methods"
 
 #, c-format
 msgid "Terminal %d"
-msgstr ""
+msgstr "Terminal %d"
 
 msgid "Error message"
-msgstr ""
+msgstr "Error message"
 
 msgid "- vte-based terminal emulator"
 msgstr ""
@@ -211,4 +217,7 @@ msgstr ""
 
 #, c-format
 msgid "sakura version is %s\n"
-msgstr ""
+msgstr "sakura version is %s\n"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Set opacity level..."
