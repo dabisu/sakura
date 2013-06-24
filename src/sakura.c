@@ -926,7 +926,6 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 static void 
 sakura_set_colorset (int cs)
 {
-	int n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	gint page;
 	struct terminal *term;
 
@@ -1132,7 +1131,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	
 
 	if (response==GTK_RESPONSE_ACCEPT) {
-		GdkColor fg, bg;
 		/* Save all colorsets to both the global struct and configuration.*/
 		for( i=0; i<NUM_COLORSETS; i++)
 		{
@@ -2192,7 +2190,7 @@ sakura_init_popup()
 	          *item_paste, *item_select_font, *item_select_colors,
 	          *item_select_background, *item_set_title, *item_full_screen,
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
-	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
+	          *item_show_first_tab, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_other_options, 
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_solarized_dark, *item_palette_solarized_ligth,
