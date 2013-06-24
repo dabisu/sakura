@@ -985,8 +985,7 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 	/* if we come here as a result of a change in the active colorset,
 	 * load the new colorset to the buttons.
 	 * Else, the colorselect buttons or opacity spin have gotten a new
-	 * value, store that.
-	 */
+	 * value, store that. */
 	if( (GtkWidget*)set == widget ) {
 		gint new_opacity=opacity[selected];
 		gtk_color_button_set_color(fore_button, &fore_colors[selected]);
@@ -1050,8 +1049,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_free(css);
 
 
-	// add the drop-down combobox that selects current colorset to edit.
-	// TODO: preset the current colorset
+	/* Add the drop-down combobox that selects current colorset to edit.
+	 * TODO: preset the current colorset */
 	hbox_sets=gtk_box_new(FALSE, 12);
 	set_label=gtk_label_new(_("Colourset to edit"));
 	set_combo=gtk_combo_box_text_new();
@@ -1067,9 +1066,9 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	label2=gtk_label_new(_("Select background color:"));
 	buttonfore=gtk_color_button_new_with_color(&sakura.forecolors[term->colorset]);
 	buttonback=gtk_color_button_new_with_color(&sakura.backcolors[term->colorset]);
-	/* When the times comes (gtk-3.4) */
+	/* TODO: update deprecated functions */
 	// buttonfore=gtk_color_button_new_with_rgba(&sakura.forecolor);
-	// buttonback=gtk_color_button_new_with_rgba(&sakura.backcolor);*/
+	// buttonback=gtk_color_button_new_with_rgba(&sakura.backcolor);
 
 	backalpha = sakura_opacity_to_alpha(sakura.opacities[term->colorset]);
 	if (sakura.has_rgba) {
@@ -1101,8 +1100,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog)));
 
 	/* When user switches the colorset to change, the callback needs access
-	 * to these selector widgets
-   */
+	 * to these selector widgets */
 	g_object_set_data(G_OBJECT(color_dialog), "set_combo", set_combo);
 	g_object_set_data(G_OBJECT(color_dialog), "buttonfore", buttonfore);
 	g_object_set_data(G_OBJECT(color_dialog), "buttonback", buttonback);
@@ -1164,8 +1162,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		/* Apply the new colorsets to all tabs
 		 * Set the current tab's colorset to the last selected one in the dialog.
 		 * This is probably what the new user expects, and the experienced user
-		 * hopefully will not mind.
-		 */
+		 * hopefully will not mind. */
 		term->colorset = gtk_combo_box_get_active(GTK_COMBO_BOX(set_combo));
 		sakura_set_colors();
 	}
@@ -1819,7 +1816,7 @@ static void
 get_config_color(char *config_name, char *default_color, GdkColor *get_to )
 {
 	gchar *cfgtmp = NULL;
-	/* TODO: Use RGBA colors, with rgba_parse when gtk-3.4 deprecates some functions using GdkColor. Maybe we can convert all sakura to GdkRGBA colors  */
+	/* TODO: Use RGBA colors and remove deprecated functions */
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, config_name, NULL)) {
 		sakura_set_config_string(config_name, default_color);
 	}
@@ -1892,102 +1889,102 @@ sakura_init()
 
 		sprintf(name, "colorset%d_opacity", i+1);
 		if (!g_key_file_has_key(sakura.cfg, cfg_group, name, NULL)) {
-						sakura_set_config_integer(name, 99);
+			sakura_set_config_integer(name, 99);
 		}
 		sakura.opacities[i] = g_key_file_get_integer(sakura.cfg, 
-										cfg_group, name, NULL);
+				cfg_group, name, NULL);
 
 		sprintf(name, "colorset%d_key", i+1);
 		if (!g_key_file_has_key(sakura.cfg, cfg_group, name, NULL)) {
-						sakura_set_config_key(name, cs_keys[i]);
+			sakura_set_config_key(name, cs_keys[i]);
 		}
 		sakura.set_colorset_keys[i]= sakura_get_config_key(name);
 	}
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "background", NULL)) {
-					sakura_set_config_string("background", "none");
+		sakura_set_config_string("background", "none");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "background", NULL);
 	if (strcmp(cfgtmp, "none")==0) {
-					sakura.background=NULL;
+		sakura.background=NULL;
 	} else {
-					sakura.background=g_strdup(cfgtmp);
+		sakura.background=g_strdup(cfgtmp);
 	}
 	g_free(cfgtmp);
 
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "font", NULL)) {
-					sakura_set_config_string("font", DEFAULT_FONT);
+		sakura_set_config_string("font", DEFAULT_FONT);
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "font", NULL);
 	sakura.font = pango_font_description_from_string(cfgtmp);
 	free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "show_always_first_tab", NULL)) {
-					sakura_set_config_string("show_always_first_tab", "No");
+		sakura_set_config_string("show_always_first_tab", "No");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
 	sakura.first_tab = (strcmp(cfgtmp, "Yes")==0) ? true : false;
 	free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar", NULL)) {
-					sakura_set_config_boolean("scrollbar", FALSE);
+		sakura_set_config_boolean("scrollbar", FALSE);
 	}
 	sakura.show_scrollbar = g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollbar", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "resize_grip", NULL)) {
-					sakura_set_config_boolean("resize_grip", FALSE);
+		sakura_set_config_boolean("resize_grip", FALSE);
 	}
 	sakura.show_resize_grip = g_key_file_get_boolean(sakura.cfg, cfg_group, "resize_grip", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "closebutton", NULL)) {
-					sakura_set_config_boolean("closebutton", TRUE);
+		sakura_set_config_boolean("closebutton", TRUE);
 	}
 	sakura.show_closebutton = g_key_file_get_boolean(sakura.cfg, cfg_group, "closebutton", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "tabs_on_bottom", NULL)) {
-					sakura_set_config_boolean("tabs_on_bottom", FALSE);
+		sakura_set_config_boolean("tabs_on_bottom", FALSE);
 	}
 	sakura.tabs_on_bottom = g_key_file_get_boolean(sakura.cfg, cfg_group, "tabs_on_bottom", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "less_questions", NULL)) {
-					sakura_set_config_boolean("less_questions", FALSE);
+		sakura_set_config_boolean("less_questions", FALSE);
 	}
 	sakura.less_questions = g_key_file_get_boolean(sakura.cfg, cfg_group, "less_questions", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "audible_bell", NULL)) {
-					sakura_set_config_string("audible_bell", "Yes");
+		sakura_set_config_string("audible_bell", "Yes");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "audible_bell", NULL);
 	sakura.audible_bell= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "visible_bell", NULL)) {
-					sakura_set_config_string("visible_bell", "No");
+		sakura_set_config_string("visible_bell", "No");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "visible_bell", NULL);
 	sakura.visible_bell= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "blinking_cursor", NULL)) {
-					sakura_set_config_string("blinking_cursor", "No");
+		sakura_set_config_string("blinking_cursor", "No");
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "blinking_cursor", NULL);
 	sakura.blinking_cursor= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "cursor_type", NULL)) {
-					sakura_set_config_string("cursor_type", "VTE_CURSOR_SHAPE_BLOCK");
+		sakura_set_config_string("cursor_type", "VTE_CURSOR_SHAPE_BLOCK");
 	}
 	sakura.cursor_type = g_key_file_get_integer(sakura.cfg, cfg_group, "cursor_type", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
-					sakura_set_config_string("word_chars", DEFAULT_WORD_CHARS);
+		sakura_set_config_string("word_chars", DEFAULT_WORD_CHARS);
 	}
 	sakura.word_chars = g_key_file_get_value(sakura.cfg, cfg_group, "word_chars", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "palette", NULL)) {
-					sakura_set_config_string("palette", DEFAULT_PALETTE);
+		sakura_set_config_string("palette", DEFAULT_PALETTE);
 	}
 	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
 	if (strcmp(cfgtmp, "linux")==0) {
@@ -2002,103 +1999,103 @@ sakura_init()
 	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_accelerator", NULL)) {
-					sakura_set_config_integer("add_tab_accelerator", DEFAULT_ADD_TAB_ACCELERATOR);
+		sakura_set_config_integer("add_tab_accelerator", DEFAULT_ADD_TAB_ACCELERATOR);
 	}
 	sakura.add_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "add_tab_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "del_tab_accelerator", NULL)) {
-					sakura_set_config_integer("del_tab_accelerator", DEFAULT_DEL_TAB_ACCELERATOR);
+		sakura_set_config_integer("del_tab_accelerator", DEFAULT_DEL_TAB_ACCELERATOR);
 	}
 	sakura.del_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "del_tab_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "switch_tab_accelerator", NULL)) {
-					sakura_set_config_integer("switch_tab_accelerator", DEFAULT_SWITCH_TAB_ACCELERATOR);
+		sakura_set_config_integer("switch_tab_accelerator", DEFAULT_SWITCH_TAB_ACCELERATOR);
 	}
 	sakura.switch_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "switch_tab_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "move_tab_accelerator", NULL)) {
-					sakura_set_config_integer("move_tab_accelerator", DEFAULT_MOVE_TAB_ACCELERATOR);
+		sakura_set_config_integer("move_tab_accelerator", DEFAULT_MOVE_TAB_ACCELERATOR);
 	}
 	sakura.move_tab_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "move_tab_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_accelerator", NULL)) {
-					sakura_set_config_integer("copy_accelerator", DEFAULT_COPY_ACCELERATOR);
+		sakura_set_config_integer("copy_accelerator", DEFAULT_COPY_ACCELERATOR);
 	}
 	sakura.copy_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "copy_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar_accelerator", NULL)) {
-					sakura_set_config_integer("scrollbar_accelerator", DEFAULT_SCROLLBAR_ACCELERATOR);
+		sakura_set_config_integer("scrollbar_accelerator", DEFAULT_SCROLLBAR_ACCELERATOR);
 	}
 	sakura.scrollbar_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "scrollbar_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "open_url_accelerator", NULL)) {
-					sakura_set_config_integer("open_url_accelerator", DEFAULT_OPEN_URL_ACCELERATOR);
+		sakura_set_config_integer("open_url_accelerator", DEFAULT_OPEN_URL_ACCELERATOR);
 	}
 	sakura.open_url_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "open_url_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "font_size_accelerator", NULL)) {
-					sakura_set_config_integer("font_size_accelerator", DEFAULT_FONT_SIZE_ACCELERATOR);
+		sakura_set_config_integer("font_size_accelerator", DEFAULT_FONT_SIZE_ACCELERATOR);
 	}
 	sakura.font_size_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "font_size_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_tab_name_accelerator", NULL)) {
-					sakura_set_config_integer("set_tab_name_accelerator", DEFAULT_SET_TAB_NAME_ACCELERATOR);
+		sakura_set_config_integer("set_tab_name_accelerator", DEFAULT_SET_TAB_NAME_ACCELERATOR);
 	}
 	sakura.set_tab_name_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_tab_name_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
-					sakura_set_config_key("add_tab_key", DEFAULT_ADD_TAB_KEY);
+		sakura_set_config_key("add_tab_key", DEFAULT_ADD_TAB_KEY);
 	}
 	sakura.add_tab_key = sakura_get_config_key("add_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "del_tab_key", NULL)) {
-					sakura_set_config_key("del_tab_key", DEFAULT_DEL_TAB_KEY);
+		sakura_set_config_key("del_tab_key", DEFAULT_DEL_TAB_KEY);
 	}
 	sakura.del_tab_key = sakura_get_config_key("del_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "prev_tab_key", NULL)) {
-					sakura_set_config_key("prev_tab_key", DEFAULT_PREV_TAB_KEY);
+		sakura_set_config_key("prev_tab_key", DEFAULT_PREV_TAB_KEY);
 	}
 	sakura.prev_tab_key = sakura_get_config_key("prev_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "next_tab_key", NULL)) {
-					sakura_set_config_key("next_tab_key", DEFAULT_NEXT_TAB_KEY);
+		sakura_set_config_key("next_tab_key", DEFAULT_NEXT_TAB_KEY);
 	}
 	sakura.next_tab_key = sakura_get_config_key("next_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_key", NULL)) {
-					sakura_set_config_key( "copy_key", DEFAULT_COPY_KEY);
+		sakura_set_config_key( "copy_key", DEFAULT_COPY_KEY);
 	}
 	sakura.copy_key = sakura_get_config_key("copy_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "paste_key", NULL)) {
-					sakura_set_config_key("paste_key", DEFAULT_PASTE_KEY);
+		sakura_set_config_key("paste_key", DEFAULT_PASTE_KEY);
 	}
 	sakura.paste_key = sakura_get_config_key("paste_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar_key", NULL)) {
-					sakura_set_config_key("scrollbar_key", DEFAULT_SCROLLBAR_KEY);
+		sakura_set_config_key("scrollbar_key", DEFAULT_SCROLLBAR_KEY);
 	}
 	sakura.scrollbar_key = sakura_get_config_key("scrollbar_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_tab_name_key", NULL)) {
-					sakura_set_config_key("set_tab_name_key", DEFAULT_SET_TAB_NAME_KEY);
+		sakura_set_config_key("set_tab_name_key", DEFAULT_SET_TAB_NAME_KEY);
 	}
 	sakura.set_tab_name_key = sakura_get_config_key("set_tab_name_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "fullscreen_key", NULL)) {
-					sakura_set_config_key("fullscreen_key", DEFAULT_FULLSCREEN_KEY);
+		sakura_set_config_key("fullscreen_key", DEFAULT_FULLSCREEN_KEY);
 	}
 	sakura.fullscreen_key = sakura_get_config_key("fullscreen_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_colorset_accelerator", NULL)) {
-					sakura_set_config_integer("set_colorset_accelerator", DEFAULT_SELECT_COLORSET_ACCELERATOR);
+		sakura_set_config_integer("set_colorset_accelerator", DEFAULT_SELECT_COLORSET_ACCELERATOR);
 	}
 	sakura.set_colorset_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_colorset_accelerator", NULL);
 
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "icon_file", NULL)) {
-					sakura_set_config_string("icon_file", ICON_FILE);
+		sakura_set_config_string("icon_file", ICON_FILE);
 	}
 	/* We don't need a global because it's not configurable within sakura */
 
