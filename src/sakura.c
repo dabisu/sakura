@@ -60,41 +60,41 @@
  * Text displayed in the second 8 colors (8-15) is bold (uses thick strokes). */
 
 const GdkRGBA tango_palette[PALETTE_SIZE] = {
-	{ 0, 0x2e2e, 0x3434, 0x3636 },
-	{ 0, 0xcccc, 0x0000, 0x0000 },
-	{ 0, 0x4e4e, 0x9a9a, 0x0606 },
-	{ 0, 0xc4c4, 0xa0a0, 0x0000 },
-	{ 0, 0x3434, 0x6565, 0xa4a4 },
-	{ 0, 0x7575, 0x5050, 0x7b7b },
-	{ 0, 0x0606, 0x9820, 0x9a9a },
-	{ 0, 0xd3d3, 0xd7d7, 0xcfcf },
-	{ 0, 0x5555, 0x5757, 0x5353 },
-	{ 0, 0xefef, 0x2929, 0x2929 },
-	{ 0, 0x8a8a, 0xe2e2, 0x3434 },
-	{ 0, 0xfcfc, 0xe9e9, 0x4f4f },
-	{ 0, 0x7272, 0x9f9f, 0xcfcf },
-	{ 0, 0xadad, 0x7f7f, 0xa8a8 },
-	{ 0, 0x3434, 0xe2e2, 0xe2e2 },
-	{ 0, 0xeeee, 0xeeee, 0xecec }
+	{ 0,         0,        0,         1 },
+	{ 0.8,       0,        0,         1 },
+	{ 0.305882,  0.603922, 0.0235294, 1 },
+	{ 0.768627,  0.627451, 0,         1 },
+	{ 0.203922,  0.396078, 0.643137,  1 },
+	{ 0.458824,  0.313725, 0.482353,  1 },
+	{ 0.0235294, 0.596078, 0.603922,  1 },
+	{ 0.827451,  0.843137, 0.811765,  1 },
+	{ 0.333333,  0.341176, 0.32549,   1 },
+	{ 0.937255,  0.160784, 0.160784,  1 },
+	{ 0.541176,  0.886275, 0.203922,  1 },
+	{ 0.988235,  0.913725, 0.309804,  1 },
+	{ 0.447059,  0.623529, 0.811765,  1 },
+	{ 0.678431,  0.498039, 0.658824,  1 },
+	{ 0.203922,  0.886275, 0.886275,  1 },
+	{ 0.933333,  0.933333, 0.92549,   1 }
 };
 
 const GdkRGBA linux_palette[PALETTE_SIZE] = {
-	{ 0, 0x0000, 0x0000, 0x0000 },
-	{ 0, 0xaaaa, 0x0000, 0x0000 },
-	{ 0, 0x0000, 0xaaaa, 0x0000 },
-	{ 0, 0xaaaa, 0x5555, 0x0000 },
-	{ 0, 0x0000, 0x0000, 0xaaaa },
-	{ 0, 0xaaaa, 0x0000, 0xaaaa },
-	{ 0, 0x0000, 0xaaaa, 0xaaaa },
-	{ 0, 0xaaaa, 0xaaaa, 0xaaaa },
-	{ 0, 0x5555, 0x5555, 0x5555 },
-	{ 0, 0xffff, 0x5555, 0x5555 },
-	{ 0, 0x5555, 0xffff, 0x5555 },
-	{ 0, 0xffff, 0xffff, 0x5555 },
-	{ 0, 0x5555, 0x5555, 0xffff },
-	{ 0, 0xffff, 0x5555, 0xffff },
-	{ 0, 0x5555, 0xffff, 0xffff },
-	{ 0, 0xffff, 0xffff, 0xffff }
+	{ 0,        0,        0,        1 },
+	{ 0.666667, 0,        0,        1 },
+	{ 0,        0.666667, 0,        1 },
+	{ 0.666667, 0.333333, 0,        1 },
+	{ 0,        0,        0.666667, 1 },
+	{ 0.666667, 0,        0.666667, 1 },
+	{ 0,        0.666667, 0.666667, 1 },
+	{ 0.666667, 0.666667, 0.666667, 1 },
+	{ 0.333333, 0.333333, 0.333333, 1 },
+	{ 1,        0.333333, 0.333333, 1 },
+	{ 0.333333, 1,        0.333333, 1 },
+	{ 1,        1,        0.333333, 1 },
+	{ 0.333333, 0.333333, 1,        1 },
+	{ 1,        0.333333, 1,        1 },
+	{ 0.333333, 1,        1,        1 },
+	{ 1,        1,        1,        1 }
 };
 
 const GdkRGBA solarized_dark_palette[PALETTE_SIZE] = {
@@ -978,8 +978,6 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 	GtkColorButton *back_button = g_object_get_data (G_OBJECT(dialog), "buttonback");
 	GtkComboBox *set = g_object_get_data (G_OBJECT(dialog), "set_combo");
 	GtkSpinButton *opacity_spin = g_object_get_data( G_OBJECT(dialog), "opacity_spin");
-	//GdkColor *fore_colors = g_object_get_data( G_OBJECT(dialog), "fore");
-	//GdkColor *back_colors = g_object_get_data( G_OBJECT(dialog), "back");
 	GdkRGBA *fore_colors = g_object_get_data( G_OBJECT(dialog), "fore");
 	GdkRGBA *back_colors = g_object_get_data( G_OBJECT(dialog), "back");
 	gint *opacity = g_object_get_data( G_OBJECT(dialog), "opacity");
@@ -993,8 +991,10 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 		gint new_opacity=opacity[selected];
 		gtk_color_button_set_rgba(fore_button, &fore_colors[selected]);
 		gtk_color_button_set_rgba(back_button, &back_colors[selected]);
+		//gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(fore_button), &fore_colors[selected]);
+		//gtk_color_chooser_set_rgba((GTK_COLOR_CHOOSER(back_button), &back_colors[selected]);
 		gtk_spin_button_set_value(opacity_spin, new_opacity);	
-		
+
 		if( sakura.has_rgba )
 			gtk_color_button_set_alpha(back_button, sakura_opacity_to_alpha(new_opacity));
 	} else {
