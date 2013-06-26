@@ -55,46 +55,46 @@
 
 #define PALETTE_SIZE 16
 
-/* Color palettes. Some color lists were borrowed from gnome-terminal source and fourterm. (thanks! ;)) 
+/* 16 color palettes in GdkRGBA format (red, green, blue, alpha)  
  * Text displayed in the first 8 colors (0-7) is meek (uses thin strokes).
  * Text displayed in the second 8 colors (8-15) is bold (uses thick strokes). */
 
 const GdkRGBA tango_palette[PALETTE_SIZE] = {
-	{ 0,         0,        0,         1 },
-	{ 0.8,       0,        0,         1 },
-	{ 0.305882,  0.603922, 0.0235294, 1 },
-	{ 0.768627,  0.627451, 0,         1 },
-	{ 0.203922,  0.396078, 0.643137,  1 },
-	{ 0.458824,  0.313725, 0.482353,  1 },
-	{ 0.0235294, 0.596078, 0.603922,  1 },
-	{ 0.827451,  0.843137, 0.811765,  1 },
-	{ 0.333333,  0.341176, 0.32549,   1 },
-	{ 0.937255,  0.160784, 0.160784,  1 },
-	{ 0.541176,  0.886275, 0.203922,  1 },
-	{ 0.988235,  0.913725, 0.309804,  1 },
-	{ 0.447059,  0.623529, 0.811765,  1 },
-	{ 0.678431,  0.498039, 0.658824,  1 },
-	{ 0.203922,  0.886275, 0.886275,  1 },
-	{ 0.933333,  0.933333, 0.92549,   1 }
+	{0,        0,        0,        1},
+	{0.8,      0,        0,        1},
+	{0.305882, 0.603922, 0.023529, 1},
+	{0.768627, 0.627451, 0,        1},
+	{0.203922, 0.396078, 0.643137, 1},
+	{0.458824, 0.313725, 0.482353, 1},
+	{0.0235294,0.596078, 0.603922, 1},
+	{0.827451, 0.843137, 0.811765, 1},
+	{0.333333, 0.341176, 0.32549,  1},
+	{0.937255, 0.160784, 0.160784, 1},
+	{0.541176, 0.886275, 0.203922, 1},
+	{0.988235, 0.913725, 0.309804, 1},
+	{0.447059, 0.623529, 0.811765, 1},
+	{0.678431, 0.498039, 0.658824, 1},
+	{0.203922, 0.886275, 0.886275, 1},
+	{0.933333, 0.933333, 0.92549,  1}
 };
 
 const GdkRGBA linux_palette[PALETTE_SIZE] = {
-	{ 0,        0,        0,        1 },
-	{ 0.666667, 0,        0,        1 },
-	{ 0,        0.666667, 0,        1 },
-	{ 0.666667, 0.333333, 0,        1 },
-	{ 0,        0,        0.666667, 1 },
-	{ 0.666667, 0,        0.666667, 1 },
-	{ 0,        0.666667, 0.666667, 1 },
-	{ 0.666667, 0.666667, 0.666667, 1 },
-	{ 0.333333, 0.333333, 0.333333, 1 },
-	{ 1,        0.333333, 0.333333, 1 },
-	{ 0.333333, 1,        0.333333, 1 },
-	{ 1,        1,        0.333333, 1 },
-	{ 0.333333, 0.333333, 1,        1 },
-	{ 1,        0.333333, 1,        1 },
-	{ 0.333333, 1,        1,        1 },
-	{ 1,        1,        1,        1 }
+	{0,        0,        0,        1},
+	{0.666667, 0,        0,        1},
+	{0,        0.666667, 0,        1},
+	{0.666667, 0.333333, 0,        1},
+	{0,        0,        0.666667, 1},
+	{0.666667, 0,        0.666667, 1},
+	{0,        0.666667, 0.666667, 1},
+	{0.666667, 0.666667, 0.666667, 1},
+	{0.333333, 0.333333, 0.333333, 1},
+	{1,        0.333333, 0.333333, 1},
+	{0.333333, 1,        0.333333, 1},
+	{1,        1,        0.333333, 1},
+	{0.333333, 0.333333, 1,        1},
+	{1,        0.333333, 1,        1},
+	{0.333333, 1,        1,        1},
+	{1,        1,        1,        1}
 };
 
 const GdkRGBA solarized_dark_palette[PALETTE_SIZE] = {
@@ -196,7 +196,6 @@ static struct {
 	PangoFontDescription *font;
 	GdkRGBA forecolors[NUM_COLORSETS];
 	GdkRGBA backcolors[NUM_COLORSETS];
-	gint opacities[NUM_COLORSETS];
 	const GdkRGBA *palette;
 	bool has_rgba;				/* RGBA capabilities */
 	char *current_match;
@@ -387,7 +386,7 @@ static guint    sakura_get_config_key(const gchar *);
 static void     sakura_config_done();
 static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
-static guint16  sakura_opacity_to_alpha( gint );
+//static gdouble  sakura_opacity_to_alpha( gint );
 
 static const char *option_font;
 static const char *option_workdir;
@@ -992,8 +991,7 @@ sakura_set_colors ()
 			   take effect when switching tabs, so this setting to white is 
 			   actually needed only in the shown tab.*/
 			vte_terminal_set_color_background_rgba(VTE_TERMINAL (term->vte), &white);
-			vte_terminal_set_opacity(VTE_TERMINAL (term->vte),
-			                 sakura_opacity_to_alpha(sakura.opacities[term->colorset]));
+			vte_terminal_set_opacity(VTE_TERMINAL (term->vte), (int)((sakura.backcolors[term->colorset].alpha)*65535));
 		}
 		vte_terminal_set_colors_rgba(VTE_TERMINAL(term->vte), 
 		                        &sakura.forecolors[term->colorset], 
@@ -1014,9 +1012,8 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 	GtkColorButton *back_button = g_object_get_data (G_OBJECT(dialog), "buttonback");
 	GtkComboBox *set = g_object_get_data (G_OBJECT(dialog), "set_combo");
 	GtkSpinButton *opacity_spin = g_object_get_data( G_OBJECT(dialog), "opacity_spin");
-	GdkRGBA *fore_colors = g_object_get_data( G_OBJECT(dialog), "fore");
-	GdkRGBA *back_colors = g_object_get_data( G_OBJECT(dialog), "back");
-	gint *opacity = g_object_get_data( G_OBJECT(dialog), "opacity");
+	GdkRGBA *temp_fore_colors = g_object_get_data( G_OBJECT(dialog), "fore");
+	GdkRGBA *temp_back_colors = g_object_get_data( G_OBJECT(dialog), "back");
 	selected = gtk_combo_box_get_active( set );
 
 	/* if we come here as a result of a change in the active colorset,
@@ -1024,31 +1021,30 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 	 * Else, the colorselect buttons or opacity spin have gotten a new
 	 * value, store that. */
 	if( (GtkWidget*)set == widget ) {
-		gint new_opacity=opacity[selected];
-		gtk_color_button_set_rgba(fore_button, &fore_colors[selected]);
-		gtk_color_button_set_rgba(back_button, &back_colors[selected]);
-		//gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(fore_button), &fore_colors[selected]);
-		//gtk_color_chooser_set_rgba((GTK_COLOR_CHOOSER(back_button), &back_colors[selected]);
-		gtk_spin_button_set_value(opacity_spin, new_opacity);	
+		/* Spin opacity is a percentage, convert it*/
+		gint new_opacity=(int)(temp_back_colors[selected].alpha/65535);
 
-		if( sakura.has_rgba )
-			gtk_color_button_set_alpha(back_button, sakura_opacity_to_alpha(new_opacity));
+		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(fore_button), &temp_fore_colors[selected]);
+		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(back_button), &temp_back_colors[selected]);
+		gtk_spin_button_set_value(opacity_spin, new_opacity);	
 	} else {
-		gtk_color_button_get_rgba(fore_button, &fore_colors[selected]);
-		gtk_color_button_get_rgba(back_button, &back_colors[selected]);
+		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(fore_button), &temp_fore_colors[selected]);
+		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(back_button), &temp_back_colors[selected]);
 		gtk_spin_button_update(opacity_spin);
-		opacity[selected] = gtk_spin_button_get_value_as_int(opacity_spin);
+		temp_back_colors[selected].alpha=gtk_spin_button_get_value(opacity_spin)/100;
 	}
 
 }
 
+#if 0
 /* This code is refactored verbatim (incl. comments!) from sakura_color_dialog. */
-static guint16
+static gdouble
 sakura_opacity_to_alpha( gint opacity )
 {
 	/* This rounding sucks...*/
 	return roundf((opacity*65535)/99);
 }
+#endif
 
 static void
 sakura_color_dialog (GtkWidget *widget, void *data)
@@ -1059,17 +1055,13 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	GtkAdjustment *spinner_adj;
 	GtkWidget *hbox_fore, *hbox_back, *hbox_sets, *hbox_opacity;
 	gint response;
-	guint16 backalpha;
 	struct terminal *term;
 	gint page;
 	int cs;
 	int i;
 	gchar combo_text[3];
-	//GdkColor temp_fore[NUM_COLORSETS];
-	//GdkColor temp_back[NUM_COLORSETS];
 	GdkRGBA temp_fore[NUM_COLORSETS];
 	GdkRGBA temp_back[NUM_COLORSETS];
-	gint temp_opacity[NUM_COLORSETS];
 	
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
@@ -1107,15 +1099,9 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	buttonfore=gtk_color_button_new_with_rgba(&sakura.forecolors[term->colorset]);
 	buttonback=gtk_color_button_new_with_rgba(&sakura.backcolors[term->colorset]);
 
-	backalpha = sakura_opacity_to_alpha(sakura.opacities[term->colorset]);
-	if (sakura.has_rgba) {
-		gtk_color_button_set_use_alpha(GTK_COLOR_BUTTON(buttonback), TRUE);
-		gtk_color_button_set_alpha(GTK_COLOR_BUTTON(buttonback), backalpha);
-	}
-
 	/* Opacity control */
 	hbox_opacity=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12); 
-	spinner_adj = gtk_adjustment_new ((sakura.opacities[term->colorset]), 0.0, 99.0, 1.0, 5.0, 0);
+	spinner_adj = gtk_adjustment_new ((sakura.backcolors[term->colorset].alpha)*100, 0.0, 99.0, 1.0, 5.0, 0);
 	opacity_spin = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
 	opacity_label = gtk_label_new(_("Opacity level (%):"));
 	gtk_box_pack_start(GTK_BOX(hbox_opacity), opacity_label, FALSE, FALSE, 12);
@@ -1144,7 +1130,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_object_set_data(G_OBJECT(color_dialog), "opacity_spin", opacity_spin);
 	g_object_set_data(G_OBJECT(color_dialog), "fore", temp_fore);
 	g_object_set_data(G_OBJECT(color_dialog), "back", temp_back);
-	g_object_set_data(G_OBJECT(color_dialog), "opacity", temp_opacity);
 
 	g_signal_connect(G_OBJECT(buttonfore), "color-set", 
 	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
@@ -1155,11 +1140,9 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_signal_connect(G_OBJECT(opacity_spin), "changed", 
 	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
 
-	for(i=0; i<NUM_COLORSETS; i++)
-	{
+	for(i=0; i<NUM_COLORSETS; i++) {
 		temp_fore[i] = sakura.forecolors[i];
 		temp_back[i] = sakura.backcolors[i];
-		temp_opacity[i] = sakura.opacities[i];
 	}
 
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
@@ -1174,22 +1157,16 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 			
 			sakura.forecolors[i]=temp_fore[i];
 			sakura.backcolors[i]=temp_back[i];
-			sakura.opacities[i]=temp_opacity[i];
 			
 			sprintf(name, "colorset%d_fore", i+1);
-			SAY("FORE %f %f %f %f", sakura.forecolors[i].alpha, sakura.forecolors[i].red, sakura.forecolors[i].green, sakura.forecolors[i].blue);
 			cfgtmp=gdk_rgba_to_string(&sakura.forecolors[i]);
 			sakura_set_config_string(name, cfgtmp);
 			g_free(cfgtmp);
 
 			sprintf(name, "colorset%d_back", i+1);
-			SAY("BACK %f %f %f %f", sakura.backcolors[i].alpha, sakura.backcolors[i].red, sakura.backcolors[i].green, sakura.backcolors[i].blue);
 			cfgtmp=gdk_rgba_to_string(&sakura.backcolors[i]);
 			sakura_set_config_string(name, cfgtmp);
 			g_free(cfgtmp);
-
-			sprintf(name, "colorset%d_opacity", i+1);
-			sakura_set_config_integer(name, sakura.opacities[i]);
 		}
 
 		/* Apply the new colorsets to all tabs
@@ -1917,14 +1894,6 @@ sakura_init()
 		get_config_color(name, "#c0c0c0", &sakura.forecolors[i]);
 		sprintf(name, "colorset%d_back", i+1);
 		get_config_color(name, "#000000", &sakura.backcolors[i]);
-
-		sprintf(name, "colorset%d_opacity", i+1);
-		if (!g_key_file_has_key(sakura.cfg, cfg_group, name, NULL)) {
-			sakura_set_config_integer(name, 99);
-		}
-		sakura.opacities[i] = g_key_file_get_integer(sakura.cfg, cfg_group, name, NULL);
-		//sakura.backcolors[i].alpha = g_key_file_get_integer(sakura.cfg, cfg_group, name, NULL);
-
 		sprintf(name, "colorset%d_key", i+1);
 		if (!g_key_file_has_key(sakura.cfg, cfg_group, name, NULL)) {
 			sakura_set_config_key(name, cs_keys[i]);
@@ -2883,8 +2852,7 @@ sakura_add_tab()
 							  &sakura.backcolors[term->colorset],
 							  sakura.palette, PALETTE_SIZE);
 	if (sakura.has_rgba) {
-		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), 
-		               sakura_opacity_to_alpha(sakura.opacities[term->colorset]));
+		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), (int)((sakura.backcolors[term->colorset].alpha)*65535));
 	}
 
 	if (sakura.background) {
