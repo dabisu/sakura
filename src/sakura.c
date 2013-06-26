@@ -228,6 +228,7 @@ static struct {
 	char *configfile;
 	char *background;
 	char *word_chars;			/* Set of characters for word boundaries */
+	gint last_colorset;
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
 	gint switch_tab_accelerator;
@@ -237,6 +238,7 @@ static struct {
 	gint open_url_accelerator;
 	gint font_size_accelerator;
 	gint set_tab_name_accelerator;
+	gint set_colorset_accelerator;
 	gint add_tab_key;
 	gint del_tab_key;
 	gint prev_tab_key;
@@ -246,7 +248,6 @@ static struct {
 	gint scrollbar_key;
 	gint set_tab_name_key;
 	gint fullscreen_key;
-	gint set_colorset_accelerator;
 	gint set_colorset_keys[NUM_COLORSETS];
 	GRegex *http_regexp;
 	char *argv[3];
@@ -1022,8 +1023,7 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 	 * value, store that. */
 	if( (GtkWidget*)set == widget ) {
 		/* Spin opacity is a percentage, convert it*/
-		gint new_opacity=(int)(temp_back_colors[selected].alpha/65535);
-
+		gint new_opacity=(int)(temp_back_colors[selected].alpha*100);
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(fore_button), &temp_fore_colors[selected]);
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(back_button), &temp_back_colors[selected]);
 		gtk_spin_button_set_value(opacity_spin, new_opacity);	
@@ -1150,8 +1150,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 	if (response==GTK_RESPONSE_ACCEPT) {
 		/* Save all colorsets to both the global struct and configuration.*/
-		for( i=0; i<NUM_COLORSETS; i++)
-		{
+		for( i=0; i<NUM_COLORSETS; i++) {
 			char name[20]; 
 			gchar *cfgtmp;
 			
@@ -1174,6 +1173,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		 * This is probably what the new user expects, and the experienced user
 		 * hopefully will not mind. */
 		term->colorset = gtk_combo_box_get_active(GTK_COMBO_BOX(set_combo));
+		sakura_set_config_integer("last_colorset", term->colorset+1);
 		sakura_set_colors();
 	}
 
@@ -1820,19 +1820,8 @@ sakura_conf_changed (GtkWidget *widget, void *data)
 	sakura.externally_modified=true;
 }
 
-/******* Functions ********/
 
-static void
-get_config_color(char *config_name, char *default_color, GdkRGBA *get_to )
-{
-	gchar *cfgtmp = NULL;
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, config_name, NULL)) {
-		sakura_set_config_string(config_name, default_color);
-	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, config_name, NULL);
-	gdk_rgba_parse(get_to, cfgtmp);
-	g_free(cfgtmp);
-}
+/******* Functions ********/
 
 
 static void
@@ -1889,17 +1878,35 @@ sakura_init()
 	 */
 
 	for( i=0; i<NUM_COLORSETS; i++) {
-		char name[20]; 
-		sprintf(name, "colorset%d_fore", i+1);
-		get_config_color(name, "#c0c0c0", &sakura.forecolors[i]);
-		sprintf(name, "colorset%d_back", i+1);
-		get_config_color(name, "#000000", &sakura.backcolors[i]);
-		sprintf(name, "colorset%d_key", i+1);
-		if (!g_key_file_has_key(sakura.cfg, cfg_group, name, NULL)) {
-			sakura_set_config_key(name, cs_keys[i]);
+		char temp_name[20]; 
+
+		sprintf(temp_name, "colorset%d_fore", i+1);
+		if (!g_key_file_has_key(sakura.cfg, cfg_group, temp_name, NULL)) {
+			sakura_set_config_string(temp_name, "rgb(192,192,192)");
 		}
-		sakura.set_colorset_keys[i]= sakura_get_config_key(name);
+		cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, temp_name, NULL);
+		gdk_rgba_parse(&sakura.forecolors[i], cfgtmp);
+		g_free(cfgtmp);
+
+		sprintf(temp_name, "colorset%d_back", i+1);
+		if (!g_key_file_has_key(sakura.cfg, cfg_group, temp_name, NULL)) {
+			sakura_set_config_string(temp_name, "rgba(0,0,0,1)");
+		}
+		cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, temp_name, NULL);
+		gdk_rgba_parse(&sakura.backcolors[i], cfgtmp);
+		g_free(cfgtmp);
+
+		sprintf(temp_name, "colorset%d_key", i+1);
+		if (!g_key_file_has_key(sakura.cfg, cfg_group, temp_name, NULL)) {
+			sakura_set_config_key(temp_name, cs_keys[i]);
+		}
+		sakura.set_colorset_keys[i]= sakura_get_config_key(temp_name);
 	}
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "last_colorset", NULL)) {
+		sakura_set_config_integer("last_colorset", 1);
+	}
+	sakura.last_colorset = g_key_file_get_integer(sakura.cfg, cfg_group, "last_colorset", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "background", NULL)) {
 		sakura_set_config_string("background", "none");
@@ -2636,7 +2643,7 @@ sakura_add_tab()
 	term->label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term->label=gtk_label_new(term->label_text);
 	term->label_set_byuser=false;
-	term->colorset=0;
+	term->colorset=sakura.last_colorset-1;
 	tab_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start(GTK_BOX(tab_hbox), term->label, FALSE, FALSE, 0);
 
