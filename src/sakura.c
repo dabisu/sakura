@@ -98,6 +98,23 @@ const GdkRGBA linux_palette[PALETTE_SIZE] = {
 };
 
 const GdkRGBA solarized_dark_palette[PALETTE_SIZE] = {
+	{0.027451, 0.211765, 0.258824, 1},
+	{0.862745, 0.196078, 0.184314, 1},
+	{0.521569, 0.600000, 0.000000, 1},
+	{0.709804, 0.537255, 0.000000, 1},
+	{0.149020, 0.545098, 0.823529, 1},
+	{0.827451, 0.211765, 0.509804, 1},
+	{0.164706, 0.631373, 0.596078, 1},
+	{0.933333, 0.909804, 0.835294, 1},
+	{0.000000, 0.168627, 0.211765, 1},
+	{0.796078, 0.294118, 0.086275, 1},
+	{0.345098, 0.431373, 0.458824, 1},
+	{0.396078, 0.482353, 0.513725, 1},
+	{0.513725, 0.580392, 0.588235, 1},
+	{0.423529, 0.443137, 0.768627, 1},
+	{0.576471, 0.631373, 0.631373, 1},
+	{0.992157, 0.964706, 0.890196, 1}
+#if 0
     { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02 black (used as background color)
     { 0, 0xdcdc, 0x3232, 0x2f2f }, // 1  red
     { 0, 0x8585, 0x9999, 0x0000 }, // 2  green
@@ -114,9 +131,27 @@ const GdkRGBA solarized_dark_palette[PALETTE_SIZE] = {
     { 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 violet
     { 0, 0x9393, 0xa1a1, 0xa1a1 }, // 14 base1 cyan
     { 0, 0xfdfd, 0xf6f6, 0xe3e3 }  // 15 base3 white
+#endif
 };
 
 const GdkRGBA solarized_ligth_palette[PALETTE_SIZE] = {
+	{0.933333, 0.909804, 0.835294, 1},
+	{0.862745, 0.196078, 0.184314, 1},
+	{0.521569, 0.600000, 0.000000, 1},
+	{0.709804, 0.537255, 0.000000, 1},
+	{0.149020, 0.545098, 0.823529, 1},
+	{0.827451, 0.211765, 0.509804, 1},
+	{0.164706, 0.631373, 0.596078, 1},
+	{0.027451, 0.211765, 0.258824, 1},
+	{0.992157, 0.964706, 0.890196, 1},
+	{0.796078, 0.294118, 0.086275, 1},
+	{0.576471, 0.631373, 0.631373, 1},
+	{0.513725, 0.580392, 0.588235, 1},
+	{0.396078, 0.482353, 0.513725, 1},
+	{0.423529, 0.443137, 0.768627, 1},
+	{0.345098, 0.431373, 0.458824, 1},
+	{0.000000, 0.168627, 0.211765, 1}
+#if 0
 	{ 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 0 S_base2
 	{ 0, 0xdcdc, 0x3232, 0x2f2f }, // 1 S_red
 	{ 0, 0x8585, 0x9999, 0x0000 }, // 2 S_green
@@ -133,6 +168,7 @@ const GdkRGBA solarized_ligth_palette[PALETTE_SIZE] = {
 	{ 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 S_violet
 	{ 0, 0x5858, 0x6e6e, 0x7575 }, // 14 S_base01
 	{ 0, 0x0000, 0x2b2b, 0x3636 } // 15 S_base03
+#endif
 };
 
 
@@ -945,7 +981,7 @@ sakura_set_colors ()
 	int i;
 	int n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	struct terminal *term;
-	GdkRGBA white={0, 255, 255, 255};
+	GdkRGBA white={255, 255, 255, 1};
 
 	/* Re-apply in each notebook tab its terminals colors */
 	for (i = (n_pages - 1); i >= 0; i--) {
@@ -2839,7 +2875,7 @@ sakura_add_tab()
 	free(cwd);
 
 	/* Configuration for the newly created terminal */
-	GdkRGBA white={0, 255, 255, 255};
+	GdkRGBA white={255, 255, 255, 1};
 	vte_terminal_set_color_background_rgba(VTE_TERMINAL (term->vte), &white);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
 	vte_terminal_set_colors_rgba(VTE_TERMINAL(term->vte), 
