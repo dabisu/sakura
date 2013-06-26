@@ -387,7 +387,6 @@ static guint    sakura_get_config_key(const gchar *);
 static void     sakura_config_done();
 static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
-//static gdouble  sakura_opacity_to_alpha( gint );
 
 static const char *option_font;
 static const char *option_workdir;
@@ -1036,15 +1035,6 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 
 }
 
-#if 0
-/* This code is refactored verbatim (incl. comments!) from sakura_color_dialog. */
-static gdouble
-sakura_opacity_to_alpha( gint opacity )
-{
-	/* This rounding sucks...*/
-	return roundf((opacity*65535)/99);
-}
-#endif
 
 static void
 sakura_color_dialog (GtkWidget *widget, void *data)
@@ -1179,82 +1169,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 	gtk_widget_destroy(color_dialog);
 }
-
-#if 0
-static void
-sakura_opacity_dialog (GtkWidget *widget, void *data)
-{
-	GtkWidget *opacity_dialog, *spin_control, *spin_label;//, *check;
-	GtkAdjustment *spinner_adj;
-	GtkWidget *dialog_hbox, *dialog_vbox, *dialog_spin_hbox;
-	gint response;
-	guint16 backalpha;
-	gint page;
-	struct terminal *term;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
-
-	opacity_dialog=gtk_dialog_new_with_buttons(_("Opacity"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-                                             GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
-	gtk_dialog_set_default_response(GTK_DIALOG(opacity_dialog), GTK_RESPONSE_ACCEPT);
-	gtk_window_set_modal(GTK_WINDOW(opacity_dialog), TRUE);
-
-	/* Set style */
-	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
-	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
-	GtkStyleContext *context = gtk_widget_get_style_context (opacity_dialog);
-	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-	g_free(css);
-
-	spinner_adj = gtk_adjustment_new (sakura.opacities[term->colorset], 0.0, 99.0, 1.0, 5.0, 0);
-	spin_control = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
-
-	spin_label = gtk_label_new(_("Opacity level (%):"));
-	dialog_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	dialog_vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	dialog_spin_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(opacity_dialog))), dialog_hbox, FALSE, FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(dialog_hbox), dialog_vbox, FALSE, FALSE, 12);
-	gtk_box_pack_start(GTK_BOX(dialog_spin_hbox), spin_label, FALSE, FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(dialog_spin_hbox), spin_control, FALSE, FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(dialog_vbox), dialog_spin_hbox, TRUE, TRUE, 6);
-
-	gtk_widget_show_all(dialog_hbox);
-
-	response=gtk_dialog_run(GTK_DIALOG(opacity_dialog));
-
-	if (response==GTK_RESPONSE_ACCEPT) {
-		int i, n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-
-		sakura.opacities[term->colorset] = gtk_spin_button_get_value_as_int((GtkSpinButton *) spin_control);
-		
-		/* Map opacity level to alpha */
-		backalpha = (sakura.opacities[term->colorset]*65535)/100;
-
-		/* Set transparency for all tabs */
-		GdkColor white={0, 255, 255, 255};
-		for (i = (n_pages - 1); i >= 0; i--) {
-			term = sakura_get_page_term(sakura, i);
-			if (sakura.has_rgba) {
-				/* This is needed for set_opacity to have effect */
-				vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
-				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), backalpha);
-				/* Reset colors again because we had set a white background. TODO: Check if it's
-				   still needed with set_colors_rgba */
-				vte_terminal_set_colors(VTE_TERMINAL(term->vte), sakura.forecolor, sakura.backcolor,
-										sakura.palette, PALETTE_SIZE);
-			}
-		}
-
-		sakura_set_config_integer("opacity_level", sakura.opacity_level);
-	}
-
-	gtk_widget_destroy(opacity_dialog);
-}
-#endif
 
 
 static void
