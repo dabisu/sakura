@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 20:21+0200\n"
+"POT-Creation-Date: 2013-06-26 19:46+0200\n"
 "PO-Revision-Date: 2012-05-23 17:44+0000\n"
 "Last-Translator: Neliton Pereira Jr. <nelitonpjr@gmail.com>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -88,9 +88,6 @@ msgstr "Selecionar cor de segundo plano..."
 
 msgid "Opacity level (%):"
 msgstr "Nível de opacidade (%):"
-
-msgid "Opacity"
-msgstr "Opacidade"
 
 msgid "New window title"
 msgstr "Definir título da janela"
@@ -214,6 +211,9 @@ msgstr "Ativar cursor piscando"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "Opacidade"
 
 #~ msgid "Set opacity level..."
 #~ msgstr "Definir nível de opacidade..."

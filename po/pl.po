@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 20:21+0200\n"
+"POT-Creation-Date: 2013-06-26 19:46+0200\n"
 "PO-Revision-Date: 2011-11-11 19:21+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -95,9 +95,6 @@ msgstr "Wybierz kolor tła:"
 
 msgid "Opacity level (%):"
 msgstr "Przezroczystość (%):"
-
-msgid "Opacity"
-msgstr "Przezroczystość"
 
 msgid "New window title"
 msgstr "Nowy tytuł okna"
@@ -223,6 +220,9 @@ msgstr "Migający kursor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "wersja sakura to %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "Przezroczystość"
 
 #~ msgid "Set opacity level..."
 #~ msgstr "Ustaw przezroczystość..."

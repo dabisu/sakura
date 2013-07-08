@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 20:21+0200\n"
+"POT-Creation-Date: 2013-06-26 19:46+0200\n"
 "PO-Revision-Date: 2012-03-30 06:07+0000\n"
 "Last-Translator: Andriy Nezhivy <andriynezhivy@i.ua>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -88,9 +88,6 @@ msgstr "Цвет фона:"
 
 msgid "Opacity level (%):"
 msgstr "Уровень прозрачности (%):"
-
-msgid "Opacity"
-msgstr "Прозрачность"
 
 msgid "New window title"
 msgstr "Новый заголовок:"
@@ -214,6 +211,9 @@ msgstr "Мигающий курсор"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Версия Сакуры %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "Прозрачность"
 
 #~ msgid "Set opacity level..."
 #~ msgstr "Уровень прозрачности..."

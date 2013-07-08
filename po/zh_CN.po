@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 20:21+0200\n"
+"POT-Creation-Date: 2013-06-26 19:46+0200\n"
 "PO-Revision-Date: 2012-05-02 07:58+0000\n"
 "Last-Translator: Wylmer Wang <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -93,9 +93,6 @@ msgstr "选择背景色："
 
 msgid "Opacity level (%):"
 msgstr "透明度(%):"
-
-msgid "Opacity"
-msgstr "透明度"
 
 msgid "New window title"
 msgstr "新窗口标题"
@@ -219,6 +216,9 @@ msgstr "设置闪烁光标"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "透明度"
 
 #~ msgid "Set opacity level..."
 #~ msgstr "设置透明度..."

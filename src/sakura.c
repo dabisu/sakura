@@ -172,6 +172,26 @@ const GdkRGBA solarized_ligth_palette[PALETTE_SIZE] = {
 };
 
 
+const GdkRGBA xterm_palette[PALETTE_SIZE] = {
+    {0,        0,        0,        1},
+    {0.803922, 0,        0,        1},
+    {0,        0.803922, 0,        1},
+    {0.803922, 0.803922, 0,        1},
+    {0.117647, 0.564706, 1,        1},
+    {0.803922, 0,        0.803922, 1},
+    {0,        0.803922, 0.803922, 1},
+    {0.898039, 0.898039, 0.898039, 1},
+    {0.298039, 0.298039, 0.298039, 1},
+    {1,        0,        0,        1},
+    {0,        1,        0,        1},
+    {1,        1,        0,        1},
+    {0.27451,  0.509804, 0.705882, 1},
+    {1,        0,        1,        1},
+    {0,        1,        1,        1},
+    {1,        1,        1,        1}
+};
+
+
 #define CLOSE_BUTTON_CSS "* {\n"\
 				"-GtkButton-default-border : 0;\n"\
 				"-GtkButton-default-outside-border : 0;\n"\
@@ -1503,6 +1523,8 @@ sakura_set_palette(GtkWidget *widget, void *data)
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		if (strcmp(palette, "linux")==0) {
 			sakura.palette=linux_palette;
+		} else if (strcmp(palette, "xterm")==0) {
+			sakura.palette=xterm_palette;
 		} else if (strcmp(palette, "tango")==0) {
 			sakura.palette=tango_palette;
 		} else if (strcmp(palette, "solarized_dark")==0) {
@@ -1910,6 +1932,8 @@ sakura_init()
 	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
 	if (strcmp(cfgtmp, "linux")==0) {
 		sakura.palette=linux_palette;
+	} else if (strcmp(cfgtmp, "xterm")==0) {
+		sakura.palette=xterm_palette;
 	} else if (strcmp(cfgtmp, "tango")==0) {
 		sakura.palette=tango_palette;
 	} else if (strcmp(cfgtmp, "solarized_dark")==0) {
@@ -2111,7 +2135,8 @@ sakura_init_popup()
 	          *item_show_first_tab, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_other_options, 
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
-	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_solarized_dark, *item_palette_solarized_ligth,
+	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm,
+			  *item_palette_solarized_dark, *item_palette_solarized_ligth,
 	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions,
 			  *item_toggle_resize_grip;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
@@ -2170,8 +2195,9 @@ sakura_init_popup()
 	item_palette=gtk_menu_item_new_with_label(_("Set palette"));
 	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
 	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
-	item_palette_solarized_dark=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "solarized dark");
-	item_palette_solarized_ligth=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "solarized ligth");
+	item_palette_xterm=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Xterm");
+	item_palette_solarized_dark=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized dark");
+	item_palette_solarized_ligth=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized ligth");
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
 
 	/* Show defaults in menu items */
@@ -2241,6 +2267,8 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_linux), TRUE);
 	} else if (strcmp(cfgtmp, "tango")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_tango), TRUE);
+	} else if (strcmp(cfgtmp, "xterm")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_xterm), TRUE);
 	} else if (strcmp(cfgtmp, "solarized_dark")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_solarized_dark), TRUE);
 	} else {
@@ -2298,6 +2326,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_palette);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_tango);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_linux);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_xterm);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_dark);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_ligth);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_input_methods);
@@ -2334,6 +2363,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_cursor_ibeam), "activate", G_CALLBACK(sakura_set_cursor), "ibeam");
 	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
 	g_signal_connect(G_OBJECT(item_palette_linux), "activate", G_CALLBACK(sakura_set_palette), "linux");
+	g_signal_connect(G_OBJECT(item_palette_xterm), "activate", G_CALLBACK(sakura_set_palette), "xterm");
 	g_signal_connect(G_OBJECT(item_palette_solarized_dark), "activate", G_CALLBACK(sakura_set_palette), "solarized_dark");
 	g_signal_connect(G_OBJECT(item_palette_solarized_ligth), "activate", G_CALLBACK(sakura_set_palette), "solarized_ligth");
 

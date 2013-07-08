@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 20:21+0200\n"
+"POT-Creation-Date: 2013-06-26 19:46+0200\n"
 "PO-Revision-Date: 2011-11-11 19:21+0000\n"
 "Last-Translator: SZERVÑC Attila <Unknown>\n"
 "Language-Team: hu\n"
@@ -89,9 +89,6 @@ msgid "Select background color:"
 msgstr "Válassz háttér fájlt"
 
 msgid "Opacity level (%):"
-msgstr ""
-
-msgid "Opacity"
 msgstr ""
 
 msgid "New window title"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-21 02:02+0200\n"
+"POT-Creation-Date: 2013-06-26 19:46+0200\n"
 "PO-Revision-Date: 2013-06-20 17:43+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -105,9 +105,6 @@ msgstr "בחר צבע רקע:"
 
 msgid "Opacity level (%):"
 msgstr "רמת עמימות (%):"
-
-msgid "Opacity"
-msgstr "עמימות"
 
 msgid "New window title"
 msgstr "כותרת חלון חדשה"
@@ -235,6 +232,9 @@ msgstr "הגדרת סמן מהבהב"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "עמימות"
 
 #~ msgid "Set opacity level..."
 #~ msgstr "קבע רמת עמימות..."

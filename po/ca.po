@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 20:21+0200\n"
+"POT-Creation-Date: 2013-06-26 19:46+0200\n"
 "PO-Revision-Date: 2012-06-06 09:04+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -91,9 +91,6 @@ msgstr "Sel·leccionar color de fons"
 
 msgid "Opacity level (%):"
 msgstr "Nivell d'opacitat (%)"
-
-msgid "Opacity"
-msgstr "Opacitat"
 
 msgid "New window title"
 msgstr "Definiu el nom de la finestra"
@@ -218,6 +215,9 @@ msgstr "Definir el cursor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "Opacitat"
 
 #~ msgid "Set opacity level..."
 #~ msgstr "Fixar nivell d'opacitat..."
