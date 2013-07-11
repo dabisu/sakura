@@ -6,16 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-08 19:12+0200\n"
 "PO-Revision-Date: 2013-06-08 16:31+0000\n"
 "Last-Translator: Sérgio Marques <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-09 05:20+0000\n"
-"X-Generator: Launchpad (build 16667)\n"
+"X-Launchpad-Export-Date: 2013-07-11 05:13+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
+"Language: pt\n"
 
 msgid "Print version number"
 msgstr "Mostrar número da versão"
@@ -25,6 +26,9 @@ msgstr "Escolha o tipo de letra do terminal"
 
 msgid "Select initial number of tabs"
 msgstr "Escolha o número de separadores"
+
+msgid "Set working directory"
+msgstr ""
 
 msgid "Execute command"
 msgstr ""
@@ -77,14 +81,14 @@ msgstr "Novo texto"
 msgid "Select color"
 msgstr "Escolha a cor"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "Escolha a cor principal:"
 
 msgid "Select background color:"
 msgstr "Escolha a cor de fundo:"
-
-msgid "Opacity"
-msgstr "Opacidade"
 
 msgid "Opacity level (%):"
 msgstr "Nível de opacidade (%):"
@@ -139,9 +143,6 @@ msgstr "Escolha a cor de fundo..."
 
 msgid "Clear background"
 msgstr "Remover imagem de fundo"
-
-msgid "Set opacity level..."
-msgstr "Escolha o nível de opacidade..."
 
 msgid "Set window title..."
 msgstr "Definir título da janela..."
@@ -208,5 +209,15 @@ msgid "- vte-based terminal emulator"
 msgstr "- Emulador de terminal vte-based"
 
 #, c-format
+msgid "Cannot change working directory\n"
+msgstr ""
+
+#, c-format
 msgid "sakura version is %s\n"
 msgstr "a versão do sakura é a %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "Opacidade"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Escolha o nível de opacidade..."

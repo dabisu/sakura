@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"POT-Creation-Date: 2013-07-08 19:12+0200\n"
 "PO-Revision-Date: 2012-06-06 09:02+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-06-07 04:38+0000\n"
-"X-Generator: Launchpad (build 15353)\n"
+"X-Launchpad-Export-Date: 2013-07-11 05:13+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -25,6 +25,9 @@ msgstr "Postavi početni font terminala"
 
 msgid "Select initial number of tabs"
 msgstr "Postavi početni broj kartica"
+
+msgid "Set working directory"
+msgstr ""
 
 msgid "Execute command"
 msgstr "Izvrši naredbu"
@@ -77,14 +80,14 @@ msgstr "Novi tekst"
 msgid "Select color"
 msgstr "Postavite boju"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "Odaberite boju fonta:"
 
 msgid "Select background color:"
 msgstr "Odaberite boju pozadine:"
-
-msgid "Opacity"
-msgstr "Zasićenost"
 
 msgid "Opacity level (%):"
 msgstr "Nivo zasićenosti (%):"
@@ -139,9 +142,6 @@ msgstr "Postavi pozadinu..."
 
 msgid "Clear background"
 msgstr "Ukolni pozadinu"
-
-msgid "Set opacity level..."
-msgstr "Postavi nivo zasićenosti..."
 
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"
@@ -208,5 +208,15 @@ msgid "- vte-based terminal emulator"
 msgstr "- emulator terminala temeljen na vte-u"
 
 #, c-format
+msgid "Cannot change working directory\n"
+msgstr ""
+
+#, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "Zasićenost"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Postavi nivo zasićenosti..."

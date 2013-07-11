@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"POT-Creation-Date: 2013-07-08 19:12+0200\n"
 "PO-Revision-Date: 2012-07-17 04:12+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-07-18 05:12+0000\n"
-"X-Generator: Launchpad (build 15637)\n"
+"X-Launchpad-Export-Date: 2013-07-11 05:13+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 "Language: ko\n"
 
 msgid "Print version number"
@@ -26,6 +26,9 @@ msgstr "터미널 초기 글꼴 선택"
 
 msgid "Select initial number of tabs"
 msgstr "탭 초기 갯수 선택"
+
+msgid "Set working directory"
+msgstr ""
 
 msgid "Execute command"
 msgstr "명령 실행"
@@ -78,14 +81,14 @@ msgstr "새 텍스트"
 msgid "Select color"
 msgstr "색상 선택"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "전경색 선택:"
 
 msgid "Select background color:"
 msgstr "배경색 선택:"
-
-msgid "Opacity"
-msgstr "투명도"
 
 msgid "Opacity level (%):"
 msgstr "투명도 (%):"
@@ -140,9 +143,6 @@ msgstr "배경 선택..."
 
 msgid "Clear background"
 msgstr "배경 지우기"
-
-msgid "Set opacity level..."
-msgstr "투명도 설정..."
 
 msgid "Set window title..."
 msgstr "창 제목 성정..."
@@ -209,5 +209,15 @@ msgid "- vte-based terminal emulator"
 msgstr "- vte 기반의 터미널 에뮬레이터"
 
 #, c-format
+msgid "Cannot change working directory\n"
+msgstr ""
+
+#, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
+
+#~ msgid "Opacity"
+#~ msgstr "투명도"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "투명도 설정..."

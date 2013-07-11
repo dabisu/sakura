@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"POT-Creation-Date: 2013-07-08 19:12+0200\n"
 "PO-Revision-Date: 2011-11-19 23:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-18 04:35+0000\n"
-"X-Generator: Launchpad (build 14951)\n"
+"X-Launchpad-Export-Date: 2013-07-11 05:13+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -26,6 +26,9 @@ msgstr "Terminalschrift beim Programmstart auswählen"
 
 msgid "Select initial number of tabs"
 msgstr "Anzahl der Reiter beim Programmstart wählen"
+
+msgid "Set working directory"
+msgstr ""
 
 msgid "Execute command"
 msgstr "Befehl ausführen"
@@ -80,14 +83,14 @@ msgstr "Neuer Text"
 msgid "Select color"
 msgstr "Farbe wählen"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "Vordergrundfarbe wählen:"
 
 msgid "Select background color:"
 msgstr "Hintergrundfarbe wählen:"
-
-msgid "Opacity"
-msgstr "Transparenz"
 
 msgid "Opacity level (%):"
 msgstr "Transparenzgrad (%):"
@@ -142,9 +145,6 @@ msgstr "Hintergrund wählen..."
 
 msgid "Clear background"
 msgstr "Hintergrundbild entfernen"
-
-msgid "Set opacity level..."
-msgstr "Transparenzgrad wählen..."
 
 msgid "Set window title..."
 msgstr "Fenstertitel wählen..."
@@ -211,5 +211,15 @@ msgid "- vte-based terminal emulator"
 msgstr "- vte-basierter Terminal-Emulator"
 
 #, c-format
+msgid "Cannot change working directory\n"
+msgstr ""
+
+#, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "Transparenz"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Transparenzgrad wählen..."

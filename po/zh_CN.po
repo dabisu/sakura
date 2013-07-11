@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"POT-Creation-Date: 2013-07-08 19:12+0200\n"
 "PO-Revision-Date: 2012-05-02 07:58+0000\n"
 "Last-Translator: Wylmer Wang <Unknown>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-05-03 05:16+0000\n"
-"X-Generator: Launchpad (build 15185)\n"
+"X-Launchpad-Export-Date: 2013-07-11 05:13+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -26,6 +26,9 @@ msgstr "选择初始终端字体"
 
 msgid "Select initial number of tabs"
 msgstr "选择初始标签数"
+
+msgid "Set working directory"
+msgstr ""
 
 msgid "Execute command"
 msgstr "执行命令"
@@ -78,14 +81,14 @@ msgstr "新文本"
 msgid "Select color"
 msgstr "选择颜色"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "选择前景色："
 
 msgid "Select background color:"
 msgstr "选择背景色："
-
-msgid "Opacity"
-msgstr "透明度"
 
 msgid "Opacity level (%):"
 msgstr "透明度(%):"
@@ -140,9 +143,6 @@ msgstr "选择背景..."
 
 msgid "Clear background"
 msgstr "清除背景"
-
-msgid "Set opacity level..."
-msgstr "设置透明度..."
 
 msgid "Set window title..."
 msgstr "设置窗口标题..."
@@ -209,5 +209,15 @@ msgid "- vte-based terminal emulator"
 msgstr "- 基于 vte 的终端模拟器"
 
 #, c-format
+msgid "Cannot change working directory\n"
+msgstr ""
+
+#, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "透明度"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "设置透明度..."

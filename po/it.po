@@ -5,15 +5,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"POT-Creation-Date: 2013-07-08 19:12+0200\n"
 "PO-Revision-Date: 2012-03-08 16:36+0000\n"
 "Last-Translator: mattia.b89 <Unknown>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-18 04:35+0000\n"
-"X-Generator: Launchpad (build 14951)\n"
+"X-Launchpad-Export-Date: 2013-07-11 05:13+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 "X-Poedit-Country: ITALY\n"
 "Language: \n"
 "X-Poedit-Language: Italian\n"
@@ -27,6 +27,9 @@ msgstr "Seleziona il font iniziale"
 
 msgid "Select initial number of tabs"
 msgstr "Seleziona il numero di schede iniziali"
+
+msgid "Set working directory"
+msgstr ""
 
 msgid "Execute command"
 msgstr "Esegui il comando"
@@ -80,14 +83,14 @@ msgstr "Nuovo testo"
 msgid "Select color"
 msgstr "Seleziona il colore"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "Seleziona il colore del testo:"
 
 msgid "Select background color:"
 msgstr "Seleziona il colore dello sfondo:"
-
-msgid "Opacity"
-msgstr "Opacità"
 
 msgid "Opacity level (%):"
 msgstr "Livello di opacità (%):"
@@ -142,9 +145,6 @@ msgstr "Seleziona lo sfondo..."
 
 msgid "Clear background"
 msgstr "Ripristina lo sfondo"
-
-msgid "Set opacity level..."
-msgstr "Imposta il livello di opacità..."
 
 msgid "Set window title..."
 msgstr "Imposta il titolo della finestra..."
@@ -211,5 +211,15 @@ msgid "- vte-based terminal emulator"
 msgstr "- emulatore di terminale basato su VTE"
 
 #, c-format
+msgid "Cannot change working directory\n"
+msgstr ""
+
+#, c-format
 msgid "sakura version is %s\n"
 msgstr "La versione di Sakura è %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "Opacità"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Imposta il livello di opacità..."

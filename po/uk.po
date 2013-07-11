@@ -6,16 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-03-17 00:10+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-08 19:12+0200\n"
 "PO-Revision-Date: 2012-03-29 10:47+0000\n"
-"Last-Translator: Andriy Nezhivy <andriynezhivy@i.ua>\n"
+"Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-30 04:32+0000\n"
-"X-Generator: Launchpad (build 15032)\n"
+"X-Launchpad-Export-Date: 2013-07-11 05:13+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
+"Language: uk\n"
 
 msgid "Print version number"
 msgstr "Показати версію"
@@ -25,6 +26,9 @@ msgstr "Оберіть початкаовий шрифт терміналу"
 
 msgid "Select initial number of tabs"
 msgstr "Оберіть початкову кількість вкладок терміналу"
+
+msgid "Set working directory"
+msgstr ""
 
 msgid "Execute command"
 msgstr "Виконати команду"
@@ -76,14 +80,14 @@ msgstr "Новий текст"
 msgid "Select color"
 msgstr "Обрати колір"
 
+msgid "Colourset to edit"
+msgstr ""
+
 msgid "Select foreground color:"
 msgstr "Оберіть колір:"
 
 msgid "Select background color:"
 msgstr "Оберіть колір тла:"
-
-msgid "Opacity"
-msgstr "Прозорість"
 
 msgid "Opacity level (%):"
 msgstr "Рівень прозорості (%):"
@@ -138,9 +142,6 @@ msgstr "Обрати тло..."
 
 msgid "Clear background"
 msgstr "Очистити тло"
-
-msgid "Set opacity level..."
-msgstr "Обрати рівень прозорості..."
 
 msgid "Set window title..."
 msgstr "Встановити заголовок вікна..."
@@ -207,5 +208,15 @@ msgid "- vte-based terminal emulator"
 msgstr "Термінальний емулятор базований на vte"
 
 #, c-format
+msgid "Cannot change working directory\n"
+msgstr ""
+
+#, c-format
 msgid "sakura version is %s\n"
 msgstr "версія Sakura %s\n"
+
+#~ msgid "Opacity"
+#~ msgstr "Прозорість"
+
+#~ msgid "Set opacity level..."
+#~ msgstr "Обрати рівень прозорості..."
