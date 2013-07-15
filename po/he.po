@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-26 19:46+0200\n"
-"PO-Revision-Date: 2013-06-20 17:43+0000\n"
+"POT-Creation-Date: 2013-07-08 19:12+0200\n"
+"PO-Revision-Date: 2013-07-10 18:30+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-21 05:12+0000\n"
-"X-Generator: Launchpad (build 16677)\n"
+"X-Launchpad-Export-Date: 2013-07-11 05:13+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 "X-Poedit-Language: Hebrew\n"
 
 # CLI: Do not translate!
@@ -31,9 +31,8 @@ msgstr "Select initial terminal font"
 msgid "Select initial number of tabs"
 msgstr "Select initial number of tabs"
 
-#, fuzzy
 msgid "Set working directory"
-msgstr "הגדרת סמן מהבהב"
+msgstr "קביעת מדור עבודה"
 
 # CLI: Do not translate!
 msgid "Execute command"
@@ -86,7 +85,7 @@ msgid "Select font"
 msgstr "בחר גופן"
 
 msgid "Set tab name"
-msgstr "קבע שם לשונית"
+msgstr "קביעת שם כרטיסייה"
 
 msgid "New text"
 msgstr "תמליל חדש"
@@ -95,7 +94,7 @@ msgid "Select color"
 msgstr "בחר צבע"
 
 msgid "Colourset to edit"
-msgstr ""
+msgstr "חוג צבעים לעריכה"
 
 msgid "Select foreground color:"
 msgstr "בחר צבע תמליל:"
@@ -171,7 +170,7 @@ msgid "Always show tab bar"
 msgstr "הצג תמיד סרגל כרטיסיות"
 
 msgid "Tabs at bottom"
-msgstr "כרטיסיות תחתונות"
+msgstr "כרטיסיות בתחתית"
 
 msgid "Show close button on tabs"
 msgstr "הצג לחצן סגירה על כרטיסיות"
@@ -224,9 +223,9 @@ msgstr "הודעת שגיאה"
 msgid "- vte-based terminal emulator"
 msgstr "- vte-based terminal emulator"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot change working directory\n"
-msgstr "הגדרת סמן מהבהב"
+msgstr "אין אפשרות לשנות מדור עבודה\n"
 
 # CLI: Do not translate!
 #, c-format
