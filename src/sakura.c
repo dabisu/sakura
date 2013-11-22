@@ -2706,7 +2706,6 @@ sakura_add_tab()
 
 			if(option_execute) {
 				/* -x option */
-				SAY("ARG: %s", option_execute);
 				if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
 					switch (gerror->code) {
 						case G_SHELL_ERROR_EMPTY_STRING:
@@ -2721,13 +2720,11 @@ sakura_add_tab()
 							sakura_error("Error in exec option command line arguments");
 							exit(1);
 					}
-				} else {
-				}
+				} 
 			} else {
-				/* -e option - last in the command line */
-				gchar *command_joined;
-				/* the xterm -e command takes all extra arguments */
+				/* -e option - last in the command line, takes all extra arguments */
 				if (option_xterm_args) {
+					gchar *command_joined;
 					command_joined = g_strjoinv(" ", option_xterm_args);
 					if (!g_shell_parse_argv(command_joined, &command_argc, &command_argv, &gerror)) {
 						switch (gerror->code) {
@@ -2751,8 +2748,10 @@ sakura_add_tab()
 			if (command_argc > 0) {
 				path=g_find_program_in_path(command_argv[0]);
 				if (path) {
-					vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL, 
-							G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL);
+					if (!vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL, 
+							G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, &gerror)) {
+						SAY("error: %s", gerror->message);
+					}
 				} else {
 					sakura_error("%s command not found", command_argv[0]);
 					command_argc=0;
@@ -2764,7 +2763,7 @@ sakura_add_tab()
 		} // else { /* No execute option */
 		
 		/* Only fork if there is no execute option or if it has failed */	
-		if (!option_execute || (command_argc==0)) {	
+		if ( (!option_execute && !option_xterm_args) || (command_argc==0)) {	
 			if (option_hold==TRUE) {
 				sakura_error("Hold option given without any command");
 				option_hold=FALSE;
