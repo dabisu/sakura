@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 09:28+0100\n"
+"POT-Creation-Date: 2013-11-22 10:12+0100\n"
 "PO-Revision-Date: 2013-09-13 19:29+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -208,9 +208,6 @@ msgstr "IBeam"
 msgid "Set palette"
 msgstr "קבע לוח צבעים"
 
-msgid "Input methods"
-msgstr "שיטות קלט"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "מסוף %d"
@@ -231,3 +228,6 @@ msgstr "אין אפשרות לשנות מדור עבודה\n"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#~ msgid "Input methods"
+#~ msgstr "שיטות קלט"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 09:28+0100\n"
+"POT-Creation-Date: 2013-11-22 10:12+0100\n"
 "PO-Revision-Date: 2013-09-13 19:23+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -196,9 +196,6 @@ msgstr "竖线"
 msgid "Set palette"
 msgstr "设置调色板"
 
-msgid "Input methods"
-msgstr "输入法"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "终端 %d"
@@ -216,3 +213,6 @@ msgstr "设置闪烁光标"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+
+#~ msgid "Input methods"
+#~ msgstr "输入法"

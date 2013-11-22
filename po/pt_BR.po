@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 09:28+0100\n"
+"POT-Creation-Date: 2013-11-22 10:12+0100\n"
 "PO-Revision-Date: 2013-09-13 19:21+0000\n"
 "Last-Translator: Neliton Pereira Jr. <nelitonpjr@gmail.com>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -191,9 +191,6 @@ msgstr "IBeam"
 msgid "Set palette"
 msgstr "Definir paleta"
 
-msgid "Input methods"
-msgstr "Métodos de saída"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
@@ -211,3 +208,6 @@ msgstr "Ativar cursor piscando"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
+
+#~ msgid "Input methods"
+#~ msgstr "Métodos de saída"

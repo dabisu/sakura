@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 09:28+0100\n"
+"POT-Creation-Date: 2013-11-22 10:12+0100\n"
 "PO-Revision-Date: 2013-09-13 19:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -196,9 +196,6 @@ msgstr "IBeam"
 msgid "Set palette"
 msgstr "파레트 설정"
 
-msgid "Input methods"
-msgstr "입력기"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "터미널 %d"
@@ -216,3 +213,6 @@ msgstr "커서 깜빡임 설정"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
+
+#~ msgid "Input methods"
+#~ msgstr "입력기"

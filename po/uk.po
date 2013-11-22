@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 09:28+0100\n"
+"POT-Creation-Date: 2013-11-22 10:12+0100\n"
 "PO-Revision-Date: 2013-09-13 19:32+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -195,9 +195,6 @@ msgstr "IBeam"
 msgid "Set palette"
 msgstr "Оберіть палітру"
 
-msgid "Input methods"
-msgstr "Методи вводу"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "Термінал %d"
@@ -215,3 +212,6 @@ msgstr "Встановити мерехтіння курсора"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "версія Sakura %s\n"
+
+#~ msgid "Input methods"
+#~ msgstr "Методи вводу"

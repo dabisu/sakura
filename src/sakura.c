@@ -212,7 +212,6 @@ static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
 	GtkWidget *menu;
-	GtkWidget *im_menu;			/* Menu for input methods */
 	PangoFontDescription *font;
 	GdkRGBA forecolors[NUM_COLORSETS];
 	GdkRGBA backcolors[NUM_COLORSETS];
@@ -2131,7 +2130,7 @@ sakura_init_popup()
 	GtkWidget *item_new_tab, *item_set_name, *item_close_tab, *item_copy,
 	          *item_paste, *item_select_font, *item_select_colors,
 	          *item_select_background, *item_set_title, *item_full_screen,
-	          *item_toggle_scrollbar, *item_options, *item_input_methods,
+	          *item_toggle_scrollbar, *item_options,
 	          *item_show_first_tab, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_other_options, 
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
@@ -2198,7 +2197,6 @@ sakura_init_popup()
 	item_palette_xterm=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Xterm");
 	item_palette_solarized_dark=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized dark");
 	item_palette_solarized_light=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized light");
-	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
 
 	/* Show defaults in menu items */
 	gchar *cfgtmp = NULL;
@@ -2297,7 +2295,6 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_options);
 
-	sakura.im_menu=gtk_menu_new();
 	options_menu=gtk_menu_new();
 	other_options_menu=gtk_menu_new();
 	cursor_menu=gtk_menu_new();
@@ -2329,9 +2326,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_xterm);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_dark);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_light);
-	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_input_methods);
 
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_input_methods), sakura.im_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), options_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_other_options), other_options_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_cursor), cursor_menu);
@@ -2972,7 +2967,6 @@ sakura_error(const char *format, ...)
 int
 main(int argc, char **argv)
 {
-	struct terminal *term;
 	gchar *localedir;
 	GError *error=NULL;
 	GOptionContext *context;
@@ -3045,10 +3039,6 @@ main(int argc, char **argv)
 	/* Add first tab */
 	for (i=0; i<option_ntabs; i++)
 		sakura_add_tab();
-
-	/* Fill Input Methods menu */
-	term = sakura_get_page_term(sakura, 0);
-	vte_terminal_im_append_menuitems(VTE_TERMINAL(term->vte), GTK_MENU_SHELL(sakura.im_menu));
 
 	gtk_main();
 

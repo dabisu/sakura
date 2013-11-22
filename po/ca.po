@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 09:28+0100\n"
+"POT-Creation-Date: 2013-11-22 10:12+0100\n"
 "PO-Revision-Date: 2013-09-13 19:28+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -194,9 +194,6 @@ msgstr "IBeam"
 msgid "Set palette"
 msgstr "Definir paleta de colors"
 
-msgid "Input methods"
-msgstr "Mètodes d'entrada"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
@@ -215,3 +212,6 @@ msgstr "Definir el cursor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"
+
+#~ msgid "Input methods"
+#~ msgstr "Mètodes d'entrada"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 09:28+0100\n"
+"POT-Creation-Date: 2013-11-22 10:12+0100\n"
 "PO-Revision-Date: 2013-09-13 19:42+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -195,9 +195,6 @@ msgstr ""
 msgid "Set palette"
 msgstr "Set palette"
 
-msgid "Input methods"
-msgstr "Input methods"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
@@ -215,3 +212,6 @@ msgstr ""
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#~ msgid "Input methods"
+#~ msgstr "Input methods"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 09:28+0100\n"
+"POT-Creation-Date: 2013-11-22 10:12+0100\n"
 "PO-Revision-Date: 2013-09-13 19:34+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -195,9 +195,6 @@ msgstr "IBeam"
 msgid "Set palette"
 msgstr "Postavi paletu"
 
-msgid "Input methods"
-msgstr "Metode unosa"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
@@ -215,3 +212,6 @@ msgstr "Koristi treptajući pokazivač"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#~ msgid "Input methods"
+#~ msgstr "Metode unosa"

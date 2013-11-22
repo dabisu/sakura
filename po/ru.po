@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 09:28+0100\n"
+"POT-Creation-Date: 2013-11-22 10:12+0100\n"
 "PO-Revision-Date: 2013-09-13 19:24+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -191,9 +191,6 @@ msgstr "I-образный"
 msgid "Set palette"
 msgstr "Палитра"
 
-msgid "Input methods"
-msgstr "Методы ввода"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "Терминал %d"
@@ -211,3 +208,6 @@ msgstr "Мигающий курсор"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Версия Сакуры %s\n"
+
+#~ msgid "Input methods"
+#~ msgstr "Методы ввода"
