@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 16:42+0200\n"
+"POT-Creation-Date: 2013-11-22 10:38+0100\n"
 "PO-Revision-Date: 2013-09-13 19:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-14 04:48+0000\n"
-"X-Generator: Launchpad (build 16761)\n"
+"X-Launchpad-Export-Date: 2013-11-23 05:17+0000\n"
+"X-Generator: Launchpad (build 16831)\n"
 "Language: ko\n"
 
 msgid "Print version number"
@@ -194,9 +194,6 @@ msgstr "IBeam"
 
 msgid "Set palette"
 msgstr "파레트 설정"
-
-msgid "Input methods"
-msgstr "입력기"
 
 #, c-format
 msgid "Terminal %d"
