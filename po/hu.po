@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 10:12+0100\n"
+"POT-Creation-Date: 2013-11-23 09:17+0100\n"
 "PO-Revision-Date: 2011-11-11 19:21+0000\n"
 "Last-Translator: SZERVÑC Attila <Unknown>\n"
 "Language-Team: hu\n"
@@ -49,6 +49,12 @@ msgid "Set rows number"
 msgstr ""
 
 msgid "Hold window after execute command"
+msgstr ""
+
+msgid "Maximize window"
+msgstr ""
+
+msgid "Fullscreen mode"
 msgstr ""
 
 msgid "X geometry specification"

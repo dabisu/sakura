@@ -233,7 +233,7 @@ static struct {
 	bool audible_bell;
 	bool visible_bell;
 	bool blinking_cursor;
-	bool full_screen;
+	bool fullscreen;
 	bool keep_fc;				/* Global flag to indicate that we don't want changes in the files and columns values */
 	bool config_modified;		/* Configuration has been modified */
 	bool externally_modified;	/* Configuration file has been modified by another proccess */
@@ -368,7 +368,7 @@ static void     sakura_set_title_dialog (GtkWidget *, void *);
 static void     sakura_select_background_dialog (GtkWidget *, void *);
 static void     sakura_new_tab (GtkWidget *, void *);
 static void     sakura_close_tab (GtkWidget *, void *);
-static void     sakura_full_screen (GtkWidget *, void *);
+static void     sakura_fullscreen (GtkWidget *, void *);
 static void     sakura_open_url (GtkWidget *, void *);
 static void     sakura_clear (GtkWidget *, void *);
 static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
@@ -420,6 +420,8 @@ static int option_rows, option_columns;
 static gboolean option_hold=FALSE;
 static const char *option_geometry;
 static char *option_config_file;
+static gboolean option_fullscreen;
+static gboolean option_maximize;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
@@ -434,6 +436,8 @@ static GOptionEntry entries[] = {
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
 	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
 	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after execute command"), NULL },
+	{ "maximize", 'm', 0, G_OPTION_ARG_NONE, &option_maximize, N_("Maximize window"), NULL },
+	{ "fullscreen", 's', 0, G_OPTION_ARG_NONE, &option_fullscreen, N_("Fullscreen mode"), NULL },
 	{ "geometry", 0, 0, G_OPTION_ARG_STRING, &option_geometry, N_("X geometry specification"), NULL },
 	{ "config-file", 0, 0, G_OPTION_ARG_FILENAME, &option_config_file, N_("Use alternate configuration file"), NULL },
 	{ NULL }
@@ -560,7 +564,7 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* F11 (fullscreen) pressed */
 	if (event->keyval==sakura.fullscreen_key){
-		sakura_full_screen(NULL, NULL);
+		sakura_fullscreen(NULL, NULL);
 		return TRUE;
 	}
 
@@ -1690,14 +1694,14 @@ sakura_close_tab (GtkWidget *widget, void *data)
 
 
 static void
-sakura_full_screen (GtkWidget *widget, void *data)
+sakura_fullscreen (GtkWidget *widget, void *data)
 {
-	if (sakura.full_screen!=TRUE) {
-		sakura.full_screen=TRUE;
+	if (sakura.fullscreen!=TRUE) {
+		sakura.fullscreen=TRUE;
 		gtk_window_fullscreen(GTK_WINDOW(sakura.main_window));
 	} else {
 		gtk_window_unfullscreen(GTK_WINDOW(sakura.main_window));
-		sakura.full_screen=FALSE;
+		sakura.fullscreen=FALSE;
 	}
 }
 
@@ -2098,10 +2102,17 @@ sakura_init()
 
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
-	} 
+	}
+
+	/* These options are exclusive */
+	if (option_fullscreen) {
+		sakura_fullscreen(NULL, NULL);
+	} else if (option_maximize) {
+		gtk_window_maximize(GTK_WINDOW(sakura.main_window));
+	}
 
 	sakura.label_count=1;
-	sakura.full_screen=FALSE;
+	sakura.fullscreen=FALSE;
 	sakura.resized=FALSE;
 	sakura.keep_fc=false;
 	sakura.externally_modified=false;
@@ -2129,7 +2140,7 @@ sakura_init_popup()
 {
 	GtkWidget *item_new_tab, *item_set_name, *item_close_tab, *item_copy,
 	          *item_paste, *item_select_font, *item_select_colors,
-	          *item_select_background, *item_set_title, *item_full_screen,
+	          *item_select_background, *item_set_title, *item_fullscreen,
 	          *item_toggle_scrollbar, *item_options,
 	          *item_show_first_tab, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_other_options, 
@@ -2141,7 +2152,7 @@ sakura_init_popup()
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
 	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	          *action_select_background, *action_clear_background, *action_set_title,
-	          *action_full_screen;
+	          *action_fullscreen;
 	GtkWidget *options_menu, *other_options_menu, *cursor_menu, *palette_menu;
 
 	/* Define actions */
@@ -2150,7 +2161,7 @@ sakura_init_popup()
 	action_new_tab=gtk_action_new("new_tab", _("New tab"), NULL, GTK_STOCK_NEW);
 	action_set_name=gtk_action_new("set_name", _("Set tab name..."), NULL, NULL);
 	action_close_tab=gtk_action_new("close_tab", _("Close tab"), NULL, GTK_STOCK_CLOSE);
-	action_full_screen=gtk_action_new("full_screen", _("Full screen"), NULL, GTK_STOCK_FULLSCREEN);
+	action_fullscreen=gtk_action_new("fullscreen", _("Full screen"), NULL, GTK_STOCK_FULLSCREEN);
 	action_copy=gtk_action_new("copy", _("Copy"), NULL, GTK_STOCK_COPY);
 	action_paste=gtk_action_new("paste", _("Paste"), NULL, GTK_STOCK_PASTE);
 	action_select_font=gtk_action_new("select_font", _("Select font..."), NULL, GTK_STOCK_SELECT_FONT);
@@ -2165,7 +2176,7 @@ sakura_init_popup()
 	item_new_tab=gtk_action_create_menu_item(action_new_tab);
 	item_set_name=gtk_action_create_menu_item(action_set_name);
 	item_close_tab=gtk_action_create_menu_item(action_close_tab);
-	item_full_screen=gtk_action_create_menu_item(action_full_screen);
+	item_fullscreen=gtk_action_create_menu_item(action_fullscreen);
 	item_copy=gtk_action_create_menu_item(action_copy);
 	item_paste=gtk_action_create_menu_item(action_paste);
 	item_select_font=gtk_action_create_menu_item(action_select_font);
@@ -2287,7 +2298,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_set_name);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_close_tab);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
-	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_full_screen);
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_fullscreen);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_copy);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_paste);
@@ -2365,7 +2376,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(action_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);
 	g_signal_connect(G_OBJECT(action_copy_link), "activate", G_CALLBACK(sakura_copy_url), NULL);
 	g_signal_connect(G_OBJECT(action_clear_background), "activate", G_CALLBACK(sakura_clear), NULL);
-	g_signal_connect(G_OBJECT(action_full_screen), "activate", G_CALLBACK(sakura_full_screen), NULL);
+	g_signal_connect(G_OBJECT(action_fullscreen), "activate", G_CALLBACK(sakura_fullscreen), NULL);
 
 
 	gtk_widget_show_all(sakura.menu);

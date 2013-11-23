@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 10:12+0100\n"
+"POT-Creation-Date: 2013-11-23 09:17+0100\n"
 "PO-Revision-Date: 2013-09-13 19:44+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -51,6 +51,13 @@ msgstr "Zeilennummer wählen"
 
 msgid "Hold window after execute command"
 msgstr "Fenster nach Ausführen des Befehls nicht schließen"
+
+msgid "Maximize window"
+msgstr ""
+
+#, fuzzy
+msgid "Fullscreen mode"
+msgstr "Vollbild"
 
 msgid "X geometry specification"
 msgstr "X-Fenstergeometrie"

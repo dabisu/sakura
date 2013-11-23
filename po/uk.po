@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 10:12+0100\n"
+"POT-Creation-Date: 2013-11-23 09:17+0100\n"
 "PO-Revision-Date: 2013-09-13 19:32+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -51,6 +51,13 @@ msgstr "Встановити кількість рядків"
 
 msgid "Hold window after execute command"
 msgstr "Тримати вікно після виконання команди"
+
+msgid "Maximize window"
+msgstr ""
+
+#, fuzzy
+msgid "Fullscreen mode"
+msgstr "Повноекранний режим"
 
 msgid "X geometry specification"
 msgstr "X геометрія специфікації"

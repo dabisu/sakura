@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 10:12+0100\n"
+"POT-Creation-Date: 2013-11-23 09:17+0100\n"
 "PO-Revision-Date: 2013-09-13 19:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -51,6 +51,13 @@ msgstr "줄 번호 설정"
 
 msgid "Hold window after execute command"
 msgstr "명령  실행 후 창 고정"
+
+msgid "Maximize window"
+msgstr ""
+
+#, fuzzy
+msgid "Fullscreen mode"
+msgstr "전체 화면"
 
 msgid "X geometry specification"
 msgstr "프로그램의 위치"

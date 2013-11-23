@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 10:12+0100\n"
+"POT-Creation-Date: 2013-11-23 09:17+0100\n"
 "PO-Revision-Date: 2013-09-13 19:43+0000\n"
 "Last-Translator: Michael Scherer <misc@zarb.org>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -50,6 +50,13 @@ msgstr "Définir le nombre de lignes"
 
 msgid "Hold window after execute command"
 msgstr "Conserver la fenêtre après l'exécution d'une commande"
+
+msgid "Maximize window"
+msgstr ""
+
+#, fuzzy
+msgid "Fullscreen mode"
+msgstr "Plein écran"
 
 msgid "X geometry specification"
 msgstr "Spécification de géométrie X"

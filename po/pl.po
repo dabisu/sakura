@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 10:12+0100\n"
+"POT-Creation-Date: 2013-11-23 09:17+0100\n"
 "PO-Revision-Date: 2013-09-13 19:19+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -51,6 +51,13 @@ msgstr "Ustaw liczbę wierszy"
 
 msgid "Hold window after execute command"
 msgstr "Nie wyłączaj okna po wykonaniu polecenia"
+
+msgid "Maximize window"
+msgstr ""
+
+#, fuzzy
+msgid "Fullscreen mode"
+msgstr "Pełny ekran"
 
 msgid "X geometry specification"
 msgstr "Ustawienia geometrii serwera X"

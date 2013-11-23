@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 10:12+0100\n"
+"POT-Creation-Date: 2013-11-23 09:17+0100\n"
 "PO-Revision-Date: 2013-09-13 19:34+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -50,6 +50,13 @@ msgstr "Postavi broj redaka"
 
 msgid "Hold window after execute command"
 msgstr "Zadrži prozor nakon izvršavanja naredbe"
+
+msgid "Maximize window"
+msgstr ""
+
+#, fuzzy
+msgid "Fullscreen mode"
+msgstr "Prikaz preko cijelog zaslona"
 
 msgid "X geometry specification"
 msgstr "Specifikacija X geometrije"
