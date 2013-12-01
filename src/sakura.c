@@ -941,8 +941,8 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	term = sakura_get_page_term(sakura, page);
 
 	input_dialog=gtk_dialog_new_with_buttons(_("Set tab name"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
+	                                         _("_Cancel"), GTK_RESPONSE_REJECT,
+	                                         _("_Apply"), GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
@@ -1081,8 +1081,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window),
 	                                                            GTK_DIALOG_MODAL,
-	                                                            GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-	                                                            GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
+	                                                            _("_Cancel"), GTK_RESPONSE_REJECT,
+	                                                            _("_Apply"), GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
@@ -1203,8 +1203,8 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	gint response;
 
 	title_dialog=gtk_dialog_new_with_buttons(_("Set window title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-	                                         GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT, NULL);
+	                                         _("_Cancel"), GTK_RESPONSE_REJECT,
+	                                         _("_Apply"), GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(title_dialog), TRUE);
@@ -1249,8 +1249,8 @@ sakura_select_background_dialog (GtkWidget *widget, void *data)
 
 	dialog = gtk_file_chooser_dialog_new (_("Select a background file"), GTK_WINDOW(sakura.main_window),
 	                                                                     GTK_FILE_CHOOSER_ACTION_OPEN,
-	                                                                     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	                                                                     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	                                                                     _("_Cancel"), GTK_RESPONSE_CANCEL,
+	                                                                     _("_Open"), GTK_RESPONSE_ACCEPT,
 	                                                                     NULL);
 
 
@@ -2158,14 +2158,14 @@ sakura_init_popup()
 	/* Define actions */
 	action_open_link=gtk_action_new("open_link", _("Open link..."), NULL, NULL);
 	action_copy_link=gtk_action_new("copy_link", _("Copy link..."), NULL, NULL);
-	action_new_tab=gtk_action_new("new_tab", _("New tab"), NULL, GTK_STOCK_NEW);
+	action_new_tab=gtk_action_new("new_tab", _("New tab"), NULL, _("_New"));
 	action_set_name=gtk_action_new("set_name", _("Set tab name..."), NULL, NULL);
-	action_close_tab=gtk_action_new("close_tab", _("Close tab"), NULL, GTK_STOCK_CLOSE);
-	action_fullscreen=gtk_action_new("fullscreen", _("Full screen"), NULL, GTK_STOCK_FULLSCREEN);
-	action_copy=gtk_action_new("copy", _("Copy"), NULL, GTK_STOCK_COPY);
-	action_paste=gtk_action_new("paste", _("Paste"), NULL, GTK_STOCK_PASTE);
-	action_select_font=gtk_action_new("select_font", _("Select font..."), NULL, GTK_STOCK_SELECT_FONT);
-	action_select_colors=gtk_action_new("select_colors", _("Select colors..."), NULL, GTK_STOCK_SELECT_COLOR);
+	action_close_tab=gtk_action_new("close_tab", _("Close tab"), NULL, _("_Close"));
+	action_fullscreen=gtk_action_new("fullscreen", _("Full screen"), NULL, _("_Fullscreen"));
+	action_copy=gtk_action_new("copy", _("Copy"), NULL, _("_Copy"));
+	action_paste=gtk_action_new("paste", _("Paste"), NULL, _("_Paste"));
+	action_select_font=gtk_action_new("select_font", _("Select font..."), NULL, _("_Font"));
+	action_select_colors=gtk_action_new("select_colors", _("Select colors..."), NULL, _("_Color"));
 	action_select_background=gtk_action_new("select_background", _("Select background..."), NULL, NULL);
 	action_clear_background=gtk_action_new("clear_background", _("Clear background"), NULL, NULL);
 	action_set_title=gtk_action_new("set_title", _("Set window title..."), NULL, NULL);
@@ -2589,7 +2589,7 @@ sakura_add_tab()
 	term->hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	term->vte=vte_terminal_new();
 
-	/* Create label (and optional close button) for tabs */
+	/* Create label for tabs */
 	term->label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term->label=gtk_label_new(term->label_text);
 	term->label_set_byuser=false;
@@ -2597,24 +2597,15 @@ sakura_add_tab()
 	tab_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start(GTK_BOX(tab_hbox), term->label, FALSE, FALSE, 0);
 
+	/* If the tab close button is enabled, create and add it to the tab */
 	if (sakura.show_closebutton) {
 		close_button=gtk_button_new();
 		gtk_widget_set_name(close_button, "closebutton");
 		gtk_button_set_relief(GTK_BUTTON(close_button), GTK_RELIEF_NONE);
-		GtkWidget *image=gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-		/* Default stock buttons have a significant border. We want small buttons for our tabs, so we
-		   need to set our own style */
-		gchar *css = g_strdup_printf (CLOSE_BUTTON_CSS);
 
-		gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
-		GtkStyleContext *context = gtk_widget_get_style_context (close_button);
-	    gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-
+		GtkWidget *image=gtk_image_new_from_icon_name("window-close", GTK_ICON_SIZE_MENU);
 		gtk_container_add (GTK_CONTAINER (close_button), image);
 		gtk_box_pack_start(GTK_BOX(tab_hbox), close_button, FALSE, FALSE, 0);
-
-		g_free(css);
-		// FIXME: Destroy (unref) provider if we don't go global			
 	}
 
 	if (sakura.tabs_on_bottom) {

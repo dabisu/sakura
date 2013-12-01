@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2013-09-13 19:44+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -85,6 +85,12 @@ msgstr "Schrift auswählen"
 msgid "Set tab name"
 msgstr "Reiternamen setzen"
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr "Neuer Text"
 
@@ -109,6 +115,9 @@ msgstr "Fenstertitel wählen"
 msgid "Select a background file"
 msgstr "Datei für Hintergrundbild wählen"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -127,26 +136,51 @@ msgstr "Kopiere Link..."
 msgid "New tab"
 msgstr "Neuer Reiter"
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr "Reiternamen setzen..."
 
 msgid "Close tab"
 msgstr "Reiter schließen"
 
+#, fuzzy
+msgid "_Close"
+msgstr "Reiter schließen"
+
 msgid "Full screen"
+msgstr "Vollbild"
+
+#, fuzzy
+msgid "_Fullscreen"
 msgstr "Vollbild"
 
 msgid "Copy"
 msgstr "Kopieren"
 
+#, fuzzy
+msgid "_Copy"
+msgstr "Kopieren"
+
 msgid "Paste"
+msgstr "Einfügen"
+
+#, fuzzy
+msgid "_Paste"
 msgstr "Einfügen"
 
 msgid "Select font..."
 msgstr "Schrift wählen..."
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "Farben wählen..."
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "Hintergrund wählen..."

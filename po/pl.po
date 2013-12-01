@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2013-09-13 19:19+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -84,6 +84,12 @@ msgstr "Wybierz czcionkę"
 msgid "Set tab name"
 msgstr "Ustaw nazwę"
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 #, fuzzy
 msgid "New text"
 msgstr "Nowy tekst zakładki"
@@ -109,6 +115,9 @@ msgstr "Nowy tytuł okna"
 msgid "Select a background file"
 msgstr "Wybierz plik tła"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -127,6 +136,9 @@ msgstr "Kopiuj link..."
 msgid "New tab"
 msgstr "Nowa zakładka"
 
+msgid "_New"
+msgstr ""
+
 #, fuzzy
 msgid "Set tab name..."
 msgstr "Ustaw nazwę"
@@ -134,20 +146,42 @@ msgstr "Ustaw nazwę"
 msgid "Close tab"
 msgstr "Zamknij zakładkę"
 
+#, fuzzy
+msgid "_Close"
+msgstr "Zamknij zakładkę"
+
 msgid "Full screen"
+msgstr "Pełny ekran"
+
+#, fuzzy
+msgid "_Fullscreen"
 msgstr "Pełny ekran"
 
 msgid "Copy"
 msgstr "Kopiuj"
 
+#, fuzzy
+msgid "_Copy"
+msgstr "Kopiuj"
+
 msgid "Paste"
+msgstr "Wklej"
+
+#, fuzzy
+msgid "_Paste"
 msgstr "Wklej"
 
 msgid "Select font..."
 msgstr "Wybierz czcionkę..."
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "Wybierz kolory..."
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "Wybierz tło..."

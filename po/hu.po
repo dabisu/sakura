@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2011-11-11 19:21+0000\n"
 "Last-Translator: SZERVÑC Attila <Unknown>\n"
 "Language-Team: hu\n"
@@ -79,6 +79,12 @@ msgstr "Válassz betűt"
 msgid "Set tab name"
 msgstr "Név beállítása"
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr ""
 
@@ -103,6 +109,9 @@ msgstr ""
 msgid "Select a background file"
 msgstr "Válassz háttér fájlt"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -118,26 +127,48 @@ msgstr ""
 msgid "New tab"
 msgstr "Új lap"
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr ""
 
 msgid "Close tab"
 msgstr "Lap bezárása"
 
+#, fuzzy
+msgid "_Close"
+msgstr "Lap bezárása"
+
 msgid "Full screen"
+msgstr ""
+
+msgid "_Fullscreen"
 msgstr ""
 
 msgid "Copy"
 msgstr ""
 
+msgid "_Copy"
+msgstr ""
+
 msgid "Paste"
+msgstr ""
+
+msgid "_Paste"
 msgstr ""
 
 msgid "Select font..."
 msgstr "Válassz betűt..."
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "Válassz színeket..."
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "Háttér választása..."

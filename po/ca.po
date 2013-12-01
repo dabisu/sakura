@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2013-09-13 19:28+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -81,6 +81,12 @@ msgstr "Sel·leccioni font"
 msgid "Set tab name"
 msgstr ""
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr "Nou text"
 
@@ -105,6 +111,9 @@ msgstr "Definiu el nom de la finestra"
 msgid "Select a background file"
 msgstr "Sel·leccioneu l'imatge de fons"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -123,26 +132,51 @@ msgstr "Copiar enllaç..."
 msgid "New tab"
 msgstr "Nova pestanya"
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr ""
 
 msgid "Close tab"
 msgstr "Tancar pestanya"
 
+#, fuzzy
+msgid "_Close"
+msgstr "Tancar pestanya"
+
 msgid "Full screen"
+msgstr "Pantalla complèta"
+
+#, fuzzy
+msgid "_Fullscreen"
 msgstr "Pantalla complèta"
 
 msgid "Copy"
 msgstr "Copiar"
 
+#, fuzzy
+msgid "_Copy"
+msgstr "Copiar"
+
 msgid "Paste"
+msgstr "Enganxar"
+
+#, fuzzy
+msgid "_Paste"
 msgstr "Enganxar"
 
 msgid "Select font..."
 msgstr "Sel·leccionar font..."
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "Sel·leccionar colors..."
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "Sel·leccionar fons..."

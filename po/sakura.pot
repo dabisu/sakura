@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:21+0100\n"
+"POT-Creation-Date: 2013-12-01 22:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,6 +77,12 @@ msgstr ""
 msgid "Set tab name"
 msgstr ""
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr ""
 
@@ -101,6 +107,9 @@ msgstr ""
 msgid "Select a background file"
 msgstr ""
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -116,25 +125,46 @@ msgstr ""
 msgid "New tab"
 msgstr ""
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr ""
 
 msgid "Close tab"
 msgstr ""
 
+msgid "_Close"
+msgstr ""
+
 msgid "Full screen"
+msgstr ""
+
+msgid "_Fullscreen"
 msgstr ""
 
 msgid "Copy"
 msgstr ""
 
+msgid "_Copy"
+msgstr ""
+
 msgid "Paste"
+msgstr ""
+
+msgid "_Paste"
 msgstr ""
 
 msgid "Select font..."
 msgstr ""
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
+msgstr ""
+
+msgid "_Color"
 msgstr ""
 
 msgid "Select background..."

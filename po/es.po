@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2013-09-13 19:36+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -80,6 +80,12 @@ msgstr "Seleccionar fuente"
 msgid "Set tab name"
 msgstr "Definir nombre de pestaña"
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr "Texto nuevo"
 
@@ -104,6 +110,9 @@ msgstr "Nuevo título de la venta"
 msgid "Select a background file"
 msgstr "Seleccionar fichero de fondo"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -121,26 +130,51 @@ msgstr "Copiar enlace..."
 msgid "New tab"
 msgstr "Nueva pestaña"
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr "Definir nombre de pestaña..."
 
 msgid "Close tab"
 msgstr "Cerrar pestaña"
 
+#, fuzzy
+msgid "_Close"
+msgstr "Cerrar pestaña"
+
 msgid "Full screen"
+msgstr "Pantalla completa"
+
+#, fuzzy
+msgid "_Fullscreen"
 msgstr "Pantalla completa"
 
 msgid "Copy"
 msgstr "Copiar"
 
+#, fuzzy
+msgid "_Copy"
+msgstr "Copiar"
+
 msgid "Paste"
+msgstr "Pegar"
+
+#, fuzzy
+msgid "_Paste"
 msgstr "Pegar"
 
 msgid "Select font..."
 msgstr "Seleccionar fuente..."
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "Seleccionar colores..."
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "Seleccionar fondo..."

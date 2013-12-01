@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2013-09-13 19:23+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -83,6 +83,12 @@ msgstr "选择字体"
 msgid "Set tab name"
 msgstr "设置标签页名称"
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr "新文本"
 
@@ -107,6 +113,9 @@ msgstr "新窗口标题"
 msgid "Select a background file"
 msgstr "选择一个背景图片"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -125,26 +134,51 @@ msgstr "复制链接"
 msgid "New tab"
 msgstr "新建标签"
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr "设置标签页名称..."
 
 msgid "Close tab"
 msgstr "关闭标签"
 
+#, fuzzy
+msgid "_Close"
+msgstr "关闭标签"
+
 msgid "Full screen"
+msgstr "全屏"
+
+#, fuzzy
+msgid "_Fullscreen"
 msgstr "全屏"
 
 msgid "Copy"
 msgstr "复制"
 
+#, fuzzy
+msgid "_Copy"
+msgstr "复制"
+
 msgid "Paste"
+msgstr "粘贴"
+
+#, fuzzy
+msgid "_Paste"
 msgstr "粘贴"
 
 msgid "Select font..."
 msgstr "选择字体..."
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "选择颜色..."
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "选择背景..."

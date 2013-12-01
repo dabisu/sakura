@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2013-09-13 19:41+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -80,6 +80,12 @@ msgstr "フォントを選択"
 msgid "Set tab name"
 msgstr "タブ名前を指定"
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr "新規テキスト"
 
@@ -104,6 +110,9 @@ msgstr "ウィンドウタイトルを指定"
 msgid "Select a background file"
 msgstr "背景ファイルを選択"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -122,26 +131,51 @@ msgstr "リンクをコピー"
 msgid "New tab"
 msgstr "新規タブ"
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr "タブ名前を指定"
 
 msgid "Close tab"
 msgstr "タブを閉じる"
 
+#, fuzzy
+msgid "_Close"
+msgstr "タブを閉じる"
+
 msgid "Full screen"
+msgstr "フルスクリーン"
+
+#, fuzzy
+msgid "_Fullscreen"
 msgstr "フルスクリーン"
 
 msgid "Copy"
 msgstr "コピー"
 
+#, fuzzy
+msgid "_Copy"
+msgstr "コピー"
+
 msgid "Paste"
+msgstr "貼り付け"
+
+#, fuzzy
+msgid "_Paste"
 msgstr "貼り付け"
 
 msgid "Select font..."
 msgstr "フォントを選択"
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "配色を選択"
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "背景を選択"

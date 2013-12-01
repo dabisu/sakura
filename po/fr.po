@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2013-09-13 19:43+0000\n"
 "Last-Translator: Michael Scherer <misc@zarb.org>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -82,6 +82,12 @@ msgstr "Sélectionner la police"
 msgid "Set tab name"
 msgstr "Définir le titre de l'onglet"
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr "Nouveau texte"
 
@@ -106,6 +112,9 @@ msgstr "Définir le titre de la fenêtre"
 msgid "Select a background file"
 msgstr "Sélectionner une image de fond"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -124,26 +133,51 @@ msgstr "Copier le lien..."
 msgid "New tab"
 msgstr "Nouvel onglet"
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr "Définir le titre de l'onglet..."
 
 msgid "Close tab"
 msgstr "Fermer l'onglet"
 
+#, fuzzy
+msgid "_Close"
+msgstr "Fermer l'onglet"
+
 msgid "Full screen"
+msgstr "Plein écran"
+
+#, fuzzy
+msgid "_Fullscreen"
 msgstr "Plein écran"
 
 msgid "Copy"
 msgstr "Copier"
 
+#, fuzzy
+msgid "_Copy"
+msgstr "Copier"
+
 msgid "Paste"
+msgstr "Coller"
+
+#, fuzzy
+msgid "_Paste"
 msgstr "Coller"
 
 msgid "Select font..."
 msgstr "Sélectionner la police..."
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "Choix des couleurs..."
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "Définir l'arrière plan..."

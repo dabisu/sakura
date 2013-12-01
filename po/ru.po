@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2013-09-13 19:24+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -78,6 +78,12 @@ msgstr "Выбор шрифта"
 msgid "Set tab name"
 msgstr "Установить заголовок вкладки"
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr "Новоый заголовок:"
 
@@ -102,6 +108,9 @@ msgstr "Новый заголовок:"
 msgid "Select a background file"
 msgstr "Выбор файла с фоновым рисунком"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -120,26 +129,51 @@ msgstr "Копировать ссылку..."
 msgid "New tab"
 msgstr "Новая вкладка"
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr "Установить заголовок вкладки..."
 
 msgid "Close tab"
 msgstr "Закрыть вкладку"
 
+#, fuzzy
+msgid "_Close"
+msgstr "Закрыть вкладку"
+
 msgid "Full screen"
+msgstr "На полный экран"
+
+#, fuzzy
+msgid "_Fullscreen"
 msgstr "На полный экран"
 
 msgid "Copy"
 msgstr "Копировать"
 
+#, fuzzy
+msgid "_Copy"
+msgstr "Копировать"
+
 msgid "Paste"
+msgstr "Вставить"
+
+#, fuzzy
+msgid "_Paste"
 msgstr "Вставить"
 
 msgid "Select font..."
 msgstr "Шрифт..."
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "Цвета..."
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "Фоновый рисунок..."

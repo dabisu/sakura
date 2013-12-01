@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-23 09:17+0100\n"
+"POT-Creation-Date: 2013-12-01 21:04+0100\n"
 "PO-Revision-Date: 2013-09-13 19:21+0000\n"
 "Last-Translator: Neliton Pereira Jr. <nelitonpjr@gmail.com>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -78,6 +78,12 @@ msgstr "Selecionar fonte"
 msgid "Set tab name"
 msgstr "Definir nome da aba"
 
+msgid "_Cancel"
+msgstr ""
+
+msgid "_Apply"
+msgstr ""
+
 msgid "New text"
 msgstr "Novo texto"
 
@@ -102,6 +108,9 @@ msgstr "Definir título da janela"
 msgid "Select a background file"
 msgstr "Selecionar arquivo de segundo plano"
 
+msgid "_Open"
+msgstr ""
+
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -120,26 +129,51 @@ msgstr "Copiar link..."
 msgid "New tab"
 msgstr "Nova aba"
 
+msgid "_New"
+msgstr ""
+
 msgid "Set tab name..."
 msgstr "Definir nome da aba..."
 
 msgid "Close tab"
 msgstr "Fechar aba"
 
+#, fuzzy
+msgid "_Close"
+msgstr "Fechar aba"
+
 msgid "Full screen"
+msgstr "Tela cheia"
+
+#, fuzzy
+msgid "_Fullscreen"
 msgstr "Tela cheia"
 
 msgid "Copy"
 msgstr "Copiar"
 
+#, fuzzy
+msgid "_Copy"
+msgstr "Copiar"
+
 msgid "Paste"
+msgstr "Colar"
+
+#, fuzzy
+msgid "_Paste"
 msgstr "Colar"
 
 msgid "Select font..."
 msgstr "Selecionar fonte..."
 
+msgid "_Font"
+msgstr ""
+
 msgid "Select colors..."
 msgstr "Selecionar cores..."
+
+msgid "_Color"
+msgstr ""
 
 msgid "Select background..."
 msgstr "Selecionar plano de fundo..."
