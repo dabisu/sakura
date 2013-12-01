@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:22+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -136,51 +136,26 @@ msgstr "Copia il link..."
 msgid "New tab"
 msgstr "Nuova scheda"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr "Imposta il nome di la scheda"
 
 msgid "Close tab"
 msgstr "Chiudi la scheda"
 
-#, fuzzy
-msgid "_Close"
-msgstr "Chiudi la scheda"
-
 msgid "Full screen"
-msgstr "Schermo intero"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "Schermo intero"
 
 msgid "Copy"
 msgstr "Copia"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "Copia"
-
 msgid "Paste"
-msgstr "Incolla"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "Incolla"
 
 msgid "Select font..."
 msgstr "Seleziona il font..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "Seleziona i colori..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "Seleziona lo sfondo..."
@@ -256,6 +231,22 @@ msgstr "Imposta il cursore lampeggiante"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versione di Sakura è %s\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "Chiudi la scheda"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "Schermo intero"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "Copia"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "Incolla"
 
 #~ msgid "Input methods"
 #~ msgstr "Metodi di input"

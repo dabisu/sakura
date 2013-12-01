@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:33+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -134,51 +134,26 @@ msgstr "Copiar ligação..."
 msgid "New tab"
 msgstr "Novo separador"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr "Definir nome do separador"
 
 msgid "Close tab"
 msgstr "Fechar separador"
 
-#, fuzzy
-msgid "_Close"
-msgstr "Fechar separador"
-
 msgid "Full screen"
-msgstr "Ecrã completo"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "Ecrã completo"
 
 msgid "Copy"
 msgstr "Copiar"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "Copiar"
-
 msgid "Paste"
-msgstr "Colar"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "Colar"
 
 msgid "Select font..."
 msgstr "Escolha o tipo de letra..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "Escolha as cores..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "Escolha a cor de fundo..."
@@ -254,6 +229,22 @@ msgstr ""
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "a versão do sakura é a %s\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "Fechar separador"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "Ecrã completo"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "Copiar"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "Colar"
 
 #~ msgid "Input methods"
 #~ msgstr "Métodos de introdução"

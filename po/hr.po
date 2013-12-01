@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:34+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -133,51 +133,26 @@ msgstr "Kopiraj link..."
 msgid "New tab"
 msgstr "Nova kartica"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr "Postavite ime kartice..."
 
 msgid "Close tab"
 msgstr "Zatvori karticu"
 
-#, fuzzy
-msgid "_Close"
-msgstr "Zatvori karticu"
-
 msgid "Full screen"
-msgstr "Prikaz preko cijelog zaslona"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "Prikaz preko cijelog zaslona"
 
 msgid "Copy"
 msgstr "Kopiraj"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "Kopiraj"
-
 msgid "Paste"
-msgstr "Zalijepi"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "Zalijepi"
 
 msgid "Select font..."
 msgstr "Postavi font..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "Postavi boje..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "Postavi pozadinu..."
@@ -253,6 +228,22 @@ msgstr "Koristi treptajući pokazivač"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "Zatvori karticu"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "Prikaz preko cijelog zaslona"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "Kopiraj"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "Zalijepi"
 
 #~ msgid "Input methods"
 #~ msgstr "Metode unosa"

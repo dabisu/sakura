@@ -2156,16 +2156,17 @@ sakura_init_popup()
 	GtkWidget *options_menu, *other_options_menu, *cursor_menu, *palette_menu;
 
 	/* Define actions */
+	/* FIXME: Stock icons doesn't work */
 	action_open_link=gtk_action_new("open_link", _("Open link..."), NULL, NULL);
 	action_copy_link=gtk_action_new("copy_link", _("Copy link..."), NULL, NULL);
-	action_new_tab=gtk_action_new("new_tab", _("New tab"), NULL, _("_New"));
+	action_new_tab=gtk_action_new("new_tab", _("New tab"), NULL, NULL);
 	action_set_name=gtk_action_new("set_name", _("Set tab name..."), NULL, NULL);
-	action_close_tab=gtk_action_new("close_tab", _("Close tab"), NULL, _("_Close"));
-	action_fullscreen=gtk_action_new("fullscreen", _("Full screen"), NULL, _("_Fullscreen"));
-	action_copy=gtk_action_new("copy", _("Copy"), NULL, _("_Copy"));
-	action_paste=gtk_action_new("paste", _("Paste"), NULL, _("_Paste"));
-	action_select_font=gtk_action_new("select_font", _("Select font..."), NULL, _("_Font"));
-	action_select_colors=gtk_action_new("select_colors", _("Select colors..."), NULL, _("_Color"));
+	action_close_tab=gtk_action_new("close_tab", _("Close tab"), NULL, NULL);
+	action_fullscreen=gtk_action_new("fullscreen", _("Full screen"), NULL, NULL);
+	action_copy=gtk_action_new("copy", _("Copy"), NULL, NULL);
+	action_paste=gtk_action_new("paste", _("Paste"), NULL, NULL);
+	action_select_font=gtk_action_new("select_font", _("Select font..."), NULL, NULL);
+	action_select_colors=gtk_action_new("select_colors", _("Select colors..."), NULL, NULL);
 	action_select_background=gtk_action_new("select_background", _("Select background..."), NULL, NULL);
 	action_clear_background=gtk_action_new("clear_background", _("Clear background"), NULL, NULL);
 	action_set_title=gtk_action_new("set_title", _("Set window title..."), NULL, NULL);

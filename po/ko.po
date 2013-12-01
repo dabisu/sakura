@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -134,51 +134,26 @@ msgstr "링크 복사..."
 msgid "New tab"
 msgstr "새 탭"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr "탭 이름 설정..."
 
 msgid "Close tab"
 msgstr "탭 닫기"
 
-#, fuzzy
-msgid "_Close"
-msgstr "탭 닫기"
-
 msgid "Full screen"
-msgstr "전체 화면"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "전체 화면"
 
 msgid "Copy"
 msgstr "복사"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "복사"
-
 msgid "Paste"
-msgstr "붙여넣기"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "붙여넣기"
 
 msgid "Select font..."
 msgstr "글꼴 선택..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "색상 선택..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "배경 선택..."
@@ -254,6 +229,22 @@ msgstr "커서 깜빡임 설정"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "탭 닫기"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "전체 화면"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "복사"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "붙여넣기"
 
 #~ msgid "Input methods"
 #~ msgstr "입력기"

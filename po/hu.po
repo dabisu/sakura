@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2011-11-11 19:21+0000\n"
 "Last-Translator: SZERVÑC Attila <Unknown>\n"
 "Language-Team: hu\n"
@@ -127,48 +127,26 @@ msgstr ""
 msgid "New tab"
 msgstr "Új lap"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr ""
 
 msgid "Close tab"
 msgstr "Lap bezárása"
 
-#, fuzzy
-msgid "_Close"
-msgstr "Lap bezárása"
-
 msgid "Full screen"
-msgstr ""
-
-msgid "_Fullscreen"
 msgstr ""
 
 msgid "Copy"
 msgstr ""
 
-msgid "_Copy"
-msgstr ""
-
 msgid "Paste"
-msgstr ""
-
-msgid "_Paste"
 msgstr ""
 
 msgid "Select font..."
 msgstr "Válassz betűt..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "Válassz színeket..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "Háttér választása..."
@@ -244,6 +222,10 @@ msgstr ""
 #, c-format
 msgid "sakura version is %s\n"
 msgstr ""
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "Lap bezárása"
 
 #~ msgid "Input methods"
 #~ msgstr "Beviteli módok"

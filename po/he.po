@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:29+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -146,51 +146,26 @@ msgstr "העתק קישור..."
 msgid "New tab"
 msgstr "כרטיסייה חדשה"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr "קבע שם כרטיסייה..."
 
 msgid "Close tab"
 msgstr "סגור כרטיסייה"
 
-#, fuzzy
-msgid "_Close"
-msgstr "סגור כרטיסייה"
-
 msgid "Full screen"
-msgstr "מסך מלא"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "מסך מלא"
 
 msgid "Copy"
 msgstr "העתק"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "העתק"
-
 msgid "Paste"
-msgstr "הדבק"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "הדבק"
 
 msgid "Select font..."
 msgstr "בחר גופן..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "בחר צבעים..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "בחר רקע..."
@@ -269,6 +244,22 @@ msgstr "אין אפשרות לשנות מדור עבודה\n"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "סגור כרטיסייה"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "מסך מלא"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "העתק"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "הדבק"
 
 #~ msgid "Input methods"
 #~ msgstr "שיטות קלט"

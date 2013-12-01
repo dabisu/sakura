@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:28+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -132,51 +132,26 @@ msgstr "Copiar enllaç..."
 msgid "New tab"
 msgstr "Nova pestanya"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr ""
 
 msgid "Close tab"
 msgstr "Tancar pestanya"
 
-#, fuzzy
-msgid "_Close"
-msgstr "Tancar pestanya"
-
 msgid "Full screen"
-msgstr "Pantalla complèta"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "Pantalla complèta"
 
 msgid "Copy"
 msgstr "Copiar"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "Copiar"
-
 msgid "Paste"
-msgstr "Enganxar"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "Enganxar"
 
 msgid "Select font..."
 msgstr "Sel·leccionar font..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "Sel·leccionar colors..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "Sel·leccionar fons..."
@@ -253,6 +228,22 @@ msgstr "Definir el cursor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "Tancar pestanya"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "Pantalla complèta"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "Copiar"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "Enganxar"
 
 #~ msgid "Input methods"
 #~ msgstr "Mètodes d'entrada"

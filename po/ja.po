@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:41+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -131,51 +131,26 @@ msgstr "リンクをコピー"
 msgid "New tab"
 msgstr "新規タブ"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr "タブ名前を指定"
 
 msgid "Close tab"
 msgstr "タブを閉じる"
 
-#, fuzzy
-msgid "_Close"
-msgstr "タブを閉じる"
-
 msgid "Full screen"
-msgstr "フルスクリーン"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "フルスクリーン"
 
 msgid "Copy"
 msgstr "コピー"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "コピー"
-
 msgid "Paste"
-msgstr "貼り付け"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "貼り付け"
 
 msgid "Select font..."
 msgstr "フォントを選択"
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "配色を選択"
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "背景を選択"
@@ -251,6 +226,22 @@ msgstr "ブリキングのカーソルを表示"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "タブを閉じる"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "フルスクリーン"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "コピー"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "貼り付け"
 
 #~ msgid "Input methods"
 #~ msgstr "入力メソッド"

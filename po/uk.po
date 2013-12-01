@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:32+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -133,51 +133,26 @@ msgstr "Копіювати посилання..."
 msgid "New tab"
 msgstr "Нова вкладка"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr "Встановити нове ім'я вкладки..."
 
 msgid "Close tab"
 msgstr "Закрити вкладку"
 
-#, fuzzy
-msgid "_Close"
-msgstr "Закрити вкладку"
-
 msgid "Full screen"
-msgstr "Повноекранний режим"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "Повноекранний режим"
 
 msgid "Copy"
 msgstr "Копіювати"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "Копіювати"
-
 msgid "Paste"
-msgstr "Вставити"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "Вставити"
 
 msgid "Select font..."
 msgstr "Обрати шрифт..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "Обрати кольори..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "Обрати тло..."
@@ -253,6 +228,22 @@ msgstr "Встановити мерехтіння курсора"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "версія Sakura %s\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "Закрити вкладку"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "Повноекранний режим"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "Копіювати"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "Вставити"
 
 #~ msgid "Input methods"
 #~ msgstr "Методи вводу"

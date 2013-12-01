@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:24+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -129,51 +129,26 @@ msgstr "Копировать ссылку..."
 msgid "New tab"
 msgstr "Новая вкладка"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr "Установить заголовок вкладки..."
 
 msgid "Close tab"
 msgstr "Закрыть вкладку"
 
-#, fuzzy
-msgid "_Close"
-msgstr "Закрыть вкладку"
-
 msgid "Full screen"
-msgstr "На полный экран"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "На полный экран"
 
 msgid "Copy"
 msgstr "Копировать"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "Копировать"
-
 msgid "Paste"
-msgstr "Вставить"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "Вставить"
 
 msgid "Select font..."
 msgstr "Шрифт..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "Цвета..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "Фоновый рисунок..."
@@ -249,6 +224,22 @@ msgstr "Мигающий курсор"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Версия Сакуры %s\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "Закрыть вкладку"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "На полный экран"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "Копировать"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "Вставить"
 
 #~ msgid "Input methods"
 #~ msgstr "Методы ввода"

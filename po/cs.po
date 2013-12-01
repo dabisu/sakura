@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:44+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -136,9 +136,6 @@ msgstr "Kopírovat odkaz…"
 msgid "New tab"
 msgstr "Nová karta"
 
-msgid "_New"
-msgstr ""
-
 #, fuzzy
 msgid "Set tab name..."
 msgstr "Nastavit název"
@@ -146,42 +143,20 @@ msgstr "Nastavit název"
 msgid "Close tab"
 msgstr "Zavřít kartu"
 
-#, fuzzy
-msgid "_Close"
-msgstr "Zavřít kartu"
-
 msgid "Full screen"
-msgstr "Celá obrazovka"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "Celá obrazovka"
 
 msgid "Copy"
 msgstr "Kopírovat"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "Kopírovat"
-
 msgid "Paste"
-msgstr "Vložit"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "Vložit"
 
 msgid "Select font..."
 msgstr "Zvolte písmo…"
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "Zvolte barvy…"
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "Zvolte pozadí…"
@@ -258,6 +233,22 @@ msgstr "Nastavit blikající kurzor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "Zavřít kartu"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "Celá obrazovka"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "Kopírovat"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "Vložit"
 
 #~ msgid "Input methods"
 #~ msgstr "Vstupní metody"

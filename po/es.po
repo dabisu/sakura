@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 21:04+0100\n"
+"POT-Creation-Date: 2013-12-01 22:52+0100\n"
 "PO-Revision-Date: 2013-09-13 19:36+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -130,51 +130,26 @@ msgstr "Copiar enlace..."
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-msgid "_New"
-msgstr ""
-
 msgid "Set tab name..."
 msgstr "Definir nombre de pestaña..."
 
 msgid "Close tab"
 msgstr "Cerrar pestaña"
 
-#, fuzzy
-msgid "_Close"
-msgstr "Cerrar pestaña"
-
 msgid "Full screen"
-msgstr "Pantalla completa"
-
-#, fuzzy
-msgid "_Fullscreen"
 msgstr "Pantalla completa"
 
 msgid "Copy"
 msgstr "Copiar"
 
-#, fuzzy
-msgid "_Copy"
-msgstr "Copiar"
-
 msgid "Paste"
-msgstr "Pegar"
-
-#, fuzzy
-msgid "_Paste"
 msgstr "Pegar"
 
 msgid "Select font..."
 msgstr "Seleccionar fuente..."
 
-msgid "_Font"
-msgstr ""
-
 msgid "Select colors..."
 msgstr "Seleccionar colores..."
-
-msgid "_Color"
-msgstr ""
 
 msgid "Select background..."
 msgstr "Seleccionar fondo..."
@@ -251,6 +226,22 @@ msgstr "No se puede cambiar el directorio actual\n"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
+
+#, fuzzy
+#~ msgid "_Close"
+#~ msgstr "Cerrar pestaña"
+
+#, fuzzy
+#~ msgid "_Fullscreen"
+#~ msgstr "Pantalla completa"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "Copiar"
+
+#, fuzzy
+#~ msgid "_Paste"
+#~ msgstr "Pegar"
 
 #~ msgid "Input methods"
 #~ msgstr "Métodos de entrada"
