@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-02 11:01+0100\n"
-"PO-Revision-Date: 2013-09-13 19:44+0000\n"
+"PO-Revision-Date: 2013-12-02 03:06+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-14 04:47+0000\n"
-"X-Generator: Launchpad (build 16761)\n"
+"X-Launchpad-Export-Date: 2013-12-02 05:21+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 
 msgid "Print version number"
 msgstr "Vytiskne informaci o verzi"
@@ -237,22 +237,6 @@ msgstr "Nastavit blikající kurzor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
-
-#, fuzzy
-#~ msgid "_Close"
-#~ msgstr "Zavřít kartu"
-
-#, fuzzy
-#~ msgid "_Fullscreen"
-#~ msgstr "Celá obrazovka"
-
-#, fuzzy
-#~ msgid "_Copy"
-#~ msgstr "Kopírovat"
-
-#, fuzzy
-#~ msgid "_Paste"
-#~ msgstr "Vložit"
 
 #~ msgid "Input methods"
 #~ msgstr "Vstupní metody"

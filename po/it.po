@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-02 11:01+0100\n"
-"PO-Revision-Date: 2013-09-13 19:22+0000\n"
+"PO-Revision-Date: 2013-12-02 03:06+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-14 04:48+0000\n"
-"X-Generator: Launchpad (build 16761)\n"
+"X-Launchpad-Export-Date: 2013-12-02 05:21+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 "X-Poedit-Country: ITALY\n"
 "X-Poedit-Language: Italian\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -235,22 +235,6 @@ msgstr "Imposta il cursore lampeggiante"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versione di Sakura è %s\n"
-
-#, fuzzy
-#~ msgid "_Close"
-#~ msgstr "Chiudi la scheda"
-
-#, fuzzy
-#~ msgid "_Fullscreen"
-#~ msgstr "Schermo intero"
-
-#, fuzzy
-#~ msgid "_Copy"
-#~ msgstr "Copia"
-
-#, fuzzy
-#~ msgid "_Paste"
-#~ msgstr "Incolla"
 
 #~ msgid "Input methods"
 #~ msgstr "Metodi di input"
