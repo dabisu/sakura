@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 10:26+0100\n"
+"POT-Creation-Date: 2013-12-02 10:46+0100\n"
 "PO-Revision-Date: 2013-09-13 19:24+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -81,18 +81,15 @@ msgstr "Установить заголовок вкладки"
 msgid "_Cancel"
 msgstr ""
 
-msgid "_Apply"
-msgstr ""
+#, fuzzy
+msgid "_Select"
+msgstr "Выбор шрифта"
 
 msgid "New text"
 msgstr "Новоый заголовок:"
 
 msgid "Select color"
 msgstr "Выбор цвета"
-
-#, fuzzy
-msgid "_Select"
-msgstr "Выбор шрифта"
 
 msgid "Colourset to edit"
 msgstr ""

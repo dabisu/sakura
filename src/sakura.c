@@ -942,7 +942,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	input_dialog=gtk_dialog_new_with_buttons(_("Set tab name"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 	                                         _("_Cancel"), GTK_RESPONSE_REJECT,
-	                                         _("_Apply"), GTK_RESPONSE_ACCEPT, NULL);
+	                                         _("_Select"), GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
@@ -1204,7 +1204,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 
 	title_dialog=gtk_dialog_new_with_buttons(_("Set window title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 	                                         _("_Cancel"), GTK_RESPONSE_REJECT,
-	                                         _("_Apply"), GTK_RESPONSE_ACCEPT, NULL);
+	                                         _("_Select"), GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(title_dialog), TRUE);

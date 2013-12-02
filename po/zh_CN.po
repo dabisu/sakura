@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 10:26+0100\n"
+"POT-Creation-Date: 2013-12-02 10:46+0100\n"
 "PO-Revision-Date: 2013-09-13 19:23+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -86,18 +86,15 @@ msgstr "设置标签页名称"
 msgid "_Cancel"
 msgstr ""
 
-msgid "_Apply"
-msgstr ""
+#, fuzzy
+msgid "_Select"
+msgstr "选择字体"
 
 msgid "New text"
 msgstr "新文本"
 
 msgid "Select color"
 msgstr "选择颜色"
-
-#, fuzzy
-msgid "_Select"
-msgstr "选择字体"
 
 msgid "Colourset to edit"
 msgstr ""

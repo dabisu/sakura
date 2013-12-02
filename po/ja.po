@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 10:26+0100\n"
+"POT-Creation-Date: 2013-12-02 10:46+0100\n"
 "PO-Revision-Date: 2013-09-13 19:41+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -83,18 +83,15 @@ msgstr "タブ名前を指定"
 msgid "_Cancel"
 msgstr ""
 
-msgid "_Apply"
-msgstr ""
+#, fuzzy
+msgid "_Select"
+msgstr "フォントを選択"
 
 msgid "New text"
 msgstr "新規テキスト"
 
 msgid "Select color"
 msgstr "配色を選択"
-
-#, fuzzy
-msgid "_Select"
-msgstr "フォントを選択"
 
 msgid "Colourset to edit"
 msgstr ""

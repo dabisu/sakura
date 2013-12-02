@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 10:26+0100\n"
+"POT-Creation-Date: 2013-12-02 10:46+0100\n"
 "PO-Revision-Date: 2013-09-13 19:29+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -97,18 +97,15 @@ msgstr "קביעת שם כרטיסייה"
 msgid "_Cancel"
 msgstr ""
 
-msgid "_Apply"
-msgstr ""
+#, fuzzy
+msgid "_Select"
+msgstr "בחר גופן"
 
 msgid "New text"
 msgstr "תמליל חדש"
 
 msgid "Select color"
 msgstr "בחר צבע"
-
-#, fuzzy
-msgid "_Select"
-msgstr "בחר גופן"
 
 msgid "Colourset to edit"
 msgstr "חוג צבעים לעריכה"
