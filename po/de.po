@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 22:52+0100\n"
+"POT-Creation-Date: 2013-12-02 10:26+0100\n"
 "PO-Revision-Date: 2013-09-13 19:44+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -96,6 +96,10 @@ msgstr "Neuer Text"
 
 msgid "Select color"
 msgstr "Farbe wählen"
+
+#, fuzzy
+msgid "_Select"
+msgstr "Schrift auswählen"
 
 msgid "Colourset to edit"
 msgstr ""

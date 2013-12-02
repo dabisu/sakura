@@ -1082,7 +1082,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window),
 	                                                            GTK_DIALOG_MODAL,
 	                                                            _("_Cancel"), GTK_RESPONSE_REJECT,
-	                                                            _("_Apply"), GTK_RESPONSE_ACCEPT, NULL);
+	                                                            _("_Select"), GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
 	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
