@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 10:46+0100\n"
+"POT-Creation-Date: 2013-12-02 11:01+0100\n"
 "PO-Revision-Date: 2013-09-13 19:36+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -83,15 +83,18 @@ msgstr "Definir nombre de pestaña"
 msgid "_Cancel"
 msgstr ""
 
-#, fuzzy
-msgid "_Select"
-msgstr "Seleccionar fuente"
+msgid "_Apply"
+msgstr ""
 
 msgid "New text"
 msgstr "Texto nuevo"
 
 msgid "Select color"
 msgstr "Seleccionar color"
+
+#, fuzzy
+msgid "_Select"
+msgstr "Seleccionar fuente"
 
 msgid "Colourset to edit"
 msgstr "Conjunto de colores a editar"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 10:46+0100\n"
+"POT-Creation-Date: 2013-12-02 11:01+0100\n"
 "PO-Revision-Date: 2013-09-13 19:43+0000\n"
 "Last-Translator: Michael Scherer <misc@zarb.org>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -85,15 +85,18 @@ msgstr "Définir le titre de l'onglet"
 msgid "_Cancel"
 msgstr ""
 
-#, fuzzy
-msgid "_Select"
-msgstr "Sélectionner la police"
+msgid "_Apply"
+msgstr ""
 
 msgid "New text"
 msgstr "Nouveau texte"
 
 msgid "Select color"
 msgstr "Sélectionner une couleur"
+
+#, fuzzy
+msgid "_Select"
+msgstr "Sélectionner la police"
 
 msgid "Colourset to edit"
 msgstr ""

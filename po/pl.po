@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 10:46+0100\n"
+"POT-Creation-Date: 2013-12-02 11:01+0100\n"
 "PO-Revision-Date: 2013-09-13 19:19+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -87,9 +87,8 @@ msgstr "Ustaw nazwę"
 msgid "_Cancel"
 msgstr ""
 
-#, fuzzy
-msgid "_Select"
-msgstr "Wybierz czcionkę"
+msgid "_Apply"
+msgstr ""
 
 #, fuzzy
 msgid "New text"
@@ -97,6 +96,10 @@ msgstr "Nowy tekst zakładki"
 
 msgid "Select color"
 msgstr "Wybierz kolor"
+
+#, fuzzy
+msgid "_Select"
+msgstr "Wybierz czcionkę"
 
 msgid "Colourset to edit"
 msgstr ""

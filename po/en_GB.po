@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 10:46+0100\n"
+"POT-Creation-Date: 2013-12-02 11:01+0100\n"
 "PO-Revision-Date: 2013-09-13 19:42+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -85,15 +85,18 @@ msgstr "Set tab name"
 msgid "_Cancel"
 msgstr ""
 
-#, fuzzy
-msgid "_Select"
-msgstr "Select font"
+msgid "_Apply"
+msgstr ""
 
 msgid "New text"
 msgstr "New text"
 
 msgid "Select color"
 msgstr "Select colour"
+
+#, fuzzy
+msgid "_Select"
+msgstr "Select font"
 
 msgid "Colourset to edit"
 msgstr ""

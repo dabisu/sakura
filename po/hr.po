@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 10:46+0100\n"
+"POT-Creation-Date: 2013-12-02 11:01+0100\n"
 "PO-Revision-Date: 2013-09-13 19:34+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -85,15 +85,18 @@ msgstr "Postavite ime kartice"
 msgid "_Cancel"
 msgstr ""
 
-#, fuzzy
-msgid "_Select"
-msgstr "Postavite font"
+msgid "_Apply"
+msgstr ""
 
 msgid "New text"
 msgstr "Novi tekst"
 
 msgid "Select color"
 msgstr "Postavite boju"
+
+#, fuzzy
+msgid "_Select"
+msgstr "Postavite font"
 
 msgid "Colourset to edit"
 msgstr ""
