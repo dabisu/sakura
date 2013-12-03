@@ -2149,14 +2149,15 @@ sakura_init_popup()
 			  *item_palette_solarized_dark, *item_palette_solarized_light,
 	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions,
 			  *item_toggle_resize_grip;
-	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
-	          *action_copy, *action_paste, *action_select_font, *action_select_colors,
-	          *action_select_background, *action_clear_background, *action_set_title,
-	          *action_fullscreen;
+	//GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
+	//          *action_copy, *action_paste, *action_select_font, *action_select_colors,
+	//          *action_select_background, *action_clear_background, *action_set_title,
+	//          *action_fullscreen;
 	GtkWidget *options_menu, *other_options_menu, *cursor_menu, *palette_menu;
 
+#if 0
 	/* Define actions */
-	/* FIXME: Stock icons doesn't work */
+	/* TODO: Should we add icons with g_menu_item_set_icon? */
 	action_open_link=gtk_action_new("open_link", _("Open link..."), NULL, NULL);
 	action_copy_link=gtk_action_new("copy_link", _("Copy link..."), NULL, NULL);
 	action_new_tab=gtk_action_new("new_tab", _("New tab"), NULL, NULL);
@@ -2185,10 +2186,25 @@ sakura_init_popup()
 	item_select_background=gtk_action_create_menu_item(action_select_background);
 	sakura.item_clear_background=gtk_action_create_menu_item(action_clear_background);
 	item_set_title=gtk_action_create_menu_item(action_set_title);
+#endif
+
+	/*FIXME: Use new menu declaration style: gtk_menu_new_from_model */
+	sakura.item_open_link=gtk_menu_item_new_with_label(_("Open link..."));
+	sakura.item_copy_link=gtk_menu_item_new_with_label(_("Copy link..."));
+	item_new_tab=gtk_menu_item_new_with_label(_("New tab"));
+	item_set_name=gtk_menu_item_new_with_label(_("Set tab name..."));
+	item_close_tab=gtk_menu_item_new_with_label(_("Close tab"));
+	item_fullscreen=gtk_menu_item_new_with_label(("Full screen"));
+	item_copy=gtk_menu_item_new_with_label(_("Copy"));
+	item_paste=gtk_menu_item_new_with_label(_("Paste"));
+	item_select_font=gtk_menu_item_new_with_label(_("Select font..."));
+	item_select_colors=gtk_menu_item_new_with_label(_("Select colors..."));
+	item_select_background=gtk_menu_item_new_with_label(_("Select background..."));
+	sakura.item_clear_background=gtk_menu_item_new_with_label(_("Clear background"));
+	item_set_title=gtk_menu_item_new_with_label(_("Set window title..."));
 
 	item_options=gtk_menu_item_new_with_label(_("Options"));
 
-	/* FIXME: Use actions for all items, or no use'em at all */
 	item_other_options=gtk_menu_item_new_with_label(_("More"));
 	item_show_first_tab=gtk_check_menu_item_new_with_label(_("Always show tab bar"));
 	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs at bottom"));
@@ -2345,15 +2361,14 @@ sakura_init_popup()
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_palette), palette_menu);
 
 	/* ... and finally assign callbacks to menuitems */
-	g_signal_connect(G_OBJECT(action_new_tab), "activate", G_CALLBACK(sakura_new_tab), NULL);
-	g_signal_connect(G_OBJECT(action_set_name), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
-	g_signal_connect(G_OBJECT(action_close_tab), "activate", G_CALLBACK(sakura_close_tab), NULL);
-	g_signal_connect(G_OBJECT(action_select_font), "activate", G_CALLBACK(sakura_font_dialog), NULL);
-	g_signal_connect(G_OBJECT(action_select_background), "activate",
-                              G_CALLBACK(sakura_select_background_dialog), NULL);
-	g_signal_connect(G_OBJECT(action_copy), "activate", G_CALLBACK(sakura_copy), NULL);
-	g_signal_connect(G_OBJECT(action_paste), "activate", G_CALLBACK(sakura_paste), NULL);
-	g_signal_connect(G_OBJECT(action_select_colors), "activate", G_CALLBACK(sakura_color_dialog), NULL);
+	g_signal_connect(G_OBJECT(item_new_tab), "activate", G_CALLBACK(sakura_new_tab), NULL);
+	g_signal_connect(G_OBJECT(item_set_name), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
+	g_signal_connect(G_OBJECT(item_close_tab), "activate", G_CALLBACK(sakura_close_tab), NULL);
+	g_signal_connect(G_OBJECT(item_select_font), "activate", G_CALLBACK(sakura_font_dialog), NULL);
+	g_signal_connect(G_OBJECT(item_select_background), "activate", G_CALLBACK(sakura_select_background_dialog), NULL);
+	g_signal_connect(G_OBJECT(item_copy), "activate", G_CALLBACK(sakura_copy), NULL);
+	g_signal_connect(G_OBJECT(item_paste), "activate", G_CALLBACK(sakura_paste), NULL);
+	g_signal_connect(G_OBJECT(item_select_colors), "activate", G_CALLBACK(sakura_color_dialog), NULL);
 
 	g_signal_connect(G_OBJECT(item_show_first_tab), "activate", G_CALLBACK(sakura_show_first_tab), NULL);
 	g_signal_connect(G_OBJECT(item_tabs_on_bottom), "activate", G_CALLBACK(sakura_tabs_on_bottom), NULL);
@@ -2364,7 +2379,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
-	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
+	g_signal_connect(G_OBJECT(item_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_cursor_block), "activate", G_CALLBACK(sakura_set_cursor), "block");
 	g_signal_connect(G_OBJECT(item_cursor_underline), "activate", G_CALLBACK(sakura_set_cursor), "underline");
 	g_signal_connect(G_OBJECT(item_cursor_ibeam), "activate", G_CALLBACK(sakura_set_cursor), "ibeam");
@@ -2374,10 +2389,10 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_palette_solarized_dark), "activate", G_CALLBACK(sakura_set_palette), "solarized_dark");
 	g_signal_connect(G_OBJECT(item_palette_solarized_light), "activate", G_CALLBACK(sakura_set_palette), "solarized_light");
 
-	g_signal_connect(G_OBJECT(action_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);
-	g_signal_connect(G_OBJECT(action_copy_link), "activate", G_CALLBACK(sakura_copy_url), NULL);
-	g_signal_connect(G_OBJECT(action_clear_background), "activate", G_CALLBACK(sakura_clear), NULL);
-	g_signal_connect(G_OBJECT(action_fullscreen), "activate", G_CALLBACK(sakura_fullscreen), NULL);
+	g_signal_connect(G_OBJECT(sakura.item_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);
+	g_signal_connect(G_OBJECT(sakura.item_copy_link), "activate", G_CALLBACK(sakura_copy_url), NULL);
+	g_signal_connect(G_OBJECT(sakura.item_clear_background), "activate", G_CALLBACK(sakura_clear), NULL);
+	g_signal_connect(G_OBJECT(item_fullscreen), "activate", G_CALLBACK(sakura_fullscreen), NULL);
 
 
 	gtk_widget_show_all(sakura.menu);
