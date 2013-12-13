@@ -399,7 +399,6 @@ static gint     sakura_find_tab(VteTerminal *);
 static void     sakura_set_font();
 static void     sakura_set_tab_label_text(const gchar *, gint page);
 static void     sakura_set_size(void);
-static void     sakura_kill_child();
 static void     sakura_set_bgimage();
 static void     sakura_set_config_key(const gchar *, guint);
 static guint    sakura_get_config_key(const gchar *);
@@ -450,7 +449,6 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	unsigned int topage=0;
 
 	gint npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-	gint page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 
 	if (event->type!=GDK_KEY_PRESS) return FALSE;
 
@@ -467,11 +465,8 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 		return TRUE;
 	} else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
 			event->keyval==sakura.del_tab_key ) {
-		sakura_kill_child();
 		/* Delete current tab */
-		sakura_del_tab(page);
-		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
-			sakura_destroy();
+		sakura_close_tab(NULL, NULL);
 		return TRUE;
 	}
 
@@ -2887,13 +2882,6 @@ sakura_del_tab(gint page)
 		term = sakura_get_page_term(sakura, page);
 		gtk_widget_grab_focus(term->vte);
 	}
-}
-
-
-static void
-sakura_kill_child()
-{
-	/* TODO: Kill the forked child nicely */
 }
 
 
