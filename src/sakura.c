@@ -2734,8 +2734,8 @@ sakura_add_tab()
 				gtk_widget_show(sakura.main_window);
 			} else {
 				gtk_widget_show(sakura.main_window);
-				sakura.columns = VTE_TERMINAL(term->vte)->column_count;
-				sakura.rows = VTE_TERMINAL(term->vte)->row_count;
+				sakura.columns = vte_terminal_get_column_count(VTE_TERMINAL(term->vte));
+				sakura.rows = vte_terminal_get_row_count(VTE_TERMINAL(term->vte));
 			}
 		} else {
             gtk_widget_show(sakura.main_window);
