@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 11:01+0100\n"
+"POT-Creation-Date: 2014-06-22 08:26+0200\n"
 "PO-Revision-Date: 2013-12-02 03:06+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -117,6 +117,10 @@ msgid "Select foreground color:"
 msgstr "בחר צבע תמליל:"
 
 msgid "Select background color:"
+msgstr "בחר צבע רקע:"
+
+#, fuzzy
+msgid "Select cursor color:"
 msgstr "בחר צבע רקע:"
 
 msgid "Opacity level (%):"

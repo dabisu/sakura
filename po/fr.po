@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 11:01+0100\n"
+"POT-Creation-Date: 2014-06-22 08:26+0200\n"
 "PO-Revision-Date: 2013-12-02 03:06+0000\n"
 "Last-Translator: Michael Scherer <misc@zarb.org>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -105,6 +105,10 @@ msgid "Select foreground color:"
 msgstr "Sélectionner la couleur de premier plan"
 
 msgid "Select background color:"
+msgstr "Sélectionner la couleur d'arrière plan"
+
+#, fuzzy
+msgid "Select cursor color:"
 msgstr "Sélectionner la couleur d'arrière plan"
 
 msgid "Opacity level (%):"

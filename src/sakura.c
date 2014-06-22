@@ -216,6 +216,7 @@ static struct {
 	PangoFontDescription *font;
 	GdkRGBA forecolors[NUM_COLORSETS];
 	GdkRGBA backcolors[NUM_COLORSETS];
+	GdkRGBA curscolors[NUM_COLORSETS];
 	const GdkRGBA *palette;
 	bool has_rgba;				/* RGBA capabilities */
 	char *current_match;
@@ -1016,6 +1017,7 @@ sakura_set_colors ()
 		                        &sakura.forecolors[term->colorset], 
 		                        &sakura.backcolors[term->colorset],
 		                        sakura.palette, PALETTE_SIZE);
+		vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 	}
 
 }
@@ -1029,10 +1031,12 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 	GtkDialog *dialog = (GtkDialog*)data;
 	GtkColorButton *fore_button = g_object_get_data (G_OBJECT(dialog), "buttonfore");
 	GtkColorButton *back_button = g_object_get_data (G_OBJECT(dialog), "buttonback");
+	GtkColorButton *curs_button = g_object_get_data (G_OBJECT(dialog), "buttoncurs");
 	GtkComboBox *set = g_object_get_data (G_OBJECT(dialog), "set_combo");
 	GtkSpinButton *opacity_spin = g_object_get_data( G_OBJECT(dialog), "opacity_spin");
 	GdkRGBA *temp_fore_colors = g_object_get_data( G_OBJECT(dialog), "fore");
 	GdkRGBA *temp_back_colors = g_object_get_data( G_OBJECT(dialog), "back");
+	GdkRGBA *temp_curs_colors = g_object_get_data( G_OBJECT(dialog), "curs");
 	selected = gtk_combo_box_get_active( set );
 
 	/* if we come here as a result of a change in the active colorset,
@@ -1044,10 +1048,12 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 		gint new_opacity=(int)(temp_back_colors[selected].alpha*100);
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(fore_button), &temp_fore_colors[selected]);
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(back_button), &temp_back_colors[selected]);
+		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(curs_button), &temp_curs_colors[selected]);
 		gtk_spin_button_set_value(opacity_spin, new_opacity);	
 	} else {
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(fore_button), &temp_fore_colors[selected]);
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(back_button), &temp_back_colors[selected]);
+		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(curs_button), &temp_curs_colors[selected]);
 		gtk_spin_button_update(opacity_spin);
 		temp_back_colors[selected].alpha=gtk_spin_button_get_value(opacity_spin)/100;
 	}
@@ -1059,10 +1065,10 @@ static void
 sakura_color_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *color_dialog;
-	GtkWidget *label1, *label2, *set_label, *opacity_label;
-	GtkWidget *buttonfore, *buttonback, *set_combo, *opacity_spin;
+	GtkWidget *label1, *label2, *label3, *set_label, *opacity_label;
+	GtkWidget *buttonfore, *buttonback, *buttoncurs, *set_combo, *opacity_spin;
 	GtkAdjustment *spinner_adj;
-	GtkWidget *hbox_fore, *hbox_back, *hbox_sets, *hbox_opacity;
+	GtkWidget *hbox_fore, *hbox_back, *hbox_curs, *hbox_sets, *hbox_opacity;
 	gint response;
 	struct terminal *term;
 	gint page;
@@ -1071,6 +1077,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gchar combo_text[3];
 	GdkRGBA temp_fore[NUM_COLORSETS];
 	GdkRGBA temp_back[NUM_COLORSETS];
+	GdkRGBA temp_curs[NUM_COLORSETS];
 	
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
@@ -1103,10 +1110,13 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 	hbox_fore=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
 	hbox_back=gtk_box_new(FALSE, 12);
+	hbox_curs=gtk_box_new(FALSE, 12);
 	label1=gtk_label_new(_("Select foreground color:"));
 	label2=gtk_label_new(_("Select background color:"));
+	label3=gtk_label_new(_("Select cursor color:"));
 	buttonfore=gtk_color_button_new_with_rgba(&sakura.forecolors[term->colorset]);
 	buttonback=gtk_color_button_new_with_rgba(&sakura.backcolors[term->colorset]);
+	buttoncurs=gtk_color_button_new_with_rgba(&sakura.curscolors[term->colorset]);
 
 	/* Opacity control */
 	hbox_opacity=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12); 
@@ -1120,6 +1130,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_end(GTK_BOX(hbox_fore), buttonfore, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(hbox_back), label2, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_back), buttonback, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(hbox_curs), label3, FALSE, FALSE, 12);
+	gtk_box_pack_end(GTK_BOX(hbox_curs), buttoncurs, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(hbox_sets), set_label, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_sets), set_combo, FALSE, FALSE, 12);
 	
@@ -1127,6 +1139,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_sets, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_fore, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_back, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_curs, FALSE, FALSE, 6);
 	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_opacity, FALSE, FALSE, 6);
 
 	gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog)));
@@ -1136,13 +1149,17 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_object_set_data(G_OBJECT(color_dialog), "set_combo", set_combo);
 	g_object_set_data(G_OBJECT(color_dialog), "buttonfore", buttonfore);
 	g_object_set_data(G_OBJECT(color_dialog), "buttonback", buttonback);
+	g_object_set_data(G_OBJECT(color_dialog), "buttoncurs", buttoncurs);
 	g_object_set_data(G_OBJECT(color_dialog), "opacity_spin", opacity_spin);
 	g_object_set_data(G_OBJECT(color_dialog), "fore", temp_fore);
 	g_object_set_data(G_OBJECT(color_dialog), "back", temp_back);
+	g_object_set_data(G_OBJECT(color_dialog), "curs", temp_curs);
 
 	g_signal_connect(G_OBJECT(buttonfore), "color-set", 
 	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
 	g_signal_connect(G_OBJECT(buttonback), "color-set", 
+	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+	g_signal_connect(G_OBJECT(buttoncurs), "color-set", 
 	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
 	g_signal_connect(G_OBJECT(set_combo), "changed", 
 	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
@@ -1152,6 +1169,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	for(i=0; i<NUM_COLORSETS; i++) {
 		temp_fore[i] = sakura.forecolors[i];
 		temp_back[i] = sakura.backcolors[i];
+		temp_curs[i] = sakura.curscolors[i];
 	}
 
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
@@ -1165,6 +1183,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 			
 			sakura.forecolors[i]=temp_fore[i];
 			sakura.backcolors[i]=temp_back[i];
+			sakura.curscolors[i]=temp_curs[i];
 			
 			sprintf(name, "colorset%d_fore", i+1);
 			cfgtmp=gdk_rgba_to_string(&sakura.forecolors[i]);
@@ -1173,6 +1192,11 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 			sprintf(name, "colorset%d_back", i+1);
 			cfgtmp=gdk_rgba_to_string(&sakura.backcolors[i]);
+			sakura_set_config_string(name, cfgtmp);
+			g_free(cfgtmp);
+
+			sprintf(name, "colorset%d_curs", i+1);
+			cfgtmp=gdk_rgba_to_string(&sakura.curscolors[i]);
 			sakura_set_config_string(name, cfgtmp);
 			g_free(cfgtmp);
 		}
@@ -1538,6 +1562,7 @@ sakura_set_palette(GtkWidget *widget, void *data)
 			                        &sakura.forecolors[term->colorset], 
 			                        &sakura.backcolors[term->colorset],
 			                        sakura.palette, PALETTE_SIZE);
+			vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 		}
 
 		sakura_set_config_string("palette", palette);
@@ -1829,6 +1854,14 @@ sakura_init()
 		}
 		cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, temp_name, NULL);
 		gdk_rgba_parse(&sakura.backcolors[i], cfgtmp);
+		g_free(cfgtmp);
+
+		sprintf(temp_name, "colorset%d_curs", i+1);
+		if (!g_key_file_has_key(sakura.cfg, cfg_group, temp_name, NULL)) {
+			sakura_set_config_string(temp_name, "rgb(255,255,255)");
+		}
+		cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, temp_name, NULL);
+		gdk_rgba_parse(&sakura.curscolors[i], cfgtmp);
 		g_free(cfgtmp);
 
 		sprintf(temp_name, "colorset%d_key", i+1);
@@ -2819,6 +2852,7 @@ sakura_add_tab()
 							  &sakura.forecolors[term->colorset],
 							  &sakura.backcolors[term->colorset],
 							  sakura.palette, PALETTE_SIZE);
+	vte_terminal_set_color_cursor_rgba(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 	if (sakura.has_rgba) {
 		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), (int)((sakura.backcolors[term->colorset].alpha)*65535));
 	}

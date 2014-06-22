@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-13 20:29+0100\n"
+"POT-Creation-Date: 2014-06-22 08:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,6 +99,9 @@ msgid "Select foreground color:"
 msgstr ""
 
 msgid "Select background color:"
+msgstr ""
+
+msgid "Select cursor color:"
 msgstr ""
 
 msgid "Opacity level (%):"
