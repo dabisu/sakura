@@ -38,6 +38,7 @@
 #include <gtk/gtk.h>
 #include <pango/pango.h>
 #include <vte/vte.h>
+#include <gdk/gdkx.h>
 
 #define _(String) gettext(String)
 #define N_(String) (String)
@@ -2705,6 +2706,15 @@ sakura_add_tab()
 			}
 		} else {
             gtk_widget_show(sakura.main_window);
+		}
+
+		/* Set WINDOWID env variable */
+		GdkWindow *gwin = gtk_widget_get_window (sakura.main_window);
+		if (gwin != NULL) {
+			guint winid = gdk_x11_window_get_xid (gwin);
+			gchar *winidstr = g_strdup_printf ("0x%x", winid);
+			g_setenv ("WINDOWID", winidstr, FALSE);
+			g_free (winidstr);
 		}
 
 		int command_argc=0; char **command_argv;
