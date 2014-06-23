@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-13 20:29+0100\n"
-"PO-Revision-Date: 2013-12-02 03:06+0000\n"
+"POT-Creation-Date: 2014-06-22 10:06+0200\n"
+"PO-Revision-Date: 2014-06-23 01:16+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-27 05:31+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-23 05:37+0000\n"
+"X-Generator: Launchpad (build 17065)\n"
 "Language: \n"
 
 msgid "Print version number"
@@ -99,6 +99,9 @@ msgstr "Цвет текста:"
 
 msgid "Select background color:"
 msgstr "Выберите цвет фона:"
+
+msgid "Select cursor color:"
+msgstr ""
 
 msgid "Opacity level (%):"
 msgstr "Уровень прозрачности (%):"
@@ -225,3 +228,6 @@ msgstr "Не удалось сменить рабочую директорию\n
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Версия sakura %s\n"
+
+#~ msgid "Input methods"
+#~ msgstr "Методы ввода"
