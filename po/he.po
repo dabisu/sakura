@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: sakura 3.0.4\n"
+"Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"POT-Creation-Date: 2014-08-12 01:05+0200\n"
 "PO-Revision-Date: 2014-07-27 18:40+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -15,9 +15,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-28 05:55+0000\n"
+"X-Launchpad-Export-Date: 2014-07-28 18:32+0000\n"
 "X-Generator: Launchpad (build 17131)\n"
 "X-Poedit-Language: Hebrew\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Language: he\n"
+"X-Source-Language: en\n"
 
 # CLI: Do not translate!
 msgid "Print version number"
@@ -31,8 +34,9 @@ msgstr "Select initial terminal font"
 msgid "Select initial number of tabs"
 msgstr "Select initial number of tabs"
 
+# CLI: Do not translate!
 msgid "Set working directory"
-msgstr "קביעת מדור עבודה"
+msgstr "Set working directory"
 
 # CLI: Do not translate!
 msgid "Execute command"
@@ -62,33 +66,36 @@ msgstr "Set rows number"
 msgid "Hold window after execute command"
 msgstr "Hold window after execute command"
 
+# CLI: Do not translate!
 msgid "Maximize window"
-msgstr "הגדל את החלון"
+msgstr "Maximize window"
 
+# CLI: Do not translate!
 msgid "Fullscreen mode"
-msgstr "מצב מסך מלא"
+msgstr "Fullscreen mode"
 
 # CLI: Do not translate!
 msgid "X geometry specification"
 msgstr "X geometry specification"
 
+# CLI: Do not translate!
 msgid "Use alternate configuration file"
-msgstr "השתמש בקובץ תצורה חלופי"
+msgstr "Use alternate configuration file"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
-msgstr "קובץ תצורה שונה על ידי תהליך אחר. האם ברצונך להחליפו?"
+msgstr "תצורה השתנתה על ידי תהליך אחר. להחליפו?"
 
 msgid ""
 "There are running processes.\n"
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
-"קיימים תהליכים שמורצים כעת.\n"
+"קיימים תהליכים אשר כעת מורצים.\n"
 "\n"
-"האם ברצונך לסגור את Sakura?"
+"האם אתה בטוח כי ברצונך לסגור את Sakura?"
 
 msgid "Select font"
-msgstr "בחר גופן"
+msgstr "בחירת גופן"
 
 msgid "Set tab name"
 msgstr "קביעת שם כרטיסייה"
@@ -127,7 +134,7 @@ msgid "New window title"
 msgstr "כותרת חלון חדשה"
 
 msgid "Select a background file"
-msgstr "בחר קובץ רקע"
+msgstr "בחירת קובץ רקע"
 
 msgid "_Open"
 msgstr "_פתח"
@@ -139,7 +146,7 @@ msgid ""
 msgstr ""
 "קיים תהליך אשר כעת מורץ בתוך מסוף זה.\n"
 "\n"
-"האם ברצונך לסגור אותוו?"
+"האם אתה בטוח כי ברצונך לסגור אותו?"
 
 msgid "Open link..."
 msgstr "פתח קישור..."
