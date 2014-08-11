@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"POT-Creation-Date: 2014-08-12 01:50+0200\n"
 "PO-Revision-Date: 2014-07-27 18:45+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -164,6 +164,14 @@ msgstr "背景をクリア"
 
 msgid "Set window title..."
 msgstr "ウィンドウタイトルを指定"
+
+#, fuzzy
+msgid "Open link"
+msgstr "リンクを開く"
+
+#, fuzzy
+msgid "Copy link"
+msgstr "リンクをコピー"
 
 msgid "Options"
 msgstr "設定"

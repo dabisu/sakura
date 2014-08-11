@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"POT-Creation-Date: 2014-08-12 01:50+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -170,6 +170,14 @@ msgstr "Ukolni pozadinu"
 
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"
+
+#, fuzzy
+msgid "Open link"
+msgstr "Otvori link..."
+
+#, fuzzy
+msgid "Copy link"
+msgstr "Kopiraj link..."
 
 msgid "Options"
 msgstr "Mogućnosti"

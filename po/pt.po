@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"POT-Creation-Date: 2014-08-12 01:50+0200\n"
 "PO-Revision-Date: 2014-07-27 18:19+0000\n"
 "Last-Translator: Sérgio Marques <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -170,6 +170,14 @@ msgstr "Remover imagem de fundo"
 
 msgid "Set window title..."
 msgstr "Definir título da janela..."
+
+#, fuzzy
+msgid "Open link"
+msgstr "Abrir ligação..."
+
+#, fuzzy
+msgid "Copy link"
+msgstr "Copiar ligação..."
 
 msgid "Options"
 msgstr "Opções"

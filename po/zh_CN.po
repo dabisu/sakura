@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"POT-Creation-Date: 2014-08-12 01:50+0200\n"
 "PO-Revision-Date: 2014-06-23 01:16+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -169,6 +169,14 @@ msgstr "清除背景"
 
 msgid "Set window title..."
 msgstr "设置窗口标题..."
+
+#, fuzzy
+msgid "Open link"
+msgstr "打开链接"
+
+#, fuzzy
+msgid "Copy link"
+msgstr "复制链接"
 
 msgid "Options"
 msgstr "选项"

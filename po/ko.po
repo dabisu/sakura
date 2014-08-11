@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"POT-Creation-Date: 2014-08-12 01:50+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -169,6 +169,14 @@ msgstr "배경 지우기"
 
 msgid "Set window title..."
 msgstr "창 제목 성정..."
+
+#, fuzzy
+msgid "Open link"
+msgstr "링크 열기..."
+
+#, fuzzy
+msgid "Copy link"
+msgstr "링크 복사..."
 
 msgid "Options"
 msgstr "설정"

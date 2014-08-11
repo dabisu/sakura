@@ -2217,8 +2217,8 @@ sakura_init_popup()
 #endif
 
 	/*FIXME: Use new menu declaration style: gtk_menu_new_from_model */
-	sakura.item_open_link=gtk_menu_item_new_with_label(_("Open link..."));
-	sakura.item_copy_link=gtk_menu_item_new_with_label(_("Copy link..."));
+	sakura.item_open_link=gtk_menu_item_new_with_label(_("Open link"));
+	sakura.item_copy_link=gtk_menu_item_new_with_label(_("Copy link"));
 	item_new_tab=gtk_menu_item_new_with_label(_("New tab"));
 	item_set_name=gtk_menu_item_new_with_label(_("Set tab name..."));
 	item_close_tab=gtk_menu_item_new_with_label(_("Close tab"));

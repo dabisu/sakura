@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 01:05+0200\n"
+"POT-Creation-Date: 2014-08-12 01:50+0200\n"
 "PO-Revision-Date: 2014-07-27 18:40+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -186,6 +186,14 @@ msgstr "טהר רקע"
 
 msgid "Set window title..."
 msgstr "קבע כותרת חלון..."
+
+#, fuzzy
+msgid "Open link"
+msgstr "פתח קישור..."
+
+#, fuzzy
+msgid "Copy link"
+msgstr "העתק קישור..."
 
 msgid "Options"
 msgstr "אפשרויות"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"POT-Creation-Date: 2014-08-12 01:50+0200\n"
 "PO-Revision-Date: 2014-06-23 01:16+0000\n"
 "Last-Translator: Neliton Pereira Jr. <nelitonpjr@gmail.com>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -166,6 +166,14 @@ msgstr "Limpar plano de fundo"
 
 msgid "Set window title..."
 msgstr "Definir título da janela"
+
+#, fuzzy
+msgid "Open link"
+msgstr "Abrir link..."
+
+#, fuzzy
+msgid "Copy link"
+msgstr "Copiar link..."
 
 msgid "Options"
 msgstr "Opções"

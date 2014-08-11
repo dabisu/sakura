@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"POT-Creation-Date: 2014-08-12 01:50+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: Michael Scherer <misc@zarb.org>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -170,6 +170,14 @@ msgstr "Effacer l'arrière plan"
 
 msgid "Set window title..."
 msgstr "Définir le titre de la fenêtre..."
+
+#, fuzzy
+msgid "Open link"
+msgstr "Ouvrir le lien..."
+
+#, fuzzy
+msgid "Copy link"
+msgstr "Copier le lien..."
 
 msgid "Options"
 msgstr "Options"

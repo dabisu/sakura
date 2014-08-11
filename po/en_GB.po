@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"POT-Creation-Date: 2014-08-12 01:50+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -170,6 +170,14 @@ msgstr "Clear background"
 
 msgid "Set window title..."
 msgstr "Set window title..."
+
+#, fuzzy
+msgid "Open link"
+msgstr "Open link..."
+
+#, fuzzy
+msgid "Copy link"
+msgstr "Copy link..."
 
 msgid "Options"
 msgstr "Options"
