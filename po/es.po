@@ -5,16 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-22 08:26+0200\n"
-"PO-Revision-Date: 2013-12-02 03:06+0000\n"
+"POT-Creation-Date: 2014-08-12 00:15+0200\n"
+"PO-Revision-Date: 2014-07-27 18:42+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-12-02 05:21+0000\n"
-"X-Generator: Launchpad (build 16856)\n"
+"X-Launchpad-Export-Date: 2014-07-28 05:55+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 msgid "Print version number"
 msgstr "Imprimir número de versión"
@@ -83,7 +83,7 @@ msgid "_Cancel"
 msgstr "_Cancelar"
 
 msgid "_Apply"
-msgstr ""
+msgstr "_Aplicar"
 
 msgid "New text"
 msgstr "Texto nuevo"
@@ -91,9 +91,8 @@ msgstr "Texto nuevo"
 msgid "Select color"
 msgstr "Seleccionar color"
 
-#, fuzzy
 msgid "_Select"
-msgstr "Seleccionar fuente"
+msgstr "_Seleccionar"
 
 msgid "Colourset to edit"
 msgstr "Conjunto de colores a editar"
@@ -104,9 +103,8 @@ msgstr "Seleccionar color de fuente"
 msgid "Select background color:"
 msgstr "Seleccionar color de fondo"
 
-#, fuzzy
 msgid "Select cursor color:"
-msgstr "Seleccionar color de fondo"
+msgstr "Seleccionar color del cursor:"
 
 msgid "Opacity level (%):"
 msgstr "Nivel de opacidad (%)"
@@ -233,6 +231,3 @@ msgstr "No se puede cambiar el directorio actual\n"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
-
-#~ msgid "Input methods"
-#~ msgstr "Métodos de entrada"
