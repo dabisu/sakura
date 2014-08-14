@@ -2492,10 +2492,11 @@ sakura_set_size(void)
 		//gint min_height, natural_height; 
 		//gtk_widget_get_preferred_height(sakura.notebook, &min_height, &natural_height);
 		//SAY("NOTEBOOK min height %d natural height %d", min_height, natural_height);
+		/* Deprecated. TODO: Remove 
 		guint16 hb, vb;
 		hb=gtk_notebook_get_tab_hborder(GTK_NOTEBOOK(sakura.notebook));
 		vb=gtk_notebook_get_tab_vborder(GTK_NOTEBOOK(sakura.notebook));
-		SAY("notebook borders h %d v %d", hb, vb);
+		SAY("notebook borders h %d v %d", hb, vb);*/
 
 		/* TODO: Yeah i know, this is utterly shit. Remove this ugly hack and set geometry hints*/
 		if (!sakura.show_scrollbar) 
@@ -2506,7 +2507,7 @@ sakura_set_size(void)
 			sakura.height += 47;
 
 		sakura.width += 8;
-		sakura.width += (hb*2)+ (pad_x*2);
+		sakura.width += /* (hb*2)+*/ (pad_x*2);
 	}
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
