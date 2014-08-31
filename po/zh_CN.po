@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-12 02:03+0200\n"
-"PO-Revision-Date: 2014-06-23 01:16+0000\n"
+"POT-Creation-Date: 2014-08-15 01:23+0200\n"
+"PO-Revision-Date: 2014-08-14 05:48+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-13 05:36+0000\n"
+"X-Launchpad-Export-Date: 2014-08-15 05:38+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 msgid "Print version number"
@@ -170,11 +170,9 @@ msgstr "清除背景"
 msgid "Set window title..."
 msgstr "设置窗口标题..."
 
-#, fuzzy
 msgid "Open link"
 msgstr "打开链接"
 
-#, fuzzy
 msgid "Copy link"
 msgstr "复制链接"
 
