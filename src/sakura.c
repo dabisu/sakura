@@ -448,25 +448,26 @@ static GOptionEntry entries[] = {
 static
 gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-	unsigned int topage=0;
+	if (event->type!=GDK_KEY_PRESS) return FALSE;
+
+	unsigned int topage = 0;
 
 	gint npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-
-	if (event->type!=GDK_KEY_PRESS) return FALSE;
+	guint keyval = event->keyval;
 
 	/* Check is Caps lock is enabled. If it is, change keyval to make keybindings work with
 	   both lowercase and uppercase letters */
 	if (gdk_keymap_get_caps_lock_state(gdk_keymap_get_default())) {
-		event->keyval=gdk_keyval_to_upper(event->keyval);
+		keyval = gdk_keyval_to_upper(keyval);
 	}
 
 	/* add_tab_accelerator + T or del_tab_accelerator + W pressed */
 	if ( (event->state & sakura.add_tab_accelerator)==sakura.add_tab_accelerator &&
-	 	  event->keyval==sakura.add_tab_key ) {
+			keyval==sakura.add_tab_key) {
 		sakura_add_tab();
 		return TRUE;
 	} else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
-			event->keyval==sakura.del_tab_key ) {
+			keyval==sakura.del_tab_key ) {
 		/* Delete current tab */
 		sakura_close_tab(NULL, NULL);
 		return TRUE;
@@ -474,9 +475,9 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + (left/right) cursor pressed */
 	if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator ) {
-		if ((event->keyval>=GDK_KEY_1) && (event->keyval<=GDK_KEY_9) && (event->keyval<=GDK_KEY_1-1+npages)
-				&& (event->keyval!=GDK_KEY_1+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
-			switch(event->keyval) {
+		if ((keyval>=GDK_KEY_1) && (keyval<=GDK_KEY_9) && (keyval<=GDK_KEY_1-1+npages)
+				&& (keyval!=GDK_KEY_1+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
+			switch(keyval) {
 				case GDK_KEY_1: topage=0; break;
 				case GDK_KEY_2: topage=1; break;
 				case GDK_KEY_3: topage=2; break;
@@ -490,14 +491,14 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 			if (topage <= npages)
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
 			return TRUE;
-		} else if (event->keyval==sakura.prev_tab_key) {
+		} else if (keyval==sakura.prev_tab_key) {
 			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), npages-1);
 			} else {
 				gtk_notebook_prev_page(GTK_NOTEBOOK(sakura.notebook));
 			}
 			return TRUE;
-		} else if (event->keyval==sakura.next_tab_key) {
+		} else if (keyval==sakura.next_tab_key) {
 			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==(npages-1)) {
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), 0);
 			} else {
@@ -509,10 +510,10 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* move_tab_accelerator + (left/right) cursor pressed */
 	if ( (event->state & sakura.move_tab_accelerator)==sakura.move_tab_accelerator ) {
-		if (event->keyval==sakura.prev_tab_key) {
+		if (keyval==sakura.prev_tab_key) {
 			sakura_move_tab(BACKWARDS);
 			return TRUE;
-		} else if (event->keyval==sakura.next_tab_key) {
+		} else if (keyval==sakura.next_tab_key) {
 			sakura_move_tab(FORWARD);
 			return TRUE;
 		}
@@ -522,11 +523,11 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	//SAY("copy acc: %d", sakura.copy_accelerator);
 	//SAY("ev+copy: %d", (event->state & sakura.copy_accelerator));
 	if ( (event->state & sakura.copy_accelerator)==sakura.copy_accelerator ) {
-		//SAY("%d %d", event->keyval, sakura.copy_key);
-		if (event->keyval==sakura.copy_key) {
+		//SAY("%d %d", keyval, sakura.copy_key);
+		if (keyval==sakura.copy_key) {
 			sakura_copy(NULL, NULL);
 			return TRUE;
-		} else if (event->keyval==sakura.paste_key) {
+		} else if (keyval==sakura.paste_key) {
 			sakura_paste(NULL, NULL);
 			return TRUE;
 		}
@@ -534,7 +535,7 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* scrollbar_accelerator-[S] pressed */
 	if ( (event->state & sakura.scrollbar_accelerator)==sakura.scrollbar_accelerator ) {
-		if (event->keyval==sakura.scrollbar_key) {
+		if (keyval==sakura.scrollbar_key) {
 			sakura_show_scrollbar(NULL, NULL);
 			return TRUE;
 		}
@@ -542,7 +543,7 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* set_tab_name_accelerator-[N] pressed */
 	if ( (event->state & sakura.set_tab_name_accelerator)==sakura.set_tab_name_accelerator ) {
-		if (event->keyval==sakura.set_tab_name_key) {
+		if (keyval==sakura.set_tab_name_key) {
 			sakura_set_name_dialog(NULL, NULL);
 			return TRUE;
 		}
@@ -550,17 +551,17 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* font_size_accelerator-[+] or [-] pressed */
 	if ( (event->state & sakura.font_size_accelerator)==sakura.font_size_accelerator ) {
-		if (event->keyval==GDK_KEY_plus) {
+		if (keyval==GDK_KEY_plus) {
 			sakura_increase_font(NULL, NULL);
 			return TRUE;
-		} else if (event->keyval==GDK_KEY_minus) {
+		} else if (keyval==GDK_KEY_minus) {
 			sakura_decrease_font(NULL, NULL);
 			return TRUE;
 		}
 	}
 
 	/* F11 (fullscreen) pressed */
-	if (event->keyval==sakura.fullscreen_key){
+	if (keyval==sakura.fullscreen_key){
 		sakura_fullscreen(NULL, NULL);
 		return TRUE;
 	}
@@ -569,7 +570,7 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	if ( (event->state & sakura.set_colorset_accelerator)==sakura.set_colorset_accelerator ) {
 		int i;
 		for(i=0; i<NUM_COLORSETS; i++) {
-			if (event->keyval==sakura.set_colorset_keys[i]){
+			if (keyval==sakura.set_colorset_keys[i]){
 				sakura_set_colorset(i);
 				return TRUE;
 			}
