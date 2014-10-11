@@ -240,7 +240,7 @@ static struct {
 	bool config_modified;		/* Configuration has been modified */
 	bool externally_modified;	/* Configuration file has been modified by another proccess */
 	bool resized;
-	GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
+	GtkWidget *item_clear_background; /* We include here only the items which need to be hidden */
 	GtkWidget *item_copy_link;
 	GtkWidget *item_open_link;
 	GtkWidget *open_link_separator;
@@ -455,7 +455,7 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	gint npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	guint keyval = event->keyval;
 
-	/* Check is Caps lock is enabled. If it is, change keyval to make keybindings work with
+	/* Check if Caps lock is enabled. If it is, change keyval to make keybindings work with
 	   both lowercase and uppercase letters */
 	if (gdk_keymap_get_caps_lock_state(gdk_keymap_get_default())) {
 		keyval = gdk_keyval_to_upper(keyval);
