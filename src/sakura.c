@@ -3052,6 +3052,21 @@ sakura_error(const char *format, ...)
 }
 
 
+/* This function is used to fix bug #1393939 */
+static void
+sakura_sanitize_working_directory()
+{
+	const gchar *home_directory = g_getenv("HOME");
+	if (home_directory == NULL) {
+		home_directory = g_get_home_dir();
+	}
+
+	if (home_directory != NULL) {
+		chdir(home_directory);
+	}
+}
+
+
 int
 main(int argc, char **argv)
 {
@@ -3127,6 +3142,8 @@ main(int argc, char **argv)
 	/* Add first tab */
 	for (i=0; i<option_ntabs; i++)
 		sakura_add_tab();
+
+	sakura_sanitize_working_directory();
 
 	gtk_main();
 
