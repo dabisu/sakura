@@ -235,6 +235,7 @@ static struct {
 	bool audible_bell;
 	bool visible_bell;
 	bool blinking_cursor;
+	bool allow_bold;
 	bool fullscreen;
 	bool keep_fc;				/* Global flag to indicate that we don't want changes in the files and columns values */
 	bool config_modified;		/* Configuration has been modified */
@@ -1505,6 +1506,25 @@ sakura_blinking_cursor (GtkWidget *widget, void *data)
 
 
 static void
+sakura_allow_bold (GtkWidget *widget, void *data)
+{
+	gint page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), TRUE);
+		sakura_set_config_string("allow_bold", "Yes");
+	} else {
+		vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), FALSE);
+		sakura_set_config_string("allow_bold", "No");
+	}
+}
+
+
+static void
 sakura_set_cursor(GtkWidget *widget, void *data)
 {
 	struct terminal *term;
@@ -1947,6 +1967,13 @@ sakura_init()
 	sakura.blinking_cursor= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "allow_bold", NULL)) {
+		sakura_set_config_string("allow_bold", "Yes");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "allow_bold", NULL);
+	sakura.allow_bold= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
+	g_free(cfgtmp);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "cursor_type", NULL)) {
 		sakura_set_config_string("cursor_type", "VTE_CURSOR_SHAPE_BLOCK");
 	}
@@ -2171,7 +2198,7 @@ sakura_init_popup()
 	          *item_select_background, *item_set_title, *item_fullscreen,
 	          *item_toggle_scrollbar, *item_options,
 	          *item_show_first_tab, *item_audible_bell, *item_visible_bell,
-	          *item_blinking_cursor, *item_other_options, 
+	          *item_blinking_cursor, *item_allow_bold, *item_other_options, 
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm,
 			  *item_palette_solarized_dark, *item_palette_solarized_light,
@@ -2243,6 +2270,7 @@ sakura_init_popup()
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
+	item_allow_bold=gtk_check_menu_item_new_with_label(_("Enable bold font"));
 	item_cursor=gtk_menu_item_new_with_label(_("Set cursor type"));
 	item_cursor_block=gtk_radio_menu_item_new_with_label(NULL, _("Block"));
 	item_cursor_underline=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), _("Underline"));
@@ -2303,6 +2331,10 @@ sakura_init_popup()
 
 	if (sakura.blinking_cursor) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_blinking_cursor), TRUE);
+	}
+
+	if (sakura.allow_bold) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_allow_bold), TRUE);
 	}
 
 	switch (sakura.cursor_type){
@@ -2372,6 +2404,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_visible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_blinking_cursor);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_allow_bold);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_cursor);
 	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_block);
 	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_underline);
@@ -2407,6 +2440,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
+	g_signal_connect(G_OBJECT(item_allow_bold), "activate", G_CALLBACK(sakura_allow_bold), NULL);
 	g_signal_connect(G_OBJECT(item_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_cursor_block), "activate", G_CALLBACK(sakura_set_cursor), "block");
 	g_signal_connect(G_OBJECT(item_cursor_underline), "activate", G_CALLBACK(sakura_set_cursor), "underline");
@@ -2871,6 +2905,9 @@ sakura_add_tab()
 
 	/* Disable stupid blinking cursor */
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
+
+	/* Enable bold text by default */
+	vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), sakura.allow_bold ? TRUE : FALSE);
 
 	/* Change cursor */	
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
