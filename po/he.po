@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-15 01:23+0200\n"
+"POT-Creation-Date: 2014-11-21 14:48+0100\n"
 "PO-Revision-Date: 2014-08-14 05:45+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -224,6 +224,9 @@ msgstr "קבע פעמון נראה"
 
 msgid "Set blinking cursor"
 msgstr "קבע סמן מהבהב"
+
+msgid "Enable bold font"
+msgstr ""
 
 msgid "Set cursor type"
 msgstr "קבע טיפוס סמן"

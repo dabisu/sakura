@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-15 01:23+0200\n"
+"POT-Creation-Date: 2014-11-21 14:48+0100\n"
 "PO-Revision-Date: 2014-07-27 18:20+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -203,6 +203,9 @@ msgstr "Визуальное оповещение"
 
 msgid "Set blinking cursor"
 msgstr "Мигающий курсор"
+
+msgid "Enable bold font"
+msgstr ""
 
 msgid "Set cursor type"
 msgstr "Установить вид курсора"

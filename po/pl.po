@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-15 01:23+0200\n"
+"POT-Creation-Date: 2014-11-21 14:48+0100\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -216,6 +216,9 @@ msgstr "Migający sygnał"
 
 msgid "Set blinking cursor"
 msgstr "Migający kursor"
+
+msgid "Enable bold font"
+msgstr ""
 
 msgid "Set cursor type"
 msgstr ""
