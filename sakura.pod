@@ -74,6 +74,18 @@ Set rows number
 
 Hold window after execute command
 
+=item B<-d, --working-directory>
+
+Set working directory
+
+=item B<-m, --maximize>
+
+Maximize window
+
+=item B<-s, --fullscreen>
+
+Fullscreen mode
+
 =item B<--display=DISPLAY>
 
 X display to use
