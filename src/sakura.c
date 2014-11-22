@@ -3076,6 +3076,7 @@ main(int argc, char **argv)
 	int n;
 	char **nargv;
 	int nargc;
+	gboolean have_e;
 
 	/* Localization */
 	setlocale(LC_ALL, "");
@@ -3090,15 +3091,17 @@ main(int argc, char **argv)
 
 	/* Initialize nargv */
 	nargv = (char**)calloc((argc+1), sizeof(char*));
-   	n=0; nargc=argc;
+	n=0; nargc=argc;
+	have_e=FALSE;
 
 	for(i=0; i<argc; i++) {
-		if(g_strcmp0(argv[i],"-e") == 0)
+		if(!have_e && g_strcmp0(argv[i],"-e") == 0)
 		{
 			nargv[n]="-e";
 			n++;
 			nargv[n]="--";
-			nargc = argc+1;
+			nargc++;
+			have_e = TRUE;
 		} else {
 			nargv[n]=g_strdup(argv[i]);
 		}
