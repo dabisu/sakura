@@ -2833,7 +2833,7 @@ sakura_add_tab()
 			if (command_argc > 0) {
 				path=g_find_program_in_path(command_argv[0]);
 				if (path) {
-					if (!vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL,
+					if (!vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, NULL,
 				 	    command_argv, command_env, G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, &gerror)) {
 						SAY("error: %s", gerror->message);
 					}
@@ -2853,7 +2853,7 @@ sakura_add_tab()
 				sakura_error("Hold option given without any command");
 				option_hold=FALSE;
 			}
-			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, command_env,
+			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
 						       G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL);
 		}
 	/* Not the first tab */
@@ -2872,7 +2872,7 @@ sakura_add_tab()
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
-		vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, command_env,
+		vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
 					       G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL);
 	}
 
