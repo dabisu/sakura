@@ -1814,9 +1814,6 @@ sakura_init()
 
 	term_data_id = g_quark_from_static_string("sakura_term");
 
-	/* Set default TERM value as a terminal with 256 colors */
-	g_setenv("TERM", "xterm-256color", FALSE);
-
 	/* Config file initialization*/
 	sakura.cfg = g_key_file_new();
 	sakura.config_modified=false;
@@ -2744,6 +2741,8 @@ sakura_add_tab()
 		g_signal_connect(G_OBJECT(close_button), "clicked", G_CALLBACK(sakura_closebutton_clicked), term->hbox);
 	}
 
+	/* TODO: Use this with vte_spawn_sync. With fork_command__full is overwritten */
+	char *command_env[2]={"TERM=xterm-256color",0};
 	/* First tab */
 	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)); 
 	if (npages == 1) {
@@ -2834,8 +2833,8 @@ sakura_add_tab()
 			if (command_argc > 0) {
 				path=g_find_program_in_path(command_argv[0]);
 				if (path) {
-					if (!vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL, command_argv, NULL, 
-							G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, &gerror)) {
+					if (!vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, NULL,
+				 	    command_argv, command_env, G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, &gerror)) {
 						SAY("error: %s", gerror->message);
 					}
 				} else {
@@ -2854,8 +2853,8 @@ sakura_add_tab()
 				sakura_error("Hold option given without any command");
 				option_hold=FALSE;
 			}
-			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, NULL,
-										   G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL);
+			vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, command_env,
+						       G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL);
 		}
 	/* Not the first tab */
 	} else {
@@ -2873,8 +2872,8 @@ sakura_add_tab()
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
-		vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, NULL,
-									   G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL);
+		vte_terminal_fork_command_full(VTE_TERMINAL(term->vte), VTE_PTY_DEFAULT, cwd, sakura.argv, command_env,
+					       G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL);
 	}
 
 	free(cwd);
@@ -3142,7 +3141,7 @@ main(int argc, char **argv)
 	/* Add first tab */
 	for (i=0; i<option_ntabs; i++)
 		sakura_add_tab();
-
+	
 	sakura_sanitize_working_directory();
 
 	gtk_main();
