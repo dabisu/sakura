@@ -55,16 +55,16 @@ Keybindings support
 
 	Defaults:	
 
-    Ctrl + Shift + T                 -> New tab
-    Ctrl + Shift + W                 -> Close current tab
-    Ctrl + Shift + C                 -> Copy selected text
-    Ctrl + Shift + V                 -> Paste selected text
+	Ctrl + Shift + T                 -> New tab
+	Ctrl + Shift + W                 -> Close current tab
+	Ctrl + Shift + C                 -> Copy selected text
+	Ctrl + Shift + V                 -> Paste selected text
 	Ctrl + Shift + N                 -> Set tab name
-    Alt  + Left cursor               -> Previous tab
-    Alt  + Right cursor              -> Next tab
+	Alt  + Left cursor               -> Previous tab
+	Alt  + Right cursor              -> Next tab
 	Ctr  + Shift + Left cursor       -> Move tab to the left
 	Ctr  + Shift + Right cursor      -> Move tab to the right
-    Alt  + [1-9]                     -> Switch to tab N (1-9)
+	Alt  + [1-9]                     -> Switch to tab N (1-9)
 	Ctrl + Shift + S                 -> Toggle/Untoggle scrollbar
 	Ctrl + Shift + Mouse left button -> Open link
 	F11                              -> Fullscreen
@@ -74,7 +74,7 @@ Keybindings support
 	Ctrl + Shift + Down              -> Move down through scrollback by line
 	Ctrl + Shift + [F1-F6]           -> Select the colorset for the current tab
 
-    You can also increase and decrease the font size in the GTK+ 
+	You can also increase and decrease the font size in the GTK+ 
 	standard way (not configurable):
  
 	Ctrl + '+'                                -> Increase font size
