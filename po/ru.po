@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-10 18:18+0100\n"
+"POT-Creation-Date: 2015-02-15 13:19+0100\n"
 "PO-Revision-Date: 2014-07-27 18:20+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -194,6 +194,10 @@ msgstr "Показать маркер изменения размера окна
 
 msgid "Don't show exit dialog"
 msgstr "Не показывать диалог выхода"
+
+#, fuzzy
+msgid "Set urgent bell"
+msgstr "Звуковое оповещение"
 
 msgid "Set audible bell"
 msgstr "Звуковое оповещение"

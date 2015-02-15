@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-10 18:18+0100\n"
+"POT-Creation-Date: 2015-02-15 13:19+0100\n"
 "PO-Revision-Date: 2014-08-14 05:51+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -201,6 +201,10 @@ msgstr "Mostra grip di ridimensionamento"
 
 msgid "Don't show exit dialog"
 msgstr "Non mostrare il dialogo di uscita"
+
+#, fuzzy
+msgid "Set urgent bell"
+msgstr "Imposta l'avviso acustico"
 
 msgid "Set audible bell"
 msgstr "Imposta l'avviso acustico"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-10 18:18+0100\n"
+"POT-Creation-Date: 2015-02-15 13:19+0100\n"
 "PO-Revision-Date: 2014-08-14 05:48+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -199,6 +199,10 @@ msgstr "显示缩放控制柄"
 
 msgid "Don't show exit dialog"
 msgstr "不显示退出对话框"
+
+#, fuzzy
+msgid "Set urgent bell"
+msgstr "设定蜂鸣提醒"
 
 msgid "Set audible bell"
 msgstr "设定蜂鸣提醒"

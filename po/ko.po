@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-10 18:18+0100\n"
+"POT-Creation-Date: 2015-02-15 13:19+0100\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -201,6 +201,10 @@ msgstr "그립의 크기 조정 보이기"
 
 msgid "Don't show exit dialog"
 msgstr "종료 대화 상자를 표시하지 않음"
+
+#, fuzzy
+msgid "Set urgent bell"
+msgstr "소리 나게 설정"
 
 msgid "Set audible bell"
 msgstr "소리 나게 설정"

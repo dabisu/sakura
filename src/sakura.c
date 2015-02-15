@@ -232,6 +232,7 @@ static struct {
 	bool show_closebutton;
 	bool tabs_on_bottom;
 	bool less_questions;
+	bool urgent_bell;
 	bool audible_bell;
 	bool visible_bell;
 	bool blinking_cursor;
@@ -357,6 +358,7 @@ static GQuark term_data_id = 0;
 
 /* Callbacks */
 static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
+static void     sakura_beep (GtkWidget *, void *);
 static void     sakura_increase_font (GtkWidget *, void *);
 static void     sakura_decrease_font (GtkWidget *, void *);
 static void     sakura_child_exited (GtkWidget *, void *);
@@ -646,6 +648,19 @@ sakura_page_removed (GtkWidget *widget, void *data)
 		/* If the first tab is disabled, window size changes and we need
 		 * to recalculate its size */
 		sakura_set_size();
+	}
+}
+
+
+static void
+sakura_beep (GtkWidget *widget, void *data)
+{
+	// Remove the urgency hint. This is necessary to signal the window manager
+	// that a new urgent event happened when the urgent hint is set next time.
+	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
+
+	if (sakura.urgent_bell) {
+		gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), TRUE);
 	}
 }
 
@@ -1450,6 +1465,18 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 
 
 static void
+sakura_urgent_bell (GtkWidget *widget, void *data)
+{
+	sakura.urgent_bell = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+	if (sakura.urgent_bell) {
+		sakura_set_config_string("urgent_bell", "Yes");
+	} else {
+		sakura_set_config_string("urgent_bell", "No");
+	}
+}
+
+
+static void
 sakura_audible_bell (GtkWidget *widget, void *data)
 {
 	gint page;
@@ -1944,6 +1971,13 @@ sakura_init()
 	}
 	sakura.less_questions = g_key_file_get_boolean(sakura.cfg, cfg_group, "less_questions", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "urgent_bell", NULL)) {
+		sakura_set_config_string("urgent_bell", "Yes");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "urgent_bell", NULL);
+	sakura.urgent_bell= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
+	g_free(cfgtmp);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "audible_bell", NULL)) {
 		sakura_set_config_string("audible_bell", "Yes");
 	}
@@ -2195,7 +2229,7 @@ sakura_init_popup()
 	          *item_paste, *item_select_font, *item_select_colors,
 	          *item_select_background, *item_set_title, *item_fullscreen,
 	          *item_toggle_scrollbar, *item_options,
-	          *item_show_first_tab, *item_audible_bell, *item_visible_bell,
+	          *item_show_first_tab, *item_urgent_bell, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_allow_bold, *item_other_options, 
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm,
@@ -2265,6 +2299,7 @@ sakura_init_popup()
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
 	item_toggle_resize_grip=gtk_check_menu_item_new_with_label(_("Show resize grip"));
 	item_less_questions=gtk_check_menu_item_new_with_label(_("Don't show exit dialog"));
+	item_urgent_bell=gtk_check_menu_item_new_with_label(_("Set urgent bell"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_visible_bell=gtk_check_menu_item_new_with_label(_("Set visible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
@@ -2317,6 +2352,10 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_resize_grip), TRUE);
 	} else {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_resize_grip), FALSE);
+	}
+
+	if (sakura.urgent_bell) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_urgent_bell), TRUE);
 	}
 
 	if (sakura.audible_bell) {
@@ -2399,6 +2438,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_toggle_scrollbar);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_toggle_resize_grip);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_less_questions);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_urgent_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_visible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_blinking_cursor);
@@ -2435,6 +2475,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_show_close_button), "activate", G_CALLBACK(sakura_show_close_button), NULL);
 	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar), NULL);
 	g_signal_connect(G_OBJECT(item_toggle_resize_grip), "activate", G_CALLBACK(sakura_show_resize_grip), NULL);
+	g_signal_connect(G_OBJECT(item_urgent_bell), "activate", G_CALLBACK(sakura_urgent_bell), NULL);
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_visible_bell), "activate", G_CALLBACK(sakura_visible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
@@ -2728,6 +2769,7 @@ sakura_add_tab()
 	sakura_set_page_term(sakura, index, term );
 
 	/* vte signals */
+	g_signal_connect(G_OBJECT(term->vte), "beep", G_CALLBACK(sakura_beep), NULL);
 	g_signal_connect(G_OBJECT(term->vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
 	g_signal_connect(G_OBJECT(term->vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
 	g_signal_connect(G_OBJECT(term->vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);

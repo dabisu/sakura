@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-10 18:18+0100\n"
+"POT-Creation-Date: 2015-02-15 13:19+0100\n"
 "PO-Revision-Date: 2014-08-31 11:14+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -196,6 +196,10 @@ msgstr "Afficher la poignée de redimensionnement"
 
 msgid "Don't show exit dialog"
 msgstr "Ne pas afficher les messages de sortie"
+
+#, fuzzy
+msgid "Set urgent bell"
+msgstr "Utiliser un avertissement audio"
 
 msgid "Set audible bell"
 msgstr "Utiliser un avertissement audio"

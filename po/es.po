@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-10 18:18+0100\n"
+"POT-Creation-Date: 2015-02-15 13:19+0100\n"
 "PO-Revision-Date: 2014-08-14 05:46+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -194,6 +194,10 @@ msgstr "Mostrar cursor de redimensionado"
 
 msgid "Don't show exit dialog"
 msgstr "No mostrar el diálogo de salida"
+
+#, fuzzy
+msgid "Set urgent bell"
+msgstr "Activar campana audible"
 
 msgid "Set audible bell"
 msgstr "Activar campana audible"
