@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-15 13:19+0100\n"
+"POT-Creation-Date: 2015-02-15 13:28+0100\n"
 "PO-Revision-Date: 2014-07-27 18:20+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -91,7 +91,8 @@ msgstr "Выбрать цвет"
 msgid "_Select"
 msgstr "_Выбрать"
 
-msgid "Colourset to edit"
+#, fuzzy
+msgid "Colorset to edit"
 msgstr "Изменить установки цветов"
 
 msgid "Select foreground color:"

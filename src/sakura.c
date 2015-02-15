@@ -1117,7 +1117,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	/* Add the drop-down combobox that selects current colorset to edit.
 	 * TODO: preset the current colorset */
 	hbox_sets=gtk_box_new(FALSE, 12);
-	set_label=gtk_label_new(_("Colourset to edit"));
+	set_label=gtk_label_new(_("Colorset to edit"));
 	set_combo=gtk_combo_box_text_new();
 	for(cs=0; cs<NUM_COLORSETS; cs++){
 		g_snprintf(combo_text, 2, "%d", cs+1);	
