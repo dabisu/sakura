@@ -793,12 +793,15 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	if (!term->label_set_byuser) 
 		sakura_set_tab_label_text(title, modified_page);
 
-	/* FIXME: Check if title has been set by the user */
-	if (n_pages==1) {
-		/* Beware: It doesn't work in Unity because there is a Compiz bug: #257391 */
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
-	} else 
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
+	if (option_title == NULL) {
+		if (n_pages==1) {
+			/* Beware: It doesn't work in Unity because there is a Compiz bug: #257391 */
+			gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
+		} else
+			gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
+	} else {
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), option_title);
+	}
 
 }
 
