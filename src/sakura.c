@@ -437,6 +437,7 @@ static GOptionEntry entries[] = {
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
+	{ "xterm-title", 'T', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &option_title, NULL, NULL },
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
 	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
 	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after execute command"), NULL },
@@ -792,12 +793,15 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	if (!term->label_set_byuser) 
 		sakura_set_tab_label_text(title, modified_page);
 
-	/* FIXME: Check if title has been set by the user */
-	if (n_pages==1) {
-		/* Beware: It doesn't work in Unity because there is a Compiz bug: #257391 */
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
-	} else 
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
+	if (option_title == NULL) {
+		if (n_pages==1) {
+			/* Beware: It doesn't work in Unity because there is a Compiz bug: #257391 */
+			gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
+		} else
+			gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
+	} else {
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), option_title);
+	}
 
 }
 
