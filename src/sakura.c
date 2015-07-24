@@ -3107,7 +3107,10 @@ sakura_sanitize_working_directory()
 	}
 
 	if (home_directory != NULL) {
-		chdir(home_directory);
+		if (chdir(home_directory)) {
+			fprintf(stderr, _("Cannot change working directory\n"));
+			exit(1);
+		}
 	}
 }
 

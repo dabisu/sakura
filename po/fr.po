@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-15 13:28+0100\n"
+"POT-Creation-Date: 2015-07-24 23:20+0200\n"
 "PO-Revision-Date: 2014-08-31 11:14+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -236,12 +236,12 @@ msgstr "Terminal %d"
 msgid "Error message"
 msgstr "Message d'erreur"
 
-msgid "- vte-based terminal emulator"
-msgstr "Émulateur de terminal utilisant VTE"
-
 #, c-format
 msgid "Cannot change working directory\n"
 msgstr "Impossible de changer le répertoire de travail\n"
+
+msgid "- vte-based terminal emulator"
+msgstr "Émulateur de terminal utilisant VTE"
 
 #, c-format
 msgid "sakura version is %s\n"

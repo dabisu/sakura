@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-15 13:28+0100\n"
+"POT-Creation-Date: 2015-07-24 23:20+0200\n"
 "PO-Revision-Date: 2014-06-23 01:16+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -240,12 +240,12 @@ msgstr "Terminal %d"
 msgid "Error message"
 msgstr "Missatge d'error"
 
-msgid "- vte-based terminal emulator"
-msgstr "- emulador de terminal basat en libvte"
-
 #, fuzzy, c-format
 msgid "Cannot change working directory\n"
 msgstr "Definir el cursor"
+
+msgid "- vte-based terminal emulator"
+msgstr "- emulador de terminal basat en libvte"
 
 # c-format
 #, c-format

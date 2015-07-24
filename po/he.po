@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-15 13:28+0100\n"
+"POT-Creation-Date: 2015-07-24 23:20+0200\n"
 "PO-Revision-Date: 2014-08-14 05:45+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -255,14 +255,14 @@ msgstr "מסוף %d"
 msgid "Error message"
 msgstr "הודעת שגיאה"
 
+#, c-format
+msgid "Cannot change working directory\n"
+msgstr "אין אפשרות לשנות מדור עבודה\n"
+
 # CLI: Do not translate!
 # - אמולטור מסוף מבוסס vte
 msgid "- vte-based terminal emulator"
 msgstr "- vte-based terminal emulator"
-
-#, c-format
-msgid "Cannot change working directory\n"
-msgstr "אין אפשרות לשנות מדור עבודה\n"
 
 # CLI: Do not translate!
 #, c-format

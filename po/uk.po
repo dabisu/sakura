@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-15 13:28+0100\n"
+"POT-Creation-Date: 2015-07-24 23:20+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -241,12 +241,12 @@ msgstr "Термінал %d"
 msgid "Error message"
 msgstr "Повідомлення про помилку"
 
-msgid "- vte-based terminal emulator"
-msgstr "Термінальний емулятор базований на vte"
-
 #, fuzzy, c-format
 msgid "Cannot change working directory\n"
 msgstr "Встановити мерехтіння курсора"
+
+msgid "- vte-based terminal emulator"
+msgstr "Термінальний емулятор базований на vte"
 
 #, c-format
 msgid "sakura version is %s\n"
