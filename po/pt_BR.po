@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 01:00+0200\n"
+"POT-Creation-Date: 2015-07-25 01:59+0200\n"
 "PO-Revision-Date: 2014-06-23 01:16+0000\n"
 "Last-Translator: Neliton Pereira Jr. <nelitonpjr@gmail.com>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -184,9 +184,6 @@ msgstr "Exibir o botão fechar nas abas"
 msgid "Show scrollbar"
 msgstr "Mostra barra de rolagem"
 
-msgid "Show resize grip"
-msgstr "Exibir controle de redimensionamento"
-
 msgid "Don't show exit dialog"
 msgstr "Não mostrar caixa de diálogo na saída"
 
@@ -235,6 +232,9 @@ msgstr "- emulador de terminal baseado no vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
+
+#~ msgid "Show resize grip"
+#~ msgstr "Exibir controle de redimensionamento"
 
 #~ msgid "Select a background file"
 #~ msgstr "Selecionar arquivo de segundo plano"

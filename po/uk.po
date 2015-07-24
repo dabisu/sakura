@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 01:00+0200\n"
+"POT-Creation-Date: 2015-07-25 01:59+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -188,9 +188,6 @@ msgstr "Показувати кнопки закриття на вкладках
 msgid "Show scrollbar"
 msgstr "Показувати скроллбар"
 
-msgid "Show resize grip"
-msgstr "Показувати маркер зміни розміру"
-
 msgid "Don't show exit dialog"
 msgstr "Не показувати діалог виходу"
 
@@ -239,6 +236,9 @@ msgstr "Термінальний емулятор базований на vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "версія Sakura %s\n"
+
+#~ msgid "Show resize grip"
+#~ msgstr "Показувати маркер зміни розміру"
 
 #~ msgid "Select a background file"
 #~ msgstr "Обрати файл тла"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 01:00+0200\n"
+"POT-Creation-Date: 2015-07-25 01:59+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -187,9 +187,6 @@ msgstr "탭에 닫기 단추 보이기"
 msgid "Show scrollbar"
 msgstr "스크롤바 보이기"
 
-msgid "Show resize grip"
-msgstr "그립의 크기 조정 보이기"
-
 msgid "Don't show exit dialog"
 msgstr "종료 대화 상자를 표시하지 않음"
 
@@ -238,6 +235,9 @@ msgstr "- vte 기반의 터미널 에뮬레이터"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
+
+#~ msgid "Show resize grip"
+#~ msgstr "그립의 크기 조정 보이기"
 
 #~ msgid "Select a background file"
 #~ msgstr "배경 파일 선택"

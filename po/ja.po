@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 01:00+0200\n"
+"POT-Creation-Date: 2015-07-25 01:59+0200\n"
 "PO-Revision-Date: 2014-08-14 05:47+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -181,9 +181,6 @@ msgstr "タブに閉じるボタンを表示"
 msgid "Show scrollbar"
 msgstr "スクロールバーを表示"
 
-msgid "Show resize grip"
-msgstr "サイズ変更グリップを表示"
-
 msgid "Don't show exit dialog"
 msgstr "終了ダイアログを表示しない"
 
@@ -232,6 +229,9 @@ msgstr "- vte ベースのターミナルエミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "Show resize grip"
+#~ msgstr "サイズ変更グリップを表示"
 
 #~ msgid "Select a background file"
 #~ msgstr "背景ファイルを選択"
