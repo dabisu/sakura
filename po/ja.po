@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-08-14 05:47+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -112,12 +112,6 @@ msgstr "不透過率 (%):"
 msgid "New window title"
 msgstr "ウィンドウタイトルを指定"
 
-msgid "Select a background file"
-msgstr "背景ファイルを選択"
-
-msgid "_Open"
-msgstr "開く"
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -156,9 +150,6 @@ msgstr "フォントを選択"
 
 msgid "Select colors..."
 msgstr "配色を選択"
-
-msgid "Select background..."
-msgstr "背景を選択"
 
 msgid "Clear background"
 msgstr "背景をクリア"
@@ -203,9 +194,6 @@ msgstr "可聴なベルを表示"
 msgid "Set audible bell"
 msgstr "可聴なベルを表示"
 
-msgid "Set visible bell"
-msgstr "可視のベルを表示"
-
 msgid "Set blinking cursor"
 msgstr "ブリキングのカーソルを表示"
 
@@ -244,3 +232,15 @@ msgstr "- vte ベースのターミナルエミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "背景ファイルを選択"
+
+#~ msgid "_Open"
+#~ msgstr "開く"
+
+#~ msgid "Select background..."
+#~ msgstr "背景を選択"
+
+#~ msgid "Set visible bell"
+#~ msgstr "可視のベルを表示"

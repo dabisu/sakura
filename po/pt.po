@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-07-27 18:19+0000\n"
 "Last-Translator: Sérgio Marques <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -117,12 +117,6 @@ msgstr "Nível de opacidade (%):"
 msgid "New window title"
 msgstr "Título da nova janela"
 
-msgid "Select a background file"
-msgstr "Escolha um ficheiro de fundo"
-
-msgid "_Open"
-msgstr ""
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -161,9 +155,6 @@ msgstr "Escolha o tipo de letra..."
 
 msgid "Select colors..."
 msgstr "Escolha as cores..."
-
-msgid "Select background..."
-msgstr "Escolha a cor de fundo..."
 
 msgid "Clear background"
 msgstr "Remover imagem de fundo"
@@ -210,9 +201,6 @@ msgstr "Definir sinal sonoro"
 msgid "Set audible bell"
 msgstr "Definir sinal sonoro"
 
-msgid "Set visible bell"
-msgstr "Definir sinal visual"
-
 msgid "Set blinking cursor"
 msgstr "Definir cursor intermitente"
 
@@ -251,3 +239,12 @@ msgstr "- Emulador de terminal vte-based"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "a versão do sakura é a %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Escolha um ficheiro de fundo"
+
+#~ msgid "Select background..."
+#~ msgstr "Escolha a cor de fundo..."
+
+#~ msgid "Set visible bell"
+#~ msgstr "Definir sinal visual"

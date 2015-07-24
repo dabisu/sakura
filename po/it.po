@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-08-14 05:51+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -118,12 +118,6 @@ msgstr "Livello di opacità (%):"
 msgid "New window title"
 msgstr "Nuovo titolo della finestra"
 
-msgid "Select a background file"
-msgstr "Seleziona un file di sfondo"
-
-msgid "_Open"
-msgstr "_Apri"
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -162,9 +156,6 @@ msgstr "Seleziona il font..."
 
 msgid "Select colors..."
 msgstr "Seleziona i colori..."
-
-msgid "Select background..."
-msgstr "Seleziona lo sfondo..."
 
 msgid "Clear background"
 msgstr "Ripristina lo sfondo"
@@ -209,9 +200,6 @@ msgstr "Imposta l'avviso acustico"
 msgid "Set audible bell"
 msgstr "Imposta l'avviso acustico"
 
-msgid "Set visible bell"
-msgstr "Imposta l'avviso visivo"
-
 msgid "Set blinking cursor"
 msgstr "Imposta il cursore lampeggiante"
 
@@ -250,3 +238,15 @@ msgstr "- emulatore di terminale basato su VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versione di Sakura è %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Seleziona un file di sfondo"
+
+#~ msgid "_Open"
+#~ msgstr "_Apri"
+
+#~ msgid "Select background..."
+#~ msgstr "Seleziona lo sfondo..."
+
+#~ msgid "Set visible bell"
+#~ msgstr "Imposta l'avviso visivo"

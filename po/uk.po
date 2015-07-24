@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -117,12 +117,6 @@ msgstr "Рівень прозорості (%):"
 msgid "New window title"
 msgstr "Новий заголовок вікна"
 
-msgid "Select a background file"
-msgstr "Обрати файл тла"
-
-msgid "_Open"
-msgstr ""
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -161,9 +155,6 @@ msgstr "Обрати шрифт..."
 
 msgid "Select colors..."
 msgstr "Обрати кольори..."
-
-msgid "Select background..."
-msgstr "Обрати тло..."
 
 msgid "Clear background"
 msgstr "Очистити тло"
@@ -210,9 +201,6 @@ msgstr "Встановити звуковий сигнал"
 msgid "Set audible bell"
 msgstr "Встановити звуковий сигнал"
 
-msgid "Set visible bell"
-msgstr "Встановити візуальний сигнал"
-
 msgid "Set blinking cursor"
 msgstr "Встановити мерехтіння курсора"
 
@@ -251,3 +239,12 @@ msgstr "Термінальний емулятор базований на vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "версія Sakura %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Обрати файл тла"
+
+#~ msgid "Select background..."
+#~ msgstr "Обрати тло..."
+
+#~ msgid "Set visible bell"
+#~ msgstr "Встановити візуальний сигнал"

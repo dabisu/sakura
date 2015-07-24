@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-08-14 05:45+0000\n"
 "Last-Translator: GenghisKhan <genghiskhan@gmx.ca>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -133,12 +133,6 @@ msgstr "רמת עמימות (%):"
 msgid "New window title"
 msgstr "כותרת חלון חדשה"
 
-msgid "Select a background file"
-msgstr "בחירת קובץ רקע"
-
-msgid "_Open"
-msgstr "_פתח"
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -177,9 +171,6 @@ msgstr "בחר גופן..."
 
 msgid "Select colors..."
 msgstr "בחר צבעים..."
-
-msgid "Select background..."
-msgstr "בחר רקע..."
 
 msgid "Clear background"
 msgstr "טהר רקע"
@@ -224,9 +215,6 @@ msgstr "קבע פעמון שמיע"
 msgid "Set audible bell"
 msgstr "קבע פעמון שמיע"
 
-msgid "Set visible bell"
-msgstr "קבע פעמון נראה"
-
 msgid "Set blinking cursor"
 msgstr "קבע סמן מהבהב"
 
@@ -268,3 +256,15 @@ msgstr "- vte-based terminal emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "בחירת קובץ רקע"
+
+#~ msgid "_Open"
+#~ msgstr "_פתח"
+
+#~ msgid "Select background..."
+#~ msgstr "בחר רקע..."
+
+#~ msgid "Set visible bell"
+#~ msgstr "קבע פעמון נראה"

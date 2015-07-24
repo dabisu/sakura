@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -114,12 +114,6 @@ msgstr "Opacity level (%):"
 msgid "New window title"
 msgstr "New window title"
 
-msgid "Select a background file"
-msgstr "Select a background file"
-
-msgid "_Open"
-msgstr ""
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -158,9 +152,6 @@ msgstr "Select font..."
 
 msgid "Select colors..."
 msgstr "Select colours..."
-
-msgid "Select background..."
-msgstr "Select background..."
 
 msgid "Clear background"
 msgstr "Clear background"
@@ -204,9 +195,6 @@ msgstr "Set urgent bell"
 msgid "Set audible bell"
 msgstr "Set audible bell"
 
-msgid "Set visible bell"
-msgstr "Set visible bell"
-
 msgid "Set blinking cursor"
 msgstr "Set blinking cursor"
 
@@ -245,3 +233,12 @@ msgstr ""
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Select a background file"
+
+#~ msgid "Select background..."
+#~ msgstr "Select background..."
+
+#~ msgid "Set visible bell"
+#~ msgstr "Set visible bell"

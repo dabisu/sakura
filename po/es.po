@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-08-14 05:46+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -113,12 +113,6 @@ msgstr "Nivel de opacidad (%)"
 msgid "New window title"
 msgstr "Nuevo título de la venta"
 
-msgid "Select a background file"
-msgstr "Seleccionar fichero de fondo"
-
-msgid "_Open"
-msgstr "_Abrir"
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -156,9 +150,6 @@ msgstr "Seleccionar fuente..."
 
 msgid "Select colors..."
 msgstr "Seleccionar colores..."
-
-msgid "Select background..."
-msgstr "Seleccionar fondo..."
 
 msgid "Clear background"
 msgstr "Limpiar fondo..."
@@ -203,9 +194,6 @@ msgstr "Activar campana audible"
 msgid "Set audible bell"
 msgstr "Activar campana audible"
 
-msgid "Set visible bell"
-msgstr "Activar campana visible"
-
 msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
 
@@ -245,3 +233,15 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Seleccionar fichero de fondo"
+
+#~ msgid "_Open"
+#~ msgstr "_Abrir"
+
+#~ msgid "Select background..."
+#~ msgstr "Seleccionar fondo..."
+
+#~ msgid "Set visible bell"
+#~ msgstr "Activar campana visible"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -117,12 +117,6 @@ msgstr "Nivo zasićenosti (%):"
 msgid "New window title"
 msgstr "Novi naslov prozora"
 
-msgid "Select a background file"
-msgstr "Odaberite slikovnu datoteku s pozadinom"
-
-msgid "_Open"
-msgstr ""
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -161,9 +155,6 @@ msgstr "Postavi font..."
 
 msgid "Select colors..."
 msgstr "Postavi boje..."
-
-msgid "Select background..."
-msgstr "Postavi pozadinu..."
 
 msgid "Clear background"
 msgstr "Ukolni pozadinu"
@@ -210,9 +201,6 @@ msgstr "Postavi zvučno zvono"
 msgid "Set audible bell"
 msgstr "Postavi zvučno zvono"
 
-msgid "Set visible bell"
-msgstr "Postavi vidljivo zvono"
-
 msgid "Set blinking cursor"
 msgstr "Koristi treptajući pokazivač"
 
@@ -251,3 +239,12 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Odaberite slikovnu datoteku s pozadinom"
+
+#~ msgid "Select background..."
+#~ msgstr "Postavi pozadinu..."
+
+#~ msgid "Set visible bell"
+#~ msgstr "Postavi vidljivo zvono"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: hu\n"
@@ -114,12 +114,6 @@ msgstr ""
 msgid "New window title"
 msgstr ""
 
-msgid "Select a background file"
-msgstr "Válassz háttér fájlt"
-
-msgid "_Open"
-msgstr ""
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -155,9 +149,6 @@ msgstr "Válassz betűt..."
 
 msgid "Select colors..."
 msgstr "Válassz színeket..."
-
-msgid "Select background..."
-msgstr "Háttér választása..."
 
 msgid "Clear background"
 msgstr "Háttér választása"
@@ -202,9 +193,6 @@ msgstr ""
 msgid "Set audible bell"
 msgstr ""
 
-msgid "Set visible bell"
-msgstr ""
-
 msgid "Set blinking cursor"
 msgstr ""
 
@@ -243,3 +231,9 @@ msgstr ""
 #, c-format
 msgid "sakura version is %s\n"
 msgstr ""
+
+#~ msgid "Select a background file"
+#~ msgstr "Válassz háttér fájlt"
+
+#~ msgid "Select background..."
+#~ msgstr "Háttér választása..."

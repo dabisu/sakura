@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -120,12 +120,6 @@ msgstr "Úroveň průhlednosti (%):"
 msgid "New window title"
 msgstr "Název nového okna"
 
-msgid "Select a background file"
-msgstr "Vyberte obrázek na pozadí"
-
-msgid "_Open"
-msgstr ""
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -165,9 +159,6 @@ msgstr "Zvolte písmo…"
 
 msgid "Select colors..."
 msgstr "Zvolte barvy…"
-
-msgid "Select background..."
-msgstr "Zvolte pozadí…"
 
 msgid "Clear background"
 msgstr "Vymazat pozadí"
@@ -215,9 +206,6 @@ msgstr "Nastavit akustické upozornění"
 msgid "Set audible bell"
 msgstr "Nastavit akustické upozornění"
 
-msgid "Set visible bell"
-msgstr "Nastavit vizuální upozornění"
-
 msgid "Set blinking cursor"
 msgstr "Nastavit blikající kurzor"
 
@@ -256,3 +244,12 @@ msgstr "- emulátor terminálu založený na VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Vyberte obrázek na pozadí"
+
+#~ msgid "Select background..."
+#~ msgstr "Zvolte pozadí…"
+
+#~ msgid "Set visible bell"
+#~ msgstr "Nastavit vizuální upozornění"

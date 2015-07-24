@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-06-23 01:16+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -116,12 +116,6 @@ msgstr "Nivell d'opacitat (%)"
 msgid "New window title"
 msgstr "Definiu el nom de la finestra"
 
-msgid "Select a background file"
-msgstr "Sel·leccioneu l'imatge de fons"
-
-msgid "_Open"
-msgstr ""
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -160,9 +154,6 @@ msgstr "Sel·leccionar font..."
 
 msgid "Select colors..."
 msgstr "Sel·leccionar colors..."
-
-msgid "Select background..."
-msgstr "Sel·leccionar fons..."
 
 msgid "Clear background"
 msgstr "Natejar fons..."
@@ -209,9 +200,6 @@ msgstr "Definir la senyal acústica"
 msgid "Set audible bell"
 msgstr "Definir la senyal acústica"
 
-msgid "Set visible bell"
-msgstr "Definir la senyal visible"
-
 msgid "Set blinking cursor"
 msgstr "Definir el cursor"
 
@@ -251,3 +239,12 @@ msgstr "- emulador de terminal basat en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Sel·leccioneu l'imatge de fons"
+
+#~ msgid "Select background..."
+#~ msgstr "Sel·leccionar fons..."
+
+#~ msgid "Set visible bell"
+#~ msgstr "Definir la senyal visible"

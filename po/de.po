@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 23:20+0200\n"
+"POT-Creation-Date: 2015-07-25 01:00+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -120,12 +120,6 @@ msgstr "Transparenzgrad (%):"
 msgid "New window title"
 msgstr "Fenstertitel wählen"
 
-msgid "Select a background file"
-msgstr "Datei für Hintergrundbild wählen"
-
-msgid "_Open"
-msgstr ""
-
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -164,9 +158,6 @@ msgstr "Schrift wählen..."
 
 msgid "Select colors..."
 msgstr "Farben wählen..."
-
-msgid "Select background..."
-msgstr "Hintergrund wählen..."
 
 msgid "Clear background"
 msgstr "Hintergrundbild entfernen"
@@ -213,9 +204,6 @@ msgstr "Hörbarer Alarm"
 msgid "Set audible bell"
 msgstr "Hörbarer Alarm"
 
-msgid "Set visible bell"
-msgstr "Sichtbarer Alarm"
-
 msgid "Set blinking cursor"
 msgstr "Blinkender Cursor"
 
@@ -254,3 +242,12 @@ msgstr "- vte-basierter Terminal-Emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Datei für Hintergrundbild wählen"
+
+#~ msgid "Select background..."
+#~ msgstr "Hintergrund wählen..."
+
+#~ msgid "Set visible bell"
+#~ msgstr "Sichtbarer Alarm"
