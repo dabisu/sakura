@@ -2052,7 +2052,6 @@ sakura_init()
 	}
 	sakura.set_colorset_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_colorset_accelerator", NULL);
 
-
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "icon_file", NULL)) {
 		sakura_set_config_string("icon_file", ICON_FILE);
 	}
