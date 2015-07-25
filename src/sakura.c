@@ -218,7 +218,6 @@ static struct {
 	GdkRGBA backcolors[NUM_COLORSETS];
 	GdkRGBA curscolors[NUM_COLORSETS];
 	const GdkRGBA *palette;
-	bool has_rgba;				/* RGBA capabilities */
 	char *current_match;
 	guint width;
 	guint height;
@@ -1008,25 +1007,17 @@ sakura_set_colorset (int cs)
 	sakura_set_colors();
 }
 
+
+/* Set the terminal colors for all notebook tabs */
 static void 
 sakura_set_colors ()
 {
 	int i;
 	int n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	struct terminal *term;
-//	GdkRGBA white={255, 255, 255, 1};
 
-	/* Re-apply in each notebook tab its terminals colors */
 	for (i = (n_pages - 1); i >= 0; i--) {
 		term = sakura_get_page_term(sakura, i);
-		//if (sakura.has_rgba) {
-			/* FIXME: Is this still needed with RGBA colors?? */
-			/* This is needed for set_opacity to have effect. The opacity does
-			   take effect when switching tabs, so this setting to white is 
-			   actually needed only in the shown tab.*/
-		//	vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
-			//vte_terminal_set_alpha(VTE_TERMINAL (term->vte), sakura.backcolors[term->colorset].alpha);
-		//}
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte),
 		                        &sakura.forecolors[term->colorset], 
 		                        &sakura.backcolors[term->colorset],
@@ -1035,6 +1026,7 @@ sakura_set_colors ()
 	}
 
 }
+
 
 /* Callback from the color change dialog. Updates the contents of that
  * dialog, passed as 'data' from user input. */
@@ -1507,12 +1499,7 @@ sakura_set_cursor(GtkWidget *widget, void *data)
 static void
 sakura_set_palette(GtkWidget *widget, void *data)
 {
-	struct terminal *term;
-	int n_pages, i;
-
 	char *palette=(char *)data;
-
-	n_pages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		if (strcmp(palette, "linux")==0) {
@@ -1527,14 +1514,8 @@ sakura_set_palette(GtkWidget *widget, void *data)
 			sakura.palette=solarized_light_palette;	
 		}
 
-		for (i = (n_pages - 1); i >= 0; i--) {
-			term = sakura_get_page_term(sakura, i);
-			vte_terminal_set_colors(VTE_TERMINAL(term->vte),
-			                        &sakura.forecolors[term->colorset], 
-			                        &sakura.backcolors[term->colorset],
-			                        sakura.palette, PALETTE_SIZE);
-			vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
-		}
+		/* Palette changed so we ¿need? to set colors again */
+		sakura_set_colors();
 
 		sakura_set_config_string("palette", palette);
 	}
@@ -2056,15 +2037,11 @@ sakura_init()
 
 	sakura.notebook=gtk_notebook_new();
 
-	/* Figure out if we have rgba capabilities. */
+	/* Figure out if we have rgba capabilities. FIXME: Is this really needed? */
 	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
 	GdkVisual *visual = gdk_screen_get_rgba_visual (screen);
 	if (visual != NULL && gdk_screen_is_composited (screen)) {
 		gtk_widget_set_visual (GTK_WIDGET (sakura.main_window), visual);
-		//sakura.has_rgba = true;
-	} else {
-		/* Probably not needed, as is likely the default initializer */
-		//sakura.has_rgba = false;
 	}
 
 	/* Command line options initialization */
@@ -2656,7 +2633,7 @@ sakura_add_tab()
 		g_signal_connect(G_OBJECT(close_button), "clicked", G_CALLBACK(sakura_closebutton_clicked), term->hbox);
 	}
 
-	/* TODO: Use this with vte_spawn_sync. With fork_command__full is overwritten. CHECK IF ITS ALREADY FIXED */
+	/* Since vte-2.91 and spawm_sync env is properly overwritten */
 	char *command_env[2]={"TERM=xterm-256color",0};
 	/* First tab */
 	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)); 
@@ -2794,17 +2771,12 @@ sakura_add_tab()
 	free(cwd);
 
 	/* Configuration for the newly created terminal */
-	GdkRGBA white={255, 255, 255, 1};
-	vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &white);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
 	vte_terminal_set_colors(VTE_TERMINAL(term->vte), 
-							  &sakura.forecolors[term->colorset],
-							  &sakura.backcolors[term->colorset],
-							  sakura.palette, PALETTE_SIZE);
+	                        &sakura.forecolors[term->colorset],
+	                        &sakura.backcolors[term->colorset],
+	                        sakura.palette, PALETTE_SIZE);
 	vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
-	//if (sakura.has_rgba) {
-	//	vte_terminal_set_opacity(VTE_TERMINAL (term->vte), (int)((sakura.backcolors[term->colorset].alpha)*65535));
-	//}
 
 	/* Get rid of these nasty bells */
 	vte_terminal_set_audible_bell (VTE_TERMINAL(term->vte), sakura.audible_bell ? TRUE : FALSE);
