@@ -5,5 +5,6 @@ Makefile
 *.gmo
 *.mo
 install_manifest.txt
+po/sakura.pot
 src/sakura
 sakura.1

@@ -293,7 +293,6 @@ struct terminal {
 #define DEFAULT_ROWS 24
 #define DEFAULT_FONT "Ubuntu Mono,monospace 13"
 #define FONT_MINIMAL_SIZE (PANGO_SCALE*6)
-//#define DEFAULT_WORD_CHARS  "-A-Za-z0-9,./?%&#_~"
 #define DEFAULT_PALETTE "solarized_dark"
 #define TAB_MAX_SIZE 40
 #define TAB_MIN_SIZE 6
@@ -694,7 +693,7 @@ sakura_decrease_font (GtkWidget *widget, void *data)
 static void
 sakura_child_exited (GtkWidget *widget, void *data)
 {
-	gint status, page, npages;
+	gint page, npages;
 	struct terminal *term;
 
 	page = gtk_notebook_page_num(GTK_NOTEBOOK(sakura.notebook),
@@ -714,8 +713,7 @@ sakura_child_exited (GtkWidget *widget, void *data)
 
 	SAY("waiting for terminal pid %d", term->pid);
 
-	waitpid(term->pid, &status, WNOHANG);
-	/* TODO: check wait return */
+	vte_terminal_watch_child(VTE_TERMINAL(term->vte), term->pid);
 
 	sakura_del_tab(page);
 
@@ -2619,7 +2617,7 @@ sakura_add_tab()
 	sakura_set_page_term(sakura, index, term );
 
 	/* vte signals */
-	g_signal_connect(G_OBJECT(term->vte), "beep", G_CALLBACK(sakura_beep), NULL);
+	g_signal_connect(G_OBJECT(term->vte), "bell", G_CALLBACK(sakura_beep), NULL);
 	g_signal_connect(G_OBJECT(term->vte), "increase-font-size", G_CALLBACK(sakura_increase_font), NULL);
 	g_signal_connect(G_OBJECT(term->vte), "decrease-font-size", G_CALLBACK(sakura_decrease_font), NULL);
 	g_signal_connect(G_OBJECT(term->vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
