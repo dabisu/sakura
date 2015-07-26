@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 13:51+0200\n"
+"POT-Creation-Date: 2015-07-26 17:47+0200\n"
 "PO-Revision-Date: 2014-07-27 18:20+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -96,18 +96,19 @@ msgid "Colorset"
 msgstr "Изменить установки цветов"
 
 #, fuzzy
-msgid "Foreground color:"
+msgid "Foreground color"
 msgstr "Цвет текста:"
 
 #, fuzzy
-msgid "Background color:"
+msgid "Background color"
 msgstr "Выберите цвет фона:"
 
 #, fuzzy
-msgid "Cursor color:"
+msgid "Cursor color"
 msgstr "Выбрать цвет курсора:"
 
-msgid "Opacity level (%):"
+#, fuzzy
+msgid "Opacity level (%)"
 msgstr "Уровень прозрачности (%):"
 
 msgid "New window title"

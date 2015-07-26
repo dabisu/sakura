@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 13:51+0200\n"
+"POT-Creation-Date: 2015-07-26 17:47+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -105,18 +105,19 @@ msgid "Colorset"
 msgstr ""
 
 #, fuzzy
-msgid "Foreground color:"
+msgid "Foreground color"
 msgstr "Zvolte barvu textu:"
 
 #, fuzzy
-msgid "Background color:"
+msgid "Background color"
 msgstr "Zvolte barvu pozadí:"
 
 #, fuzzy
-msgid "Cursor color:"
+msgid "Cursor color"
 msgstr "Zvolte barvu pozadí:"
 
-msgid "Opacity level (%):"
+#, fuzzy
+msgid "Opacity level (%)"
 msgstr "Úroveň průhlednosti (%):"
 
 msgid "New window title"

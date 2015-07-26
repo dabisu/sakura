@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 13:51+0200\n"
+"POT-Creation-Date: 2015-07-26 17:47+0200\n"
 "PO-Revision-Date: 2014-06-23 01:16+0000\n"
 "Last-Translator: Neliton Pereira Jr. <nelitonpjr@gmail.com>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -98,18 +98,19 @@ msgid "Colorset"
 msgstr ""
 
 #, fuzzy
-msgid "Foreground color:"
+msgid "Foreground color"
 msgstr "Selecionar cor de primeiro plano:"
 
 #, fuzzy
-msgid "Background color:"
+msgid "Background color"
 msgstr "Selecionar cor de segundo plano..."
 
 #, fuzzy
-msgid "Cursor color:"
+msgid "Cursor color"
 msgstr "Selecionar cor de segundo plano..."
 
-msgid "Opacity level (%):"
+#, fuzzy
+msgid "Opacity level (%)"
 msgstr "Nível de opacidade (%):"
 
 msgid "New window title"

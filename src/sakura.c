@@ -1115,9 +1115,9 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	hbox_fore=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
 	hbox_back=gtk_box_new(FALSE, 12);
 	hbox_curs=gtk_box_new(FALSE, 12);
-	label1=gtk_label_new(_("Foreground color:"));
-	label2=gtk_label_new(_("Background color:"));
-	label3=gtk_label_new(_("Cursor color:"));
+	label1=gtk_label_new(_("Foreground color"));
+	label2=gtk_label_new(_("Background color"));
+	label3=gtk_label_new(_("Cursor color"));
 	buttonfore=gtk_color_button_new_with_rgba(&sakura.forecolors[term->colorset]);
 	buttonback=gtk_color_button_new_with_rgba(&sakura.backcolors[term->colorset]);
 	buttoncurs=gtk_color_button_new_with_rgba(&sakura.curscolors[term->colorset]);
@@ -1126,7 +1126,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	hbox_opacity=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12); 
 	spinner_adj = gtk_adjustment_new ((sakura.backcolors[term->colorset].alpha)*100, 0.0, 99.0, 1.0, 5.0, 0);
 	opacity_spin = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
-	opacity_label = gtk_label_new(_("Opacity level (%):"));
+	opacity_label = gtk_label_new(_("Opacity level (%)"));
 	gtk_box_pack_start(GTK_BOX(hbox_opacity), opacity_label, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_opacity), opacity_spin, FALSE, FALSE, 12);
 

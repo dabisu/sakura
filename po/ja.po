@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 13:51+0200\n"
+"POT-Creation-Date: 2015-07-26 17:47+0200\n"
 "PO-Revision-Date: 2015-02-15 11:57+0000\n"
 "Last-Translator: SAKAGUCHI, Hirotaka <kemo@sun.interq.or.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -98,18 +98,19 @@ msgid "Colorset"
 msgstr "編集するカラーセット"
 
 #, fuzzy
-msgid "Foreground color:"
+msgid "Foreground color"
 msgstr "前景色を選択:"
 
 #, fuzzy
-msgid "Background color:"
+msgid "Background color"
 msgstr "背景色を選択:"
 
 #, fuzzy
-msgid "Cursor color:"
+msgid "Cursor color"
 msgstr "カーソル色を選択:"
 
-msgid "Opacity level (%):"
+#, fuzzy
+msgid "Opacity level (%)"
 msgstr "不透過率 (%):"
 
 msgid "New window title"
