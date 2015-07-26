@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 01:59+0200\n"
+"POT-Creation-Date: 2015-07-26 12:09+0200\n"
 "PO-Revision-Date: 2014-08-14 05:47+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -94,16 +94,19 @@ msgid "_Select"
 msgstr "選択"
 
 #, fuzzy
-msgid "Colorset to edit"
+msgid "Colorset"
 msgstr "編集するカラーセット"
 
-msgid "Select foreground color:"
+#, fuzzy
+msgid "Foreground color:"
 msgstr "前景色を選択:"
 
-msgid "Select background color:"
+#, fuzzy
+msgid "Background color:"
 msgstr "背景色を選択:"
 
-msgid "Select cursor color:"
+#, fuzzy
+msgid "Cursor color:"
 msgstr "カーソル色を選択:"
 
 msgid "Opacity level (%):"

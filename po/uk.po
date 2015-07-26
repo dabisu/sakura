@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 01:59+0200\n"
+"POT-Creation-Date: 2015-07-26 12:09+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -98,17 +98,19 @@ msgstr "Обрати колір"
 msgid "_Select"
 msgstr "Обрати шрифт"
 
-msgid "Colorset to edit"
+msgid "Colorset"
 msgstr ""
 
-msgid "Select foreground color:"
+#, fuzzy
+msgid "Foreground color:"
 msgstr "Оберіть колір:"
 
-msgid "Select background color:"
+#, fuzzy
+msgid "Background color:"
 msgstr "Оберіть колір тла:"
 
 #, fuzzy
-msgid "Select cursor color:"
+msgid "Cursor color:"
 msgstr "Оберіть колір тла:"
 
 msgid "Opacity level (%):"

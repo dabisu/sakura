@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 01:59+0200\n"
+"POT-Creation-Date: 2015-07-26 12:09+0200\n"
 "PO-Revision-Date: 2014-07-27 18:19+0000\n"
 "Last-Translator: Sérgio Marques <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -98,17 +98,19 @@ msgstr "Escolha a cor"
 msgid "_Select"
 msgstr "Escolha o tipo de letra"
 
-msgid "Colorset to edit"
+msgid "Colorset"
 msgstr ""
 
-msgid "Select foreground color:"
+#, fuzzy
+msgid "Foreground color:"
 msgstr "Escolha a cor principal:"
 
-msgid "Select background color:"
+#, fuzzy
+msgid "Background color:"
 msgstr "Escolha a cor de fundo:"
 
 #, fuzzy
-msgid "Select cursor color:"
+msgid "Cursor color:"
 msgstr "Escolha a cor de fundo:"
 
 msgid "Opacity level (%):"

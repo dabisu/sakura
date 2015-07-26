@@ -1104,7 +1104,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	/* Add the drop-down combobox that selects current colorset to edit.
 	 * TODO: preset the current colorset */
 	hbox_sets=gtk_box_new(FALSE, 12);
-	set_label=gtk_label_new(_("Colorset to edit"));
+	set_label=gtk_label_new(_("Colorset"));
 	set_combo=gtk_combo_box_text_new();
 	for(cs=0; cs<NUM_COLORSETS; cs++){
 		g_snprintf(combo_text, 2, "%d", cs+1);	
@@ -1115,9 +1115,9 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	hbox_fore=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
 	hbox_back=gtk_box_new(FALSE, 12);
 	hbox_curs=gtk_box_new(FALSE, 12);
-	label1=gtk_label_new(_("Select foreground color:"));
-	label2=gtk_label_new(_("Select background color:"));
-	label3=gtk_label_new(_("Select cursor color:"));
+	label1=gtk_label_new(_("Foreground color:"));
+	label2=gtk_label_new(_("Background color:"));
+	label3=gtk_label_new(_("Cursor color:"));
 	buttonfore=gtk_color_button_new_with_rgba(&sakura.forecolors[term->colorset]);
 	buttonback=gtk_color_button_new_with_rgba(&sakura.backcolors[term->colorset]);
 	buttoncurs=gtk_color_button_new_with_rgba(&sakura.curscolors[term->colorset]);

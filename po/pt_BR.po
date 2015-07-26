@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 01:59+0200\n"
+"POT-Creation-Date: 2015-07-26 12:09+0200\n"
 "PO-Revision-Date: 2014-06-23 01:16+0000\n"
 "Last-Translator: Neliton Pereira Jr. <nelitonpjr@gmail.com>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -94,17 +94,19 @@ msgstr "Selecionar cor"
 msgid "_Select"
 msgstr "Selecionar fonte"
 
-msgid "Colorset to edit"
+msgid "Colorset"
 msgstr ""
 
-msgid "Select foreground color:"
+#, fuzzy
+msgid "Foreground color:"
 msgstr "Selecionar cor de primeiro plano:"
 
-msgid "Select background color:"
+#, fuzzy
+msgid "Background color:"
 msgstr "Selecionar cor de segundo plano..."
 
 #, fuzzy
-msgid "Select cursor color:"
+msgid "Cursor color:"
 msgstr "Selecionar cor de segundo plano..."
 
 msgid "Opacity level (%):"

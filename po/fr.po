@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 01:59+0200\n"
+"POT-Creation-Date: 2015-07-26 12:09+0200\n"
 "PO-Revision-Date: 2014-08-31 11:14+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -96,16 +96,19 @@ msgid "_Select"
 msgstr "_Sélection"
 
 #, fuzzy
-msgid "Colorset to edit"
+msgid "Colorset"
 msgstr "Modifier le jeu de couleurs"
 
-msgid "Select foreground color:"
+#, fuzzy
+msgid "Foreground color:"
 msgstr "Sélectionner la couleur de premier plan"
 
-msgid "Select background color:"
+#, fuzzy
+msgid "Background color:"
 msgstr "Sélectionner la couleur d'arrière plan"
 
-msgid "Select cursor color:"
+#, fuzzy
+msgid "Cursor color:"
 msgstr "Sélectionner la couleur du curseur :"
 
 msgid "Opacity level (%):"
