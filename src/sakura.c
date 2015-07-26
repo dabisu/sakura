@@ -2156,7 +2156,7 @@ sakura_init_popup()
 	item_new_tab=gtk_menu_item_new_with_label(_("New tab"));
 	item_set_name=gtk_menu_item_new_with_label(_("Set tab name..."));
 	item_close_tab=gtk_menu_item_new_with_label(_("Close tab"));
-	item_fullscreen=gtk_menu_item_new_with_label(("Full screen"));
+	item_fullscreen=gtk_menu_item_new_with_label(_("Full screen"));
 	item_copy=gtk_menu_item_new_with_label(_("Copy"));
 	item_paste=gtk_menu_item_new_with_label(_("Paste"));
 	item_select_font=gtk_menu_item_new_with_label(_("Select font..."));

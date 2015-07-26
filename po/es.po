@@ -183,9 +183,8 @@ msgstr "Mostrar barra de desplazamiento"
 msgid "Don't show exit dialog"
 msgstr "No mostrar el diálogo de salida"
 
-#, fuzzy
 msgid "Set urgent bell"
-msgstr "Activar campana audible"
+msgstr "Activar campana de urgencia"
 
 msgid "Set audible bell"
 msgstr "Activar campana audible"

@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-15 13:31+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-26 15:42+0200\n"
 "PO-Revision-Date: 2015-05-19 22:50+0000\n"
 "Last-Translator: Andreas Rönnquist <gusnan@gusnan.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -95,16 +96,18 @@ msgstr "Välj färg"
 msgid "_Select"
 msgstr "_Välj"
 
-msgid "Colorset to edit"
+#, fuzzy
+msgid "Colorset"
 msgstr "Färguppsättning att redigera"
 
-msgid "Select foreground color:"
-msgstr "Välj förgrundsfärg:"
+msgid "Foreground color:"
+msgstr "Förgrundsfärg:"
 
-msgid "Select background color:"
-msgstr "Välj bakgrundsfärg:"
+msgid "Background color:"
+msgstr "Bakgrundsfärg:"
 
-msgid "Select cursor color:"
+#, fuzzy
+msgid "Cursor color:"
 msgstr "Välj färg på markören:"
 
 msgid "Opacity level (%):"
@@ -112,12 +115,6 @@ msgstr "Opacitetsnivå (%):"
 
 msgid "New window title"
 msgstr "Ny fönstertitel"
-
-msgid "Select a background file"
-msgstr "Välj en bakgrundsfil"
-
-msgid "_Open"
-msgstr "_Öppna"
 
 msgid ""
 "There is a running process in this terminal.\n"
@@ -158,9 +155,6 @@ msgstr "Välj typsnitt..."
 msgid "Select colors..."
 msgstr "Välj färger..."
 
-msgid "Select background..."
-msgstr "Välj bakgrund..."
-
 msgid "Clear background"
 msgstr "Rensa bakgrundsbild"
 
@@ -191,9 +185,6 @@ msgstr "Visa stängningsknapp på flikar"
 msgid "Show scrollbar"
 msgstr "Visa rullningslist"
 
-msgid "Show resize grip"
-msgstr "Visa storleksändringskontroll"
-
 msgid "Don't show exit dialog"
 msgstr "Visa inte stängningsdialog"
 
@@ -202,9 +193,6 @@ msgstr "Sätt larmsignal"
 
 msgid "Set audible bell"
 msgstr "Sätt hörbar signal"
-
-msgid "Set visible bell"
-msgstr "Sätt synlig signal"
 
 msgid "Set blinking cursor"
 msgstr "Sätt blinkande markör"
@@ -234,13 +222,28 @@ msgstr "Terminal %d"
 msgid "Error message"
 msgstr "Felmeddelande"
 
-msgid "- vte-based terminal emulator"
-msgstr "- vte-baserad terminalemulator"
-
 #, c-format
 msgid "Cannot change working directory\n"
 msgstr "Kan inte ändra arbetskatalog\n"
 
+msgid "- vte-based terminal emulator"
+msgstr "- vte-baserad terminalemulator"
+
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura-versionen är %s\n"
+
+#~ msgid "Select a background file"
+#~ msgstr "Välj en bakgrundsfil"
+
+#~ msgid "_Open"
+#~ msgstr "_Öppna"
+
+#~ msgid "Select background..."
+#~ msgstr "Välj bakgrund..."
+
+#~ msgid "Show resize grip"
+#~ msgstr "Visa storleksändringskontroll"
+
+#~ msgid "Set visible bell"
+#~ msgstr "Sätt synlig signal"
