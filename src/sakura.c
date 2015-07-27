@@ -1089,7 +1089,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-	color_dialog=gtk_dialog_new_with_buttons(_("Select color"), GTK_WINDOW(sakura.main_window),
+	color_dialog=gtk_dialog_new_with_buttons(_("Select colors"), GTK_WINDOW(sakura.main_window),
 	                                                            GTK_DIALOG_MODAL,
 	                                                            _("_Cancel"), GTK_RESPONSE_REJECT,
 	                                                            _("_Select"), GTK_RESPONSE_ACCEPT, NULL);

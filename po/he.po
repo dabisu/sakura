@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 20:55+0200\n"
+"POT-Creation-Date: 2015-07-27 16:27+0200\n"
 "PO-Revision-Date: 2015-07-26 17:10+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -108,7 +108,8 @@ msgstr "_החל"
 msgid "New text"
 msgstr "תמליל חדש"
 
-msgid "Select color"
+#, fuzzy
+msgid "Select colors"
 msgstr "בחר צבע"
 
 msgid "_Select"
