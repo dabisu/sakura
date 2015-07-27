@@ -402,6 +402,7 @@ static void     sakura_config_done();
 static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
 
+/* Globals */
 static const char *option_font;
 static const char *option_workdir;
 static const char *option_execute;
@@ -417,6 +418,7 @@ static const char *option_geometry;
 static char *option_config_file;
 static gboolean option_fullscreen;
 static gboolean option_maximize;
+static gint option_colorset;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
@@ -436,6 +438,7 @@ static GOptionEntry entries[] = {
 	{ "fullscreen", 's', 0, G_OPTION_ARG_NONE, &option_fullscreen, N_("Fullscreen mode"), NULL },
 	{ "geometry", 0, 0, G_OPTION_ARG_STRING, &option_geometry, N_("X geometry specification"), NULL },
 	{ "config-file", 0, 0, G_OPTION_ARG_FILENAME, &option_config_file, N_("Use alternate configuration file"), NULL },
+	{ "colorset", 0, 0, G_OPTION_ARG_INT, &option_colorset, "Select initial colorset", NULL },
 	{ NULL }
 };
 
@@ -2068,6 +2071,10 @@ sakura_init()
 
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
+	}
+
+	if (option_colorset && option_colorset>0 && option_colorset <= NUM_COLORSETS) {
+		sakura.last_colorset=option_colorset;
 	}
 
 	/* These options are exclusive */

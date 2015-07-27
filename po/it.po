@@ -5,16 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 17:47+0200\n"
-"PO-Revision-Date: 2014-08-14 05:51+0000\n"
+"POT-Creation-Date: 2015-07-26 20:55+0200\n"
+"PO-Revision-Date: 2015-07-26 16:34+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-02-16 05:51+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-07-27 05:11+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 "X-Poedit-Country: ITALY\n"
 "X-Poedit-Language: Italian\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -102,21 +102,17 @@ msgstr "_Seleziona"
 msgid "Colorset"
 msgstr ""
 
-#, fuzzy
 msgid "Foreground color"
-msgstr "Seleziona il colore del testo:"
+msgstr "Colore del testo"
 
-#, fuzzy
 msgid "Background color"
-msgstr "Seleziona il colore dello sfondo:"
+msgstr "Colore dello sfondo"
 
-#, fuzzy
 msgid "Cursor color"
-msgstr "Seleziona il colore dello sfondo:"
+msgstr "Colore del cursore"
 
-#, fuzzy
 msgid "Opacity level (%)"
-msgstr "Livello di opacità (%):"
+msgstr "Livello di opacità (%)"
 
 msgid "New window title"
 msgstr "Nuovo titolo della finestra"
@@ -238,24 +234,3 @@ msgstr "- emulatore di terminale basato su VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versione di Sakura è %s\n"
-
-#~ msgid "Select foreground color:"
-#~ msgstr "Seleziona il colore del testo:"
-
-#~ msgid "Select background color:"
-#~ msgstr "Seleziona il colore dello sfondo:"
-
-#~ msgid "Select a background file"
-#~ msgstr "Seleziona un file di sfondo"
-
-#~ msgid "_Open"
-#~ msgstr "_Apri"
-
-#~ msgid "Select background..."
-#~ msgstr "Seleziona lo sfondo..."
-
-#~ msgid "Show resize grip"
-#~ msgstr "Mostra grip di ridimensionamento"
-
-#~ msgid "Set visible bell"
-#~ msgstr "Imposta l'avviso visivo"

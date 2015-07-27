@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 17:47+0200\n"
-"PO-Revision-Date: 2014-08-14 05:48+0000\n"
+"POT-Creation-Date: 2015-07-26 20:55+0200\n"
+"PO-Revision-Date: 2015-07-26 17:57+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-02-16 05:51+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-07-27 05:11+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 msgid "Print version number"
 msgstr "显示版本号"
@@ -27,9 +27,8 @@ msgstr "选择初始终端字体"
 msgid "Select initial number of tabs"
 msgstr "选择初始标签数"
 
-#, fuzzy
 msgid "Set working directory"
-msgstr "设置闪烁光标"
+msgstr "设置工作目录"
 
 msgid "Execute command"
 msgstr "执行命令"
@@ -100,21 +99,17 @@ msgstr "选择"
 msgid "Colorset"
 msgstr ""
 
-#, fuzzy
 msgid "Foreground color"
-msgstr "选择前景色："
+msgstr "前景色"
 
-#, fuzzy
 msgid "Background color"
-msgstr "选择背景色："
+msgstr "背景色"
 
-#, fuzzy
 msgid "Cursor color"
-msgstr "选择背景色："
+msgstr "光标色"
 
-#, fuzzy
 msgid "Opacity level (%)"
-msgstr "透明度(%):"
+msgstr "不透明度(%)"
 
 msgid "New window title"
 msgstr "新窗口标题"
@@ -191,12 +186,11 @@ msgstr "显示滚动条"
 msgid "Don't show exit dialog"
 msgstr "不显示退出对话框"
 
-#, fuzzy
 msgid "Set urgent bell"
-msgstr "设定蜂鸣提醒"
+msgstr "设定紧急铃"
 
 msgid "Set audible bell"
-msgstr "设定蜂鸣提醒"
+msgstr "设定蜂鸣铃"
 
 msgid "Set blinking cursor"
 msgstr "设置闪烁光标"
@@ -236,24 +230,3 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
-
-#~ msgid "Select foreground color:"
-#~ msgstr "选择前景色："
-
-#~ msgid "Select background color:"
-#~ msgstr "选择背景色："
-
-#~ msgid "Select a background file"
-#~ msgstr "选择一个背景图片"
-
-#~ msgid "_Open"
-#~ msgstr "打开"
-
-#~ msgid "Select background..."
-#~ msgstr "选择背景..."
-
-#~ msgid "Show resize grip"
-#~ msgstr "显示缩放控制柄"
-
-#~ msgid "Set visible bell"
-#~ msgstr "设置可视提醒"

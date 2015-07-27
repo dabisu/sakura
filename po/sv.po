@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 17:47+0200\n"
-"PO-Revision-Date: 2015-05-19 22:50+0000\n"
-"Last-Translator: Andreas Rönnquist <gusnan@gusnan.se>\n"
+"POT-Creation-Date: 2015-07-26 20:55+0200\n"
+"PO-Revision-Date: 2015-07-26 17:54+0000\n"
+"Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-05-20 05:08+0000\n"
-"X-Generator: Launchpad (build 17508)\n"
+"X-Launchpad-Export-Date: 2015-07-27 05:11+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 msgid "Print version number"
 msgstr "Skriv ut versionsnummer"
@@ -96,25 +96,20 @@ msgstr "Välj färg"
 msgid "_Select"
 msgstr "_Välj"
 
-#, fuzzy
 msgid "Colorset"
-msgstr "Färguppsättning att redigera"
+msgstr "Färguppsättning"
 
-#, fuzzy
 msgid "Foreground color"
-msgstr "Förgrundsfärg:"
+msgstr "Förgrundsfärg"
 
-#, fuzzy
 msgid "Background color"
-msgstr "Bakgrundsfärg:"
+msgstr "Bakgrundsfärg"
 
-#, fuzzy
 msgid "Cursor color"
-msgstr "Välj färg på markören:"
+msgstr "Markörfärg"
 
-#, fuzzy
 msgid "Opacity level (%)"
-msgstr "Opacitetsnivå (%):"
+msgstr "Opacitetsnivå (%)"
 
 msgid "New window title"
 msgstr "Ny fönstertitel"
@@ -235,18 +230,3 @@ msgstr "- vte-baserad terminalemulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura-versionen är %s\n"
-
-#~ msgid "Select a background file"
-#~ msgstr "Välj en bakgrundsfil"
-
-#~ msgid "_Open"
-#~ msgstr "_Öppna"
-
-#~ msgid "Select background..."
-#~ msgstr "Välj bakgrund..."
-
-#~ msgid "Show resize grip"
-#~ msgstr "Visa storleksändringskontroll"
-
-#~ msgid "Set visible bell"
-#~ msgstr "Sätt synlig signal"

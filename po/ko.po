@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 17:47+0200\n"
-"PO-Revision-Date: 2014-06-23 01:17+0000\n"
+"POT-Creation-Date: 2015-07-26 20:55+0200\n"
+"PO-Revision-Date: 2015-07-26 16:52+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-02-16 05:51+0000\n"
-"X-Generator: Launchpad (build 17341)\n"
+"X-Launchpad-Export-Date: 2015-07-27 05:11+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 msgid "Print version number"
 msgstr "버전 보기"
@@ -100,21 +100,17 @@ msgstr "선택"
 msgid "Colorset"
 msgstr ""
 
-#, fuzzy
 msgid "Foreground color"
-msgstr "전경색 선택:"
+msgstr "전경색"
 
-#, fuzzy
 msgid "Background color"
-msgstr "배경색 선택:"
+msgstr "배경색"
 
-#, fuzzy
 msgid "Cursor color"
-msgstr "배경색 선택:"
+msgstr "커서색"
 
-#, fuzzy
 msgid "Opacity level (%)"
-msgstr "투명도 (%):"
+msgstr "불투명도"
 
 msgid "New window title"
 msgstr "새 창 제목"
@@ -164,13 +160,11 @@ msgstr "배경 지우기"
 msgid "Set window title..."
 msgstr "창 제목 성정..."
 
-#, fuzzy
 msgid "Open link"
-msgstr "링크 열기..."
+msgstr "링크 열기"
 
-#, fuzzy
 msgid "Copy link"
-msgstr "링크 복사..."
+msgstr "링크 복사"
 
 msgid "Options"
 msgstr "설정"
@@ -238,24 +232,3 @@ msgstr "- vte 기반의 터미널 에뮬레이터"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
-
-#~ msgid "Select foreground color:"
-#~ msgstr "전경색 선택:"
-
-#~ msgid "Select background color:"
-#~ msgstr "배경색 선택:"
-
-#~ msgid "Select a background file"
-#~ msgstr "배경 파일 선택"
-
-#~ msgid "_Open"
-#~ msgstr "열기"
-
-#~ msgid "Select background..."
-#~ msgstr "배경 선택..."
-
-#~ msgid "Show resize grip"
-#~ msgstr "그립의 크기 조정 보이기"
-
-#~ msgid "Set visible bell"
-#~ msgstr "소리 보이게 설정"
