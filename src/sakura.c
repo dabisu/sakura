@@ -714,9 +714,8 @@ sakura_child_exited (GtkWidget *widget, void *data)
 		return;
 	}
 
-	SAY("waiting for terminal pid %d", term->pid);
-
-	vte_terminal_watch_child(VTE_TERMINAL(term->vte), term->pid);
+	/* Child should be automatically reaped because we don't use G_SPAWN_DO_NOT_REAP_CHILD flag */
+	g_spawn_close_pid(term->pid);
 
 	sakura_del_tab(page);
 
@@ -753,17 +752,18 @@ sakura_eof (GtkWidget *widget, void *data)
 			return;
 		}
 
-        SAY("waiting for terminal pid (in eof) %d", term->pid);
-
-        waitpid(term->pid, &status, WNOHANG);
-		/* TODO: check wait return */
+        //SAY("waiting for terminal pid (in eof) %d", term->pid);
+        //waitpid(term->pid, &status, WNOHANG);
+	/* TODO: check wait return */
+		/* Child should be automatically reaped because we don't use G_SPAWN_DO_NOT_REAP_CHILD flag */
+		g_spawn_close_pid(term->pid);
 
 		sakura_del_tab(0);
 
 		npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 		if (npages==0)
 			sakura_destroy();
-	}
+	}	
 }
 
 /* This handler is called when window title changes, and is used to change window and notebook pages titles */
