@@ -940,7 +940,7 @@ sakura_font_dialog (GtkWidget *widget, void *data)
 static void
 sakura_set_name_dialog (GtkWidget *widget, void *data)
 {
-	GtkWidget *input_dialog;
+	GtkWidget *input_dialog, *input_header;
 	GtkWidget *entry, *label;
 	GtkWidget *name_hbox; /* We need this for correct spacing */
 	gint response;
@@ -951,12 +951,17 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-	input_dialog=gtk_dialog_new_with_buttons(_("Set tab name"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-	                                         _("_Cancel"), GTK_RESPONSE_REJECT,
-	                                         _("_Apply"), GTK_RESPONSE_ACCEPT, NULL);
+	input_dialog=gtk_dialog_new_with_buttons(_("Set tab name"),
+	                                         GTK_WINDOW(sakura.main_window),
+                                                 GTK_DIALOG_MODAL|GTK_DIALOG_USE_HEADER_BAR,
+	                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
+	                                         _("_Apply"), GTK_RESPONSE_ACCEPT,
+	                                         NULL);
 
+	/* Configure the new gtk header bar*/
+	input_header=gtk_dialog_get_header_bar(GTK_DIALOG(input_dialog));
+	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(input_header), FALSE);
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
-	gtk_window_set_modal(GTK_WINDOW(input_dialog), TRUE);
 
 	/* Set style */
 	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
@@ -978,6 +983,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_start(GTK_BOX(name_hbox), label, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(name_hbox), entry, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(input_dialog))), name_hbox, FALSE, FALSE, 12);
+	
 	/* Disable accept button until some text is entered */
 	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), input_dialog);
 	gtk_dialog_set_response_sensitive(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT, FALSE);
@@ -985,10 +991,12 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	gtk_widget_show_all(name_hbox);
 
 	response=gtk_dialog_run(GTK_DIALOG(input_dialog));
+
 	if (response==GTK_RESPONSE_ACCEPT) {
 		sakura_set_tab_label_text(gtk_entry_get_text(GTK_ENTRY(entry)), page);
 		term->label_set_byuser=true;
 	}
+
 	gtk_widget_destroy(input_dialog);
 }
 
@@ -1071,7 +1079,7 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 static void
 sakura_color_dialog (GtkWidget *widget, void *data)
 {
-	GtkWidget *color_dialog;
+	GtkWidget *color_dialog; GtkWidget *color_header;
 	GtkWidget *label1, *label2, *label3, *set_label, *opacity_label;
 	GtkWidget *buttonfore, *buttonback, *buttoncurs, *set_combo, *opacity_spin;
 	GtkAdjustment *spinner_adj;
@@ -1089,13 +1097,18 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-	color_dialog=gtk_dialog_new_with_buttons(_("Select colors"), GTK_WINDOW(sakura.main_window),
-	                                                            GTK_DIALOG_MODAL,
-	                                                            _("_Cancel"), GTK_RESPONSE_REJECT,
-	                                                            _("_Select"), GTK_RESPONSE_ACCEPT, NULL);
+	color_dialog=gtk_dialog_new_with_buttons(_("Select colors"),
+	                                         GTK_WINDOW(sakura.main_window),
+	                                         GTK_DIALOG_MODAL|GTK_DIALOG_USE_HEADER_BAR,
+	                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
+	                                         _("_Select"), GTK_RESPONSE_ACCEPT,
+                                                NULL);
 
+	/* Configure the new gtk header bar*/
+	color_header=gtk_dialog_get_header_bar(GTK_DIALOG(color_dialog));
+	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(color_header), FALSE);
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
-	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
+	
 	/* Set style */
 	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
 	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
@@ -1104,8 +1117,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_free(css);
 
 
-	/* Add the drop-down combobox that selects current colorset to edit.
-	 * TODO: preset the current colorset */
+	/* Add the drop-down combobox that selects current colorset to edit. */
 	hbox_sets=gtk_box_new(FALSE, 12);
 	set_label=gtk_label_new(_("Colorset"));
 	set_combo=gtk_combo_box_text_new();
@@ -1115,6 +1127,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(set_combo), term->colorset);
 
+	/* Foreground and background and cursor color buttons */
 	hbox_fore=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
 	hbox_back=gtk_box_new(FALSE, 12);
 	hbox_curs=gtk_box_new(FALSE, 12);
@@ -1141,8 +1154,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_end(GTK_BOX(hbox_curs), buttoncurs, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(hbox_sets), set_label, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_sets), set_combo, FALSE, FALSE, 12);
-	
-
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_sets, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_fore, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_back, FALSE, FALSE, 6);
@@ -1162,16 +1173,11 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_object_set_data(G_OBJECT(color_dialog), "back", temp_back);
 	g_object_set_data(G_OBJECT(color_dialog), "curs", temp_curs);
 
-	g_signal_connect(G_OBJECT(buttonfore), "color-set", 
-	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
-	g_signal_connect(G_OBJECT(buttonback), "color-set", 
-	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
-	g_signal_connect(G_OBJECT(buttoncurs), "color-set", 
-	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
-	g_signal_connect(G_OBJECT(set_combo), "changed", 
-	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
-	g_signal_connect(G_OBJECT(opacity_spin), "changed", 
-	                 G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+	g_signal_connect(G_OBJECT(buttonfore), "color-set", G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+	g_signal_connect(G_OBJECT(buttonback), "color-set", G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+	g_signal_connect(G_OBJECT(buttoncurs), "color-set", G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+	g_signal_connect(G_OBJECT(set_combo), "changed", G_CALLBACK(sakura_color_dialog_changed), color_dialog );
+	g_signal_connect(G_OBJECT(opacity_spin), "changed", G_CALLBACK(sakura_color_dialog_changed), color_dialog );
 
 	for(i=0; i<NUM_COLORSETS; i++) {
 		temp_fore[i] = sakura.forecolors[i];
@@ -1181,7 +1187,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
 	
-
 	if (response==GTK_RESPONSE_ACCEPT) {
 		/* Save all colorsets to both the global struct and configuration.*/
 		for( i=0; i<NUM_COLORSETS; i++) {
@@ -1224,17 +1229,23 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 static void
 sakura_set_title_dialog (GtkWidget *widget, void *data)
 {
-	GtkWidget *title_dialog;
+	GtkWidget *title_dialog, *title_header;
 	GtkWidget *entry, *label;
 	GtkWidget *title_hbox;
 	gint response;
 
-	title_dialog=gtk_dialog_new_with_buttons(_("Set window title"), GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-	                                         _("_Cancel"), GTK_RESPONSE_REJECT,
-	                                         _("_Apply"), GTK_RESPONSE_ACCEPT, NULL);
+	title_dialog=gtk_dialog_new_with_buttons(_("Set window title"), 
+	                                         GTK_WINDOW(sakura.main_window),
+	                                         GTK_DIALOG_MODAL|GTK_DIALOG_USE_HEADER_BAR,
+	                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
+	                                         _("_Apply"), GTK_RESPONSE_ACCEPT,
+	                                          NULL);
 
+	/* Configure the new gtk header bar*/
+	title_header=gtk_dialog_get_header_bar(GTK_DIALOG(title_dialog));
+	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(title_header), FALSE);
 	gtk_dialog_set_default_response(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT);
-	gtk_window_set_modal(GTK_WINDOW(title_dialog), TRUE);
+
 	/* Set style */
 	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
 	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
@@ -1251,6 +1262,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_start(GTK_BOX(title_hbox), label, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(title_hbox), entry, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(title_dialog))), title_hbox, FALSE, FALSE, 12);
+	
 	/* Disable accept button until some text is entered */
 	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), title_dialog);
 	gtk_dialog_set_response_sensitive(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT, FALSE);
@@ -2016,10 +2028,13 @@ sakura_init()
 	}
 	sakura.set_colorset_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_colorset_accelerator", NULL);
 
+	/* We don't need a global because it's not configurable within sakura */
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "icon_file", NULL)) {
 		sakura_set_config_string("icon_file", ICON_FILE);
 	}
-	/* We don't need a global because it's not configurable within sakura */
+
+	/* Use always GTK header bar*/
+	g_object_set(gtk_settings_get_default(), "gtk-dialogs-use-header", TRUE, NULL);
 
 	sakura.provider = gtk_css_provider_new();
 
