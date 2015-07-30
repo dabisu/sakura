@@ -728,7 +728,7 @@ sakura_child_exited (GtkWidget *widget, void *data)
 static void
 sakura_eof (GtkWidget *widget, void *data)
 {
-	gint status, npages;
+	gint npages;
 	struct terminal *term;
 
 	SAY("Got EOF signal");
