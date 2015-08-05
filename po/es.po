@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-30 13:36+0200\n"
+"POT-Creation-Date: 2015-08-05 16:49+0200\n"
 "PO-Revision-Date: 2015-07-27 16:20+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -194,6 +194,9 @@ msgstr "Activar parpadeo del cursor"
 
 msgid "Enable bold font"
 msgstr "Activar fuente en negrita"
+
+msgid "Disable numbered tabswitch"
+msgstr ""
 
 msgid "Set cursor type"
 msgstr "Definir tipo de cursor"

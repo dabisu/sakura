@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-30 13:36+0200\n"
+"POT-Creation-Date: 2015-08-05 16:49+0200\n"
 "PO-Revision-Date: 2015-07-26 17:10+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -217,6 +217,9 @@ msgid "Set blinking cursor"
 msgstr "קבע סמן מהבהב"
 
 msgid "Enable bold font"
+msgstr ""
+
+msgid "Disable numbered tabswitch"
 msgstr ""
 
 msgid "Set cursor type"
