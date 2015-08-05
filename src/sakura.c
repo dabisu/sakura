@@ -235,11 +235,12 @@ static struct {
 	bool blinking_cursor;
 	bool allow_bold;
 	bool fullscreen;
-	bool keep_fc;				/* Global flag to indicate that we don't want changes in the files and columns values */
-	bool config_modified;		/* Configuration has been modified */
-	bool externally_modified;	/* Configuration file has been modified by another proccess */
+	bool keep_fc;                    /* Global flag to indicate that we don't want changes in the files and columns values */
+	bool config_modified;            /* Configuration has been modified */
+	bool externally_modified;        /* Configuration file has been modified by another proccess */
 	bool resized;
-	GtkWidget *item_clear_background; /* We include here only the items which need to be hidden */
+	bool disable_numbered_tabswitch; /* For disabling direct tabswitching key */
+	GtkWidget *item_clear_background;/* We include here only the items which need to be hidden */
 	GtkWidget *item_copy_link;
 	GtkWidget *item_open_link;
 	GtkWidget *open_link_separator;
@@ -381,6 +382,7 @@ static void     sakura_show_scrollbar(GtkWidget *, void *);
 static void     sakura_closebutton_clicked(GtkWidget *, void *);
 static void     sakura_conf_changed(GtkWidget *, void *);
 static void     sakura_window_show_event(GtkWidget *, gpointer);
+static void     sakura_disable_numbered_tabswitch (GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error(const char *, ...);
@@ -475,6 +477,10 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator ) {
 		if ((keyval>=GDK_KEY_1) && (keyval<=GDK_KEY_9) && (keyval<=GDK_KEY_1-1+npages)
 				&& (keyval!=GDK_KEY_1+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
+
+			/* User has explicitly disabled this branch, make sure to propagate the event */
+			if(sakura.disable_numbered_tabswitch) return FALSE;
+
 			switch(keyval) {
 				case GDK_KEY_1: topage=0; break;
 				case GDK_KEY_2: topage=1; break;
@@ -503,6 +509,9 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 				gtk_notebook_next_page(GTK_NOTEBOOK(sakura.notebook));
 			}
 			return TRUE;
+		} else {
+			/* Prevents swallowing of events as a default behavior */
+			return FALSE;
 		}
 	}
 
@@ -1745,6 +1754,18 @@ sakura_conf_changed (GtkWidget *widget, void *data)
 	sakura.externally_modified=true;
 }
 
+static void
+sakura_disable_numbered_tabswitch(GtkWidget *widget, void *data)
+{
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		sakura.disable_numbered_tabswitch = true;
+		sakura_set_config_boolean("disable_numbered_tabswitch", TRUE);
+	} else {
+		sakura.disable_numbered_tabswitch = false;
+		sakura_set_config_boolean("disable_numbered_tabswitch", FALSE);
+	}
+}
+
 
 /******* Functions ********/
 
@@ -1882,6 +1903,11 @@ sakura_init()
 		sakura_set_config_boolean("less_questions", FALSE);
 	}
 	sakura.less_questions = g_key_file_get_boolean(sakura.cfg, cfg_group, "less_questions", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "disable_numbered_tabswitch", NULL)) {
+		sakura_set_config_boolean("disable_numbered_tabswitch", FALSE);
+	}
+	sakura.disable_numbered_tabswitch = g_key_file_get_boolean(sakura.cfg, cfg_group, "disable_numbered_tabswitch", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "urgent_bell", NULL)) {
 		sakura_set_config_string("urgent_bell", "Yes");
@@ -2135,7 +2161,8 @@ sakura_init_popup()
 			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm,
 			  *item_palette_solarized_dark, *item_palette_solarized_light,
-	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions;
+	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions,
+						*item_disable_numbered_tabswitch;
 	//GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
 	//          *action_copy, *action_paste, *action_select_font, *action_select_colors,
 	//          *action_set_title,
@@ -2197,6 +2224,7 @@ sakura_init_popup()
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
 	item_allow_bold=gtk_check_menu_item_new_with_label(_("Enable bold font"));
+	item_disable_numbered_tabswitch=gtk_check_menu_item_new_with_label(_("Disable numbered tabswitch"));
 	item_cursor=gtk_menu_item_new_with_label(_("Set cursor type"));
 	item_cursor_block=gtk_radio_menu_item_new_with_label(NULL, _("Block"));
 	item_cursor_underline=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), _("Underline"));
@@ -2239,6 +2267,12 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_scrollbar), TRUE);
 	} else {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_scrollbar), FALSE);
+	}
+
+	if (sakura.disable_numbered_tabswitch) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_disable_numbered_tabswitch), TRUE);
+	} else {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_disable_numbered_tabswitch), FALSE);
 	}
 
 	if (sakura.urgent_bell) {
@@ -2320,6 +2354,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_less_questions);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_urgent_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_audible_bell);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_disable_numbered_tabswitch);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_blinking_cursor);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_allow_bold);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_cursor);
@@ -2356,6 +2391,8 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
 	g_signal_connect(G_OBJECT(item_allow_bold), "activate", G_CALLBACK(sakura_allow_bold), NULL);
+	g_signal_connect(G_OBJECT(item_disable_numbered_tabswitch),
+			"activate", G_CALLBACK(sakura_disable_numbered_tabswitch), NULL);
 	g_signal_connect(G_OBJECT(item_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_cursor_block), "activate", G_CALLBACK(sakura_set_cursor), "block");
 	g_signal_connect(G_OBJECT(item_cursor_underline), "activate", G_CALLBACK(sakura_set_cursor), "underline");
@@ -2369,7 +2406,6 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(sakura.item_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);
 	g_signal_connect(G_OBJECT(sakura.item_copy_link), "activate", G_CALLBACK(sakura_copy_url), NULL);
 	g_signal_connect(G_OBJECT(item_fullscreen), "activate", G_CALLBACK(sakura_fullscreen), NULL);
-
 
 	gtk_widget_show_all(sakura.menu);
 
