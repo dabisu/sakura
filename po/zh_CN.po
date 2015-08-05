@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2015-07-29 11:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -40,6 +40,10 @@ msgid "Login shell"
 msgstr "登录 shell"
 
 msgid "Set window title"
+msgstr "设置窗口标题"
+
+#, fuzzy
+msgid "Set window icon"
 msgstr "设置窗口标题"
 
 msgid "Set columns number"
@@ -153,9 +157,6 @@ msgstr "选择字体..."
 msgid "Select colors..."
 msgstr "选择颜色..."
 
-msgid "Clear background"
-msgstr "清除背景"
-
 msgid "Set window title..."
 msgstr "设置窗口标题..."
 
@@ -233,3 +234,6 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+
+#~ msgid "Clear background"
+#~ msgstr "清除背景"

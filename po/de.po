@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2015-07-26 17:00+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -41,6 +41,10 @@ msgid "Login shell"
 msgstr "Login-Shell"
 
 msgid "Set window title"
+msgstr "Fenstertitel wählen"
+
+#, fuzzy
+msgid "Set window icon"
 msgstr "Fenstertitel wählen"
 
 msgid "Set columns number"
@@ -157,9 +161,6 @@ msgstr "Schrift wählen..."
 msgid "Select colors..."
 msgstr "Farben wählen..."
 
-msgid "Clear background"
-msgstr "Hintergrundbild entfernen"
-
 msgid "Set window title..."
 msgstr "Fenstertitel wählen..."
 
@@ -238,3 +239,6 @@ msgstr "- vte-basierter Terminal-Emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
+
+#~ msgid "Clear background"
+#~ msgstr "Hintergrundbild entfernen"

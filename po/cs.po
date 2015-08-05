@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -41,6 +41,10 @@ msgid "Login shell"
 msgstr "Přihlašovací shell"
 
 msgid "Set window title"
+msgstr "Nastaví titulek okna"
+
+#, fuzzy
+msgid "Set window icon"
 msgstr "Nastaví titulek okna"
 
 msgid "Set columns number"
@@ -164,9 +168,6 @@ msgstr "Zvolte písmo…"
 msgid "Select colors..."
 msgstr "Zvolte barvy…"
 
-msgid "Clear background"
-msgstr "Vymazat pozadí"
-
 msgid "Set window title..."
 msgstr "Nastavit název okna…"
 
@@ -248,3 +249,6 @@ msgstr "- emulátor terminálu založený na VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
+
+#~ msgid "Clear background"
+#~ msgstr "Vymazat pozadí"

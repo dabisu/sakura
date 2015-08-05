@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2015-07-27 20:27+0000\n"
 "Last-Translator: Sérgio Marques <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -40,6 +40,10 @@ msgid "Login shell"
 msgstr ""
 
 msgid "Set window title"
+msgstr "Definir título da janela"
+
+#, fuzzy
+msgid "Set window icon"
 msgstr "Definir título da janela"
 
 msgid "Set columns number"
@@ -155,9 +159,6 @@ msgstr "Escolha o tipo de letra..."
 msgid "Select colors..."
 msgstr "Escolha as cores..."
 
-msgid "Clear background"
-msgstr "Remover imagem de fundo"
-
 msgid "Set window title..."
 msgstr "Definir título da janela..."
 
@@ -236,3 +237,6 @@ msgstr "- Emulador de terminal vte-based"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "a versão do sakura é a %s\n"
+
+#~ msgid "Clear background"
+#~ msgstr "Remover imagem de fundo"

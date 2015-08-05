@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2015-07-26 17:10+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -51,6 +51,11 @@ msgstr "Login shell"
 
 # CLI: Do not translate!
 msgid "Set window title"
+msgstr "Set window title"
+
+# CLI: Do not translate!
+#, fuzzy
+msgid "Set window icon"
 msgstr "Set window title"
 
 # CLI: Do not translate!
@@ -173,9 +178,6 @@ msgstr "בחר גופן..."
 msgid "Select colors..."
 msgstr "בחר צבעים..."
 
-msgid "Clear background"
-msgstr "טהר רקע"
-
 msgid "Set window title..."
 msgstr "קבע כותרת חלון..."
 
@@ -257,3 +259,6 @@ msgstr "- vte-based terminal emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#~ msgid "Clear background"
+#~ msgstr "טהר רקע"

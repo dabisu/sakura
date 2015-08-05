@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -41,6 +41,10 @@ msgid "Login shell"
 msgstr "Оболонка входу"
 
 msgid "Set window title"
+msgstr "Встановити заголовок вікна"
+
+#, fuzzy
+msgid "Set window icon"
 msgstr "Встановити заголовок вікна"
 
 msgid "Set columns number"
@@ -160,9 +164,6 @@ msgstr "Обрати шрифт..."
 msgid "Select colors..."
 msgstr "Обрати кольори..."
 
-msgid "Clear background"
-msgstr "Очистити тло"
-
 msgid "Set window title..."
 msgstr "Встановити заголовок вікна..."
 
@@ -243,3 +244,6 @@ msgstr "Термінальний емулятор базований на vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "версія Sakura %s\n"
+
+#~ msgid "Clear background"
+#~ msgstr "Очистити тло"

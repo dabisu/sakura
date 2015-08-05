@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2015-07-26 17:54+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -40,6 +40,10 @@ msgid "Login shell"
 msgstr "Inloggningsskal"
 
 msgid "Set window title"
+msgstr "Sätt fönstertitel"
+
+#, fuzzy
+msgid "Set window icon"
 msgstr "Sätt fönstertitel"
 
 msgid "Set columns number"
@@ -154,9 +158,6 @@ msgstr "Välj typsnitt..."
 msgid "Select colors..."
 msgstr "Välj färger..."
 
-msgid "Clear background"
-msgstr "Rensa bakgrundsbild"
-
 msgid "Set window title..."
 msgstr "Sätt fönstertitel..."
 
@@ -234,3 +235,6 @@ msgstr "- vte-baserad terminalemulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura-versionen är %s\n"
+
+#~ msgid "Clear background"
+#~ msgstr "Rensa bakgrundsbild"

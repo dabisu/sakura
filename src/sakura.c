@@ -240,14 +240,13 @@ static struct {
 	bool externally_modified;        /* Configuration file has been modified by another proccess */
 	bool resized;
 	bool disable_numbered_tabswitch; /* For disabling direct tabswitching key */
-	GtkWidget *item_clear_background;/* We include here only the items which need to be hidden */
-	GtkWidget *item_copy_link;
+	GtkWidget *item_copy_link;       /* We include here only the items which need to be hidden */
 	GtkWidget *item_open_link;
 	GtkWidget *open_link_separator;
 	GKeyFile *cfg;
 	GtkCssProvider *provider;
 	char *configfile;
-	char *background;
+	char *icon;
 	gint last_colorset;
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
@@ -398,8 +397,8 @@ static gint     sakura_find_tab(VteTerminal *);
 static void     sakura_set_font();
 static void     sakura_set_tab_label_text(const gchar *, gint page);
 static void     sakura_set_size(void);
-static void     sakura_set_config_key(const gchar *, guint);
-static guint    sakura_get_config_key(const gchar *);
+static void     sakura_set_keybind(const gchar *, guint);
+static guint    sakura_get_keybind(const gchar *);
 static void     sakura_config_done();
 static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
@@ -414,6 +413,7 @@ static gboolean option_version=FALSE;
 static gint option_ntabs=1;
 static gint option_login = FALSE;
 static const char *option_title;
+static const char *option_icon;
 static int option_rows, option_columns;
 static gboolean option_hold=FALSE;
 static const char *option_geometry;
@@ -432,6 +432,7 @@ static GOptionEntry entries[] = {
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
 	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
+	{ "icon", 'i', 0, G_OPTION_ARG_STRING, &option_icon, N_("Set window icon"), NULL },
 	{ "xterm-title", 'T', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &option_title, NULL, NULL },
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
 	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
@@ -1848,27 +1849,15 @@ sakura_init()
 
 		sprintf(temp_name, "colorset%d_key", i+1);
 		if (!g_key_file_has_key(sakura.cfg, cfg_group, temp_name, NULL)) {
-			sakura_set_config_key(temp_name, cs_keys[i]);
+			sakura_set_keybind(temp_name, cs_keys[i]);
 		}
-		sakura.set_colorset_keys[i]= sakura_get_config_key(temp_name);
+		sakura.set_colorset_keys[i]= sakura_get_keybind(temp_name);
 	}
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "last_colorset", NULL)) {
 		sakura_set_config_integer("last_colorset", 1);
 	}
 	sakura.last_colorset = g_key_file_get_integer(sakura.cfg, cfg_group, "last_colorset", NULL);
-
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "background", NULL)) {
-		sakura_set_config_string("background", "none");
-	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "background", NULL);
-	if (strcmp(cfgtmp, "none")==0) {
-		sakura.background=NULL;
-	} else {
-		sakura.background=g_strdup(cfgtmp);
-	}
-	g_free(cfgtmp);
-
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "font", NULL)) {
 		sakura_set_config_string("font", DEFAULT_FONT);
@@ -2005,59 +1994,59 @@ sakura_init()
 	sakura.set_tab_name_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_tab_name_accelerator", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
-		sakura_set_config_key("add_tab_key", DEFAULT_ADD_TAB_KEY);
+		sakura_set_keybind("add_tab_key", DEFAULT_ADD_TAB_KEY);
 	}
-	sakura.add_tab_key = sakura_get_config_key("add_tab_key");
+	sakura.add_tab_key = sakura_get_keybind("add_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "del_tab_key", NULL)) {
-		sakura_set_config_key("del_tab_key", DEFAULT_DEL_TAB_KEY);
+		sakura_set_keybind("del_tab_key", DEFAULT_DEL_TAB_KEY);
 	}
-	sakura.del_tab_key = sakura_get_config_key("del_tab_key");
+	sakura.del_tab_key = sakura_get_keybind("del_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "prev_tab_key", NULL)) {
-		sakura_set_config_key("prev_tab_key", DEFAULT_PREV_TAB_KEY);
+		sakura_set_keybind("prev_tab_key", DEFAULT_PREV_TAB_KEY);
 	}
-	sakura.prev_tab_key = sakura_get_config_key("prev_tab_key");
+	sakura.prev_tab_key = sakura_get_keybind("prev_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "next_tab_key", NULL)) {
-		sakura_set_config_key("next_tab_key", DEFAULT_NEXT_TAB_KEY);
+		sakura_set_keybind("next_tab_key", DEFAULT_NEXT_TAB_KEY);
 	}
-	sakura.next_tab_key = sakura_get_config_key("next_tab_key");
+	sakura.next_tab_key = sakura_get_keybind("next_tab_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_key", NULL)) {
-		sakura_set_config_key( "copy_key", DEFAULT_COPY_KEY);
+		sakura_set_keybind( "copy_key", DEFAULT_COPY_KEY);
 	}
-	sakura.copy_key = sakura_get_config_key("copy_key");
+	sakura.copy_key = sakura_get_keybind("copy_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "paste_key", NULL)) {
-		sakura_set_config_key("paste_key", DEFAULT_PASTE_KEY);
+		sakura_set_keybind("paste_key", DEFAULT_PASTE_KEY);
 	}
-	sakura.paste_key = sakura_get_config_key("paste_key");
+	sakura.paste_key = sakura_get_keybind("paste_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar_key", NULL)) {
-		sakura_set_config_key("scrollbar_key", DEFAULT_SCROLLBAR_KEY);
+		sakura_set_keybind("scrollbar_key", DEFAULT_SCROLLBAR_KEY);
 	}
-	sakura.scrollbar_key = sakura_get_config_key("scrollbar_key");
+	sakura.scrollbar_key = sakura_get_keybind("scrollbar_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_tab_name_key", NULL)) {
-		sakura_set_config_key("set_tab_name_key", DEFAULT_SET_TAB_NAME_KEY);
+		sakura_set_keybind("set_tab_name_key", DEFAULT_SET_TAB_NAME_KEY);
 	}
-	sakura.set_tab_name_key = sakura_get_config_key("set_tab_name_key");
+	sakura.set_tab_name_key = sakura_get_keybind("set_tab_name_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "fullscreen_key", NULL)) {
-		sakura_set_config_key("fullscreen_key", DEFAULT_FULLSCREEN_KEY);
+		sakura_set_keybind("fullscreen_key", DEFAULT_FULLSCREEN_KEY);
 	}
-	sakura.fullscreen_key = sakura_get_config_key("fullscreen_key");
+	sakura.fullscreen_key = sakura_get_keybind("fullscreen_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_colorset_accelerator", NULL)) {
 		sakura_set_config_integer("set_colorset_accelerator", DEFAULT_SELECT_COLORSET_ACCELERATOR);
 	}
 	sakura.set_colorset_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_colorset_accelerator", NULL);
 
-	/* We don't need a global because it's not configurable within sakura */
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "icon_file", NULL)) {
 		sakura_set_config_string("icon_file", ICON_FILE);
 	}
+	sakura.icon = g_key_file_get_string(sakura.cfg, cfg_group, "icon_file", NULL);
 
 	/* Use always GTK header bar*/
 	g_object_set(gtk_settings_get_default(), "gtk-dialogs-use-header", TRUE, NULL);
@@ -2066,12 +2055,6 @@ sakura_init()
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
-
-	/* Add datadir path to icon name */
-	char *icon = g_key_file_get_value(sakura.cfg, cfg_group, "icon_file", NULL);
-	char *icon_path = g_strdup_printf(DATADIR "/pixmaps/%s", icon);
-	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), icon_path, &gerror);
-	g_free(icon); g_free(icon_path); icon=NULL; icon_path=NULL;
 
 	/* Default terminal size*/
 	sakura.columns = DEFAULT_COLUMNS;
@@ -2109,6 +2092,16 @@ sakura_init()
 	if (option_rows) {
 		sakura.rows = option_rows;
 	}
+
+	/* Add datadir path to icon name and set icon */
+	gchar *icon_path;
+	if (option_icon) {
+		icon_path = g_strdup_printf(DATADIR "/pixmaps/%s", option_icon);
+	} else {
+		icon_path = g_strdup_printf(DATADIR "/pixmaps/%s", sakura.icon);
+	}
+	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), icon_path, &gerror);
+	g_free(icon_path); icon_path=NULL;
 
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
@@ -2182,7 +2175,6 @@ sakura_init_popup()
 	action_paste=gtk_action_new("paste", _("Paste"), NULL, NULL);
 	action_select_font=gtk_action_new("select_font", _("Select font..."), NULL, NULL);
 	action_select_colors=gtk_action_new("select_colors", _("Select colors..."), NULL, NULL);
-	action_clear_background=gtk_action_new("clear_background", _("Clear background"), NULL, NULL);
 	action_set_title=gtk_action_new("set_title", _("Set window title..."), NULL, NULL);
 
 	/* Create menuitems */
@@ -2901,7 +2893,7 @@ sakura_del_tab(gint page)
 
 
 static void
-sakura_set_config_key(const gchar *key, guint value)
+sakura_set_keybind(const gchar *key, guint value)
 {
 	char *valname;
 
@@ -2913,7 +2905,7 @@ sakura_set_config_key(const gchar *key, guint value)
 
 
 static guint
-sakura_get_config_key(const gchar *key)
+sakura_get_keybind(const gchar *key)
 {
 	gchar *value;
 	guint retval=GDK_KEY_VoidSymbol;

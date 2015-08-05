@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2015-07-29 11:13+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -37,6 +37,10 @@ msgid "Login shell"
 msgstr "ログインシェル"
 
 msgid "Set window title"
+msgstr "ウィンドウタイトルを設定"
+
+#, fuzzy
+msgid "Set window icon"
 msgstr "ウィンドウタイトルを設定"
 
 msgid "Set columns number"
@@ -150,9 +154,6 @@ msgstr "フォントを選択..."
 msgid "Select colors..."
 msgstr "色を選択..."
 
-msgid "Clear background"
-msgstr "背景をクリア"
-
 msgid "Set window title..."
 msgstr "ウィンドウのタイトルを設定..."
 
@@ -230,3 +231,6 @@ msgstr "- vte ベースのターミナル・エミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "Clear background"
+#~ msgstr "背景をクリア"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2015-07-26 17:52+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -39,6 +39,10 @@ msgid "Login shell"
 msgstr "Entrada d'usuari en Shell"
 
 msgid "Set window title"
+msgstr "Definir el nom de la finestra"
+
+#, fuzzy
+msgid "Set window icon"
 msgstr "Definir el nom de la finestra"
 
 msgid "Set columns number"
@@ -154,9 +158,6 @@ msgstr "Sel·leccionar font..."
 msgid "Select colors..."
 msgstr "Sel·leccionar colors..."
 
-msgid "Clear background"
-msgstr "Natejar fons..."
-
 msgid "Set window title..."
 msgstr "Definir el nom de la finestra"
 
@@ -236,3 +237,6 @@ msgstr "- emulador de terminal basat en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"
+
+#~ msgid "Clear background"
+#~ msgstr "Natejar fons..."

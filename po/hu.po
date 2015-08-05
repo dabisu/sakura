@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: hu\n"
@@ -40,6 +40,9 @@ msgid "Login shell"
 msgstr ""
 
 msgid "Set window title"
+msgstr ""
+
+msgid "Set window icon"
 msgstr ""
 
 msgid "Set columns number"
@@ -153,9 +156,6 @@ msgstr "Válassz betűt..."
 msgid "Select colors..."
 msgstr "Válassz színeket..."
 
-msgid "Clear background"
-msgstr "Háttér választása"
-
 msgid "Set window title..."
 msgstr ""
 
@@ -234,3 +234,6 @@ msgstr ""
 #, c-format
 msgid "sakura version is %s\n"
 msgstr ""
+
+#~ msgid "Clear background"
+#~ msgstr "Háttér választása"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-08-05 20:33+0200\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -40,6 +40,10 @@ msgid "Login shell"
 msgstr "Prijavna ljuska"
 
 msgid "Set window title"
+msgstr "Postavi naslov prozora"
+
+#, fuzzy
+msgid "Set window icon"
 msgstr "Postavi naslov prozora"
 
 msgid "Set columns number"
@@ -160,9 +164,6 @@ msgstr "Postavi font..."
 msgid "Select colors..."
 msgstr "Postavi boje..."
 
-msgid "Clear background"
-msgstr "Ukolni pozadinu"
-
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"
 
@@ -243,3 +244,6 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#~ msgid "Clear background"
+#~ msgstr "Ukolni pozadinu"
