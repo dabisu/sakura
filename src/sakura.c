@@ -403,7 +403,7 @@ static void     sakura_config_done();
 static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
 
-/* Globals */
+/* Globals for command line parameters */
 static const char *option_font;
 static const char *option_workdir;
 static const char *option_execute;
