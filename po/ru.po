@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-05 16:49+0200\n"
-"PO-Revision-Date: 2015-07-26 17:42+0000\n"
-"Last-Translator: David Gómez <david@pleyades.net>\n"
+"PO-Revision-Date: 2015-11-22 12:06+0000\n"
+"Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-06 05:14+0000\n"
-"X-Generator: Launchpad (build 17656)\n"
+"X-Launchpad-Export-Date: 2015-11-23 05:09+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 "Language: ru\n"
 
 msgid "Print version number"
@@ -86,19 +86,19 @@ msgid "New text"
 msgstr "Новый текст"
 
 msgid "Select colors"
-msgstr ""
+msgstr "Выбрать цвета"
 
 msgid "_Select"
 msgstr "_Выбрать"
 
 msgid "Colorset"
-msgstr ""
+msgstr "Цветовой набор"
 
 msgid "Foreground color"
 msgstr "Цвет текста"
 
 msgid "Background color"
-msgstr ""
+msgstr "Цвет  фона"
 
 msgid "Cursor color"
 msgstr "Цвет курсора"
@@ -182,7 +182,7 @@ msgid "Don't show exit dialog"
 msgstr "Не показывать диалог выхода"
 
 msgid "Set urgent bell"
-msgstr ""
+msgstr "Установить срочный звонок"
 
 msgid "Set audible bell"
 msgstr "Звуковое оповещение"
@@ -191,10 +191,10 @@ msgid "Set blinking cursor"
 msgstr "Мигающий курсор"
 
 msgid "Enable bold font"
-msgstr ""
+msgstr "Включить жирный шрифт"
 
 msgid "Disable numbered tabswitch"
-msgstr ""
+msgstr "Отключить нумерованный переключатель вкладок"
 
 msgid "Set cursor type"
 msgstr "Установить вид курсора"
