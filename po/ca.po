@@ -5,15 +5,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-11-23 12:45+0100\n"
 "PO-Revision-Date: 2015-07-26 17:52+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-06 05:14+0000\n"
-"X-Generator: Launchpad (build 17656)\n"
+"X-Launchpad-Export-Date: 2015-11-24 05:09+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 "Language: ca\n"
 
 msgid "Print version number"
@@ -39,6 +39,9 @@ msgstr "Entrada d'usuari en Shell"
 
 msgid "Set window title"
 msgstr "Definir el nom de la finestra"
+
+msgid "Set window icon"
+msgstr ""
 
 msgid "Set columns number"
 msgstr "Definir el nombre de columnes"
@@ -150,9 +153,6 @@ msgstr "Sel·leccionar font..."
 
 msgid "Select colors..."
 msgstr "Sel·leccionar colors..."
-
-msgid "Clear background"
-msgstr "Natejar fons..."
 
 msgid "Set window title..."
 msgstr "Definir el nom de la finestra"

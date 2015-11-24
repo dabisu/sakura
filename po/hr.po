@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-11-23 12:45+0100\n"
 "PO-Revision-Date: 2015-10-14 17:21+0000\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: brentaal <Unknown>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-10-15 05:12+0000\n"
-"X-Generator: Launchpad (build 17812)\n"
+"X-Launchpad-Export-Date: 2015-11-24 05:09+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 "Language: hr\n"
 
 msgid "Print version number"
@@ -40,6 +40,9 @@ msgstr "Prijavna ljuska"
 
 msgid "Set window title"
 msgstr "Postavi naslov prozora"
+
+msgid "Set window icon"
+msgstr ""
 
 msgid "Set columns number"
 msgstr "Postavi broj stupaca"
@@ -151,9 +154,6 @@ msgstr "Postavi font..."
 
 msgid "Select colors..."
 msgstr "Postavi boje..."
-
-msgid "Clear background"
-msgstr "Ukolni pozadinu"
 
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"

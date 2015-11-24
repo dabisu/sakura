@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-05 16:49+0200\n"
+"POT-Creation-Date: 2015-11-23 12:45+0100\n"
 "PO-Revision-Date: 2015-07-29 11:13+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-06 05:14+0000\n"
-"X-Generator: Launchpad (build 17656)\n"
+"X-Launchpad-Export-Date: 2015-11-24 05:09+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 "Language: ja\n"
 
 msgid "Print version number"
@@ -38,6 +38,9 @@ msgstr "ログインシェル"
 
 msgid "Set window title"
 msgstr "ウィンドウタイトルを設定"
+
+msgid "Set window icon"
+msgstr ""
 
 msgid "Set columns number"
 msgstr "列数を設定"
@@ -149,9 +152,6 @@ msgstr "フォントを選択..."
 
 msgid "Select colors..."
 msgstr "色を選択..."
-
-msgid "Clear background"
-msgstr "背景をクリア"
 
 msgid "Set window title..."
 msgstr "ウィンドウのタイトルを設定..."
