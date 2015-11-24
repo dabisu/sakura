@@ -2594,25 +2594,21 @@ static void
 sakura_add_tab()
 {
 	struct terminal *term;
-	GtkWidget *tab_hbox;
+	GtkWidget *tab_label_hbox;
 	GtkWidget *close_button;
 	int index;
 	int npages;
 	gchar *cwd = NULL;
 
-
 	term = g_new0( struct terminal, 1 );
-	term->hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	term->vte=vte_terminal_new();
 
 	/* Create label for tabs */
 	term->label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
 	term->label=gtk_label_new(term->label_text);
 	term->label_set_byuser=false;
-	term->colorset=sakura.last_colorset-1;
-	tab_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
-	gtk_box_pack_start(GTK_BOX(tab_hbox), term->label, FALSE, FALSE, 0);
-
+	tab_label_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_box_pack_start(GTK_BOX(tab_label_hbox), term->label, FALSE, FALSE, 0);
+	
 	/* If the tab close button is enabled, create and add it to the tab */
 	if (sakura.show_closebutton) {
 		close_button=gtk_button_new();
@@ -2621,24 +2617,23 @@ sakura_add_tab()
 
 		GtkWidget *image=gtk_image_new_from_icon_name("window-close", GTK_ICON_SIZE_MENU);
 		gtk_container_add (GTK_CONTAINER (close_button), image);
-		gtk_box_pack_start(GTK_BOX(tab_hbox), close_button, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(tab_label_hbox), close_button, FALSE, FALSE, 0);
 	}
 
 	if (sakura.tabs_on_bottom) {
 		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(sakura.notebook), GTK_POS_BOTTOM);
 	}
 
-	gtk_widget_show_all(tab_hbox);
-
-	/* Init vte */
-	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), SCROLL_LINES);
-	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
-	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
-
+	gtk_widget_show_all(tab_label_hbox);
+	
+	/* Create new vte terminal, scrollbar, and pack it */
+	term->vte=vte_terminal_new();
 	term->scrollbar=gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(term->vte)));
-
+	term->hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(term->hbox), term->vte, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(term->hbox), term->scrollbar, FALSE, FALSE, 0);
+
+	term->colorset=sakura.last_colorset-1;
 
 	/* Select the directory to use for the new tab */
 	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -2655,7 +2650,7 @@ sakura_add_tab()
 	/* Keep values when adding tabs */
 	sakura.keep_fc=true;
 
-	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term->hbox, tab_hbox))==-1) {
+	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), term->hbox, tab_label_hbox))==-1) {
 		sakura_error("Cannot create a new tab");
 		exit(1);
 	}
@@ -2712,7 +2707,7 @@ sakura_add_tab()
 				sakura.rows = vte_terminal_get_row_count(VTE_TERMINAL(term->vte));
 			}
 		} else {
-            gtk_widget_show(sakura.main_window);
+			gtk_widget_show(sakura.main_window);
 		}
 
 		/* Set WINDOWID env variable */
@@ -2818,27 +2813,23 @@ sakura_add_tab()
 
 	free(cwd);
 
-	/* Configuration for the newly created terminal */
+	/* Init vte terminal */
+	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), SCROLL_LINES);
+	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
+	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
-	vte_terminal_set_colors(VTE_TERMINAL(term->vte), 
-	                        &sakura.forecolors[term->colorset],
-	                        &sakura.backcolors[term->colorset],
-	                        sakura.palette, PALETTE_SIZE);
+
+	/* Set terminal options according to user conf */
 	vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
-
-	/* Get rid of these nasty bells */
 	vte_terminal_set_audible_bell (VTE_TERMINAL(term->vte), sakura.audible_bell ? TRUE : FALSE);
-
-	/* Disable stupid blinking cursor */
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
-
-	/* Enable bold text by default */
 	vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), sakura.allow_bold ? TRUE : FALSE);
-
-	/* Change cursor */	
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
+	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolors[term->colorset], &sakura.backcolors[term->colorset],
+	                        sakura.palette, PALETTE_SIZE);
 
-	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
+	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus?.*/
+	/* Remove this grab_focus when bug #1510186 is fixed */
 	gtk_widget_grab_focus(term->vte);
 
 	/* FIXME: Possible race here. Find some way to force to process all configure
