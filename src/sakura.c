@@ -475,7 +475,23 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 	}
 
 	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + (left/right) cursor pressed */
-	if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator ) {
+	/*
+		if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator ) {
+		BUGFIX (https://bugs.launchpad.net/sakura/+bug/1438082):
+			in cases when user configured accelerators like this one:
+				switch_tab_accelerator=4  for ctrl+next[prev]_tab_key
+				move_tab_accelerator=5  for ctrl+shift+next[prev]_tab_key
+			move never works, because switch will be processed firstly
+	*/
+	if(
+		(event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator
+		&&
+		(
+			sakura.switch_tab_accelerator > sakura.move_tab_accelerator
+			||
+			(event->state & sakura.move_tab_accelerator) != sakura.move_tab_accelerator
+		)
+	) {
 		if ((keyval>=GDK_KEY_1) && (keyval<=GDK_KEY_9) && (keyval<=GDK_KEY_1-1+npages)
 				&& (keyval!=GDK_KEY_1+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
 
@@ -510,14 +526,20 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 				gtk_notebook_next_page(GTK_NOTEBOOK(sakura.notebook));
 			}
 			return TRUE;
-		} else {
-			/* Prevents swallowing of events as a default behavior */
-			return FALSE;
 		}
 	}
 
 	/* move_tab_accelerator + (left/right) cursor pressed */
-	if ( (event->state & sakura.move_tab_accelerator)==sakura.move_tab_accelerator ) {
+	/* if ( (event->state & sakura.move_tab_accelerator)==sakura.move_tab_accelerator ) { */
+	if(
+		((event->state & sakura.move_tab_accelerator) == sakura.move_tab_accelerator)
+		&&
+		(
+			sakura.move_tab_accelerator > sakura.switch_tab_accelerator
+			||
+			(event->state & sakura.switch_tab_accelerator) != sakura.switch_tab_accelerator
+		)
+	) {
 		if (keyval==sakura.prev_tab_key) {
 			sakura_move_tab(BACKWARDS);
 			return TRUE;
