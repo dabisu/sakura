@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 22:49+0100\n"
+"POT-Creation-Date: 2015-11-30 18:26+0100\n"
 "PO-Revision-Date: 2015-11-24 16:05+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -65,6 +65,10 @@ msgstr "X geometry specification"
 
 msgid "Use alternate configuration file"
 msgstr "Use alternate configuration file"
+
+#, fuzzy
+msgid "Select initial colorset"
+msgstr "Select colours"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "Configuration has been modified by another proccess. Overwrite?"

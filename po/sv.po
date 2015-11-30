@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 22:49+0100\n"
+"POT-Creation-Date: 2015-11-30 18:26+0100\n"
 "PO-Revision-Date: 2015-08-12 00:10+0000\n"
 "Last-Translator: Andreas Rönnquist <gusnan@openmailbox.org>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -66,6 +66,10 @@ msgstr "specificera X-geometri"
 
 msgid "Use alternate configuration file"
 msgstr "Använd alternativ konfigurationsfil"
+
+#, fuzzy
+msgid "Select initial colorset"
+msgstr "Välj färger"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "Konfigurationen har ändrats av en annan process. Skriv över?"

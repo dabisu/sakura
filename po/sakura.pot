@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-27 17:20+0100\n"
+"POT-Creation-Date: 2015-11-30 18:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,9 +24,6 @@ msgid "Select initial terminal font"
 msgstr ""
 
 msgid "Select initial number of tabs"
-msgstr ""
-
-msgid "Select initial colorset"
 msgstr ""
 
 msgid "Set working directory"
@@ -66,6 +63,9 @@ msgid "X geometry specification"
 msgstr ""
 
 msgid "Use alternate configuration file"
+msgstr ""
+
+msgid "Select initial colorset"
 msgstr ""
 
 msgid "Configuration has been modified by another proccess. Overwrite?"

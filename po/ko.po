@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 22:49+0100\n"
+"POT-Creation-Date: 2015-11-30 18:26+0100\n"
 "PO-Revision-Date: 2015-07-26 16:52+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -67,6 +67,10 @@ msgstr "프로그램의 위치"
 
 msgid "Use alternate configuration file"
 msgstr "대체 구성 파일을 사용"
+
+#, fuzzy
+msgid "Select initial colorset"
+msgstr "색상 선택"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "설정이 다른 프로세스에 의해 수정되었습니다. 덮어 쓰시겠습니까?"

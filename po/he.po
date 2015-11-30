@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 22:49+0100\n"
+"POT-Creation-Date: 2015-11-30 18:26+0100\n"
 "PO-Revision-Date: 2015-07-26 17:10+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -85,6 +85,10 @@ msgstr "X geometry specification"
 # CLI: Do not translate!
 msgid "Use alternate configuration file"
 msgstr "Use alternate configuration file"
+
+#, fuzzy
+msgid "Select initial colorset"
+msgstr "בחר צבע"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "תצורה השתנתה על ידי תהליך אחר. להחליפו?"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 22:49+0100\n"
+"POT-Creation-Date: 2015-11-30 18:26+0100\n"
 "PO-Revision-Date: 2015-11-23 14:11+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -21,9 +21,6 @@ msgstr "Выбрать начальный шрифт терминала"
 
 msgid "Select initial number of tabs"
 msgstr "Выбрать начальное число вкладок"
-
-msgid "Select initial colorset"
-msgstr "Выбрать начальную цветовую палитру"
 
 msgid "Set working directory"
 msgstr "Установить рабочую директорию"
@@ -63,6 +60,9 @@ msgstr "Определение геометрии окна X"
 
 msgid "Use alternate configuration file"
 msgstr "Использовать альтернативный файл конфигурации"
+
+msgid "Select initial colorset"
+msgstr "Выбрать начальную цветовую палитру"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "Настройки были изменены другим процессом. Перезаписать?"

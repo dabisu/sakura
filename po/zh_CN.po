@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 22:49+0100\n"
+"POT-Creation-Date: 2015-11-30 18:26+0100\n"
 "PO-Revision-Date: 2015-11-24 20:11+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -65,6 +65,10 @@ msgstr "尺寸设定"
 
 msgid "Use alternate configuration file"
 msgstr "使用其他配置文件"
+
+#, fuzzy
+msgid "Select initial colorset"
+msgstr "选择颜色"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "配置文件已经被其他进程修改。覆盖吗？"
