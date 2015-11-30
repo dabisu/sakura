@@ -22,6 +22,9 @@ msgstr "Выбрать начальный шрифт терминала"
 msgid "Select initial number of tabs"
 msgstr "Выбрать начальное число вкладок"
 
+msgid "Select initial colorset"
+msgstr "Выбрать начальную цветовую палитру"
+
 msgid "Set working directory"
 msgstr "Установить рабочую директорию"
 
