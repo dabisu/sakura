@@ -247,6 +247,7 @@ static struct {
 	GtkCssProvider *provider;
 	char *configfile;
 	char *icon;
+	gchar *tab_default_title;
 	gint last_colorset;
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
@@ -2052,6 +2053,9 @@ sakura_init()
 	}
 	sakura.icon = g_key_file_get_string(sakura.cfg, cfg_group, "icon_file", NULL);
 
+	/* set default title pattern from config or NULL */
+	sakura.tab_default_title = g_key_file_get_string(sakura.cfg, cfg_group, "tab_default_title", NULL);
+
 	/* Use always GTK header bar*/
 	g_object_set(gtk_settings_get_default(), "gtk-dialogs-use-header", TRUE, NULL);
 
@@ -2603,13 +2607,22 @@ sakura_add_tab()
 	int index;
 	int npages;
 	gchar *cwd = NULL;
+	gchar *label_text = _("Terminal %d");
 
 	term = g_new0( struct terminal, 1 );
 
 	/* Create label for tabs */
-	term->label_text=g_strdup_printf(_("Terminal %d"), sakura.label_count++);
-	term->label=gtk_label_new(term->label_text);
 	term->label_set_byuser=false;
+	
+	/* appling tab title pattern from config (https://answers.launchpad.net/sakura/+question/267951) */
+	if(sakura.tab_default_title != NULL) {
+		label_text = sakura.tab_default_title;
+		term->label_set_byuser = true;
+	}
+
+	term->label_text=g_strdup_printf(label_text, sakura.label_count++);
+	term->label=gtk_label_new(term->label_text);
+	
 	tab_label_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_box_pack_start(GTK_BOX(tab_label_hbox), term->label, FALSE, FALSE, 0);
 	
