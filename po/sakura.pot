@@ -26,6 +26,9 @@ msgstr ""
 msgid "Select initial number of tabs"
 msgstr ""
 
+msgid "Select initial colorset"
+msgstr ""
+
 msgid "Set working directory"
 msgstr ""
 
