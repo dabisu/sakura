@@ -659,19 +659,17 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 static gboolean
 sakura_notebook_scroll(GtkWidget *widget, GdkEventScroll *event)
 {
-	gint current_page, n_pages;
+	gint page, npages;
 
-	current_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	
 	switch(event->direction) {
 		case GDK_SCROLL_UP:
-			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), current_page >= 0 ? --current_page : n_pages);
-			// return TRUE;
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), page >= 0 ? --page : npages);
 			break;
 		case GDK_SCROLL_DOWN:
-			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), ++current_page < n_pages ? current_page : 0);
-			// return TRUE;
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), ++page < npages ? page : 0);
 			break;
 	}
 
@@ -2665,7 +2663,7 @@ sakura_add_tab()
 		close_button=gtk_button_new();
 		/* adding scroll-event to button, to propagate it to notebook (fix for scroll event until pointer above the button) */
 		gtk_widget_add_events(close_button, GDK_SCROLL_MASK);
-		
+
 		gtk_widget_set_name(close_button, "closebutton");
 		gtk_button_set_relief(GTK_BUTTON(close_button), GTK_RELIEF_NONE);
 
