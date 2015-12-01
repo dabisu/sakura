@@ -2663,6 +2663,9 @@ sakura_add_tab()
 	/* If the tab close button is enabled, create and add it to the tab */
 	if (sakura.show_closebutton) {
 		close_button=gtk_button_new();
+		/* adding scroll-event to button, to propagate it to notebook (fix for scroll event until pointer above the button) */
+		gtk_widget_add_events(close_button, GDK_SCROLL_MASK);
+		
 		gtk_widget_set_name(close_button, "closebutton");
 		gtk_button_set_relief(GTK_BUTTON(close_button), GTK_RELIEF_NONE);
 
