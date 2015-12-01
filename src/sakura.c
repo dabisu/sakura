@@ -651,6 +651,26 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 }
 
 
+/* Handler for notebook focus-in-event */
+static gboolean
+sakura_notebook_focus_in(GtkWidget *widget, void *data)
+{
+	struct terminal *term;
+	int index;
+
+	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, index);
+
+	/* If term is found stop event propagation */
+	if(term != NULL) {
+		gtk_widget_grab_focus(term->vte);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
 static void
 sakura_page_removed (GtkWidget *widget, void *data)
 {
@@ -2147,6 +2167,7 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_window_show_event), NULL);
+	g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus_in), NULL);
 }
 
 
@@ -2844,10 +2865,6 @@ sakura_add_tab()
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
 	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolors[term->colorset], &sakura.backcolors[term->colorset],
 	                        sakura.palette, PALETTE_SIZE);
-
-	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus?.*/
-	/* Remove this grab_focus when bug #1510186 is fixed */
-	gtk_widget_grab_focus(term->vte);
 
 	/* FIXME: Possible race here. Find some way to force to process all configure
 	 * events before setting keep_fc again to false */
