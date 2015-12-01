@@ -354,6 +354,7 @@ static GQuark term_data_id = 0;
 
 /* Callbacks */
 static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
+static gboolean sakura_button_press (GtkWidget *, GdkEventButton *, gpointer);
 static void     sakura_beep (GtkWidget *, void *);
 static void     sakura_increase_font (GtkWidget *, void *);
 static void     sakura_decrease_font (GtkWidget *, void *);
@@ -362,6 +363,13 @@ static void     sakura_eof (GtkWidget *, void *);
 static void     sakura_title_changed (GtkWidget *, void *);
 static gboolean sakura_delete_event (GtkWidget *, void *);
 static void     sakura_destroy_window (GtkWidget *, void *);
+static gboolean sakura_resized_window( GtkWidget *, GdkEventConfigure *, void *);
+static void     sakura_closebutton_clicked (GtkWidget *, void *);
+static void     sakura_conf_changed (GtkWidget *, void *);
+static void     sakura_window_show_event (GtkWidget *, gpointer);
+static gboolean sakura_notebook_focus_in (GtkWidget *, void *);
+static gboolean sakura_notebook_scroll (GtkWidget *, GdkEventScroll *);
+/* Menuitem callbacks */
 static void     sakura_font_dialog (GtkWidget *, void *);
 static void     sakura_set_name_dialog (GtkWidget *, void *);
 static void     sakura_color_dialog (GtkWidget *, void *);
@@ -370,19 +378,15 @@ static void     sakura_new_tab (GtkWidget *, void *);
 static void     sakura_close_tab (GtkWidget *, void *);
 static void     sakura_fullscreen (GtkWidget *, void *);
 static void     sakura_open_url (GtkWidget *, void *);
-static gboolean sakura_resized_window(GtkWidget *, GdkEventConfigure *, void *);
-static void     sakura_setname_entry_changed(GtkWidget *, void *);
-static void     sakura_copy(GtkWidget *, void *);
-static void     sakura_paste(GtkWidget *, void *);
+static void     sakura_copy (GtkWidget *, void *);
+static void     sakura_paste (GtkWidget *, void *);
 static void     sakura_show_first_tab (GtkWidget *widget, void *data);
 static void     sakura_tabs_on_bottom (GtkWidget *widget, void *data);
 static void     sakura_less_questions (GtkWidget *widget, void *data);
 static void     sakura_show_close_button (GtkWidget *widget, void *data);
 static void     sakura_show_scrollbar(GtkWidget *, void *);
-static void     sakura_closebutton_clicked(GtkWidget *, void *);
-static void     sakura_conf_changed(GtkWidget *, void *);
-static void     sakura_window_show_event(GtkWidget *, gpointer);
 static void     sakura_disable_numbered_tabswitch (GtkWidget *, void *);
+static void     sakura_setname_entry_changed(GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error(const char *, ...);
@@ -447,8 +451,8 @@ static GOptionEntry entries[] = {
 };
 
 
-static
-gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+static gboolean
+sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	if (event->type!=GDK_KEY_PRESS) return FALSE;
 
@@ -665,6 +669,27 @@ sakura_notebook_focus_in(GtkWidget *widget, void *data)
 	if(term != NULL) {
 		gtk_widget_grab_focus(term->vte);
 		return TRUE;
+	}
+}
+
+
+/* Handler for notebook scroll-event - switches tabs by scroll direction
+   TODO: let scroll directions configurable */
+static gboolean
+sakura_notebook_scroll(GtkWidget *widget, GdkEventScroll *event)
+{
+	gint page, npages;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	
+	switch(event->direction) {
+		case GDK_SCROLL_UP:
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), page >= 0 ? --page : npages);
+			break;
+		case GDK_SCROLL_DOWN:
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), ++page < npages ? page : 0);
+			break;
 	}
 
 	return FALSE;
@@ -2090,6 +2115,9 @@ sakura_init()
 
 	sakura.notebook=gtk_notebook_new();
 
+	/* Adding mask, for handle scroll events */
+	gtk_widget_add_events(sakura.notebook, GDK_SCROLL_MASK);
+
 	/* Figure out if we have rgba capabilities. FIXME: Is this really needed? */
 	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
 	GdkVisual *visual = gdk_screen_get_rgba_visual (screen);
@@ -2168,6 +2196,7 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_window_show_event), NULL);
 	g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus_in), NULL);
+	g_signal_connect(sakura.notebook, "scroll-event", G_CALLBACK(sakura_notebook_scroll), NULL);
 }
 
 
@@ -2650,6 +2679,9 @@ sakura_add_tab()
 	/* If the tab close button is enabled, create and add it to the tab */
 	if (sakura.show_closebutton) {
 		close_button=gtk_button_new();
+		/* Adding scroll-event to button, to propagate it to notebook (fix for scroll event when pointer is above the button) */
+		gtk_widget_add_events(close_button, GDK_SCROLL_MASK);
+
 		gtk_widget_set_name(close_button, "closebutton");
 		gtk_button_set_relief(GTK_BUTTON(close_button), GTK_RELIEF_NONE);
 
