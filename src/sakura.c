@@ -651,6 +651,34 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 }
 
 
+/*
+	Handler for notebook scroll-event - switches tabs by scroll direction
+	TODO: let scroll directions configurable
+	bugfix (https://bugs.launchpad.net/sakura/+bug/1077967)
+*/
+static gboolean
+sakura_notebook_scroll(GtkWidget *widget, GdkEventScroll *event)
+{
+	gint current_page, n_pages;
+
+	current_page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	
+	switch(event->direction) {
+		case GDK_SCROLL_UP:
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), current_page >= 0 ? --current_page : n_pages);
+			// return TRUE;
+			break;
+		case GDK_SCROLL_DOWN:
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), ++current_page < n_pages ? current_page : 0);
+			// return TRUE;
+			break;
+	}
+
+	return FALSE;
+}
+
+
 static void
 sakura_page_removed (GtkWidget *widget, void *data)
 {
@@ -2070,6 +2098,9 @@ sakura_init()
 
 	sakura.notebook=gtk_notebook_new();
 
+	/* Adding mask, for handle scroll events */
+	gtk_widget_add_events(sakura.notebook, GDK_SCROLL_MASK);
+
 	/* Figure out if we have rgba capabilities. FIXME: Is this really needed? */
 	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
 	GdkVisual *visual = gdk_screen_get_rgba_visual (screen);
@@ -2147,6 +2178,9 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_window_show_event), NULL);
+
+	/* bugfix (https://bugs.launchpad.net/sakura/+bug/1077967) - emulate GTK2 mouse scroll behavior */
+	g_signal_connect(sakura.notebook, "scroll-event", G_CALLBACK(sakura_notebook_scroll), NULL);
 }
 
 
