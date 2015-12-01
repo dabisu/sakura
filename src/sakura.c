@@ -1797,6 +1797,7 @@ sakura_disable_numbered_tabswitch(GtkWidget *widget, void *data)
 
 /******* Functions ********/
 
+
 static void
 sakura_init()
 {
