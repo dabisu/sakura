@@ -670,6 +670,8 @@ sakura_notebook_focus_in(GtkWidget *widget, void *data)
 		gtk_widget_grab_focus(term->vte);
 		return TRUE;
 	}
+
+	return FALSE;
 }
 
 
@@ -689,6 +691,10 @@ sakura_notebook_scroll(GtkWidget *widget, GdkEventScroll *event)
 			break;
 		case GDK_SCROLL_DOWN:
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), ++page < npages ? page : 0);
+			break;
+		case GDK_SCROLL_LEFT:
+		case GDK_SCROLL_RIGHT:
+		case GDK_SCROLL_SMOOTH:
 			break;
 	}
 
@@ -2184,9 +2190,6 @@ sakura_init()
 	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, &gerror);
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
-
-	/* Init notebook */
-	gtk_notebook_set_scrollable(GTK_NOTEBOOK(sakura.notebook), TRUE);
 
 	sakura_init_popup();
 
