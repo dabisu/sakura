@@ -2621,12 +2621,6 @@ sakura_set_tab_label_text(const gchar *title, gint page)
 	}
 }
 
-gboolean
-sakura_return_focus_to_vte(GtkWidget *widget, GdkEvent *event, void *data)
-{
-	gtk_widget_grab_focus(data);
-	return TRUE;
-}
 
 static void
 sakura_add_tab()
