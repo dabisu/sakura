@@ -463,9 +463,10 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 
 	/* Check if Caps lock is enabled. If it is, change keyval to make keybindings work with
 	   both lowercase and uppercase letters */
-	if (gdk_keymap_get_caps_lock_state(gdk_keymap_get_default())) {
-		keyval = gdk_keyval_to_upper(keyval);
-	}
+	/*if (gdk_keymap_get_caps_lock_state(gdk_keymap_get_default())) {*/
+	/* make pressed key uppercase by default */
+	keyval = gdk_keyval_to_upper(keyval);
+	/*}*/
 
 	/* add_tab_accelerator + T or del_tab_accelerator + W pressed */
 	if ( (event->state & sakura.add_tab_accelerator)==sakura.add_tab_accelerator &&
@@ -2982,7 +2983,8 @@ sakura_get_keybind(const gchar *key)
 		retval=g_key_file_get_integer(sakura.cfg, cfg_group, key, NULL);
 	}
 
-	return retval;
+	/* always use uppercase value as keyval. (https://bugs.launchpad.net/sakura/+bug/1399487), and possibly (https://bugs.launchpad.net/sakura/+bug/1521723)*/
+	return gdk_keyval_to_upper(retval);
 }
 
 
