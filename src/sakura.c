@@ -268,6 +268,8 @@ static struct {
 	gint scrollbar_key;
 	gint set_tab_name_key;
 	gint fullscreen_key;
+	gint increase_font_size_key;
+	gint decrease_font_size_key;
 	gint set_colorset_keys[NUM_COLORSETS];
 	GRegex *http_regexp;
 	char *argv[3];
@@ -318,6 +320,9 @@ struct terminal {
 #define DEFAULT_SCROLLBAR_KEY  GDK_KEY_S
 #define DEFAULT_SET_TAB_NAME_KEY  GDK_KEY_N
 #define DEFAULT_FULLSCREEN_KEY  GDK_KEY_F11
+#define DEFAULT_INCREASE_FONT_SIZE_KEY GDK_KEY_plus
+#define DEFAULT_DECREASE_FONT_SIZE_KEY GDK_KEY_minus
+
 /* make this an array instead of #defines to get a compile time
  * error instead of a runtime if NUM_COLORSETS changes */
 static int cs_keys[NUM_COLORSETS] = 
@@ -568,10 +573,10 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 
 	/* font_size_accelerator-[+] or [-] pressed */
 	if ( (event->state & sakura.font_size_accelerator)==sakura.font_size_accelerator ) {
-		if (keyval==GDK_KEY_plus) {
+		if (keyval==sakura.increase_font_size_key) {
 			sakura_increase_font(NULL, NULL);
 			return TRUE;
-		} else if (keyval==GDK_KEY_minus) {
+		} else if (keyval==sakura.decrease_font_size_key) {
 			sakura_decrease_font(NULL, NULL);
 			return TRUE;
 		}
@@ -2088,6 +2093,16 @@ sakura_init()
 		sakura_set_keybind("set_tab_name_key", DEFAULT_SET_TAB_NAME_KEY);
 	}
 	sakura.set_tab_name_key = sakura_get_keybind("set_tab_name_key");
+	
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "increase_font_size_key", NULL)) {
+		sakura_set_keybind("increase_font_size_key", DEFAULT_INCREASE_FONT_SIZE_KEY);
+	}
+	sakura.increase_font_size_key = sakura_get_keybind("increase_font_size_key");
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "decrease_font_size_key", NULL)) {
+		sakura_set_keybind("decrease_font_size_key", DEFAULT_DECREASE_FONT_SIZE_KEY);
+	}
+	sakura.decrease_font_size_key = sakura_get_keybind("decrease_font_size_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "fullscreen_key", NULL)) {
 		sakura_set_keybind("fullscreen_key", DEFAULT_FULLSCREEN_KEY);
