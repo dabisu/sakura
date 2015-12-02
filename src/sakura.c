@@ -461,13 +461,10 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	gint npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	guint keyval = event->keyval;
 
-	/* Check if Caps lock is enabled. If it is, change keyval to make keybindings work with
-	   both lowercase and uppercase letters */
-	if (gdk_keymap_get_caps_lock_state(gdk_keymap_get_default())) {
-		keyval = gdk_keyval_to_upper(keyval);
-	}
+	/* Make pressed key uppercase by default */
+	keyval = gdk_keyval_to_upper(keyval);
 
-	/* add_tab_accelerator + T or del_tab_accelerator + W pressed */
+	/* Add/delete tab keybinding pressed */
 	if ( (event->state & sakura.add_tab_accelerator)==sakura.add_tab_accelerator &&
 			keyval==sakura.add_tab_key) {
 		sakura_add_tab();
@@ -479,7 +476,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 		return TRUE;
 	}
 
-	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + (prev_tab_key/next_tab_key)  pressed */
+	/* Switch tab keybinding pressed (numbers or next/prev) */
 	/* In cases when the user configured accelerators like these ones:
 		switch_tab_accelerator=4  for ctrl+next[prev]_tab_key
 		move_tab_accelerator=5  for ctrl+shift+next[prev]_tab_key
@@ -523,7 +520,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 		}
 	}
 
-	/* move_tab_accelerator + (prev_tab_key/next_tab_key) pressed */
+	/* Move tab keybinding pressed */
 	/* Same condition used in switch_tab_accelerator */
 	if ( ((event->state & sakura.move_tab_accelerator) == sakura.move_tab_accelerator) &&
   	    (sakura.move_tab_accelerator > sakura.switch_tab_accelerator || (event->state & sakura.switch_tab_accelerator) != sakura.switch_tab_accelerator)) {
@@ -536,11 +533,8 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 		}
 	}
 
-	/* copy_accelerator-[C/V] pressed */
-	//SAY("copy acc: %d", sakura.copy_accelerator);
-	//SAY("ev+copy: %d", (event->state & sakura.copy_accelerator));
+	/* Copy/paste keybinding pressed */
 	if ( (event->state & sakura.copy_accelerator)==sakura.copy_accelerator ) {
-		//SAY("%d %d", keyval, sakura.copy_key);
 		if (keyval==sakura.copy_key) {
 			sakura_copy(NULL, NULL);
 			return TRUE;
@@ -550,7 +544,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 		}
 	}
 
-	/* scrollbar_accelerator-[S] pressed */
+	/* Show scrollbar keybinding pressed */
 	if ( (event->state & sakura.scrollbar_accelerator)==sakura.scrollbar_accelerator ) {
 		if (keyval==sakura.scrollbar_key) {
 			sakura_show_scrollbar(NULL, NULL);
@@ -558,7 +552,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 		}
 	}
 
-	/* set_tab_name_accelerator-[N] pressed */
+	/* Set tab name keybinding pressed */
 	if ( (event->state & sakura.set_tab_name_accelerator)==sakura.set_tab_name_accelerator ) {
 		if (keyval==sakura.set_tab_name_key) {
 			sakura_set_name_dialog(NULL, NULL);
@@ -566,7 +560,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 		}
 	}
 
-	/* font_size_accelerator-[+] or [-] pressed */
+	/* Increase/decrease font size keybinding pressed */
 	if ( (event->state & sakura.font_size_accelerator)==sakura.font_size_accelerator ) {
 		if (keyval==GDK_KEY_plus) {
 			sakura_increase_font(NULL, NULL);
@@ -2982,7 +2976,8 @@ sakura_get_keybind(const gchar *key)
 		retval=g_key_file_get_integer(sakura.cfg, cfg_group, key, NULL);
 	}
 
-	return retval;
+	/* Always use uppercase value as keyval */
+	return gdk_keyval_to_upper(retval);
 }
 
 
