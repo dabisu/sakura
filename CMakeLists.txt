@@ -15,12 +15,12 @@ ENDIF (NOT PKG_CONFIG_FOUND)
 
 pkg_check_modules (GLIB REQUIRED glib-2.0>=2.42)
 IF (NOT GLIB_FOUND)
-	MESSAGE(FATAL_ERROR "You don't seem to have glib >= 2.42 development libraries installed...")
+	MESSAGE(FATAL_ERROR "You don't seem to have glib >= 2.40 development libraries installed...")
 ENDIF (NOT GLIB_FOUND)
 
 pkg_check_modules (GTK REQUIRED gtk+-3.0>=3.14)
 IF (NOT GTK_FOUND)
-	MESSAGE(FATAL_ERROR "You don't seem to have gtk >= 3.14 development libraries installed...")
+	MESSAGE(FATAL_ERROR "You don't seem to have gtk >= 3.12 development libraries installed...")
 ENDIF (NOT GTK_FOUND)
 
 pkg_check_modules (VTE REQUIRED vte-2.91)
