@@ -242,6 +242,7 @@ static struct {
 	guint height;
 	glong columns;
 	glong rows;
+	gint scroll_lines;
 	gint label_count;
 	VteCursorShape cursor_type;
 	bool first_tab;
@@ -309,6 +310,7 @@ struct terminal {
 
 #define ICON_FILE "terminal-tango.svg"
 #define SCROLL_LINES 4096
+#define DEFAULT_SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|http)s?://[-a-zA-Z0-9.?$%&/=_~#.,:;+]*[-a-zA-Z0-9.?$%&/=_~#+]"
 #define DEFAULT_CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
@@ -1935,6 +1937,11 @@ sakura_init()
 	}
 	sakura.last_colorset = g_key_file_get_integer(sakura.cfg, cfg_group, "last_colorset", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scroll_lines", NULL)) {
+		g_key_file_set_integer(sakura.cfg, cfg_group, "scroll_lines", DEFAULT_SCROLL_LINES);
+	}
+	sakura.scroll_lines = g_key_file_get_integer(sakura.cfg, cfg_group, "scroll_lines", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "font", NULL)) {
 		sakura_set_config_string("font", DEFAULT_FONT);
 	}
@@ -2890,7 +2897,7 @@ sakura_add_tab()
 	free(cwd);
 
 	/* Init vte terminal */
-	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), SCROLL_LINES);
+	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), sakura.scroll_lines);
 	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
