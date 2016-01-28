@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2015-07-26 17:10+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -152,11 +152,11 @@ msgstr ""
 "\n"
 "האם אתה בטוח כי ברצונך לסגור אותו?"
 
-msgid "Open link..."
-msgstr "פתח קישור..."
+msgid "Open link"
+msgstr "פתח קישור"
 
-msgid "Copy link..."
-msgstr "העתק קישור..."
+msgid "Copy link"
+msgstr "העתק קישור"
 
 msgid "New tab"
 msgstr "כרטיסייה חדשה"
@@ -184,12 +184,6 @@ msgstr "בחר צבעים..."
 
 msgid "Set window title..."
 msgstr "קבע כותרת חלון..."
-
-msgid "Open link"
-msgstr "פתח קישור"
-
-msgid "Copy link"
-msgstr "העתק קישור"
 
 msgid "Options"
 msgstr "אפשרויות"
@@ -263,3 +257,9 @@ msgstr "- vte-based terminal emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#~ msgid "Open link..."
+#~ msgstr "פתח קישור..."
+
+#~ msgid "Copy link..."
+#~ msgstr "העתק קישור..."

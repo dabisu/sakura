@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2015-07-26 16:52+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -133,11 +133,11 @@ msgstr ""
 "\n"
 "그것을 닫으시겠습니까?"
 
-msgid "Open link..."
-msgstr "링크 열기..."
+msgid "Open link"
+msgstr "링크 열기"
 
-msgid "Copy link..."
-msgstr "링크 복사..."
+msgid "Copy link"
+msgstr "링크 복사"
 
 msgid "New tab"
 msgstr "새 탭"
@@ -165,12 +165,6 @@ msgstr "색상 선택..."
 
 msgid "Set window title..."
 msgstr "창 제목 성정..."
-
-msgid "Open link"
-msgstr "링크 열기"
-
-msgid "Copy link"
-msgstr "링크 복사"
 
 msgid "Options"
 msgstr "설정"
@@ -241,3 +235,9 @@ msgstr "- vte 기반의 터미널 에뮬레이터"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
+
+#~ msgid "Open link..."
+#~ msgstr "링크 열기..."
+
+#~ msgid "Copy link..."
+#~ msgstr "링크 복사..."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2015-11-24 20:11+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -130,10 +130,10 @@ msgstr ""
 "\n"
 "您确定要关闭它吗？"
 
-msgid "Open link..."
+msgid "Open link"
 msgstr "打开链接"
 
-msgid "Copy link..."
+msgid "Copy link"
 msgstr "复制链接"
 
 msgid "New tab"
@@ -162,12 +162,6 @@ msgstr "选择颜色..."
 
 msgid "Set window title..."
 msgstr "设置窗口标题..."
-
-msgid "Open link"
-msgstr "打开链接"
-
-msgid "Copy link"
-msgstr "复制链接"
 
 msgid "Options"
 msgstr "选项"
@@ -237,3 +231,9 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+
+#~ msgid "Open link..."
+#~ msgstr "打开链接"
+
+#~ msgid "Copy link..."
+#~ msgstr "复制链接"

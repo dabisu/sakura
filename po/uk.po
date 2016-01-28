@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -138,10 +138,12 @@ msgstr ""
 "\n"
 "Ви хочете закрити його?"
 
-msgid "Open link..."
+#, fuzzy
+msgid "Open link"
 msgstr "Відкрити посилання..."
 
-msgid "Copy link..."
+#, fuzzy
+msgid "Copy link"
 msgstr "Копіювати посилання..."
 
 msgid "New tab"
@@ -170,14 +172,6 @@ msgstr "Обрати кольори..."
 
 msgid "Set window title..."
 msgstr "Встановити заголовок вікна..."
-
-#, fuzzy
-msgid "Open link"
-msgstr "Відкрити посилання..."
-
-#, fuzzy
-msgid "Copy link"
-msgstr "Копіювати посилання..."
 
 msgid "Options"
 msgstr "Параметри"
@@ -248,3 +242,9 @@ msgstr "Термінальний емулятор базований на vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "версія Sakura %s\n"
+
+#~ msgid "Open link..."
+#~ msgstr "Відкрити посилання..."
+
+#~ msgid "Copy link..."
+#~ msgstr "Копіювати посилання..."

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2015-07-26 17:44+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -129,10 +129,12 @@ msgstr ""
 "\n"
 "Tem certeza que deseja fechar ele?"
 
-msgid "Open link..."
+#, fuzzy
+msgid "Open link"
 msgstr "Abrir link..."
 
-msgid "Copy link..."
+#, fuzzy
+msgid "Copy link"
 msgstr "Copiar link..."
 
 msgid "New tab"
@@ -161,14 +163,6 @@ msgstr "Selecionar cores..."
 
 msgid "Set window title..."
 msgstr "Definir título da janela"
-
-#, fuzzy
-msgid "Open link"
-msgstr "Abrir link..."
-
-#, fuzzy
-msgid "Copy link"
-msgstr "Copiar link..."
 
 msgid "Options"
 msgstr "Opções"
@@ -239,3 +233,9 @@ msgstr "- emulador de terminal baseado no vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
+
+#~ msgid "Open link..."
+#~ msgstr "Abrir link..."
+
+#~ msgid "Copy link..."
+#~ msgstr "Copiar link..."

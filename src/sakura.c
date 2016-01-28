@@ -2244,47 +2244,13 @@ sakura_init_popup()
 	          *item_toggle_scrollbar, *item_options,
 	          *item_show_first_tab, *item_urgent_bell, *item_audible_bell, 
 	          *item_blinking_cursor, *item_allow_bold, *item_other_options, 
-			  *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
+	          *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm,
-			  *item_palette_solarized_dark, *item_palette_solarized_light,
+	          *item_palette_solarized_dark, *item_palette_solarized_light, *item_palette_gruvbox,
 	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions,
-						*item_disable_numbered_tabswitch;
-	//GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
-	//          *action_copy, *action_paste, *action_select_font, *action_select_colors,
-	//          *action_set_title,
-	//          *action_fullscreen;
+	          *item_disable_numbered_tabswitch;
 	GtkWidget *options_menu, *other_options_menu, *cursor_menu, *palette_menu;
 
-#if 0
-	/* Define actions */
-	/* TODO: Should we add icons with g_menu_item_set_icon? */
-	action_open_link=gtk_action_new("open_link", _("Open link..."), NULL, NULL);
-	action_copy_link=gtk_action_new("copy_link", _("Copy link..."), NULL, NULL);
-	action_new_tab=gtk_action_new("new_tab", _("New tab"), NULL, NULL);
-	action_set_name=gtk_action_new("set_name", _("Set tab name..."), NULL, NULL);
-	action_close_tab=gtk_action_new("close_tab", _("Close tab"), NULL, NULL);
-	action_fullscreen=gtk_action_new("fullscreen", _("Full screen"), NULL, NULL);
-	action_copy=gtk_action_new("copy", _("Copy"), NULL, NULL);
-	action_paste=gtk_action_new("paste", _("Paste"), NULL, NULL);
-	action_select_font=gtk_action_new("select_font", _("Select font..."), NULL, NULL);
-	action_select_colors=gtk_action_new("select_colors", _("Select colors..."), NULL, NULL);
-	action_set_title=gtk_action_new("set_title", _("Set window title..."), NULL, NULL);
-
-	/* Create menuitems */
-	sakura.item_open_link=gtk_action_create_menu_item(action_open_link);
-	sakura.item_copy_link=gtk_action_create_menu_item(action_copy_link);
-	item_new_tab=gtk_action_create_menu_item(action_new_tab);
-	item_set_name=gtk_action_create_menu_item(action_set_name);
-	item_close_tab=gtk_action_create_menu_item(action_close_tab);
-	item_fullscreen=gtk_action_create_menu_item(action_fullscreen);
-	item_copy=gtk_action_create_menu_item(action_copy);
-	item_paste=gtk_action_create_menu_item(action_paste);
-	item_select_font=gtk_action_create_menu_item(action_select_font);
-	item_select_colors=gtk_action_create_menu_item(action_select_colors);
-	item_set_title=gtk_action_create_menu_item(action_set_title);
-#endif
-
-	/*FIXME: Use new menu declaration style: gtk_menu_new_from_model */
 	sakura.item_open_link=gtk_menu_item_new_with_label(_("Open link"));
 	sakura.item_copy_link=gtk_menu_item_new_with_label(_("Copy link"));
 	item_new_tab=gtk_menu_item_new_with_label(_("New tab"));

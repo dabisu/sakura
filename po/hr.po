@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2015-10-14 17:21+0000\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -138,10 +138,12 @@ msgstr ""
 "\n"
 "Želite li zbilja zatvoriti terminal?"
 
-msgid "Open link..."
+#, fuzzy
+msgid "Open link"
 msgstr "Otvori link..."
 
-msgid "Copy link..."
+#, fuzzy
+msgid "Copy link"
 msgstr "Kopiraj link..."
 
 msgid "New tab"
@@ -170,14 +172,6 @@ msgstr "Postavi boje..."
 
 msgid "Set window title..."
 msgstr "Postavi naslov prozora"
-
-#, fuzzy
-msgid "Open link"
-msgstr "Otvori link..."
-
-#, fuzzy
-msgid "Copy link"
-msgstr "Kopiraj link..."
 
 msgid "Options"
 msgstr "Mogućnosti"
@@ -248,3 +242,9 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#~ msgid "Open link..."
+#~ msgstr "Otvori link..."
+
+#~ msgid "Copy link..."
+#~ msgstr "Kopiraj link..."

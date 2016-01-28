@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2015-11-24 19:55+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -127,11 +127,11 @@ msgstr ""
 "\n"
 "本当に閉じますか？"
 
-msgid "Open link..."
-msgstr "リンクを開く..."
+msgid "Open link"
+msgstr "リンクを開く"
 
-msgid "Copy link..."
-msgstr "リンクをコピー..."
+msgid "Copy link"
+msgstr "リンクをコピー"
 
 msgid "New tab"
 msgstr "新規タブ"
@@ -159,12 +159,6 @@ msgstr "色を選択..."
 
 msgid "Set window title..."
 msgstr "ウィンドウのタイトルを設定..."
-
-msgid "Open link"
-msgstr "リンクを開く"
-
-msgid "Copy link"
-msgstr "リンクをコピー"
 
 msgid "Options"
 msgstr "設定"
@@ -234,3 +228,9 @@ msgstr "- vte ベースのターミナル・エミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "Open link..."
+#~ msgstr "リンクを開く..."
+
+#~ msgid "Copy link..."
+#~ msgstr "リンクをコピー..."

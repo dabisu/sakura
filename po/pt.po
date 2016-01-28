@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2015-07-27 20:27+0000\n"
 "Last-Translator: Sérgio Marques <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -133,11 +133,11 @@ msgstr ""
 "\n"
 "Quer mesmo fechar o terminal?"
 
-msgid "Open link..."
-msgstr "Abrir ligação..."
+msgid "Open link"
+msgstr "Abrir ligação"
 
-msgid "Copy link..."
-msgstr "Copiar ligação..."
+msgid "Copy link"
+msgstr "Copiar ligação"
 
 msgid "New tab"
 msgstr "Novo separador"
@@ -165,12 +165,6 @@ msgstr "Escolha as cores..."
 
 msgid "Set window title..."
 msgstr "Definir título da janela..."
-
-msgid "Open link"
-msgstr "Abrir ligação"
-
-msgid "Copy link"
-msgstr "Copiar ligação"
 
 msgid "Options"
 msgstr "Opções"
@@ -241,3 +235,9 @@ msgstr "- Emulador de terminal vte-based"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "a versão do sakura é a %s\n"
+
+#~ msgid "Open link..."
+#~ msgstr "Abrir ligação..."
+
+#~ msgid "Copy link..."
+#~ msgstr "Copiar ligação..."

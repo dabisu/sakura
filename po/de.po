@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2015-07-26 17:00+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -135,11 +135,11 @@ msgstr ""
 "\n"
 "Wollen Sie es wirklich beenden?"
 
-msgid "Open link..."
-msgstr "Öffne Link..."
+msgid "Open link"
+msgstr "Verweis öffnen"
 
-msgid "Copy link..."
-msgstr "Kopiere Link..."
+msgid "Copy link"
+msgstr "Verweis kopieren"
 
 msgid "New tab"
 msgstr "Neuer Reiter"
@@ -167,12 +167,6 @@ msgstr "Farben wählen..."
 
 msgid "Set window title..."
 msgstr "Fenstertitel wählen..."
-
-msgid "Open link"
-msgstr "Verweis öffnen"
-
-msgid "Copy link"
-msgstr "Verweis kopieren"
 
 msgid "Options"
 msgstr "Optionen"
@@ -243,3 +237,9 @@ msgstr "- vte-basierter Terminal-Emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
+
+#~ msgid "Open link..."
+#~ msgstr "Öffne Link..."
+
+#~ msgid "Copy link..."
+#~ msgstr "Kopiere Link..."

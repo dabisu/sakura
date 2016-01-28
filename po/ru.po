@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-28 20:29+0100\n"
 "PO-Revision-Date: 2015-11-23 14:11+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -124,11 +124,11 @@ msgstr ""
 "\n"
 "Вы уверены, что хотите выйти закрыть его?"
 
-msgid "Open link..."
-msgstr "Открыть ссылку..."
+msgid "Open link"
+msgstr "Открыть ссылку"
 
-msgid "Copy link..."
-msgstr "Копировать ссылку..."
+msgid "Copy link"
+msgstr "Копировать ссылку"
 
 msgid "New tab"
 msgstr "Новая вкладка"
@@ -156,12 +156,6 @@ msgstr "Выбрать цвета..."
 
 msgid "Set window title..."
 msgstr "Установить заголовок окна..."
-
-msgid "Open link"
-msgstr "Открыть ссылку"
-
-msgid "Copy link"
-msgstr "Копировать ссылку"
 
 msgid "Options"
 msgstr "Настройки"
@@ -231,3 +225,9 @@ msgstr "- эмулятор терминала, основанный на VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Версия sakura %s\n"
+
+#~ msgid "Open link..."
+#~ msgstr "Открыть ссылку..."
+
+#~ msgid "Copy link..."
+#~ msgstr "Копировать ссылку..."
