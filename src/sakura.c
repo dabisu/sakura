@@ -60,6 +60,25 @@
  * Text displayed in the first 8 colors (0-7) is meek (uses thin strokes).
  * Text displayed in the second 8 colors (8-15) is bold (uses thick strokes). */
 
+const GdkRGBA gruvbox_palette[PALETTE_SIZE] = {
+        {0.156863, 0.156863, 0.156863, 1.000000},
+        {0.800000, 0.141176, 0.113725, 1.000000},
+        {0.596078, 0.592157, 0.101961, 1.000000},
+        {0.843137, 0.600000, 0.129412, 1.000000},
+        {0.270588, 0.521569, 0.533333, 1.000000},
+        {0.694118, 0.384314, 0.525490, 1.000000},
+        {0.407843, 0.615686, 0.415686, 1.000000},
+        {0.658824, 0.600000, 0.517647, 1.000000},
+        {0.572549, 0.513725, 0.454902, 1.000000},
+        {0.984314, 0.286275, 0.203922, 1.000000},
+        {0.721569, 0.733333, 0.149020, 1.000000},
+        {0.980392, 0.741176, 0.184314, 1.000000},
+        {0.513725, 0.647059, 0.596078, 1.000000},
+        {0.827451, 0.525490, 0.607843, 1.000000},
+        {0.556863, 0.752941, 0.486275, 1.000000},
+        {0.921569, 0.858824, 0.698039, 1.000000},
+};
+
 const GdkRGBA tango_palette[PALETTE_SIZE] = {
 	{0,        0,        0,        1},
 	{0.8,      0,        0,        1},
@@ -1582,6 +1601,8 @@ sakura_set_palette(GtkWidget *widget, void *data)
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		if (strcmp(palette, "linux")==0) {
 			sakura.palette=linux_palette;
+		} else if (strcmp(palette, "gruvbox")==0) {
+			sakura.palette=gruvbox_palette;
 		} else if (strcmp(palette, "xterm")==0) {
 			sakura.palette=xterm_palette;
 		} else if (strcmp(palette, "tango")==0) {
@@ -1992,6 +2013,8 @@ sakura_init()
 	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
 	if (strcmp(cfgtmp, "linux")==0) {
 		sakura.palette=linux_palette;
+	} else if (strcmp(cfgtmp, "gruvbox")==0) {
+		sakura.palette=gruvbox_palette;
 	} else if (strcmp(cfgtmp, "xterm")==0) {
 		sakura.palette=xterm_palette;
 	} else if (strcmp(cfgtmp, "tango")==0) {
@@ -2294,6 +2317,7 @@ sakura_init_popup()
 	item_palette=gtk_menu_item_new_with_label(_("Set palette"));
 	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
 	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
+	item_palette_gruvbox=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Gruvbox");
 	item_palette_xterm=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Xterm");
 	item_palette_solarized_dark=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized dark");
 	item_palette_solarized_light=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized light");
@@ -2367,6 +2391,8 @@ sakura_init_popup()
 	cfgtmp = g_key_file_get_string(sakura.cfg, cfg_group, "palette", NULL);
 	if (strcmp(cfgtmp, "linux")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_linux), TRUE);
+	} else if (strcmp(cfgtmp, "gruvbox")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_gruvbox), TRUE);
 	} else if (strcmp(cfgtmp, "tango")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_tango), TRUE);
 	} else if (strcmp(cfgtmp, "xterm")==0) {
@@ -2426,6 +2452,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_palette);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_tango);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_linux);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_gruvbox);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_xterm);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_dark);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_light);
@@ -2461,6 +2488,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_cursor_ibeam), "activate", G_CALLBACK(sakura_set_cursor), "ibeam");
 	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
 	g_signal_connect(G_OBJECT(item_palette_linux), "activate", G_CALLBACK(sakura_set_palette), "linux");
+	g_signal_connect(G_OBJECT(item_palette_gruvbox), "activate", G_CALLBACK(sakura_set_palette), "gruvbox");
 	g_signal_connect(G_OBJECT(item_palette_xterm), "activate", G_CALLBACK(sakura_set_palette), "xterm");
 	g_signal_connect(G_OBJECT(item_palette_solarized_dark), "activate", G_CALLBACK(sakura_set_palette), "solarized_dark");
 	g_signal_connect(G_OBJECT(item_palette_solarized_light), "activate", G_CALLBACK(sakura_set_palette), "solarized_light");
