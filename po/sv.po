@@ -15,8 +15,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-11-28 04:37+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-02 05:09+0000\n"
+"X-Generator: Launchpad (build 17856)\n"
+"Language: sv\n"
 
 msgid "Print version number"
 msgstr "Skriv ut versionsnummer"
@@ -66,9 +67,8 @@ msgstr "Specificera X-geometri"
 msgid "Use alternate configuration file"
 msgstr "Använd alternativ konfigurationsfil"
 
-#, fuzzy
 msgid "Select initial colorset"
-msgstr "Välj färger"
+msgstr "Välj initial färguppsättning"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "Konfigurationen har ändrats av en annan process. Skriv över?"

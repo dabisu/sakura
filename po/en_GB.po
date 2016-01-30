@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-11-28 04:37+0000\n"
+"X-Launchpad-Export-Date: 2015-12-01 05:09+0000\n"
 "X-Generator: Launchpad (build 17850)\n"
 
 msgid "Print version number"
@@ -66,9 +66,8 @@ msgstr "X geometry specification"
 msgid "Use alternate configuration file"
 msgstr "Use alternate configuration file"
 
-#, fuzzy
 msgid "Select initial colorset"
-msgstr "Select colours"
+msgstr "Select initial colourset"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "Configuration has been modified by another proccess. Overwrite?"
@@ -232,8 +231,3 @@ msgstr "- vte-based terminal emulator"
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
 
-#~ msgid "Open link..."
-#~ msgstr "Open link..."
-
-#~ msgid "Copy link..."
-#~ msgstr "Copy link..."
