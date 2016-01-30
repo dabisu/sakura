@@ -5,16 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2016-01-30 08:53+0100\n"
 "PO-Revision-Date: 2016-01-29 16:31+0000\n"
 "Last-Translator: rezso <Unknown>\n"
 "Language-Team: hu\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2016-01-30 05:11+0000\n"
 "X-Generator: Launchpad (build 17908)\n"
-"Language: hu\n"
 
 msgid "Print version number"
 msgstr "Verziószám kiírása"
@@ -127,11 +127,11 @@ msgstr ""
 "\n"
 "Valóban be akarja zárni?"
 
-msgid "Open link..."
-msgstr "Link megnyitása..."
+msgid "Open link"
+msgstr "Link megnyitása"
 
-msgid "Copy link..."
-msgstr ""
+msgid "Copy link"
+msgstr "Link másolása"
 
 msgid "New tab"
 msgstr "Új fül"
@@ -159,12 +159,6 @@ msgstr "Színek kiválasztása..."
 
 msgid "Set window title..."
 msgstr "Ablak címének beállítása..."
-
-msgid "Open link"
-msgstr "Link megnyitása"
-
-msgid "Copy link"
-msgstr "Link másolása"
 
 msgid "Options"
 msgstr "Beállítások"
@@ -234,4 +228,6 @@ msgstr "- vte alapú terminálemulátor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verzió: %s\n"
->>>>>>> MERGE-SOURCE
+
+#~ msgid "Open link..."
+#~ msgstr "Link megnyitása..."
