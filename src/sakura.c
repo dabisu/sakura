@@ -897,6 +897,7 @@ sakura_config_done()
 		fprintf(stderr, "%s\n", gerror->message);
 		exit(EXIT_FAILURE);
 	}
+
 	/* Write to file IF there's been changes */
 	if (sakura.config_modified) {
 
@@ -923,6 +924,7 @@ sakura_config_done()
 			GIOChannel *cfgfile = g_io_channel_new_file(sakura.configfile, "w", &gerror);
 			if (!cfgfile) {
 				fprintf(stderr, "%s\n", gerror->message);
+				g_error_free(gerror);
 				exit(EXIT_FAILURE);
 			}
 
@@ -932,6 +934,7 @@ sakura_config_done()
 			if (status != G_IO_STATUS_NORMAL) {
 				// FIXME: we should deal with temporary failures (G_IO_STATUS_AGAIN)
 				fprintf(stderr, "%s\n", gerror->message);
+				g_error_free(gerror);
 				exit(EXIT_FAILURE);
 			}
 			g_io_channel_shutdown(cfgfile, TRUE, &gerror);
@@ -1879,6 +1882,7 @@ sakura_init()
 	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)) {
 		/* If there's no file, ignore the error. A new one is created */
 		if (gerror->code==G_KEY_FILE_ERROR_UNKNOWN_ENCODING || gerror->code==G_KEY_FILE_ERROR_INVALID_VALUE) {
+			g_error_free(gerror);
 			fprintf(stderr, "Not valid config file format\n");
 			exit(EXIT_FAILURE);
 		}
@@ -2823,6 +2827,7 @@ sakura_add_tab()
 							sakura_error("Error in exec option command line arguments");
 							exit(1);
 					}
+					g_error_free(gerror);
 				} 
 			} else {
 				/* -e option - last in the command line, takes all extra arguments */
@@ -2843,6 +2848,7 @@ sakura_add_tab()
 								exit(1);
 						}
 					}
+					g_error_free(gerror);
 					g_free(command_joined);
 				}
 			}
@@ -3040,12 +3046,8 @@ int
 main(int argc, char **argv)
 {
 	gchar *localedir;
-	GError *error=NULL;
-	GOptionContext *context;
-	int i;
-	int n;
-	char **nargv;
-	int nargc;
+	int i; int n;
+	char **nargv; int nargc;
 	gboolean have_e;
 
 	/* Localization */
@@ -3079,15 +3081,23 @@ main(int argc, char **argv)
 	}
 
 	/* Options parsing */
+	GError *error=NULL;
+	GOptionContext *context; GOptionGroup *option_group;
+
 	context = g_option_context_new (_("- vte-based terminal emulator"));
+	option_group = gtk_get_option_group(TRUE);
 	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
-	g_option_group_set_translation_domain(gtk_get_option_group(TRUE), GETTEXT_PACKAGE);
-	g_option_context_add_group (context, gtk_get_option_group(TRUE));
+	g_option_group_set_translation_domain(option_group, GETTEXT_PACKAGE);
+	g_option_context_add_group (context, option_group);
 	if (!g_option_context_parse (context, &nargc, &nargv, &error)) {
 		fprintf(stderr, "%s\n", error->message);
+		g_error_free(error);
 		exit(1);
 	}
 	
+	g_option_context_free(context);
+	g_free(option_group);
+
 	if (option_workdir && chdir(option_workdir)) {
 		fprintf(stderr, _("Cannot change working directory\n"));
 		exit(1);
@@ -3102,16 +3112,11 @@ main(int argc, char **argv)
 		option_ntabs=1;
 	}
 
-	g_option_context_free(context);
-
-	gtk_init(&nargc, &nargv);
-
-	g_strfreev(nargv);
-
 	/* Init stuff */
+	gtk_init(&nargc, &nargv); g_strfreev(nargv);
 	sakura_init();
 
-	/* Add first tab */
+	/* Add initial tabs (1 by default) */
 	for (i=0; i<option_ntabs; i++)
 		sakura_add_tab();
 	
