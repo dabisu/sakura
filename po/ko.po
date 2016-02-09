@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-30 18:36+0100\n"
-"PO-Revision-Date: 2015-07-26 16:52+0000\n"
+"PO-Revision-Date: 2016-02-08 09:40+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-01 05:09+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2016-02-09 05:10+0000\n"
+"X-Generator: Launchpad (build 17908)\n"
 "Language: ko\n"
 
 msgid "Print version number"
@@ -28,7 +28,7 @@ msgid "Select initial number of tabs"
 msgstr "탭 초기 갯수 선택"
 
 msgid "Set working directory"
-msgstr ""
+msgstr "작업 디렉토리 설정"
 
 msgid "Execute command"
 msgstr "명령 실행"
@@ -43,7 +43,7 @@ msgid "Set window title"
 msgstr "창제목 설정"
 
 msgid "Set window icon"
-msgstr ""
+msgstr "창 아이콘 설정"
 
 msgid "Set columns number"
 msgstr "열 번호 설정"
@@ -52,7 +52,7 @@ msgid "Set rows number"
 msgstr "줄 번호 설정"
 
 msgid "Hold window after execute command"
-msgstr "명령  실행 후 창 고정"
+msgstr "명령 실행 후 창 고정"
 
 msgid "Maximize window"
 msgstr "창 최대화"
@@ -67,7 +67,7 @@ msgid "Use alternate configuration file"
 msgstr "대체 구성 파일을 사용"
 
 msgid "Select initial colorset"
-msgstr ""
+msgstr "초기 색상 세트 선댁"
 
 msgid "Configuration has been modified by another proccess. Overwrite?"
 msgstr "설정이 다른 프로세스에 의해 수정되었습니다. 덮어 쓰시겠습니까?"
@@ -97,13 +97,13 @@ msgid "New text"
 msgstr "새 텍스트"
 
 msgid "Select colors"
-msgstr ""
+msgstr "색상 선댁"
 
 msgid "_Select"
 msgstr "선택"
 
 msgid "Colorset"
-msgstr ""
+msgstr "색상 세트"
 
 msgid "Foreground color"
 msgstr "전경색"
@@ -190,19 +190,19 @@ msgid "Don't show exit dialog"
 msgstr "종료 대화 상자를 표시하지 않음"
 
 msgid "Set urgent bell"
-msgstr ""
+msgstr "긴급 종 성정"
 
 msgid "Set audible bell"
-msgstr "소리 나게 설정"
+msgstr "소리 종 성정"
 
 msgid "Set blinking cursor"
 msgstr "커서 깜빡임 설정"
 
 msgid "Enable bold font"
-msgstr ""
+msgstr "굵은 글꼴 사용"
 
 msgid "Disable numbered tabswitch"
-msgstr ""
+msgstr "번호 탭 스위치 비활성화"
 
 msgid "Set cursor type"
 msgstr "커서 유형을 설정"
@@ -228,7 +228,7 @@ msgstr "오류 메시지"
 
 #, c-format
 msgid "Cannot change working directory\n"
-msgstr ""
+msgstr "작업 디렉토리를 변경할 수 없습니다\n"
 
 msgid "- vte-based terminal emulator"
 msgstr "- vte 기반의 터미널 에뮬레이터"
