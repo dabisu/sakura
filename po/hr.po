@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-28 20:29+0100\n"
+"POT-Creation-Date: 2016-04-17 22:31+0200\n"
 "PO-Revision-Date: 2015-10-14 17:21+0000\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -210,6 +210,9 @@ msgstr ""
 msgid "Disable numbered tabswitch"
 msgstr ""
 
+msgid "Use focus fading"
+msgstr ""
+
 msgid "Set cursor type"
 msgstr "Postavi tip kursora"
 
@@ -242,4 +245,3 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
-

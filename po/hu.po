@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-30 08:53+0100\n"
+"POT-Creation-Date: 2016-04-17 22:31+0200\n"
 "PO-Revision-Date: 2016-01-30 06:54+0000\n"
 "Last-Translator: rezso <Unknown>\n"
 "Language-Team: hu\n"
@@ -195,6 +195,9 @@ msgstr "Vastag betű engedélyezése"
 
 msgid "Disable numbered tabswitch"
 msgstr "Gyorsbillentyűs fülváltás tiltása"
+
+msgid "Use focus fading"
+msgstr ""
 
 msgid "Set cursor type"
 msgstr "Kurzor típusának beállítása"
