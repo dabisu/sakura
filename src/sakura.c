@@ -3096,7 +3096,6 @@ main(int argc, char **argv)
 	}
 	
 	g_option_context_free(context);
-	g_free(option_group);
 
 	if (option_workdir && chdir(option_workdir)) {
 		fprintf(stderr, _("Cannot change working directory\n"));
