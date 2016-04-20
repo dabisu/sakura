@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-28 20:29+0100\n"
+"POT-Creation-Date: 2016-04-17 22:31+0200\n"
 "PO-Revision-Date: 2015-07-26 16:34+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -205,6 +205,9 @@ msgstr ""
 msgid "Disable numbered tabswitch"
 msgstr ""
 
+msgid "Use focus fading"
+msgstr ""
+
 msgid "Set cursor type"
 msgstr "Imposta il modello di cursore"
 
@@ -237,4 +240,3 @@ msgstr "- emulatore di terminale basato su VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versione di Sakura è %s\n"
-
