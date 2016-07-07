@@ -264,6 +264,7 @@ static struct {
 	bool focused;                    /* For fading feature */
 	bool first_focus;                /* Did this window already register its first WM-focus? */
 	bool use_fading;
+	bool scrollable_tabs;
 	GtkWidget *item_copy_link;       /* We include here only the items which need to be hidden */
 	GtkWidget *item_open_link;
 	GtkWidget *open_link_separator;
@@ -347,6 +348,7 @@ struct terminal {
 #define DEFAULT_FULLSCREEN_KEY  GDK_KEY_F11
 #define DEFAULT_INCREASE_FONT_SIZE_KEY GDK_KEY_plus
 #define DEFAULT_DECREASE_FONT_SIZE_KEY GDK_KEY_minus
+#define DEFAULT_SCROLLABLE_TABS FALSE
 
 /* make this an array instead of #defines to get a compile time
  * error instead of a runtime if NUM_COLORSETS changes */
@@ -2214,6 +2216,11 @@ sakura_init()
 	}
 	sakura.icon = g_key_file_get_string(sakura.cfg, cfg_group, "icon_file", NULL);
 
+	if(!g_key_file_has_key(sakura.cfg, cfg_group, "scrollable_tabs", NULL)) {
+		sakura_set_config_string("scrollable_tabs", DEFAULT_SCROLLABLE_TABS);
+	}
+	sakura.scrollable_tabs = g_key_file_get_string(sakura.cfg, cfg_group, "scrollable_tabs", NULL);
+
 	/* set default title pattern from config or NULL */
 	sakura.tab_default_title = g_key_file_get_string(sakura.cfg, cfg_group, "tab_default_title", NULL);
 
@@ -2230,6 +2237,7 @@ sakura_init()
 	sakura.rows = DEFAULT_ROWS;
 
 	sakura.notebook=gtk_notebook_new();
+	gtk_notebook_set_scrollable((GtkNotebook*)sakura.notebook, sakura.scrollable_tabs);
 
 	/* Adding mask, for handle scroll events */
 	gtk_widget_add_events(sakura.notebook, GDK_SCROLL_MASK);
