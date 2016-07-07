@@ -2991,13 +2991,13 @@ sakura_add_tab()
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
 
 	/* Set terminal options according to user conf */
-	vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 	vte_terminal_set_audible_bell (VTE_TERMINAL(term->vte), sakura.audible_bell ? TRUE : FALSE);
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
 	vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), sakura.allow_bold ? TRUE : FALSE);
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
 	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolors[term->colorset], &sakura.backcolors[term->colorset],
 	                        sakura.palette, PALETTE_SIZE);
+	vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 
 	/* FIXME: Possible race here. Find some way to force to process all configure
 	 * events before setting keep_fc again to false */
