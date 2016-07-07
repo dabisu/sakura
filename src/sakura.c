@@ -348,7 +348,7 @@ struct terminal {
 #define DEFAULT_FULLSCREEN_KEY  GDK_KEY_F11
 #define DEFAULT_INCREASE_FONT_SIZE_KEY GDK_KEY_plus
 #define DEFAULT_DECREASE_FONT_SIZE_KEY GDK_KEY_minus
-#define DEFAULT_SCROLLABLE_TABS FALSE
+#define DEFAULT_SCROLLABLE_TABS TRUE
 
 /* make this an array instead of #defines to get a compile time
  * error instead of a runtime if NUM_COLORSETS changes */
@@ -2054,6 +2054,11 @@ sakura_init()
 	}
 	sakura.use_fading = g_key_file_get_boolean(sakura.cfg, cfg_group, "use_fading", NULL);
 
+	if(!g_key_file_has_key(sakura.cfg, cfg_group, "scrollable_tabs", NULL)) {
+		sakura_set_config_boolean("scrollable_tabs", TRUE);
+	}
+	sakura.scrollable_tabs = g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollable_tabs", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "urgent_bell", NULL)) {
 		sakura_set_config_string("urgent_bell", "Yes");
 	}
@@ -2215,11 +2220,6 @@ sakura_init()
 		sakura_set_config_string("icon_file", ICON_FILE);
 	}
 	sakura.icon = g_key_file_get_string(sakura.cfg, cfg_group, "icon_file", NULL);
-
-	if(!g_key_file_has_key(sakura.cfg, cfg_group, "scrollable_tabs", NULL)) {
-		sakura_set_config_string("scrollable_tabs", DEFAULT_SCROLLABLE_TABS);
-	}
-	sakura.scrollable_tabs = g_key_file_get_string(sakura.cfg, cfg_group, "scrollable_tabs", NULL);
 
 	/* set default title pattern from config or NULL */
 	sakura.tab_default_title = g_key_file_get_string(sakura.cfg, cfg_group, "tab_default_title", NULL);
