@@ -43,7 +43,7 @@
 #define _(String) gettext(String)
 #define N_(String) (String)
 #define GETTEXT_PACKAGE "sakura"
-#define FADE_PERCENT 50 
+#define FADE_PERCENT 60 
 
 #define SAY(format,...) do {\
 	if (strcmp("Debug", BUILDTYPE)==0) {\
@@ -1325,25 +1325,47 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 static void
 sakura_fade_out()
 {
-	for( int i=0; i<NUM_COLORSETS; i++) {
-		GdkRGBA x = sakura.forecolors[i];
-		x.red = x.red/100.0 * FADE_PERCENT;
-		x.green = x.green/100.0 * FADE_PERCENT;
-		x.blue = x.blue/100.0 * FADE_PERCENT;
-		sakura.forecolors[i]=x;
-	}
+    GdkRGBA x = sakura.forecolors[sakura.last_colorset-1];
+    if( (x.red + x.green + x.blue) / 3.0 > 0.5)  {
+        for( int i=0; i<NUM_COLORSETS; i++) {
+            GdkRGBA x = sakura.forecolors[i];
+            x.red = x.red/100.0 * FADE_PERCENT;
+            x.green = x.green/100.0 * FADE_PERCENT;
+            x.blue = x.blue/100.0 * FADE_PERCENT;
+            sakura.forecolors[i]=x;
+        }
+    } else {
+        for( int i=0; i<NUM_COLORSETS; i++) {
+            GdkRGBA x = sakura.forecolors[i];
+            x.red = 1.0-x.red/100.0 * FADE_PERCENT;
+            x.green = 1.0-x.green/100.0 * FADE_PERCENT;
+            x.blue = 1.0-x.blue/100.0 * FADE_PERCENT;
+            sakura.forecolors[i]=x;
+        }
+    }
 }
 
 static void
 sakura_fade_in()
 {
-	for( int i=0; i<NUM_COLORSETS; i++) {
-		GdkRGBA x = sakura.forecolors[i];
-		x.red = x.red/FADE_PERCENT * 100.0;
-		x.green = x.green/FADE_PERCENT * 100.0;
-		x.blue = x.blue/FADE_PERCENT * 100.0;
-		sakura.forecolors[i]=x;
-	}
+    GdkRGBA x = sakura.forecolors[sakura.last_colorset-1];
+    if( (x.red + x.green + x.blue) / 3.0 > 0.5)  {
+        for( int i=0; i<NUM_COLORSETS; i++) {
+            GdkRGBA x = sakura.forecolors[i];
+            x.red = x.red/FADE_PERCENT * 100.0;
+            x.green = x.green/FADE_PERCENT * 100.0;
+            x.blue = x.blue/FADE_PERCENT * 100.0;
+            sakura.forecolors[i]=x;
+        }
+    } else {
+        for( int i=0; i<NUM_COLORSETS; i++) {
+            GdkRGBA x = sakura.forecolors[i];
+            x.red = 1.0-x.red/FADE_PERCENT * 100.0;
+            x.green = 1.0-x.green/FADE_PERCENT * 100.0;
+            x.blue = 1.0-x.blue/FADE_PERCENT * 100.0;
+            sakura.forecolors[i]=x;
+        }
+    }
 }
 
 static void
