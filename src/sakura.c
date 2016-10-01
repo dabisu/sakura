@@ -258,7 +258,7 @@ static struct {
 	bool fullscreen;
 	bool keep_fc;                    /* Global flag to indicate that we don't want changes in the files and columns values */
 	bool config_modified;            /* Configuration has been modified */
-	bool externally_modified;        /* Configuration file has been modified by another proccess */
+	bool externally_modified;        /* Configuration file has been modified by another process */
 	bool resized;
 	bool disable_numbered_tabswitch; /* For disabling direct tabswitching key */
 	bool focused;                    /* For fading feature */
