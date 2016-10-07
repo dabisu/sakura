@@ -2913,7 +2913,7 @@ sakura_add_tab()
 		GdkWindow *gwin = gtk_widget_get_window (sakura.main_window);
 		if (gwin != NULL) {
 			guint winid = gdk_x11_window_get_xid (gwin);
-			gchar *winidstr = g_strdup_printf ("0x%x", winid);
+			gchar *winidstr = g_strdup_printf ("%d", winid);
 			g_setenv ("WINDOWID", winidstr, FALSE);
 			g_free (winidstr);
 		}
