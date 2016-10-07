@@ -258,7 +258,7 @@ static struct {
 	bool fullscreen;
 	bool keep_fc;                    /* Global flag to indicate that we don't want changes in the files and columns values */
 	bool config_modified;            /* Configuration has been modified */
-	bool externally_modified;        /* Configuration file has been modified by another proccess */
+	bool externally_modified;        /* Configuration file has been modified by another process */
 	bool resized;
 	bool disable_numbered_tabswitch; /* For disabling direct tabswitching key */
 	bool focused;                    /* For fading feature */
@@ -303,7 +303,7 @@ static struct {
 struct terminal {
 	GtkWidget *hbox;
 	GtkWidget *vte;     /* Reference to VTE terminal */
-	GPid pid;          /* pid of the forked proccess */
+	GPid pid;          /* pid of the forked process */
 	GtkWidget *scrollbar;
 	GtkWidget *label;
 	gchar *label_text;
@@ -917,7 +917,7 @@ sakura_config_done()
 
 			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
 					GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-					_("Configuration has been modified by another proccess. Overwrite?"));
+					_("Configuration has been modified by another process. Overwrite?"));
 
 			response=gtk_dialog_run(GTK_DIALOG(dialog));
 			gtk_widget_destroy(dialog);
