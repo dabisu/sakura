@@ -272,6 +272,7 @@ static struct {
 	GtkCssProvider *provider;
 	char *configfile;
 	char *icon;
+	char *word_chars;                /* Exceptions for word selection */
 	gchar *tab_default_title;
 	gint last_colorset;
 	gint add_tab_accelerator;
@@ -322,6 +323,7 @@ struct terminal {
 #define DEFAULT_ROWS 24
 #define DEFAULT_FONT "Ubuntu Mono,monospace 13"
 #define FONT_MINIMAL_SIZE (PANGO_SCALE*6)
+#define DEFAULT_WORD_CHARS "-,./?%&#_~:"
 #define DEFAULT_PALETTE "solarized_dark"
 #define TAB_MAX_SIZE 40
 #define TAB_MIN_SIZE 6
@@ -2113,6 +2115,11 @@ sakura_init()
 		sakura_set_config_string("cursor_type", "VTE_CURSOR_SHAPE_BLOCK");
 	}
 	sakura.cursor_type = g_key_file_get_integer(sakura.cfg, cfg_group, "cursor_type", NULL);
+	
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "word_chars", NULL)) {
+		sakura_set_config_string("word_chars", DEFAULT_WORD_CHARS);
+	}
+	sakura.word_chars = g_key_file_get_value(sakura.cfg, cfg_group, "word_chars", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "palette", NULL)) {
 		sakura_set_config_string("palette", DEFAULT_PALETTE);
@@ -3019,15 +3026,14 @@ sakura_add_tab()
 	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
-
-	/* Set terminal options according to user conf */
+	vte_terminal_set_word_char_exceptions(VTE_TERMINAL(term->vte), sakura.word_chars);
 	vte_terminal_set_audible_bell (VTE_TERMINAL(term->vte), sakura.audible_bell ? TRUE : FALSE);
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
 	vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), sakura.allow_bold ? TRUE : FALSE);
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
+	vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolors[term->colorset], &sakura.backcolors[term->colorset],
 	                        sakura.palette, PALETTE_SIZE);
-	vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 
 	/* FIXME: Possible race here. Find some way to force to process all configure
 	 * events before setting keep_fc again to false */

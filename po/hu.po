@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-20 19:25+0200\n"
+"POT-Creation-Date: 2016-10-07 18:29+0200\n"
 "PO-Revision-Date: 2016-01-30 06:54+0000\n"
 "Last-Translator: rezso <Unknown>\n"
 "Language-Team: hu\n"
@@ -67,7 +67,8 @@ msgstr "Alternatív konfigurációs fájl beállítása"
 msgid "Select initial colorset"
 msgstr "Alapértelmezett színek beállítása"
 
-msgid "Configuration has been modified by another proccess. Overwrite?"
+#, fuzzy
+msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "A konfigurációt egy másik folyamat módosította. Felülírja?"
 
 msgid ""

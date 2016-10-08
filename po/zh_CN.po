@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-17 22:31+0200\n"
+"POT-Creation-Date: 2016-10-07 18:29+0200\n"
 "PO-Revision-Date: 2016-01-30 07:05+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -69,7 +69,8 @@ msgstr "使用其他配置文件"
 msgid "Select initial colorset"
 msgstr "选择初始颜色设置"
 
-msgid "Configuration has been modified by another proccess. Overwrite?"
+#, fuzzy
+msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "配置文件已经被其他进程修改。覆盖吗？"
 
 msgid ""

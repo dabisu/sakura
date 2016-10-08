@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-17 22:31+0200\n"
+"POT-Creation-Date: 2016-10-07 18:29+0200\n"
 "PO-Revision-Date: 2015-11-23 14:11+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -63,7 +63,8 @@ msgstr "Использовать альтернативный файл конф�
 msgid "Select initial colorset"
 msgstr "Выбрать начальную цветовую палитру"
 
-msgid "Configuration has been modified by another proccess. Overwrite?"
+#, fuzzy
+msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "Настройки были изменены другим процессом. Перезаписать?"
 
 msgid ""
