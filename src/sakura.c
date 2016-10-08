@@ -39,11 +39,11 @@
 #include <pango/pango.h>
 #include <vte/vte.h>
 #include <gdk/gdkx.h>
+#include <X11/Xlib.h>
 
 #define _(String) gettext(String)
 #define N_(String) (String)
 #define GETTEXT_PACKAGE "sakura"
-#define FADE_PERCENT 60 
 
 #define SAY(format,...) do {\
 	if (strcmp("Debug", BUILDTYPE)==0) {\
@@ -54,6 +54,8 @@
 		fflush(stderr);\
 	}\
 } while (0)
+
+#define sakura_tokeycode(keyval) (XKeysymToKeycode(sakura.dpy, keyval))
 
 #define PALETTE_SIZE 16
 
@@ -298,6 +300,7 @@ static struct {
 	gint decrease_font_size_key;
 	gint set_colorset_keys[NUM_COLORSETS];
 	GRegex *http_regexp;
+	Display *dpy;
 	char *argv[3];
 } sakura;
 
@@ -329,6 +332,7 @@ struct terminal {
 #define TAB_MIN_SIZE 6
 #define FORWARD 1
 #define BACKWARDS 2
+#define FADE_PERCENT 60 
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
@@ -495,18 +499,17 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	unsigned int topage = 0;
 
 	gint npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-	guint keyval = event->keyval;
-
-	/* Make pressed key uppercase by default */
-	keyval = gdk_keyval_to_upper(keyval);
+	
+	/* Use keycodes instead of keyvals. With keyvals, key bindings work only in US/ISO8859-1 and similar locales */
+	guint keycode = event->hardware_keycode;
 
 	/* Add/delete tab keybinding pressed */
 	if ( (event->state & sakura.add_tab_accelerator)==sakura.add_tab_accelerator &&
-			keyval==sakura.add_tab_key) {
+			keycode==sakura_tokeycode(sakura.add_tab_key)) {
 		sakura_add_tab();
 		return TRUE;
 	} else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
-			keyval==sakura.del_tab_key ) {
+			keycode==sakura_tokeycode(sakura.del_tab_key) ) {
 		/* Delete current tab */
 		sakura_close_tab(NULL, NULL);
 		return TRUE;
@@ -519,34 +522,34 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	   move never works, because switch will be processed first, so it needs to be fixed with the following condition */
 	if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator && 
 	     (sakura.switch_tab_accelerator > sakura.move_tab_accelerator || (event->state & sakura.move_tab_accelerator) != sakura.move_tab_accelerator)) {
-		if ((keyval>=GDK_KEY_1) && (keyval<=GDK_KEY_9) && (keyval<=GDK_KEY_1-1+npages)
-				&& (keyval!=GDK_KEY_1+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
+		if ((keycode>=sakura_tokeycode(GDK_KEY_1)) && 
+                (keycode<=sakura_tokeycode( GDK_KEY_9)) && 
+                (keycode<=sakura_tokeycode( GDK_KEY_1)-1+npages) && 
+                (keycode!=sakura_tokeycode( GDK_KEY_1)+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
 
 			/* User has explicitly disabled this branch, make sure to propagate the event */
 			if(sakura.disable_numbered_tabswitch) return FALSE;
 
-			switch(keyval) {
-				case GDK_KEY_1: topage=0; break;
-				case GDK_KEY_2: topage=1; break;
-				case GDK_KEY_3: topage=2; break;
-				case GDK_KEY_4: topage=3; break;
-				case GDK_KEY_5: topage=4; break;
-				case GDK_KEY_6: topage=5; break;
-				case GDK_KEY_7: topage=6; break;
-				case GDK_KEY_8: topage=7; break;
-				case GDK_KEY_9: topage=8; break;
-			}
+            if      (sakura_tokeycode(GDK_KEY_1) == keycode) topage = 0;
+            else if (sakura_tokeycode(GDK_KEY_2) == keycode) topage = 1;
+            else if (sakura_tokeycode(GDK_KEY_3) == keycode) topage = 2;
+            else if (sakura_tokeycode(GDK_KEY_4) == keycode) topage = 3;
+            else if (sakura_tokeycode(GDK_KEY_5) == keycode) topage = 4;
+            else if (sakura_tokeycode(GDK_KEY_6) == keycode) topage = 5;
+            else if (sakura_tokeycode(GDK_KEY_7) == keycode) topage = 6;
+            else if (sakura_tokeycode(GDK_KEY_8) == keycode) topage = 7;
+            else if (sakura_tokeycode(GDK_KEY_9) == keycode) topage = 8;
 			if (topage <= npages)
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
 			return TRUE;
-		} else if (keyval==sakura.prev_tab_key) {
+		} else if (keycode==sakura_tokeycode(sakura.prev_tab_key)) {
 			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), npages-1);
 			} else {
 				gtk_notebook_prev_page(GTK_NOTEBOOK(sakura.notebook));
 			}
 			return TRUE;
-		} else if (keyval==sakura.next_tab_key) {
+		} else if (keycode==sakura_tokeycode(sakura.next_tab_key)) {
 			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==(npages-1)) {
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), 0);
 			} else {
@@ -560,10 +563,10 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	/* Same condition used in switch_tab_accelerator */
 	if ( ((event->state & sakura.move_tab_accelerator) == sakura.move_tab_accelerator) &&
   	    (sakura.move_tab_accelerator > sakura.switch_tab_accelerator || (event->state & sakura.switch_tab_accelerator) != sakura.switch_tab_accelerator)) {
-		if (keyval==sakura.prev_tab_key) {
+		if (keycode==sakura_tokeycode(sakura.prev_tab_key)) {
 			sakura_move_tab(BACKWARDS);
 			return TRUE;
-		} else if (keyval==sakura.next_tab_key) {
+		} else if (keycode==sakura_tokeycode(sakura.next_tab_key)) {
 			sakura_move_tab(FORWARD);
 			return TRUE;
 		}
@@ -571,10 +574,10 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 
 	/* Copy/paste keybinding pressed */
 	if ( (event->state & sakura.copy_accelerator)==sakura.copy_accelerator ) {
-		if (keyval==sakura.copy_key) {
+		if (keycode==sakura_tokeycode(sakura.copy_key)) {
 			sakura_copy(NULL, NULL);
 			return TRUE;
-		} else if (keyval==sakura.paste_key) {
+		} else if (keycode==sakura_tokeycode(sakura.paste_key)) {
 			sakura_paste(NULL, NULL);
 			return TRUE;
 		}
@@ -582,7 +585,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 
 	/* Show scrollbar keybinding pressed */
 	if ( (event->state & sakura.scrollbar_accelerator)==sakura.scrollbar_accelerator ) {
-		if (keyval==sakura.scrollbar_key) {
+		if (keycode==sakura_tokeycode(sakura.scrollbar_key)) {
 			sakura_show_scrollbar(NULL, NULL);
 			return TRUE;
 		}
@@ -590,7 +593,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 
 	/* Set tab name keybinding pressed */
 	if ( (event->state & sakura.set_tab_name_accelerator)==sakura.set_tab_name_accelerator ) {
-		if (keyval==sakura.set_tab_name_key) {
+		if (keycode==sakura_tokeycode(sakura.set_tab_name_key)) {
 			sakura_set_name_dialog(NULL, NULL);
 			return TRUE;
 		}
@@ -598,17 +601,17 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 
 	/* Increase/decrease font size keybinding pressed */
 	if ( (event->state & sakura.font_size_accelerator)==sakura.font_size_accelerator ) {
-		if (keyval==sakura.increase_font_size_key) {
+		if (keycode==sakura_tokeycode(sakura.increase_font_size_key)) {
 			sakura_increase_font(NULL, NULL);
 			return TRUE;
-		} else if (keyval==sakura.decrease_font_size_key) {
+		} else if (keycode==sakura_tokeycode(sakura.decrease_font_size_key)) {
 			sakura_decrease_font(NULL, NULL);
 			return TRUE;
 		}
 	}
 
 	/* F11 (fullscreen) pressed */
-	if (keyval==sakura.fullscreen_key){
+	if (keycode==sakura_tokeycode(sakura.fullscreen_key)){
 		sakura_fullscreen(NULL, NULL);
 		return TRUE;
 	}
@@ -617,7 +620,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	if ( (event->state & sakura.set_colorset_accelerator)==sakura.set_colorset_accelerator ) {
 		int i;
 		for(i=0; i<NUM_COLORSETS; i++) {
-			if (keyval==sakura.set_colorset_keys[i]){
+			if (keycode==sakura_tokeycode(sakura.set_colorset_keys[i])){
 				sakura_set_colorset(i);
 				return TRUE;
 			}
@@ -1948,6 +1951,8 @@ sakura_init()
 	int i;
 
 	term_data_id = g_quark_from_static_string("sakura_term");
+
+	sakura.dpy = GDK_SCREEN_XDISPLAY(gdk_screen_get_default());
 
 	/* Config file initialization*/
 	sakura.cfg = g_key_file_new();
