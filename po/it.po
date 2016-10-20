@@ -5,16 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-07 18:29+0200\n"
-"PO-Revision-Date: 2015-07-26 16:34+0000\n"
+"POT-Creation-Date: 2016-10-20 19:48+0200\n"
+"PO-Revision-Date: 2016-02-08 09:47+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-01 05:09+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2016-02-09 05:10+0000\n"
+"X-Generator: Launchpad (build 17908)\n"
 "X-Poedit-Country: ITALY\n"
 "X-Poedit-Language: Italian\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -44,9 +44,8 @@ msgstr "Shell di login"
 msgid "Set window title"
 msgstr "Imposta il titolo della finestra"
 
-#, fuzzy
 msgid "Set window icon"
-msgstr "Imposta il titolo della finestra"
+msgstr "Imposta l'icona della finestra"
 
 msgid "Set columns number"
 msgstr "Imposta il numero di colonne"
@@ -69,9 +68,8 @@ msgstr "Specificazione della geometria di X"
 msgid "Use alternate configuration file"
 msgstr "Usa un file di configurazione alternativo"
 
-#, fuzzy
 msgid "Select initial colorset"
-msgstr "Seleziona il colore"
+msgstr "Seleziona insieme iniziale di colori"
 
 #, fuzzy
 msgid "Configuration has been modified by another process. Overwrite?"
@@ -102,15 +100,14 @@ msgstr "_Applica"
 msgid "New text"
 msgstr "Nuovo testo"
 
-#, fuzzy
 msgid "Select colors"
-msgstr "Seleziona il colore"
+msgstr "Seleziona i colori"
 
 msgid "_Select"
 msgstr "_Seleziona"
 
 msgid "Colorset"
-msgstr ""
+msgstr "Insieme di colori"
 
 msgid "Foreground color"
 msgstr "Colore del testo"
@@ -241,3 +238,13 @@ msgstr "- emulatore di terminale basato su VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versione di Sakura è %s\n"
+
+#~ msgid "Configuration has been modified by another proccess. Overwrite?"
+#~ msgstr ""
+#~ "La configurazione è stata modificata da un altro processo. Sovrascrivere?"
+
+#~ msgid "Open link..."
+#~ msgstr "Apri il collegamento..."
+
+#~ msgid "Copy link..."
+#~ msgstr "Copia il link..."
