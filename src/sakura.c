@@ -2815,7 +2815,9 @@ sakura_add_tab()
 	term->label=gtk_label_new(term->label_text);
 	
 	tab_label_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
-	gtk_box_pack_start(GTK_BOX(tab_label_hbox), term->label, FALSE, FALSE, 0);
+	gtk_widget_set_hexpand(tab_label_hbox, TRUE);
+	gtk_label_set_ellipsize (GTK_LABEL (term->label), PANGO_ELLIPSIZE_END);
+	gtk_box_pack_start(GTK_BOX(tab_label_hbox), term->label, TRUE, FALSE, 0);
 	
 	/* If the tab close button is enabled, create and add it to the tab */
 	if (sakura.show_closebutton) {
