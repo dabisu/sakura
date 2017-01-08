@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-07 18:29+0200\n"
+"POT-Creation-Date: 2017-01-08 18:15+0100\n"
 "PO-Revision-Date: 2016-01-30 07:01+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -192,6 +192,9 @@ msgstr "カーソルの点滅を有効にする"
 
 msgid "Enable bold font"
 msgstr "太字フォントを有効にする"
+
+msgid "Stop tab cycling at end tabs"
+msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr "番号のタブ切り替えを無効にする"

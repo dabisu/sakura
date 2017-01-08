@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-20 19:48+0200\n"
+"POT-Creation-Date: 2017-01-08 18:15+0100\n"
 "PO-Revision-Date: 2016-02-08 09:40+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -195,6 +195,9 @@ msgstr "커서 깜빡임 설정"
 
 msgid "Enable bold font"
 msgstr "굵은 글꼴 사용"
+
+msgid "Stop tab cycling at end tabs"
+msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr "번호 탭 스위치 비활성화"

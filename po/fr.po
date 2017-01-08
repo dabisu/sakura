@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-07 18:29+0200\n"
+"POT-Creation-Date: 2017-01-08 18:15+0100\n"
 "PO-Revision-Date: 2015-07-26 16:54+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -194,6 +194,9 @@ msgstr "Définir un curseur clignotant"
 
 msgid "Enable bold font"
 msgstr "Activer la police de caractères en gras"
+
+msgid "Stop tab cycling at end tabs"
+msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr ""

@@ -256,6 +256,7 @@ static struct {
 	bool urgent_bell;
 	bool audible_bell;
 	bool blinking_cursor;
+	bool stop_tab_cycling_at_end_tabs;
 	bool allow_bold;
 	bool fullscreen;
 	bool keep_fc;                    /* Global flag to indicate that we don't want changes in the files and columns values */
@@ -719,12 +720,24 @@ sakura_notebook_scroll(GtkWidget *widget, GdkEventScroll *event)
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	
 	switch(event->direction) {
-		case GDK_SCROLL_UP:
-			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), page >= 0 ? --page : npages);
-			break;
 		case GDK_SCROLL_DOWN:
-			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), ++page < npages ? page : 0);
+		{
+			if (sakura.stop_tab_cycling_at_end_tabs == 1) {
+				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), --page >= 0 ? page : 0);
+			} else {
+				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), --page >= 0 ? page : npages - 1);
+			}
 			break;
+		} 
+		case GDK_SCROLL_UP:
+		{
+			if (sakura.stop_tab_cycling_at_end_tabs == 1) {
+				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), ++page < npages ? page : npages - 1);
+			} else {
+				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), ++page < npages ? page : 0);
+			}
+			break;
+		}
 		case GDK_SCROLL_LEFT:
 		case GDK_SCROLL_RIGHT:
 		case GDK_SCROLL_SMOOTH:
@@ -1626,6 +1639,19 @@ sakura_allow_bold (GtkWidget *widget, void *data)
 	}
 }
 
+static void
+sakura_stop_tab_cycling_at_end_tabs (GtkWidget *widget, void *data)
+{
+	
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+		sakura_set_config_string("stop_tab_cycling_at_end_tabs", "Yes");
+		sakura.stop_tab_cycling_at_end_tabs = TRUE;
+	} else {
+		sakura_set_config_string("stop_tab_cycling_at_end_tabs", "No");
+		sakura.stop_tab_cycling_at_end_tabs = FALSE;
+	}
+}
+
 
 static void
 sakura_set_cursor(GtkWidget *widget, void *data)
@@ -2108,6 +2134,13 @@ sakura_init()
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "blinking_cursor", NULL);
 	sakura.blinking_cursor= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
+	
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "stop_tab_cycling_at_end_tabs", NULL)) {
+		sakura_set_config_string("stop_tab_cycling_at_end_tabs", "No");
+	}
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "stop_tab_cycling_at_end_tabs", NULL);
+	sakura.stop_tab_cycling_at_end_tabs= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
+	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "allow_bold", NULL)) {
 		sakura_set_config_string("allow_bold", "Yes");
@@ -2374,7 +2407,7 @@ sakura_init_popup()
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm,
 	          *item_palette_solarized_dark, *item_palette_solarized_light, *item_palette_gruvbox,
 	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions,
-	          *item_disable_numbered_tabswitch, *item_use_fading;
+	          *item_disable_numbered_tabswitch, *item_use_fading, *item_stop_tab_cycling_at_end_tabs;
 	GtkWidget *options_menu, *other_options_menu, *cursor_menu, *palette_menu;
 
 	sakura.item_open_link=gtk_menu_item_new_with_label(_("Open link"));
@@ -2401,6 +2434,7 @@ sakura_init_popup()
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
 	item_allow_bold=gtk_check_menu_item_new_with_label(_("Enable bold font"));
+	item_stop_tab_cycling_at_end_tabs=gtk_check_menu_item_new_with_label(_("Stop tab cycling at end tabs"));
 	item_disable_numbered_tabswitch=gtk_check_menu_item_new_with_label(_("Disable numbered tabswitch"));
 	item_use_fading=gtk_check_menu_item_new_with_label(_("Use focus fading"));
 	item_cursor=gtk_menu_item_new_with_label(_("Set cursor type"));
@@ -2475,6 +2509,10 @@ sakura_init_popup()
 	if (sakura.allow_bold) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_allow_bold), TRUE);
 	}
+	
+	if (sakura.stop_tab_cycling_at_end_tabs) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_stop_tab_cycling_at_end_tabs), TRUE);
+	}
 
 	switch (sakura.cursor_type){
 		case VTE_CURSOR_SHAPE_BLOCK:
@@ -2545,6 +2583,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_use_fading);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_blinking_cursor);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_allow_bold);
+	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_stop_tab_cycling_at_end_tabs);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_cursor);
 	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_block);
 	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_underline);
@@ -2580,6 +2619,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
 	g_signal_connect(G_OBJECT(item_allow_bold), "activate", G_CALLBACK(sakura_allow_bold), NULL);
+	g_signal_connect(G_OBJECT(item_stop_tab_cycling_at_end_tabs), "activate", G_CALLBACK(sakura_stop_tab_cycling_at_end_tabs), NULL);
 	g_signal_connect(G_OBJECT(item_disable_numbered_tabswitch),
 			"activate", G_CALLBACK(sakura_disable_numbered_tabswitch), NULL);
 	g_signal_connect(G_OBJECT(item_use_fading), "activate", G_CALLBACK(sakura_use_fading), NULL);
