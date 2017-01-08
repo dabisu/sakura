@@ -30,7 +30,7 @@ ENDIF (NOT VTE_FOUND)
 
 pkg_check_modules (X11 REQUIRED x11)
 IF (NOT X11_FOUND)
-	MESSAGE(FATAL_ERROR "You don't seem to have vte >= 2.91 development libraries installed...")
+	MESSAGE(FATAL_ERROR "You don't seem to have x11 development libraries installed...")
 ENDIF (NOT X11_FOUND)
 
 FIND_PROGRAM(POD2MAN pod2man)	
