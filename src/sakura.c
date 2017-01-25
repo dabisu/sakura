@@ -1780,6 +1780,7 @@ static gboolean sakura_focus_change(GtkWidget *widget, GdkEvent *event, void *da
 		sakura_set_colors();
 
 	}
+	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
  	return FALSE;
 }
 
