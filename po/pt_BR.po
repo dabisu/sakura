@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-08 18:15+0100\n"
+"POT-Creation-Date: 2017-03-15 11:56+0100\n"
 "PO-Revision-Date: 2015-07-26 17:44+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -129,6 +129,10 @@ msgstr ""
 "Existem processos sendo executados nesse terminal.\n"
 "\n"
 "Tem certeza que deseja fechar ele?"
+
+#, fuzzy
+msgid "Open mail"
+msgstr "Abrir link..."
 
 #, fuzzy
 msgid "Open link"
