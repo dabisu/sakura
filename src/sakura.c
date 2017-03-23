@@ -1141,6 +1141,8 @@ sakura_set_colorset (int cs)
 	term = sakura_get_page_term(sakura, page);	
 	term->colorset=cs;
 
+	sakura_set_config_integer("last_colorset", term->colorset+1);
+
 	sakura_set_colors();
 }
 
