@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-08 18:15+0100\n"
+"POT-Creation-Date: 2017-03-15 11:56+0100\n"
 "PO-Revision-Date: 2015-10-14 17:21+0000\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -137,6 +137,10 @@ msgstr ""
 "Pokrenuti su procesi unutar ovog terminala.\n"
 "\n"
 "Želite li zbilja zatvoriti terminal?"
+
+#, fuzzy
+msgid "Open mail"
+msgstr "Otvori link..."
 
 #, fuzzy
 msgid "Open link"

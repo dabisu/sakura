@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-08 18:15+0100\n"
+"POT-Creation-Date: 2017-03-15 11:56+0100\n"
 "PO-Revision-Date: 2014-06-23 01:17+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -140,6 +140,10 @@ msgstr ""
 "V tomto terminálu běží proces.\n"
 "\n"
 "Opravdu jej chcete uzavřít?"
+
+#, fuzzy
+msgid "Open mail"
+msgstr "Otevřít odkaz…"
 
 #, fuzzy
 msgid "Open link"

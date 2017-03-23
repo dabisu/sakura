@@ -270,6 +270,7 @@ static struct {
 	bool scrollable_tabs;
 	GtkWidget *item_copy_link;       /* We include here only the items which need to be hidden */
 	GtkWidget *item_open_link;
+	GtkWidget *item_open_mail;
 	GtkWidget *open_link_separator;
 	GKeyFile *cfg;
 	GtkCssProvider *provider;
@@ -300,7 +301,7 @@ static struct {
 	gint increase_font_size_key;
 	gint decrease_font_size_key;
 	gint set_colorset_keys[NUM_COLORSETS];
-	GRegex *http_regexp;
+	GRegex *http_regexp, *mail_regexp;
 	Display *dpy;
 	char *argv[3];
 } sakura;
@@ -322,6 +323,7 @@ struct terminal {
 #define SCROLL_LINES 4096
 #define DEFAULT_SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|http)s?://[^ \t\n\b]+"
+#define MAIL_REGEXP "([\\w-\\.]+)@((?:[\\w]+\\.)+)([a-zA-Z]{2,4})" /* Mail regexp taken from http://emailregex.com */
 #define DEFAULT_CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
 #define DEFAULT_ROWS 24
@@ -637,6 +639,7 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 	struct terminal *term;
 	glong column, row;
 	gint page, tag;
+	GMatchInfo *match_info;
 
 	if (button_event->type != GDK_BUTTON_PRESS)
 		return FALSE;
@@ -669,12 +672,22 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 		menu = GTK_MENU (widget);
 
 		if (sakura.current_match) {
+
 			/* Show the extra options in the menu */
-			gtk_widget_show(sakura.item_open_link);
+			
+			/* Is a mail address? */
+			if (g_regex_match(sakura.mail_regexp, sakura.current_match, 0, &match_info)) {
+				gtk_widget_show(sakura.item_open_mail);
+				gtk_widget_hide(sakura.item_open_link);
+			} else {
+				gtk_widget_show(sakura.item_open_link);
+				gtk_widget_hide(sakura.item_open_mail);
+			}
 			gtk_widget_show(sakura.item_copy_link);
 			gtk_widget_show(sakura.open_link_separator);
 		} else {
 			/* Hide all the options */
+			gtk_widget_hide(sakura.item_open_mail);
 			gtk_widget_hide(sakura.item_open_link);
 			gtk_widget_hide(sakura.item_copy_link);
 			gtk_widget_hide(sakura.open_link_separator);
@@ -1469,6 +1482,7 @@ sakura_open_url (GtkWidget *widget, void *data)
 			cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
 			g_free(browser);
 		} else
+			/* TODO: Legacy for systems without xdg-open. This should be removed */
 			cmd=g_strdup_printf("firefox %s", sakura.current_match);
 	}
 
@@ -1479,6 +1493,27 @@ sakura_open_url (GtkWidget *widget, void *data)
 	g_free(cmd);
 }
 
+
+static void
+sakura_open_mail (GtkWidget *widget, void *data)
+{
+	GError *error = NULL;
+	gchar *program = NULL;
+	gchar *cmd = NULL;
+	
+	if ( (program = g_find_program_in_path("xdg-email")) ) {
+		cmd = g_strdup_printf("%s %s", program, sakura.current_match);
+		g_free(program);
+	}
+	
+	if (cmd != NULL) {
+		if (!g_spawn_command_line_async(cmd, &error)) {
+			sakura_error("Couldn't exec \"%s\": %s", cmd, error->message);
+		}
+		
+		g_free(cmd);
+	} 
+}
 
 
 static void
@@ -2374,6 +2409,7 @@ sakura_init()
 
 	gerror=NULL;
 	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, &gerror);
+	sakura.mail_regexp=g_regex_new(MAIL_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, &gerror);
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 
@@ -2411,6 +2447,7 @@ sakura_init_popup()
 	          *item_disable_numbered_tabswitch, *item_use_fading, *item_stop_tab_cycling_at_end_tabs;
 	GtkWidget *options_menu, *other_options_menu, *cursor_menu, *palette_menu;
 
+	sakura.item_open_mail=gtk_menu_item_new_with_label(_("Open mail"));
 	sakura.item_open_link=gtk_menu_item_new_with_label(_("Open link"));
 	sakura.item_copy_link=gtk_menu_item_new_with_label(_("Copy link"));
 	item_new_tab=gtk_menu_item_new_with_label(_("New tab"));
@@ -2548,6 +2585,7 @@ sakura_init_popup()
 	//sakura.labels_menu=gtk_menu_new();
 
 	/* Add items to popup menu */
+	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_open_mail);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_open_link);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_copy_link);
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.open_link_separator);
@@ -2635,6 +2673,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_palette_solarized_dark), "activate", G_CALLBACK(sakura_set_palette), "solarized_dark");
 	g_signal_connect(G_OBJECT(item_palette_solarized_light), "activate", G_CALLBACK(sakura_set_palette), "solarized_light");
 
+	g_signal_connect(G_OBJECT(sakura.item_open_mail), "activate", G_CALLBACK(sakura_open_mail), NULL);
 	g_signal_connect(G_OBJECT(sakura.item_open_link), "activate", G_CALLBACK(sakura_open_url), NULL);
 	g_signal_connect(G_OBJECT(sakura.item_copy_link), "activate", G_CALLBACK(sakura_copy_url), NULL);
 	g_signal_connect(G_OBJECT(item_fullscreen), "activate", G_CALLBACK(sakura_fullscreen), NULL);
@@ -3072,6 +3111,7 @@ sakura_add_tab()
 	/* Init vte terminal */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), sakura.scroll_lines);
 	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
+	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.mail_regexp, 0);
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
 	vte_terminal_set_word_char_exceptions(VTE_TERMINAL(term->vte), sakura.word_chars);
