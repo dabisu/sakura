@@ -338,7 +338,7 @@ struct terminal {
 #define FADE_PERCENT 60 
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
-#define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
+#define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_CONTROL_MASK)
 #define DEFAULT_MOVE_TAB_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_COPY_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SCROLLBAR_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
@@ -523,25 +523,23 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 		switch_tab_accelerator=4  for ctrl+next[prev]_tab_key
 		move_tab_accelerator=5  for ctrl+shift+next[prev]_tab_key
 	   move never works, because switch will be processed first, so it needs to be fixed with the following condition */
-	if ( (event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator && 
-	     (sakura.switch_tab_accelerator > sakura.move_tab_accelerator || (event->state & sakura.move_tab_accelerator) != sakura.move_tab_accelerator)) {
-		if ((keycode>=sakura_tokeycode(GDK_KEY_1)) && 
-                (keycode<=sakura_tokeycode( GDK_KEY_9)) && 
-                (keycode<=sakura_tokeycode( GDK_KEY_1)-1+npages) && 
-                (keycode!=sakura_tokeycode( GDK_KEY_1)+gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)))) {
+	if ( ((event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator) && 
+	     ((event->state & sakura.move_tab_accelerator) != sakura.move_tab_accelerator) ) {
+
+		if ((keycode>=sakura_tokeycode(GDK_KEY_1)) && (keycode<=sakura_tokeycode( GDK_KEY_9))) {  
 
 			/* User has explicitly disabled this branch, make sure to propagate the event */
 			if(sakura.disable_numbered_tabswitch) return FALSE;
 
-            if      (sakura_tokeycode(GDK_KEY_1) == keycode) topage = 0;
-            else if (sakura_tokeycode(GDK_KEY_2) == keycode) topage = 1;
-            else if (sakura_tokeycode(GDK_KEY_3) == keycode) topage = 2;
-            else if (sakura_tokeycode(GDK_KEY_4) == keycode) topage = 3;
-            else if (sakura_tokeycode(GDK_KEY_5) == keycode) topage = 4;
-            else if (sakura_tokeycode(GDK_KEY_6) == keycode) topage = 5;
-            else if (sakura_tokeycode(GDK_KEY_7) == keycode) topage = 6;
-            else if (sakura_tokeycode(GDK_KEY_8) == keycode) topage = 7;
-            else if (sakura_tokeycode(GDK_KEY_9) == keycode) topage = 8;
+			if      (sakura_tokeycode(GDK_KEY_1) == keycode) topage = 0;
+			else if (sakura_tokeycode(GDK_KEY_2) == keycode) topage = 1;
+			else if (sakura_tokeycode(GDK_KEY_3) == keycode) topage = 2;
+			else if (sakura_tokeycode(GDK_KEY_4) == keycode) topage = 3;
+			else if (sakura_tokeycode(GDK_KEY_5) == keycode) topage = 4;
+			else if (sakura_tokeycode(GDK_KEY_6) == keycode) topage = 5;
+			else if (sakura_tokeycode(GDK_KEY_7) == keycode) topage = 6;
+			else if (sakura_tokeycode(GDK_KEY_8) == keycode) topage = 7;
+			else if (sakura_tokeycode(GDK_KEY_9) == keycode) topage = 8;
 			if (topage <= npages)
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
 			return TRUE;
@@ -559,13 +557,11 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 				gtk_notebook_next_page(GTK_NOTEBOOK(sakura.notebook));
 			}
 			return TRUE;
-		}
+		} 
 	}
 
 	/* Move tab keybinding pressed */
-	/* Same condition used in switch_tab_accelerator */
-	if ( ((event->state & sakura.move_tab_accelerator) == sakura.move_tab_accelerator) &&
-  	    (sakura.move_tab_accelerator > sakura.switch_tab_accelerator || (event->state & sakura.switch_tab_accelerator) != sakura.switch_tab_accelerator)) {
+	if ( ((event->state & sakura.move_tab_accelerator) == sakura.move_tab_accelerator)) { 
 		if (keycode==sakura_tokeycode(sakura.prev_tab_key)) {
 			sakura_move_tab(BACKWARDS);
 			return TRUE;
