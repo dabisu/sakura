@@ -38,8 +38,7 @@
 #include <gtk/gtk.h>
 #include <pango/pango.h>
 #include <vte/vte.h>
-#include <gdk/gdkx.h>
-#include <X11/Xlib.h>
+#include <gdk/gdk.h>
 
 #define _(String) gettext(String)
 #define N_(String) (String)
@@ -54,8 +53,6 @@
 		fflush(stderr);\
 	}\
 } while (0)
-
-#define sakura_tokeycode(keyval) (XKeysymToKeycode(sakura.dpy, keyval))
 
 #define PALETTE_SIZE 16
 
@@ -320,7 +317,6 @@ static struct {
 	gint decrease_font_size_key;
 	gint set_colorset_keys[NUM_COLORSETS];
 	GRegex *http_regexp, *mail_regexp;
-	Display *dpy;
 	char *argv[3];
 } sakura;
 
@@ -468,6 +464,7 @@ static guint    sakura_get_keybind(const gchar *);
 static void     sakura_config_done();
 static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
+static guint    sakura_tokeycode(guint key);
 
 /* Globals for command line parameters */
 static const char *option_font;
@@ -511,6 +508,24 @@ static GOptionEntry entries[] = {
 	{ NULL }
 };
 
+static guint
+sakura_tokeycode (guint key)
+{
+        GdkKeymap *keymap = gdk_keymap_get_default();
+        GdkKeymapKey *keys;
+        gint n_keys;
+        guint res = 0;
+
+        if (gdk_keymap_get_entries_for_keyval(keymap, key,
+                                              &keys, &n_keys)) {
+                if (n_keys > 0) {
+                        res = keys[0].keycode;
+                }
+                g_free(keys);
+        }
+
+        return res;
+}
 
 static gboolean
 sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
@@ -2032,8 +2047,6 @@ sakura_init()
 
 	term_data_id = g_quark_from_static_string("sakura_term");
 
-	sakura.dpy = GDK_SCREEN_XDISPLAY(gdk_screen_get_default());
-
 	/* Config file initialization*/
 	sakura.cfg = g_key_file_new();
 	sakura.config_modified=false;
@@ -3029,6 +3042,7 @@ sakura_add_tab()
 		}
 
 		/* Set WINDOWID env variable */
+		/*
 		GdkWindow *gwin = gtk_widget_get_window (sakura.main_window);
 		if (gwin != NULL) {
 			guint winid = gdk_x11_window_get_xid (gwin);
@@ -3036,6 +3050,7 @@ sakura_add_tab()
 			g_setenv ("WINDOWID", winidstr, FALSE);
 			g_free (winidstr);
 		}
+		*/
 
 		int command_argc=0; char **command_argv;
 		if (option_execute||option_xterm_execute) {
