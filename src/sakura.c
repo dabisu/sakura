@@ -39,6 +39,7 @@
 #include <pango/pango.h>
 #include <vte/vte.h>
 #include <gdk/gdk.h>
+#include <gdk/gdkx.h>
 
 #define _(String) gettext(String)
 #define N_(String) (String)
@@ -3041,16 +3042,20 @@ sakura_add_tab()
 			gtk_widget_show(sakura.main_window);
 		}
 
+#ifdef GDK_WINDOWING_X11
 		/* Set WINDOWID env variable */
-		/*
-		GdkWindow *gwin = gtk_widget_get_window (sakura.main_window);
-		if (gwin != NULL) {
-			guint winid = gdk_x11_window_get_xid (gwin);
-			gchar *winidstr = g_strdup_printf ("%d", winid);
-			g_setenv ("WINDOWID", winidstr, FALSE);
-			g_free (winidstr);
+		GdkDisplay *display = gdk_display_get_default();
+
+		if (GDK_IS_X11_DISPLAY (display)) {
+			GdkWindow *gwin = gtk_widget_get_window (sakura.main_window);
+			if (gwin != NULL) {
+				guint winid = gdk_x11_window_get_xid (gwin);
+				gchar *winidstr = g_strdup_printf ("%d", winid);
+				g_setenv ("WINDOWID", winidstr, FALSE);
+				g_free (winidstr);
+			}
 		}
-		*/
+#endif
 
 		int command_argc=0; char **command_argv;
 		if (option_execute||option_xterm_execute) {
