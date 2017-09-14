@@ -7,50 +7,39 @@ Installing sakura
 	$ make
 	$ su -c 'make install'
 
-	sakura now use the CMake building system. Welcome to an autotools
-	free world!! (Yes, sakura used MOBS before this, but what the hell,
-	i wanted to say out loud that ;-))
+	sakura now uses the CMake building system (RIP our old system MOBS, we'll remember you ;)).
 
-	To install sakura with a different prefix, cmake needs to be
-	invoked with the proper environment variables, so to install
-	sakura in /usr, you should do:
+	To install sakura with a different prefix, cmake needs to be invoked with the proper environment 
+	variables, so to install sakura in /usr, you must type:
 
 	$ cmake -DCMAKE_INSTALL_PREFIX=/usr .
 
-	Use CMAKE_BUILD_TYPE=Debug or CMAKE_BUILD_TYPE=Release if you
-	wish to select the build type. Default is Release.
+	Use CMAKE_BUILD_TYPE=Debug if you need debug symbols. Default type is "Release".
 
 
 Keybindings support
 ===================
 
-    sakura supports keyboard bindings. They are configurable by
-    setting the following properties in your sakura config file
-    (~/.config/sakura/sakura.conf):
+    sakura supports keyboard bindings in its config file (~/.config/sakura/sakura.conf), but there's
+    no GUI to edit them, so plese use your favourite editor to change the following properties:
 
     Accelerators:
 
-        Accelerators can be set to any mask value from the
-        GdkModifierType in gdktypes.h. For reference look at:
-            /usr/include/gtk-2.0/gdk/gdkkeysyms.h
+        Accelerators can be set to any mask value from the GdkModifierType in gdktypes.h. For reference look at:
+            https://github.com/GNOME/gtk/blob/master/gdk/gdktypes.h
 
-        Mask values can be combined by ORing them.
+	Quick reference: Shift(1), Cps-Lock(2), Ctrl(4), Alt(8), Ctrl-S (5), Ctrl-A(12), Ctrl-A-S(13)
+        
+	Mask values can be combined by ORing them. For example, to set the delete tab accelerator to Ctrl+Shift,
+        set "del_tab_accelerator=5". GDK_SHIFT_MASK has a value of 1 (1 << 0), and GDK_CONTROL_MASK has a value of
+	4 (1 << 2), so ORing them and you got 5 for Ctrl+Shift.
 
-        For example, to set the delete tab accelerator to Ctrl + Shift:
-            del_tab_accelerator=5
-        because GDK_SHIFT_MASK has a value of 1 (1 << 0), and
-        GDK_CONTROL_MASK has a value of 4 (1 << 2); ORing them
-        together, you get 5.
-
-        I realise that this configuration is not so friendly to
-        non-programmers, but it is a start. :)
+        I realise that this configuration is not user-friendly, but  :)
 
     Keys:
 
         For example, to set the add tab key to 'T':
             add_tab_key=T
-
-		Before sakura used keycodes instead of strings. They're still valid.	
 
 
 	Defaults:	
@@ -86,7 +75,7 @@ Keybindings support
 
 --
 
-Enjoy sakura !
+Enjoy sakura!
 
 
 
