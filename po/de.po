@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 11:56+0100\n"
+"POT-Creation-Date: 2017-09-14 21:02+0200\n"
 "PO-Revision-Date: 2015-07-26 17:00+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -60,9 +60,6 @@ msgstr ""
 
 msgid "Fullscreen mode"
 msgstr "Vollbild"
-
-msgid "X geometry specification"
-msgstr "X-Fenstergeometrie"
 
 msgid "Use alternate configuration file"
 msgstr "Benutze alternative Konfigurationsdatei"
@@ -247,3 +244,6 @@ msgstr "- vte-basierter Terminal-Emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
+
+#~ msgid "X geometry specification"
+#~ msgstr "X-Fenstergeometrie"

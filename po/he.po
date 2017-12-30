@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 11:56+0100\n"
+"POT-Creation-Date: 2017-09-14 21:02+0200\n"
 "PO-Revision-Date: 2015-07-26 17:10+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -77,10 +77,6 @@ msgstr "Maximize window"
 # CLI: Do not translate!
 msgid "Fullscreen mode"
 msgstr "Fullscreen mode"
-
-# CLI: Do not translate!
-msgid "X geometry specification"
-msgstr "X geometry specification"
 
 # CLI: Do not translate!
 msgid "Use alternate configuration file"
@@ -268,6 +264,10 @@ msgstr "- vte-based terminal emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+# CLI: Do not translate!
+#~ msgid "X geometry specification"
+#~ msgstr "X geometry specification"
 
 #~ msgid "Open link..."
 #~ msgstr "פתח קישור..."

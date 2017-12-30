@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 11:56+0100\n"
+"POT-Creation-Date: 2017-09-14 21:02+0200\n"
 "PO-Revision-Date: 2015-10-14 17:21+0000\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -61,9 +61,6 @@ msgstr ""
 #, fuzzy
 msgid "Fullscreen mode"
 msgstr "Prikaz preko cijelog zaslona"
-
-msgid "X geometry specification"
-msgstr "Specifikacija X geometrije"
 
 msgid "Use alternate configuration file"
 msgstr "Koristi alternativnu konfiguracijsku datoteku"
@@ -252,3 +249,6 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "inačica Sakure je %s\n"
+
+#~ msgid "X geometry specification"
+#~ msgstr "Specifikacija X geometrije"

@@ -35,10 +35,10 @@
 #include <libintl.h>
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <pango/pango.h>
 #include <vte/vte.h>
-#include <gdk/gdk.h>
 
 #define _(String) gettext(String)
 #define N_(String) (String)
@@ -316,7 +316,11 @@ static struct {
 	gint increase_font_size_key;
 	gint decrease_font_size_key;
 	gint set_colorset_keys[NUM_COLORSETS];
+#if VTE_CHECK_VERSION(0, 46, 0)
+	VteRegex *http_regexp, *mail_regexp;
+#else
 	GRegex *http_regexp, *mail_regexp;
+#endif
 	char *argv[3];
 } sakura;
 
@@ -479,7 +483,6 @@ static const char *option_title;
 static const char *option_icon;
 static int option_rows, option_columns;
 static gboolean option_hold=FALSE;
-static const char *option_geometry;
 static char *option_config_file;
 static gboolean option_fullscreen;
 static gboolean option_maximize;
@@ -502,7 +505,6 @@ static GOptionEntry entries[] = {
 	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after execute command"), NULL },
 	{ "maximize", 'm', 0, G_OPTION_ARG_NONE, &option_maximize, N_("Maximize window"), NULL },
 	{ "fullscreen", 's', 0, G_OPTION_ARG_NONE, &option_fullscreen, N_("Fullscreen mode"), NULL },
-	{ "geometry", 0, 0, G_OPTION_ARG_STRING, &option_geometry, N_("X geometry specification"), NULL },
 	{ "config-file", 0, 0, G_OPTION_ARG_FILENAME, &option_config_file, N_("Use alternate configuration file"), NULL },
 	{ "colorset", 0, 0, G_OPTION_ARG_INT, &option_colorset, N_("Select initial colorset"), NULL },
 	{ NULL }
@@ -666,7 +668,6 @@ static gboolean
 sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
 {
 	struct terminal *term;
-	glong column, row;
 	gint page, tag;
 	GMatchInfo *match_info;
 
@@ -677,18 +678,12 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 	term = sakura_get_page_term(sakura, page);
 
 	/* Find out if cursor it's over a matched expression...*/
+	sakura.current_match = vte_terminal_match_check_event(VTE_TERMINAL(term->vte), (GdkEvent *) button_event, &tag);
 
-	/* Get the column and row relative to pointer position */
-	column = ((glong) (button_event->x) / vte_terminal_get_char_width(
-			VTE_TERMINAL(term->vte)));
-	row = ((glong) (button_event->y) / vte_terminal_get_char_height(
-			VTE_TERMINAL(term->vte)));
-	sakura.current_match = vte_terminal_match_check(VTE_TERMINAL(term->vte), column, row, &tag);
-
-	/* Left button: open the URL if any */
+	/* Left button with accelerator: open the URL if any */
 	if (button_event->button == 1 &&
-	    ((button_event->state & sakura.open_url_accelerator) == sakura.open_url_accelerator)
-	    && sakura.current_match) {
+	    ((button_event->state & sakura.open_url_accelerator) == sakura.open_url_accelerator) &&
+	    sakura.current_match) {
 
 		sakura_open_url(NULL, NULL);
 
@@ -722,7 +717,7 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 			gtk_widget_hide(sakura.open_link_separator);
 		}
 
-		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, button_event->button, button_event->time);
+		gtk_menu_popup_at_pointer(menu, (GdkEvent *) button_event);
 
 		return TRUE;
 	}
@@ -2441,8 +2436,14 @@ sakura_init()
 	sakura.externally_modified=false;
 
 	gerror=NULL;
+
+#if VTE_CHECK_VERSION(0, 46, 0)
+	sakura.http_regexp=vte_regex_new_for_match(HTTP_REGEXP, g_strlen(HTTP_REGEXP), PCRE2_CASELESS, &gerror);
+	sakura.mail_regexp=vte_regex_new_for_match(MAIL_REGEXP, g_strlen(MAIL_REGEXP), PCRE2_CASELESS, &gerror);
+#else
 	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, &gerror);
 	sakura.mail_regexp=g_regex_new(MAIL_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, &gerror);
+#endif
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 
@@ -2786,7 +2787,7 @@ sakura_set_size(void)
 		vb=gtk_notebook_get_tab_vborder(GTK_NOTEBOOK(sakura.notebook));
 		SAY("notebook borders h %d v %d", hb, vb);*/
 
-		/* TODO: Yeah i know, this is utterly shit. Remove this ugly hack and set geometry hints*/
+		/* TODO: Yeah i know, this is utter shit. Remove this ugly hack and set geometry hints*/
 		if (!sakura.show_scrollbar) 
 			//sakura.height += min_height - 10;
 			sakura.height += 10;
@@ -3028,18 +3029,7 @@ sakura_add_tab()
 			gtk_widget_hide(term->scrollbar);
 		}
 
-		if (option_geometry) {
-			if (!gtk_window_parse_geometry(GTK_WINDOW(sakura.main_window), option_geometry)) {
-				fprintf(stderr, "Invalid geometry.\n");
-				gtk_widget_show(sakura.main_window);
-			} else {
-				gtk_widget_show(sakura.main_window);
-				sakura.columns = vte_terminal_get_column_count(VTE_TERMINAL(term->vte));
-				sakura.rows = vte_terminal_get_row_count(VTE_TERMINAL(term->vte));
-			}
-		} else {
-			gtk_widget_show(sakura.main_window);
-		}
+		gtk_widget_show(sakura.main_window);
 
 		/* Set WINDOWID env variable */
 		/*
@@ -3150,8 +3140,13 @@ sakura_add_tab()
 
 	/* Init vte terminal */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), sakura.scroll_lines);
+#if VTE_CHECK_VERSION(0, 46, 0)
+	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
+	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.mail_regexp, 0);
+#else
 	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
 	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.mail_regexp, 0);
+#endif
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
 	vte_terminal_set_word_char_exceptions(VTE_TERMINAL(term->vte), sakura.word_chars);

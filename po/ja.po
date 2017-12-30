@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 11:56+0100\n"
+"POT-Creation-Date: 2017-09-14 21:02+0200\n"
 "PO-Revision-Date: 2016-01-30 07:01+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -56,9 +56,6 @@ msgstr "ウィンドウを最大化"
 
 msgid "Fullscreen mode"
 msgstr "フルスクリーンモード"
-
-msgid "X geometry specification"
-msgstr "X幾何学指定"
 
 msgid "Use alternate configuration file"
 msgstr "別の設定ファイルを使用する"
@@ -238,6 +235,9 @@ msgstr "- vte ベースのターミナル・エミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "X geometry specification"
+#~ msgstr "X幾何学指定"
 
 #~ msgid "Open link..."
 #~ msgstr "リンクを開く..."

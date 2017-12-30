@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 11:56+0100\n"
+"POT-Creation-Date: 2017-09-14 21:02+0200\n"
 "PO-Revision-Date: 2015-07-26 17:44+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -56,9 +56,6 @@ msgstr "Maximizar janela"
 
 msgid "Fullscreen mode"
 msgstr "Tela cheia"
-
-msgid "X geometry specification"
-msgstr "Especificação geométrica de X"
 
 msgid "Use alternate configuration file"
 msgstr "Usar arquivo de configuração alternativo"
@@ -244,3 +241,6 @@ msgstr "- emulador de terminal baseado no vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
+
+#~ msgid "X geometry specification"
+#~ msgstr "Especificação geométrica de X"

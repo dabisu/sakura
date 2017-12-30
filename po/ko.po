@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 11:56+0100\n"
+"POT-Creation-Date: 2017-09-14 21:02+0200\n"
 "PO-Revision-Date: 2016-02-08 09:40+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -59,9 +59,6 @@ msgstr "창 최대화"
 
 msgid "Fullscreen mode"
 msgstr "전체화면 모드"
-
-msgid "X geometry specification"
-msgstr "프로그램의 위치"
 
 msgid "Use alternate configuration file"
 msgstr "대체 구성 파일을 사용"
@@ -241,6 +238,9 @@ msgstr "- vte 기반의 터미널 에뮬레이터"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
+
+#~ msgid "X geometry specification"
+#~ msgstr "프로그램의 위치"
 
 #~ msgid "Configuration has been modified by another proccess. Overwrite?"
 #~ msgstr "설정이 다른 프로세스에 의해 수정되었습니다. 덮어 쓰시겠습니까?"
