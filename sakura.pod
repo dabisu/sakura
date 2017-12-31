@@ -92,7 +92,7 @@ X display to use
 
 =item B<--config-file=FILENAME>
 
-Use alternate configurtation file. Path is relative to the sakura config dir.
+Use alternate configuration file. Path is relative to the sakura config dir.
 (Example: ~/.config/sakura/FILENAME).
 
 =back
