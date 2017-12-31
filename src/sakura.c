@@ -317,9 +317,9 @@ static struct {
 	gint increase_font_size_key;
 	gint decrease_font_size_key;
 	gint set_colorset_keys[NUM_COLORSETS];
-#if VTE_CHECK_VERSION(0, 46, 0)
-	VteRegex *http_vteregexp, *mail_vteregexp;
-#endif
+//#if VTE_CHECK_VERSION(0, 46, 0)
+//	VteRegex *http_vteregexp, *mail_vteregexp;
+//#endif
 	GRegex *http_regexp, *mail_regexp;
 	char *argv[3];
 } sakura;
@@ -700,6 +700,7 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 			
 			/* Is it a mail address? */
 			if (g_regex_match(sakura.mail_regexp, sakura.current_match, 0, &match_info)) {
+	//		if (g_match_info_matches(match_info)) {
 				gtk_widget_show(sakura.item_open_mail);
 				gtk_widget_hide(sakura.item_open_link);
 			} else {
@@ -2035,7 +2036,6 @@ sakura_use_fading(GtkWidget *widget, void *data)
 static void
 sakura_init()
 {
-	GError *gerror=NULL;
 	char* configdir = NULL;
 	int i;
 
@@ -2058,6 +2058,7 @@ sakura_init()
 	}
 	g_free(configdir);
 
+	GError *gerror=NULL;
 	/* Open config file */
 	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)) {
 		/* If there's no file, ignore the error. A new one is created */
@@ -2404,7 +2405,7 @@ sakura_init()
 	}
 
 	/* Add datadir path to icon name and set icon */
-	gchar *icon_path;
+	gchar *icon_path; gerror=NULL;
 	if (option_icon) {
 		icon_path = g_strdup_printf("%s", option_icon);
 	} else {
@@ -2436,12 +2437,12 @@ sakura_init()
 
 	gerror=NULL;
 
-#if VTE_CHECK_VERSION(0, 46, 0)
-	sakura.http_vteregexp=vte_regex_new_for_match(HTTP_REGEXP, strlen(HTTP_REGEXP), G_REGEX_CASELESS, &gerror);
-	sakura.mail_vteregexp=vte_regex_new_for_match(MAIL_REGEXP, strlen(MAIL_REGEXP), G_REGEX_CASELESS, &gerror);
-#endif
-	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, &gerror);
-	sakura.mail_regexp=g_regex_new(MAIL_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, &gerror);
+//#if VTE_CHECK_VERSION(0, 46, 0)
+//	sakura.http_vteregexp=vte_regex_new_for_match(HTTP_REGEXP, strlen(HTTP_REGEXP), 0, 0);
+//	sakura.mail_vteregexp=vte_regex_new_for_match(MAIL_REGEXP, strlen(MAIL_REGEXP), 0, 0);
+//#endif
+	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, 0);
+	sakura.mail_regexp=g_regex_new(MAIL_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, 0);
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 
@@ -3142,12 +3143,14 @@ sakura_add_tab()
 
 	/* Init vte terminal */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), sakura.scroll_lines);
-#if VTE_CHECK_VERSION(0, 46, 0)
-	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.http_vteregexp, 0);
-	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.mail_vteregexp, 0);
-#endif
+// TODO: check why doesn't work *(
+//#if VTE_CHECK_VERSION(0, 46, 0)
+//	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.http_vteregexp, 0);
+//	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.mail_vteregexp, 0);
+// #else 
 	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
 	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.mail_regexp, 0);
+// #endif
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
 	vte_terminal_set_word_char_exceptions(VTE_TERMINAL(term->vte), sakura.word_chars);
