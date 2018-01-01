@@ -7,71 +7,86 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 18:36+0100\n"
+"POT-Creation-Date: 2017-12-31 14:16+0000\n"
 "PO-Revision-Date: 2015-07-27 20:27+0000\n"
 "Last-Translator: Sérgio Marques <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-01 05:09+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2018-01-01 05:12+0000\n"
+"X-Generator: Launchpad (build 18521)\n"
 "Language: pt\n"
 
+#: ../src/sakura.c:492
 msgid "Print version number"
 msgstr "Mostrar número da versão"
 
+#: ../src/sakura.c:493
 msgid "Select initial terminal font"
 msgstr "Escolha o tipo de letra do terminal"
 
+#: ../src/sakura.c:494
 msgid "Select initial number of tabs"
 msgstr "Escolha o número de separadores"
 
+#: ../src/sakura.c:495
 msgid "Set working directory"
 msgstr "Definir diretório de trabalho"
 
+#: ../src/sakura.c:496
 msgid "Execute command"
 msgstr "Executar comando"
 
+#: ../src/sakura.c:497
 msgid "Execute command (last option in the command line)"
 msgstr "Executar comando (última opção da linha de comandos)"
 
+#: ../src/sakura.c:499
 msgid "Login shell"
 msgstr ""
 
+#: ../src/sakura.c:500 ../src/sakura.c:1436
 msgid "Set window title"
 msgstr "Definir título da janela"
 
+#: ../src/sakura.c:501
 msgid "Set window icon"
 msgstr ""
 
+#: ../src/sakura.c:503
 msgid "Set columns number"
 msgstr "Definir número de colunas"
 
+#: ../src/sakura.c:504
 msgid "Set rows number"
 msgstr "Definir número de linhas"
 
+#: ../src/sakura.c:505
 msgid "Hold window after execute command"
 msgstr ""
 
+#: ../src/sakura.c:506
 msgid "Maximize window"
 msgstr "Maximizar janela"
 
+#: ../src/sakura.c:507
 msgid "Fullscreen mode"
 msgstr "Ecrã completo"
 
-msgid "X geometry specification"
-msgstr "Especificações de geometria do X"
-
+#: ../src/sakura.c:508
 msgid "Use alternate configuration file"
 msgstr "Utilizar ficheiro alternativo de configurações"
 
+#: ../src/sakura.c:509
 msgid "Select initial colorset"
 msgstr ""
 
-msgid "Configuration has been modified by another proccess. Overwrite?"
-msgstr "A configuração foi modificada por outro processo. Substituir?"
+#: ../src/sakura.c:975
+msgid "Configuration has been modified by another process. Overwrite?"
+msgstr ""
 
+#: ../src/sakura.c:1033
 msgid ""
 "There are running processes.\n"
 "\n"
@@ -81,45 +96,59 @@ msgstr ""
 "\n"
 "Quer mesmo fechar o Sakura?"
 
+#: ../src/sakura.c:1075
 msgid "Select font"
 msgstr "Escolha o tipo de letra"
 
+#: ../src/sakura.c:1106
 msgid "Set tab name"
 msgstr "Definir nome do separador"
 
+#: ../src/sakura.c:1109 ../src/sakura.c:1257 ../src/sakura.c:1439
 msgid "_Cancel"
 msgstr "_Cancelar"
 
+#: ../src/sakura.c:1110 ../src/sakura.c:1440
 msgid "_Apply"
 msgstr "_Aplicar"
 
+#: ../src/sakura.c:1127
 msgid "New text"
 msgstr "Novo texto"
 
+#: ../src/sakura.c:1254
 msgid "Select colors"
 msgstr ""
 
+#: ../src/sakura.c:1258
 msgid "_Select"
 msgstr "_Selecionar"
 
+#: ../src/sakura.c:1276
 msgid "Colorset"
 msgstr ""
 
+#: ../src/sakura.c:1288
 msgid "Foreground color"
 msgstr "Cor de primeiro plano"
 
+#: ../src/sakura.c:1289
 msgid "Background color"
 msgstr "Cor de fundo"
 
+#: ../src/sakura.c:1290
 msgid "Cursor color"
 msgstr ""
 
+#: ../src/sakura.c:1299
 msgid "Opacity level (%)"
 msgstr "Nivel de opacidade (%)"
 
+#: ../src/sakura.c:1456
 msgid "New window title"
 msgstr "Título da nova janela"
 
+#: ../src/sakura.c:1922 ../src/sakura.c:1978
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -129,110 +158,149 @@ msgstr ""
 "\n"
 "Quer mesmo fechar o terminal?"
 
-msgid "Open link..."
-msgstr "Abrir ligação..."
+#: ../src/sakura.c:2483
+msgid "Open mail"
+msgstr ""
 
-msgid "Copy link..."
-msgstr "Copiar ligação..."
-
-msgid "New tab"
-msgstr "Novo separador"
-
-msgid "Set tab name..."
-msgstr "Definir nome do separador"
-
-msgid "Close tab"
-msgstr "Fechar separador"
-
-msgid "Full screen"
-msgstr "Ecrã completo"
-
-msgid "Copy"
-msgstr "Copiar"
-
-msgid "Paste"
-msgstr "Colar"
-
-msgid "Select font..."
-msgstr "Escolha o tipo de letra..."
-
-msgid "Select colors..."
-msgstr "Escolha as cores..."
-
-msgid "Set window title..."
-msgstr "Definir título da janela..."
-
+#: ../src/sakura.c:2484
 msgid "Open link"
 msgstr "Abrir ligação"
 
+#: ../src/sakura.c:2485
 msgid "Copy link"
 msgstr "Copiar ligação"
 
+#: ../src/sakura.c:2486
+msgid "New tab"
+msgstr "Novo separador"
+
+#: ../src/sakura.c:2487
+msgid "Set tab name..."
+msgstr "Definir nome do separador"
+
+#: ../src/sakura.c:2488
+msgid "Close tab"
+msgstr "Fechar separador"
+
+#: ../src/sakura.c:2489
+msgid "Full screen"
+msgstr "Ecrã completo"
+
+#: ../src/sakura.c:2490
+msgid "Copy"
+msgstr "Copiar"
+
+#: ../src/sakura.c:2491
+msgid "Paste"
+msgstr "Colar"
+
+#: ../src/sakura.c:2492
+msgid "Select font..."
+msgstr "Escolha o tipo de letra..."
+
+#: ../src/sakura.c:2493
+msgid "Select colors..."
+msgstr "Escolha as cores..."
+
+#: ../src/sakura.c:2494
+msgid "Set window title..."
+msgstr "Definir título da janela..."
+
+#: ../src/sakura.c:2496
 msgid "Options"
 msgstr "Opções"
 
+#: ../src/sakura.c:2498
 msgid "More"
 msgstr "Mais..."
 
+#: ../src/sakura.c:2499
 msgid "Always show tab bar"
 msgstr "Barra de separadores omnipresente"
 
+#: ../src/sakura.c:2500
 msgid "Tabs at bottom"
 msgstr "Separadores em baixo"
 
+#: ../src/sakura.c:2501
 msgid "Show close button on tabs"
 msgstr "Mostrar botão para fechar separadores"
 
+#: ../src/sakura.c:2502
 msgid "Show scrollbar"
 msgstr "Mostrar barra de deslocação"
 
+#: ../src/sakura.c:2503
 msgid "Don't show exit dialog"
 msgstr "Não mostrar diálogo de saída"
 
+#: ../src/sakura.c:2504
 msgid "Set urgent bell"
 msgstr ""
 
+#: ../src/sakura.c:2505
 msgid "Set audible bell"
 msgstr "Definir sinal sonoro"
 
+#: ../src/sakura.c:2506
 msgid "Set blinking cursor"
 msgstr "Definir cursor intermitente"
 
+#: ../src/sakura.c:2507
 msgid "Enable bold font"
 msgstr ""
 
+#: ../src/sakura.c:2508
+msgid "Stop tab cycling at end tabs"
+msgstr ""
+
+#: ../src/sakura.c:2509
 msgid "Disable numbered tabswitch"
 msgstr ""
 
+#: ../src/sakura.c:2510
+msgid "Use focus fading"
+msgstr ""
+
+#: ../src/sakura.c:2511
 msgid "Set cursor type"
 msgstr "Definir tipo de cursor"
 
+#: ../src/sakura.c:2512
 msgid "Block"
 msgstr "Bloco"
 
+#: ../src/sakura.c:2513
 msgid "Underline"
 msgstr "Sublinhado"
 
+#: ../src/sakura.c:2514
 msgid "IBeam"
 msgstr "IBeam"
 
+#: ../src/sakura.c:2515
 msgid "Set palette"
 msgstr "Definir palete"
 
+#: ../src/sakura.c:2919
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
+#: ../src/sakura.c:3265
 msgid "Error message"
 msgstr "Mensagem de erro"
 
+#: ../src/sakura.c:3283 ../src/sakura.c:3346
 #, c-format
 msgid "Cannot change working directory\n"
 msgstr ""
 
+#: ../src/sakura.c:3332
 msgid "- vte-based terminal emulator"
 msgstr "- Emulador de terminal vte-based"
 
+#: ../src/sakura.c:3351
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "a versão do sakura é a %s\n"
