@@ -411,6 +411,8 @@ static GQuark term_data_id = 0;
 	} while(0);
 
 
+/* Spawn callback */
+void sakura_spawm_callback (VteTerminal *, GPid, GError, gpointer);
 /* Callbacks */
 static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
 static gboolean sakura_button_press (GtkWidget *, GdkEventButton *, gpointer);
@@ -2860,7 +2862,8 @@ sakura_move_tab(gint direction)
 
 
 /* Find the notebook page for the vte terminal passed as a parameter */
-static gint sakura_find_tab(VteTerminal *vte_term)
+static gint
+sakura_find_tab(VteTerminal *vte_term)
 {
 	gint matched_page, page, n_pages;
 	struct terminal *term;
@@ -2903,6 +2906,16 @@ sakura_set_tab_label_text(const gchar *title, gint page)
 		free(chopped_title);
 	} else { /* Use the default values */
 		gtk_label_set_text(GTK_LABEL(term->label), term->label_text);
+	}
+}
+
+
+/* Callback for vte_terminal_spawn_async */
+void
+sakura_spawn_callback (VteTerminal *term, GPid pid, GError *error, gpointer user_data)
+{
+	if (pid==-1) { /* Fork has failed */
+		SAY("Error: %s", error->message);
 	}
 }
 
@@ -3096,10 +3109,8 @@ sakura_add_tab()
 			if (command_argc > 0) {
 				path=g_find_program_in_path(command_argv[0]);
 				if (path) {
-					if (!vte_terminal_spawn_sync(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, NULL,
-				 	    command_argv, command_env, G_SPAWN_SEARCH_PATH, NULL, NULL, &term->pid, NULL, &gerror)) {
-						SAY("error: %s", gerror->message);
-					}
+					vte_terminal_spawn_async(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, NULL, command_argv, command_env,
+						       	          G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, NULL);
 				} else {
 					sakura_error("%s command not found", command_argv[0]);
 					command_argc=0;
@@ -3116,8 +3127,8 @@ sakura_add_tab()
 				sakura_error("Hold option given without any command");
 				option_hold=FALSE;
 			}
-			vte_terminal_spawn_sync(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
-					        G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL, NULL);
+			vte_terminal_spawn_async(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
+					        G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, NULL);
 		}
 	/* Not the first tab */
 	} else {
@@ -3135,8 +3146,8 @@ sakura_add_tab()
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
-		vte_terminal_spawn_sync(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
-					G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, &term->pid, NULL, NULL);
+		vte_terminal_spawn_async(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
+		                         G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, NULL);
 	}
 
 	free(cwd);
