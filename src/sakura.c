@@ -2613,7 +2613,7 @@ sakura_init_popup()
 	item_allow_bold=gtk_check_menu_item_new_with_label(_("Enable bold font"));
 	item_stop_tab_cycling_at_end_tabs=gtk_check_menu_item_new_with_label(_("Stop tab cycling at end tabs"));
 	item_disable_numbered_tabswitch=gtk_check_menu_item_new_with_label(_("Disable numbered tabswitch"));
-	item_use_fading=gtk_check_menu_item_new_with_label(_("Use focus fading"));
+	item_use_fading=gtk_check_menu_item_new_with_label(_("Enable focus fade"));
 	item_cursor=gtk_menu_item_new_with_label(_("Set cursor type"));
 	item_cursor_block=gtk_radio_menu_item_new_with_label(NULL, _("Block"));
 	item_cursor_underline=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), _("Underline"));
