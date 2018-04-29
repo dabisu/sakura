@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 21:02+0200\n"
+"POT-Creation-Date: 2018-03-30 11:07+0200\n"
 "PO-Revision-Date: 2015-07-27 20:27+0000\n"
 "Last-Translator: Sérgio Marques <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -118,6 +118,9 @@ msgstr "Escolha a cor de fundo:"
 
 msgid "Opacity level (%)"
 msgstr "Nivel de opacidade (%)"
+
+msgid "Search"
+msgstr ""
 
 msgid "New window title"
 msgstr "Título da nova janela"

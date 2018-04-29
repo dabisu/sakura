@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 21:02+0200\n"
+"POT-Creation-Date: 2018-03-30 11:07+0200\n"
 "PO-Revision-Date: 2015-10-14 17:21+0000\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: brentaal <Unknown>\n"
@@ -122,6 +122,9 @@ msgstr "Odaberite boju pozadine:"
 #, fuzzy
 msgid "Opacity level (%)"
 msgstr "Nivo zasićenosti (%):"
+
+msgid "Search"
+msgstr ""
 
 msgid "New window title"
 msgstr "Novi naslov prozora"

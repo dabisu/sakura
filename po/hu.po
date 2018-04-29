@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 21:02+0200\n"
+"POT-Creation-Date: 2018-03-30 11:07+0200\n"
 "PO-Revision-Date: 2016-04-21 00:01+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: hu\n"
@@ -112,6 +112,9 @@ msgstr "Kurzor színe"
 
 msgid "Opacity level (%)"
 msgstr "Átlátszóság mértéke (%)"
+
+msgid "Search"
+msgstr ""
 
 msgid "New window title"
 msgstr "Új ablakcím"

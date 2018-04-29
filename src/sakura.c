@@ -20,6 +20,7 @@
  *
  *****************************************************************************/
 
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
@@ -246,6 +247,8 @@ const GdkRGBA rxvt_palette[PALETTE_SIZE] = {
 				"}"
 
 #define NUM_COLORSETS 6
+#define PCRE2_CODE_UNIT_WIDTH 8
+#include <pcre2.h>
 
 static struct {
 	GtkWidget *main_window;
@@ -304,6 +307,7 @@ static struct {
 	gint open_url_accelerator;
 	gint font_size_accelerator;
 	gint set_tab_name_accelerator;
+	gint search_accelerator;
 	gint set_colorset_accelerator;
 	gint add_tab_key;
 	gint del_tab_key;
@@ -313,6 +317,7 @@ static struct {
 	gint paste_key;
 	gint scrollbar_key;
 	gint set_tab_name_key;
+	gint search_key;
 	gint fullscreen_key;
 	gint increase_font_size_key;
 	gint decrease_font_size_key;
@@ -363,6 +368,7 @@ struct terminal {
 #define DEFAULT_OPEN_URL_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_FONT_SIZE_ACCELERATOR (GDK_CONTROL_MASK)
 #define DEFAULT_SET_TAB_NAME_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
+#define DEFAULT_SEARCH_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SELECT_COLORSET_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_ADD_TAB_KEY  GDK_KEY_T
 #define DEFAULT_DEL_TAB_KEY  GDK_KEY_W
@@ -372,6 +378,7 @@ struct terminal {
 #define DEFAULT_PASTE_KEY  GDK_KEY_V
 #define DEFAULT_SCROLLBAR_KEY  GDK_KEY_S
 #define DEFAULT_SET_TAB_NAME_KEY  GDK_KEY_N
+#define DEFAULT_SEARCH_KEY  GDK_KEY_F
 #define DEFAULT_FULLSCREEN_KEY  GDK_KEY_F11
 #define DEFAULT_INCREASE_FONT_SIZE_KEY GDK_KEY_plus
 #define DEFAULT_DECREASE_FONT_SIZE_KEY GDK_KEY_minus
@@ -436,6 +443,7 @@ static void     sakura_font_dialog (GtkWidget *, void *);
 static void     sakura_set_name_dialog (GtkWidget *, void *);
 static void     sakura_color_dialog (GtkWidget *, void *);
 static void     sakura_set_title_dialog (GtkWidget *, void *);
+static void     sakura_search_dialog (GtkWidget *, void *);
 static void     sakura_new_tab (GtkWidget *, void *);
 static void     sakura_close_tab (GtkWidget *, void *);
 static void     sakura_fullscreen (GtkWidget *, void *);
@@ -530,6 +538,32 @@ sakura_tokeycode (guint key)
 
         return res;
 }
+
+
+void
+search(VteTerminal *vte, const char *pattern, bool reverse)
+{
+	GError *error=NULL;
+	VteRegex *regex;
+
+	vte_terminal_search_set_wrap_around(vte, TRUE);
+
+	regex=vte_regex_new_for_search(pattern, (gssize) strlen(pattern), PCRE2_MULTILINE|PCRE2_CASELESS, &error);
+	if (!regex) { /* Ubuntu-fucking-morons (17.10 and 18.04) package a broken VTE without PCRE2, and search fails */
+		sakura_error(error->message);
+		g_error_free(error);
+	} else {
+		vte_terminal_search_set_regex(vte, regex, 0);
+
+		if (!vte_terminal_search_find_next(vte)) {
+			vte_terminal_unselect_all(vte);
+			vte_terminal_search_find_next(vte);
+		}
+
+		if (regex) vte_regex_unref(regex);
+	}
+}
+
 
 static gboolean
 sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
@@ -631,6 +665,14 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	if ( (event->state & sakura.set_tab_name_accelerator)==sakura.set_tab_name_accelerator ) {
 		if (keycode==sakura_tokeycode(sakura.set_tab_name_key)) {
 			sakura_set_name_dialog(NULL, NULL);
+			return TRUE;
+		}
+	}
+
+	/* Search keybinding pressed */
+	if ( (event->state & sakura.search_accelerator)==sakura.search_accelerator ) {
+		if (keycode==sakura_tokeycode(sakura.search_key)) {
+			sakura_search_dialog(NULL, NULL);
 			return TRUE;
 		}
 	}
@@ -1428,6 +1470,59 @@ sakura_fade_in()
 }
 
 static void
+sakura_search_dialog (GtkWidget *widget, void *data)
+{
+	GtkWidget *title_dialog, *title_header;
+	GtkWidget *entry, *label;
+	GtkWidget *title_hbox;
+	gint response;
+
+	title_dialog=gtk_dialog_new_with_buttons(_("Search"), 
+	                                         GTK_WINDOW(sakura.main_window),
+	                                         GTK_DIALOG_MODAL|GTK_DIALOG_USE_HEADER_BAR,
+	                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
+	                                         _("_Apply"), GTK_RESPONSE_ACCEPT,
+	                                          NULL);
+
+	/* Configure the new gtk header bar*/
+	title_header=gtk_dialog_get_header_bar(GTK_DIALOG(title_dialog));
+	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(title_header), FALSE);
+	gtk_dialog_set_default_response(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT);
+
+	/* Set style */
+	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
+	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
+	GtkStyleContext *context = gtk_widget_get_style_context (title_dialog);
+	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_free(css);
+
+	entry=gtk_entry_new();
+	label=gtk_label_new(_("Search"));
+	title_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
+	gtk_box_pack_start(GTK_BOX(title_hbox), label, TRUE, TRUE, 12);
+	gtk_box_pack_start(GTK_BOX(title_hbox), entry, TRUE, TRUE, 12);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(title_dialog))), title_hbox, FALSE, FALSE, 12);
+	
+	/* Disable accept button until some text is entered */
+	g_signal_connect(G_OBJECT(entry), "changed", G_CALLBACK(sakura_setname_entry_changed), title_dialog);
+	gtk_dialog_set_response_sensitive(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT, FALSE);
+
+	gtk_widget_show_all(title_hbox);
+
+	response=gtk_dialog_run(GTK_DIALOG(title_dialog));
+	if (response==GTK_RESPONSE_ACCEPT) {
+		gint page;
+		struct terminal *term;
+		page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+		term = sakura_get_page_term(sakura, page);
+		search(VTE_TERMINAL(term->vte), gtk_entry_get_text(GTK_ENTRY(entry)), 0);
+	}
+	gtk_widget_destroy(title_dialog);
+}
+
+
+static void
 sakura_set_title_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *title_dialog, *title_header;
@@ -1476,7 +1571,6 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(title_dialog);
-
 }
 
 
@@ -2289,6 +2383,11 @@ sakura_init()
 	}
 	sakura.set_tab_name_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "set_tab_name_accelerator", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "search_accelerator", NULL)) {
+		sakura_set_config_integer("search_accelerator", DEFAULT_SEARCH_ACCELERATOR);
+	}
+	sakura.search_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "search_accelerator", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
 		sakura_set_keybind("add_tab_key", DEFAULT_ADD_TAB_KEY);
 	}
@@ -2328,6 +2427,11 @@ sakura_init()
 		sakura_set_keybind("set_tab_name_key", DEFAULT_SET_TAB_NAME_KEY);
 	}
 	sakura.set_tab_name_key = sakura_get_keybind("set_tab_name_key");
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "search_key", NULL)) {
+		sakura_set_keybind("search_key", DEFAULT_SEARCH_KEY);
+	}
+	sakura.search_key = sakura_get_keybind("search_key");
 	
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "increase_font_size_key", NULL)) {
 		sakura_set_keybind("increase_font_size_key", DEFAULT_INCREASE_FONT_SIZE_KEY);

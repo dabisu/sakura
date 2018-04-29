@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 21:02+0200\n"
+"POT-Creation-Date: 2018-03-30 11:07+0200\n"
 "PO-Revision-Date: 2015-11-23 14:11+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -108,6 +108,9 @@ msgstr "Цвет курсора"
 
 msgid "Opacity level (%)"
 msgstr "Уровень прозрачности (%)"
+
+msgid "Search"
+msgstr ""
 
 msgid "New window title"
 msgstr "Новый заголовок окна:"
