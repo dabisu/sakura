@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-29 13:42+0200\n"
-"PO-Revision-Date: 2015-11-26 19:08+0000\n"
-"Last-Translator: Andreas Rönnquist <gusnan@openmailbox.org>\n"
+"POT-Creation-Date: 2018-04-29 13:44+0200\n"
+"PO-Revision-Date: 2018-02-28 06:00+0000\n"
+"Last-Translator: Andreas Rönnquist <andreas@ronnquist.net>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-02 05:09+0000\n"
-"X-Generator: Launchpad (build 17856)\n"
+"X-Launchpad-Export-Date: 2018-03-01 05:14+0000\n"
+"X-Generator: Launchpad (build 18561)\n"
 
 msgid "Print version number"
 msgstr "Skriv ut versionsnummer"
@@ -66,7 +66,6 @@ msgstr "Använd alternativ konfigurationsfil"
 msgid "Select initial colorset"
 msgstr "Välj initial färguppsättning"
 
-#, fuzzy
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "Konfigurationen har ändrats av en annan process. Skriv över?"
 
@@ -130,9 +129,8 @@ msgstr ""
 "\n"
 "Vill du verkligen avsluta den?"
 
-#, fuzzy
 msgid "Open mail"
-msgstr "Öppna länk"
+msgstr "Öppna e-post"
 
 msgid "Open link"
 msgstr "Öppna länk"
@@ -201,7 +199,7 @@ msgid "Enable bold font"
 msgstr "Aktivera fetstil"
 
 msgid "Stop tab cycling at end tabs"
-msgstr ""
+msgstr "Stoppa flikcykling vid ändflikar"
 
 msgid "Disable numbered tabswitch"
 msgstr "Inaktivera numrerad flikväxlare"
@@ -242,12 +240,3 @@ msgstr "- vte-baserad terminalemulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura-versionen är %s\n"
-
-#~ msgid "X geometry specification"
-#~ msgstr "Specificera X-geometri"
-
-#~ msgid "Open link..."
-#~ msgstr "Öppna länk..."
-
-#~ msgid "Copy link..."
-#~ msgstr "Kopiera länk..."
