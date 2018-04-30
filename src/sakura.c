@@ -1229,6 +1229,8 @@ sakura_set_colors ()
 
 	for (i = (n_pages - 1); i >= 0; i--) {
 		term = sakura_get_page_term(sakura, i);
+		SAY("Setting colorset %d", term->colorset+1);
+
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte),
 		                        &sakura.forecolors[term->colorset], 
 		                        &sakura.backcolors[term->colorset],
@@ -3027,10 +3029,14 @@ sakura_set_tab_label_text(const gchar *title, gint page)
 
 /* Callback for vte_terminal_spawn_async */
 void
-sakura_spawn_callback (VteTerminal *term, GPid pid, GError *error, gpointer user_data)
+sakura_spawn_callback (VteTerminal *vte, GPid pid, GError *error, gpointer user_data)
 {
+	struct terminal *term = (struct terminal *) user_data;
+	//term = sakura_get_page_term(sakura, page);
 	if (pid==-1) { /* Fork has failed */
 		SAY("Error: %s", error->message);
+	} else {
+		term->pid=pid;
 	}
 }
 
@@ -3155,6 +3161,7 @@ sakura_add_tab()
 
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		sakura_set_font();
+		sakura_set_colors();
 		/* Set size before showing the widgets but after setting the font */
 		sakura_set_size();
 
@@ -3232,7 +3239,7 @@ sakura_add_tab()
 				path=g_find_program_in_path(command_argv[0]);
 				if (path) {
 					vte_terminal_spawn_async(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, NULL, command_argv, command_env,
-						       	          G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, NULL);
+						       	          G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, term);
 				} else {
 					sakura_error("%s command not found", command_argv[0]);
 					command_argc=0;
@@ -3250,11 +3257,12 @@ sakura_add_tab()
 				option_hold=FALSE;
 			}
 			vte_terminal_spawn_async(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
-					        G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, NULL);
+					        G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, term);
 		}
 	/* Not the first tab */
 	} else {
 		sakura_set_font();
+		//sakura_set_colors();
 		gtk_widget_show_all(term->hbox);
 		if (!sakura.show_scrollbar) {
 			gtk_widget_hide(term->scrollbar);
@@ -3269,7 +3277,7 @@ sakura_add_tab()
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
 		vte_terminal_spawn_async(VTE_TERMINAL(term->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
-		                         G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, NULL);
+		                         G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, term);
 	}
 
 	free(cwd);
@@ -3291,9 +3299,9 @@ sakura_add_tab()
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
 	vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), sakura.allow_bold ? TRUE : FALSE);
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
-	vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
-	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolors[term->colorset], &sakura.backcolors[term->colorset],
-	                        sakura.palette, PALETTE_SIZE);
+	//vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
+	//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolors[term->colorset], &sakura.backcolors[term->colorset],
+	//                        sakura.palette, PALETTE_SIZE);
 
 	/* FIXME: Possible race here. Find some way to force to process all configure
 	 * events before setting keep_fc again to false */
