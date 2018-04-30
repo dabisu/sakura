@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-03 18:04+0000\n"
-"PO-Revision-Date: 2014-06-23 01:17+0000\n"
+"PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-02-04 05:14+0000\n"
-"X-Generator: Launchpad (build 18544)\n"
+"X-Launchpad-Export-Date: 2018-04-30 04:34+0000\n"
+"X-Generator: Launchpad (build 18623)\n"
 "Language: cs\n"
 
 #: ../src/sakura.c:492
@@ -32,7 +32,7 @@ msgstr "Výchozí počet karet"
 
 #: ../src/sakura.c:495
 msgid "Set working directory"
-msgstr ""
+msgstr "Nastavit pracovní složku"
 
 #: ../src/sakura.c:496
 msgid "Execute command"
@@ -52,7 +52,7 @@ msgstr "Nastaví titulek okna"
 
 #: ../src/sakura.c:501
 msgid "Set window icon"
-msgstr ""
+msgstr "Nastavit ikonu okna"
 
 #: ../src/sakura.c:503
 msgid "Set columns number"
@@ -68,19 +68,19 @@ msgstr "Zachovat okno po vykonání příkazu"
 
 #: ../src/sakura.c:506
 msgid "Maximize window"
-msgstr ""
+msgstr "Maximalizovat okno"
 
 #: ../src/sakura.c:507
 msgid "Fullscreen mode"
-msgstr ""
+msgstr "Na celou obrazovku"
 
 #: ../src/sakura.c:508
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Použít alternativní soubor s nastaveními"
 
 #: ../src/sakura.c:509
 msgid "Select initial colorset"
-msgstr ""
+msgstr "Vybrat počáteční sadu barev"
 
 #: ../src/sakura.c:975
 msgid "Configuration has been modified by another process. Overwrite?"
@@ -102,27 +102,27 @@ msgstr "Zvolte písmo"
 
 #: ../src/sakura.c:1106
 msgid "Set tab name"
-msgstr ""
+msgstr "Nastavit název panelu"
 
 #: ../src/sakura.c:1109 ../src/sakura.c:1257 ../src/sakura.c:1439
 msgid "_Cancel"
-msgstr ""
+msgstr "_Storno"
 
 #: ../src/sakura.c:1110 ../src/sakura.c:1440
 msgid "_Apply"
-msgstr ""
+msgstr "_Použít"
 
 #: ../src/sakura.c:1127
 msgid "New text"
-msgstr ""
+msgstr "Nový text"
 
 #: ../src/sakura.c:1254
 msgid "Select colors"
-msgstr ""
+msgstr "Vybrat barvy"
 
 #: ../src/sakura.c:1258
 msgid "_Select"
-msgstr ""
+msgstr "_Vybrat"
 
 #: ../src/sakura.c:1276
 msgid "Colorset"
@@ -130,15 +130,15 @@ msgstr ""
 
 #: ../src/sakura.c:1288
 msgid "Foreground color"
-msgstr ""
+msgstr "Barva popředí"
 
 #: ../src/sakura.c:1289
 msgid "Background color"
-msgstr ""
+msgstr "Barva pozadí"
 
 #: ../src/sakura.c:1290
 msgid "Cursor color"
-msgstr ""
+msgstr "Barva kurzoru"
 
 #: ../src/sakura.c:1299
 msgid "Opacity level (%)"
@@ -160,15 +160,15 @@ msgstr ""
 
 #: ../src/sakura.c:2483
 msgid "Open mail"
-msgstr ""
+msgstr "Otevřít e-mail"
 
 #: ../src/sakura.c:2484
 msgid "Open link"
-msgstr ""
+msgstr "Otevřít odkaz"
 
 #: ../src/sakura.c:2485
 msgid "Copy link"
-msgstr ""
+msgstr "Zkopírovat odkaz"
 
 #: ../src/sakura.c:2486
 msgid "New tab"
@@ -176,7 +176,7 @@ msgstr "Nová karta"
 
 #: ../src/sakura.c:2487
 msgid "Set tab name..."
-msgstr ""
+msgstr "Nastavit název panelu…"
 
 #: ../src/sakura.c:2488
 msgid "Close tab"
@@ -212,7 +212,7 @@ msgstr "Volby"
 
 #: ../src/sakura.c:2498
 msgid "More"
-msgstr ""
+msgstr "Více"
 
 #: ../src/sakura.c:2499
 msgid "Always show tab bar"
@@ -220,11 +220,11 @@ msgstr "Vždy zobrazit lištu karet"
 
 #: ../src/sakura.c:2500
 msgid "Tabs at bottom"
-msgstr ""
+msgstr "Panely dole"
 
 #: ../src/sakura.c:2501
 msgid "Show close button on tabs"
-msgstr ""
+msgstr "Zobrazovat na panelech zavírací tlačítko"
 
 #: ../src/sakura.c:2502
 msgid "Show scrollbar"
@@ -248,7 +248,7 @@ msgstr "Nastavit blikající kurzor"
 
 #: ../src/sakura.c:2507
 msgid "Enable bold font"
-msgstr ""
+msgstr "Zapnout tučné písmo"
 
 #: ../src/sakura.c:2508
 msgid "Stop tab cycling at end tabs"
@@ -264,19 +264,19 @@ msgstr ""
 
 #: ../src/sakura.c:2511
 msgid "Set cursor type"
-msgstr ""
+msgstr "Nastavit typ kurzoru"
 
 #: ../src/sakura.c:2512
 msgid "Block"
-msgstr ""
+msgstr "Blokový"
 
 #: ../src/sakura.c:2513
 msgid "Underline"
-msgstr ""
+msgstr "Podtržítko"
 
 #: ../src/sakura.c:2514
 msgid "IBeam"
-msgstr ""
+msgstr "Svislá čára"
 
 #: ../src/sakura.c:2515
 msgid "Set palette"
@@ -289,12 +289,12 @@ msgstr "Terminál %d"
 
 #: ../src/sakura.c:3265
 msgid "Error message"
-msgstr ""
+msgstr "Chybové hlášení"
 
 #: ../src/sakura.c:3283 ../src/sakura.c:3346
 #, c-format
 msgid "Cannot change working directory\n"
-msgstr ""
+msgstr "Nepodařilo se změnit pracovní složku\n"
 
 #: ../src/sakura.c:3332
 msgid "- vte-based terminal emulator"
