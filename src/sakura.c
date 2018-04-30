@@ -232,19 +232,21 @@ const GdkRGBA rxvt_palette[PALETTE_SIZE] = {
     {1,        1,        1,        1 }
 };
 
-#define CLOSE_BUTTON_CSS "* {\n"\
-				"-GtkButton-default-border : 0;\n"\
-				"-GtkButton-default-outside-border : 0;\n"\
-				"-GtkButton-inner-border: 0;\n"\
-				"-GtkWidget-focus-line-width : 0;\n"\
-				"-GtkWidget-focus-padding : 0;\n"\
-				"padding: 0;\n"\
-				"}"
 
 #define HIG_DIALOG_CSS "* {\n"\
-				"-GtkDialog-action-area-border : 12;\n"\
-				"-GtkDialog-button-spacing : 12;\n"\
-				"}"
+	"-GtkDialog-action-area-border : 12;\n"\
+	"-GtkDialog-button-spacing : 12;\n"\
+	"}"
+
+#define NOTEBOOK_CSS "* {\n"\
+	"color : #000000;\n"\
+	"background-color : #000000;\n"\
+	"border-color : #000000;\n"\
+	"}"
+
+#define TAB_TITLE_CSS "* {\n"\
+	"padding : 0px;\n"\
+	"}"
 
 #define NUM_COLORSETS 6
 #define PCRE2_CODE_UNIT_WIDTH 8
@@ -519,6 +521,7 @@ static GOptionEntry entries[] = {
 	{ "colorset", 0, 0, G_OPTION_ARG_INT, &option_colorset, N_("Select initial colorset"), NULL },
 	{ NULL }
 };
+
 
 static guint
 sakura_tokeycode (guint key)
@@ -2473,8 +2476,15 @@ sakura_init()
 	sakura.columns = DEFAULT_COLUMNS;
 	sakura.rows = DEFAULT_ROWS;
 
+	/* Create notebook and set style */
 	sakura.notebook=gtk_notebook_new();
 	gtk_notebook_set_scrollable((GtkNotebook*)sakura.notebook, sakura.scrollable_tabs);
+
+	gchar *css = g_strdup_printf(NOTEBOOK_CSS);
+	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
+	GtkStyleContext *context = gtk_widget_get_style_context(sakura.notebook);
+	gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_free(css);
 
 	/* Adding mask, for handle scroll events */
 	gtk_widget_add_events(sakura.notebook, GDK_SCROLL_MASK);
@@ -3071,6 +3081,13 @@ sakura_add_tab()
 	if (sakura.tabs_on_bottom) {
 		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(sakura.notebook), GTK_POS_BOTTOM);
 	}
+
+	/* Set tab title style */
+	gchar *css = g_strdup_printf(TAB_TITLE_CSS);
+	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
+	GtkStyleContext *context = gtk_widget_get_style_context(tab_label_hbox);
+	gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_free(css);
 
 	gtk_widget_show_all(tab_label_hbox);
 	
