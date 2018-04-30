@@ -526,13 +526,14 @@ static GOptionEntry entries[] = {
 static guint
 sakura_tokeycode (guint key)
 {
-        GdkKeymap *keymap = gdk_keymap_get_default();
+        GdkKeymap *keymap;
         GdkKeymapKey *keys;
         gint n_keys;
         guint res = 0;
 
-        if (gdk_keymap_get_entries_for_keyval(keymap, key,
-                                              &keys, &n_keys)) {
+	keymap = gdk_keymap_get_for_display(gdk_display_get_default());
+
+        if (gdk_keymap_get_entries_for_keyval(keymap, key, &keys, &n_keys)) {
                 if (n_keys > 0) {
                         res = keys[0].keycode;
                 }
@@ -1969,7 +1970,7 @@ sakura_copy (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 
-	vte_terminal_copy_clipboard(VTE_TERMINAL(term->vte));
+	vte_terminal_copy_clipboard_format(VTE_TERMINAL(term->vte), VTE_FORMAT_TEXT);
 }
 
 
