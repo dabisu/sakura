@@ -1246,6 +1246,8 @@ sakura_set_colors ()
 		vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 	}
 
+	gtk_widget_set_opacity (sakura.main_window, sakura.backcolors[term->colorset].alpha);
+
 }
 
 
@@ -1922,8 +1924,8 @@ static gboolean
 sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
 	if (event->width!=sakura.width || event->height!=sakura.height) {
-		SAY("Configure event received. Current w %d h %d ConfigureEvent w %d h %d",
-		sakura.width, sakura.height, event->width, event->height);
+		//SAY("Configure event received. Current w %d h %d ConfigureEvent w %d h %d",
+		//sakura.width, sakura.height, event->width, event->height);
 		sakura.resized=TRUE;
 	}
 		
@@ -3147,7 +3149,7 @@ sakura_add_tab()
 		g_signal_connect(G_OBJECT(close_button), "clicked", G_CALLBACK(sakura_closebutton_clicked), term->hbox);
 	}
 
-	/* Since vte-2.91 and spawm_sync env is properly overwritten */
+	/* Since vte-2.91 env is properly overwritten */
 	char *command_env[2]={"TERM=xterm-256color",0};
 	/* First tab */
 	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)); 
@@ -3261,7 +3263,7 @@ sakura_add_tab()
 	/* Not the first tab */
 	} else {
 		sakura_set_font();
-		//sakura_set_colors();
+		sakura_set_colors();
 		gtk_widget_show_all(term->hbox);
 		if (!sakura.show_scrollbar) {
 			gtk_widget_hide(term->scrollbar);
