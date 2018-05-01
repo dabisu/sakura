@@ -239,9 +239,9 @@ const GdkRGBA rxvt_palette[PALETTE_SIZE] = {
 	"}"
 
 #define NOTEBOOK_CSS "* {\n"\
-	"color : #000000;\n"\
-	"background-color : #000000;\n"\
-	"border-color : #000000;\n"\
+	"color : rgba(0,0,0,0);\n"\
+	"background-color : rgba(0,0,0,0);\n"\
+	"border-color : rgba(0,0,0,0);\n"\
 	"}"
 
 #define TAB_TITLE_CSS "* {\n"\
@@ -324,10 +324,7 @@ static struct {
 	gint increase_font_size_key;
 	gint decrease_font_size_key;
 	gint set_colorset_keys[NUM_COLORSETS];
-//#if VTE_CHECK_VERSION(0, 46, 0)
-//	VteRegex *http_vteregexp, *mail_vteregexp;
-//#endif
-	GRegex *http_regexp, *mail_regexp;
+	VteRegex *http_vteregexp, *mail_vteregexp;
 	char *argv[3];
 } sakura;
 
@@ -348,11 +345,11 @@ struct terminal {
 #define SCROLL_LINES 4096
 #define DEFAULT_SCROLL_LINES 4096
 #define HTTP_REGEXP "(ftp|http)s?://[^ \t\n\b]+"
-#define MAIL_REGEXP "([\\w-\\.]+)@((?:[\\w]+\\.)+)([a-zA-Z]{2,4})" /* Mail regexp taken from http://emailregex.com */
+#define MAIL_REGEXP "[^ \t\n\b]+@([^ \t\n\b]+\\.)+([a-zA-Z]{2,4})"
 #define DEFAULT_CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
 #define DEFAULT_ROWS 24
-#define DEFAULT_FONT "Ubuntu Mono,monospace 13"
+#define DEFAULT_FONT "Ubuntu Mono,monospace 12"
 #define FONT_MINIMAL_SIZE (PANGO_SCALE*6)
 #define DEFAULT_WORD_CHARS "-,./?%&#_~:"
 #define DEFAULT_PALETTE "solarized_dark"
@@ -717,7 +714,6 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 {
 	struct terminal *term;
 	gint page, tag;
-	GMatchInfo *match_info;
 
 	if (button_event->type != GDK_BUTTON_PRESS)
 		return FALSE;
@@ -746,9 +742,10 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 		if (sakura.current_match) {
 			/* Show the extra options in the menu */
 			
+			char *matches;
 			/* Is it a mail address? */
-			if (g_regex_match(sakura.mail_regexp, sakura.current_match, 0, &match_info)) {
-	//		if (g_match_info_matches(match_info)) {
+			if (vte_terminal_event_check_regex_simple(VTE_TERMINAL(term->vte), (GdkEvent *) button_event,
+								  &sakura.mail_vteregexp, 1, 0, &matches)) {
 				gtk_widget_show(sakura.item_open_mail);
 				gtk_widget_hide(sakura.item_open_link);
 			} else {
@@ -757,6 +754,8 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 			}
 			gtk_widget_show(sakura.item_copy_link);
 			gtk_widget_show(sakura.open_link_separator);
+
+			g_free(matches);
 		} else {
 			/* Hide all the options */
 			gtk_widget_hide(sakura.item_open_mail);
@@ -781,6 +780,7 @@ sakura_notebook_focus_in(GtkWidget *widget, void *data)
 	struct terminal *term;
 	int index;
 
+	SAY("focus in");
 	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, index);
 
@@ -1230,6 +1230,14 @@ sakura_set_colors ()
 	for (i = (n_pages - 1); i >= 0; i--) {
 		term = sakura_get_page_term(sakura, i);
 		SAY("Setting colorset %d", term->colorset+1);
+		SAY("Forecolor: %f %f %f %f", sakura.forecolors[term->colorset].red,
+					      sakura.forecolors[term->colorset].green,
+					      sakura.forecolors[term->colorset].blue,
+					      sakura.forecolors[term->colorset].alpha);
+		SAY("Backcolor: %f %f %f %f", sakura.backcolors[term->colorset].red,
+					      sakura.backcolors[term->colorset].green,
+					      sakura.backcolors[term->colorset].blue,
+					      sakura.backcolors[term->colorset].alpha);
 
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte),
 		                        &sakura.forecolors[term->colorset], 
@@ -1601,6 +1609,8 @@ sakura_open_url (GtkWidget *widget, void *data)
 	gchar *cmd;
 	gchar *browser=NULL;
 
+	SAY("Opening %s", sakura.current_match);
+
 	browser=(gchar *)g_getenv("BROWSER");
 
 	if (browser) {
@@ -1931,6 +1941,7 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 
 static gboolean sakura_focus_change(GtkWidget *widget, GdkEvent *event, void *data)
 {
+	SAY("Focus changed");
 	if (sakura.use_fading && event->type == GDK_FOCUS_CHANGE) {
 		sakura.focused = !sakura.focused;
 		if (sakura.focused) {
@@ -2160,12 +2171,12 @@ sakura_init()
 	}
 	g_free(configdir);
 
-	GError *gerror=NULL;
+	GError *error=NULL;
 	/* Open config file */
-	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)) {
+	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &error)) {
 		/* If there's no file, ignore the error. A new one is created */
-		if (gerror->code==G_KEY_FILE_ERROR_UNKNOWN_ENCODING || gerror->code==G_KEY_FILE_ERROR_INVALID_VALUE) {
-			g_error_free(gerror);
+		if (error->code==G_KEY_FILE_ERROR_UNKNOWN_ENCODING || error->code==G_KEY_FILE_ERROR_INVALID_VALUE) {
+			g_error_free(error);
 			fprintf(stderr, "Not valid config file format\n");
 			exit(EXIT_FAILURE);
 		}
@@ -2524,14 +2535,15 @@ sakura_init()
 	}
 
 	/* Add datadir path to icon name and set icon */
-	gchar *icon_path; gerror=NULL;
+	gchar *icon_path; error=NULL;
 	if (option_icon) {
 		icon_path = g_strdup_printf("%s", option_icon);
 	} else {
 		icon_path = g_strdup_printf(DATADIR "/pixmaps/%s", sakura.icon);
 	}
-	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), icon_path, &gerror);
+	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), icon_path, &error);
 	g_free(icon_path); icon_path=NULL;
+	if (error) g_error_free(error);
 
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
@@ -2554,14 +2566,18 @@ sakura_init()
 	sakura.keep_fc=false;
 	sakura.externally_modified=false;
 
-	gerror=NULL;
-
-//#if VTE_CHECK_VERSION(0, 46, 0)
-//	sakura.http_vteregexp=vte_regex_new_for_match(HTTP_REGEXP, strlen(HTTP_REGEXP), 0, 0);
-//	sakura.mail_vteregexp=vte_regex_new_for_match(MAIL_REGEXP, strlen(MAIL_REGEXP), 0, 0);
-//#endif
-	sakura.http_regexp=g_regex_new(HTTP_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, 0);
-	sakura.mail_regexp=g_regex_new(MAIL_REGEXP, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY, 0);
+	error=NULL;
+	sakura.http_vteregexp=vte_regex_new_for_match(HTTP_REGEXP, strlen(HTTP_REGEXP), 0, &error);
+	if (!sakura.http_vteregexp) {
+		SAY("http_regexp: %s", error->message);
+		g_error_free(error);
+	}
+	error=NULL;
+	sakura.mail_vteregexp=vte_regex_new_for_match(MAIL_REGEXP, strlen(MAIL_REGEXP), 0, &error);
+	if (!sakura.mail_vteregexp) {
+		SAY("mail_regexp: %s", error->message);
+		g_error_free(error);
+	}
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 
@@ -2576,7 +2592,7 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "destroy", G_CALLBACK(sakura_destroy_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
-	g_signal_connect(G_OBJECT(sakura.main_window), "event", G_CALLBACK(sakura_focus_change), NULL);
+	//g_signal_connect(G_OBJECT(sakura.main_window), "event", G_CALLBACK(sakura_focus_change), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_window_show_event), NULL);
 	g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus_in), NULL);
 	g_signal_connect(sakura.notebook, "scroll-event", G_CALLBACK(sakura_notebook_scroll), NULL);
@@ -3284,14 +3300,8 @@ sakura_add_tab()
 
 	/* Init vte terminal */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), sakura.scroll_lines);
-// TODO: check why doesn't work *(
-//#if VTE_CHECK_VERSION(0, 46, 0)
-//	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.http_vteregexp, 0);
-//	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.mail_vteregexp, 0);
-// #else 
-	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.http_regexp, 0);
-	vte_terminal_match_add_gregex(VTE_TERMINAL(term->vte), sakura.mail_regexp, 0);
-// #endif
+	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.http_vteregexp, PCRE2_CASELESS);
+	vte_terminal_match_add_regex(VTE_TERMINAL(term->vte), sakura.mail_vteregexp, PCRE2_CASELESS);
 	vte_terminal_set_mouse_autohide(VTE_TERMINAL(term->vte), TRUE);
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
 	vte_terminal_set_word_char_exceptions(VTE_TERMINAL(term->vte), sakura.word_chars);
@@ -3299,9 +3309,8 @@ sakura_add_tab()
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
 	vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), sakura.allow_bold ? TRUE : FALSE);
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
-	//vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
-	//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolors[term->colorset], &sakura.backcolors[term->colorset],
-	//                        sakura.palette, PALETTE_SIZE);
+	
+	//sakura_set_colors();
 
 	/* FIXME: Possible race here. Find some way to force to process all configure
 	 * events before setting keep_fc again to false */
