@@ -239,9 +239,9 @@ const GdkRGBA rxvt_palette[PALETTE_SIZE] = {
 	"}"
 
 #define NOTEBOOK_CSS "* {\n"\
-	"color : rgba(0,0,0,0);\n"\
-	"background-color : rgba(0,0,0,0);\n"\
-	"border-color : rgba(0,0,0,0);\n"\
+	"color : rgba(0,0,0,1.0);\n"\
+	"background-color : rgba(0,0,0,1.0);\n"\
+	"border-color : rgba(0,0,0,1.0);\n"\
 	"}"
 
 #define TAB_TITLE_CSS "* {\n"\
@@ -2895,7 +2895,7 @@ sakura_set_size(void)
 		&term->padding);
 	pad_x = term->padding.left + term->padding.right;
 	pad_y = term->padding.top + term->padding.bottom;
-	SAY("padding x %d y %d", pad_x, pad_y);
+	//SAY("padding x %d y %d", pad_x, pad_y);
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(term->vte));
 	char_height = vte_terminal_get_char_height(VTE_TERMINAL(term->vte));
 
@@ -2903,14 +2903,6 @@ sakura_set_size(void)
 	sakura.height = pad_y + (char_height * sakura.rows);
 
 	if (npages>=2 || sakura.first_tab) {
-		//gint min_height, natural_height; 
-		//gtk_widget_get_preferred_height(sakura.notebook, &min_height, &natural_height);
-		//SAY("NOTEBOOK min height %d natural height %d", min_height, natural_height);
-		/* Deprecated. TODO: Remove 
-		guint16 hb, vb;
-		hb=gtk_notebook_get_tab_hborder(GTK_NOTEBOOK(sakura.notebook));
-		vb=gtk_notebook_get_tab_vborder(GTK_NOTEBOOK(sakura.notebook));
-		SAY("notebook borders h %d v %d", hb, vb);*/
 
 		/* TODO: Yeah i know, this is utter shit. Remove this ugly hack and set geometry hints*/
 		if (!sakura.show_scrollbar) 
@@ -2928,7 +2920,7 @@ sakura_set_size(void)
 	term = sakura_get_page_term(sakura, page);
 
 	gtk_widget_get_preferred_width(term->scrollbar, &min_width, &natural_width);
-	SAY("SCROLLBAR min width %d natural width %d", min_width, natural_width);
+	//SAY("SCROLLBAR min width %d natural width %d", min_width, natural_width);
 	if(sakura.show_scrollbar) {
 		sakura.width += min_width;
 	}
@@ -2944,7 +2936,7 @@ sakura_set_size(void)
 	}
 
 	gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
-	SAY("RESIZED TO %d %d", sakura.width, sakura.height);
+	SAY("Resized to %d %d", sakura.width, sakura.height);
 }
 
 
