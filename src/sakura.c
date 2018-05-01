@@ -1606,29 +1606,26 @@ static void
 sakura_open_url (GtkWidget *widget, void *data)
 {
 	GError *error=NULL;
-	gchar *cmd;
 	gchar *browser=NULL;
 
 	SAY("Opening %s", sakura.current_match);
 
-	browser=(gchar *)g_getenv("BROWSER");
+	browser=g_strdup(g_getenv("BROWSER"));
 
-	if (browser) {
-		cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
-	} else {
-		if ( (browser = g_find_program_in_path("xdg-open")) ) {
-			cmd=g_strdup_printf("%s %s", browser, sakura.current_match);
-			g_free(browser);
-		} else
+	if (!browser) {
+		if ( !(browser = g_find_program_in_path("xdg-open")) ) {
 			/* TODO: Legacy for systems without xdg-open. This should be removed */
-			cmd=g_strdup_printf("firefox %s", sakura.current_match);
+			browser = g_strdup("firefox");
+		}
 	}
 
-	if (!g_spawn_command_line_async(cmd, &error)) {
-		sakura_error("Couldn't exec \"%s\": %s", cmd, error->message);
+	gchar * argv[] = {browser, sakura.current_match, NULL};
+	if (!g_spawn_async(".", argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error)) {
+		sakura_error("Couldn't exec \"%s %s\": %s", browser, sakura.current_match, error->message);
+		g_error_free(error);
 	}
 
-	g_free(cmd);
+	g_free(browser);
 }
 
 
@@ -1637,20 +1634,14 @@ sakura_open_mail (GtkWidget *widget, void *data)
 {
 	GError *error = NULL;
 	gchar *program = NULL;
-	gchar *cmd = NULL;
-	
+
 	if ( (program = g_find_program_in_path("xdg-email")) ) {
-		cmd = g_strdup_printf("%s %s", program, sakura.current_match);
+		gchar * argv[] = { program, sakura.current_match, NULL };
+		if (!g_spawn_async(".", argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error)) {
+			sakura_error("Couldn't exec \"%s %s\": %s", program, sakura.current_match, error->message);
+		}
 		g_free(program);
 	}
-	
-	if (cmd != NULL) {
-		if (!g_spawn_command_line_async(cmd, &error)) {
-			sakura_error("Couldn't exec \"%s\": %s", cmd, error->message);
-		}
-		
-		g_free(cmd);
-	} 
 }
 
 
