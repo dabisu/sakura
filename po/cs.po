@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-29 13:44+0200\n"
-"PO-Revision-Date: 2014-06-23 01:17+0000\n"
+"POT-Creation-Date: 2018-05-02 21:33+0200\n"
+"PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-02-04 05:14+0000\n"
-"X-Generator: Launchpad (build 18544)\n"
+"X-Launchpad-Export-Date: 2018-04-30 04:34+0000\n"
+"X-Generator: Launchpad (build 18623)\n"
 
 msgid "Print version number"
 msgstr "Vytiskne informaci o verzi"
@@ -27,9 +27,8 @@ msgstr "Volba výchozího písma terminálu"
 msgid "Select initial number of tabs"
 msgstr "Výchozí počet karet"
 
-#, fuzzy
 msgid "Set working directory"
-msgstr "Nastavit blikající kurzor"
+msgstr "Nastavit pracovní složku"
 
 msgid "Execute command"
 msgstr "Spustit příkaz"
@@ -43,9 +42,8 @@ msgstr "Přihlašovací shell"
 msgid "Set window title"
 msgstr "Nastaví titulek okna"
 
-#, fuzzy
 msgid "Set window icon"
-msgstr "Nastaví titulek okna"
+msgstr "Nastavit ikonu okna"
 
 msgid "Set columns number"
 msgstr "Nastaví počet sloupců"
@@ -57,18 +55,16 @@ msgid "Hold window after execute command"
 msgstr "Zachovat okno po vykonání příkazu"
 
 msgid "Maximize window"
-msgstr ""
+msgstr "Maximalizovat okno"
 
-#, fuzzy
 msgid "Fullscreen mode"
-msgstr "Celá obrazovka"
+msgstr "Na celou obrazovku"
 
 msgid "Use alternate configuration file"
-msgstr ""
+msgstr "Použít alternativní soubor s nastaveními"
 
-#, fuzzy
 msgid "Select initial colorset"
-msgstr "Zvolte barvu"
+msgstr "Vybrat počáteční sadu barev"
 
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr ""
@@ -85,42 +81,35 @@ msgstr ""
 msgid "Select font"
 msgstr "Zvolte písmo"
 
-#, fuzzy
 msgid "Set tab name"
-msgstr "Nastavit název"
+msgstr "Nastavit název panelu"
 
 msgid "_Cancel"
-msgstr ""
+msgstr "_Storno"
 
 msgid "_Apply"
-msgstr ""
+msgstr "_Použít"
 
-#, fuzzy
 msgid "New text"
-msgstr "Nový název karty"
+msgstr "Nový text"
 
-#, fuzzy
 msgid "Select colors"
-msgstr "Zvolte barvu"
+msgstr "Vybrat barvy"
 
-#, fuzzy
 msgid "_Select"
-msgstr "Zvolte písmo"
+msgstr "_Vybrat"
 
 msgid "Colorset"
 msgstr ""
 
-#, fuzzy
 msgid "Foreground color"
-msgstr "Zvolte barvu textu:"
+msgstr "Barva popředí"
 
-#, fuzzy
 msgid "Background color"
-msgstr "Zvolte barvu pozadí:"
+msgstr "Barva pozadí"
 
-#, fuzzy
 msgid "Cursor color"
-msgstr "Zvolte barvu pozadí:"
+msgstr "Barva kurzoru"
 
 #, fuzzy
 msgid "Opacity level (%)"
@@ -141,24 +130,20 @@ msgstr ""
 "\n"
 "Opravdu jej chcete uzavřít?"
 
-#, fuzzy
 msgid "Open mail"
-msgstr "Otevřít odkaz…"
+msgstr "Otevřít e-mail"
 
-#, fuzzy
 msgid "Open link"
-msgstr "Otevřít odkaz…"
+msgstr "Otevřít odkaz"
 
-#, fuzzy
 msgid "Copy link"
-msgstr "Kopírovat odkaz…"
+msgstr "Zkopírovat odkaz"
 
 msgid "New tab"
 msgstr "Nová karta"
 
-#, fuzzy
 msgid "Set tab name..."
-msgstr "Nastavit název"
+msgstr "Nastavit název panelu…"
 
 msgid "Close tab"
 msgstr "Zavřít kartu"
@@ -185,17 +170,16 @@ msgid "Options"
 msgstr "Volby"
 
 msgid "More"
-msgstr ""
+msgstr "Více"
 
 msgid "Always show tab bar"
 msgstr "Vždy zobrazit lištu karet"
 
 msgid "Tabs at bottom"
-msgstr ""
+msgstr "Panely dole"
 
-#, fuzzy
 msgid "Show close button on tabs"
-msgstr "Zobrazit tlačítko uzavření karty"
+msgstr "Zobrazovat na panelech zavírací tlačítko"
 
 msgid "Show scrollbar"
 msgstr "Zobrazit posuvník"
@@ -214,7 +198,7 @@ msgid "Set blinking cursor"
 msgstr "Nastavit blikající kurzor"
 
 msgid "Enable bold font"
-msgstr ""
+msgstr "Zapnout tučné písmo"
 
 msgid "Stop tab cycling at end tabs"
 msgstr ""
@@ -226,16 +210,16 @@ msgid "Enable focus fade"
 msgstr ""
 
 msgid "Set cursor type"
-msgstr ""
+msgstr "Nastavit typ kurzoru"
 
 msgid "Block"
-msgstr ""
+msgstr "Blokový"
 
 msgid "Underline"
-msgstr ""
+msgstr "Podtržítko"
 
 msgid "IBeam"
-msgstr ""
+msgstr "Svislá čára"
 
 msgid "Set palette"
 msgstr "Nastavit paletu"
@@ -245,11 +229,11 @@ msgid "Terminal %d"
 msgstr "Terminál %d"
 
 msgid "Error message"
-msgstr ""
+msgstr "Chybové hlášení"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot change working directory\n"
-msgstr "Nastavit blikající kurzor"
+msgstr "Nepodařilo se změnit pracovní složku\n"
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulátor terminálu založený na VTE"
