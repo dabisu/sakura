@@ -286,7 +286,8 @@ static struct {
 	bool resized;
 	bool disable_numbered_tabswitch; /* For disabling direct tabswitching key */
 	bool focused;                    /* For fading feature */
-	bool first_focus;                /* Did this window already register its first WM-focus? */
+	bool first_focus;                /* First time gtkwindow recieve focus when is created */
+	bool faded;			 /* Fading state */
 	bool use_fading;
 	bool scrollable_tabs;
 	GtkWidget *item_copy_link;       /* We include here only the items which need to be hidden */
@@ -431,11 +432,12 @@ static void     sakura_title_changed (GtkWidget *, void *);
 static gboolean sakura_delete_event (GtkWidget *, void *);
 static void     sakura_destroy_window (GtkWidget *, void *);
 static gboolean sakura_resized_window( GtkWidget *, GdkEventConfigure *, void *);
-static gboolean sakura_focus_change( GtkWidget *, GdkEvent *, void *);
+static gboolean sakura_focus_in( GtkWidget *, GdkEvent *, void *);
+static gboolean sakura_focus_out( GtkWidget *, GdkEvent *, void *);
 static void     sakura_closebutton_clicked (GtkWidget *, void *);
 static void     sakura_conf_changed (GtkWidget *, void *);
 static void     sakura_window_show_event (GtkWidget *, gpointer);
-static gboolean sakura_notebook_focus_in (GtkWidget *, void *);
+//static gboolean sakura_notebook_focus_in (GtkWidget *, void *);
 static gboolean sakura_notebook_scroll (GtkWidget *, GdkEventScroll *);
 /* Menuitem callbacks */
 static void     sakura_font_dialog (GtkWidget *, void *);
@@ -478,6 +480,8 @@ static void     sakura_config_done();
 static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
 static guint    sakura_tokeycode(guint key);
+static void	sakura_fade_in(void);
+static void	sakura_fade_out(void);
 
 /* Globals for command line parameters */
 static const char *option_font;
@@ -773,25 +777,69 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 }
 
 
-/* Handler for notebook focus-in-event */
 static gboolean
-sakura_notebook_focus_in(GtkWidget *widget, void *data)
+sakura_focus_in(GtkWidget *widget, GdkEvent *event, void *data)
 {
-	struct terminal *term;
-	int index;
+	if (event->type != GDK_FOCUS_CHANGE) return FALSE;
 
-	SAY("focus in");
-	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, index);
+	/* Ignore first focus event */
+	if (sakura.first_focus) { 
+		sakura.first_focus=false; return FALSE;
+	}
 
-	/* If term is found stop event propagation */
-	if(term != NULL) {
-		gtk_widget_grab_focus(term->vte);
+	if (!sakura.focused)  {
+		sakura.focused=true;
+
+		if (!sakura.first_focus && sakura.use_fading) {
+			sakura_fade_in();
+		}
+
+		sakura_set_colors();
 		return TRUE;
 	}
 
-	return FALSE;
+ 	return FALSE;
 }
+
+
+static gboolean
+sakura_focus_out(GtkWidget *widget, GdkEvent *event, void *data)
+{
+	if (event->type != GDK_FOCUS_CHANGE) return FALSE;
+
+	if (sakura.focused)  {
+		sakura.focused=false;
+
+		if (!sakura.first_focus && sakura.use_fading) {
+			sakura_fade_out();
+		}
+
+		sakura_set_colors();
+		return TRUE;
+	}
+
+ 	return FALSE;
+}
+
+
+/* Handler for notebook focus-in-event */
+//static gboolean
+//sakura_notebook_focus_in(GtkWidget *widget, void *data)
+//{
+//	struct terminal *term;
+//	int index;
+//
+//	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+//	term = sakura_get_page_term(sakura, index);
+//
+//	/* If term is found stop event propagation */
+//	if(term != NULL) {
+//		gtk_widget_grab_focus(term->vte);
+//		return TRUE;
+//	}
+//
+//	return FALSE;
+//}
 
 
 /* Handler for notebook scroll-event - switches tabs by scroll direction
@@ -848,7 +896,7 @@ static void
 sakura_beep (GtkWidget *widget, void *data)
 {
 	// Remove the urgency hint. This is necessary to signal the window manager
-	// that a new urgent event happened when the urgent hint is set next time.
+	// that a new urgent event happened when the urgent hint is set after this.
 	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
 
 	if (sakura.urgent_bell) {
@@ -1229,7 +1277,7 @@ sakura_set_colors ()
 
 	for (i = (n_pages - 1); i >= 0; i--) {
 		term = sakura_get_page_term(sakura, i);
-		SAY("Setting colorset %d", term->colorset+1);
+		//SAY("Setting colorset %d", term->colorset+1);
 
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte),
 		                        &sakura.forecolors[term->colorset], 
@@ -1432,51 +1480,56 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_widget_destroy(color_dialog);
 }
 
+
 static void
 sakura_fade_out()
 {
-    GdkRGBA x = sakura.forecolors[sakura.last_colorset-1];
-    if( (x.red + x.green + x.blue) / 3.0 > 0.5)  {
-        for( int i=0; i<NUM_COLORSETS; i++) {
-            GdkRGBA x = sakura.forecolors[i];
-            x.red = x.red/100.0 * FADE_PERCENT;
-            x.green = x.green/100.0 * FADE_PERCENT;
-            x.blue = x.blue/100.0 * FADE_PERCENT;
-            sakura.forecolors[i]=x;
-        }
-    } else {
-        for( int i=0; i<NUM_COLORSETS; i++) {
-            GdkRGBA x = sakura.forecolors[i];
-            x.red = 1.0-x.red/100.0 * FADE_PERCENT;
-            x.green = 1.0-x.green/100.0 * FADE_PERCENT;
-            x.blue = 1.0-x.blue/100.0 * FADE_PERCENT;
-            sakura.forecolors[i]=x;
-        }
-    }
+	gint page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if (!sakura.faded) {
+		sakura.faded = true;
+	    	GdkRGBA x = sakura.forecolors[term->colorset];
+		//SAY("fade out red %f to %f", x.red, x.red/100.0*FADE_PERCENT);
+	        x.red = x.red/100.0 * FADE_PERCENT;
+	        x.green = x.green/100.0 * FADE_PERCENT;
+	        x.blue = x.blue/100.0 * FADE_PERCENT;
+		if ( (x.red >=0 && x.red <=1.0) && (x.green >=0 && x.green <=1.0) && (x.blue >=0 && x.blue <=1.0)) {
+	        	sakura.forecolors[term->colorset]=x;
+		} else {
+			SAY("Forecolor value out of range");
+		}
+	}
 }
+
 
 static void
 sakura_fade_in()
 {
-    GdkRGBA x = sakura.forecolors[sakura.last_colorset-1];
-    if( (x.red + x.green + x.blue) / 3.0 > 0.5)  {
-        for( int i=0; i<NUM_COLORSETS; i++) {
-            GdkRGBA x = sakura.forecolors[i];
-            x.red = x.red/FADE_PERCENT * 100.0;
-            x.green = x.green/FADE_PERCENT * 100.0;
-            x.blue = x.blue/FADE_PERCENT * 100.0;
-            sakura.forecolors[i]=x;
-        }
-    } else {
-        for( int i=0; i<NUM_COLORSETS; i++) {
-            GdkRGBA x = sakura.forecolors[i];
-            x.red = 1.0-x.red/FADE_PERCENT * 100.0;
-            x.green = 1.0-x.green/FADE_PERCENT * 100.0;
-            x.blue = 1.0-x.blue/FADE_PERCENT * 100.0;
-            sakura.forecolors[i]=x;
-        }
-    }
+	gint page;
+	struct terminal *term;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, page);
+
+	if (sakura.faded) {
+		sakura.faded = false;
+		GdkRGBA x = sakura.forecolors[term->colorset];
+		//SAY("fade in red %f to %f", x.red, x.red/FADE_PERCENT*100.0);
+		x.red = x.red/FADE_PERCENT * 100.0;
+		x.green = x.green/FADE_PERCENT * 100.0;
+		x.blue = x.blue/FADE_PERCENT * 100.0;
+		if ( (x.red >=0 && x.red <=1.0) && (x.green >=0 && x.green <=1.0) && (x.blue >=0 && x.blue <=1.0)) {
+	        	sakura.forecolors[term->colorset]=x;
+		} else {
+			SAY("Forecolor value out of range");
+		}
+	}
 }
+
 
 static void
 sakura_search_dialog (GtkWidget *widget, void *data)
@@ -1925,26 +1978,7 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 	return FALSE;
 }
 
-static gboolean sakura_focus_change(GtkWidget *widget, GdkEvent *event, void *data)
-{
-	SAY("Focus changed");
-	if (sakura.use_fading && event->type == GDK_FOCUS_CHANGE) {
-		sakura.focused = !sakura.focused;
-		if (sakura.focused) {
-			if (!sakura.first_focus){
-				sakura.first_focus = true; 
-			} else {
-				sakura_fade_in();
-			}
-		} else {
-			sakura_fade_out();
-		}
-		sakura_set_colors();
 
-	}
-	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
- 	return FALSE;
-}
 
 static void
 sakura_setname_entry_changed (GtkWidget *widget, void *data)
@@ -2568,9 +2602,10 @@ sakura_init()
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 
 	/* Adding mask to see wheter sakura window is focused or not */
-	gtk_widget_add_events(sakura.main_window, GDK_FOCUS_CHANGE_MASK);
-	sakura.focused = false;
-	sakura.first_focus = false;
+	//gtk_widget_add_events(sakura.main_window, GDK_FOCUS_CHANGE_MASK);
+	sakura.focused = true;
+	sakura.first_focus = true;
+	sakura.faded = false;
 
 	sakura_init_popup();
 
@@ -2578,9 +2613,10 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "destroy", G_CALLBACK(sakura_destroy_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
-	//g_signal_connect(G_OBJECT(sakura.main_window), "event", G_CALLBACK(sakura_focus_change), NULL);
+	g_signal_connect(G_OBJECT(sakura.main_window), "focus-out-event", G_CALLBACK(sakura_focus_out), NULL);
+	g_signal_connect(G_OBJECT(sakura.main_window), "focus-in-event", G_CALLBACK(sakura_focus_in), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_window_show_event), NULL);
-	g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus_in), NULL);
+	//g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus_in), NULL);
 	g_signal_connect(sakura.notebook, "scroll-event", G_CALLBACK(sakura_notebook_scroll), NULL);
 }
 
