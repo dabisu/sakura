@@ -344,7 +344,7 @@ struct terminal {
 #define ICON_FILE "terminal-tango.svg"
 #define SCROLL_LINES 4096
 #define DEFAULT_SCROLL_LINES 4096
-#define HTTP_REGEXP "(ftp|http)s?://[^ \t\n\b]+"
+#define HTTP_REGEXP "(ftp|http)s?://[^ \t\n\b()<>{}«»\\[\\]\'\"]+[^.]"
 #define MAIL_REGEXP "[^ \t\n\b]+@([^ \t\n\b]+\\.)+([a-zA-Z]{2,4})"
 #define DEFAULT_CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
@@ -1230,14 +1230,6 @@ sakura_set_colors ()
 	for (i = (n_pages - 1); i >= 0; i--) {
 		term = sakura_get_page_term(sakura, i);
 		SAY("Setting colorset %d", term->colorset+1);
-		SAY("Forecolor: %f %f %f %f", sakura.forecolors[term->colorset].red,
-					      sakura.forecolors[term->colorset].green,
-					      sakura.forecolors[term->colorset].blue,
-					      sakura.forecolors[term->colorset].alpha);
-		SAY("Backcolor: %f %f %f %f", sakura.backcolors[term->colorset].red,
-					      sakura.backcolors[term->colorset].green,
-					      sakura.backcolors[term->colorset].blue,
-					      sakura.backcolors[term->colorset].alpha);
 
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte),
 		                        &sakura.forecolors[term->colorset], 
@@ -1246,6 +1238,7 @@ sakura_set_colors ()
 		vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 	}
 
+	/* Main window opacity must be set. Otherwise vte widget will remain opaque */
 	gtk_widget_set_opacity (sakura.main_window, sakura.backcolors[term->colorset].alpha);
 
 }
