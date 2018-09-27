@@ -120,79 +120,23 @@ const GdkRGBA linux_palette[PALETTE_SIZE] = {
 };
 
 const GdkRGBA solarized_dark_palette[PALETTE_SIZE] = {
-	{0.027451, 0.211765, 0.258824, 1},
-	{0.862745, 0.196078, 0.184314, 1},
-	{0.521569, 0.600000, 0.000000, 1},
-	{0.709804, 0.537255, 0.000000, 1},
-	{0.149020, 0.545098, 0.823529, 1},
-	{0.827451, 0.211765, 0.509804, 1},
-	{0.164706, 0.631373, 0.596078, 1},
-	{0.933333, 0.909804, 0.835294, 1},
-	{0.000000, 0.168627, 0.211765, 1},
-	{0.796078, 0.294118, 0.086275, 1},
-	{0.345098, 0.431373, 0.458824, 1},
-	{0.396078, 0.482353, 0.513725, 1},
-	{0.513725, 0.580392, 0.588235, 1},
-	{0.423529, 0.443137, 0.768627, 1},
-	{0.576471, 0.631373, 0.631373, 1},
-	{0.992157, 0.964706, 0.890196, 1}
-#if 0
-    { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02 black (used as background color)
-    { 0, 0xdcdc, 0x3232, 0x2f2f }, // 1  red
-    { 0, 0x8585, 0x9999, 0x0000 }, // 2  green
-    { 0, 0xb5b5, 0x8989, 0x0000 }, // 3  yellow
-    { 0, 0x2626, 0x8b8b, 0xd2d2 }, // 4  blue
-    { 0, 0xd3d3, 0x3636, 0x8282 }, // 5  magenta
-    { 0, 0x2a2a, 0xa1a1, 0x9898 }, // 6  cyan
-    { 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 7  base2 white (used as foreground color)
-    { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  base3 bright black
-    { 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9  orange
-    { 0, 0x5858, 0x6e6e, 0x7575 }, // 10 base01 bright green
-    { 0, 0x6565, 0x7b7b, 0x8383 }, // 11 base00 bright yellow
-    { 0, 0x8383, 0x9494, 0x9696 }, // 12 base0 brigth blue
-    { 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 violet
-    { 0, 0x9393, 0xa1a1, 0xa1a1 }, // 14 base1 cyan
-    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }  // 15 base3 white
-#endif
+	{0.027451, 0.211765, 0.258824, 1}, // 0 base02 (background)
+	{0.862745, 0.196078, 0.184314, 1}, // 1 red
+	{0.521569, 0.600000, 0.000000, 1}, // 2 green
+	{0.709804, 0.537255, 0.000000, 1}, // 3 yellow
+	{0.149020, 0.545098, 0.823529, 1}, // 4 blue
+	{0.827451, 0.211765, 0.509804, 1}, // 5 magenta
+	{0.164706, 0.631373, 0.596078, 1}, // 6 cyan
+	{0.933333, 0.909804, 0.835294, 1}, // 7 base2 (foreground)
+	{0.000000, 0.168627, 0.211765, 1}, // 8 base03
+	{0.796078, 0.294118, 0.086275, 1}, // 9 orange
+	{0.345098, 0.431373, 0.458824, 1}, // 10 base01
+	{0.396078, 0.482353, 0.513725, 1}, // 11 base00
+	{0.513725, 0.580392, 0.588235, 1}, // 12 base0
+	{0.423529, 0.443137, 0.768627, 1}, // 13 violet
+	{0.576471, 0.631373, 0.631373, 1}, // 14 base1
+	{0.992157, 0.964706, 0.890196, 1}  // 15 base3
 };
-
-const GdkRGBA solarized_light_palette[PALETTE_SIZE] = {
-	{0.933333, 0.909804, 0.835294, 1},
-	{0.862745, 0.196078, 0.184314, 1},
-	{0.521569, 0.600000, 0.000000, 1},
-	{0.709804, 0.537255, 0.000000, 1},
-	{0.149020, 0.545098, 0.823529, 1},
-	{0.827451, 0.211765, 0.509804, 1},
-	{0.164706, 0.631373, 0.596078, 1},
-	{0.027451, 0.211765, 0.258824, 1},
-	{0.992157, 0.964706, 0.890196, 1},
-	{0.796078, 0.294118, 0.086275, 1},
-	{0.576471, 0.631373, 0.631373, 1},
-	{0.513725, 0.580392, 0.588235, 1},
-	{0.396078, 0.482353, 0.513725, 1},
-	{0.423529, 0.443137, 0.768627, 1},
-	{0.345098, 0.431373, 0.458824, 1},
-	{0.000000, 0.168627, 0.211765, 1}
-#if 0
-	{ 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 0 S_base2
-	{ 0, 0xdcdc, 0x3232, 0x2f2f }, // 1 S_red
-	{ 0, 0x8585, 0x9999, 0x0000 }, // 2 S_green
-	{ 0, 0xb5b5, 0x8989, 0x0000 }, // 3 S_yellow
-	{ 0, 0x2626, 0x8b8b, 0xd2d2 }, // 4 S_blue
-	{ 0, 0xd3d3, 0x3636, 0x8282 }, // 5 S_magenta
-	{ 0, 0x2a2a, 0xa1a1, 0x9898 }, // 6 S_cyan
-	{ 0, 0x0707, 0x3636, 0x4242 }, // 7 S_base02
-	{ 0, 0xfdfd, 0xf6f6, 0xe3e3 }, // 8 S_base3
-	{ 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9 S_orange
-	{ 0, 0x9393, 0xa1a1, 0xa1a1 }, // 10 S_base1
-	{ 0, 0x8383, 0x9494, 0x9696 }, // 11 S_base0
-	{ 0, 0x6565, 0x7b7b, 0x8383 }, // 12 S_base00
-	{ 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 S_violet
-	{ 0, 0x5858, 0x6e6e, 0x7575 }, // 14 S_base01
-	{ 0, 0x0000, 0x2b2b, 0x3636 } // 15 S_base03
-#endif
-};
-
 
 const GdkRGBA xterm_palette[PALETTE_SIZE] = {
     {0,        0,        0,        1},
@@ -1254,10 +1198,15 @@ sakura_set_colors ()
 		term = sakura_get_page_term(sakura, i);
 		//SAY("Setting colorset %d", term->colorset+1);
 
+		//vte_terminal_set_colors(VTE_TERMINAL(term->vte),
+		 //                       &sakura.forecolors[term->colorset], 
+		 //                       &sakura.backcolors[term->colorset],
+		 //                       sakura.palette, PALETTE_SIZE);
+		//vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte),
-		                        &sakura.forecolors[term->colorset], 
-		                        &sakura.backcolors[term->colorset],
-		                        sakura.palette, PALETTE_SIZE);
+		                       NULL, 
+		                       NULL,
+		                       sakura.palette, PALETTE_SIZE);
 		vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 	}
 
@@ -1888,7 +1837,9 @@ sakura_set_palette(GtkWidget *widget, void *data)
 		} else if (strcmp(palette, "solarized_dark")==0) {
 			sakura.palette=solarized_dark_palette;
 		} else {
-			sakura.palette=solarized_light_palette;	
+			/* FIXME: Use a light background */
+			sakura.palette=solarized_dark_palette;
+			//sakura.palette=solarized_light_palette;	
 		}
 
 		/* Palette changed so we ¿need? to set colors again */
@@ -2346,7 +2297,8 @@ sakura_init()
 	} else if (strcmp(cfgtmp, "solarized_dark")==0) {
 		sakura.palette=solarized_dark_palette;
 	} else {
-		sakura.palette=solarized_light_palette;
+		/* FIXME */
+		sakura.palette=solarized_dark_palette;
 	}
 	g_free(cfgtmp);
 

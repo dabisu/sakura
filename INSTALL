@@ -21,7 +21,7 @@ Keybindings support
 ===================
 
     sakura supports keyboard bindings in its config file (~/.config/sakura/sakura.conf), but there's
-    no GUI to edit them, so plese use your favourite editor to change the following properties:
+    no GUI to edit them, so please use your favourite editor to change the following properties:
 
     Accelerators:
 
