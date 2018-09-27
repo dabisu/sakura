@@ -975,7 +975,6 @@ static void
 sakura_eof (GtkWidget *widget, void *data)
 {
 	gint npages;
-	struct terminal *term;
 
 	SAY("Got EOF signal");
 
