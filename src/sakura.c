@@ -295,7 +295,7 @@ struct terminal {
 #define DEFAULT_CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
 #define DEFAULT_ROWS 24
-#define DEFAULT_FONT "Ubuntu Mono,monospace 12"
+#define DEFAULT_FONT "Ubuntu Mono,monospace 13"
 #define FONT_MINIMAL_SIZE (PANGO_SCALE*6)
 #define DEFAULT_WORD_CHARS "-,./?%&#_~:"
 #define DEFAULT_PALETTE "tango"
