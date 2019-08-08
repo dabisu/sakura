@@ -298,7 +298,7 @@ struct terminal {
 #define DEFAULT_FONT "Ubuntu Mono,monospace 12"
 #define FONT_MINIMAL_SIZE (PANGO_SCALE*6)
 #define DEFAULT_WORD_CHARS "-,./?%&#_~:"
-#define DEFAULT_PALETTE "solarized_dark"
+#define DEFAULT_PALETTE "tango"
 #define TAB_MAX_SIZE 40
 #define TAB_MIN_SIZE 6
 #define FORWARD 1
@@ -499,7 +499,8 @@ search(VteTerminal *vte, const char *pattern, bool reverse)
 	vte_terminal_search_set_wrap_around(vte, TRUE);
 
 	regex=vte_regex_new_for_search(pattern, (gssize) strlen(pattern), PCRE2_MULTILINE|PCRE2_CASELESS, &error);
-	if (!regex) { /* Ubuntu-fucking-morons (17.10 and 18.04) package a broken VTE without PCRE2, and search fails */
+	if (!regex) { /* Ubuntu-fucking-morons (17.10/18.04/18.10) package a broken VTE without PCRE2, and search fails */
+		      /* For more info about their moronity please look at https://github.com/gnunn1/tilix/issues/916   */
 		sakura_error(error->message);
 		g_error_free(error);
 	} else {
