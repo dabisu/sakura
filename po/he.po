@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-02 21:33+0200\n"
+"POT-Creation-Date: 2019-08-09 16:34+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -207,8 +207,8 @@ msgstr "הצג לחצן סגירה על כרטיסיות"
 msgid "Show scrollbar"
 msgstr "הצג פס גלילה"
 
-msgid "Don't show exit dialog"
-msgstr "אל תציג דו שיח יציאה"
+msgid "Less questions at exit time"
+msgstr ""
 
 #, fuzzy
 msgid "Set urgent bell"
@@ -267,3 +267,6 @@ msgstr "- vte-based terminal emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#~ msgid "Don't show exit dialog"
+#~ msgstr "אל תציג דו שיח יציאה"

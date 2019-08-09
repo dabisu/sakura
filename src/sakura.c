@@ -897,6 +897,7 @@ sakura_child_exited (GtkWidget *widget, void *data)
 
 	/* Only write configuration to disk if it's the last tab */
 	if (npages==1) {
+		SAY("sakura_child_exited: config_done");
 		sakura_config_done();
 	}
 
@@ -919,16 +920,19 @@ sakura_child_exited (GtkWidget *widget, void *data)
 static void
 sakura_eof (GtkWidget *widget, void *data)
 {
-	gint npages;
+	//gint npages;
 
 	SAY("Got EOF signal");
 
-	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	//npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
+	/* This call to config_done seems unnecesary because is already being called from child_exited */
 
 	/* Only write configuration to disk if it's the last tab */
-	if (npages==1) {
-		sakura_config_done();
-	}
+	//if (npages==1) {
+	//	SAY("sakura_eof: config_done");
+	//	sakura_config_done();
+	//}
 }
 
 /* This handler is called when window title changes, and is used to change window and notebook pages titles */
@@ -977,48 +981,48 @@ sakura_config_done()
 		exit(EXIT_FAILURE);
 	}
 
-	/* Write to file IF there's been changes */
-	if (sakura.config_modified) {
+	bool overwrite=false;
 
-		bool overwrite=true;
+	/* If there's been changes by another sakura process, ask whether to overwrite it or not */
+	/* And if less_questions options is selected don't overwrite */
+	if (sakura.externally_modified && !sakura.config_modified && !sakura.less_questions) {
+		GtkWidget *dialog;
+		gint response;
+	
+		dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+				GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+				_("Configuration has been modified by another process. Overwrite?"));
 
-		if (sakura.externally_modified) {
-			GtkWidget *dialog;
-			gint response;
+		response=gtk_dialog_run(GTK_DIALOG(dialog));
+		gtk_widget_destroy(dialog);
 
-			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-					GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-					_("Configuration has been modified by another process. Overwrite?"));
-
-			response=gtk_dialog_run(GTK_DIALOG(dialog));
-			gtk_widget_destroy(dialog);
-
-			if (response==GTK_RESPONSE_YES) {
-				overwrite=true;
-			} else
-				overwrite=false;
+		if (response==GTK_RESPONSE_YES) {
+			overwrite=true;
+		} else {
+			overwrite=false;
+		}
+	}
+	
+	/* Write to file IF there's been changes of IF we want to overwrite anothe process changes */
+	if (sakura.config_modified || overwrite) {
+		GIOChannel *cfgfile = g_io_channel_new_file(sakura.configfile, "w", &gerror);
+		if (!cfgfile) {
+			fprintf(stderr, "%s\n", gerror->message);
+			g_error_free(gerror);
+			exit(EXIT_FAILURE);
 		}
 
-		if (overwrite) {
-			GIOChannel *cfgfile = g_io_channel_new_file(sakura.configfile, "w", &gerror);
-			if (!cfgfile) {
-				fprintf(stderr, "%s\n", gerror->message);
-				g_error_free(gerror);
-				exit(EXIT_FAILURE);
-			}
-
-			/* FIXME: if the number of chars written is not "len", something happened.
-			 * Check for errors appropriately...*/
-			GIOStatus status = g_io_channel_write_chars(cfgfile, cfgdata, len, NULL, &gerror);
-			if (status != G_IO_STATUS_NORMAL) {
-				// FIXME: we should deal with temporary failures (G_IO_STATUS_AGAIN)
-				fprintf(stderr, "%s\n", gerror->message);
-				g_error_free(gerror);
-				exit(EXIT_FAILURE);
-			}
-			g_io_channel_shutdown(cfgfile, TRUE, &gerror);
-			g_io_channel_unref(cfgfile);
+		/* FIXME: if the number of chars written is not "len", something happened.
+		 * Check for errors appropriately...*/
+		GIOStatus status = g_io_channel_write_chars(cfgfile, cfgdata, len, NULL, &gerror);
+		if (status != G_IO_STATUS_NORMAL) {
+			// FIXME: we should deal with temporary failures (G_IO_STATUS_AGAIN)
+			fprintf(stderr, "%s\n", gerror->message);
+			g_error_free(gerror);
+			exit(EXIT_FAILURE);
 		}
+		g_io_channel_shutdown(cfgfile, TRUE, &gerror);
+		g_io_channel_unref(cfgfile);
 	}
 }
 
@@ -1052,6 +1056,7 @@ sakura_delete_event (GtkWidget *widget, void *data)
 				gtk_widget_destroy(dialog);
 
 				if (response==GTK_RESPONSE_YES) {
+					SAY("delete_event: config_done");
 					sakura_config_done();
 					return FALSE;
 				} else {
@@ -1062,6 +1067,7 @@ sakura_delete_event (GtkWidget *widget, void *data)
 		}
 	}
 
+	SAY("delete_event: config_done");
 	sakura_config_done();
 	return FALSE;
 }
@@ -1971,7 +1977,8 @@ sakura_close_tab (GtkWidget *widget, void *data)
 	term = sakura_get_page_term(sakura, page);
 
 	/* Only write configuration to disk if it's the last tab */
-	if (npages==1) {
+	if (npages==1) {		
+		SAY("sakura_close_tab: config_done");
 		sakura_config_done();
 	}
 
@@ -2028,6 +2035,7 @@ sakura_closebutton_clicked(GtkWidget *widget, void *data)
 
 	/* Only write configuration to disk if it's the last tab */
 	if (npages==1) {
+		SAY("sakura_closebutton_clicked: config_done");
 		sakura_config_done();
 	}
 
@@ -2587,7 +2595,7 @@ sakura_init_popup()
 	item_tabs_on_bottom=gtk_check_menu_item_new_with_label(_("Tabs at bottom"));
 	item_show_close_button=gtk_check_menu_item_new_with_label(_("Show close button on tabs"));
 	item_toggle_scrollbar=gtk_check_menu_item_new_with_label(_("Show scrollbar"));
-	item_less_questions=gtk_check_menu_item_new_with_label(_("Don't show exit dialog"));
+	item_less_questions=gtk_check_menu_item_new_with_label(_("Less questions at exit time"));
 	item_urgent_bell=gtk_check_menu_item_new_with_label(_("Set urgent bell"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
