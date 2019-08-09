@@ -1322,7 +1322,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 
 	/* Opacity control */
 	hbox_opacity=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12); 
-	spinner_adj = gtk_adjustment_new ((sakura.backcolors[term->colorset].alpha)*100, 0.0, 99.0, 1.0, 5.0, 0);
+	spinner_adj = gtk_adjustment_new ((sakura.backcolors[term->colorset].alpha)*100, 0.0, 100.0, 1.0, 5.0, 0);
 	opacity_spin = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
 	opacity_label = gtk_label_new(_("Opacity level (%)"));
 	gtk_box_pack_start(GTK_BOX(hbox_opacity), opacity_label, FALSE, FALSE, 12);
