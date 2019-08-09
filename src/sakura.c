@@ -445,6 +445,7 @@ static char *option_config_file;
 static gboolean option_fullscreen;
 static gboolean option_maximize;
 static gint option_colorset;
+static gboolean option_boldisbright;
 
 static GOptionEntry entries[] = {
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
@@ -465,6 +466,7 @@ static GOptionEntry entries[] = {
 	{ "fullscreen", 's', 0, G_OPTION_ARG_NONE, &option_fullscreen, N_("Fullscreen mode"), NULL },
 	{ "config-file", 0, 0, G_OPTION_ARG_FILENAME, &option_config_file, N_("Use alternate configuration file"), NULL },
 	{ "colorset", 0, 0, G_OPTION_ARG_INT, &option_colorset, N_("Select initial colorset"), NULL },
+	{ "bold-is-bright", 0, G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &option_boldisbright, NULL, NULL },
 	{ NULL }
 };
 
@@ -1217,6 +1219,11 @@ sakura_set_colors ()
 		vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
 		/* Use background color to make text visible when the cursor is over it */
 		vte_terminal_set_color_cursor_foreground(VTE_TERMINAL(term->vte), &sakura.backcolors[term->colorset]);
+	}
+
+	/* Bug #1485360: bright colors broken */
+	if (option_boldisbright) {
+		vte_terminal_set_bold_is_bright(VTE_TERMINAL(term->vte), true);
 	}
 
 	/* Main window opacity must be set. Otherwise vte widget will remain opaque */
