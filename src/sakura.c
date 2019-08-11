@@ -376,12 +376,13 @@ static void     sakura_eof (GtkWidget *, void *);
 static void     sakura_title_changed (GtkWidget *, void *);
 static gboolean sakura_delete_event (GtkWidget *, void *);
 static void     sakura_destroy_window (GtkWidget *, void *);
+
 static gboolean sakura_resized_window( GtkWidget *, GdkEventConfigure *, void *);
 static gboolean sakura_focus_in( GtkWidget *, GdkEvent *, void *);
 static gboolean sakura_focus_out( GtkWidget *, GdkEvent *, void *);
 static void     sakura_closebutton_clicked (GtkWidget *, void *);
 static void     sakura_conf_changed (GtkWidget *, void *);
-static void     sakura_window_show_event (GtkWidget *, gpointer);
+static void     sakura_show_event (GtkWidget *, gpointer);
 //static gboolean sakura_notebook_focus_in (GtkWidget *, void *);
 static gboolean sakura_notebook_scroll (GtkWidget *, GdkEventScroll *);
 /* Menuitem callbacks */
@@ -730,6 +731,9 @@ static gboolean
 sakura_focus_in(GtkWidget *widget, GdkEvent *event, void *data)
 {
 	if (event->type != GDK_FOCUS_CHANGE) return FALSE;
+
+	/* Reset urgency hint */	
+	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
 
 	/* Ignore first focus event */
 	if (sakura.first_focus) { 
@@ -1083,7 +1087,7 @@ sakura_destroy_window (GtkWidget *widget, void *data)
 
 
 static void
-sakura_window_show_event(GtkWidget *widget, gpointer data)
+sakura_show_event(GtkWidget *widget, gpointer data)
 {
 	// set size when the window is first shown
 	sakura_set_size();
@@ -2449,6 +2453,7 @@ sakura_init()
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
+	//sakura_setstyle_css(sakura.main_window, WINDOW_CSS);
 
 	/* Default terminal size*/
 	sakura.columns = DEFAULT_COLUMNS;
@@ -2555,7 +2560,7 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "focus-out-event", G_CALLBACK(sakura_focus_out), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "focus-in-event", G_CALLBACK(sakura_focus_in), NULL);
-	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_window_show_event), NULL);
+	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_show_event), NULL);
 	//g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus_in), NULL);
 	g_signal_connect(sakura.notebook, "scroll-event", G_CALLBACK(sakura_notebook_scroll), NULL);
 }
