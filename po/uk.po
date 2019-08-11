@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-09 16:34+0200\n"
+"POT-Creation-Date: 2019-08-11 14:05+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -70,9 +70,14 @@ msgstr "Використати інший файл конфігурації"
 msgid "Select initial colorset"
 msgstr "Обрати колір"
 
-#, fuzzy
-msgid "Configuration has been modified by another process. Overwrite?"
-msgstr "Конфігурація була змінена іншим процесом. Переписати?"
+msgid ""
+"There is a running process in this terminal.\n"
+"\n"
+"Do you really want to close it?"
+msgstr ""
+"В цьому терміналі є запущені процеси.\n"
+"\n"
+"Ви хочете закрити його?"
 
 msgid ""
 "There are running processes.\n"
@@ -129,15 +134,6 @@ msgstr ""
 
 msgid "New window title"
 msgstr "Новий заголовок вікна"
-
-msgid ""
-"There is a running process in this terminal.\n"
-"\n"
-"Do you really want to close it?"
-msgstr ""
-"В цьому терміналі є запущені процеси.\n"
-"\n"
-"Ви хочете закрити його?"
 
 #, fuzzy
 msgid "Open mail"
@@ -239,6 +235,10 @@ msgstr "Оберіть палітру"
 #, c-format
 msgid "Terminal %d"
 msgstr "Термінал %d"
+
+#, fuzzy
+msgid "Configuration has been modified by another process. Overwrite?"
+msgstr "Конфігурація була змінена іншим процесом. Переписати?"
 
 msgid "Error message"
 msgstr "Повідомлення про помилку"

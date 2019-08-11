@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-09 16:34+0200\n"
+"POT-Creation-Date: 2019-08-11 14:05+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -65,9 +65,14 @@ msgstr "Utiliser un fichier de configuration alternatif"
 msgid "Select initial colorset"
 msgstr "Sélectionner le jeu de couleurs initial"
 
-#, fuzzy
-msgid "Configuration has been modified by another process. Overwrite?"
-msgstr "La configuration a été modifié par un autre processus. L'écraser ?"
+msgid ""
+"There is a running process in this terminal.\n"
+"\n"
+"Do you really want to close it?"
+msgstr ""
+"Il y a un processus actif dans ce terminal.\n"
+"\n"
+"Voulez-vous vraiment le fermer ?"
 
 msgid ""
 "There are running processes.\n"
@@ -119,15 +124,6 @@ msgstr ""
 
 msgid "New window title"
 msgstr "Définir le titre de la fenêtre"
-
-msgid ""
-"There is a running process in this terminal.\n"
-"\n"
-"Do you really want to close it?"
-msgstr ""
-"Il y a un processus actif dans ce terminal.\n"
-"\n"
-"Voulez-vous vraiment le fermer ?"
 
 #, fuzzy
 msgid "Open mail"
@@ -227,6 +223,10 @@ msgstr "Sélectionner une palette de couleurs"
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
+
+#, fuzzy
+msgid "Configuration has been modified by another process. Overwrite?"
+msgstr "La configuration a été modifié par un autre processus. L'écraser ?"
 
 msgid "Error message"
 msgstr "Message d'erreur"
