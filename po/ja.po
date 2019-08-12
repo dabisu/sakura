@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-11 14:05+0200\n"
-"PO-Revision-Date: 2018-04-29 13:18+0000\n"
+"POT-Creation-Date: 2019-08-12 18:37+0200\n"
+"PO-Revision-Date: 2018-05-03 16:09+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-04-30 04:34+0000\n"
+"X-Launchpad-Export-Date: 2018-05-04 05:22+0000\n"
 "X-Generator: Launchpad (build 18623)\n"
 
 msgid "Print version number"
@@ -118,14 +118,13 @@ msgid "Opacity level (%)"
 msgstr "不透過率 (%)"
 
 msgid "Search"
-msgstr ""
+msgstr "探索"
 
 msgid "New window title"
 msgstr "新しいウィンドウタイトル"
 
-#, fuzzy
 msgid "Open mail"
-msgstr "リンクを開く"
+msgstr "メールを開く"
 
 msgid "Open link"
 msgstr "リンクを開く"
@@ -194,14 +193,13 @@ msgid "Enable bold font"
 msgstr "太字フォントを有効にする"
 
 msgid "Stop tab cycling at end tabs"
-msgstr ""
+msgstr "最後のタブでタブサイクリングを停止"
 
 msgid "Disable numbered tabswitch"
 msgstr "番号のタブ切り替えを無効にする"
 
-#, fuzzy
 msgid "Enable focus fade"
-msgstr "太字フォントを有効にする"
+msgstr "フォーカスフェードを有効にする"
 
 msgid "Set cursor type"
 msgstr "カーソルタイプを設定"
@@ -222,9 +220,8 @@ msgstr "パレットを設定"
 msgid "Terminal %d"
 msgstr "ターミナル %d"
 
-#, fuzzy
 msgid "Configuration has been modified by another process. Overwrite?"
-msgstr "他のプロセスによって設定が変えられています。上書きしますか？"
+msgstr "別のプロセスに設定が変更された。上書き？"
 
 msgid "Error message"
 msgstr "エラー・メッセージ"
