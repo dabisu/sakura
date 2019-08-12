@@ -426,7 +426,6 @@ static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
 static void	sakura_fade_in (void);
 static void	sakura_fade_out (void);
-//static void	sakura_setstyle_css (GtkWidget *, gchar *);
 static void	sakura_search (const char *, bool);
 
 
@@ -721,7 +720,6 @@ sakura_closebutton_clicked(GtkWidget *widget, void *data)
 
 	/* Only write configuration to disk if it's the last tab */
 	if (npages==1) {
-		SAY("sakura_closebutton_clicked: config_done");
 		sakura_config_done();
 	}
 
@@ -1047,7 +1045,6 @@ sakura_delete_event (GtkWidget *widget, void *data)
 				gtk_widget_destroy(dialog);
 
 				if (response==GTK_RESPONSE_YES) {
-					SAY("delete_event: config_done");
 					sakura_config_done();
 					return FALSE;
 				} else {
@@ -1058,7 +1055,6 @@ sakura_delete_event (GtkWidget *widget, void *data)
 		}
 	}
 
-	SAY("delete_event: config_done");
 	sakura_config_done();
 	return FALSE;
 }
@@ -1784,7 +1780,6 @@ sakura_close_tab (GtkWidget *widget, void *data)
 
 	/* Only write configuration to disk if it's the last tab */
 	if (npages==1) {		
-		SAY("sakura_close_tab: config_done");
 		sakura_config_done();
 	}
 
@@ -2736,18 +2731,14 @@ sakura_set_colors ()
 
 	for (i = (n_pages - 1); i >= 0; i--) {
 		term = sakura_get_page_term(sakura, i);
-		//SAY("Setting colorset %d", term->colorset+1);
 
-		//vte_terminal_set_colors(VTE_TERMINAL(term->vte),
-		 //                       &sakura.forecolors[term->colorset], 
-		 //                       &sakura.backcolors[term->colorset],
-		 //                       sakura.palette, PALETTE_SIZE);
-		//vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
+		/* Set fore, back, cursor color and palette for the terminal's colorset */
 		vte_terminal_set_colors(VTE_TERMINAL(term->vte),
-		                       NULL, 
-		                       NULL,
-		                       sakura.palette, PALETTE_SIZE);
+		                        &sakura.forecolors[term->colorset], 
+		                        &sakura.backcolors[term->colorset],
+		                        sakura.palette, PALETTE_SIZE);
 		vte_terminal_set_color_cursor(VTE_TERMINAL(term->vte), &sakura.curscolors[term->colorset]);
+
 		/* Use background color to make text visible when the cursor is over it */
 		vte_terminal_set_color_cursor_foreground(VTE_TERMINAL(term->vte), &sakura.backcolors[term->colorset]);
 	}
@@ -2758,7 +2749,7 @@ sakura_set_colors ()
 	}
 
 	/* Main window opacity must be set. Otherwise vte widget will remain opaque */
-	gtk_widget_set_opacity (sakura.main_window, sakura.backcolors[term->colorset].alpha);
+	gtk_widget_set_opacity(sakura.main_window, sakura.backcolors[term->colorset].alpha);
 
 }
 
@@ -2775,7 +2766,6 @@ sakura_fade_out()
 	if (!sakura.faded) {
 		sakura.faded = true;
 	    	GdkRGBA x = sakura.forecolors[term->colorset];
-		//SAY("fade out red %f to %f", x.red, x.red/100.0*FADE_PERCENT);
 	        x.red = x.red/100.0 * FADE_PERCENT;
 	        x.green = x.green/100.0 * FADE_PERCENT;
 	        x.blue = x.blue/100.0 * FADE_PERCENT;
