@@ -177,20 +177,8 @@ const GdkRGBA rxvt_palette[PALETTE_SIZE] = {
 };
 
 
-#define HIG_DIALOG_CSS "* {\n"\
-	"-GtkDialog-action-area-border : 12;\n"\
-	"-GtkDialog-button-spacing : 12;\n"\
-	"}"
-
-#define NOTEBOOK_CSS "* {\n"\
-	"color : rgba(0,0,0,1.0);\n"\
-	"background-color : rgba(0,0,0,1.0);\n"\
-	"border-color : rgba(0,0,0,1.0);\n"\
-	"}"
-
-#define TAB_TITLE_CSS "* {\n"\
-	"padding : 0px;\n"\
-	"}"
+/* Empty by now. Just drop here you CSS to personalize widgets */
+#define SAKURA_CSS ""
 
 #define NUM_COLORSETS 6
 #define PCRE2_CODE_UNIT_WIDTH 8
@@ -211,7 +199,6 @@ static struct {
 	glong columns;
 	glong rows;
 	gint scroll_lines;
-	gint label_count;
 	VteCursorShape cursor_type;
 	bool first_tab;
 	bool show_scrollbar;
@@ -279,7 +266,6 @@ struct terminal {
 	GPid pid;          /* pid of the forked process */
 	GtkWidget *scrollbar;
 	GtkWidget *label;
-	gchar *label_text;
 	bool label_set_byuser;
 	GtkBorder padding;   /* inner-property data */
 	int colorset;
@@ -440,7 +426,7 @@ static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
 static void	sakura_fade_in (void);
 static void	sakura_fade_out (void);
-static void	sakura_setstyle_css (GtkWidget *, gchar *);
+//static void	sakura_setstyle_css (GtkWidget *, gchar *);
 static void	sakura_search (const char *, bool);
 
 
@@ -1137,17 +1123,19 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 	/* Configure the new gtk header bar*/
 	input_header=gtk_dialog_get_header_bar(GTK_DIALOG(input_dialog));
 	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(input_header), FALSE);
+
 	gtk_dialog_set_default_response(GTK_DIALOG(input_dialog), GTK_RESPONSE_ACCEPT);
 
-	sakura_setstyle_css(input_dialog, HIG_DIALOG_CSS);
-
+	/* Create dialog contents */
 	name_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	entry=gtk_entry_new();
 	label=gtk_label_new(_("New text"));
 	/* Set tab label as entry default text (when first tab is not displayed, get_tab_label_text
 	   returns a null value, so check accordingly */
+	/* FIXME: Check why is returning NULL */
 	text = gtk_notebook_get_tab_label_text(GTK_NOTEBOOK(sakura.notebook), term->hbox);
 	if (text) {
+		SAY("TEXT %s", text);
 		gtk_entry_set_text(GTK_ENTRY(entry), text);
 	}
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
@@ -1245,14 +1233,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(color_header), FALSE);
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
 	
-	/* Set style */
-	gchar *css = g_strdup_printf (HIG_DIALOG_CSS);
-	gtk_css_provider_load_from_data(sakura.provider, css, -1, NULL);
-	GtkStyleContext *context = gtk_widget_get_style_context (color_dialog);
-	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-	g_free(css);
-
-
 	/* Add the drop-down combobox that selects current colorset to edit. */
 	hbox_sets=gtk_box_new(FALSE, 12);
 	set_label=gtk_label_new(_("Colorset"));
@@ -1382,8 +1362,6 @@ sakura_search_dialog (GtkWidget *widget, void *data)
 	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(title_header), FALSE);
 	gtk_dialog_set_default_response(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT);
 
-	sakura_setstyle_css(title_dialog, HIG_DIALOG_CSS);
-
 	entry=gtk_entry_new();
 	label=gtk_label_new(_("Search"));
 	title_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
@@ -1425,8 +1403,6 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	title_header=gtk_dialog_get_header_bar(GTK_DIALOG(title_dialog));
 	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(title_header), FALSE);
 	gtk_dialog_set_default_response(GTK_DIALOG(title_dialog), GTK_RESPONSE_ACCEPT);
-
-	sakura_setstyle_css(title_dialog, HIG_DIALOG_CSS);
 
 	entry=gtk_entry_new();
 	label=gtk_label_new(_("New window title"));
@@ -2216,11 +2192,14 @@ sakura_init()
 	/* Use always GTK header bar*/
 	g_object_set(gtk_settings_get_default(), "gtk-dialogs-use-header", TRUE, NULL);
 
-	sakura.provider = gtk_css_provider_new();
-
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
-	//sakura_setstyle_css(sakura.main_window, WINDOW_CSS);
+	
+	/* Add CSS style for sakura */
+	sakura.provider = gtk_css_provider_new();
+	GdkScreen *screen2 = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
+	gtk_css_provider_load_from_data(sakura.provider, SAKURA_CSS, -1, NULL);
+	gtk_style_context_add_provider_for_screen (screen2, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 	/* Default terminal size*/
 	sakura.columns = DEFAULT_COLUMNS;
@@ -2229,8 +2208,6 @@ sakura_init()
 	/* Create notebook and set style */
 	sakura.notebook=gtk_notebook_new();
 	gtk_notebook_set_scrollable((GtkNotebook*)sakura.notebook, sakura.scrollable_tabs);
-
-	sakura_setstyle_css(sakura.notebook, NOTEBOOK_CSS);
 
 	/* Adding mask, for handle scroll events */
 	gtk_widget_add_events(sakura.notebook, GDK_SCROLL_MASK);
@@ -2292,7 +2269,6 @@ sakura_init()
 		gtk_window_maximize(GTK_WINDOW(sakura.main_window));
 	}
 
-	sakura.label_count=1;
 	sakura.fullscreen=FALSE;
 	sakura.resized=FALSE;
 	sakura.keep_fc=false;
@@ -2837,18 +2813,6 @@ sakura_fade_in()
 }
 
 
-/* Set the CSS style for the given widget */
-static void
-sakura_setstyle_css (GtkWidget *widget, gchar *cssdata)
-{
-
-	gtk_css_provider_load_from_data(sakura.provider, cssdata, -1, NULL);
-	GtkStyleContext *context = gtk_widget_get_style_context (widget);
-	gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-}
-
-
 static void
 sakura_move_tab(gint direction)
 {
@@ -2898,6 +2862,7 @@ sakura_set_tab_label_text(const gchar *title, gint page)
 {
 	struct terminal *term;
 	gchar *chopped_title;
+	gchar *default_label_text;
 
 	term = sakura_get_page_term(sakura, page);
 
@@ -2913,7 +2878,9 @@ sakura_set_tab_label_text(const gchar *title, gint page)
 		gtk_label_set_text(GTK_LABEL(term->label), chopped_title);
 		free(chopped_title);
 	} else { /* Use the default values */
-		gtk_label_set_text(GTK_LABEL(term->label), term->label_text);
+		default_label_text=g_strdup_printf(_("Terminal %d"), page);
+		gtk_label_set_text(GTK_LABEL(term->label), default_label_text);
+		free(default_label_text);
 	}
 }
 
@@ -2941,21 +2908,11 @@ sakura_add_tab()
 	int index;
 	int npages;
 	gchar *cwd = NULL;
-	gchar *label_text = _("Terminal %d");
+	gchar *default_label_text = NULL;
 
 	term = g_new0( struct terminal, 1 );
 
-	/* Create label for tabs */
-	term->label_set_byuser=false;
-	
-	/* appling tab title pattern from config (https://answers.launchpad.net/sakura/+question/267951) */
-	if(sakura.tab_default_title != NULL) {
-		label_text = sakura.tab_default_title;
-		term->label_set_byuser = true;
-	}
-
-	term->label_text=g_strdup_printf(label_text, sakura.label_count++);
-	term->label=gtk_label_new(term->label_text);
+	term->label=gtk_label_new(NULL);
 	
 	tab_label_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_widget_set_hexpand(tab_label_hbox, TRUE);
@@ -2979,8 +2936,6 @@ sakura_add_tab()
 	if (sakura.tabs_on_bottom) {
 		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(sakura.notebook), GTK_POS_BOTTOM);
 	}
-
-	sakura_setstyle_css(tab_label_hbox, TAB_TITLE_CSS);
 
 	gtk_widget_show_all(tab_label_hbox);
 	
@@ -3167,6 +3122,18 @@ sakura_add_tab()
 	}
 
 	free(cwd);
+
+	/* Appling tab title pattern from config (https://answers.launchpad.net/sakura/+question/267951) */
+	if (sakura.tab_default_title != NULL) {
+		default_label_text = sakura.tab_default_title;
+		term->label_set_byuser = true;
+	} else {
+		term->label_set_byuser=false;
+	}
+
+	/* Set the default title text (NULL is valid) */
+	gint page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	sakura_set_tab_label_text(default_label_text, page);
 
 	/* Init vte terminal */
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(term->vte), sakura.scroll_lines);
