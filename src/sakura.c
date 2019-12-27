@@ -511,6 +511,9 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	if ( ((event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator) && 
 	     ((event->state & sakura.move_tab_accelerator) != sakura.move_tab_accelerator) ) {
 
+		/* Just propagate the event if there is only one tab */
+		if(npages < 2) return FALSE;
+
 		if ((keycode>=sakura_tokeycode(GDK_KEY_1)) && (keycode<=sakura_tokeycode( GDK_KEY_9))) {  
 
 			/* User has explicitly disabled this branch, make sure to propagate the event */
@@ -1623,6 +1626,7 @@ sakura_blinking_cursor (GtkWidget *widget, void *data)
 }
 
 
+/* From vte-0.60 allow_bold is deprecated. TODO: Remove. Bug #1847756*/
 static void
 sakura_allow_bold (GtkWidget *widget, void *data)
 {
