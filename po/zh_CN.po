@@ -7,65 +7,82 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 18:21+0200\n"
+"POT-Creation-Date: 2019-12-27 07:11+0000\n"
 "PO-Revision-Date: 2019-08-12 17:06+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-08-13 05:44+0000\n"
-"X-Generator: Launchpad (build 19021)\n"
+"X-Launchpad-Export-Date: 2019-12-28 05:41+0000\n"
+"X-Generator: Launchpad (build bceb5ef013b87ef7aafe0755545ceb689ca7ac60)\n"
 "Language: zh\n"
 
+#: ../src/sakura.c:452
 msgid "Print version number"
 msgstr "显示版本号"
 
+#: ../src/sakura.c:453
 msgid "Select initial terminal font"
 msgstr "选择初始终端字体"
 
+#: ../src/sakura.c:454
 msgid "Select initial number of tabs"
 msgstr "选择初始标签数"
 
+#: ../src/sakura.c:455
 msgid "Set working directory"
 msgstr "设置工作目录"
 
+#: ../src/sakura.c:456
 msgid "Execute command"
 msgstr "执行命令"
 
+#: ../src/sakura.c:457
 msgid "Execute command (last option in the command line)"
 msgstr "执行命令(命令行结束前执行)"
 
+#: ../src/sakura.c:459
 msgid "Login shell"
 msgstr "登录 shell"
 
+#: ../src/sakura.c:460 ../src/sakura.c:1394
 msgid "Set window title"
 msgstr "设置窗口标题"
 
+#: ../src/sakura.c:461
 msgid "Set window icon"
 msgstr "设置窗口图标"
 
+#: ../src/sakura.c:463
 msgid "Set columns number"
 msgstr "设置列数"
 
+#: ../src/sakura.c:464
 msgid "Set rows number"
 msgstr "设置行数"
 
+#: ../src/sakura.c:465
 msgid "Hold window after execute command"
 msgstr "运行后保留窗口"
 
+#: ../src/sakura.c:466
 msgid "Maximize window"
 msgstr "最大化窗口"
 
+#: ../src/sakura.c:467
 msgid "Fullscreen mode"
 msgstr "全屏模式"
 
+#: ../src/sakura.c:468
 msgid "Use alternate configuration file"
 msgstr "使用其他配置文件"
 
+#: ../src/sakura.c:469
 msgid "Select initial colorset"
 msgstr "选择初始颜色设置"
 
+#: ../src/sakura.c:735 ../src/sakura.c:1796
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -75,6 +92,7 @@ msgstr ""
 "\n"
 "您确定要关闭它吗？"
 
+#: ../src/sakura.c:1045
 msgid ""
 "There are running processes.\n"
 "\n"
@@ -84,158 +102,211 @@ msgstr ""
 "\n"
 "您真的要关闭 Sakura 吗？"
 
+#: ../src/sakura.c:1084
 msgid "Select font"
 msgstr "选择字体"
 
+#: ../src/sakura.c:1115
 msgid "Set tab name"
 msgstr "设置标签页名称"
 
+#: ../src/sakura.c:1118 ../src/sakura.c:1226 ../src/sakura.c:1355
+#: ../src/sakura.c:1397
 msgid "_Cancel"
 msgstr "取消"
 
+#: ../src/sakura.c:1119 ../src/sakura.c:1356 ../src/sakura.c:1398
 msgid "_Apply"
 msgstr "应用"
 
+#: ../src/sakura.c:1131
 msgid "New text"
 msgstr "新文本"
 
+#: ../src/sakura.c:1223
 msgid "Select colors"
 msgstr "选择颜色"
 
+#: ../src/sakura.c:1227
 msgid "_Select"
 msgstr "选择"
 
+#: ../src/sakura.c:1237
 msgid "Colorset"
 msgstr "色彩集"
 
+#: ../src/sakura.c:1249
 msgid "Foreground color"
 msgstr "前景色"
 
+#: ../src/sakura.c:1250
 msgid "Background color"
 msgstr "背景色"
 
+#: ../src/sakura.c:1251
 msgid "Cursor color"
 msgstr "光标色"
 
+#: ../src/sakura.c:1260
 msgid "Opacity level (%)"
 msgstr "不透明度(%)"
 
+#: ../src/sakura.c:1352 ../src/sakura.c:1365
 msgid "Search"
 msgstr "搜索"
 
+#: ../src/sakura.c:1407
 msgid "New window title"
 msgstr "新窗口标题"
 
+#: ../src/sakura.c:2327
 msgid "Open mail"
 msgstr "打开邮件"
 
+#: ../src/sakura.c:2328
 msgid "Open link"
 msgstr "打开链接"
 
+#: ../src/sakura.c:2329
 msgid "Copy link"
 msgstr "复制链接"
 
+#: ../src/sakura.c:2330
 msgid "New tab"
 msgstr "新建标签"
 
+#: ../src/sakura.c:2331
 msgid "Set tab name..."
 msgstr "设置标签页名称..."
 
+#: ../src/sakura.c:2332
 msgid "Close tab"
 msgstr "关闭标签"
 
+#: ../src/sakura.c:2333
 msgid "Full screen"
 msgstr "全屏"
 
+#: ../src/sakura.c:2334
 msgid "Copy"
 msgstr "复制"
 
+#: ../src/sakura.c:2335
 msgid "Paste"
 msgstr "粘贴"
 
+#: ../src/sakura.c:2336
 msgid "Select font..."
 msgstr "选择字体..."
 
+#: ../src/sakura.c:2337
 msgid "Select colors..."
 msgstr "选择颜色..."
 
+#: ../src/sakura.c:2338
 msgid "Set window title..."
 msgstr "设置窗口标题..."
 
+#: ../src/sakura.c:2340
 msgid "Options"
 msgstr "选项"
 
+#: ../src/sakura.c:2342
 msgid "More"
 msgstr "更多"
 
+#: ../src/sakura.c:2343
 msgid "Always show tab bar"
 msgstr "总是显示第一个标签页"
 
+#: ../src/sakura.c:2344
 msgid "Tabs at bottom"
 msgstr "标签页在底部"
 
+#: ../src/sakura.c:2345
 msgid "Show close button on tabs"
 msgstr "在标签上显示关闭按钮"
 
+#: ../src/sakura.c:2346
 msgid "Show scrollbar"
 msgstr "显示滚动条"
 
+#: ../src/sakura.c:2347
 msgid "Less questions at exit time"
 msgstr "退出时的问题较少"
 
+#: ../src/sakura.c:2348
 msgid "Set urgent bell"
 msgstr "设定紧急铃"
 
+#: ../src/sakura.c:2349
 msgid "Set audible bell"
 msgstr "设定蜂鸣铃"
 
+#: ../src/sakura.c:2350
 msgid "Set blinking cursor"
 msgstr "设置闪烁光标"
 
+#: ../src/sakura.c:2351
 msgid "Enable bold font"
 msgstr "启动粗体字"
 
+#: ../src/sakura.c:2352
 msgid "Stop tab cycling at end tabs"
 msgstr "在结束标签处停止标签循环"
 
+#: ../src/sakura.c:2353
 msgid "Disable numbered tabswitch"
 msgstr "禁用编号标签开关"
 
+#: ../src/sakura.c:2354
 msgid "Enable focus fade"
 msgstr "启动焦点淡化"
 
+#: ../src/sakura.c:2355
 msgid "Set cursor type"
 msgstr "设置光标类型"
 
+#: ../src/sakura.c:2356
 msgid "Block"
 msgstr "方块"
 
+#: ../src/sakura.c:2357
 msgid "Underline"
 msgstr "下划线"
 
+#: ../src/sakura.c:2358
 msgid "IBeam"
 msgstr "竖线"
 
+#: ../src/sakura.c:2359
 msgid "Set palette"
 msgstr "设置调色板"
 
+#. Use the default values
+#: ../src/sakura.c:2875
 #, c-format
 msgid "Terminal %d"
 msgstr "终端 %d"
 
+#: ../src/sakura.c:3221
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "配置已被另一个进程修改。覆盖？"
 
+#: ../src/sakura.c:3275
 msgid "Error message"
 msgstr "错误消息"
 
+#: ../src/sakura.c:3391 ../src/sakura.c:3458
 #, c-format
 msgid "Cannot change working directory\n"
 msgstr "不能改变工作目录\n"
 
+#: ../src/sakura.c:3444
 msgid "- vte-based terminal emulator"
 msgstr "- 基于 vte 的终端模拟器"
 
+#: ../src/sakura.c:3463
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"

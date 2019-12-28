@@ -2,65 +2,82 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 18:21+0200\n"
+"POT-Creation-Date: 2019-12-27 07:11+0000\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-08-13 05:44+0000\n"
-"X-Generator: Launchpad (build 19021)\n"
+"X-Launchpad-Export-Date: 2019-12-28 05:41+0000\n"
+"X-Generator: Launchpad (build bceb5ef013b87ef7aafe0755545ceb689ca7ac60)\n"
 "Language: pt\n"
 
+#: ../src/sakura.c:452
 msgid "Print version number"
 msgstr "Mostrar número da versão"
 
+#: ../src/sakura.c:453
 msgid "Select initial terminal font"
 msgstr "Selecionar fonte inicial do terminal"
 
+#: ../src/sakura.c:454
 msgid "Select initial number of tabs"
 msgstr "Selecionar número inicial de abas"
 
+#: ../src/sakura.c:455
 msgid "Set working directory"
 msgstr ""
 
+#: ../src/sakura.c:456
 msgid "Execute command"
 msgstr "Executar comando"
 
+#: ../src/sakura.c:457
 msgid "Execute command (last option in the command line)"
 msgstr "Executar comando (última opção da linha de comando)"
 
+#: ../src/sakura.c:459
 msgid "Login shell"
 msgstr "Login shell"
 
+#: ../src/sakura.c:460 ../src/sakura.c:1394
 msgid "Set window title"
 msgstr "Definir título da janela"
 
+#: ../src/sakura.c:461
 msgid "Set window icon"
 msgstr ""
 
+#: ../src/sakura.c:463
 msgid "Set columns number"
 msgstr "Definir número de colunas"
 
+#: ../src/sakura.c:464
 msgid "Set rows number"
 msgstr "Definir número de linhas"
 
+#: ../src/sakura.c:465
 msgid "Hold window after execute command"
 msgstr "Mostrar a janela depois de executar o comando"
 
+#: ../src/sakura.c:466
 msgid "Maximize window"
 msgstr "Maximizar janela"
 
+#: ../src/sakura.c:467
 msgid "Fullscreen mode"
 msgstr "Tela cheia"
 
+#: ../src/sakura.c:468
 msgid "Use alternate configuration file"
 msgstr "Usar arquivo de configuração alternativo"
 
+#: ../src/sakura.c:469
 msgid "Select initial colorset"
 msgstr ""
 
+#: ../src/sakura.c:735 ../src/sakura.c:1796
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -70,6 +87,7 @@ msgstr ""
 "\n"
 "Tem certeza que deseja fechar ele?"
 
+#: ../src/sakura.c:1045
 msgid ""
 "There are running processes.\n"
 "\n"
@@ -79,158 +97,211 @@ msgstr ""
 "\n"
 "Tem certeza que deseja fechar Sakura?"
 
+#: ../src/sakura.c:1084
 msgid "Select font"
 msgstr "Selecionar fonte"
 
+#: ../src/sakura.c:1115
 msgid "Set tab name"
 msgstr "Definir nome da aba"
 
+#: ../src/sakura.c:1118 ../src/sakura.c:1226 ../src/sakura.c:1355
+#: ../src/sakura.c:1397
 msgid "_Cancel"
 msgstr "_Cancelar"
 
+#: ../src/sakura.c:1119 ../src/sakura.c:1356 ../src/sakura.c:1398
 msgid "_Apply"
 msgstr "_Aplicar"
 
+#: ../src/sakura.c:1131
 msgid "New text"
 msgstr "Novo texto"
 
+#: ../src/sakura.c:1223
 msgid "Select colors"
 msgstr ""
 
+#: ../src/sakura.c:1227
 msgid "_Select"
 msgstr "_Selecionar"
 
+#: ../src/sakura.c:1237
 msgid "Colorset"
 msgstr ""
 
+#: ../src/sakura.c:1249
 msgid "Foreground color"
 msgstr "Cor de primeiro plano"
 
+#: ../src/sakura.c:1250
 msgid "Background color"
 msgstr "Cor de fundo"
 
+#: ../src/sakura.c:1251
 msgid "Cursor color"
 msgstr "Cor do cursor"
 
+#: ../src/sakura.c:1260
 msgid "Opacity level (%)"
 msgstr ""
 
+#: ../src/sakura.c:1352 ../src/sakura.c:1365
 msgid "Search"
 msgstr ""
 
+#: ../src/sakura.c:1407
 msgid "New window title"
 msgstr "Definir título da janela"
 
+#: ../src/sakura.c:2327
 msgid "Open mail"
 msgstr ""
 
+#: ../src/sakura.c:2328
 msgid "Open link"
 msgstr ""
 
+#: ../src/sakura.c:2329
 msgid "Copy link"
 msgstr ""
 
+#: ../src/sakura.c:2330
 msgid "New tab"
 msgstr "Nova aba"
 
+#: ../src/sakura.c:2331
 msgid "Set tab name..."
 msgstr "Definir nome da aba..."
 
+#: ../src/sakura.c:2332
 msgid "Close tab"
 msgstr "Fechar aba"
 
+#: ../src/sakura.c:2333
 msgid "Full screen"
 msgstr "Tela cheia"
 
+#: ../src/sakura.c:2334
 msgid "Copy"
 msgstr "Copiar"
 
+#: ../src/sakura.c:2335
 msgid "Paste"
 msgstr "Colar"
 
+#: ../src/sakura.c:2336
 msgid "Select font..."
 msgstr "Selecionar fonte..."
 
+#: ../src/sakura.c:2337
 msgid "Select colors..."
 msgstr "Selecionar cores..."
 
+#: ../src/sakura.c:2338
 msgid "Set window title..."
 msgstr "Definir título da janela"
 
+#: ../src/sakura.c:2340
 msgid "Options"
 msgstr "Opções"
 
+#: ../src/sakura.c:2342
 msgid "More"
 msgstr "Mais"
 
+#: ../src/sakura.c:2343
 msgid "Always show tab bar"
 msgstr "Sempre mostrar a barra de abas"
 
+#: ../src/sakura.c:2344
 msgid "Tabs at bottom"
 msgstr "Abas em baixo"
 
+#: ../src/sakura.c:2345
 msgid "Show close button on tabs"
 msgstr "Exibir o botão fechar nas abas"
 
+#: ../src/sakura.c:2346
 msgid "Show scrollbar"
 msgstr "Mostra barra de rolagem"
 
+#: ../src/sakura.c:2347
 msgid "Less questions at exit time"
 msgstr ""
 
+#: ../src/sakura.c:2348
 msgid "Set urgent bell"
 msgstr ""
 
+#: ../src/sakura.c:2349
 msgid "Set audible bell"
 msgstr "Ativar aviso sonoro"
 
+#: ../src/sakura.c:2350
 msgid "Set blinking cursor"
 msgstr "Ativar cursor piscando"
 
+#: ../src/sakura.c:2351
 msgid "Enable bold font"
 msgstr ""
 
+#: ../src/sakura.c:2352
 msgid "Stop tab cycling at end tabs"
 msgstr ""
 
+#: ../src/sakura.c:2353
 msgid "Disable numbered tabswitch"
 msgstr ""
 
+#: ../src/sakura.c:2354
 msgid "Enable focus fade"
 msgstr ""
 
+#: ../src/sakura.c:2355
 msgid "Set cursor type"
 msgstr "Definir tipo de cursor"
 
+#: ../src/sakura.c:2356
 msgid "Block"
 msgstr "Bloquear"
 
+#: ../src/sakura.c:2357
 msgid "Underline"
 msgstr "Sublinhar"
 
+#: ../src/sakura.c:2358
 msgid "IBeam"
 msgstr "IBeam"
 
+#: ../src/sakura.c:2359
 msgid "Set palette"
 msgstr "Definir paleta"
 
+#. Use the default values
+#: ../src/sakura.c:2875
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
+#: ../src/sakura.c:3221
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr ""
 
+#: ../src/sakura.c:3275
 msgid "Error message"
 msgstr "Mensagem de erro"
 
+#: ../src/sakura.c:3391 ../src/sakura.c:3458
 #, c-format
 msgid "Cannot change working directory\n"
 msgstr ""
 
+#: ../src/sakura.c:3444
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal baseado no vte"
 
+#: ../src/sakura.c:3463
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
