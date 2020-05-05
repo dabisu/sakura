@@ -1,50 +1,52 @@
-# Copyright (C) 2006
-# This file is distributed under the same license as the sakura package.
-# David Gómez <david@pleyades.net>
+# Croatian translation for Sakura.
+# Copyright (C) 2008 David Gómez
+# This file is distributed under the same license as the Sakura package.
+# gogo <trebelnik2@gmail.com>, 2018.
+# Milo Ivir <mail@milotype.de>, 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Sakura 2.3.2\n"
+"Project-Id-Version: Sakura 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
-"PO-Revision-Date: 2018-04-29 13:18+0000\n"
-"Last-Translator: gogo <trebelnik2@gmail.com>\n"
-"Language-Team: brentaal <Unknown>\n"
+"POT-Creation-Date: 2020-05-05 11:52+0200\n"
+"PO-Revision-Date: 2020-05-05 20:02+0200\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
+"Language-Team: \n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-08-13 05:44+0000\n"
-"X-Generator: Launchpad (build 19021)\n"
+"X-Launchpad-Export-Date: 2015-12-01 05:09+0000\n"
+"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
 msgid "Print version number"
-msgstr "Ispiši inačicu"
+msgstr "Ispiši broj verzije"
 
 msgid "Select initial terminal font"
-msgstr "Postavi početni font terminala"
+msgstr "Odaberi font terminala"
 
 msgid "Select initial number of tabs"
-msgstr "Postavi početni broj kartica"
+msgstr "Odaberi broj kartica"
 
-#, fuzzy
 msgid "Set working directory"
-msgstr "Koristi treptajući pokazivač"
+msgstr "Postavi radnu mapu"
 
 msgid "Execute command"
 msgstr "Izvrši naredbu"
 
 msgid "Execute command (last option in the command line)"
-msgstr "Izvršite naredbu (zadnja opcija u naredbenoj liniji)"
+msgstr "Izvrši naredbu (zadnja opcija u naredbenom retku)"
 
 msgid "Login shell"
-msgstr "Prijavna ljuska"
+msgstr "Ljuska prijave"
 
 msgid "Set window title"
 msgstr "Postavi naslov prozora"
 
-#, fuzzy
 msgid "Set window icon"
-msgstr "Postavi naslov prozora"
+msgstr "Postavi ikonu prozora"
 
 msgid "Set columns number"
 msgstr "Postavi broj stupaca"
@@ -56,123 +58,112 @@ msgid "Hold window after execute command"
 msgstr "Zadrži prozor nakon izvršavanja naredbe"
 
 msgid "Maximize window"
-msgstr ""
+msgstr "Raširi prozor maksimalno"
 
-#, fuzzy
 msgid "Fullscreen mode"
-msgstr "Prikaz preko cijelog zaslona"
+msgstr "Cjeloekranski prikaz"
 
 msgid "Use alternate configuration file"
 msgstr "Koristi alternativnu konfiguracijsku datoteku"
 
-#, fuzzy
 msgid "Select initial colorset"
-msgstr "Postavite boju"
+msgstr "Odaberi skup boja"
 
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
 "Do you really want to close it?"
 msgstr ""
-"Pokrenuti su procesi unutar ovog terminala.\n"
+"U ovom terminalu postoji jedan aktivan proces.\n"
 "\n"
-"Želite li zbilja zatvoriti terminal?"
+"Stvarno zatvoriti terminal?"
 
 msgid ""
 "There are running processes.\n"
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
-"Pokrenuti su procesi.\n"
+"Postoje aktivni procesi.\n"
 "\n"
-"Želite li zbilja zatvoriti Sakura aplikaciju?"
+"Stvarno zatvoriti Sakura?"
 
 msgid "Select font"
-msgstr "Postavite font"
+msgstr "Odaberi font"
 
 msgid "Set tab name"
-msgstr "Postavite ime kartice"
+msgstr "Postavi ime kartice"
 
 msgid "_Cancel"
-msgstr ""
+msgstr "_Odustani"
 
 msgid "_Apply"
-msgstr ""
+msgstr "_Primijeni"
 
 msgid "New text"
 msgstr "Novi tekst"
 
-#, fuzzy
 msgid "Select colors"
-msgstr "Postavite boju"
+msgstr "Odaberi boje"
 
-#, fuzzy
 msgid "_Select"
-msgstr "Postavite font"
+msgstr "_Odaberi"
 
 msgid "Colorset"
-msgstr ""
+msgstr "Skup boja"
 
-#, fuzzy
 msgid "Foreground color"
-msgstr "Odaberite boju fonta:"
+msgstr "Prednja boja"
 
-#, fuzzy
 msgid "Background color"
-msgstr "Odaberite boju pozadine:"
+msgstr "Stražnja boja"
 
-#, fuzzy
 msgid "Cursor color"
-msgstr "Odaberite boju pozadine:"
+msgstr "Boja pokazivača"
 
-#, fuzzy
 msgid "Opacity level (%)"
-msgstr "Nivo zasićenosti (%):"
+msgstr "Razina neporozirnosti (%)"
 
 msgid "Search"
-msgstr ""
+msgstr "Traži"
 
 msgid "New window title"
-msgstr "Novi naslov prozora"
+msgstr "Naslov novog prozora"
 
-#, fuzzy
 msgid "Open mail"
-msgstr "Otvori link..."
+msgstr "Otvori e-poštu"
 
-#, fuzzy
 msgid "Open link"
-msgstr "Otvori link..."
+msgstr "Otvori poveznicu"
 
-#, fuzzy
 msgid "Copy link"
-msgstr "Kopiraj link..."
+msgstr "Kopiraj poveznicu"
 
 msgid "New tab"
 msgstr "Nova kartica"
 
 msgid "Set tab name..."
-msgstr "Postavite ime kartice..."
+msgstr "Postavi ime kartice …"
 
 msgid "Close tab"
 msgstr "Zatvori karticu"
 
 msgid "Full screen"
-msgstr "Prikaz preko cijelog zaslona"
+msgstr "Cjeloekranski prikaz"
 
 msgid "Copy"
 msgstr "Kopiraj"
 
 msgid "Paste"
-msgstr "Zalijepi"
+msgstr "Paste"
 
 msgid "Select font..."
-msgstr "Postavi font..."
+msgstr "Odaberi font …"
 
 msgid "Select colors..."
-msgstr "Postavi boje..."
+msgstr "Odaberi boje …"
 
 msgid "Set window title..."
-msgstr "Postavi naslov prozora"
+msgstr "Postavi naslov prozora …"
 
 msgid "Options"
 msgstr "Mogućnosti"
@@ -181,53 +172,52 @@ msgid "More"
 msgstr "Više"
 
 msgid "Always show tab bar"
-msgstr "Uvijek prikaži tablu s karticama"
+msgstr "Uvijek prikaži traku s karticama"
 
 msgid "Tabs at bottom"
-msgstr "Kartice na dnu"
+msgstr "Kartice dolje"
 
 msgid "Show close button on tabs"
-msgstr "Prikaži gumb za zatvaranje na karticama"
+msgstr "Prikaži gumb zatvaranja na karticama"
 
 msgid "Show scrollbar"
 msgstr "Prikaži kliznu traku"
 
 msgid "Less questions at exit time"
-msgstr ""
+msgstr "Manje pitanja pri zatvaranju programa"
 
-#, fuzzy
 msgid "Set urgent bell"
-msgstr "Postavi zvučno zvono"
+msgstr "Postavi hitno zvono"
 
 msgid "Set audible bell"
 msgstr "Postavi zvučno zvono"
 
 msgid "Set blinking cursor"
-msgstr "Koristi treptajući pokazivač"
+msgstr "Postavi treperenje pokazivača"
 
 msgid "Enable bold font"
-msgstr ""
+msgstr "Dozvoli podebljani font"
 
 msgid "Stop tab cycling at end tabs"
-msgstr ""
+msgstr "Zaustavi prelaženje na kartice pomoću tabulatora na zadnjoj kartici"
 
 msgid "Disable numbered tabswitch"
-msgstr ""
+msgstr "Deaktiviraj prekidač numeriranih kartica"
 
 msgid "Enable focus fade"
-msgstr ""
+msgstr "Aktiviraj postupni prijelaz"
 
 msgid "Set cursor type"
-msgstr "Postavi tip kursora"
+msgstr "Postavi vrstu pokazivača"
 
 msgid "Block"
-msgstr "Blok"
+msgstr "Pravokutnik"
 
 msgid "Underline"
-msgstr "Podcrtano"
+msgstr "Podvučeno"
 
 msgid "IBeam"
-msgstr "IBeam"
+msgstr "Okomita crta"
 
 msgid "Set palette"
 msgstr "Postavi paletu"
@@ -237,18 +227,30 @@ msgid "Terminal %d"
 msgstr "Terminal %d"
 
 msgid "Configuration has been modified by another process. Overwrite?"
-msgstr ""
+msgstr "Jedan drugi proces je promijenio konfiguraciju. Prepisati?"
 
 msgid "Error message"
-msgstr "Poruka o pogrešci"
+msgstr "Poruka greške"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot change working directory\n"
-msgstr "Koristi treptajući pokazivač"
+msgstr "Radna mapa se ne može promijeniti\n"
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulator terminala temeljen na vte-u"
 
 #, c-format
 msgid "sakura version is %s\n"
-msgstr "inačica Sakure je %s\n"
+msgstr "sakura verzija je %s\n"
+
+#~ msgid "X geometry specification"
+#~ msgstr "Specifikacija X-geometrije"
+
+#~ msgid "Configuration has been modified. Save?"
+#~ msgstr "Konfiguracija je promijenjena. Spremiti?"
+
+#~ msgid "Don't show exit dialog"
+#~ msgstr "Ne prikazuj dijalog za zatvaranje programa"
+
+#~ msgid "Use focus fading"
+#~ msgstr "Koristi postupan prijelaz fokusa"
