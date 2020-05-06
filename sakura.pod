@@ -135,11 +135,7 @@ B<sakura> supports keyboard bindings. They are configurable by setting the follo
 
 Accelerators can be set to any mask value from the GdkModifierType in gdktypes.h; see:
 
-http://www.krugle.org/examples/p-6R7SuZt1c28ljzpZ/gdktypes.h
-
-or, on your own system:
-
-/usr/include/gtk-2.0/gdk/gdkkeysyms.h
+http://gtk.php.net/manual/en/html/gdk/gdk.enum.modifiertype.html
 
 Mask values can be combined by ORing them.
 
