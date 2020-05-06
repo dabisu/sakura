@@ -209,7 +209,6 @@ static struct {
 	bool audible_bell;
 	bool blinking_cursor;
 	bool stop_tab_cycling_at_end_tabs;
-	bool allow_bold;
 	bool fullscreen;
 	bool keep_fc;                    /* Global flag to indicate that we don't want changes in the files and columns values */
 	bool config_modified;            /* Configuration has been modified */
@@ -398,7 +397,6 @@ static void     sakura_setname_entry_changed (GtkWidget *, void *);
 static void	sakura_set_palette (GtkWidget *, void *);
 static void 	sakura_set_cursor (GtkWidget *, void *);
 static void	sakura_stop_tab_cycling_at_end_tabs (GtkWidget *, void *);
-static void	sakura_allow_bold (GtkWidget *, void *);
 static void	sakura_blinking_cursor (GtkWidget *, void *);
 static void	sakura_audible_bell (GtkWidget *, void *);
 static void	sakura_urgent_bell (GtkWidget *, void *);
@@ -1643,25 +1641,6 @@ sakura_blinking_cursor (GtkWidget *widget, void *data)
 }
 
 
-/* From vte-0.60 allow_bold is deprecated. TODO: Remove. Bug #1847756*/
-static void
-sakura_allow_bold (GtkWidget *widget, void *data)
-{
-	gint page;
-	struct terminal *term;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	term = sakura_get_page_term(sakura, page);
-
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-		vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), TRUE);
-		sakura_set_config_string("allow_bold", "Yes");
-	} else {
-		vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), FALSE);
-		sakura_set_config_string("allow_bold", "No");
-	}
-}
-
 
 static void
 sakura_stop_tab_cycling_at_end_tabs (GtkWidget *widget, void *data)
@@ -2043,13 +2022,6 @@ sakura_init()
 	sakura.stop_tab_cycling_at_end_tabs= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
 	g_free(cfgtmp);
 
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "allow_bold", NULL)) {
-		sakura_set_config_string("allow_bold", "Yes");
-	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "allow_bold", NULL);
-	sakura.allow_bold= (strcmp(cfgtmp, "Yes")==0) ? 1 : 0;
-	g_free(cfgtmp);
-
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "cursor_type", NULL)) {
 		sakura_set_config_string("cursor_type", "VTE_CURSOR_SHAPE_BLOCK");
 	}
@@ -2333,7 +2305,7 @@ sakura_init_popup()
 	          *item_set_title, *item_fullscreen,
 	          *item_toggle_scrollbar, *item_options,
 	          *item_show_first_tab, *item_urgent_bell, *item_audible_bell, 
-	          *item_blinking_cursor, *item_allow_bold, *item_other_options, 
+	          *item_blinking_cursor, *item_other_options, 
 	          *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
 	          *item_palette_solarized_dark, *item_palette_solarized_light, *item_palette_gruvbox,
@@ -2365,7 +2337,6 @@ sakura_init_popup()
 	item_urgent_bell=gtk_check_menu_item_new_with_label(_("Set urgent bell"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
-	item_allow_bold=gtk_check_menu_item_new_with_label(_("Enable bold font"));
 	item_stop_tab_cycling_at_end_tabs=gtk_check_menu_item_new_with_label(_("Stop tab cycling at end tabs"));
 	item_disable_numbered_tabswitch=gtk_check_menu_item_new_with_label(_("Disable numbered tabswitch"));
 	item_use_fading=gtk_check_menu_item_new_with_label(_("Enable focus fade"));
@@ -2439,10 +2410,6 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_blinking_cursor), TRUE);
 	}
 
-	if (sakura.allow_bold) {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_allow_bold), TRUE);
-	}
-	
 	if (sakura.stop_tab_cycling_at_end_tabs) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_stop_tab_cycling_at_end_tabs), TRUE);
 	}
@@ -2518,7 +2485,6 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_disable_numbered_tabswitch);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_use_fading);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_blinking_cursor);
-	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_allow_bold);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_stop_tab_cycling_at_end_tabs);
 	gtk_menu_shell_append(GTK_MENU_SHELL(other_options_menu), item_cursor);
 	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_block);
@@ -2555,7 +2521,6 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_urgent_bell), "activate", G_CALLBACK(sakura_urgent_bell), NULL);
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell), NULL);
 	g_signal_connect(G_OBJECT(item_blinking_cursor), "activate", G_CALLBACK(sakura_blinking_cursor), NULL);
-	g_signal_connect(G_OBJECT(item_allow_bold), "activate", G_CALLBACK(sakura_allow_bold), NULL);
 	g_signal_connect(G_OBJECT(item_stop_tab_cycling_at_end_tabs), "activate", G_CALLBACK(sakura_stop_tab_cycling_at_end_tabs), NULL);
 	g_signal_connect(G_OBJECT(item_disable_numbered_tabswitch),
 			"activate", G_CALLBACK(sakura_disable_numbered_tabswitch), NULL);
@@ -3156,7 +3121,6 @@ sakura_add_tab()
 	vte_terminal_set_word_char_exceptions(VTE_TERMINAL(term->vte), sakura.word_chars);
 	vte_terminal_set_audible_bell (VTE_TERMINAL(term->vte), sakura.audible_bell ? TRUE : FALSE);
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(term->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
-	vte_terminal_set_allow_bold (VTE_TERMINAL(term->vte), sakura.allow_bold ? TRUE : FALSE);
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
 	
 	//sakura_set_colors();

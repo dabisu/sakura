@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2019-08-12 16:53+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -190,9 +190,6 @@ msgstr "Activar campana audible"
 msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
 
-msgid "Enable bold font"
-msgstr "Activar fuente en negrita"
-
 msgid "Stop tab cycling at end tabs"
 msgstr "Detener rotación de pestañas en la pestaña final"
 
@@ -238,3 +235,6 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "Activar fuente en negrita"

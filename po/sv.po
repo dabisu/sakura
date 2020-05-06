@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2019-08-12 16:27+0000\n"
 "Last-Translator: Andreas Rönnquist <andreas@ronnquist.net>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -192,9 +192,6 @@ msgstr "Sätt hörbar signal"
 msgid "Set blinking cursor"
 msgstr "Sätt blinkande markör"
 
-msgid "Enable bold font"
-msgstr "Aktivera fetstil"
-
 msgid "Stop tab cycling at end tabs"
 msgstr "Stoppa flikcykling vid ändflikar"
 
@@ -239,3 +236,6 @@ msgstr "- vte-baserad terminalemulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura-versionen är %s\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "Aktivera fetstil"

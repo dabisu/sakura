@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2019-08-12 17:06+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -192,9 +192,6 @@ msgstr "设定蜂鸣铃"
 msgid "Set blinking cursor"
 msgstr "设置闪烁光标"
 
-msgid "Enable bold font"
-msgstr "启动粗体字"
-
 msgid "Stop tab cycling at end tabs"
 msgstr "在结束标签处停止标签循环"
 
@@ -239,3 +236,6 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "启动粗体字"

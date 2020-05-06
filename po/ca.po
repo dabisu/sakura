@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2019-09-30 05:43+0000\n"
 "Last-Translator: Adolfo Jayme <Unknown>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -196,9 +196,6 @@ msgstr "Definir la senyal acústica"
 
 msgid "Set blinking cursor"
 msgstr "Definir el cursor"
-
-msgid "Enable bold font"
-msgstr ""
 
 msgid "Stop tab cycling at end tabs"
 msgstr ""

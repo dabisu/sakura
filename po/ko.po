@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2019-09-30 05:48+0000\n"
 "Last-Translator: Minho Park <parkmino@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -192,9 +192,6 @@ msgstr "종 소리 설정"
 msgid "Set blinking cursor"
 msgstr "커서 깜빡임 설정"
 
-msgid "Enable bold font"
-msgstr "굵은 글꼴 사용"
-
 msgid "Stop tab cycling at end tabs"
 msgstr "끝 탭에 탭 순환 중지"
 
@@ -239,3 +236,6 @@ msgstr "- vte 기반의 터미널 에뮬레이터"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "굵은 글꼴 사용"

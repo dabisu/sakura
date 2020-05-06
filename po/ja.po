@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2019-08-12 16:55+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -189,9 +189,6 @@ msgstr "ベル音を有効にする"
 msgid "Set blinking cursor"
 msgstr "カーソルの点滅を有効にする"
 
-msgid "Enable bold font"
-msgstr "太字フォントを有効にする"
-
 msgid "Stop tab cycling at end tabs"
 msgstr "最後のタブでタブサイクリングを停止"
 
@@ -236,3 +233,6 @@ msgstr "- vte ベースのターミナル・エミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "太字フォントを有効にする"

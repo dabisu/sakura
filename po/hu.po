@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: hu\n"
@@ -191,9 +191,6 @@ msgstr "Hang lejátszása"
 msgid "Set blinking cursor"
 msgstr "Villogó kurzor beállítása"
 
-msgid "Enable bold font"
-msgstr "Vastag betű engedélyezése"
-
 msgid "Stop tab cycling at end tabs"
 msgstr ""
 
@@ -240,3 +237,6 @@ msgstr "- vte alapú terminálemulátor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verzió: %s\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "Vastag betű engedélyezése"

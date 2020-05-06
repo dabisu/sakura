@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -188,9 +188,6 @@ msgstr "Звуковое оповещение"
 msgid "Set blinking cursor"
 msgstr "Мигающий курсор"
 
-msgid "Enable bold font"
-msgstr "Включить жирный шрифт"
-
 msgid "Stop tab cycling at end tabs"
 msgstr ""
 
@@ -237,3 +234,6 @@ msgstr "- эмулятор терминала, основанный на VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Версия sakura %s\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "Включить жирный шрифт"

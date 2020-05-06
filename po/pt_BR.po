@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -195,9 +195,6 @@ msgstr "Ativar aviso sonoro"
 
 msgid "Set blinking cursor"
 msgstr "Ativar cursor piscando"
-
-msgid "Enable bold font"
-msgstr ""
 
 msgid "Stop tab cycling at end tabs"
 msgstr ""

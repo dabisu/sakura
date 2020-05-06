@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2018-05-03 16:14+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -194,9 +194,6 @@ msgstr "Nastavit akustické upozornění"
 msgid "Set blinking cursor"
 msgstr "Nastavit blikající kurzor"
 
-msgid "Enable bold font"
-msgstr "Zapnout tučné písmo"
-
 msgid "Stop tab cycling at end tabs"
 msgstr ""
 
@@ -241,3 +238,6 @@ msgstr "- emulátor terminálu založený na VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "Zapnout tučné písmo"

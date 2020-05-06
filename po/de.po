@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-05 11:52+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2020-05-05 20:01+0200\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -193,9 +193,6 @@ msgstr "Hörbarer Alarm"
 msgid "Set blinking cursor"
 msgstr "Blinkender Cursor"
 
-msgid "Enable bold font"
-msgstr "Fetten Schriftschnitt aktivieren"
-
 msgid "Stop tab cycling at end tabs"
 msgstr ""
 "Den Übergang zum nächsten Reiter mithilfe des Tabulators beim letzten Reiter "
@@ -243,6 +240,9 @@ msgstr "- vte-basierter Terminal-Emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "Fetten Schriftschnitt aktivieren"
 
 #~ msgid "X geometry specification"
 #~ msgstr "X-Fenstergeometrie"

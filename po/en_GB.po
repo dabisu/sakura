@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-12 23:23+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2019-08-12 16:54+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -192,9 +192,6 @@ msgstr "Set audible bell"
 msgid "Set blinking cursor"
 msgstr "Set blinking cursor"
 
-msgid "Enable bold font"
-msgstr "Enable bold font"
-
 msgid "Stop tab cycling at end tabs"
 msgstr "Stop tab cycling at end tabs"
 
@@ -239,3 +236,6 @@ msgstr "- vte-based terminal emulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "Enable bold font"

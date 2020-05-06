@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-05 11:52+0200\n"
+"POT-Creation-Date: 2020-05-06 16:51+0200\n"
 "PO-Revision-Date: 2020-05-05 20:02+0200\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: \n"
@@ -195,9 +195,6 @@ msgstr "Postavi zvučno zvono"
 msgid "Set blinking cursor"
 msgstr "Postavi treperenje pokazivača"
 
-msgid "Enable bold font"
-msgstr "Dozvoli podebljani font"
-
 msgid "Stop tab cycling at end tabs"
 msgstr "Zaustavi prelaženje na kartice pomoću tabulatora na zadnjoj kartici"
 
@@ -242,6 +239,9 @@ msgstr "- emulator terminala temeljen na vte-u"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verzija je %s\n"
+
+#~ msgid "Enable bold font"
+#~ msgstr "Dozvoli podebljani font"
 
 #~ msgid "X geometry specification"
 #~ msgstr "Specifikacija X-geometrije"
