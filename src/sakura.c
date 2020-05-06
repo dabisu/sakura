@@ -370,6 +370,7 @@ static void     sakura_closebutton_clicked (GtkWidget *, void *);
 static void     sakura_conf_changed (GtkWidget *, void *);
 static void     sakura_show_event (GtkWidget *, gpointer);
 /* Notebook callbacks */
+static void 	sakura_switch_page (GtkWidget *widget, GtkWidget *page, guint page_num, void *data);
 static void	sakura_page_removed (GtkWidget *, void *);
 static gboolean sakura_notebook_scroll (GtkWidget *, GdkEventScroll *);
 /* Menuitem callbacks */
@@ -812,6 +813,24 @@ sakura_notebook_scroll(GtkWidget *widget, GdkEventScroll *event)
 
 
 static void
+sakura_switch_page (GtkWidget *widget, GtkWidget *widget_page, guint page_num, void *data)
+{
+	struct terminal *term;
+	const char *title;
+	
+	/* Don't use gtk_notebook_get_current_page in the callbacks, it returns the previous page */
+	
+	term = sakura_get_page_term(sakura, page_num);
+	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
+
+	/* Update the window title when a new tab is selected, but don't override the default */
+	if (option_title == NULL)
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
+
+}
+
+
+static void
 sakura_page_removed (GtkWidget *widget, void *data)
 {
 	if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==1) {
@@ -986,32 +1005,29 @@ sakura_eof (GtkWidget *widget, void *data)
 	//}
 }
 
-/* This handler is called when window title changes, and is used to change window and notebook pages titles */
+/* This handler is called when vte window title changes (i.e.: cwd changes),
+ * and it is used to change window and notebook pages titles */
 static void
 sakura_title_changed (GtkWidget *widget, void *data)
 {
 	struct terminal *term;
-	const char *title;
-	gint n_pages;
+	const char *tabtitle;
 	gint modified_page;
 	VteTerminal *vte_term=(VteTerminal *)widget;
 
+	SAY("title changed event");
+	/* TODO: use the callback page, if provided */
 	modified_page = sakura_find_tab(vte_term);
-	n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, modified_page);
 
-	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
+	tabtitle = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
 
 	/* User set values overrides any other one, but title should be changed */
 	if (!term->label_set_byuser) 
-		sakura_set_tab_label_text(title, modified_page);
+		sakura_set_tab_label_text(tabtitle, modified_page);
 
-	if (option_title == NULL) {
-		if (n_pages==1) {
-			/* Beware: It doesn't work in Unity because there is a Compiz bug: #257391 */
-			gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
-		} else
-			gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
+	if (option_title == NULL) { /* No user set title, so we use the current tab title */
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), tabtitle);
 	} else {
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), option_title);
 	}
@@ -1069,10 +1085,10 @@ sakura_destroy_window (GtkWidget *widget, void *data)
 	sakura_destroy();
 }
 
+
 /**********************/
 /* Menuitem callbacks */
 /**********************/
-
 
 
 static void
@@ -2946,8 +2962,8 @@ sakura_add_tab()
 	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	if(index >= 0) {
 		struct terminal *prev_term;
-		prev_term = sakura_get_page_term( sakura, index );
-		cwd = sakura_get_term_cwd( prev_term );
+		prev_term = sakura_get_page_term(sakura, index);
+		cwd = sakura_get_term_cwd(prev_term);
 
 		term->colorset = prev_term->colorset;
 	}
@@ -2978,6 +2994,7 @@ sakura_add_tab()
 	g_signal_connect_swapped(G_OBJECT(term->vte), "button-press-event", G_CALLBACK(sakura_button_press), sakura.menu);
 
 	/* Notebook signals */
+	g_signal_connect(G_OBJECT(sakura.notebook), "switch-page", G_CALLBACK(sakura_switch_page), NULL);
 	g_signal_connect(G_OBJECT(sakura.notebook), "page-removed", G_CALLBACK(sakura_page_removed), NULL);
 	if (sakura.show_closebutton) {
 		g_signal_connect(G_OBJECT(close_button), "clicked", G_CALLBACK(sakura_closebutton_clicked), term->hbox);
@@ -3158,18 +3175,6 @@ sakura_del_tab(gint page)
 
 	term = sakura_get_page_term(sakura, page);
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-
-	/* When there's only one tab use the shell title, if provided */
-	if (npages==2) {
-		const char *title;
-
-		term = sakura_get_page_term(sakura, 0);
-		title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
-		if (title!=NULL) 
-			gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
-	}
-
-	term = sakura_get_page_term(sakura, page);
 
 	/* Do the first tab checks BEFORE deleting the tab, to ensure correct
 	 * sizes are calculated when the tab is deleted */
