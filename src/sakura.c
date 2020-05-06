@@ -660,7 +660,7 @@ sakura_focus_in(GtkWidget *widget, GdkEvent *event, void *data)
 		}
 
 		sakura_set_colors();
-		return TRUE;
+		return FALSE;
 	}
 
  	return FALSE;
@@ -680,7 +680,7 @@ sakura_focus_out(GtkWidget *widget, GdkEvent *event, void *data)
 		}
 
 		sakura_set_colors();
-		return TRUE;
+		return FALSE;
 	}
 
  	return FALSE;
@@ -705,8 +705,9 @@ sakura_focus_out(GtkWidget *widget, GdkEvent *event, void *data)
 //
 //	return FALSE;
 //}
-//
-//
+
+
+
 /* Callback for the tabs close buttons */
 static void
 sakura_closebutton_clicked(GtkWidget *widget, void *data)
