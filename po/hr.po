@@ -1,37 +1,39 @@
-# Copyright (C) 2006
-# This file is distributed under the same license as the sakura package.
-# David Gómez <david@pleyades.net>
+# Croatian translation for Sakura.
+# Copyright (C) 2008 David Gómez
+# This file is distributed under the same license as the Sakura package.
+# gogo <trebelnik2@gmail.com>, 2018.
+# Milo Ivir <mail@milotype.de>, 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Sakura 2.3.2\n"
+"Project-Id-Version: Sakura 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-27 07:11+0000\n"
-"PO-Revision-Date: 2018-04-29 13:18+0000\n"
-"Last-Translator: gogo <trebelnik2@gmail.com>\n"
-"Language-Team: brentaal <Unknown>\n"
+"POT-Creation-Date: 2020-05-06 04:01+0000\n"
+"PO-Revision-Date: 2020-05-06 05:00+0000\n"
+"Last-Translator: Milo Ivir <Unknown>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-12-28 05:41+0000\n"
-"X-Generator: Launchpad (build bceb5ef013b87ef7aafe0755545ceb689ca7ac60)\n"
+"X-Launchpad-Export-Date: 2020-05-06 05:44+0000\n"
+"X-Generator: Launchpad (build fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398)\n"
 "Language: hr\n"
 
 #: ../src/sakura.c:452
 msgid "Print version number"
-msgstr "Ispiši inačicu"
+msgstr "Ispiši broj verzije"
 
 #: ../src/sakura.c:453
 msgid "Select initial terminal font"
-msgstr "Postavi početni font terminala"
+msgstr "Odaberi font terminala"
 
 #: ../src/sakura.c:454
 msgid "Select initial number of tabs"
-msgstr "Postavi početni broj kartica"
+msgstr "Odaberi broj kartica"
 
 #: ../src/sakura.c:455
 msgid "Set working directory"
-msgstr ""
+msgstr "Postavi radnu mapu"
 
 #: ../src/sakura.c:456
 msgid "Execute command"
@@ -39,11 +41,11 @@ msgstr "Izvrši naredbu"
 
 #: ../src/sakura.c:457
 msgid "Execute command (last option in the command line)"
-msgstr "Izvršite naredbu (zadnja opcija u naredbenoj liniji)"
+msgstr "Izvrši naredbu (zadnja opcija u naredbenom retku)"
 
 #: ../src/sakura.c:459
 msgid "Login shell"
-msgstr "Prijavna ljuska"
+msgstr "Ljuska prijave"
 
 #: ../src/sakura.c:460 ../src/sakura.c:1394
 msgid "Set window title"
@@ -51,7 +53,7 @@ msgstr "Postavi naslov prozora"
 
 #: ../src/sakura.c:461
 msgid "Set window icon"
-msgstr ""
+msgstr "Postavi ikonu prozora"
 
 #: ../src/sakura.c:463
 msgid "Set columns number"
@@ -67,11 +69,11 @@ msgstr "Zadrži prozor nakon izvršavanja naredbe"
 
 #: ../src/sakura.c:466
 msgid "Maximize window"
-msgstr ""
+msgstr "Raširi prozor maksimalno"
 
 #: ../src/sakura.c:467
 msgid "Fullscreen mode"
-msgstr ""
+msgstr "Cjeloekranski prikaz"
 
 #: ../src/sakura.c:468
 msgid "Use alternate configuration file"
@@ -79,7 +81,7 @@ msgstr "Koristi alternativnu konfiguracijsku datoteku"
 
 #: ../src/sakura.c:469
 msgid "Select initial colorset"
-msgstr ""
+msgstr "Odaberi skup boja"
 
 #: ../src/sakura.c:735 ../src/sakura.c:1796
 msgid ""
@@ -87,9 +89,9 @@ msgid ""
 "\n"
 "Do you really want to close it?"
 msgstr ""
-"Pokrenuti su procesi unutar ovog terminala.\n"
+"U ovom terminalu postoji jedan aktivan proces.\n"
 "\n"
-"Želite li zbilja zatvoriti terminal?"
+"Stvarno zatvoriti terminal?"
 
 #: ../src/sakura.c:1045
 msgid ""
@@ -97,26 +99,26 @@ msgid ""
 "\n"
 "Do you really want to close Sakura?"
 msgstr ""
-"Pokrenuti su procesi.\n"
+"Postoje aktivni procesi.\n"
 "\n"
-"Želite li zbilja zatvoriti Sakura aplikaciju?"
+"Stvarno zatvoriti Sakura?"
 
 #: ../src/sakura.c:1084
 msgid "Select font"
-msgstr "Postavite font"
+msgstr "Odaberi font"
 
 #: ../src/sakura.c:1115
 msgid "Set tab name"
-msgstr "Postavite ime kartice"
+msgstr "Postavi ime kartice"
 
 #: ../src/sakura.c:1118 ../src/sakura.c:1226 ../src/sakura.c:1355
 #: ../src/sakura.c:1397
 msgid "_Cancel"
-msgstr ""
+msgstr "_Odustani"
 
 #: ../src/sakura.c:1119 ../src/sakura.c:1356 ../src/sakura.c:1398
 msgid "_Apply"
-msgstr ""
+msgstr "_Primijeni"
 
 #: ../src/sakura.c:1131
 msgid "New text"
@@ -124,51 +126,51 @@ msgstr "Novi tekst"
 
 #: ../src/sakura.c:1223
 msgid "Select colors"
-msgstr ""
+msgstr "Odaberi boje"
 
 #: ../src/sakura.c:1227
 msgid "_Select"
-msgstr ""
+msgstr "_Odaberi"
 
 #: ../src/sakura.c:1237
 msgid "Colorset"
-msgstr ""
+msgstr "Skup boja"
 
 #: ../src/sakura.c:1249
 msgid "Foreground color"
-msgstr ""
+msgstr "Prednja boja"
 
 #: ../src/sakura.c:1250
 msgid "Background color"
-msgstr ""
+msgstr "Stražnja boja"
 
 #: ../src/sakura.c:1251
 msgid "Cursor color"
-msgstr ""
+msgstr "Boja pokazivača"
 
 #: ../src/sakura.c:1260
 msgid "Opacity level (%)"
-msgstr ""
+msgstr "Razina neporozirnosti (%)"
 
 #: ../src/sakura.c:1352 ../src/sakura.c:1365
 msgid "Search"
-msgstr ""
+msgstr "Traži"
 
 #: ../src/sakura.c:1407
 msgid "New window title"
-msgstr "Novi naslov prozora"
+msgstr "Naslov novog prozora"
 
 #: ../src/sakura.c:2327
 msgid "Open mail"
-msgstr ""
+msgstr "Otvori e-poštu"
 
 #: ../src/sakura.c:2328
 msgid "Open link"
-msgstr ""
+msgstr "Otvori poveznicu"
 
 #: ../src/sakura.c:2329
 msgid "Copy link"
-msgstr ""
+msgstr "Kopiraj poveznicu"
 
 #: ../src/sakura.c:2330
 msgid "New tab"
@@ -176,7 +178,7 @@ msgstr "Nova kartica"
 
 #: ../src/sakura.c:2331
 msgid "Set tab name..."
-msgstr "Postavite ime kartice..."
+msgstr "Postavi ime kartice …"
 
 #: ../src/sakura.c:2332
 msgid "Close tab"
@@ -184,7 +186,7 @@ msgstr "Zatvori karticu"
 
 #: ../src/sakura.c:2333
 msgid "Full screen"
-msgstr "Prikaz preko cijelog zaslona"
+msgstr "Cjeloekranski prikaz"
 
 #: ../src/sakura.c:2334
 msgid "Copy"
@@ -192,19 +194,19 @@ msgstr "Kopiraj"
 
 #: ../src/sakura.c:2335
 msgid "Paste"
-msgstr "Zalijepi"
+msgstr "Paste"
 
 #: ../src/sakura.c:2336
 msgid "Select font..."
-msgstr "Postavi font..."
+msgstr "Odaberi font …"
 
 #: ../src/sakura.c:2337
 msgid "Select colors..."
-msgstr "Postavi boje..."
+msgstr "Odaberi boje …"
 
 #: ../src/sakura.c:2338
 msgid "Set window title..."
-msgstr "Postavi naslov prozora"
+msgstr "Postavi naslov prozora …"
 
 #: ../src/sakura.c:2340
 msgid "Options"
@@ -216,15 +218,15 @@ msgstr "Više"
 
 #: ../src/sakura.c:2343
 msgid "Always show tab bar"
-msgstr "Uvijek prikaži tablu s karticama"
+msgstr "Uvijek prikaži traku s karticama"
 
 #: ../src/sakura.c:2344
 msgid "Tabs at bottom"
-msgstr "Kartice na dnu"
+msgstr "Kartice dolje"
 
 #: ../src/sakura.c:2345
 msgid "Show close button on tabs"
-msgstr "Prikaži gumb za zatvaranje na karticama"
+msgstr "Prikaži gumb zatvaranja na karticama"
 
 #: ../src/sakura.c:2346
 msgid "Show scrollbar"
@@ -232,11 +234,11 @@ msgstr "Prikaži kliznu traku"
 
 #: ../src/sakura.c:2347
 msgid "Less questions at exit time"
-msgstr ""
+msgstr "Manje pitanja pri zatvaranju programa"
 
 #: ../src/sakura.c:2348
 msgid "Set urgent bell"
-msgstr ""
+msgstr "Postavi hitno zvono"
 
 #: ../src/sakura.c:2349
 msgid "Set audible bell"
@@ -244,39 +246,39 @@ msgstr "Postavi zvučno zvono"
 
 #: ../src/sakura.c:2350
 msgid "Set blinking cursor"
-msgstr "Koristi treptajući pokazivač"
+msgstr "Postavi treperenje pokazivača"
 
 #: ../src/sakura.c:2351
 msgid "Enable bold font"
-msgstr ""
+msgstr "Dozvoli podebljani font"
 
 #: ../src/sakura.c:2352
 msgid "Stop tab cycling at end tabs"
-msgstr ""
+msgstr "Zaustavi prelaženje na kartice pomoću tabulatora na zadnjoj kartici"
 
 #: ../src/sakura.c:2353
 msgid "Disable numbered tabswitch"
-msgstr ""
+msgstr "Deaktiviraj prekidač numeriranih kartica"
 
 #: ../src/sakura.c:2354
 msgid "Enable focus fade"
-msgstr ""
+msgstr "Aktiviraj postupni prijelaz"
 
 #: ../src/sakura.c:2355
 msgid "Set cursor type"
-msgstr "Postavi tip kursora"
+msgstr "Postavi vrstu pokazivača"
 
 #: ../src/sakura.c:2356
 msgid "Block"
-msgstr "Blok"
+msgstr "Pravokutnik"
 
 #: ../src/sakura.c:2357
 msgid "Underline"
-msgstr "Podcrtano"
+msgstr "Podvučeno"
 
 #: ../src/sakura.c:2358
 msgid "IBeam"
-msgstr "IBeam"
+msgstr "Okomita crta"
 
 #: ../src/sakura.c:2359
 msgid "Set palette"
@@ -290,16 +292,16 @@ msgstr "Terminal %d"
 
 #: ../src/sakura.c:3221
 msgid "Configuration has been modified by another process. Overwrite?"
-msgstr ""
+msgstr "Jedan drugi proces je promijenio konfiguraciju. Prepisati?"
 
 #: ../src/sakura.c:3275
 msgid "Error message"
-msgstr "Poruka o pogrešci"
+msgstr "Poruka greške"
 
 #: ../src/sakura.c:3391 ../src/sakura.c:3458
 #, c-format
 msgid "Cannot change working directory\n"
-msgstr ""
+msgstr "Radna mapa se ne može promijeniti\n"
 
 #: ../src/sakura.c:3444
 msgid "- vte-based terminal emulator"
@@ -308,4 +310,16 @@ msgstr "- emulator terminala temeljen na vte-u"
 #: ../src/sakura.c:3463
 #, c-format
 msgid "sakura version is %s\n"
-msgstr "inačica Sakure je %s\n"
+msgstr "sakura verzija je %s\n"
+
+#~ msgid "X geometry specification"
+#~ msgstr "Specifikacija X-geometrije"
+
+#~ msgid "Configuration has been modified. Save?"
+#~ msgstr "Konfiguracija je promijenjena. Spremiti?"
+
+#~ msgid "Don't show exit dialog"
+#~ msgstr "Ne prikazuj dijalog za zatvaranje programa"
+
+#~ msgid "Use focus fading"
+#~ msgstr "Koristi postupan prijelaz fokusa"
