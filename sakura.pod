@@ -162,8 +162,8 @@ Before sakura used keycodes instead of strings. They're still valid.
     Ctrl + Shift + W                 -> Close current tab
     Ctrl + Shift + C                 -> Copy selected text
     Ctrl + Shift + V                 -> Paste selected text
-    Alt  + Left cursor               -> Previous tab
-    Alt  + Right cursor              -> Next tab
+    Ctrl + Left cursor               -> Previous tab
+    Ctrl + Right cursor              -> Next tab
     Alt  + [1-9]                     -> Switch to tab N (1-9)
     Ctrl + Shift + S                 -> Toggle scrollbar
     Ctrl + Shift + Mouse left button -> Open link
