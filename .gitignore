@@ -1,0 +1,10 @@
+cmake_install.cmake
+CMakeFiles
+CMakeCache.txt
+Makefile
+*.gmo
+*.mo
+po/sakura.pot
+install_manifest.txt
+src/sakura
+sakura.1
