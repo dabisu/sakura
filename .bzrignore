@@ -1,9 +1,0 @@
-cmake_install.cmake
-CMakeFiles
-CMakeCache.txt
-Makefile
-*.gmo
-*.mo
-install_manifest.txt
-src/sakura
-sakura.1
