@@ -385,13 +385,14 @@ static gboolean sakura_key_press (GtkWidget *, GdkEventKey *, gpointer);
 static gboolean sakura_resized_window (GtkWidget *, GdkEventConfigure *, void *);
 static gboolean sakura_focus_in (GtkWidget *, GdkEvent *, void *);
 static gboolean sakura_focus_out (GtkWidget *, GdkEvent *, void *);
-static void     sakura_closebutton_clicked (GtkWidget *, void *);
 static void     sakura_conf_changed (GtkWidget *, void *);
 static void     sakura_show_event (GtkWidget *, gpointer);
-/* Notebook callbacks */
+/* Notebook, notebook labels and notebook buttons callbacks */
 static void 	sakura_switch_page (GtkWidget *widget, GtkWidget *page, guint page_num, void *data);
-static void	sakura_page_removed (GtkWidget *, void *);
+static void		sakura_page_removed (GtkWidget *, void *);
 static gboolean sakura_notebook_scroll (GtkWidget *, GdkEventScroll *);
+static void		sakura_label_clicked (GtkWidget *, void *);
+static void     sakura_closebutton_clicked (GtkWidget *, void *);
 /* Menuitem callbacks */
 static void     sakura_font_dialog (GtkWidget *, void *);
 static void     sakura_set_name_dialog (GtkWidget *, void *);
@@ -772,6 +773,58 @@ sakura_closebutton_clicked(GtkWidget *widget, void *data)
 	}
 }
 
+
+/* Callback for the tabs labels */
+static void
+sakura_closebutton_clicked(GtkWidget *widget, void *data)
+{
+	gint page;
+	GtkWidget *hbox=(GtkWidget *)data;
+	struct terminal *term;
+	pid_t pgid;
+	GtkWidget *dialog;
+	gint npages, response;
+
+	page = gtk_notebook_page_num(GTK_NOTEBOOK(sakura.notebook), hbox);
+	term = sakura_get_page_term(sakura, page);
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+
+	SAY("SOME LABEL WAS CLICKED");
+	/* Check if the middle button was clicked */
+
+	/* If clicked, close the tab */
+
+	/* Only write configuration to disk if it's the last tab */
+	if (npages==1) {
+		sakura_config_done();
+	}
+
+	/* Check if there are running processes for this tab. Use tcgetpgrp to compare to the shell PGID */
+	pgid = tcgetpgrp(vte_pty_get_fd(vte_terminal_get_pty(VTE_TERMINAL(term->vte))));
+	
+	if ( (pgid != -1) && (pgid != term->pid) && (!sakura.less_questions) ) {
+			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+										  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+										  _("There is a running process in this terminal.\n\nDo you really want to close it?"));
+
+			response=gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
+
+			if (response==GTK_RESPONSE_YES) {
+				sakura_del_tab(page);
+
+				if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+					sakura_destroy();
+			}
+	} else {  /* No processes, hell with tab */
+
+		sakura_del_tab(page);
+
+		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+			sakura_destroy();
+	}
+	
+}
 
 static void
 sakura_show_event(GtkWidget *widget, gpointer data)
@@ -2989,8 +3042,11 @@ sakura_add_tab()
 	g_signal_connect_swapped(G_OBJECT(term->vte), "button-press-event", G_CALLBACK(sakura_button_press), sakura.menu);
 
 	/* Notebook signals */
+	/* TODO: Per notebook signal should be in sakura_init. Check nothing brokes before moving */
 	g_signal_connect(G_OBJECT(sakura.notebook), "switch-page", G_CALLBACK(sakura_switch_page), NULL);
 	g_signal_connect(G_OBJECT(sakura.notebook), "page-removed", G_CALLBACK(sakura_page_removed), NULL);
+	/* We need the hbox to know which label/button was clicked */
+	g_signal_connect(G_OBJECT(term->label), "clicked", G_CALLBACK(sakura_label_clicked), term->hbox);
 	if (sakura.show_closebutton) {
 		g_signal_connect(G_OBJECT(close_button), "clicked", G_CALLBACK(sakura_closebutton_clicked), term->hbox);
 	}
