@@ -776,7 +776,7 @@ sakura_closebutton_clicked(GtkWidget *widget, void *data)
 
 /* Callback for the tabs labels */
 static void
-sakura_closebutton_clicked(GtkWidget *widget, void *data)
+sakura_label_clicked(GtkWidget *widget, void *data)
 {
 	gint page;
 	GtkWidget *hbox=(GtkWidget *)data;
