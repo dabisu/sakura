@@ -204,6 +204,7 @@ const GdkRGBA rxvt_palette[PALETTE_SIZE] = {
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include <pcre2.h>
 
+/* Global sakura data */
 static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
@@ -279,15 +280,16 @@ static struct {
 	char *argv[3];
 } sakura;
 
+/* Data associated to each sakura tab */
 struct terminal {
 	GtkWidget *hbox;
-	GtkWidget *vte;     /* Reference to VTE terminal */
-	GPid pid;          /* pid of the forked process */
-	GtkWidget *scrollbar;
 	GtkWidget *label;
-	bool label_set_byuser;
+	GtkWidget *vte;      /* Reference to VTE terminal */
+	GtkWidget *scrollbar;
 	GtkBorder padding;   /* inner-property data */
+	bool label_set_byuser;
 	int colorset;
+	GPid pid;           /* pid of the forked process */
 	gulong exit_handler_id;
 };
 
