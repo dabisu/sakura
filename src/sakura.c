@@ -388,10 +388,10 @@ static gboolean sakura_focus_out (GtkWidget *, GdkEvent *, void *);
 static void     sakura_conf_changed (GtkWidget *, void *);
 static void     sakura_show_event (GtkWidget *, gpointer);
 /* Notebook, notebook labels and notebook buttons callbacks */
-static void 	sakura_switch_page (GtkWidget *widget, GtkWidget *page, guint page_num, void *data);
-static void		sakura_page_removed (GtkWidget *, void *);
+static void     sakura_switch_page (GtkWidget *widget, GtkWidget *page, guint page_num, void *data);
+static void     sakura_page_removed (GtkWidget *, void *);
 static gboolean sakura_notebook_scroll (GtkWidget *, GdkEventScroll *);
-static void		sakura_label_clicked (GtkWidget *, void *);
+static void     sakura_label_clicked (GtkWidget *, void *);
 static void     sakura_closebutton_clicked (GtkWidget *, void *);
 /* Menuitem callbacks */
 static void     sakura_font_dialog (GtkWidget *, void *);
@@ -776,7 +776,7 @@ sakura_closebutton_clicked(GtkWidget *widget, void *data)
 
 /* Callback for the tabs labels */
 static void
-sakura_label_clicked(GtkWidget *widget, void *data)
+sakura_label_clicked(GtkWidget *widget, GdkEventButton button_event, void *data)
 {
 	gint page;
 	GtkWidget *hbox=(GtkWidget *)data;
@@ -791,6 +791,13 @@ sakura_label_clicked(GtkWidget *widget, void *data)
 
 	SAY("SOME LABEL WAS CLICKED");
 	/* Check if the middle button was clicked */
+	if (button_event->type != GDK_BUTTON_PRESS)
+		SAY("NO BUTTON PRESS");
+		//return FALSE;
+
+	if (button_event->button == 1) SAY("LEFT");
+	if (button_event->button == 2) SAY("RIGHT");
+	if (button_event->button == 3) SAY("MIDDLE");
 
 	/* If middle button was clicked, close the tab */
 	if (0) {
@@ -2972,14 +2979,16 @@ sakura_add_tab()
 
 	term = g_new0( struct terminal, 1 );
 
-	event_box=gtk_event_box_new();
+	/* Create the tab label */
 	term->label=gtk_label_new(NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (term->label), PANGO_ELLIPSIZE_END);
+	event_box=gtk_event_box_new(); /* Label widgets has no window associated, so we need an event box to catch click events */
 	gtk_container_add(GTK_CONTAINER(event_box), term->label);
 	gtk_widget_set_events(event_box, GDK_BUTTON_PRESS_MASK);
 	
+	/* Create hbox for our label & button */
 	tab_label_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_widget_set_hexpand(tab_label_hbox, TRUE);
-	gtk_label_set_ellipsize (GTK_LABEL (term->label), PANGO_ELLIPSIZE_END);
 	gtk_box_pack_start(GTK_BOX(tab_label_hbox), event_box, TRUE, FALSE, 0);
 	
 	/* If the tab close button is enabled, create and add it to the tab */
