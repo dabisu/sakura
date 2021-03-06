@@ -57,7 +57,7 @@ INSTALL (FILES terminal-tango.svg DESTINATION share/pixmaps)
 IF (POD2MAN)	
 	INSTALL (FILES ${sakura_BINARY_DIR}/sakura.1 DESTINATION share/man/man1)	
 ENDIF (POD2MAN)
-INSTALL (FILES INSTALL DESTINATION share/doc/sakura)	
+INSTALL (FILES README.md DESTINATION share/doc/sakura)	
 
 FILE (GLOB MO_FILES po/*.mo)
 
