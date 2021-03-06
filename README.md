@@ -68,11 +68,22 @@ To change default keys, set the key value you want to modify to your desired key
 	Ctrl + Shift + Down              -> Move down through scrollback by line
 	Ctrl + Shift + [F1-F6]           -> Select the colorset for the current tab
 
-You can also increase and decrease the font size in the GTK standard way (not configurable):
+You can also increase and decrease the font size in the GTK standard way:
  
 	Ctrl + '+'                                -> Increase font size
 	Ctrl + '-'                                -> Decrease font size
 
+By default, mouse buttons are bound to the following:
+
+	Button1                          -> No action
+	Button2                          -> Paste
+	Button3                          -> Context menu
+
+Behavior can be changed with the following config settings:
+
+	copy_on_select                   -> set to true to automatically copy selected text
+	paste_button                     -> set to desired mouse button (default: 2)
+	menu_button                      -> set to desired mouse button (default: 3)
 
 ## Contributing
 Pull requests are welcome. But please, create first a bug report in [Launchpad](https://bugs.launchpad.net/sakura), particularly if you plan to make major changes, to make sure your patch will be merged into **sakura**. If you'd like to contribute with translations, use the translations framework in [Launchpad](https://translations.launchpad.net/sakura) or send [me](mailto:dabisu@gmail.com) directly the translated po file.

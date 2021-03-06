@@ -278,6 +278,9 @@ static struct {
 	gint set_colorset_keys[NUM_COLORSETS];
 	VteRegex *http_vteregexp, *mail_vteregexp;
 	char *argv[3];
+	bool copy_on_select;
+	gint paste_button;
+	gint menu_button;
 } sakura;
 
 /* Data associated to each sakura tab */
@@ -335,6 +338,9 @@ struct sakura_tab {
 #define DEFAULT_INCREASE_FONT_SIZE_KEY GDK_KEY_plus
 #define DEFAULT_DECREASE_FONT_SIZE_KEY GDK_KEY_minus
 #define DEFAULT_SCROLLABLE_TABS TRUE
+#define DEFAULT_COPY_ON_SELECT FALSE
+#define DEFAULT_PASTE_BUTTON 2
+#define DEFAULT_MENU_BUTTON 3
 
 /* make this an array instead of #defines to get a compile time
  * error instead of a runtime if NUM_COLORSETS changes */
@@ -376,6 +382,7 @@ static GQuark term_data_id = 0;
 void sakura_spawm_callback (VteTerminal *, GPid, GError, gpointer);
 /* VTE callbacks */
 static gboolean sakura_button_press (GtkWidget *, GdkEventButton *, gpointer);
+static gboolean sakura_button_release (GtkWidget *, GdkEventButton *, gpointer);
 static void     sakura_beep (GtkWidget *, void *);
 static void     sakura_increase_font (GtkWidget *, void *);
 static void     sakura_decrease_font (GtkWidget *, void *);
@@ -927,6 +934,28 @@ sakura_page_removed (GtkWidget *widget, void *data)
 /*****************/
 
 static gboolean
+sakura_button_release(GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
+{
+	struct sakura_tab *sk_tab;
+	gint page;
+
+	if (button_event->type != GDK_BUTTON_RELEASE)
+		return FALSE;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	sk_tab = sakura_get_sktab(sakura, page);
+
+	if (sakura.copy_on_select
+		&& button_event->button == 1
+		&& vte_terminal_get_has_selection(VTE_TERMINAL(sk_tab->vte))) {
+		sakura_copy(NULL, NULL);
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
 sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
 {
 	struct sakura_tab *sk_tab;
@@ -951,8 +980,13 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 		return TRUE;
 	}
 
-	/* Right button: show the popup menu */
-	if (button_event->button == 3) {
+	/* paste button? */
+	if (button_event->button == sakura.paste_button) {
+		sakura_paste(NULL, NULL);
+	}
+
+	/* menu button? show the popup menu */
+	if (button_event->button == sakura.menu_button) {
 		GtkMenu *menu;
 		menu = GTK_MENU (widget);
 
@@ -2260,6 +2294,21 @@ sakura_init()
 	}
 	sakura.icon = g_key_file_get_string(sakura.cfg, cfg_group, "icon_file", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_on_select", NULL)) {
+		sakura_set_config_boolean("copy_on_select", DEFAULT_COPY_ON_SELECT);
+	}
+	sakura.copy_on_select = g_key_file_get_boolean(sakura.cfg, cfg_group, "copy_on_select", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "paste_button", NULL)) {
+		sakura_set_config_integer("paste_button", DEFAULT_PASTE_BUTTON);
+	}
+	sakura.paste_button = g_key_file_get_integer(sakura.cfg, cfg_group, "paste_button", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "menu_button", NULL)) {
+		sakura_set_config_integer("menu_button", DEFAULT_MENU_BUTTON);
+	}
+	sakura.menu_button = g_key_file_get_integer(sakura.cfg, cfg_group, "menu_button", NULL);
+
 	/* set default title pattern from config or NULL */
 	sakura.tab_default_title = g_key_file_get_string(sakura.cfg, cfg_group, "tab_default_title", NULL);
 
@@ -3059,6 +3108,7 @@ sakura_add_tab()
 	g_signal_connect(G_OBJECT(sk_tab->vte), "eof", G_CALLBACK(sakura_eof), NULL);
 	g_signal_connect(G_OBJECT(sk_tab->vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
 	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-press-event", G_CALLBACK(sakura_button_press), sakura.menu);
+	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-release-event", G_CALLBACK(sakura_button_release), sakura.menu);
 
 	/* Notebook signals */
 	/* TODO: Per notebook signal should be in sakura_init. Check nothing brokes before moving */
