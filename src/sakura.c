@@ -214,6 +214,7 @@ static struct {
 	GdkRGBA backcolors[NUM_COLORSETS];
 	GdkRGBA curscolors[NUM_COLORSETS];
 	const GdkRGBA *palette;
+	gint last_colorset;
 	char *current_match;
 	guint width;
 	guint height;
@@ -241,7 +242,8 @@ static struct {
 	bool faded;			 /* Fading state */
 	bool use_fading;
 	bool scrollable_tabs;
-	GtkWidget *item_copy_link;       /* We include here only the items which need to be hidden */
+	bool copy_on_select;		/* Automatically copy to clipboard on selected text */
+	GtkWidget *item_copy_link;	/* We include here only the items which need to be hidden */
 	GtkWidget *item_open_link;
 	GtkWidget *item_open_mail;
 	GtkWidget *open_link_separator;
@@ -249,9 +251,7 @@ static struct {
 	GtkCssProvider *provider;
 	char *configfile;
 	char *icon;
-	char *word_chars;                /* Exceptions for word selection */
 	gchar *tab_default_title;
-	gint last_colorset;
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
 	gint switch_tab_accelerator;
@@ -276,11 +276,11 @@ static struct {
 	gint increase_font_size_key;
 	gint decrease_font_size_key;
 	gint set_colorset_keys[NUM_COLORSETS];
-	VteRegex *http_vteregexp, *mail_vteregexp;
-	char *argv[3];
-	bool copy_on_select;
 	gint paste_button;
 	gint menu_button;
+	VteRegex *http_vteregexp, *mail_vteregexp;
+	char *word_chars;                /* Exceptions for word selection */
+	char *argv[3];
 } sakura;
 
 /* Data associated to each sakura tab */
@@ -717,27 +717,6 @@ sakura_focus_out(GtkWidget *widget, GdkEvent *event, void *data)
 }
 
 
-/* Handler for notebook focus-in-event */
-//static gboolean
-//sakura_notebook_focus_in(GtkWidget *widget, void *data)
-//{
-//	struct sakura_tab *sk_tab;
-//	int index;
-//
-//	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-//	sk_tab = sakura_get_sktab(sakura, index);
-//
-//	/* If sk_tab is found stop event propagation */
-//	if(sk_tab != NULL) {
-//		gtk_widget_grab_focus(sk_tab->vte);
-//		return TRUE;
-//	}
-//
-//	return FALSE;
-//}
-
-
-
 /* Callback for the tabs close buttons */
 static void
 sakura_closebutton_clicked(GtkWidget *widget, void *data)
@@ -845,7 +824,7 @@ sakura_label_clicked(GtkWidget *widget, GdkEventButton *button_event, void *data
 static void
 sakura_show_event(GtkWidget *widget, gpointer data)
 {
-	// set size when the window is first shown
+	/* Set size when the window is first shown */
 	sakura_set_size();
 }
 
@@ -980,12 +959,12 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 		return TRUE;
 	}
 
-	/* paste button? */
+	/* Paste when paste button is pressed */
 	if (button_event->button == sakura.paste_button) {
 		sakura_paste(NULL, NULL);
 	}
 
-	/* menu button? show the popup menu */
+	/* Show the popup menu whe menu button is pressed */
 	if (button_event->button == sakura.menu_button) {
 		GtkMenu *menu;
 		menu = GTK_MENU (widget);
@@ -1027,8 +1006,8 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 static void
 sakura_beep (GtkWidget *widget, void *data)
 {
-	// Remove the urgency hint. This is necessary to signal the window manager
-	// that a new urgent event happened when the urgent hint is set after this.
+	/* Remove the urgency hint. This is necessary to signal the window manager  */
+	/* that a new urgent event happened when the urgent hint is set after this. */
 	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
 
 	if (sakura.urgent_bell) {
@@ -1105,19 +1084,7 @@ sakura_child_exited (GtkWidget *widget, void *data)
 static void
 sakura_eof (GtkWidget *widget, void *data)
 {
-	//gint npages;
-
 	SAY("Got EOF signal");
-
-	//npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-
-	/* This call to config_done seems unnecesary because is already being called from child_exited */
-
-	/* Only write configuration to disk if it's the last tab */
-	//if (npages==1) {
-	//	SAY("sakura_eof: config_done");
-	//	sakura_config_done();
-	//}
 }
 
 /* This handler is called when vte window title changes (i.e.: cwd changes),
@@ -1308,7 +1275,7 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 	GdkRGBA *temp_curs_colors = g_object_get_data( G_OBJECT(dialog), "curs");
 	selected = gtk_combo_box_get_active( set );
 
-	/* if we come here as a result of a change in the active colorset,
+	/* If we come here as a result of a change in the active colorset,
 	 * load the new colorset to the buttons.
 	 * Else, the colorselect buttons or opacity spin have gotten a new
 	 * value, store that. */
@@ -1585,18 +1552,19 @@ sakura_open_url (GtkWidget *widget, void *data)
 
 	if (!browser) {
 		if ( !(browser = g_find_program_in_path("xdg-open")) ) {
-			/* TODO: Legacy for systems without xdg-open. This should be removed */
-			browser = g_strdup("firefox");
+			sakura_error("Browser not found");
 		}
 	}
 
-	gchar * argv[] = {browser, sakura.current_match, NULL};
-	if (!g_spawn_async(".", argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error)) {
-		sakura_error("Couldn't exec \"%s %s\": %s", browser, sakura.current_match, error->message);
-		g_error_free(error);
-	}
+	if (browser) {
+		gchar * argv[] = {browser, sakura.current_match, NULL};
+		if (!g_spawn_async(".", argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error)) {
+			sakura_error("Couldn't exec \"%s %s\": %s", browser, sakura.current_match, error->message);
+			g_error_free(error);
+		}
 
-	g_free(browser);
+		g_free(browser);
+	}
 }
 
 
@@ -2413,7 +2381,6 @@ sakura_init()
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
 
 	/* Adding mask to see wheter sakura window is focused or not */
-	//gtk_widget_add_events(sakura.main_window, GDK_FOCUS_CHANGE_MASK);
 	sakura.focused = true;
 	sakura.first_focus = true;
 	sakura.faded = false;
@@ -2427,7 +2394,6 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "focus-out-event", G_CALLBACK(sakura_focus_out), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "focus-in-event", G_CALLBACK(sakura_focus_in), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_show_event), NULL);
-	//g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus_in), NULL);
 	g_signal_connect(sakura.notebook, "scroll-event", G_CALLBACK(sakura_notebook_scroll), NULL);
 }
 
@@ -2584,7 +2550,6 @@ sakura_init_popup()
 	sakura.open_link_separator=gtk_separator_menu_item_new();
 
 	sakura.menu=gtk_menu_new();
-	//sakura.labels_menu=gtk_menu_new();
 
 	/* Add items to popup menu */
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), sakura.item_open_mail);
