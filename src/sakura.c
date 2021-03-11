@@ -317,7 +317,7 @@ struct sakura_tab {
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
-#define DEFAULT_MOVE_TAB_ACCELERATOR (GDK_MOD1_MASK)
+#define DEFAULT_MOVE_TAB_ACCELERATOR (GDK_MOD1_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_COPY_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SCROLLBAR_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_OPEN_URL_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
@@ -782,10 +782,18 @@ sakura_label_clicked(GtkWidget *widget, GdkEventButton *button_event, void *data
 	if (button_event->type != GDK_BUTTON_PRESS) 
 		return FALSE;
 	
-	/* Ignore left and right clicks, but propagate the event */
-	if (button_event->button != 2) 
+	/* Left button click. We do not propagate the event to avoid lost focus problems
+	 * in the vte terminal, so we need to set the current tab ourselves  */
+	if (button_event->button == 1) {
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), page);
+		return TRUE;
+	}
+
+	/* Ignore right click and propagate the event */
+	if (button_event->button == 3) 
 		return FALSE;
 	
+
 	/* The middle button was clicked, so close the tab */
 
 	/* Only write configuration to disk if it's the last tab */
@@ -886,7 +894,7 @@ sakura_switch_page (GtkWidget *widget, GtkWidget *widget_page, guint page_num, v
 	const char *title;
 	
 	/* Don't use gtk_notebook_get_current_page in the callbacks, it returns the previous page */
-	
+
 	sk_tab = sakura_get_sktab(sakura, page_num);
 	title = vte_terminal_get_window_title(VTE_TERMINAL(sk_tab->vte));
 
@@ -906,6 +914,7 @@ sakura_page_removed (GtkWidget *widget, void *data)
 		sakura_set_size();
 	}
 }
+
 
 
 /*****************/
