@@ -381,8 +381,8 @@ static GQuark term_data_id = 0;
 /* Spawn callback */
 void sakura_spawm_callback (VteTerminal *, GPid, GError, gpointer);
 /* VTE callbacks */
-static gboolean sakura_button_press (GtkWidget *, GdkEventButton *, gpointer);
-static gboolean sakura_button_release (GtkWidget *, GdkEventButton *, gpointer);
+static gboolean sakura_term_buttonpressed (GtkWidget *, GdkEventButton *, gpointer);
+static gboolean sakura_term_buttonreleased (GtkWidget *, GdkEventButton *, gpointer);
 static void     sakura_beep (GtkWidget *, void *);
 static void     sakura_increase_font (GtkWidget *, void *);
 static void     sakura_decrease_font (GtkWidget *, void *);
@@ -913,7 +913,7 @@ sakura_page_removed (GtkWidget *widget, void *data)
 /*****************/
 
 static gboolean
-sakura_button_release(GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
+sakura_term_buttonreleased(GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
 {
 	struct sakura_tab *sk_tab;
 	gint page;
@@ -935,7 +935,7 @@ sakura_button_release(GtkWidget *widget, GdkEventButton *button_event, gpointer 
 
 
 static gboolean
-sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
+sakura_term_buttonpressed(GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
 {
 	struct sakura_tab *sk_tab;
 	gint page, tag;
@@ -3072,8 +3072,8 @@ sakura_add_tab()
 	sk_tab->exit_handler_id = g_signal_connect(G_OBJECT(sk_tab->vte), "child-exited", G_CALLBACK(sakura_child_exited), NULL);
 	g_signal_connect(G_OBJECT(sk_tab->vte), "eof", G_CALLBACK(sakura_eof), NULL);
 	g_signal_connect(G_OBJECT(sk_tab->vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
-	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-press-event", G_CALLBACK(sakura_button_press), sakura.menu);
-	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-release-event", G_CALLBACK(sakura_button_release), sakura.menu);
+	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-press-event", G_CALLBACK(sakura_term_buttonpressed), sakura.menu);
+	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-release-event", G_CALLBACK(sakura_term_buttonreleased), sakura.menu);
 
 	/* Notebook signals */
 	/* TODO: Per notebook signal should be in sakura_init. Check nothing brokes before moving */
