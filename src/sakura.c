@@ -243,11 +243,11 @@ static struct {
 	bool disable_numbered_tabswitch; /* For disabling direct tabswitching key */
 	bool focused;                    /* For fading feature */
 	bool first_focus;                /* First time gtkwindow recieve focus when is created */
-	bool faded;			 /* Fading state */
+	bool faded;                      /* Fading state */
 	bool use_fading;
 	bool scrollable_tabs;
-	bool copy_on_select;		/* Automatically copy to clipboard on selected text */
-	GtkWidget *item_copy_link;	/* We include here only the items which need to be hidden */
+	bool copy_on_select;             /* Automatically copy to clipboard on selected text */
+	GtkWidget *item_copy_link;       /* We include here only the items which need to be hidden */
 	GtkWidget *item_open_link;
 	GtkWidget *item_open_mail;
 	GtkWidget *open_link_separator;
@@ -1274,7 +1274,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 static void
 sakura_color_dialog_changed( GtkWidget *widget, void *data)
 {
-	int selected=-1;
+	gint selected;
 	GtkDialog *dialog = (GtkDialog*)data;
 	GtkColorButton *fore_button = g_object_get_data (G_OBJECT(dialog), "buttonfore");
 	GtkColorButton *back_button = g_object_get_data (G_OBJECT(dialog), "buttonback");
@@ -1283,7 +1283,6 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 	GdkRGBA *temp_back_colors = g_object_get_data( G_OBJECT(dialog), "back");
 	GdkRGBA *temp_curs_colors = g_object_get_data( G_OBJECT(dialog), "curs");
 	GtkComboBox *cs = g_object_get_data (G_OBJECT(dialog), "combo_cs");
-	//GtkComboBox *palette = g_object_get_data (G_OBJECT(dialog), "combo_palette");
 	GtkSpinButton *opacity_spin = g_object_get_data( G_OBJECT(dialog), "spin_opacity");
 	
 	selected = gtk_combo_box_get_active(cs);
@@ -1330,13 +1329,13 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	                                           GTK_DIALOG_MODAL|GTK_DIALOG_USE_HEADER_BAR,
 	                                           _("_Cancel"), GTK_RESPONSE_CANCEL, _("_Select"), GTK_RESPONSE_ACCEPT, NULL);
 
-	/* Configure the new gtk header bar*/
+	/* Configure the new gtk header bar */
 	color_header = gtk_dialog_get_header_bar(GTK_DIALOG(color_dialog));
 	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(color_header), FALSE);
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
 	
-	/* Add the drop-down combobox that selects current colorset to edit. */
-	hbox_cs = gtk_box_new(FALSE, 12);
+	/* Add the drop-down combobox to select the current colorset */
+	hbox_cs = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
 	label_cs = gtk_label_new(_("Colorset"));
 	combo_cs = gtk_combo_box_text_new();
 	gchar combo_text[3];
@@ -1344,7 +1343,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		g_snprintf(combo_text, 2, "%d", i+1);	
 		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo_cs), NULL, combo_text);
 	}
-	SAY("active CS is %d", sk_tab->colorset);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo_cs), sk_tab->colorset);
 
 	/* Foreground and background and cursor color buttons */
@@ -1371,7 +1369,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	for (i=0; i < sizeof(&palettes_names)-1; i++) {
 		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo_palette), NULL, palettes_names[i]);		
 	}
-	SAY("active PALETTE is %u", sakura.palette_idx);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo_palette), sakura.palette_idx);
 	
 	gtk_box_pack_start(GTK_BOX(hbox_cs), label_cs, FALSE, FALSE, 12);
@@ -1401,7 +1398,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_object_set_data(G_OBJECT(color_dialog), "buttonback", buttonback);
 	g_object_set_data(G_OBJECT(color_dialog), "buttoncurs", buttoncurs);
 	g_object_set_data(G_OBJECT(color_dialog), "spin_opacity", spin_opacity);
-	//g_object_set_data(G_OBJECT(color_dialog), "combo_palette", combo_palette);
 	g_object_set_data(G_OBJECT(color_dialog), "fore", temp_fore);
 	g_object_set_data(G_OBJECT(color_dialog), "back", temp_back);
 	g_object_set_data(G_OBJECT(color_dialog), "curs", temp_curs);
@@ -1410,7 +1406,6 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_signal_connect(G_OBJECT(buttonback), "color-set", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
 	g_signal_connect(G_OBJECT(buttoncurs), "color-set", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
 	g_signal_connect(G_OBJECT(combo_cs), "changed", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
-	//g_signal_connect(G_OBJECT(combo_palette), "changed", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
 	g_signal_connect(G_OBJECT(spin_opacity), "changed", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
 
 	for(i=0; i<NUM_COLORSETS; i++) {
@@ -2339,7 +2334,7 @@ sakura_init()
 	}
 
 	if (option_colorset && option_colorset>0 && option_colorset <= NUM_COLORSETS) {
-		sakura.last_colorset=option_colorset;
+		sakura.last_colorset = option_colorset;
 	}
 
 	/* These options are exclusive */
@@ -2967,17 +2962,18 @@ sakura_add_tab()
 	gtk_widget_show_all(tab_label_hbox);
 	
 	/* Create new vte terminal, scrollbar, and pack it */
-	sk_tab->vte=vte_terminal_new();
-	sk_tab->scrollbar=gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(sk_tab->vte)));
-	sk_tab->hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	sk_tab->vte = vte_terminal_new();
+	sk_tab->scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(sk_tab->vte)));
+	sk_tab->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(sk_tab->hbox), sk_tab->vte, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(sk_tab->hbox), sk_tab->scrollbar, FALSE, FALSE, 0);
 
-	sk_tab->colorset=sakura.last_colorset-1;
+	sk_tab->colorset = sakura.last_colorset-1;
 
-	/* Select the directory to use for the new tab */
 	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	if(index >= 0) {
+
+	/* Use previous terminal (if there is one) cwd and colorset */
+	if (index >= 0) {
 		struct sakura_tab *prev_term;
 		prev_term = sakura_get_sktab(sakura, index);
 		cwd = sakura_get_term_cwd(prev_term);
