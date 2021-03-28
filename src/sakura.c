@@ -1284,7 +1284,7 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 	GdkRGBA *temp_curs_colors = g_object_get_data( G_OBJECT(dialog), "curs");
 	GtkComboBox *cs = g_object_get_data (G_OBJECT(dialog), "combo_cs");
 	//GtkComboBox *palette = g_object_get_data (G_OBJECT(dialog), "combo_palette");
-	GtkSpinButton *opacity_spin = g_object_get_data( G_OBJECT(dialog), "opacity_spin");
+	GtkSpinButton *opacity_spin = g_object_get_data( G_OBJECT(dialog), "spin_opacity");
 	
 	selected = gtk_combo_box_get_active(cs);
 	
@@ -1312,10 +1312,10 @@ static void
 sakura_color_dialog (GtkWidget *widget, void *data)
 {
 	GtkWidget *color_dialog; GtkWidget *color_header;
-	GtkWidget *label_fore, *label_back, *label_curs, *label_cs, *opacity_label;
-	GtkWidget *buttonfore, *buttonback, *buttoncurs, *combo_cs, *combo_palette, *opacity_spin;
+	GtkWidget *label_fore, *label_back, *label_curs, *label_cs, *label_opacity, *label_palette;
+	GtkWidget *buttonfore, *buttonback, *buttoncurs, *combo_cs, *combo_palette, *spin_opacity;
 	GtkAdjustment *spinner_adj;
-	GtkWidget *hbox_fore, *hbox_back, *hbox_curs, *hbox_cs, *hbox_opacity;
+	GtkWidget *hbox_fore, *hbox_back, *hbox_curs, *hbox_cs, *hbox_opacity, *hbox_palette;
 	gint response;
 	struct sakura_tab *sk_tab;
 	gint page, i;	
@@ -1326,12 +1326,12 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	sk_tab = sakura_get_sktab(sakura, page);
 
-	color_dialog=gtk_dialog_new_with_buttons(_("Select colors"), GTK_WINDOW(sakura.main_window),
-	                                         GTK_DIALOG_MODAL|GTK_DIALOG_USE_HEADER_BAR,
-	                                         _("_Cancel"), GTK_RESPONSE_CANCEL, _("_Select"), GTK_RESPONSE_ACCEPT, NULL);
+	color_dialog = gtk_dialog_new_with_buttons(_("Select colors"), GTK_WINDOW(sakura.main_window),
+	                                           GTK_DIALOG_MODAL|GTK_DIALOG_USE_HEADER_BAR,
+	                                           _("_Cancel"), GTK_RESPONSE_CANCEL, _("_Select"), GTK_RESPONSE_ACCEPT, NULL);
 
 	/* Configure the new gtk header bar*/
-	color_header=gtk_dialog_get_header_bar(GTK_DIALOG(color_dialog));
+	color_header = gtk_dialog_get_header_bar(GTK_DIALOG(color_dialog));
 	gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(color_header), FALSE);
 	gtk_dialog_set_default_response(GTK_DIALOG(color_dialog), GTK_RESPONSE_ACCEPT);
 	
@@ -1344,31 +1344,35 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		g_snprintf(combo_text, 2, "%d", i+1);	
 		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo_cs), NULL, combo_text);
 	}
+	SAY("active CS is %d", sk_tab->colorset);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo_cs), sk_tab->colorset);
 
 	/* Foreground and background and cursor color buttons */
-	hbox_fore=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
-	hbox_back=gtk_box_new(FALSE, 12);
-	hbox_curs=gtk_box_new(FALSE, 12);
-	label_fore=gtk_label_new(_("Foreground color"));
-	label_back=gtk_label_new(_("Background color"));
-	label_curs=gtk_label_new(_("Cursor color"));
-	buttonfore=gtk_color_button_new_with_rgba(&sakura.forecolors[sk_tab->colorset]);
-	buttonback=gtk_color_button_new_with_rgba(&sakura.backcolors[sk_tab->colorset]);
-	buttoncurs=gtk_color_button_new_with_rgba(&sakura.curscolors[sk_tab->colorset]);
+	hbox_fore = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
+	hbox_back = gtk_box_new(FALSE, 12);
+	hbox_curs = gtk_box_new(FALSE, 12);
+	label_fore = gtk_label_new(_("Foreground color"));
+	label_back = gtk_label_new(_("Background color"));
+	label_curs = gtk_label_new(_("Cursor color"));
+	buttonfore = gtk_color_button_new_with_rgba(&sakura.forecolors[sk_tab->colorset]);
+	buttonback = gtk_color_button_new_with_rgba(&sakura.backcolors[sk_tab->colorset]);
+	buttoncurs = gtk_color_button_new_with_rgba(&sakura.curscolors[sk_tab->colorset]);
 
 	/* Opacity control */
-	hbox_opacity=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12); 
+	hbox_opacity = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12); 
 	spinner_adj = gtk_adjustment_new ((sakura.backcolors[sk_tab->colorset].alpha)*100, 0.0, 100.0, 1.0, 5.0, 0);
-	opacity_spin = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
-	opacity_label = gtk_label_new(_("Opacity level (%)"));
+	spin_opacity = gtk_spin_button_new(GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
+	label_opacity = gtk_label_new(_("Opacity level (%)"));
 
 	/* Palette drop-down */
-	combo_palette=gtk_combo_box_text_new();
+	hbox_palette = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12); 
+	label_palette = gtk_label_new(_("Palette"));
+	combo_palette = gtk_combo_box_text_new();
 	for (i=0; i < sizeof(&palettes_names)-1; i++) {
-		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo_cs), NULL, palettes_names[i]);		
+		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo_palette), NULL, palettes_names[i]);		
 	}
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combo_cs), sakura.palette_idx);
+	SAY("active PALETTE is %u", sakura.palette_idx);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo_palette), sakura.palette_idx);
 	
 	gtk_box_pack_start(GTK_BOX(hbox_cs), label_cs, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_cs), combo_cs, FALSE, FALSE, 12);
@@ -1378,13 +1382,16 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_end(GTK_BOX(hbox_back), buttonback, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(hbox_curs), label_curs, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(hbox_curs), buttoncurs, FALSE, FALSE, 12);
-	gtk_box_pack_start(GTK_BOX(hbox_opacity), opacity_label, FALSE, FALSE, 12);
-	gtk_box_pack_end(GTK_BOX(hbox_opacity), opacity_spin, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(hbox_opacity), label_opacity, FALSE, FALSE, 12);
+	gtk_box_pack_end(GTK_BOX(hbox_opacity), spin_opacity, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(hbox_palette), label_palette, FALSE, FALSE, 12);
+	gtk_box_pack_end(GTK_BOX(hbox_palette), combo_palette, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_cs, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_fore, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_back, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_curs, FALSE, FALSE, 6);
-	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_opacity, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_opacity, FALSE, FALSE, 6);
+	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), hbox_palette, FALSE, FALSE, 6);
 
 	gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog)));
 
@@ -1393,7 +1400,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_object_set_data(G_OBJECT(color_dialog), "buttonfore", buttonfore);
 	g_object_set_data(G_OBJECT(color_dialog), "buttonback", buttonback);
 	g_object_set_data(G_OBJECT(color_dialog), "buttoncurs", buttoncurs);
-	g_object_set_data(G_OBJECT(color_dialog), "opacity_spin", opacity_spin);
+	g_object_set_data(G_OBJECT(color_dialog), "spin_opacity", spin_opacity);
 	//g_object_set_data(G_OBJECT(color_dialog), "combo_palette", combo_palette);
 	g_object_set_data(G_OBJECT(color_dialog), "fore", temp_fore);
 	g_object_set_data(G_OBJECT(color_dialog), "back", temp_back);
@@ -1404,7 +1411,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	g_signal_connect(G_OBJECT(buttoncurs), "color-set", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
 	g_signal_connect(G_OBJECT(combo_cs), "changed", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
 	//g_signal_connect(G_OBJECT(combo_palette), "changed", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
-	g_signal_connect(G_OBJECT(opacity_spin), "changed", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
+	g_signal_connect(G_OBJECT(spin_opacity), "changed", G_CALLBACK(sakura_color_dialog_changed), color_dialog);
 
 	for(i=0; i<NUM_COLORSETS; i++) {
 		temp_fore[i] = sakura.forecolors[i];
@@ -1412,7 +1419,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		temp_curs[i] = sakura.curscolors[i];
 	}
 
-	response=gtk_dialog_run(GTK_DIALOG(color_dialog));
+	response = gtk_dialog_run(GTK_DIALOG(color_dialog));
 	
 	if (response==GTK_RESPONSE_ACCEPT) {
 		/* Save all colorsets to both the global struct and configuration.*/
@@ -1420,22 +1427,22 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 			char name[20]; 
 			gchar *cfgtmp;
 			
-			sakura.forecolors[i]=temp_fore[i];
-			sakura.backcolors[i]=temp_back[i];
-			sakura.curscolors[i]=temp_curs[i];
+			sakura.forecolors[i] = temp_fore[i];
+			sakura.backcolors[i] = temp_back[i];
+			sakura.curscolors[i] = temp_curs[i];
 			
 			sprintf(name, "colorset%d_fore", i+1);
-			cfgtmp=gdk_rgba_to_string(&sakura.forecolors[i]);
+			cfgtmp = gdk_rgba_to_string(&sakura.forecolors[i]);
 			sakura_set_config_string(name, cfgtmp);
 			g_free(cfgtmp);
 
 			sprintf(name, "colorset%d_back", i+1);
-			cfgtmp=gdk_rgba_to_string(&sakura.backcolors[i]);
+			cfgtmp = gdk_rgba_to_string(&sakura.backcolors[i]);
 			sakura_set_config_string(name, cfgtmp);
 			g_free(cfgtmp);
 
 			sprintf(name, "colorset%d_curs", i+1);
-			cfgtmp=gdk_rgba_to_string(&sakura.curscolors[i]);
+			cfgtmp = gdk_rgba_to_string(&sakura.curscolors[i]);
 			sakura_set_config_string(name, cfgtmp);
 			g_free(cfgtmp);
 		}
@@ -1933,6 +1940,7 @@ sakura_use_fading(GtkWidget *widget, void *data)
 static void
 sakura_init()
 {
+	GError *gerror=NULL;
 	char* configdir = NULL;
 	int i;
 
@@ -1955,12 +1963,11 @@ sakura_init()
 	}
 	g_free(configdir);
 
-	GError *error=NULL;
 	/* Open config file */
-	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &error)) {
+	if (!g_key_file_load_from_file(sakura.cfg, sakura.configfile, 0, &gerror)) {
 		/* If there's no file, ignore the error. A new one is created */
-		if (error->code==G_KEY_FILE_ERROR_UNKNOWN_ENCODING || error->code==G_KEY_FILE_ERROR_INVALID_VALUE) {
-			g_error_free(error);
+		if (gerror->code==G_KEY_FILE_ERROR_UNKNOWN_ENCODING || gerror->code==G_KEY_FILE_ERROR_INVALID_VALUE) {
+			g_error_free(gerror);
 			fprintf(stderr, "Not valid config file format\n");
 			exit(EXIT_FAILURE);
 		}
@@ -2114,12 +2121,13 @@ sakura_init()
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "palette", NULL)) {
 		sakura_set_config_integer("palette", DEFAULT_PALETTE);
 	}
-	GError *gerror;
+	gerror=NULL;
 	sakura.palette_idx = g_key_file_get_integer(sakura.cfg, cfg_group, "palette", &gerror);
 	/* Backwards compatibility after changing (v.3.7.1) "palette" type from string to int. Remove after some versions */
-	if (gerror->code == G_KEY_FILE_ERROR_INVALID_VALUE) {
+	if (gerror && gerror->code == G_KEY_FILE_ERROR_INVALID_VALUE) {
 		sakura.palette_idx = DEFAULT_PALETTE;
 		sakura_set_config_integer("palette", DEFAULT_PALETTE);
+		g_error_free(gerror);
 	}
 	sakura.palette = palettes[sakura.palette_idx];
 	
@@ -2316,15 +2324,15 @@ sakura_init()
 	}
 
 	/* Add datadir path to icon name and set icon */
-	gchar *icon_path; error=NULL;
+	gchar *icon_path; gerror=NULL;
 	if (option_icon) {
 		icon_path = g_strdup_printf("%s", option_icon);
 	} else {
 		icon_path = g_strdup_printf(DATADIR "/pixmaps/%s", sakura.icon);
 	}
-	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), icon_path, &error);
+	gtk_window_set_icon_from_file(GTK_WINDOW(sakura.main_window), icon_path, &gerror);
 	g_free(icon_path); icon_path=NULL;
-	if (error) g_error_free(error);
+	if (gerror) g_error_free(gerror);
 
 	if (option_font) {
 		sakura.font=pango_font_description_from_string(option_font);
@@ -2346,17 +2354,17 @@ sakura_init()
 	sakura.keep_fc=false;
 	sakura.externally_modified=false;
 
-	error=NULL;
-	sakura.http_vteregexp=vte_regex_new_for_match(HTTP_REGEXP, strlen(HTTP_REGEXP), 0, &error);
+	gerror=NULL;
+	sakura.http_vteregexp=vte_regex_new_for_match(HTTP_REGEXP, strlen(HTTP_REGEXP), 0, &gerror);
 	if (!sakura.http_vteregexp) {
-		SAY("http_regexp: %s", error->message);
-		g_error_free(error);
+		SAY("http_regexp: %s", gerror->message);
+		g_error_free(gerror);
 	}
-	error=NULL;
-	sakura.mail_vteregexp=vte_regex_new_for_match(MAIL_REGEXP, strlen(MAIL_REGEXP), 0, &error);
+	gerror=NULL;
+	sakura.mail_vteregexp=vte_regex_new_for_match(MAIL_REGEXP, strlen(MAIL_REGEXP), 0, &gerror);
 	if (!sakura.mail_vteregexp) {
-		SAY("mail_regexp: %s", error->message);
-		g_error_free(error);
+		SAY("mail_regexp: %s", gerror->message);
+		g_error_free(gerror);
 	}
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
