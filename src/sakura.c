@@ -120,19 +120,19 @@ const GdkRGBA linux_palette[PALETTE_SIZE] = {
 };
 
 const GdkRGBA solarized_palette[PALETTE_SIZE] = {
-	{0.027451, 0.211765, 0.258824, 1}, // 0 base02 (background)
+	{0.027451, 0.211765, 0.258824, 1}, // 0 base02 
 	{0.862745, 0.196078, 0.184314, 1}, // 1 red
 	{0.521569, 0.600000, 0.000000, 1}, // 2 green
 	{0.709804, 0.537255, 0.000000, 1}, // 3 yellow
 	{0.149020, 0.545098, 0.823529, 1}, // 4 blue
 	{0.827451, 0.211765, 0.509804, 1}, // 5 magenta
 	{0.164706, 0.631373, 0.596078, 1}, // 6 cyan
-	{0.933333, 0.909804, 0.835294, 1}, // 7 base2 (foreground)
-	{0.000000, 0.168627, 0.211765, 1}, // 8 base03
+	{0.933333, 0.909804, 0.835294, 1}, // 7 base2
+	{0.000000, 0.168627, 0.211765, 1}, // 8 base03 (bg)
 	{0.796078, 0.294118, 0.086275, 1}, // 9 orange
 	{0.345098, 0.431373, 0.458824, 1}, // 10 base01
 	{0.396078, 0.482353, 0.513725, 1}, // 11 base00
-	{0.513725, 0.580392, 0.588235, 1}, // 12 base0
+	{0.513725, 0.580392, 0.588235, 1}, // 12 base0 (fg)
 	{0.423529, 0.443137, 0.768627, 1}, // 13 violet
 	{0.576471, 0.631373, 0.631373, 1}, // 14 base1
 	{0.992157, 0.964706, 0.890196, 1}  // 15 base3
@@ -207,12 +207,14 @@ struct scheme {
 	GdkRGBA fg;
 };
 
-#define NUM_SCHEMES 3
-#define DEFAULT_SCHEME 0
+#define NUM_SCHEMES 5
+#define DEFAULT_SCHEME 1
 struct scheme predefined_schemes[NUM_SCHEMES] = {
+	{"Custom", {0, 0, 0, 1}, {1, 1, 1, 1}}, /* Custom values are ignored, we use the user choosed ones */
 	{"White on black", {0, 0, 0, 1}, {1, 1, 1, 1}},
-	{"Solarized dark", {0.027451, 0.211765, 0.258824, 1}, {0.933333, 0.909804, 0.835294, 1}},
-	{"Solarized light", {0, 0, 0, 1}, {0.027451, 0.211765, 0.258824, 1}}
+	{"Green on black", {0, 0, 0, 1}, {0.4, 1, 0, 1}},
+	{"Solarized dark", {0.000000, 0.168627, 0.211765, 1}, {0.513725, 0.580392, 0.588235, 1}},
+	{"Solarized light", {0.992157, 0.964706, 0.890196, 1}, {0.396078, 0.482353, 0.513725, 1}}
 };
 
 /* Empty by now. Just drop here you CSS to personalize widgets */
@@ -1315,18 +1317,26 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 		gtk_combo_box_set_active(GTK_COMBO_BOX(scheme), sakura.schemes[current_cs]);
 	} else if ( (GtkWidget *)scheme == widget) {
 		/* Scheme has changed, update the buttons. No cursor and no alpha */
-		int selected_scheme = gtk_combo_box_get_active(GTK_COMBO_BOX(scheme));	
-		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(fore_button), &predefined_schemes[selected_scheme].fg);
-		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(back_button), &predefined_schemes[selected_scheme].bg);
-		temp_fore_colors[current_cs] = predefined_schemes[selected_scheme].fg;
-		temp_back_colors[current_cs] = predefined_schemes[selected_scheme].bg;
-		sakura.schemes[current_cs] = selected_scheme;
+		int selected_scheme = gtk_combo_box_get_active(GTK_COMBO_BOX(scheme));
+		if (selected_scheme != 0) { 
+			float old_alpha = temp_back_colors[current_cs].alpha; /* Keep the previous alpha */
+			gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(fore_button), &predefined_schemes[selected_scheme].fg);
+			gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(back_button), &predefined_schemes[selected_scheme].bg);
+			temp_fore_colors[current_cs] = predefined_schemes[selected_scheme].fg;
+			temp_back_colors[current_cs] = predefined_schemes[selected_scheme].bg;
+			temp_back_colors[current_cs].alpha = old_alpha;
+			sakura.schemes[current_cs] = selected_scheme;
+		}
+		/* else Custom, do nothing */
 	} else {
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(fore_button), &temp_fore_colors[current_cs]);
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(back_button), &temp_back_colors[current_cs]);
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(curs_button), &temp_curs_colors[current_cs]);
 		gtk_spin_button_update(opacity_spin);
 		temp_back_colors[current_cs].alpha=gtk_spin_button_get_value(opacity_spin)/100;
+		/* User changed colors. Set custom scheme */
+		sakura.schemes[current_cs] = 0;
+		gtk_combo_box_set_active(GTK_COMBO_BOX(scheme), sakura.schemes[current_cs]);
 	}
 
 }
@@ -1484,7 +1494,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 			sakura_set_config_integer(name, sakura.schemes[i]);
 		}
 
-		/* Apply the new colorsets to all tabs. Set the current tab's colorset to the last selected one in the dialog.
+		/* Set the current tab's colorset to the last selected one in the dialog.
 		 * This is probably what the new user expects, and the experienced user hopefully will not mind. */
 		sk_tab->colorset = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_cs));
 		sakura_set_config_integer("last_colorset", sk_tab->colorset+1);
@@ -1492,6 +1502,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		/* Set the selected palette */
 		sakura_set_palette(gtk_combo_box_get_active(GTK_COMBO_BOX(combo_palette)));
 
+		/* Apply the new colorsets to all tabs */
 		sakura_set_colors();
 	}
 
