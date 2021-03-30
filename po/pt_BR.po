@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -107,6 +107,9 @@ msgstr "_Selecionar"
 msgid "Colorset"
 msgstr ""
 
+msgid "Color scheme"
+msgstr ""
+
 msgid "Foreground color"
 msgstr "Cor de primeiro plano"
 
@@ -119,6 +122,10 @@ msgstr "Cor do cursor"
 #, fuzzy
 msgid "Opacity level (%)"
 msgstr "Nível de opacidade (%):"
+
+#, fuzzy
+msgid "Palette"
+msgstr "Definir paleta"
 
 msgid "Search"
 msgstr ""
@@ -196,7 +203,7 @@ msgstr "Ativar aviso sonoro"
 msgid "Set blinking cursor"
 msgstr "Ativar cursor piscando"
 
-msgid "Stop tab cycling at end tabs"
+msgid "Disable tab cycling"
 msgstr ""
 
 msgid "Disable numbered tabswitch"
@@ -216,9 +223,6 @@ msgstr "Sublinhar"
 
 msgid "IBeam"
 msgstr "IBeam"
-
-msgid "Set palette"
-msgstr "Definir paleta"
 
 #, c-format
 msgid "Terminal %d"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -28,9 +28,8 @@ msgstr "Seleziona il font iniziale"
 msgid "Select initial number of tabs"
 msgstr "Seleziona il numero di schede iniziali"
 
-#, fuzzy
 msgid "Set working directory"
-msgstr "Imposta il cursore lampeggiante"
+msgstr "Imposta la directory di lavoro"
 
 msgid "Execute command"
 msgstr "Esegui il comando"
@@ -110,6 +109,9 @@ msgstr "_Seleziona"
 msgid "Colorset"
 msgstr "Insieme di colori"
 
+msgid "Color scheme"
+msgstr "Schema di colori"
+
 msgid "Foreground color"
 msgstr "Colore del testo"
 
@@ -122,15 +124,17 @@ msgstr "Colore del cursore"
 msgid "Opacity level (%)"
 msgstr "Livello di opacità (%)"
 
+msgid "Palette"
+msgstr "Tavolozza"
+
 msgid "Search"
-msgstr ""
+msgstr "Ricerca"
 
 msgid "New window title"
 msgstr "Nuovo titolo della finestra"
 
-#, fuzzy
 msgid "Open mail"
-msgstr "Apri collegamento"
+msgstr "Apri posta"
 
 msgid "Open link"
 msgstr "Apri collegamento"
@@ -184,11 +188,10 @@ msgid "Show scrollbar"
 msgstr "Visualizza la barra di scorrimento"
 
 msgid "Less questions at exit time"
-msgstr ""
+msgstr "Meno domande al momento dell'uscita"
 
-#, fuzzy
 msgid "Set urgent bell"
-msgstr "Imposta l'avviso acustico"
+msgstr "Imposta l'avviso urgente"
 
 msgid "Set audible bell"
 msgstr "Imposta l'avviso acustico"
@@ -196,7 +199,7 @@ msgstr "Imposta l'avviso acustico"
 msgid "Set blinking cursor"
 msgstr "Imposta il cursore lampeggiante"
 
-msgid "Stop tab cycling at end tabs"
+msgid "Disable tab cycling"
 msgstr ""
 
 msgid "Disable numbered tabswitch"
@@ -217,14 +220,10 @@ msgstr "Sottolineato"
 msgid "IBeam"
 msgstr "IBeam"
 
-msgid "Set palette"
-msgstr "Imposta la tavolozza dei colori"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminale %d"
 
-#, fuzzy
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr ""
 "La configurazione è stata modificata da un altro processo. Sovrascrivere?"
@@ -232,13 +231,13 @@ msgstr ""
 msgid "Error message"
 msgstr "Messaggio d'errore"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot change working directory\n"
-msgstr "Imposta il cursore lampeggiante"
+msgstr "Non è possibile modificare la directory di lavoro\n"
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulatore di terminale basato su VTE"
 
 #, c-format
 msgid "sakura version is %s\n"
-msgstr "La versione di Sakura è %s\n"
+msgstr "La versione di sakura è %s\n"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2019-08-12 16:55+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -105,6 +105,9 @@ msgstr "選択(_S)"
 msgid "Colorset"
 msgstr "カラーセット"
 
+msgid "Color scheme"
+msgstr "カラースキーム"
+
 msgid "Foreground color"
 msgstr "前景色"
 
@@ -116,6 +119,9 @@ msgstr "カーソルの色"
 
 msgid "Opacity level (%)"
 msgstr "不透過率 (%)"
+
+msgid "Palette"
+msgstr "パレット"
 
 msgid "Search"
 msgstr "探索"
@@ -189,8 +195,8 @@ msgstr "ベル音を有効にする"
 msgid "Set blinking cursor"
 msgstr "カーソルの点滅を有効にする"
 
-msgid "Stop tab cycling at end tabs"
-msgstr "最後のタブでタブサイクリングを停止"
+msgid "Disable tab cycling"
+msgstr "タブサイクリングを無効にする"
 
 msgid "Disable numbered tabswitch"
 msgstr "番号のタブ切り替えを無効にする"
@@ -209,9 +215,6 @@ msgstr "アンダーライン"
 
 msgid "IBeam"
 msgstr "Iビーム"
-
-msgid "Set palette"
-msgstr "パレットを設定"
 
 #, c-format
 msgid "Terminal %d"
@@ -234,5 +237,3 @@ msgstr "- vte ベースのターミナル・エミュレータ"
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
 
-#~ msgid "Enable bold font"
-#~ msgstr "太字フォントを有効にする"

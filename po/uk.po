@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -113,6 +113,9 @@ msgstr "Обрати шрифт"
 msgid "Colorset"
 msgstr ""
 
+msgid "Color scheme"
+msgstr ""
+
 #, fuzzy
 msgid "Foreground color"
 msgstr "Оберіть колір:"
@@ -128,6 +131,10 @@ msgstr "Оберіть колір тла:"
 #, fuzzy
 msgid "Opacity level (%)"
 msgstr "Рівень прозорості (%):"
+
+#, fuzzy
+msgid "Palette"
+msgstr "Оберіть палітру"
 
 msgid "Search"
 msgstr ""
@@ -205,7 +212,7 @@ msgstr "Встановити звуковий сигнал"
 msgid "Set blinking cursor"
 msgstr "Встановити мерехтіння курсора"
 
-msgid "Stop tab cycling at end tabs"
+msgid "Disable tab cycling"
 msgstr ""
 
 msgid "Disable numbered tabswitch"
@@ -225,9 +232,6 @@ msgstr "Підкреслення"
 
 msgid "IBeam"
 msgstr "IBeam"
-
-msgid "Set palette"
-msgstr "Оберіть палітру"
 
 #, c-format
 msgid "Terminal %d"

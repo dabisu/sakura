@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -107,6 +107,9 @@ msgstr "_Sélectionner"
 msgid "Colorset"
 msgstr "Jeu de couleurs"
 
+msgid "Color scheme"
+msgstr "Schéma de couleur"
+
 msgid "Foreground color"
 msgstr "Couleur d'avant plan"
 
@@ -119,15 +122,17 @@ msgstr "Couleur du curseur"
 msgid "Opacity level (%)"
 msgstr "Niveau d'opacité (%)"
 
+msgid "Palette"
+msgstr "Palette"
+
 msgid "Search"
-msgstr ""
+msgstr "Chercher"
 
 msgid "New window title"
 msgstr "Définir le titre de la fenêtre"
 
-#, fuzzy
 msgid "Open mail"
-msgstr "Ouvrir le lien"
+msgstr "Ouvrir le courrier"
 
 msgid "Open link"
 msgstr "Ouvrir le lien"
@@ -192,15 +197,14 @@ msgstr "Définir un avertissement audio"
 msgid "Set blinking cursor"
 msgstr "Définir un curseur clignotant"
 
-msgid "Stop tab cycling at end tabs"
+msgid "Disable tab cycling"
 msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr ""
 
-#, fuzzy
 msgid "Enable focus fade"
-msgstr "Activer la police de caractères en gras"
+msgstr "Activer le fondu de la mise au point"
 
 msgid "Set cursor type"
 msgstr "Définir le type de curseur"
@@ -214,14 +218,10 @@ msgstr "Souligner"
 msgid "IBeam"
 msgstr "IBeam"
 
-msgid "Set palette"
-msgstr "Sélectionner une palette de couleurs"
-
 #, c-format
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
-#, fuzzy
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "La configuration a été modifié par un autre processus. L'écraser ?"
 
@@ -239,5 +239,3 @@ msgstr "Émulateur de terminal utilisant VTE"
 msgid "sakura version is %s\n"
 msgstr "Sakura version %s\n"
 
-#~ msgid "Enable bold font"
-#~ msgstr "Activer la police de caractères en gras"

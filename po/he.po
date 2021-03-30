@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -130,6 +130,10 @@ msgstr "ב_חר"
 msgid "Colorset"
 msgstr "חוג צבעים לעריכה"
 
+#, fuzzy
+msgid "Color scheme"
+msgstr "חוג צבעים לעריכה"
+
 msgid "Foreground color"
 msgstr "צבע קדמה"
 
@@ -141,6 +145,10 @@ msgstr "צבע סמן"
 
 msgid "Opacity level (%)"
 msgstr "רמת העמימות (%)"
+
+#, fuzzy
+msgid "Palette"
+msgstr "קבע לוח צבעים"
 
 msgid "Search"
 msgstr ""
@@ -216,7 +224,7 @@ msgstr "קבע פעמון שמיע"
 msgid "Set blinking cursor"
 msgstr "קבע סמן מהבהב"
 
-msgid "Stop tab cycling at end tabs"
+msgid "Disable tab cycling"
 msgstr ""
 
 msgid "Disable numbered tabswitch"
@@ -236,9 +244,6 @@ msgstr "קו תחתון"
 
 msgid "IBeam"
 msgstr "IBeam"
-
-msgid "Set palette"
-msgstr "קבע לוח צבעים"
 
 #, c-format
 msgid "Terminal %d"

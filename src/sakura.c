@@ -2479,7 +2479,7 @@ sakura_init_popup()
 	item_urgent_bell=gtk_check_menu_item_new_with_label(_("Set urgent bell"));
 	item_audible_bell=gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_blinking_cursor=gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
-	item_stop_tab_cycling_at_end_tabs=gtk_check_menu_item_new_with_label(_("Stop tab cycling at end tabs"));
+	item_stop_tab_cycling_at_end_tabs=gtk_check_menu_item_new_with_label(_("Disable tab cycling"));
 	item_disable_numbered_tabswitch=gtk_check_menu_item_new_with_label(_("Disable numbered tabswitch"));
 	item_use_fading=gtk_check_menu_item_new_with_label(_("Enable focus fade"));
 	item_cursor=gtk_menu_item_new_with_label(_("Set cursor type"));

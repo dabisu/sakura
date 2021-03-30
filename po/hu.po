@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: hu\n"
@@ -106,6 +106,10 @@ msgstr "_Kiválasztás"
 msgid "Colorset"
 msgstr "Színek"
 
+#, fuzzy
+msgid "Color scheme"
+msgstr "Színek"
+
 msgid "Foreground color"
 msgstr "Előtér színe"
 
@@ -117,6 +121,10 @@ msgstr "Kurzor színe"
 
 msgid "Opacity level (%)"
 msgstr "Átlátszóság mértéke (%)"
+
+#, fuzzy
+msgid "Palette"
+msgstr "Paletta beállítása"
 
 msgid "Search"
 msgstr ""
@@ -191,7 +199,7 @@ msgstr "Hang lejátszása"
 msgid "Set blinking cursor"
 msgstr "Villogó kurzor beállítása"
 
-msgid "Stop tab cycling at end tabs"
+msgid "Disable tab cycling"
 msgstr ""
 
 msgid "Disable numbered tabswitch"
@@ -212,9 +220,6 @@ msgstr "Aláhúzás"
 
 msgid "IBeam"
 msgstr "IBeam"
-
-msgid "Set palette"
-msgstr "Paletta beállítása"
 
 #, c-format
 msgid "Terminal %d"

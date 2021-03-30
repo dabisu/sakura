@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2019-08-12 16:27+0000\n"
 "Last-Translator: Andreas Rönnquist <andreas@ronnquist.net>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -108,6 +108,10 @@ msgstr "_Välj"
 msgid "Colorset"
 msgstr "Färguppsättning"
 
+#, fuzzy
+msgid "Color scheme"
+msgstr "Färguppsättning"
+
 msgid "Foreground color"
 msgstr "Förgrundsfärg"
 
@@ -119,6 +123,10 @@ msgstr "Markörfärg"
 
 msgid "Opacity level (%)"
 msgstr "Opacitetsnivå (%)"
+
+#, fuzzy
+msgid "Palette"
+msgstr "Sätt palett"
 
 msgid "Search"
 msgstr "Sök"
@@ -192,8 +200,8 @@ msgstr "Sätt hörbar signal"
 msgid "Set blinking cursor"
 msgstr "Sätt blinkande markör"
 
-msgid "Stop tab cycling at end tabs"
-msgstr "Stoppa flikcykling vid ändflikar"
+msgid "Disable tab cycling"
+msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr "Inaktivera numrerad flikväxlare"
@@ -212,9 +220,6 @@ msgstr "Understreck"
 
 msgid "IBeam"
 msgstr "IBeam"
-
-msgid "Set palette"
-msgstr "Sätt palett"
 
 #, c-format
 msgid "Terminal %d"
@@ -236,6 +241,9 @@ msgstr "- vte-baserad terminalemulator"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura-versionen är %s\n"
+
+#~ msgid "Stop tab cycling at end tabs"
+#~ msgstr "Stoppa flikcykling vid ändflikar"
 
 #~ msgid "Enable bold font"
 #~ msgstr "Aktivera fetstil"

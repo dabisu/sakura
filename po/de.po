@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2020-05-06 05:00+0000\n"
 "Last-Translator: Milo Ivir <Unknown>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -109,6 +109,9 @@ msgstr "A_uswählen"
 msgid "Colorset"
 msgstr "Farbengruppe"
 
+msgid "Color scheme"
+msgstr "Farbschema"
+
 msgid "Foreground color"
 msgstr "Vordergrundfarbe"
 
@@ -120,6 +123,9 @@ msgstr "Cursorfarbe"
 
 msgid "Opacity level (%)"
 msgstr "Opazitätsgrad (%)"
+
+msgid "Palette"
+msgstr "Palette"
 
 msgid "Search"
 msgstr "Suchen"
@@ -193,10 +199,8 @@ msgstr "Hörbarer Alarm"
 msgid "Set blinking cursor"
 msgstr "Blinkender Cursor"
 
-msgid "Stop tab cycling at end tabs"
-msgstr ""
-"Den Übergang zum nächsten Reiter mithilfe des Tabulators beim letzten Reiter "
-"stoppen"
+msgid "Disable tab cycling"
+msgstr "Stopp Reiter Übergang"
 
 msgid "Disable numbered tabswitch"
 msgstr "Den Umschalter für nummerierte Reiter deaktivieren"
@@ -215,9 +219,6 @@ msgstr "Unterstreichen"
 
 msgid "IBeam"
 msgstr "Senkrechter Strich"
-
-msgid "Set palette"
-msgstr "Palette setzen"
 
 #, c-format
 msgid "Terminal %d"
@@ -241,17 +242,3 @@ msgstr "- vte-basierter Terminal-Emulator"
 msgid "sakura version is %s\n"
 msgstr "Sakura-Version ist %s\n"
 
-#~ msgid "Enable bold font"
-#~ msgstr "Fetten Schriftschnitt aktivieren"
-
-#~ msgid "X geometry specification"
-#~ msgstr "X-Fenstergeometrie"
-
-#~ msgid "Configuration has been modified. Save?"
-#~ msgstr "Die Konfiguration wurde geändert. Speichern?"
-
-#~ msgid "Don't show exit dialog"
-#~ msgstr "Beenden-Dialog nicht anzeigen"
-
-#~ msgid "Use focus fading"
-#~ msgstr "Fokusüberblendung verwenden"

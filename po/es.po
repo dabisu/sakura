@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2019-08-12 16:53+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -106,6 +106,9 @@ msgstr "_Seleccionar"
 msgid "Colorset"
 msgstr "Grupo de colores"
 
+msgid "Color scheme"
+msgstr "Esquema de colores"
+
 msgid "Foreground color"
 msgstr "Color de primer plano"
 
@@ -117,6 +120,9 @@ msgstr "Color del cursor"
 
 msgid "Opacity level (%)"
 msgstr "Nivel de opacidad (%)"
+
+msgid "Palette"
+msgstr "Paleta"
 
 msgid "Search"
 msgstr "Buscar"
@@ -190,8 +196,8 @@ msgstr "Activar campana audible"
 msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
 
-msgid "Stop tab cycling at end tabs"
-msgstr "Detener rotación de pestañas en la pestaña final"
+msgid "Disable tab cycling"
+msgstr "Desactivar rotación de pestañas"
 
 msgid "Disable numbered tabswitch"
 msgstr "Desactivar números para cambio de pestañas"
@@ -210,9 +216,6 @@ msgstr "Subrayado"
 
 msgid "IBeam"
 msgstr "IBeam"
-
-msgid "Set palette"
-msgstr "Establecer paleta"
 
 #, c-format
 msgid "Terminal %d"
@@ -236,5 +239,3 @@ msgstr "- emulador de terminal basado en libvte"
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
 
-#~ msgid "Enable bold font"
-#~ msgstr "Activar fuente en negrita"

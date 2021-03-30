@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-06 17:38+0200\n"
+"POT-Creation-Date: 2021-03-30 20:09+0200\n"
 "PO-Revision-Date: 2019-08-12 16:54+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -108,6 +108,9 @@ msgstr "_Select"
 msgid "Colorset"
 msgstr "Colourset"
 
+msgid "Color scheme"
+msgstr "Colour scheme"
+
 msgid "Foreground color"
 msgstr "Foreground colour"
 
@@ -119,6 +122,9 @@ msgstr "Cursor colour"
 
 msgid "Opacity level (%)"
 msgstr "Opacity level (%)"
+
+msgid "Palette"
+msgstr "Palette"
 
 msgid "Search"
 msgstr "Search"
@@ -192,8 +198,8 @@ msgstr "Set audible bell"
 msgid "Set blinking cursor"
 msgstr "Set blinking cursor"
 
-msgid "Stop tab cycling at end tabs"
-msgstr "Stop tab cycling at end tabs"
+msgid "Disable tab cycling"
+msgstr "Disable tab cycling"
 
 msgid "Disable numbered tabswitch"
 msgstr "Disable numbered tabswitch"
@@ -212,9 +218,6 @@ msgstr "Underline"
 
 msgid "IBeam"
 msgstr "IBeam"
-
-msgid "Set palette"
-msgstr "Set palette"
 
 #, c-format
 msgid "Terminal %d"
@@ -237,5 +240,3 @@ msgstr "- vte-based terminal emulator"
 msgid "sakura version is %s\n"
 msgstr "sakura version is %s\n"
 
-#~ msgid "Enable bold font"
-#~ msgstr "Enable bold font"
