@@ -803,11 +803,10 @@ sakura_label_clicked(GtkWidget *widget, GdkEventButton *button_event, void *data
 	if (button_event->type != GDK_BUTTON_PRESS) 
 		return FALSE;
 	
-	/* Left button click. We do not propagate the event to avoid lost focus problems
-	 * in the vte terminal, so we need to set the current tab ourselves  */
+	/* Left button click. We HAVE to propagate the event, or things like tab moving won't work */
+	/* FIXME: Terminal lost focus with two clicks in a row...*/
 	if (button_event->button == 1) {
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), page);
-		return TRUE;
+		return FALSE;
 	}
 
 	/* Ignore right click and propagate the event */
