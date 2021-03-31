@@ -2465,7 +2465,6 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "focus-out-event", G_CALLBACK(sakura_focus_out), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "focus-in-event", G_CALLBACK(sakura_focus_in), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_show_event), NULL);
-	g_signal_connect(sakura.notebook, "scroll-event", G_CALLBACK(sakura_notebook_scroll), NULL);
 }
 
 
@@ -3093,12 +3092,7 @@ sakura_add_tab()
 	g_signal_connect(G_OBJECT(sk_tab->vte), "window-title-changed", G_CALLBACK(sakura_title_changed), NULL);
 	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-press-event", G_CALLBACK(sakura_term_buttonpressed), sakura.menu);
 	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-release-event", G_CALLBACK(sakura_term_buttonreleased), sakura.menu);
-
-	/* Notebook signals */
-	/* TODO: Per notebook signal should be in sakura_init. Check nothing brokes before moving */
-	g_signal_connect(G_OBJECT(sakura.notebook), "switch-page", G_CALLBACK(sakura_switch_page), NULL);
-	g_signal_connect(G_OBJECT(sakura.notebook), "page-removed", G_CALLBACK(sakura_page_removed), NULL);
-	g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus), NULL);
+	
 	/* Label & button signals */
 	/* We need the hbox to know which label/button was clicked */
 	g_signal_connect(G_OBJECT(event_box), "button_press_event", G_CALLBACK(sakura_label_clicked), sk_tab->hbox);
@@ -3108,6 +3102,7 @@ sakura_add_tab()
 
 	/* Since vte-2.91 env is properly overwritten */
 	char *command_env[2]={"TERM=xterm-256color",0};
+
 	/* First tab */
 	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)); 
 	if (npages == 1) {
@@ -3122,6 +3117,12 @@ sakura_add_tab()
 		sakura_set_colors();
 		/* Set size before showing the widgets but after setting the font */
 		sakura_set_size();
+
+		/* Notebook signals. Per notebook signals only need to be defined once, so we put them here */
+		g_signal_connect(sakura.notebook, "scroll-event", G_CALLBACK(sakura_notebook_scroll), NULL);
+		g_signal_connect(G_OBJECT(sakura.notebook), "switch-page", G_CALLBACK(sakura_switch_page), NULL);
+		g_signal_connect(G_OBJECT(sakura.notebook), "page-removed", G_CALLBACK(sakura_page_removed), NULL);
+		g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus), NULL);
 
 		gtk_widget_show_all(sakura.notebook);
 		if (!sakura.show_scrollbar) {
