@@ -3001,13 +3001,10 @@ static void
 sakura_add_tab()
 {
 	struct sakura_tab *sk_tab;
-	GtkWidget *tab_label_hbox;
-	GtkWidget *close_button;
+	GtkWidget *tab_title_hbox; GtkWidget *close_button; /* We could put them inside struct sakura_tab, but it is not necessary */
 	GtkWidget *event_box;
-	int index;
-	int npages;
-	gchar *cwd = NULL;
-	gchar *default_label_text = NULL;
+	int index; int npages;
+	gchar *cwd = NULL; gchar *default_label_text = NULL;
 
 	sk_tab = g_new0( struct sakura_tab, 1 );
 
@@ -3016,8 +3013,8 @@ sakura_add_tab()
 	gtk_label_set_ellipsize(GTK_LABEL(sk_tab->label), PANGO_ELLIPSIZE_END);
 	
 	/* Create hbox for our label & button */
-	tab_label_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
-	gtk_widget_set_hexpand(tab_label_hbox, TRUE);
+	tab_title_hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_widget_set_hexpand(tab_title_hbox, TRUE);
 
 	/* Label widgets has no window associated, so we need an event box to catch click events */
 	event_box=gtk_event_box_new(); 
@@ -3025,7 +3022,7 @@ sakura_add_tab()
 	gtk_widget_set_events(event_box, GDK_BUTTON_PRESS_MASK);
 	
 	/* Expand&fill the event_box to get click events all along the tab */
-	gtk_box_pack_start(GTK_BOX(tab_label_hbox), event_box, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(tab_title_hbox), event_box, TRUE, TRUE, 0);
 	
 	/* If the tab close button is enabled, create and add it to the tab */
 	if (sakura.show_closebutton) {
@@ -3038,14 +3035,14 @@ sakura_add_tab()
 
 		GtkWidget *image=gtk_image_new_from_icon_name("window-close", GTK_ICON_SIZE_MENU);
 		gtk_container_add (GTK_CONTAINER (close_button), image);
-		gtk_box_pack_start(GTK_BOX(tab_label_hbox), close_button, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(tab_title_hbox), close_button, FALSE, FALSE, 0);
 	}
 
 	if (sakura.tabs_on_bottom) {
 		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(sakura.notebook), GTK_POS_BOTTOM);
 	}
 
-	gtk_widget_show_all(tab_label_hbox);
+	gtk_widget_show_all(tab_title_hbox);
 	
 	/* Create new vte terminal, scrollbar, and pack it */
 	sk_tab->vte = vte_terminal_new();
@@ -3072,7 +3069,7 @@ sakura_add_tab()
 	/* Keep values when adding tabs */
 	sakura.keep_fc=true;
 
-	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), sk_tab->hbox, tab_label_hbox))==-1) {
+	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), sk_tab->hbox, tab_title_hbox))==-1) {
 		sakura_error("Cannot create a new tab");
 		exit(1);
 	}
