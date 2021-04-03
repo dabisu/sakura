@@ -2,7 +2,7 @@
  *  Filename: sakura.c
  *  Description: VTE-based terminal emulator
  *
- *           Copyright (C) 2006-2012  David Gómez <david@pleyades.net>
+ *           Copyright (C) 2006-2021  David Gómez <david@pleyades.net>
  *           Copyright (C) 2008       Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -58,9 +58,7 @@
 
 #define PALETTE_SIZE 16
 
-/* 16 color palettes in GdkRGBA format (red, green, blue, alpha)  
- * Text displayed in the first 8 colors (0-7) is meek (uses thin strokes).
- * Text displayed in the second 8 colors (8-15) is bold (uses thick strokes). */
+/* 16 color palettes in GdkRGBA format (red, green, blue, alpha) */
 
 const GdkRGBA gruvbox_palette[PALETTE_SIZE] = {
         {0.156863, 0.156863, 0.156863, 1.000000},
@@ -217,18 +215,28 @@ struct scheme predefined_schemes[NUM_SCHEMES] = {
 	{"Solarized light", {0.992157, 0.964706, 0.890196, 1}, {0.396078, 0.482353, 0.513725, 1}}
 };
 
-/* Empty by now. Just drop here you CSS to personalize widgets */
+/* CSS definitions. Global CSS is empty, justt drop here you CSS to personalize widgets */
 #define SAKURA_CSS ""
+
+#define FADE_WINDOW_CSS "\
+window#fade_window {\
+	background-color: black;\
+} "
+
+#define FADE_WINDOW_OPACITY 0.5
 
 #define NUM_COLORSETS 6
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include <pcre2.h>
+
+
 
 /* Global sakura data */
 static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
 	GtkWidget *menu;
+	GtkWidget *fade_window;		/* Window used for fading effect */
 	PangoFontDescription *font;
 	GdkRGBA forecolors[NUM_COLORSETS];
 	GdkRGBA backcolors[NUM_COLORSETS];
@@ -259,9 +267,6 @@ static struct {
 	bool externally_modified;        /* Configuration file has been modified by another process */
 	bool resized;
 	bool disable_numbered_tabswitch; /* For disabling direct tabswitching key */
-	bool focused;                    /* For fading feature */
-	bool first_focus;                /* First time gtkwindow recieve focus when is created */
-	bool faded;                      /* Fading state */
 	bool use_fading;
 	bool scrollable_tabs;
 	bool copy_on_select;             /* Automatically copy to clipboard on selected text */
@@ -270,7 +275,6 @@ static struct {
 	GtkWidget *item_open_mail;
 	GtkWidget *open_link_separator;
 	GKeyFile *cfg;
-	GtkCssProvider *provider;
 	char *configfile;
 	char *icon;
 	gchar *tab_default_title;
@@ -477,8 +481,6 @@ static void     sakura_config_done ();
 static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
 static void     sakura_set_palette (guint);
-static void    	sakura_fade_in (void);
-static void     sakura_fade_out (void);
 static void     sakura_search (const char *, bool);
 
 
@@ -690,55 +692,46 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 	return FALSE;
 }
 
-
+/* Use focus-in-event to unmap the fade window */
 static gboolean
 sakura_focus_in(GtkWidget *widget, GdkEvent *event, void *data)
 {
 	if (event->type != GDK_FOCUS_CHANGE) return FALSE;
+	if (!sakura.use_fading) return FALSE;
+
+	/* Got the focus, hide the fade */
+	gtk_widget_hide(sakura.fade_window);
 
 	/* Reset urgency hint */	
 	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
-
-	/* Ignore first focus event */
-	if (sakura.first_focus) { 
-		sakura.first_focus=false; return FALSE;
-	}
-
-	if (!sakura.focused)  {
-		sakura.focused=true;
-
-		if (!sakura.first_focus && sakura.use_fading) {
-			sakura_fade_in();
-		}
-
-		sakura_set_colors();
-		return FALSE;
-	}
 
  	return FALSE;
 }
 
 
+/* Use focus-out-event to map the fade window */
 static gboolean
 sakura_focus_out(GtkWidget *widget, GdkEvent *event, void *data)
 {
+	gint ax, ay, mx, my, x, y;
+
 	if (event->type != GDK_FOCUS_CHANGE) return FALSE;
+	if (!sakura.use_fading) return FALSE;
 
 	/* No fade when the menu is displayed */
-	if (gtk_widget_is_visible(sakura.menu)) {
-		return FALSE;
-	}
+	if (gtk_widget_is_visible(sakura.menu)) return FALSE;
 
-	if (sakura.focused)  {
-		sakura.focused=false;
+	/* Give the right size and position to the fade_window to cover all the main window */
+	gtk_widget_translate_coordinates(sakura.notebook, sakura.main_window, 0, 0, &ax, &ay);
+	gtk_window_get_position(GTK_WINDOW(sakura.main_window), &mx, &my);
+	gint titlebar_height=ay-my;
+	gtk_window_move(GTK_WINDOW(sakura.fade_window), mx, my+titlebar_height);
 
-		if (!sakura.first_focus && sakura.use_fading) {
-			sakura_fade_out();
-		}
+	/* Same size as main window */
+	gtk_window_get_size(GTK_WINDOW(sakura.main_window), &x, &y);
+	gtk_window_resize(GTK_WINDOW(sakura.fade_window), x, y);
 
-		sakura_set_colors();
-		return FALSE;
-	}
+	gtk_widget_show_all(sakura.fade_window);
 
  	return FALSE;
 }
@@ -2003,8 +1996,6 @@ sakura_use_fading(GtkWidget *widget, void *data)
 	} else {
 		sakura.use_fading = false;
 		sakura_set_config_boolean("use_fading", FALSE);
-		sakura_fade_in();
-		sakura_set_colors();
 	}
 }
 
@@ -2354,14 +2345,28 @@ sakura_init()
 	/* Use always GTK header bar*/
 	g_object_set(gtk_settings_get_default(), "gtk-dialogs-use-header", TRUE, NULL);
 
-	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	/* Create our windows */
+	sakura.main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
+
+	sakura.fade_window = gtk_window_new(GTK_WINDOW_POPUP);
+	gtk_widget_set_name(sakura.fade_window, "fade_window");
+	gtk_window_set_position(GTK_WINDOW(sakura.fade_window), GTK_WIN_POS_NONE);
+	gtk_widget_set_opacity(sakura.fade_window, FADE_WINDOW_OPACITY);
+	gtk_window_set_transient_for(GTK_WINDOW(sakura.fade_window), GTK_WINDOW(sakura.main_window));
 	
-	/* Add CSS style for sakura */
-	sakura.provider = gtk_css_provider_new();
-	GdkScreen *screen2 = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
-	gtk_css_provider_load_from_data(sakura.provider, SAKURA_CSS, -1, NULL);
-	gtk_style_context_add_provider_for_screen (screen2, GTK_STYLE_PROVIDER (sakura.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	/* Add CSS styles for main and fade window*/
+	GtkCssProvider *provider = gtk_css_provider_new();
+	GdkScreen *screen = gtk_widget_get_screen(GTK_WIDGET(sakura.main_window));
+	gtk_css_provider_load_from_data(provider, SAKURA_CSS, -1, NULL);
+	gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_object_unref(provider);
+
+	provider = gtk_css_provider_new();
+	screen = gtk_widget_get_screen(GTK_WIDGET(sakura.fade_window));
+	gtk_css_provider_load_from_data(provider, FADE_WINDOW_CSS, -1, NULL);
+	gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_object_unref(provider);
 
 	/* Default terminal size*/
 	sakura.columns = DEFAULT_COLUMNS;
@@ -2375,7 +2380,7 @@ sakura_init()
 	gtk_widget_add_events(sakura.notebook, GDK_SCROLL_MASK);
 
 	/* Figure out if we have rgba capabilities. FIXME: Is this really needed? */
-	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
+	screen = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
 	GdkVisual *visual = gdk_screen_get_rgba_visual (screen);
 	if (visual != NULL && gdk_screen_is_composited (screen)) {
 		gtk_widget_set_visual (GTK_WIDGET (sakura.main_window), visual);
@@ -2450,11 +2455,6 @@ sakura_init()
 	}
 
 	gtk_container_add(GTK_CONTAINER(sakura.main_window), sakura.notebook);
-
-	/* Adding mask to see wheter sakura window is focused or not */
-	sakura.focused = true;
-	sakura.first_focus = true;
-	sakura.faded = false;
 
 	sakura_init_popup();
 
@@ -2859,55 +2859,6 @@ sakura_set_colors ()
 	/* Main window opacity must be set. Otherwise vte widget will remain opaque */
 	gtk_widget_set_opacity(sakura.main_window, sakura.backcolors[sk_tab->colorset].alpha);
 
-}
-
-
-static void
-sakura_fade_out()
-{
-	gint page;
-	struct sakura_tab *sk_tab;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	sk_tab = sakura_get_sktab(sakura, page);
-
-	if (!sakura.faded) {
-		sakura.faded = true;
-	    	GdkRGBA x = sakura.forecolors[sk_tab->colorset];
-	        x.red = x.red/100.0 * FADE_PERCENT;
-	        x.green = x.green/100.0 * FADE_PERCENT;
-	        x.blue = x.blue/100.0 * FADE_PERCENT;
-		if ( (x.red >=0 && x.red <=1.0) && (x.green >=0 && x.green <=1.0) && (x.blue >=0 && x.blue <=1.0)) {
-	        	sakura.forecolors[sk_tab->colorset]=x;
-		} else {
-			SAY("Forecolor value out of range");
-		}
-	}
-}
-
-
-static void
-sakura_fade_in()
-{
-	gint page;
-	struct sakura_tab *sk_tab;
-
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	sk_tab = sakura_get_sktab(sakura, page);
-
-	if (sakura.faded) {
-		sakura.faded = false;
-		GdkRGBA x = sakura.forecolors[sk_tab->colorset];
-		//SAY("fade in red %f to %f", x.red, x.red/FADE_PERCENT*100.0);
-		x.red = x.red/FADE_PERCENT * 100.0;
-		x.green = x.green/FADE_PERCENT * 100.0;
-		x.blue = x.blue/FADE_PERCENT * 100.0;
-		if ( (x.red >=0 && x.red <=1.0) && (x.green >=0 && x.green <=1.0) && (x.blue >=0 && x.blue <=1.0)) {
-	        	sakura.forecolors[sk_tab->colorset]=x;
-		} else {
-			SAY("Forecolor value out of range");
-		}
-	}
 }
 
 
