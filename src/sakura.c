@@ -460,6 +460,7 @@ static void 	sakura_urgent_bell (GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error (const char *, ...);
+static void		sakura_build_command (int *, char **);
 static char * 	sakura_get_term_cwd (struct sakura_tab *);
 static guint    sakura_tokeycode (guint key);
 static void     sakura_set_keybind (const gchar *, guint);
@@ -3026,9 +3027,7 @@ sakura_add_tab()
 	}
 
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(sakura.notebook), sk_tab->hbox, TRUE);
-	// TODO: Set group id to support detached tabs
-	// gtk_notebook_set_tab_detachable(GTK_NOTEBOOK(sakura.notebook), sk_tab->hbox, TRUE);
-
+	
 	sakura_set_sktab(sakura, index, sk_tab );
 
 	/* vte signals */
@@ -3094,64 +3093,24 @@ sakura_add_tab()
 		}
 #endif
 
-		int command_argc=0; char **command_argv;
+		int command_argc=0; char **command_argv=NULL;
+
 		if (option_execute||option_xterm_execute) {
-			GError *gerror = NULL;
-			gchar *path;
+			char *path;
 
-			if(option_execute) {
-				/* -x option */
-				if (!g_shell_parse_argv(option_execute, &command_argc, &command_argv, &gerror)) {
-					switch (gerror->code) {
-						case G_SHELL_ERROR_EMPTY_STRING:
-							sakura_error("Empty exec string");
-							exit(1);
-							break;
-						case G_SHELL_ERROR_BAD_QUOTING: 
-							sakura_error("Cannot parse command line arguments: mangled quoting");
-							exit(1);
-							break;
-						case G_SHELL_ERROR_FAILED:
-							sakura_error("Error in exec option command line arguments");
-							exit(1);
-					}
-					g_error_free(gerror);
-				} 
-			} else {
-				/* -e option - last in the command line, takes all extra arguments */
-				if (option_xterm_args) {
-					gchar *command_joined;
-					command_joined = g_strjoinv(" ", option_xterm_args);
-					if (!g_shell_parse_argv(command_joined, &command_argc, &command_argv, &gerror)) {
-						switch (gerror->code) {
-							case G_SHELL_ERROR_EMPTY_STRING:
-								sakura_error("Empty exec string");
-								exit(1);
-								break;
-							case G_SHELL_ERROR_BAD_QUOTING: 
-								sakura_error("Cannot parse command line arguments: mangled quoting");
-								exit(1);
-							case G_SHELL_ERROR_FAILED:
-								sakura_error("Error in exec option command line arguments");
-								exit(1);
-						}
-					}
-					if (gerror!=NULL) g_error_free(gerror);
-					g_free(command_joined);
-				}
-			}
+			sakura_build_command(&command_argc, command_argv);
 
-			/* Check if the command is valid */
+			/* If the command is valid, run it */
 			if (command_argc > 0) {
 				path=g_find_program_in_path(command_argv[0]);
-				if (path) {
-					vte_terminal_spawn_async(VTE_TERMINAL(sk_tab->vte), VTE_PTY_NO_HELPER, NULL, command_argv, command_env,
-						       	          G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, sk_tab);
-				} else {
+
+				if (!path) {
 					sakura_error("%s command not found", command_argv[0]);
 					command_argc=0;
-					//exit(1);
 				}
+				vte_terminal_spawn_async(VTE_TERMINAL(sk_tab->vte), VTE_PTY_NO_HELPER, NULL, command_argv, command_env,
+						       	         G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, sk_tab);
+				
 				free(path);
 				g_strfreev(command_argv); g_strfreev(option_xterm_args);
 			}
@@ -3212,9 +3171,7 @@ sakura_add_tab()
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(sk_tab->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(sk_tab->vte), sakura.cursor_type);
 	
-	//sakura_set_colors();
-
-	/* FIXME: Possible race here. Find some way to force to process all configure
+		/* FIXME: Possible race here. Find some way to force to process all configure
 	 * events before setting keep_fc again to false */
 	sakura.keep_fc=false;
 }
@@ -3335,6 +3292,56 @@ sakura_error(const char *format, ...)
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 	free(buff);
+}
+
+
+static void
+sakura_build_command(int *command_argc, char **command_argv)
+{
+	GError *gerror = NULL;
+
+	if (option_execute) {
+		/* -x option */
+		if (!g_shell_parse_argv(option_execute, command_argc, &command_argv, &gerror)) {
+			switch (gerror->code) {
+			case G_SHELL_ERROR_EMPTY_STRING:
+				sakura_error("Empty exec string");
+				exit(1);
+				break;
+			case G_SHELL_ERROR_BAD_QUOTING:
+				sakura_error("Cannot parse command line arguments: mangled quoting");
+				exit(1);
+				break;
+			case G_SHELL_ERROR_FAILED:
+				sakura_error("Error in exec option command line arguments");
+				exit(1);
+			}
+			g_error_free(gerror);
+		}
+	} else {
+		/* -e option - last in the command line, takes all extra arguments */
+		if (option_xterm_args) {
+			gchar *command_joined;
+			command_joined = g_strjoinv(" ", option_xterm_args);
+			if (!g_shell_parse_argv(command_joined, command_argc, &command_argv, &gerror)) {
+				switch (gerror->code) {
+				case G_SHELL_ERROR_EMPTY_STRING:
+					sakura_error("Empty exec string");
+					exit(1);
+					break;
+				case G_SHELL_ERROR_BAD_QUOTING:
+					sakura_error("Cannot parse command line arguments: mangled quoting");
+					exit(1);
+				case G_SHELL_ERROR_FAILED:
+					sakura_error("Error in exec option command line arguments");
+					exit(1);
+				}
+			}
+			if (gerror != NULL)
+				g_error_free(gerror);
+			g_free(command_joined);
+		}
+	}
 }
 
 
