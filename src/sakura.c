@@ -686,6 +686,7 @@ sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 	if (event->width!=sakura.width || event->height!=sakura.height) {
 		//SAY("Configure event received. Current w %d h %d ConfigureEvent w %d h %d",
 		//sakura.width, sakura.height, event->width, event->height);
+		gtk_widget_hide(sakura.fade_window);
 		sakura.resized=TRUE;
 	}
 		
