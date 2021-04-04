@@ -492,7 +492,6 @@ static gboolean option_xterm_execute=FALSE;
 static gboolean option_version=FALSE;
 static gint option_ntabs=1;
 static gint option_login = FALSE;
-static const char *option_title;
 static const char *option_icon;
 static int option_rows, option_columns;
 static gboolean option_hold=FALSE;
@@ -511,9 +510,7 @@ static GOptionEntry entries[] = {
 	{ "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (last option in the command line)"), NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
 	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
-	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
 	{ "icon", 'i', 0, G_OPTION_ARG_STRING, &option_icon, N_("Set window icon"), NULL },
-	{ "xterm-title", 'T', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &option_title, NULL, NULL },
 	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
 	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
 	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after execute command"), NULL },
@@ -797,8 +794,8 @@ sakura_switch_page (GtkWidget *widget, GtkWidget *widget_page, guint page_num, v
 	title = vte_terminal_get_window_title(VTE_TERMINAL(sk_tab->vte));
 
 	/* Update the window title when a new tab is selected, but don't override the default */
-	if (option_title == NULL)
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
+	//if (option_title == NULL)
+	gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
 
 }
 
@@ -1146,11 +1143,7 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	if (!sk_tab->label_set_byuser) 
 		sakura_set_tab_label_text(tabtitle, modified_page);
 
-	if (option_title == NULL) { /* No user set title, so we use the current tab title */
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), tabtitle);
-	} else {
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), option_title);
-	}
+	gtk_window_set_title(GTK_WINDOW(sakura.main_window), tabtitle); /* Needed? */
 
 }
 
@@ -2363,10 +2356,6 @@ sakura_init()
 		sakura.argv[1]=g_strdup(g_getenv("SHELL"));
 	}
 	sakura.argv[2]=NULL;
-
-	if (option_title) {
-		gtk_window_set_title(GTK_WINDOW(sakura.main_window), option_title);
-	}
 
 	if (option_columns) {
 		sakura.columns = option_columns;
