@@ -460,7 +460,7 @@ static void 	sakura_urgent_bell (GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error (const char *, ...);
-static void		sakura_build_command (int *, char **);
+static void	sakura_build_command (int *, char ***);
 static char * 	sakura_get_term_cwd (struct sakura_tab *);
 static guint    sakura_tokeycode (guint key);
 static void     sakura_set_keybind (const gchar *, guint);
@@ -3099,7 +3099,7 @@ sakura_add_tab()
 		if (option_execute||option_xterm_execute) {
 			char *path;
 
-			sakura_build_command(&command_argc, command_argv);
+			sakura_build_command(&command_argc, &command_argv);
 
 			/* If the command is valid, run it */
 			if (command_argc > 0) {
@@ -3297,13 +3297,13 @@ sakura_error(const char *format, ...)
 
 
 static void
-sakura_build_command(int *command_argc, char **command_argv)
+sakura_build_command(int *command_argc, char ***command_argv)
 {
 	GError *gerror = NULL;
 
 	if (option_execute) {
 		/* -x option */
-		if (!g_shell_parse_argv(option_execute, command_argc, &command_argv, &gerror)) {
+		if (!g_shell_parse_argv(option_execute, command_argc, command_argv, &gerror)) {
 			switch (gerror->code) {
 			case G_SHELL_ERROR_EMPTY_STRING:
 				sakura_error("Empty exec string");
@@ -3324,7 +3324,7 @@ sakura_build_command(int *command_argc, char **command_argv)
 		if (option_xterm_args) {
 			gchar *command_joined;
 			command_joined = g_strjoinv(" ", option_xterm_args);
-			if (!g_shell_parse_argv(command_joined, command_argc, &command_argv, &gerror)) {
+			if (!g_shell_parse_argv(command_joined, command_argc, command_argv, &gerror)) {
 				switch (gerror->code) {
 				case G_SHELL_ERROR_EMPTY_STRING:
 					sakura_error("Empty exec string");
