@@ -782,20 +782,19 @@ sakura_notebook_scroll(GtkWidget *widget, GdkEventScroll *event)
 }
 
 
+/* Callback called when the user switchs tabs or closes a tab (but not when a tab is added) */
 static void
 sakura_switch_page (GtkWidget *widget, GtkWidget *widget_page, guint page_num, void *data)
 {
 	struct sakura_tab *sk_tab;
-	const char *title;
 	
 	/* Don't use gtk_notebook_get_current_page in the callbacks, it returns the previous page */
 
 	sk_tab = sakura_get_sktab(sakura, page_num);
-	title = vte_terminal_get_window_title(VTE_TERMINAL(sk_tab->vte));
 
 	/* Update the window title when a new tab is selected, but don't override the default */
-	//if (option_title == NULL)
-	gtk_window_set_title(GTK_WINDOW(sakura.main_window), title);
+	if (!sakura.tab_default_title)
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_label_get_text(GTK_LABEL(sk_tab->label)));
 
 }
 
@@ -1132,18 +1131,16 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	gint modified_page;
 	VteTerminal *vte_term=(VteTerminal *)widget;
 
-	SAY("title changed event");
-	/* TODO: use the callback page, if provided */
 	modified_page = sakura_find_tab(vte_term);
 	sk_tab = sakura_get_sktab(sakura, modified_page);
 
 	tabtitle = vte_terminal_get_window_title(VTE_TERMINAL(sk_tab->vte));
 
-	/* User set values overrides any other one, but title should be changed */
-	if (!sk_tab->label_set_byuser) 
+	/* User set values overrides any other one */
+	if (!sk_tab->label_set_byuser) {
 		sakura_set_tab_label_text(tabtitle, modified_page);
-
-	gtk_window_set_title(GTK_WINDOW(sakura.main_window), tabtitle); /* Needed? */
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), tabtitle);
+	}
 
 }
 
@@ -1281,6 +1278,7 @@ sakura_set_name_dialog (GtkWidget *widget, void *data)
 
 	if (response==GTK_RESPONSE_ACCEPT) {
 		sakura_set_tab_label_text(gtk_entry_get_text(GTK_ENTRY(entry)), page);
+		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
 		sk_tab->label_set_byuser=true;
 	}
 
@@ -2298,7 +2296,7 @@ sakura_init()
 	}
 	sakura.menu_button = g_key_file_get_integer(sakura.cfg, cfg_group, "menu_button", NULL);
 
-	/* set default title pattern from config or NULL */
+	/* NULL if not found. Don't add a new one */
 	sakura.tab_default_title = g_key_file_get_string(sakura.cfg, cfg_group, "tab_default_title", NULL);
 
 	/* Use always GTK header bar*/
@@ -2949,7 +2947,7 @@ sakura_add_tab()
 	if (index >= 0) {
 		struct sakura_tab *prev_term;
 		prev_term = sakura_get_sktab(sakura, index);
-		cwd = sakura_get_term_cwd(prev_term);
+		cwd = sakura_get_term_cwd(prev_term); /* FIXME: Use current_uri from vte */
 
 		sk_tab->colorset = prev_term->colorset;
 	}
