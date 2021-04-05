@@ -337,7 +337,6 @@ struct sakura_tab {
 #define TAB_MIN_SIZE 6
 #define FORWARD 1
 #define BACKWARDS 2
-#define FADE_PERCENT 60 
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
@@ -458,7 +457,7 @@ static void 	sakura_urgent_bell (GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error (const char *, ...);
-static void	sakura_build_command (int *, char ***);
+static void		sakura_build_command (int *, char ***);
 static char * 	sakura_get_term_cwd (struct sakura_tab *);
 static guint    sakura_tokeycode (guint key);
 static void     sakura_set_keybind (const gchar *, guint);
@@ -533,7 +532,7 @@ static GOptionEntry entries[] = {
 static gboolean
 sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-	if (event->type!=GDK_KEY_PRESS) return FALSE;
+	if (event->type != GDK_KEY_PRESS) return FALSE;
 
 	unsigned int topage = 0;
 
@@ -543,12 +542,12 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	guint keycode = event->hardware_keycode;
 
 	/* Add/delete tab keybinding pressed */
-	if ( (event->state & sakura.add_tab_accelerator)==sakura.add_tab_accelerator &&
-			keycode==sakura_tokeycode(sakura.add_tab_key)) {
+	if ( (event->state & sakura.add_tab_accelerator) == sakura.add_tab_accelerator &&
+			keycode == sakura_tokeycode(sakura.add_tab_key)) {
 		sakura_add_tab();
 		return TRUE;
-	} else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
-			keycode==sakura_tokeycode(sakura.del_tab_key) ) {
+	} else if ( (event->state & sakura.del_tab_accelerator) == sakura.del_tab_accelerator &&
+			keycode == sakura_tokeycode(sakura.del_tab_key) ) {
 		/* Delete current tab */
 		sakura_close_tab(NULL, NULL);
 		return TRUE;
@@ -565,7 +564,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 		/* Just propagate the event if there is only one tab */
 		if(npages < 2) return FALSE;
 
-		if ((keycode>=sakura_tokeycode(GDK_KEY_1)) && (keycode<=sakura_tokeycode( GDK_KEY_9))) {  
+		if ((keycode >= sakura_tokeycode(GDK_KEY_1)) && (keycode <= sakura_tokeycode( GDK_KEY_9))) {  
 
 			/* User has explicitly disabled this branch, make sure to propagate the event */
 			if(sakura.disable_numbered_tabswitch) return FALSE;
@@ -582,15 +581,15 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 			if (topage <= npages)
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
 			return TRUE;
-		} else if (keycode==sakura_tokeycode(sakura.prev_tab_key)) {
+		} else if (keycode == sakura_tokeycode(sakura.prev_tab_key)) {
 			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), npages-1);
 			} else {
 				gtk_notebook_prev_page(GTK_NOTEBOOK(sakura.notebook));
 			}
 			return TRUE;
-		} else if (keycode==sakura_tokeycode(sakura.next_tab_key)) {
-			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==(npages-1)) {
+		} else if (keycode == sakura_tokeycode(sakura.next_tab_key)) {
+			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)) == (npages-1)) {
 				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), 0);
 			} else {
 				gtk_notebook_next_page(GTK_NOTEBOOK(sakura.notebook));
@@ -601,72 +600,72 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 
 	/* Move tab keybinding pressed */
 	if ( ((event->state & sakura.move_tab_accelerator) == sakura.move_tab_accelerator)) { 
-		if (keycode==sakura_tokeycode(sakura.prev_tab_key)) {
+		if (keycode == sakura_tokeycode(sakura.prev_tab_key)) {
 			sakura_move_tab(BACKWARDS);
 			return TRUE;
-		} else if (keycode==sakura_tokeycode(sakura.next_tab_key)) {
+		} else if (keycode == sakura_tokeycode(sakura.next_tab_key)) {
 			sakura_move_tab(FORWARD);
 			return TRUE;
 		}
 	}
 
 	/* Copy/paste keybinding pressed */
-	if ( (event->state & sakura.copy_accelerator)==sakura.copy_accelerator ) {
-		if (keycode==sakura_tokeycode(sakura.copy_key)) {
+	if ( (event->state & sakura.copy_accelerator) == sakura.copy_accelerator ) {
+		if (keycode == sakura_tokeycode(sakura.copy_key)) {
 			sakura_copy(NULL, NULL);
 			return TRUE;
-		} else if (keycode==sakura_tokeycode(sakura.paste_key)) {
+		} else if (keycode == sakura_tokeycode(sakura.paste_key)) {
 			sakura_paste(NULL, NULL);
 			return TRUE;
 		}
 	}
 
 	/* Show scrollbar keybinding pressed */
-	if ( (event->state & sakura.scrollbar_accelerator)==sakura.scrollbar_accelerator ) {
-		if (keycode==sakura_tokeycode(sakura.scrollbar_key)) {
+	if ( (event->state & sakura.scrollbar_accelerator) == sakura.scrollbar_accelerator ) {
+		if (keycode == sakura_tokeycode(sakura.scrollbar_key)) {
 			sakura_show_scrollbar(NULL, NULL);
 			return TRUE;
 		}
 	}
 
 	/* Set tab name keybinding pressed */
-	if ( (event->state & sakura.set_tab_name_accelerator)==sakura.set_tab_name_accelerator ) {
-		if (keycode==sakura_tokeycode(sakura.set_tab_name_key)) {
+	if ( (event->state & sakura.set_tab_name_accelerator) == sakura.set_tab_name_accelerator ) {
+		if (keycode == sakura_tokeycode(sakura.set_tab_name_key)) {
 			sakura_set_name_dialog(NULL, NULL);
 			return TRUE;
 		}
 	}
 
 	/* Search keybinding pressed */
-	if ( (event->state & sakura.search_accelerator)==sakura.search_accelerator ) {
-		if (keycode==sakura_tokeycode(sakura.search_key)) {
+	if ( (event->state & sakura.search_accelerator) == sakura.search_accelerator ) {
+		if (keycode == sakura_tokeycode(sakura.search_key)) {
 			sakura_search_dialog(NULL, NULL);
 			return TRUE;
 		}
 	}
 
 	/* Increase/decrease font size keybinding pressed */
-	if ( (event->state & sakura.font_size_accelerator)==sakura.font_size_accelerator ) {
-		if (keycode==sakura_tokeycode(sakura.increase_font_size_key)) {
+	if ( (event->state & sakura.font_size_accelerator) == sakura.font_size_accelerator ) {
+		if (keycode == sakura_tokeycode(sakura.increase_font_size_key)) {
 			sakura_increase_font(NULL, NULL);
 			return TRUE;
-		} else if (keycode==sakura_tokeycode(sakura.decrease_font_size_key)) {
+		} else if (keycode == sakura_tokeycode(sakura.decrease_font_size_key)) {
 			sakura_decrease_font(NULL, NULL);
 			return TRUE;
 		}
 	}
 
 	/* F11 (fullscreen) pressed */
-	if (keycode==sakura_tokeycode(sakura.fullscreen_key)){
+	if (keycode == sakura_tokeycode(sakura.fullscreen_key)){
 		sakura_fullscreen(NULL, NULL);
 		return TRUE;
 	}
 
 	/* Change in colorset */
-	if ( (event->state & sakura.set_colorset_accelerator)==sakura.set_colorset_accelerator ) {
+	if ( (event->state & sakura.set_colorset_accelerator) == sakura.set_colorset_accelerator ) {
 		int i;
 		for(i=0; i<NUM_COLORSETS; i++) {
-			if (keycode==sakura_tokeycode(sakura.set_colorset_keys[i])){
+			if (keycode == sakura_tokeycode(sakura.set_colorset_keys[i])){
 				sakura_set_colorset(i);
 				return TRUE;
 			}
@@ -679,11 +678,11 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 static gboolean
 sakura_resized_window (GtkWidget *widget, GdkEventConfigure *event, void *data)
 {
-	if (event->width!=sakura.width || event->height!=sakura.height) {
+	if (event->width != sakura.width || event->height != sakura.height) {
 		//SAY("Configure event received. Current w %d h %d ConfigureEvent w %d h %d",
 		//sakura.width, sakura.height, event->width, event->height);
 		gtk_widget_hide(sakura.fade_window);
-		sakura.resized=TRUE;
+		sakura.resized = TRUE;
 	}
 		
 	return FALSE;
@@ -721,7 +720,7 @@ sakura_focus_out(GtkWidget *widget, GdkEvent *event, void *data)
 	/* Give the right size and position to the fade_window to cover all the main window */
 	gtk_widget_translate_coordinates(sakura.notebook, sakura.main_window, 0, 0, &ax, &ay);
 	gtk_window_get_position(GTK_WINDOW(sakura.main_window), &mx, &my);
-	gint titlebar_height=ay-my;
+	gint titlebar_height = ay-my;
 	gtk_window_move(GTK_WINDOW(sakura.fade_window), mx, my+titlebar_height);
 
 	/* Same size as main window */
@@ -746,7 +745,7 @@ sakura_show_event(GtkWidget *widget, gpointer data)
 static void
 sakura_conf_changed (GtkWidget *widget, void *data) 
 {
-	sakura.externally_modified=true;
+	sakura.externally_modified = true;
 }
 
 
@@ -833,7 +832,7 @@ static void
 sakura_closebutton_clicked(GtkWidget *widget, void *data)
 {
 	gint page;
-	GtkWidget *hbox=(GtkWidget *)data;
+	GtkWidget *hbox = (GtkWidget *)data;
 	struct sakura_tab *sk_tab;
 	pid_t pgid;
 	GtkWidget *dialog;
@@ -879,7 +878,7 @@ static gboolean
 sakura_label_clicked(GtkWidget *widget, GdkEventButton *button_event, void *data)
 {
 	gint page;
-	GtkWidget *hbox=(GtkWidget *)data;
+	GtkWidget *hbox = (GtkWidget *)data;
 	struct sakura_tab *sk_tab;
 	pid_t pgid;
 	GtkWidget *dialog;
