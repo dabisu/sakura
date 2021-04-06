@@ -479,7 +479,6 @@ static void     sakura_set_size (void);
 static void     sakura_config_done ();
 static void     sakura_set_colorset (int);
 static void     sakura_set_colors (void);
-static void     sakura_set_palette (guint);
 static void     sakura_search (const char *, bool);
 
 
@@ -1324,8 +1323,7 @@ sakura_color_dialog_changed( GtkWidget *widget, void *data)
 			backcolors[current_cs] = predefined_schemes[selected_scheme].bg;
 			backcolors[current_cs].alpha = old_alpha;
 			sakura.schemes[current_cs] = selected_scheme;
-		}
-		/* else Custom, do nothing */
+		} /* else Custom, do nothing */
 	} else if ((GtkWidget *)bib_checkbutton == widget) {
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(bib_checkbutton))) {
 			sakura.bold_is_bright = true;
@@ -1354,7 +1352,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	GtkWidget *color_dialog; GtkWidget *color_header;
 	GtkWidget *cs_label, *scheme_label, *fore_label, *back_label, *curs_label, *opacity_label, *palette_label;
 	GtkWidget *cs_combo, *scheme_combo, *fore_button, *back_button, *curs_button, *palette_combo, *opacity_spin;
-	GtkWidget *cs_hbox, *scheme_hbox, *fore_hbox, *back_hbox, *curs_hbox, *opacity_hbox, *palette_hbox;
+	GtkWidget *cs_hbox, *scheme_hbox, *fore_hbox, *back_hbox, *curs_hbox, *opacity_hbox, *palette_hbox, *bib_hbox;
 	GtkWidget *bib_checkbutton;
 	GdkRGBA temp_fore[NUM_COLORSETS]; GdkRGBA temp_back[NUM_COLORSETS];	GdkRGBA temp_curs[NUM_COLORSETS];
 	GtkAdjustment *spin_adj;
@@ -1422,7 +1420,9 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_combo_box_set_active(GTK_COMBO_BOX(palette_combo), sakura.palette_idx);
 
 	/* Bold is bright checkbutton */
-	bib_checkbutton = gtk_check_button_new_with_label(_("Use bright colors for bold font"));
+	bib_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
+	bib_checkbutton = gtk_check_button_new_with_label(_("Use bright colors for bold text"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(bib_checkbutton), sakura.bold_is_bright);
 	
 	gtk_box_pack_start(GTK_BOX(cs_hbox), cs_label, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(cs_hbox), cs_combo, FALSE, FALSE, 12);
@@ -1438,6 +1438,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_end(GTK_BOX(opacity_hbox), opacity_spin, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(palette_hbox), palette_label, FALSE, FALSE, 12);
 	gtk_box_pack_end(GTK_BOX(palette_hbox), palette_combo, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(bib_hbox), bib_checkbutton, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), cs_hbox, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), scheme_hbox, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), fore_hbox, FALSE, FALSE, 6);
@@ -1445,7 +1446,7 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), curs_hbox, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), opacity_hbox, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), palette_hbox, FALSE, FALSE, 6);
-	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), bib_checkbutton, FALSE, FALSE, 6);
+	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog))), bib_hbox, FALSE, FALSE, 6);
 
 	gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(color_dialog)));
 
@@ -1512,7 +1513,13 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 		sakura_set_config_integer("last_colorset", sk_tab->colorset+1);
 		
 		/* Set the selected palette */
-		sakura_set_palette(gtk_combo_box_get_active(GTK_COMBO_BOX(palette_combo)));
+		guint palette_idx = gtk_combo_box_get_active(GTK_COMBO_BOX(palette_combo));
+		sakura.palette = palettes[palette_idx];
+		sakura.palette_idx = palette_idx;
+		sakura_set_config_integer("palette", sakura.palette_idx);
+
+		/* Set bold is bright option */
+		sakura_set_config_boolean("bold_is_bright", sakura.bold_is_bright);
 
 		/* Apply the new colorsets to all tabs */
 		sakura_set_colors();
@@ -1835,17 +1842,6 @@ sakura_set_cursor(GtkWidget *widget, void *data)
 
 		sakura_set_config_integer("cursor_type", sakura.cursor_type);
 	}
-}
-
-
-/* Set new sakura palette and palette config value*/
-static void
-sakura_set_palette(guint palette_idx)
-{
-	sakura.palette = palettes[palette_idx];
-	sakura.palette_idx = palette_idx;
-	sakura_set_config_integer("palette", sakura.palette_idx);
-	
 }
 
 
