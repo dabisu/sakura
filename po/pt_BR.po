@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -34,9 +34,6 @@ msgstr "Executar comando (última opção da linha de comando)"
 
 msgid "Login shell"
 msgstr "Login shell"
-
-msgid "Set window title"
-msgstr "Definir título da janela"
 
 #, fuzzy
 msgid "Set window icon"
@@ -97,7 +94,6 @@ msgstr "_Aplicar"
 msgid "New text"
 msgstr "Novo texto"
 
-#, fuzzy
 msgid "Select colors"
 msgstr "Selecionar cor"
 
@@ -119,16 +115,17 @@ msgstr "Cor de fundo"
 msgid "Cursor color"
 msgstr "Cor do cursor"
 
-#, fuzzy
 msgid "Opacity level (%)"
 msgstr "Nível de opacidade (%):"
 
-#, fuzzy
 msgid "Palette"
-msgstr "Definir paleta"
+msgstr "Paleta"
 
 msgid "Search"
 msgstr ""
+
+msgid "Set window title"
+msgstr "Definir título da janela"
 
 msgid "New window title"
 msgstr "Definir título da janela"
@@ -137,11 +134,9 @@ msgstr "Definir título da janela"
 msgid "Open mail"
 msgstr "Abrir link..."
 
-#, fuzzy
 msgid "Open link"
 msgstr "Abrir link..."
 
-#, fuzzy
 msgid "Copy link"
 msgstr "Copiar link..."
 
@@ -163,20 +158,14 @@ msgstr "Copiar"
 msgid "Paste"
 msgstr "Colar"
 
+msgid "Options"
+msgstr "Opções"
+
 msgid "Select font..."
 msgstr "Selecionar fonte..."
 
 msgid "Select colors..."
 msgstr "Selecionar cores..."
-
-msgid "Set window title..."
-msgstr "Definir título da janela"
-
-msgid "Options"
-msgstr "Opções"
-
-msgid "More"
-msgstr "Mais"
 
 msgid "Always show tab bar"
 msgstr "Sempre mostrar a barra de abas"
@@ -203,9 +192,6 @@ msgstr "Ativar aviso sonoro"
 msgid "Set blinking cursor"
 msgstr "Ativar cursor piscando"
 
-msgid "Disable tab cycling"
-msgstr ""
-
 msgid "Disable numbered tabswitch"
 msgstr ""
 
@@ -228,7 +214,6 @@ msgstr "IBeam"
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
-#, fuzzy
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "A configuração foi modificada por outro processo. Sobrescrever?"
 
@@ -245,3 +230,4 @@ msgstr "- emulador de terminal baseado no vte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura versão %s\n"
+

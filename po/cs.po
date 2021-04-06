@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2018-05-03 16:14+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -38,9 +38,6 @@ msgstr ""
 
 msgid "Login shell"
 msgstr "Přihlašovací shell"
-
-msgid "Set window title"
-msgstr "Nastaví titulek okna"
 
 msgid "Set window icon"
 msgstr "Nastavit ikonu okna"
@@ -106,10 +103,10 @@ msgid "_Select"
 msgstr "_Vybrat"
 
 msgid "Colorset"
-msgstr ""
+msgstr "Barevné sada"
 
 msgid "Color scheme"
-msgstr ""
+msgstr "Barevné schéma"
 
 msgid "Foreground color"
 msgstr "Barva popředí"
@@ -120,16 +117,17 @@ msgstr "Barva pozadí"
 msgid "Cursor color"
 msgstr "Barva kurzoru"
 
-#, fuzzy
 msgid "Opacity level (%)"
 msgstr "Úroveň průhlednosti (%):"
 
-#, fuzzy
 msgid "Palette"
-msgstr "Nastavit paletu"
+msgstr "Paletu"
 
 msgid "Search"
 msgstr "Hledat"
+
+msgid "Set window title"
+msgstr "Nastaví titulek okna"
 
 msgid "New window title"
 msgstr "Název nového okna"
@@ -161,20 +159,14 @@ msgstr "Kopírovat"
 msgid "Paste"
 msgstr "Vložit"
 
+msgid "Options"
+msgstr "Volby"
+
 msgid "Select font..."
 msgstr "Zvolte písmo…"
 
 msgid "Select colors..."
 msgstr "Zvolte barvy…"
-
-msgid "Set window title..."
-msgstr "Nastavit název okna…"
-
-msgid "Options"
-msgstr "Volby"
-
-msgid "More"
-msgstr "Více"
 
 msgid "Always show tab bar"
 msgstr "Vždy zobrazit lištu karet"
@@ -191,18 +183,14 @@ msgstr "Zobrazit posuvník"
 msgid "Less questions at exit time"
 msgstr ""
 
-#, fuzzy
 msgid "Set urgent bell"
-msgstr "Nastavit akustické upozornění"
+msgstr "Nastavit naléhavý zvon"
 
 msgid "Set audible bell"
-msgstr "Nastavit akustické upozornění"
+msgstr "Nastavit akustické zvon"
 
 msgid "Set blinking cursor"
 msgstr "Nastavit blikající kurzor"
-
-msgid "Disable tab cycling"
-msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr ""
@@ -242,6 +230,3 @@ msgstr "- emulátor terminálu založený na VTE"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verze %s\n"
-
-#~ msgid "Enable bold font"
-#~ msgstr "Zapnout tučné písmo"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2019-08-12 16:27+0000\n"
 "Last-Translator: Andreas Rönnquist <andreas@ronnquist.net>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -38,9 +38,6 @@ msgstr "Kör kommando (Sista alternativet på kommandoraden)"
 
 msgid "Login shell"
 msgstr "Inloggningsskal"
-
-msgid "Set window title"
-msgstr "Sätt fönstertitel"
 
 msgid "Set window icon"
 msgstr "Sätt fönsterikon"
@@ -108,9 +105,8 @@ msgstr "_Välj"
 msgid "Colorset"
 msgstr "Färguppsättning"
 
-#, fuzzy
 msgid "Color scheme"
-msgstr "Färguppsättning"
+msgstr "Färgschema"
 
 msgid "Foreground color"
 msgstr "Förgrundsfärg"
@@ -124,12 +120,14 @@ msgstr "Markörfärg"
 msgid "Opacity level (%)"
 msgstr "Opacitetsnivå (%)"
 
-#, fuzzy
 msgid "Palette"
-msgstr "Sätt palett"
+msgstr "Palett"
 
 msgid "Search"
 msgstr "Sök"
+
+msgid "Set window title"
+msgstr "Sätt fönstertitel"
 
 msgid "New window title"
 msgstr "Ny fönstertitel"
@@ -161,20 +159,14 @@ msgstr "Kopiera"
 msgid "Paste"
 msgstr "Klistra in"
 
+msgid "Options"
+msgstr "Alternativ"
+
 msgid "Select font..."
 msgstr "Välj typsnitt..."
 
 msgid "Select colors..."
 msgstr "Välj färger..."
-
-msgid "Set window title..."
-msgstr "Sätt fönstertitel..."
-
-msgid "Options"
-msgstr "Alternativ"
-
-msgid "More"
-msgstr "Fler"
 
 msgid "Always show tab bar"
 msgstr "Visa alltid flikfältet"
@@ -199,9 +191,6 @@ msgstr "Sätt hörbar signal"
 
 msgid "Set blinking cursor"
 msgstr "Sätt blinkande markör"
-
-msgid "Disable tab cycling"
-msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr "Inaktivera numrerad flikväxlare"
@@ -242,8 +231,3 @@ msgstr "- vte-baserad terminalemulator"
 msgid "sakura version is %s\n"
 msgstr "sakura-versionen är %s\n"
 
-#~ msgid "Stop tab cycling at end tabs"
-#~ msgstr "Stoppa flikcykling vid ändflikar"
-
-#~ msgid "Enable bold font"
-#~ msgstr "Aktivera fetstil"

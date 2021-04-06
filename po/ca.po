@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2019-09-30 05:43+0000\n"
 "Last-Translator: Adolfo Jayme <Unknown>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -25,9 +25,8 @@ msgstr "Sel·leccionar el tipus de font inicial"
 msgid "Select initial number of tabs"
 msgstr "Sel·leccionar el número inicial de pestanyes"
 
-#, fuzzy
 msgid "Set working directory"
-msgstr "Definir el cursor"
+msgstr "Definir el directori actual"
 
 msgid "Execute command"
 msgstr "Executa l'ordre"
@@ -38,12 +37,8 @@ msgstr ""
 msgid "Login shell"
 msgstr "Entrada d'usuari en Shell"
 
-msgid "Set window title"
-msgstr "Definir el nom de la finestra"
-
-#, fuzzy
 msgid "Set window icon"
-msgstr "Definir el nom de la finestra"
+msgstr "Definir el nom de la icona"
 
 msgid "Set columns number"
 msgstr "Definir el nombre de columnes"
@@ -63,9 +58,8 @@ msgstr "Pantalla complèta"
 msgid "Use alternate configuration file"
 msgstr ""
 
-#, fuzzy
 msgid "Select initial colorset"
-msgstr "Sel·leccionar color"
+msgstr "Sel·leccionar grupo de colors inicial"
 
 msgid ""
 "There is a running process in this terminal.\n"
@@ -100,7 +94,6 @@ msgstr "_Aplica"
 msgid "New text"
 msgstr "Nou text"
 
-#, fuzzy
 msgid "Select colors"
 msgstr "Sel·leccionar color"
 
@@ -108,7 +101,7 @@ msgid "_Select"
 msgstr "_Selecciona"
 
 msgid "Colorset"
-msgstr ""
+msgstr "Grup de colors"
 
 msgid "Color scheme"
 msgstr ""
@@ -122,23 +115,23 @@ msgstr "Color de fons"
 msgid "Cursor color"
 msgstr "Color del cursor"
 
-#, fuzzy
 msgid "Opacity level (%)"
 msgstr "Nivell d'opacitat (%)"
 
-#, fuzzy
 msgid "Palette"
-msgstr "Definir paleta de colors"
+msgstr "Paleta"
 
 msgid "Search"
 msgstr "Cerca"
 
+msgid "Set window title"
+msgstr "Definir el nom de la finestra"
+
 msgid "New window title"
 msgstr "Definiu el nom de la finestra"
 
-#, fuzzy
 msgid "Open mail"
-msgstr "Obrir enllaç"
+msgstr "Obrir correu"
 
 msgid "Open link"
 msgstr "Obrir enllaç"
@@ -150,7 +143,7 @@ msgid "New tab"
 msgstr "Nova pestanya"
 
 msgid "Set tab name..."
-msgstr ""
+msgstr "Definir el nom de pestanya..."
 
 msgid "Close tab"
 msgstr "Tancar pestanya"
@@ -164,20 +157,14 @@ msgstr "Copiar"
 msgid "Paste"
 msgstr "Enganxar"
 
+msgid "Options"
+msgstr "Opcions"
+
 msgid "Select font..."
 msgstr "Sel·leccionar font..."
 
 msgid "Select colors..."
 msgstr "Sel·leccionar colors..."
-
-msgid "Set window title..."
-msgstr "Definir el nom de la finestra"
-
-msgid "Options"
-msgstr "Opcions"
-
-msgid "More"
-msgstr "Més"
 
 msgid "Always show tab bar"
 msgstr "Mostra sempre la barra de pestanyes"
@@ -194,9 +181,8 @@ msgstr "Mostrar la barra de desplaçament"
 msgid "Less questions at exit time"
 msgstr ""
 
-#, fuzzy
 msgid "Set urgent bell"
-msgstr "Definir la senyal acústica"
+msgstr "Definir la senyal urgent"
 
 msgid "Set audible bell"
 msgstr "Definir la senyal acústica"
@@ -204,17 +190,14 @@ msgstr "Definir la senyal acústica"
 msgid "Set blinking cursor"
 msgstr "Definir el cursor"
 
-msgid "Disable tab cycling"
-msgstr ""
-
 msgid "Disable numbered tabswitch"
 msgstr ""
 
 msgid "Enable focus fade"
-msgstr ""
+msgstr "Activar atenuació de focus"
 
 msgid "Set cursor type"
-msgstr ""
+msgstr "Definir el tipus de cursor"
 
 msgid "Block"
 msgstr "Bloc"
@@ -235,14 +218,13 @@ msgstr ""
 msgid "Error message"
 msgstr "Missatge d'error"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot change working directory\n"
-msgstr "Definir el cursor"
+msgstr "No es pot cambiar el directori actual\n"
 
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal basat en libvte"
 
-# c-format
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versió de sakura és %s\n"

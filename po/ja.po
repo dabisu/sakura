@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2019-08-12 16:55+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -35,9 +35,6 @@ msgstr "コマンドを実行（コマンド行の最終オプション)"
 
 msgid "Login shell"
 msgstr "ログインシェル"
-
-msgid "Set window title"
-msgstr "ウィンドウタイトルを設定"
 
 msgid "Set window icon"
 msgstr "ウィンドウアイコンを設定"
@@ -126,6 +123,9 @@ msgstr "パレット"
 msgid "Search"
 msgstr "探索"
 
+msgid "Set window title"
+msgstr "ウィンドウタイトルを設定"
+
 msgid "New window title"
 msgstr "新しいウィンドウタイトル"
 
@@ -156,20 +156,14 @@ msgstr "コピー"
 msgid "Paste"
 msgstr "貼り付け"
 
+msgid "Options"
+msgstr "設定"
+
 msgid "Select font..."
 msgstr "フォントを選択..."
 
 msgid "Select colors..."
 msgstr "色を選択..."
-
-msgid "Set window title..."
-msgstr "ウィンドウのタイトルを設定..."
-
-msgid "Options"
-msgstr "設定"
-
-msgid "More"
-msgstr "さらに"
 
 msgid "Always show tab bar"
 msgstr "タブバーを常に表示"
@@ -194,9 +188,6 @@ msgstr "ベル音を有効にする"
 
 msgid "Set blinking cursor"
 msgstr "カーソルの点滅を有効にする"
-
-msgid "Disable tab cycling"
-msgstr "タブサイクリングを無効にする"
 
 msgid "Disable numbered tabswitch"
 msgstr "番号のタブ切り替えを無効にする"

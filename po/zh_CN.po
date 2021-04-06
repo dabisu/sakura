@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2019-08-12 17:06+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -38,9 +38,6 @@ msgstr "执行命令(命令行结束前执行)"
 
 msgid "Login shell"
 msgstr "登录 shell"
-
-msgid "Set window title"
-msgstr "设置窗口标题"
 
 msgid "Set window icon"
 msgstr "设置窗口图标"
@@ -129,6 +126,9 @@ msgstr "调色板"
 msgid "Search"
 msgstr "搜索"
 
+msgid "Set window title"
+msgstr "设置窗口标题"
+
 msgid "New window title"
 msgstr "新窗口标题"
 
@@ -159,20 +159,14 @@ msgstr "复制"
 msgid "Paste"
 msgstr "粘贴"
 
+msgid "Options"
+msgstr "选项"
+
 msgid "Select font..."
 msgstr "选择字体..."
 
 msgid "Select colors..."
 msgstr "选择颜色..."
-
-msgid "Set window title..."
-msgstr "设置窗口标题..."
-
-msgid "Options"
-msgstr "选项"
-
-msgid "More"
-msgstr "更多"
 
 msgid "Always show tab bar"
 msgstr "总是显示第一个标签页"
@@ -197,9 +191,6 @@ msgstr "设定蜂鸣铃"
 
 msgid "Set blinking cursor"
 msgstr "设置闪烁光标"
-
-msgid "Disable tab cycling"
-msgstr "禁用标签循环"
 
 msgid "Disable numbered tabswitch"
 msgstr "禁用编号标签开关"
@@ -239,5 +230,4 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
-
 

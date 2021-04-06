@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2019-09-30 05:48+0000\n"
 "Last-Translator: Minho Park <parkmino@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -38,9 +38,6 @@ msgstr "명령어 실행 (명령어 줄에 마지막 설정)"
 
 msgid "Login shell"
 msgstr "로그인 쉘"
-
-msgid "Set window title"
-msgstr "창 제목 설정"
 
 msgid "Set window icon"
 msgstr "창 아이콘 설정"
@@ -129,6 +126,9 @@ msgstr "파레트"
 msgid "Search"
 msgstr "검색"
 
+msgid "Set window title"
+msgstr "창 제목 설정"
+
 msgid "New window title"
 msgstr "새 창 제목"
 
@@ -159,20 +159,14 @@ msgstr "복사"
 msgid "Paste"
 msgstr "붙여넣기"
 
+msgid "Options"
+msgstr "설정"
+
 msgid "Select font..."
 msgstr "글꼴 선택..."
 
 msgid "Select colors..."
 msgstr "색상 선택..."
-
-msgid "Set window title..."
-msgstr "창 제목 설정..."
-
-msgid "Options"
-msgstr "설정"
-
-msgid "More"
-msgstr "더보기"
 
 msgid "Always show tab bar"
 msgstr "탭바 항상 보기"
@@ -197,9 +191,6 @@ msgstr "종 소리 설정"
 
 msgid "Set blinking cursor"
 msgstr "커서 깜빡임 설정"
-
-msgid "Disable tab cycling"
-msgstr "탭 순환 사용 안 함"
 
 msgid "Disable numbered tabswitch"
 msgstr "번호 탭 스위치 사용 안 함"
@@ -239,5 +230,3 @@ msgstr "- vte 기반의 터미널 에뮬레이터"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 버전은 %s 입니다\n"
-
-

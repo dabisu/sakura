@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -37,9 +37,6 @@ msgstr "Exécuter une commande (dernière option sur la ligne de commande)"
 
 msgid "Login shell"
 msgstr "Shell de connexion"
-
-msgid "Set window title"
-msgstr "Définir le titre de la fenêtre"
 
 msgid "Set window icon"
 msgstr "Définir l'icône de fenêtre"
@@ -128,6 +125,9 @@ msgstr "Palette"
 msgid "Search"
 msgstr "Chercher"
 
+msgid "Set window title"
+msgstr "Définir le titre de la fenêtre"
+
 msgid "New window title"
 msgstr "Définir le titre de la fenêtre"
 
@@ -158,20 +158,14 @@ msgstr "Copier"
 msgid "Paste"
 msgstr "Coller"
 
+msgid "Options"
+msgstr "Options"
+
 msgid "Select font..."
 msgstr "Sélectionner la police de caractères..."
 
 msgid "Select colors..."
 msgstr "Sélectionner les couleurs..."
-
-msgid "Set window title..."
-msgstr "Définir le titre de la fenêtre..."
-
-msgid "Options"
-msgstr "Options"
-
-msgid "More"
-msgstr "Plus"
 
 msgid "Always show tab bar"
 msgstr "Toujours afficher la barre d'onglets"
@@ -196,9 +190,6 @@ msgstr "Définir un avertissement audio"
 
 msgid "Set blinking cursor"
 msgstr "Définir un curseur clignotant"
-
-msgid "Disable tab cycling"
-msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr ""

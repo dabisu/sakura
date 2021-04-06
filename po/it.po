@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: sakura-it <nicola@entidi.it>\n"
@@ -39,9 +39,6 @@ msgstr "Esegui il comando (l'ultima scelta nella riga di comando)"
 
 msgid "Login shell"
 msgstr "Shell di login"
-
-msgid "Set window title"
-msgstr "Imposta il titolo della finestra"
 
 msgid "Set window icon"
 msgstr "Imposta l'icona della finestra"
@@ -130,6 +127,9 @@ msgstr "Tavolozza"
 msgid "Search"
 msgstr "Ricerca"
 
+msgid "Set window title"
+msgstr "Imposta il titolo della finestra"
+
 msgid "New window title"
 msgstr "Nuovo titolo della finestra"
 
@@ -160,20 +160,14 @@ msgstr "Copia"
 msgid "Paste"
 msgstr "Incolla"
 
+msgid "Options"
+msgstr "Opzioni"
+
 msgid "Select font..."
 msgstr "Seleziona il font..."
 
 msgid "Select colors..."
 msgstr "Seleziona i colori..."
-
-msgid "Set window title..."
-msgstr "Imposta il titolo della finestra..."
-
-msgid "Options"
-msgstr "Opzioni"
-
-msgid "More"
-msgstr "Altro"
 
 msgid "Always show tab bar"
 msgstr "Mostra sempre la barra delle schede"
@@ -199,14 +193,11 @@ msgstr "Imposta l'avviso acustico"
 msgid "Set blinking cursor"
 msgstr "Imposta il cursore lampeggiante"
 
-msgid "Disable tab cycling"
-msgstr ""
-
 msgid "Disable numbered tabswitch"
-msgstr ""
+msgstr "Disabilitare i numeri per cambiare scheda"
 
 msgid "Enable focus fade"
-msgstr ""
+msgstr "Abilitare il dimmer della messa a fuoco"
 
 msgid "Set cursor type"
 msgstr "Imposta il modello di cursore"

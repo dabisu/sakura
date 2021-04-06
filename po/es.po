@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2019-08-12 16:53+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -36,9 +36,6 @@ msgstr "Ejecutar comando (última opción en la linea de comandos)"
 
 msgid "Login shell"
 msgstr "Shell de login"
-
-msgid "Set window title"
-msgstr "Establecer nombre de ventana"
 
 msgid "Set window icon"
 msgstr "Establecer icono de ventana"
@@ -127,6 +124,9 @@ msgstr "Paleta"
 msgid "Search"
 msgstr "Buscar"
 
+msgid "Set window title"
+msgstr "Establecer nombre de ventana"
+
 msgid "New window title"
 msgstr "Título nuevo de la ventana"
 
@@ -157,20 +157,14 @@ msgstr "Copiar"
 msgid "Paste"
 msgstr "Pegar"
 
+msgid "Options"
+msgstr "Opciones"
+
 msgid "Select font..."
 msgstr "Seleccionar tipo de letra…"
 
 msgid "Select colors..."
 msgstr "Seleccionar colores..."
-
-msgid "Set window title..."
-msgstr "Establecer nombre de ventana..."
-
-msgid "Options"
-msgstr "Opciones"
-
-msgid "More"
-msgstr "Más"
 
 msgid "Always show tab bar"
 msgstr "Mostrar siempre la barra de pestañas"
@@ -196,14 +190,11 @@ msgstr "Activar campana audible"
 msgid "Set blinking cursor"
 msgstr "Activar parpadeo del cursor"
 
-msgid "Disable tab cycling"
-msgstr "Desactivar rotación de pestañas"
-
 msgid "Disable numbered tabswitch"
 msgstr "Desactivar números para cambio de pestañas"
 
 msgid "Enable focus fade"
-msgstr "Activar foco atenuado"
+msgstr "Activar atenuación de foco"
 
 msgid "Set cursor type"
 msgstr "Establecer tipo de cursor"
@@ -238,4 +229,3 @@ msgstr "- emulador de terminal basado en libvte"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"
-

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -22,10 +22,10 @@ msgid "Print version number"
 msgstr "Mostrar número da versão"
 
 msgid "Select initial terminal font"
-msgstr "Escolha o tipo de letra do terminal"
+msgstr "Escolha o tipo inicial de letra do terminal"
 
 msgid "Select initial number of tabs"
-msgstr "Escolha o número de separadores"
+msgstr "Escolha o número inicial de separadores"
 
 msgid "Set working directory"
 msgstr "Definir diretório de trabalho"
@@ -39,12 +39,8 @@ msgstr "Executar comando (última opção da linha de comandos)"
 msgid "Login shell"
 msgstr ""
 
-msgid "Set window title"
-msgstr "Definir título da janela"
-
-#, fuzzy
 msgid "Set window icon"
-msgstr "Definir título da janela"
+msgstr "Definir ícone de janela"
 
 msgid "Set columns number"
 msgstr "Definir número de colunas"
@@ -64,9 +60,8 @@ msgstr "Ecrã completo"
 msgid "Use alternate configuration file"
 msgstr "Utilizar ficheiro alternativo de configurações"
 
-#, fuzzy
 msgid "Select initial colorset"
-msgstr "Escolha a cor"
+msgstr "Escolha conjunto de cores inicial"
 
 msgid ""
 "There is a running process in this terminal.\n"
@@ -101,7 +96,6 @@ msgstr "_Aplicar"
 msgid "New text"
 msgstr "Novo texto"
 
-#, fuzzy
 msgid "Select colors"
 msgstr "Escolha a cor"
 
@@ -109,10 +103,10 @@ msgid "_Select"
 msgstr "_Selecionar"
 
 msgid "Colorset"
-msgstr ""
+msgstr "Conjunto de cores"
 
 msgid "Color scheme"
-msgstr ""
+msgstr "Esquema de cores"
 
 msgid "Foreground color"
 msgstr "Cor de primeiro plano"
@@ -120,26 +114,26 @@ msgstr "Cor de primeiro plano"
 msgid "Background color"
 msgstr "Cor de fundo"
 
-#, fuzzy
 msgid "Cursor color"
-msgstr "Escolha a cor de fundo:"
+msgstr "Cor do cursor"
 
 msgid "Opacity level (%)"
 msgstr "Nivel de opacidade (%)"
 
-#, fuzzy
 msgid "Palette"
-msgstr "Definir palete"
+msgstr "Palete"
 
 msgid "Search"
-msgstr ""
+msgstr "Pesquisar"
+
+msgid "Set window title"
+msgstr "Definir título da janela"
 
 msgid "New window title"
 msgstr "Título da nova janela"
 
-#, fuzzy
 msgid "Open mail"
-msgstr "Abrir ligação"
+msgstr "Abrir correio"
 
 msgid "Open link"
 msgstr "Abrir ligação"
@@ -165,20 +159,14 @@ msgstr "Copiar"
 msgid "Paste"
 msgstr "Colar"
 
+msgid "Options"
+msgstr "Opções"
+
 msgid "Select font..."
 msgstr "Escolha o tipo de letra..."
 
 msgid "Select colors..."
 msgstr "Escolha as cores..."
-
-msgid "Set window title..."
-msgstr "Definir título da janela..."
-
-msgid "Options"
-msgstr "Opções"
-
-msgid "More"
-msgstr "Mais..."
 
 msgid "Always show tab bar"
 msgstr "Barra de separadores omnipresente"
@@ -195,9 +183,8 @@ msgstr "Mostrar barra de deslocação"
 msgid "Less questions at exit time"
 msgstr ""
 
-#, fuzzy
 msgid "Set urgent bell"
-msgstr "Definir sinal sonoro"
+msgstr "Definir sinal urgente"
 
 msgid "Set audible bell"
 msgstr "Definir sinal sonoro"
@@ -205,14 +192,11 @@ msgstr "Definir sinal sonoro"
 msgid "Set blinking cursor"
 msgstr "Definir cursor intermitente"
 
-msgid "Disable tab cycling"
-msgstr ""
-
 msgid "Disable numbered tabswitch"
 msgstr ""
 
 msgid "Enable focus fade"
-msgstr ""
+msgstr "Habilitar enfranquecimiento do foco"
 
 msgid "Set cursor type"
 msgstr "Definir tipo de cursor"
@@ -230,7 +214,6 @@ msgstr "IBeam"
 msgid "Terminal %d"
 msgstr "Terminal %d"
 
-#, fuzzy
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "A configuração foi modificada por outro processo. Substituir?"
 
@@ -239,11 +222,11 @@ msgstr "Mensagem de erro"
 
 #, c-format
 msgid "Cannot change working directory\n"
-msgstr ""
+msgstr "Não pode mudar o diretório de trabalho\n"
 
 msgid "- vte-based terminal emulator"
 msgstr "- Emulador de terminal vte-based"
 
 #, c-format
 msgid "sakura version is %s\n"
-msgstr "a versão do sakura é a %s\n"
+msgstr "A versão do sakura é a %s\n"

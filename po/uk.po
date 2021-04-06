@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: Andriy Nezhivy <adiynziy@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -39,9 +39,6 @@ msgstr "Виконати команду (остання опція в коман
 
 msgid "Login shell"
 msgstr "Оболонка входу"
-
-msgid "Set window title"
-msgstr "Встановити заголовок вікна"
 
 #, fuzzy
 msgid "Set window icon"
@@ -139,6 +136,9 @@ msgstr "Оберіть палітру"
 msgid "Search"
 msgstr ""
 
+msgid "Set window title"
+msgstr "Встановити заголовок вікна"
+
 msgid "New window title"
 msgstr "Новий заголовок вікна"
 
@@ -172,20 +172,14 @@ msgstr "Копіювати"
 msgid "Paste"
 msgstr "Вставити"
 
+msgid "Options"
+msgstr "Параметри"
+
 msgid "Select font..."
 msgstr "Обрати шрифт..."
 
 msgid "Select colors..."
 msgstr "Обрати кольори..."
-
-msgid "Set window title..."
-msgstr "Встановити заголовок вікна..."
-
-msgid "Options"
-msgstr "Параметри"
-
-msgid "More"
-msgstr "Більше"
 
 msgid "Always show tab bar"
 msgstr "Завжди показувати панель вкладок"
@@ -211,9 +205,6 @@ msgstr "Встановити звуковий сигнал"
 
 msgid "Set blinking cursor"
 msgstr "Встановити мерехтіння курсора"
-
-msgid "Disable tab cycling"
-msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr ""

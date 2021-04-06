@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2019-08-12 16:54+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -38,9 +38,6 @@ msgstr "Execute command (last option in the command line)"
 
 msgid "Login shell"
 msgstr "Login shell"
-
-msgid "Set window title"
-msgstr "Set window title"
 
 msgid "Set window icon"
 msgstr "Set window icon"
@@ -129,6 +126,9 @@ msgstr "Palette"
 msgid "Search"
 msgstr "Search"
 
+msgid "Set window title"
+msgstr "Set window title"
+
 msgid "New window title"
 msgstr "New window title"
 
@@ -159,20 +159,14 @@ msgstr "Copy"
 msgid "Paste"
 msgstr "Paste"
 
+msgid "Options"
+msgstr "Options"
+
 msgid "Select font..."
 msgstr "Select font..."
 
 msgid "Select colors..."
 msgstr "Select colours..."
-
-msgid "Set window title..."
-msgstr "Set window title..."
-
-msgid "Options"
-msgstr "Options"
-
-msgid "More"
-msgstr "More"
 
 msgid "Always show tab bar"
 msgstr "Always show tab bar"
@@ -197,9 +191,6 @@ msgstr "Set audible bell"
 
 msgid "Set blinking cursor"
 msgstr "Set blinking cursor"
-
-msgid "Disable tab cycling"
-msgstr "Disable tab cycling"
 
 msgid "Disable numbered tabswitch"
 msgstr "Disable numbered tabswitch"

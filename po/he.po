@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -48,10 +48,6 @@ msgstr "Execute command (last option in the command line)"
 # CLI: Do not translate!
 msgid "Login shell"
 msgstr "Login shell"
-
-# CLI: Do not translate!
-msgid "Set window title"
-msgstr "Set window title"
 
 # CLI: Do not translate!
 #, fuzzy
@@ -146,12 +142,15 @@ msgstr "צבע סמן"
 msgid "Opacity level (%)"
 msgstr "רמת העמימות (%)"
 
-#, fuzzy
 msgid "Palette"
-msgstr "קבע לוח צבעים"
+msgstr "לוח צבעים"
 
 msgid "Search"
 msgstr ""
+
+# CLI: Do not translate!
+msgid "Set window title"
+msgstr "Set window title"
 
 msgid "New window title"
 msgstr "כותרת חלון חדשה"
@@ -184,20 +183,14 @@ msgstr "העתק"
 msgid "Paste"
 msgstr "הדבק"
 
+msgid "Options"
+msgstr "אפשרויות"
+
 msgid "Select font..."
 msgstr "בחר גופן..."
 
 msgid "Select colors..."
 msgstr "בחר צבעים..."
-
-msgid "Set window title..."
-msgstr "קבע כותרת חלון..."
-
-msgid "Options"
-msgstr "אפשרויות"
-
-msgid "More"
-msgstr "עוד"
 
 msgid "Always show tab bar"
 msgstr "הצג תמיד סרגל כרטיסיות"
@@ -224,9 +217,6 @@ msgstr "קבע פעמון שמיע"
 msgid "Set blinking cursor"
 msgstr "קבע סמן מהבהב"
 
-msgid "Disable tab cycling"
-msgstr ""
-
 msgid "Disable numbered tabswitch"
 msgstr ""
 
@@ -249,7 +239,6 @@ msgstr "IBeam"
 msgid "Terminal %d"
 msgstr "מסוף %d"
 
-#, fuzzy
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "תצורה השתנתה על ידי תהליך אחר. להחליפו?"
 

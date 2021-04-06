@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-30 20:09+0200\n"
+"POT-Creation-Date: 2021-04-04 18:32+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: hu\n"
@@ -36,9 +36,6 @@ msgstr "Parancs végrehajtása (utolsó opció a parancssorban)"
 
 msgid "Login shell"
 msgstr "Bejelentkező shell"
-
-msgid "Set window title"
-msgstr "Ablak címének beállítása"
 
 msgid "Set window icon"
 msgstr "Ablak ikonjának beállítása"
@@ -129,6 +126,9 @@ msgstr "Paletta beállítása"
 msgid "Search"
 msgstr ""
 
+msgid "Set window title"
+msgstr "Ablak címének beállítása"
+
 msgid "New window title"
 msgstr "Új ablakcím"
 
@@ -160,20 +160,14 @@ msgstr "Másolás"
 msgid "Paste"
 msgstr "Beillesztés"
 
+msgid "Options"
+msgstr "Beállítások"
+
 msgid "Select font..."
 msgstr "Betűkészlet kiválasztása..."
 
 msgid "Select colors..."
 msgstr "Színek kiválasztása..."
-
-msgid "Set window title..."
-msgstr "Ablak címének beállítása..."
-
-msgid "Options"
-msgstr "Beállítások"
-
-msgid "More"
-msgstr "Továbbiak"
 
 msgid "Always show tab bar"
 msgstr "Mindig jelenjen meg a fülsáv"
@@ -198,9 +192,6 @@ msgstr "Hang lejátszása"
 
 msgid "Set blinking cursor"
 msgstr "Villogó kurzor beállítása"
-
-msgid "Disable tab cycling"
-msgstr ""
 
 msgid "Disable numbered tabswitch"
 msgstr "Gyorsbillentyűs fülváltás tiltása"
@@ -243,5 +234,3 @@ msgstr "- vte alapú terminálemulátor"
 msgid "sakura version is %s\n"
 msgstr "sakura verzió: %s\n"
 
-#~ msgid "Enable bold font"
-#~ msgstr "Vastag betű engedélyezése"
