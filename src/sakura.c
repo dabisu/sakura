@@ -261,7 +261,6 @@ static struct {
 	bool audible_bell;
 	bool blinking_cursor;
 	bool fullscreen;
-	bool config_modified;            /* Configuration has been modified */
 	bool externally_modified;        /* Configuration file has been modified by another process */
 	bool resized;
 	bool disable_numbered_tabswitch; /* For disabling direct tabswitching key */
@@ -387,18 +386,15 @@ static GQuark term_data_id = 0;
 /* Configuration macros */
 #define  sakura_set_config_integer(key, value) do {\
 	g_key_file_set_integer(sakura.cfg, cfg_group, key, value);\
-	sakura.config_modified=TRUE;\
-	} while(0);
+} while(0);
 
 #define  sakura_set_config_string(key, value) do {\
 	g_key_file_set_value(sakura.cfg, cfg_group, key, value);\
-	sakura.config_modified=TRUE;\
-	} while(0);
+} while(0);
 
 #define  sakura_set_config_boolean(key, value) do {\
 	g_key_file_set_boolean(sakura.cfg, cfg_group, key, value);\
-	sakura.config_modified=TRUE;\
-	} while(0);
+} while(0);
 
 
 /* Spawn callback */
@@ -1985,7 +1981,6 @@ sakura_init()
 
 	/* Config file initialization*/
 	sakura.cfg = g_key_file_new();
-	sakura.config_modified=false;
 
 	configdir = g_build_filename( g_get_user_config_dir(), "sakura", NULL );
 	if( ! g_file_test( g_get_user_config_dir(), G_FILE_TEST_EXISTS) )
@@ -3160,7 +3155,7 @@ sakura_config_done()
 
 	/* If there's been changes by another sakura process, ask whether to overwrite it or not */
 	/* And if less_questions options is selected don't overwrite */
-	if (sakura.externally_modified && !sakura.config_modified && !sakura.less_questions) {
+	if (sakura.externally_modified && !sakura.less_questions) {
 		GtkWidget *dialog;
 		gint response;
 	
@@ -3178,8 +3173,8 @@ sakura_config_done()
 		}
 	}
 	
-	/* Write to file IF there's been changes of IF we want to overwrite anothe process changes */
-	if (sakura.config_modified || overwrite) {
+	/* Write to file IF we want to overwrite another process changes */
+	if (overwrite) {
 		GIOChannel *cfgfile = g_io_channel_new_file(sakura.configfile, "w", &gerror);
 		if (!cfgfile) {
 			fprintf(stderr, "%s\n", gerror->message);
@@ -3284,7 +3279,6 @@ sakura_set_keybind(const gchar *key, guint value)
 
 	valname = gdk_keyval_name(value);
 	g_key_file_set_string(sakura.cfg, cfg_group, key, valname);
-	sakura.config_modified = TRUE;
 } 
 
 
