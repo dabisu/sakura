@@ -261,7 +261,6 @@ static struct {
 	bool audible_bell;
 	bool blinking_cursor;
 	bool fullscreen;
-	bool keep_fc;                    /* Global flag to indicate that we don't want changes in the files and columns values */
 	bool config_modified;            /* Configuration has been modified */
 	bool externally_modified;        /* Configuration file has been modified by another process */
 	bool resized;
@@ -1739,8 +1738,6 @@ sakura_show_scrollbar (GtkWidget *widget, void *data)
 	gint n_pages;
 	int i;
 
-	sakura.keep_fc = 1;
-
 	n_pages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	sk_tab = sakura_get_sktab(sakura, page);
@@ -2399,7 +2396,6 @@ sakura_init()
 
 	sakura.fullscreen = FALSE;
 	sakura.resized = FALSE;
-	sakura.keep_fc = false;
 	sakura.externally_modified = false;
 
 	gerror = NULL;
@@ -2961,9 +2957,6 @@ sakura_add_tab()
 	if (!cwd)
 		cwd = g_get_current_dir();
 
-	/* Keep values when adding tabs */
-	sakura.keep_fc = true;
-
 	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), sk_tab->hbox, tab_title_hbox))==-1) {
 		sakura_error("Cannot create a new tab");
 		exit(1);
@@ -3114,9 +3107,6 @@ sakura_add_tab()
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(sk_tab->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(sk_tab->vte), sakura.cursor_type);
 	
-	/* FIXME: Possible race here. Find some way to force to process all configure
-	 * events before setting keep_fc again to false */
-	sakura.keep_fc = false;
 }
 
 
@@ -3138,7 +3128,6 @@ sakura_del_tab(gint page)
 		} else {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
 		}
-		sakura.keep_fc=true;
 	}
 
 	gtk_widget_hide(sk_tab->hbox);
