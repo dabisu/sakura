@@ -432,7 +432,7 @@ static void     sakura_color_dialog (GtkWidget *, void *);
 //static void     sakura_set_title_dialog (GtkWidget *, void *);
 static void     sakura_search_dialog (GtkWidget *, void *);
 static void     sakura_new_tab (GtkWidget *, void *);
-static void     sakura_close_tab (GtkWidget *, void *);
+static void     sakura_close_tab_cb (GtkWidget *, void *);
 static void     sakura_fullscreen (GtkWidget *, void *);
 static void     sakura_open_url (GtkWidget *, void *);
 static void     sakura_open_mail (GtkWidget *, void *);
@@ -464,9 +464,10 @@ static void 	sakura_sanitize_working_directory (void);
 /* Functions */
 static void     sakura_init ();
 static void     sakura_init_popup ();
-static void     sakura_destroy ();
 static void     sakura_add_tab ();
-static void     sakura_del_tab ();
+static void     sakura_del_tab (gint);
+static void     sakura_close_tab (gint); /* Save config, del tab and destroy sakura */
+static void     sakura_destroy ();
 static void     sakura_move_tab (gint);
 static gint     sakura_find_tab (VteTerminal *);
 static void     sakura_set_font ();
@@ -527,11 +528,13 @@ static GOptionEntry entries[] = {
 static gboolean
 sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-	if (event->type != GDK_KEY_PRESS) return FALSE;
-
+	gint page, npages;
 	unsigned int topage = 0;
 
-	gint npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	if (event->type != GDK_KEY_PRESS) return FALSE;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	
 	/* Use keycodes instead of keyvals. With keyvals, key bindings work only in US/ISO8859-1 and similar locales */
 	guint keycode = event->hardware_keycode;
@@ -544,7 +547,7 @@ sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	} else if ( (event->state & sakura.del_tab_accelerator) == sakura.del_tab_accelerator &&
 			keycode == sakura_tokeycode(sakura.del_tab_key) ) {
 		/* Delete current tab */
-		sakura_close_tab(NULL, NULL);
+		sakura_close_tab(page);
 		return TRUE;
 	}
 
@@ -1888,44 +1891,15 @@ sakura_new_tab (GtkWidget *widget, void *data)
 
 
 static void
-sakura_close_tab (GtkWidget *widget, void *data)
+sakura_close_tab_cb (GtkWidget *widget, void *data)
 {
-	pid_t pgid;
-	GtkWidget *dialog;
-	gint response;
-	struct sakura_tab *sk_tab;
-	gint page, npages;
+	gint page;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-	sk_tab = sakura_get_sktab(sakura, page);
 
-	/* Only write configuration to disk if it's the last tab */
-	if (npages == 1) {		
-		sakura_config_done();
-	}
-
-	/* Check if there are running processes for this tab. Use tcgetpgrp to compare to the shell PGID */
-	pgid = tcgetpgrp(vte_pty_get_fd(vte_terminal_get_pty(VTE_TERMINAL(sk_tab->vte))));
-	
-	if ( (pgid != -1) && (pgid != sk_tab->pid) && (!sakura.less_questions) ) {
-			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-										  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-										  _("There is a running process in this terminal.\n\nDo you really want to close it?"));
-
-			response=gtk_dialog_run(GTK_DIALOG(dialog));
-			gtk_widget_destroy(dialog);
-
-			if (response==GTK_RESPONSE_YES) {
-				sakura_del_tab(page);
-			}
-	} else
-		sakura_del_tab(page);
-
-	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-	if (npages==0)
-		sakura_destroy();
+	sakura_close_tab(page);
 }
+
 
 
 static void
@@ -2581,7 +2555,7 @@ sakura_init_popup()
 	/* ... and finally assign callbacks to menuitems */
 	g_signal_connect(G_OBJECT(item_new_tab), "activate", G_CALLBACK(sakura_new_tab), NULL);
 	g_signal_connect(G_OBJECT(item_set_name), "activate", G_CALLBACK(sakura_set_name_dialog), NULL);
-	g_signal_connect(G_OBJECT(item_close_tab), "activate", G_CALLBACK(sakura_close_tab), NULL);
+	g_signal_connect(G_OBJECT(item_close_tab), "activate", G_CALLBACK(sakura_close_tab_cb), NULL);
 	g_signal_connect(G_OBJECT(item_select_font), "activate", G_CALLBACK(sakura_font_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_copy), "activate", G_CALLBACK(sakura_copy), NULL);
 	g_signal_connect(G_OBJECT(item_paste), "activate", G_CALLBACK(sakura_paste), NULL);
@@ -3108,6 +3082,45 @@ sakura_add_tab()
 	vte_terminal_set_cursor_blink_mode (VTE_TERMINAL(sk_tab->vte), sakura.blinking_cursor ? VTE_CURSOR_BLINK_ON : VTE_CURSOR_BLINK_OFF);
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(sk_tab->vte), sakura.cursor_type);
 	
+}
+
+
+/* Do all the work neccesary before & after deleting the tab passed as a parameter */
+static void
+sakura_close_tab (gint page)
+{
+	gint npages, response; pid_t pgid;
+	struct sakura_tab *sk_tab;
+	GtkWidget *dialog;
+	
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	sk_tab = sakura_get_sktab(sakura, page);
+
+	/* Only write configuration to disk if it's the last tab */
+	if (npages == 1) {		
+		sakura_config_done();
+	}
+
+	/* Check if there are running processes for this tab. Use tcgetpgrp to compare to the shell PGID */
+	pgid = tcgetpgrp(vte_pty_get_fd(vte_terminal_get_pty(VTE_TERMINAL(sk_tab->vte))));
+	
+	if ( (pgid != -1) && (pgid != sk_tab->pid) && (!sakura.less_questions) ) {
+			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+										  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+										  _("There is a running process in this terminal.\n\nDo you really want to close it?"));
+
+			response=gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
+
+			if (response==GTK_RESPONSE_YES) {
+				sakura_del_tab(page);
+			}
+	} else /* No processes, to hell with tab */
+		sakura_del_tab(page);
+
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	if (npages==0)
+		sakura_destroy();
 }
 
 
