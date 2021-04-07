@@ -268,6 +268,7 @@ static struct {
 	bool scrollable_tabs;
 	bool copy_on_select;             /* Automatically copy to clipboard on selected text */
 	bool bold_is_bright;             /* Show bold characters as bright */
+	bool dont_save;                  /* Don't save config file */
 	GtkWidget *item_copy_link;       /* We include here only the items which need to be hidden */
 	GtkWidget *item_open_link;
 	GtkWidget *item_open_mail;
@@ -1979,7 +1980,8 @@ sakura_init()
 
 	term_data_id = g_quark_from_static_string("sakura_term");
 
-	/* Config file initialization*/
+	/*** Config file initialization ***/
+
 	sakura.cfg = g_key_file_new();
 
 	configdir = g_build_filename( g_get_user_config_dir(), "sakura", NULL );
@@ -2305,6 +2307,10 @@ sakura_init()
 	/* NULL if not found. Don't add a new one */
 	sakura.tab_default_title = g_key_file_get_string(sakura.cfg, cfg_group, "tab_default_title", NULL);
 
+	sakura.dont_save = g_key_file_get_boolean(sakura.cfg, cfg_group, "dont_save", NULL);
+
+	/*** Sakura window initialization ***/
+
 	/* Use always GTK header bar*/
 	g_object_set(gtk_settings_get_default(), "gtk-dialogs-use-header", TRUE, NULL);
 
@@ -2343,7 +2349,7 @@ sakura_init()
 	gtk_widget_add_events(sakura.notebook, GDK_SCROLL_MASK);
 
 	
-	/* Command line options initialization */
+	/*** Command line options initialization ***/
 
 	/* Set argv for forked childs. Real argv vector starts at argv[1] because we're
 	   using G_SPAWN_FILE_AND_ARGV_ZERO to be able to launch login shells */
@@ -3145,6 +3151,10 @@ sakura_config_done()
 	GError *gerror = NULL;
 	gsize len = 0;
 
+	/* Don't save config file. Option only available thru the config file for users who know the risks */
+	if (sakura.dont_save)
+		return;
+		
 	gchar *cfgdata = g_key_file_to_data(sakura.cfg, &len, &gerror);
 	if (!cfgdata) {
 		fprintf(stderr, "%s\n", gerror->message);
