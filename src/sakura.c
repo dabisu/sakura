@@ -3174,7 +3174,7 @@ sakura_config_done()
 		exit(EXIT_FAILURE);
 	}
 
-	bool overwrite = false;
+	bool overwrite = true;
 
 	/* If there's been changes by another sakura process, ask whether to overwrite it or not */
 	/* And if less_questions options is selected don't overwrite */
@@ -3182,18 +3182,15 @@ sakura_config_done()
 		GtkWidget *dialog;
 		gint response;
 	
-		dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-				GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-				_("Configuration has been modified by another process. Overwrite?"));
+		dialog = gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+						GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+						_("Configuration has been modified by another process. Overwrite?"));
 
-		response=gtk_dialog_run(GTK_DIALOG(dialog));
+		response = gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 
-		if (response == GTK_RESPONSE_YES) {
-			overwrite = true;
-		} else {
+		if (response != GTK_RESPONSE_YES) 
 			overwrite = false;
-		}
 	}
 	
 	/* Write to file IF we want to overwrite another process changes */
