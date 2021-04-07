@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 18:32+0200\n"
+"POT-Creation-Date: 2021-04-07 00:47+0200\n"
 "PO-Revision-Date: 2019-08-12 17:06+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -123,6 +123,9 @@ msgstr "不透明度(%)"
 msgid "Palette"
 msgstr "调色板"
 
+msgid "Use bright colors for bold text"
+msgstr "为了粗体字使用鲜艳的色彩"
+
 msgid "Search"
 msgstr "搜索"
 
@@ -230,4 +233,3 @@ msgstr "- 基于 vte 的终端模拟器"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura 版本是 %s\n"
-

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 18:32+0200\n"
+"POT-Creation-Date: 2021-04-07 00:47+0200\n"
 "PO-Revision-Date: 2019-08-12 16:55+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -120,6 +120,9 @@ msgstr "不透過率 (%)"
 msgid "Palette"
 msgstr "パレット"
 
+msgid "Use bright colors for bold text"
+msgstr "太字のテキストには明るい色を使用する"
+
 msgid "Search"
 msgstr "探索"
 
@@ -227,4 +230,3 @@ msgstr "- vte ベースのターミナル・エミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
-

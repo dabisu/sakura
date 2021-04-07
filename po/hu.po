@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 18:32+0200\n"
+"POT-Creation-Date: 2021-04-07 00:47+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: hu\n"
@@ -123,6 +123,9 @@ msgstr "Átlátszóság mértéke (%)"
 msgid "Palette"
 msgstr "Paletta beállítása"
 
+msgid "Use bright colors for bold text"
+msgstr ""
+
 msgid "Search"
 msgstr ""
 
@@ -233,4 +236,3 @@ msgstr "- vte alapú terminálemulátor"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura verzió: %s\n"
-

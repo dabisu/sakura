@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 18:32+0200\n"
+"POT-Creation-Date: 2021-04-07 00:47+0200\n"
 "PO-Revision-Date: 2018-05-03 16:14+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -122,6 +122,9 @@ msgstr "Úroveň průhlednosti (%):"
 
 msgid "Palette"
 msgstr "Paletu"
+
+msgid "Use bright colors for bold text"
+msgstr ""
 
 msgid "Search"
 msgstr "Hledat"

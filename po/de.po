@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 18:32+0200\n"
+"POT-Creation-Date: 2021-04-07 00:47+0200\n"
 "PO-Revision-Date: 2020-05-06 05:00+0000\n"
 "Last-Translator: Milo Ivir <Unknown>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -123,6 +123,9 @@ msgstr "Opazitätsgrad (%)"
 
 msgid "Palette"
 msgstr "Palette"
+
+msgid "Use bright colors for bold text"
+msgstr ""
 
 msgid "Search"
 msgstr "Suchen"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 18:32+0200\n"
+"POT-Creation-Date: 2021-04-07 00:47+0200\n"
 "PO-Revision-Date: 2019-08-12 16:53+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -120,6 +120,9 @@ msgstr "Nivel de opacidad (%)"
 
 msgid "Palette"
 msgstr "Paleta"
+
+msgid "Use bright colors for bold text"
+msgstr "Usar colores brillantes para texto en negrita"
 
 msgid "Search"
 msgstr "Buscar"

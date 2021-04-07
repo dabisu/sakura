@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 18:32+0200\n"
+"POT-Creation-Date: 2021-04-07 00:47+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -144,6 +144,9 @@ msgstr "רמת העמימות (%)"
 
 msgid "Palette"
 msgstr "לוח צבעים"
+
+msgid "Use bright colors for bold text"
+msgstr ""
 
 msgid "Search"
 msgstr ""

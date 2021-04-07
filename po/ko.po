@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-04 18:32+0200\n"
+"POT-Creation-Date: 2021-04-07 00:47+0200\n"
 "PO-Revision-Date: 2019-09-30 05:48+0000\n"
 "Last-Translator: Minho Park <parkmino@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -122,6 +122,9 @@ msgstr "불투명도 (%)"
 
 msgid "Palette"
 msgstr "파레트"
+
+msgid "Use bright colors for bold text"
+msgstr "굵은 텍스트에 밝은 색상 사용"
 
 msgid "Search"
 msgstr "검색"
