@@ -2446,8 +2446,6 @@ sakura_init_popup()
 static void
 sakura_destroy()
 {
-	SAY("Destroying sakura");
-
 	/* Delete all existing tabs */
 	while (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) >= 1) {
 		sakura_del_tab(-1);
@@ -3061,21 +3059,20 @@ sakura_close_tab (gint page)
 	pgid = tcgetpgrp(vte_pty_get_fd(vte_terminal_get_pty(VTE_TERMINAL(sk_tab->vte))));
 	
 	if ( (pgid != -1) && (pgid != sk_tab->pid) && (!sakura.less_questions) ) {
-			dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
-										  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-										  _("There is a running process in this terminal.\n\nDo you really want to close it?"));
+		dialog=gtk_message_dialog_new(GTK_WINDOW(sakura.main_window), GTK_DIALOG_MODAL,
+                                              GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+                                              _("There is a running process in this terminal.\n\nDo you really want to close it?"));
+		response=gtk_dialog_run(GTK_DIALOG(dialog));
+		gtk_widget_destroy(dialog);
 
-			response=gtk_dialog_run(GTK_DIALOG(dialog));
-			gtk_widget_destroy(dialog);
+		if (response==GTK_RESPONSE_YES) 
+			sakura_del_tab(page);
 
-			if (response==GTK_RESPONSE_YES) {
-				sakura_del_tab(page);
-			}
-	} else /* No processes, to hell with tab */
+	} else /* No processes */
 		sakura_del_tab(page);
 
-	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
-	if (npages==0)
+	/* And destroy sakura if it's the last tab */
+	if (npages == 1)
 		sakura_destroy();
 }
 
