@@ -58,10 +58,6 @@ Execute command (compatible with xterm's -e option)
 
 Login shell
 
-=item B<-t, --title>
-
-Set window title
-
 =item B<-c, --columns>
 
 Set columns number
