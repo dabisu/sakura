@@ -164,7 +164,7 @@ Before sakura used keycodes instead of strings. They're still valid.
     Ctrl + Shift + V                 -> Paste selected text
     Ctrl + Left cursor               -> Previous tab
     Ctrl + Right cursor              -> Next tab
-    Alt  + [1-9]                     -> Switch to tab N (1-9)
+    Ctrl + [1-9]                     -> Switch to tab N (1-9)
     Ctrl + Shift + S                 -> Toggle scrollbar
     Ctrl + Shift + Mouse left button -> Open link
     F11                              -> Fullscreen
