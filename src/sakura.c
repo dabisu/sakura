@@ -361,7 +361,7 @@ struct sakura_tab {
 #define DEFAULT_INCREASE_FONT_SIZE_KEY GDK_KEY_plus
 #define DEFAULT_DECREASE_FONT_SIZE_KEY GDK_KEY_minus
 #define DEFAULT_SCROLLABLE_TABS TRUE
-#define DEFAULT_COPY_ON_SELECT FALSE
+#define DEFAULT_COPY_ON_SELECT TRUE
 #define DEFAULT_PASTE_BUTTON 2
 #define DEFAULT_MENU_BUTTON 3
 
@@ -878,23 +878,16 @@ sakura_label_clicked_cb (GtkWidget *widget, GdkEventButton *button_event, void *
 /*****************/
 
 
+/* Callback for button release on the vte terminal. Used for copy-on-selection */
 static gboolean
 sakura_term_buttonreleased_cb (GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
 {
-	struct sakura_tab *sk_tab;
-	gint page;
 
 	if (button_event->type != GDK_BUTTON_RELEASE)
 		return FALSE;
 
-	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
-	sk_tab = sakura_get_sktab(sakura, page);
-
-	if (sakura.copy_on_select
-		&& button_event->button == 1
-		&& vte_terminal_get_has_selection(VTE_TERMINAL(sk_tab->vte))) {
+	if (sakura.copy_on_select && button_event->button == 1)
 		sakura_copy();
-	}
 
 	return FALSE;
 }
@@ -928,6 +921,9 @@ sakura_term_buttonpressed_cb (GtkWidget *widget, GdkEventButton *button_event, g
 	/* Paste when paste button is pressed */
 	if (button_event->button == sakura.paste_button) {
 		sakura_paste();
+
+		/* Do not propagate. vte has his own copy-on-select and we'll end with duplicates pastes */
+		return TRUE;
 	}
 
 	/* Show the popup menu whe menu button is pressed */
@@ -2534,6 +2530,7 @@ sakura_search (const char *pattern, bool reverse)
 	}
 }
 
+
 static void
 sakura_copy ()
 {
@@ -2543,7 +2540,9 @@ sakura_copy ()
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	sk_tab = sakura_get_sktab(sakura, page);
 
-	vte_terminal_copy_clipboard_format(VTE_TERMINAL(sk_tab->vte), VTE_FORMAT_TEXT);
+	if (vte_terminal_get_has_selection(VTE_TERMINAL(sk_tab->vte))) {
+		vte_terminal_copy_clipboard_format(VTE_TERMINAL(sk_tab->vte), VTE_FORMAT_TEXT);
+	}
 }
 
 
