@@ -3147,7 +3147,7 @@ sakura_config_done()
 		exit(EXIT_FAILURE);
 	}
 
-	bool overwrite = true;
+	bool overwrite = false;
 
 	/* If there's been changes by another sakura process, ask whether to overwrite it or not */
 	/* And if less_questions options is selected don't overwrite */
@@ -3162,8 +3162,8 @@ sakura_config_done()
 		response = gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 
-		if (response != GTK_RESPONSE_YES) 
-			overwrite = false;
+		if (response == GTK_RESPONSE_YES) 
+			overwrite = true;
 	}
 	
 	/* Write to file IF there's been changes of IF we want to overwrite anothe process changes */
