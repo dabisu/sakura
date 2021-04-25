@@ -208,7 +208,7 @@ struct scheme {
 #define NUM_SCHEMES 5
 #define DEFAULT_SCHEME 1
 struct scheme predefined_schemes[NUM_SCHEMES] = {
-	{"Custom", {0, 0, 0, 1}, {1, 1, 1, 1}}, /* Custom values are ignored, we use the user choosed ones */
+	{"Custom", {0, 0, 0, 1}, {1, 1, 1, 1}}, /* Custom values are ignored, we use the ones choosed by the user */
 	{"White on black", {0, 0, 0, 1}, {1, 1, 1, 1}},
 	{"Green on black", {0, 0, 0, 1}, {0.4, 1, 0, 1}},
 	{"Solarized dark", {0.000000, 0.168627, 0.211765, 1}, {0.513725, 0.580392, 0.588235, 1}},
@@ -330,6 +330,8 @@ struct sakura_tab {
 #define DEFAULT_CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
 #define DEFAULT_ROWS 24
+#define DEFAULT_MIN_WIDTH_CHARS 20
+#define DEFAULT_MIN_HEIGHT_CHARS 1
 #define DEFAULT_FONT "Ubuntu Mono,monospace 13"
 #define FONT_MINIMAL_SIZE (PANGO_SCALE*6)
 #define DEFAULT_WORD_CHARS "-,./?%&#_~:"
@@ -2924,6 +2926,20 @@ sakura_add_tab()
 		}
 
 		gtk_notebook_set_show_border(GTK_NOTEBOOK(sakura.notebook), FALSE);
+
+		/* Set geometry hints when the first tab is created */
+		GdkGeometry sk_hints;
+
+		sk_hints.base_width = vte_terminal_get_char_width(VTE_TERMINAL(sk_tab->vte));
+		sk_hints.base_height = vte_terminal_get_char_height(VTE_TERMINAL(sk_tab->vte));
+		sk_hints.min_width = vte_terminal_get_char_width(VTE_TERMINAL(sk_tab->vte)) * DEFAULT_MIN_WIDTH_CHARS;
+		sk_hints.min_height = vte_terminal_get_char_height(VTE_TERMINAL(sk_tab->vte)) * DEFAULT_MIN_HEIGHT_CHARS; 
+		sk_hints.width_inc = vte_terminal_get_char_width(VTE_TERMINAL(sk_tab->vte));
+		sk_hints.height_inc = vte_terminal_get_char_height(VTE_TERMINAL(sk_tab->vte));
+
+ 		gtk_window_set_geometry_hints(GTK_WINDOW(sakura.main_window), GTK_WIDGET (sk_tab->vte), &sk_hints,
+		                              GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
+
 		sakura_set_font();
 		sakura_set_colors();
 		/* Set size before showing the widgets but after setting the font */
