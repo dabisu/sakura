@@ -267,7 +267,6 @@ static struct {
 	bool disable_numbered_tabswitch; /* For disabling direct tabswitching key */
 	bool use_fading;                 /* Fade the window when the focus change */
 	bool scrollable_tabs;
-	bool copy_on_select;             /* Automatically copy to clipboard on selected text */
 	bool bold_is_bright;             /* Show bold characters as bright */
 	bool dont_save;                  /* Don't save config file */
 	GtkWidget *item_copy_link;       /* We include here only the items which need to be hidden */
@@ -364,7 +363,6 @@ struct sakura_tab {
 #define DEFAULT_INCREASE_FONT_SIZE_KEY GDK_KEY_plus
 #define DEFAULT_DECREASE_FONT_SIZE_KEY GDK_KEY_minus
 #define DEFAULT_SCROLLABLE_TABS TRUE
-#define DEFAULT_COPY_ON_SELECT TRUE
 #define DEFAULT_PASTE_BUTTON 2
 #define DEFAULT_MENU_BUTTON 3
 
@@ -884,7 +882,7 @@ sakura_label_clicked_cb (GtkWidget *widget, GdkEventButton *button_event, void *
 /*****************/
 
 
-/* Callback for button release on the vte terminal. Used for copy-on-selection */
+/* Callback for button release on the vte terminal. Used for copy-on-selection to clipboard */
 static gboolean
 sakura_term_buttonreleased_cb (GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
 {
@@ -892,7 +890,7 @@ sakura_term_buttonreleased_cb (GtkWidget *widget, GdkEventButton *button_event, 
 	if (button_event->type != GDK_BUTTON_RELEASE)
 		return FALSE;
 
-	if (sakura.copy_on_select && button_event->button == 1)
+	if (button_event->button == 1)
 		sakura_copy();
 
 	return FALSE;
@@ -2123,11 +2121,6 @@ sakura_init()
 		sakura_set_config_string("icon_file", ICON_FILE);
 	}
 	sakura.icon = g_key_file_get_string(sakura.cfg, cfg_group, "icon_file", NULL);
-
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_on_select", NULL)) {
-		sakura_set_config_boolean("copy_on_select", DEFAULT_COPY_ON_SELECT);
-	}
-	sakura.copy_on_select = g_key_file_get_boolean(sakura.cfg, cfg_group, "copy_on_select", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "paste_button", NULL)) {
 		sakura_set_config_integer("paste_button", DEFAULT_PASTE_BUTTON);
