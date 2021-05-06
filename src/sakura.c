@@ -1234,7 +1234,7 @@ sakura_color_dialog_changed_cb ( GtkWidget *widget, void *data)
 	GdkRGBA *curscolors = g_object_get_data( G_OBJECT(dialog), "curs");
 	GtkComboBox *cs_combo = g_object_get_data (G_OBJECT(dialog), "cs_combo");
 	GtkComboBox *scheme_combo = g_object_get_data (G_OBJECT(dialog), "scheme_combo");
-	GtkSpinButton *opacity_spin = g_object_get_data(G_OBJECT(dialog), "spin_opacity");
+	GtkSpinButton *opacity_spin = g_object_get_data(G_OBJECT(dialog), "opacity_spin");
 	GtkCheckButton *bib_checkbutton = g_object_get_data (G_OBJECT(dialog), "bib_checkbutton");
 	
 	gint current_cs = gtk_combo_box_get_active(cs_combo);
