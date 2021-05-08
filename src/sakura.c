@@ -2718,10 +2718,9 @@ sakura_set_colors ()
 
 		/* Use background color to make text visible when the cursor is over it */
 		vte_terminal_set_color_cursor_foreground(VTE_TERMINAL(sk_tab->vte), &sakura.backcolors[sk_tab->colorset]);
-	}
-
-	if (sakura.bold_is_bright) {
-		vte_terminal_set_bold_is_bright(VTE_TERMINAL(sk_tab->vte), TRUE);
+	
+		vte_terminal_set_bold_is_bright(VTE_TERMINAL(sk_tab->vte), sakura.bold_is_bright);
+		
 	}
 
 	/* Main window opacity must be set. Otherwise vte widget will remain opaque */
