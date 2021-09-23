@@ -208,14 +208,14 @@ struct scheme {
 #define NUM_SCHEMES 5
 #define DEFAULT_SCHEME 1
 struct scheme predefined_schemes[NUM_SCHEMES] = {
-	{"Custom", {0, 0, 0, 1}, {1, 1, 1, 1}}, /* Custom values are ignored, we use the ones choosed by the user */
+	{"Custom", {0, 0, 0, 1}, {1, 1, 1, 1}}, /* Custom values are ignored, we use the ones chosen by the user */
 	{"White on black", {0, 0, 0, 1}, {1, 1, 1, 1}},
 	{"Green on black", {0, 0, 0, 1}, {0.4, 1, 0, 1}},
 	{"Solarized dark", {0.000000, 0.168627, 0.211765, 1}, {0.513725, 0.580392, 0.588235, 1}},
 	{"Solarized light", {0.992157, 0.964706, 0.890196, 1}, {0.396078, 0.482353, 0.513725, 1}}
 };
 
-/* CSS definitions. Global CSS is empty, justt drop here you CSS to personalize widgets */
+/* CSS definitions. Global CSS is empty, just drop here you CSS to personalize widgets */
 #define SAKURA_CSS ""
 
 #define FADE_WINDOW_CSS "\
@@ -787,7 +787,7 @@ sakura_notebook_scroll_cb (GtkWidget *widget, GdkEventScroll *event)
 }
 
 
-/* Callback called when the user switchs tabs or closes a tab (but not when a tab is added) */
+/* Callback called when the user switches tabs or closes a tab (but not when a tab is added) */
 static void
 sakura_switch_page_cb (GtkWidget *widget, GtkWidget *widget_page, guint page_num, void *data)
 {
@@ -931,7 +931,7 @@ sakura_term_buttonpressed_cb (GtkWidget *widget, GdkEventButton *button_event, g
 		return TRUE;
 	}
 
-	/* Show the popup menu whe menu button is pressed */
+	/* Show the popup menu when menu button is pressed */
 	if (button_event->button == sakura.menu_button) {
 		GtkMenu *menu;
 		menu = GTK_MENU (widget);
@@ -1504,7 +1504,7 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 
 	response=gtk_dialog_run(GTK_DIALOG(title_dialog));
 	if (response==GTK_RESPONSE_ACCEPT) {
-		/* Bug #257391 shadow reachs here too... */
+		/* Bug #257391 shadow reaches here too... */
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(title_dialog);
@@ -3030,7 +3030,7 @@ sakura_add_tab()
 
 	free(cwd);
 
-	/* Appling tab title pattern from config (https://answers.launchpad.net/sakura/+question/267951) */
+	/* Applying tab title pattern from config (https://answers.launchpad.net/sakura/+question/267951) */
 	if (sakura.tab_default_title != NULL) {
 		default_label_text = sakura.tab_default_title;
 		sk_tab->label_set_byuser = true;
@@ -3056,7 +3056,7 @@ sakura_add_tab()
 }
 
 
-/* Do all the work neccesary before & after deleting the tab passed as a parameter */
+/* Do all the work necessary before & after deleting the tab passed as a parameter */
 static void
 sakura_close_tab (gint page)
 {
@@ -3163,7 +3163,7 @@ sakura_config_done()
 			overwrite = true;
 	}
 	
-	/* Write to file IF there's been changes of IF we want to overwrite anothe process changes */
+	/* Write to file IF there's been changes of IF we want to overwrite another process changes */
 	if (sakura.config_modified || overwrite) {
 		GIOChannel *cfgfile = g_io_channel_new_file(sakura.configfile, "w", &gerror);
 		if (!cfgfile) {
