@@ -236,12 +236,12 @@ static struct {
 	GtkWidget *main_window;
 	GtkWidget *notebook;
 	GtkWidget *menu;
-	GtkWidget *fade_window;		/* Window used for fading effect */
+	GtkWidget *fade_window;  /* Window used for fading effect */
 	PangoFontDescription *font;
 	GdkRGBA forecolors[NUM_COLORSETS];
 	GdkRGBA backcolors[NUM_COLORSETS];
 	GdkRGBA curscolors[NUM_COLORSETS];
-	guint schemes[NUM_COLORSETS];	/* Selected color scheme for each colorset */
+	guint schemes[NUM_COLORSETS];  /* Selected color scheme for each colorset */
 	const GdkRGBA *palette;
 	guint palette_idx;
 	gint last_colorset;
@@ -427,7 +427,7 @@ static void     sakura_switch_page_cb (GtkWidget *, GtkWidget *, guint, void *);
 static void     sakura_page_removed_cb (GtkWidget *, void *);
 static gboolean sakura_notebook_scroll_cb (GtkWidget *, GdkEventScroll *);
 static gboolean sakura_label_clicked_cb (GtkWidget *, GdkEventButton *, void *);
-static gboolean	sakura_notebook_focus_cb (GtkWindow *, GdkEvent *, void *);
+static gboolean sakura_notebook_focus_cb (GtkWindow *, GdkEvent *, void *);
 static void     sakura_closebutton_clicked_cb (GtkWidget *, void *);
 /* Menuitem callbacks */
 static void     sakura_font_dialog_cb (GtkWidget *, void *);
@@ -450,19 +450,19 @@ static void     sakura_show_scrollbar_cb (GtkWidget *, void *);
 static void     sakura_disable_numbered_tabswitch_cb (GtkWidget *, void *);
 //static void     sakura_use_fading_cb (GtkWidget *, void *);
 static void     sakura_setname_entry_changed_cb (GtkWidget *, void *);
-static void 	sakura_set_cursor_cb (GtkWidget *, void *);
-static void  	sakura_blinking_cursor_cb (GtkWidget *, void *);
-static void 	sakura_audible_bell_cb (GtkWidget *, void *);
-static void 	sakura_urgent_bell_cb (GtkWidget *, void *);
+static void     sakura_set_cursor_cb (GtkWidget *, void *);
+static void     sakura_blinking_cursor_cb (GtkWidget *, void *);
+static void     sakura_audible_bell_cb (GtkWidget *, void *);
+static void     sakura_urgent_bell_cb (GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error (const char *, ...);
-static void		sakura_build_command (int *, char ***);
-static char * 	sakura_get_term_cwd (struct sakura_tab *);
+static void     sakura_build_command (int *, char ***);
+static char *   sakura_get_term_cwd (struct sakura_tab *);
 static guint    sakura_tokeycode (guint key);
 static void     sakura_set_keybind (const gchar *, guint);
 static guint    sakura_get_keybind (const gchar *);
-static void 	sakura_sanitize_working_directory (void);
+static void     sakura_sanitize_working_directory (void);
 
 /* Functions */
 static void     sakura_init ();
@@ -706,7 +706,7 @@ sakura_focus_in_cb (GtkWidget *widget, GdkEvent *event, void *data)
 	/* Reset urgency hint */
 	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
 
- 	return FALSE;
+	return FALSE;
 }
 
 
@@ -735,7 +735,7 @@ sakura_focus_out_cb (GtkWidget *widget, GdkEvent *event, void *data)
 
 	//gtk_widget_show_all(sakura.fade_window);
 
- 	return FALSE;
+	return FALSE;
 }
 
 
@@ -2937,7 +2937,7 @@ sakura_add_tab()
 		sk_hints.width_inc = vte_terminal_get_char_width(VTE_TERMINAL(sk_tab->vte));
 		sk_hints.height_inc = vte_terminal_get_char_height(VTE_TERMINAL(sk_tab->vte));
 
- 		gtk_window_set_geometry_hints(GTK_WINDOW(sakura.main_window), GTK_WIDGET (sk_tab->vte), &sk_hints,
+		gtk_window_set_geometry_hints(GTK_WINDOW(sakura.main_window), GTK_WIDGET (sk_tab->vte), &sk_hints,
 		                              GDK_HINT_RESIZE_INC | GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
 
 		sakura_set_font();
@@ -3341,21 +3341,21 @@ sakura_get_term_cwd(struct sakura_tab* sk_tab)
 static guint
 sakura_tokeycode (guint key)
 {
-        GdkKeymap *keymap;
-        GdkKeymapKey *keys;
-        gint n_keys;
-        guint res = 0;
+	GdkKeymap *keymap;
+	GdkKeymapKey *keys;
+	gint n_keys;
+	guint res = 0;
 
 	keymap = gdk_keymap_get_for_display(gdk_display_get_default());
 
-        if (gdk_keymap_get_entries_for_keyval(keymap, key, &keys, &n_keys)) {
-                if (n_keys > 0) {
-                        res = keys[0].keycode;
-                }
-                g_free(keys);
-        }
+	if (gdk_keymap_get_entries_for_keyval(keymap, key, &keys, &n_keys)) {
+		if (n_keys > 0) {
+			res = keys[0].keycode;
+		}
+		g_free(keys);
+	}
 
-        return res;
+	return res;
 }
 
 
