@@ -146,13 +146,13 @@ I realise that this configuration is not so friendly to non-programmers, but it 
 =head2 KEYS
 
 For example, to set the add tab key to 'T':
-            
+
 add_tab_key=T
 
-Before sakura used keycodes instead of strings. They're still valid.	
+Before sakura used keycodes instead of strings. They're still valid.
 
 
-=head2 DEFAULTS	
+=head2 DEFAULTS
 
     Ctrl + Shift + T                 -> New tab
     Ctrl + Shift + W                 -> Close current tab
@@ -170,7 +170,7 @@ Before sakura used keycodes instead of strings. They're still valid.
     Ctrl + Shift + Down              -> Move down through scrollback by line
 
 You can also increase and decrease the font size in the GTK+ standard way (not configurable):
- 
+
     Ctrl + '+'                       -> Increase font size
     Ctrl + '-'                       -> Decrease font size
 
@@ -182,7 +182,7 @@ https://bugs.launchpad.net/sakura
 
 =head1 AUTHORS
 
-B<sakura> was written by David Gómez <david@pleyades.net>. 
+B<sakura> was written by David Gómez <david@pleyades.net>.
 
 This manual page was written by Andrew Starr-Bochicchio <a.starr.b@gmail.com>.
 
