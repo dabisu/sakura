@@ -567,12 +567,12 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	     ((event->state & sakura.move_tab_accelerator) != sakura.move_tab_accelerator) ) {
 
 		/* Just propagate the event if there is only one tab */
-		if(npages < 2) return FALSE;
+		if (npages < 2) return FALSE;
 
 		if ((keycode >= sakura_tokeycode(GDK_KEY_1)) && (keycode <= sakura_tokeycode( GDK_KEY_9))) {  
 
 			/* User has explicitly disabled this branch, make sure to propagate the event */
-			if(sakura.disable_numbered_tabswitch) return FALSE;
+			if (sakura.disable_numbered_tabswitch) return FALSE;
 
 			if      (sakura_tokeycode(GDK_KEY_1) == keycode) topage = 0;
 			else if (sakura_tokeycode(GDK_KEY_2) == keycode) topage = 1;
@@ -661,7 +661,7 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* F11 (fullscreen) pressed */
-	if (keycode == sakura_tokeycode(sakura.fullscreen_key)){
+	if (keycode == sakura_tokeycode(sakura.fullscreen_key)) {
 		sakura_fullscreen_cb(NULL, NULL);
 		return TRUE;
 	}
@@ -669,8 +669,8 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	/* Change in colorset */
 	if ( (event->state & sakura.set_colorset_accelerator) == sakura.set_colorset_accelerator ) {
 		int i;
-		for(i=0; i<NUM_COLORSETS; i++) {
-			if (keycode == sakura_tokeycode(sakura.set_colorset_keys[i])){
+		for (i=0; i<NUM_COLORSETS; i++) {
+			if (keycode == sakura_tokeycode(sakura.set_colorset_keys[i])) {
 				sakura_set_colorset(i);
 				return TRUE;
 			}
@@ -770,7 +770,7 @@ sakura_notebook_scroll_cb (GtkWidget *widget, GdkEventScroll *event)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	
-	switch(event->direction) {
+	switch (event->direction) {
 		case GDK_SCROLL_DOWN:
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), --page >= 0 ? page : npages - 1);
 			break;
@@ -989,7 +989,7 @@ sakura_increase_font_cb (GtkWidget *widget, void *data)
 	gint new_size;
 
 	/* Increment font size one unit */
-	new_size=pango_font_description_get_size(sakura.font)+PANGO_SCALE;
+	new_size = pango_font_description_get_size(sakura.font)+PANGO_SCALE;
 
 	pango_font_description_set_size(sakura.font, new_size);
 	sakura_set_font();
@@ -1004,10 +1004,10 @@ sakura_decrease_font_cb (GtkWidget *widget, void *data)
 	gint new_size;
 
 	/* Decrement font size one unit */
-	new_size  =pango_font_description_get_size(sakura.font)-PANGO_SCALE;
+	new_size = pango_font_description_get_size(sakura.font)-PANGO_SCALE;
 	
 	/* Set a minimal size */
-	if (new_size >= FONT_MINIMAL_SIZE ) {
+	if (new_size >= FONT_MINIMAL_SIZE) {
 		pango_font_description_set_size(sakura.font, new_size);
 		sakura_set_font();
 		sakura_set_size();
@@ -1272,7 +1272,7 @@ sakura_color_dialog_changed_cb ( GtkWidget *widget, void *data)
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(back_button), &backcolors[current_cs]);
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(curs_button), &curscolors[current_cs]);
 		gtk_spin_button_update(opacity_spin);
-		backcolors[current_cs].alpha  = gtk_spin_button_get_value(opacity_spin)/100;
+		backcolors[current_cs].alpha = gtk_spin_button_get_value(opacity_spin)/100;
 		/* User changed colors. Set custom scheme */
 		sakura.schemes[current_cs] = 0;
 		gtk_combo_box_set_active(GTK_COMBO_BOX(scheme_combo), sakura.schemes[current_cs]);
@@ -1406,7 +1406,7 @@ sakura_color_dialog_cb (GtkWidget *widget, void *data)
 	g_signal_connect(G_OBJECT(opacity_spin), "changed", G_CALLBACK(sakura_color_dialog_changed_cb), color_dialog);
 	g_signal_connect(G_OBJECT(bib_checkbutton), "toggled", G_CALLBACK(sakura_color_dialog_changed_cb), color_dialog);
 
-	for(i=0; i<NUM_COLORSETS; i++) {
+	for (i=0; i<NUM_COLORSETS; i++) {
 		temp_fore[i] = sakura.forecolors[i];
 		temp_back[i] = sakura.backcolors[i];
 		temp_curs[i] = sakura.curscolors[i];
@@ -1416,7 +1416,7 @@ sakura_color_dialog_cb (GtkWidget *widget, void *data)
 	
 	if (response==GTK_RESPONSE_ACCEPT) {
 		/* Save all colorsets to both the global struct and configuration.*/
-		for( i=0; i<NUM_COLORSETS; i++) {
+		for (i=0; i<NUM_COLORSETS; i++) {
 			char name[20]; 
 			gchar *cfgtmp;
 			
@@ -1821,9 +1821,9 @@ sakura_init()
 	sakura.config_modified=false;
 
 	configdir = g_build_filename( g_get_user_config_dir(), "sakura", NULL );
-	if( ! g_file_test( g_get_user_config_dir(), G_FILE_TEST_EXISTS) )
+	if ( ! g_file_test( g_get_user_config_dir(), G_FILE_TEST_EXISTS) )
 		g_mkdir( g_get_user_config_dir(), 0755 );
-	if( ! g_file_test( configdir, G_FILE_TEST_EXISTS) )
+	if ( ! g_file_test( configdir, G_FILE_TEST_EXISTS) )
 		g_mkdir( configdir, 0755 );
 	if (option_config_file) {
 		sakura.configfile = g_build_filename(configdir, option_config_file, NULL);
@@ -1857,7 +1857,7 @@ sakura_init()
 	 * doesn't exist, but we have just read it!
 	 */
 
-	for( i=0; i<NUM_COLORSETS; i++) {
+	for (i=0; i<NUM_COLORSETS; i++) {
 		char temp_name[20]; 
 
 		sprintf(temp_name, "colorset%d_fore", i+1);
@@ -1956,7 +1956,7 @@ sakura_init()
 	}
 	sakura.use_fading = g_key_file_get_boolean(sakura.cfg, cfg_group, "use_fading", NULL);
 
-	if(!g_key_file_has_key(sakura.cfg, cfg_group, "scrollable_tabs", NULL)) {
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollable_tabs", NULL)) {
 		sakura_set_config_boolean("scrollable_tabs", TRUE);
 	}
 	sakura.scrollable_tabs = g_key_file_get_boolean(sakura.cfg, cfg_group, "scrollable_tabs", NULL);
@@ -2353,7 +2353,7 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_blinking_cursor), TRUE);
 	}
 
-	switch (sakura.cursor_type){
+	switch (sakura.cursor_type) {
 		case VTE_CURSOR_SHAPE_BLOCK:
 			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_cursor_block), TRUE);
 			break;
@@ -2646,15 +2646,15 @@ sakura_set_size (void)
 
 	gtk_widget_get_preferred_width(sk_tab->scrollbar, &min_width, &natural_width);
 	//SAY("SCROLLBAR min width %d natural width %d", min_width, natural_width);
-	if(sakura.show_scrollbar) {
+	if (sakura.show_scrollbar) {
 		sakura.width += min_width;
 	}
 
 	/* GTK does not ignore resize for maximized windows on some systems,
 	so we do need check if it's maximized or not */
 	GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(sakura.main_window));
-	if(gdk_window != NULL) {
-		if(gdk_window_get_state(gdk_window) & GDK_WINDOW_STATE_MAXIMIZED) {
+	if (gdk_window != NULL) {
+		if (gdk_window_get_state(gdk_window) & GDK_WINDOW_STATE_MAXIMIZED) {
 			SAY("window is maximized, will not resize");
 			return;
 		}
@@ -3106,7 +3106,7 @@ sakura_del_tab(gint page)
 
 	/* Do the first tab checks BEFORE deleting the tab, to ensure correct
 	 * sizes are calculated when the tab is deleted */
-	if ( npages == 2) {
+	if (npages == 2) {
 		if (sakura.first_tab) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		} else {
@@ -3280,7 +3280,7 @@ sakura_get_keybind(const gchar *key)
 	guint retval = GDK_KEY_VoidSymbol;
 
 	value = g_key_file_get_string(sakura.cfg, cfg_group, key, NULL);
-	if (value != NULL){
+	if (value != NULL) {
 		retval = gdk_keyval_from_name(value);
 		g_free(value);
 	}
@@ -3318,7 +3318,7 @@ sakura_get_term_cwd(struct sakura_tab* sk_tab)
 
 		buf = malloc(sb.st_size + 1);
 
-		if(buf == NULL) {
+		if (buf == NULL) {
 			g_free(file);
 			return cwd;
 		}
@@ -3405,8 +3405,8 @@ main(int argc, char **argv)
 	n = 0; nargc = argc;
 	have_e = FALSE;
 
-	for(i=0; i<argc; i++) {
-		if(!have_e && g_strcmp0(argv[i],"-e") == 0)
+	for (i=0; i<argc; i++) {
+		if (!have_e && g_strcmp0(argv[i],"-e") == 0)
 		{
 			nargv[n]="-e";
 			n++;
