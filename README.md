@@ -7,13 +7,13 @@
 How to compile and install this beast ?
 
 ```bash
-$ cmake . 
+$ cmake .
 $ make
 $ sudo 'make install'
 ```
 **sakura** now uses the CMake building system (RIP our old system MOBS, we'll remember you ;)).
 
-To install **sakura** with a different prefix, cmake needs to be invoked with the proper environment 
+To install **sakura** with a different prefix, cmake needs to be invoked with the proper environment
 variables, so for example, to install sakura in `/usr`, you must type:
 
 ```bash
@@ -34,7 +34,7 @@ Use CMAKE_BUILD_TYPE=Debug if you need debug symbols. Default type is "Release".
 ### Accelerators
 
 Accelerators can be set to any _GdkModifierType_ mask value. The full list of _GdkModifierType_ values is available [here](http://gtk.php.net/manual/en/html/gdk/gdk.enum.modifiertype.html)
-     
+
 Mask values can be combined by ORing them. For example, to set the delete tab accelerator to Ctrl+Shift, change the option "del_tab_accelerator" value to "5". This number comes from ORing GDK_SHIFT_MASK and GDK_CONTROL_MASK.
 
 I realise that this configuration is not user-friendly, but...  :-P
@@ -45,18 +45,18 @@ Quick reference: Shift(1), Cps-Lock(2), Ctrl(4), Alt(8), Ctrl-S(5), Ctrl-A(12), 
 
 To change default keys, set the key value you want to modify to your desired key. For example, if you want to use the "D" key instead of the "W" key to delete a tab, set "del_tab_key" to "D" in the config file.
 
-### Default keybindings	
+### Default keybindings
 
 	Ctrl + Shift + T                 -> New tab
 	Ctrl + Shift + W                 -> Close current tab
 	Ctrl + Shift + C                 -> Copy selected text
 	Ctrl + Shift + V                 -> Paste selected text
 	Ctrl + Shift + N                 -> Set tab name
-	
-	Ctr  + Left cursor               -> Previous tab
-	Ctr  + Right cursor              -> Next tab
-	Ctr  + Shift + Left cursor       -> Move tab to the left
-	Ctr  + Shift + Right cursor      -> Move tab to the right
+
+	Ctrl  + Left cursor              -> Previous tab
+	Ctrl  + Right cursor             -> Next tab
+	Ctrl  + Shift + Left cursor      -> Move tab to the left
+	Ctrl  + Shift + Right cursor     -> Move tab to the right
 	Ctrl + [1-9]                     -> Switch to tab N (1-9)
 
 	Ctrl + Shift + S                 -> Toggle/Untoggle scrollbar
@@ -69,7 +69,7 @@ To change default keys, set the key value you want to modify to your desired key
 	Ctrl + Shift + [F1-F6]           -> Select the colorset for the current tab
 
 You can also increase and decrease the font size in the GTK standard way:
- 
+
 	Ctrl + '+'                                -> Increase font size
 	Ctrl + '-'                                -> Decrease font size
 
