@@ -2179,7 +2179,7 @@ sakura_init()
 	/* Adding mask, for handle scroll events */
 	gtk_widget_add_events(sakura.notebook, GDK_SCROLL_MASK);
 	
-	/* Figure out if we have rgba capabilities. */
+	/* Figure out if we have rgba capabilities. Without this transparency won't work as expected */
 	screen = gtk_widget_get_screen (GTK_WIDGET (sakura.main_window));
 	GdkVisual *visual = gdk_screen_get_rgba_visual (screen);
 	if (visual != NULL && gdk_screen_is_composited (screen)) {
