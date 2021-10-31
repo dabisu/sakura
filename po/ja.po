@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 07:17+0200\n"
+"POT-Creation-Date: 2021-10-15 02:50+0200\n"
 "PO-Revision-Date: 2019-08-12 16:55+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -183,9 +183,6 @@ msgstr "カーソルの点滅を有効にする"
 msgid "Disable numbered tabswitch"
 msgstr "番号のタブ切り替えを無効にする"
 
-msgid "Enable focus fade"
-msgstr "フォーカスフェードを有効にする"
-
 msgid "Set cursor type"
 msgstr "カーソルタイプを設定"
 
@@ -230,3 +227,6 @@ msgstr "- vte ベースのターミナル・エミュレータ"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura のバージョンは %s です\n"
+
+#~ msgid "Enable focus fade"
+#~ msgstr "フォーカスフェードを有効にする"

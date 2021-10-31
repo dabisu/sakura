@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 07:17+0200\n"
+"POT-Creation-Date: 2021-10-15 02:50+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -184,9 +184,6 @@ msgid "Set blinking cursor"
 msgstr "Ativar cursor piscando"
 
 msgid "Disable numbered tabswitch"
-msgstr ""
-
-msgid "Enable focus fade"
 msgstr ""
 
 msgid "Set cursor type"
