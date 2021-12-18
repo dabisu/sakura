@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 07:17+0200\n"
+"POT-Creation-Date: 2021-12-18 14:13-0500\n"
 "PO-Revision-Date: 2019-08-12 16:53+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <davidge@pleyades.net>\n"
@@ -157,8 +157,17 @@ msgstr "Seleccionar tipo de letra…"
 msgid "Select colors..."
 msgstr "Seleccionar colores..."
 
-msgid "Always show tab bar"
-msgstr "Mostrar siempre la barra de pestañas"
+msgid "Show tab bar"
+msgstr "Mostrar la barra de pestañas"
+
+msgid "Always"
+msgstr "Siempre"
+
+msgid "When there's more than one tab"
+msgstr "Cuando hay múltiples"
+
+msgid "Never"
+msgstr "Nunca"
 
 msgid "Tabs at bottom"
 msgstr "Pestañas en la parte inferior"
@@ -169,7 +178,7 @@ msgstr "Mostrar botón de cerrar en las pestañas"
 msgid "Show scrollbar"
 msgstr "Mostrar barra de desplazamiento"
 
-msgid "Less questions at exit time"
+msgid "Fewer questions at exit time"
 msgstr "Menos preguntas al cerrar"
 
 msgid "Set urgent bell"
@@ -228,7 +237,6 @@ msgstr "No se puede cambiar el directorio actual\n"
 msgid "- vte-based terminal emulator"
 msgstr "- emulador de terminal basado en libvte"
 
-# c-format
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "La versión de sakura es %s\n"

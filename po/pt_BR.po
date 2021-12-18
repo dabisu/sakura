@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 07:17+0200\n"
+"POT-Creation-Date: 2021-12-18 10:39-0500\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -158,8 +158,17 @@ msgstr "Selecionar fonte..."
 msgid "Select colors..."
 msgstr "Selecionar cores..."
 
-msgid "Always show tab bar"
-msgstr "Sempre mostrar a barra de abas"
+msgid "Show tab bar"
+msgstr "Mostrar a barra de abas"
+
+msgid "Always"
+msgstr "Sempre"
+
+msgid "When there's more than one tab"
+msgstr ""
+
+msgid "Never"
+msgstr "Nunca"
 
 msgid "Tabs at bottom"
 msgstr "Abas em baixo"
@@ -170,7 +179,7 @@ msgstr "Exibir o botão fechar nas abas"
 msgid "Show scrollbar"
 msgstr "Mostra barra de rolagem"
 
-msgid "Less questions at exit time"
+msgid "Fewer questions at exit time"
 msgstr ""
 
 #, fuzzy

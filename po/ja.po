@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 07:17+0200\n"
+"POT-Creation-Date: 2021-12-18 10:39-0500\n"
 "PO-Revision-Date: 2019-08-12 16:55+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -156,8 +156,17 @@ msgstr "フォントを選択..."
 msgid "Select colors..."
 msgstr "色を選択..."
 
-msgid "Always show tab bar"
-msgstr "タブバーを常に表示"
+msgid "Show tab bar"
+msgstr "タブバーを表示"
+
+msgid "Always"
+msgstr "常に"
+
+msgid "When there's more than one tab"
+msgstr ""
+
+msgid "Never"
+msgstr ""
 
 msgid "Tabs at bottom"
 msgstr "タブを下に表示"
@@ -168,7 +177,7 @@ msgstr "タブに閉じるボタンを表示"
 msgid "Show scrollbar"
 msgstr "スクロールバーを表示"
 
-msgid "Less questions at exit time"
+msgid "Fewer questions at exit time"
 msgstr "終了時の質問が少なくする"
 
 msgid "Set urgent bell"

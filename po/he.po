@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 07:17+0200\n"
+"POT-Creation-Date: 2021-12-18 10:39-0500\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -183,8 +183,18 @@ msgstr "בחר גופן..."
 msgid "Select colors..."
 msgstr "בחר צבעים..."
 
-msgid "Always show tab bar"
-msgstr "הצג תמיד סרגל כרטיסיות"
+# msgstr "הצג תמיד סרגל כרטיסיות"
+msgid "Show tab bar"
+msgstr ""
+
+msgid "Always"
+msgstr ""
+
+msgid "When there's more than one tab"
+msgstr ""
+
+msgid "Never"
+msgstr ""
 
 msgid "Tabs at bottom"
 msgstr "כרטיסיות בתחתית"
@@ -195,7 +205,7 @@ msgstr "הצג לחצן סגירה על כרטיסיות"
 msgid "Show scrollbar"
 msgstr "הצג פס גלילה"
 
-msgid "Less questions at exit time"
+msgid "Fewer questions at exit time"
 msgstr ""
 
 #, fuzzy
