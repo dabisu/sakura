@@ -231,6 +231,14 @@ window#fade_window {\
 
 
 
+/* Tab bar visibility */
+typedef enum {
+	SHOW_TAB_BAR_ALWAYS,
+	SHOW_TAB_BAR_MULTIPLE,
+	SHOW_TAB_BAR_NEVER
+} ShowTabBar;
+
+
 /* Global sakura data */
 static struct {
 	GtkWidget *main_window;
@@ -252,7 +260,7 @@ static struct {
 	glong rows;
 	gint scroll_lines;
 	VteCursorShape cursor_type;
-	bool first_tab;
+	ShowTabBar show_tab_bar;         /* Show the tab bar: always, multiple, never */
 	bool show_scrollbar;
 	bool show_closebutton;
 	bool tabs_on_bottom;
@@ -442,7 +450,7 @@ static void     sakura_open_mail_cb (GtkWidget *, void *);
 static void     sakura_copy_url_cb (GtkWidget *, void *);
 static void     sakura_copy_cb (GtkWidget *, void *);
 static void     sakura_paste_cb (GtkWidget *, void *);
-static void     sakura_show_first_tab_cb (GtkWidget *, void *);
+static void     sakura_show_tab_bar_cb (GtkWidget *, void *);
 static void     sakura_tabs_on_bottom_cb (GtkWidget *, void *);
 static void     sakura_less_questions_cb (GtkWidget *, void *);
 static void     sakura_show_close_button_cb (GtkWidget *, void *);
@@ -525,9 +533,6 @@ static GOptionEntry entries[] = {
 };
 
 
-
-
-
 /*************************/
 /* Main window callbacks */
 /*************************/
@@ -560,8 +565,8 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 
 	/* Switch tab keybinding pressed (numbers or next/prev) */
 	/* In cases when the user configured accelerators like these ones:
-		switch_tab_accelerator=4  for ctrl+next[prev]_tab_key
-		move_tab_accelerator=5  for ctrl+shift+next[prev]_tab_key
+	   switch_tab_accelerator=4  for ctrl+next[prev]_tab_key
+	   move_tab_accelerator=5  for ctrl+shift+next[prev]_tab_key
 	   move never works, because switch will be processed first, so it needs to be fixed with the following condition */
 	if ( ((event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator) &&
 	     ((event->state & sakura.move_tab_accelerator) != sakura.move_tab_accelerator) ) {
@@ -1217,12 +1222,12 @@ sakura_color_dialog_changed_cb ( GtkWidget *widget, void *data)
 	GtkColorButton *fore_button = g_object_get_data (G_OBJECT(dialog), "fore_button");
 	GtkColorButton *back_button = g_object_get_data (G_OBJECT(dialog), "back_button");
 	GtkColorButton *curs_button = g_object_get_data (G_OBJECT(dialog), "curs_button");
-	GdkRGBA *forecolors = g_object_get_data( G_OBJECT(dialog), "fore");
-	GdkRGBA *backcolors = g_object_get_data( G_OBJECT(dialog), "back");
-	GdkRGBA *curscolors = g_object_get_data( G_OBJECT(dialog), "curs");
+	GdkRGBA *forecolors = g_object_get_data (G_OBJECT(dialog), "fore");
+	GdkRGBA *backcolors = g_object_get_data (G_OBJECT(dialog), "back");
+	GdkRGBA *curscolors = g_object_get_data (G_OBJECT(dialog), "curs");
 	GtkComboBox *cs_combo = g_object_get_data (G_OBJECT(dialog), "cs_combo");
 	GtkComboBox *scheme_combo = g_object_get_data (G_OBJECT(dialog), "scheme_combo");
-	GtkSpinButton *opacity_spin = g_object_get_data(G_OBJECT(dialog), "opacity_spin");
+	GtkSpinButton *opacity_spin = g_object_get_data (G_OBJECT(dialog), "opacity_spin");
 	GtkCheckButton *bib_checkbutton = g_object_get_data (G_OBJECT(dialog), "bib_checkbutton");
 
 	gint current_cs = gtk_combo_box_get_active(cs_combo);
@@ -1559,20 +1564,29 @@ sakura_open_mail_cb (GtkWidget *widget, void *data)
 
 
 static void
-sakura_show_first_tab_cb (GtkWidget *widget, void *data)
+sakura_show_tab_bar_cb (GtkWidget *widget, void *data)
 {
-	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
-		sakura_set_config_string("show_always_first_tab", "Yes");
-		sakura.first_tab = true;
-	} else {
-		/* Only hide tabs if the notebook has one page */
-		if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) == 1) {
-			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
-		}
-		sakura_set_config_string("show_always_first_tab", "No");
-		sakura.first_tab = false;
+	char *setting_string = (char *)data;
+	char *config_string;
+	gboolean show_tabs;
+
+	if (strcmp(setting_string, "always")==0) {
+		sakura.show_tab_bar = SHOW_TAB_BAR_ALWAYS;
+		config_string = "always";
+		show_tabs = TRUE;
+	} else if (strcmp(setting_string, "multiple")==0) {
+		sakura.show_tab_bar = SHOW_TAB_BAR_MULTIPLE;
+		config_string = "multiple";
+		show_tabs = (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook)) != 1);
+	} else if (strcmp(setting_string, "never")==0) {
+		sakura.show_tab_bar = SHOW_TAB_BAR_NEVER;
+		config_string = "never";
+		show_tabs = FALSE;
 	}
+
+	sakura_set_config_string("show_tab_bar", config_string);
+	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), show_tabs);
+
 	sakura_set_size();
 }
 
@@ -1908,11 +1922,27 @@ sakura_init()
 	sakura.font = pango_font_description_from_string(cfgtmp);
 	free(cfgtmp);
 
-	if (!g_key_file_has_key(sakura.cfg, cfg_group, "show_always_first_tab", NULL)) {
-		sakura_set_config_string("show_always_first_tab", "No");
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "show_tab_bar", NULL)) {
+		/* legacy option "show_always_first_tab" now sets "show_tab_bar = always | multiple" */
+		if (g_key_file_has_key(sakura.cfg, cfg_group, "show_always_first_tab", NULL)) {
+			cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
+			sakura_set_config_string("show_tab_bar", (strcmp(cfgtmp, "Yes")==0) ? "always" : "multiple");
+			free(cfgtmp);
+		} else {
+			sakura_set_config_string("show_tab_bar", "multiple");
+		}
 	}
-	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
-	sakura.first_tab = (strcmp(cfgtmp, "Yes")==0) ? true : false;
+	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_tab_bar", NULL);
+	if (strcmp(cfgtmp, "always")==0) {
+		sakura.show_tab_bar = SHOW_TAB_BAR_ALWAYS;
+	} else if (strcmp(cfgtmp, "multiple")==0) {
+		sakura.show_tab_bar = SHOW_TAB_BAR_MULTIPLE;
+	} else if (strcmp(cfgtmp, "never")==0) {
+		sakura.show_tab_bar = SHOW_TAB_BAR_NEVER;
+	} else {
+		fprintf(stderr, "Invalid configuration value: show_tab_bar=%s (valid values: always|multiple|never)\n", cfgtmp);
+		sakura.show_tab_bar = SHOW_TAB_BAR_MULTIPLE;
+	}
 	free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar", NULL)) {
@@ -2257,12 +2287,14 @@ sakura_init_popup()
 {
 	GtkWidget *item_new_tab, *item_set_name, *item_close_tab, *item_copy,
 	          *item_paste, *item_fullscreen, *item_select_font, *item_select_colors,
+	          *item_show_tab_bar,
+	          *item_show_tab_bar_always, *item_show_tab_bar_multiple, *item_show_tab_bar_never,
 	          *item_toggle_scrollbar, *item_options,
-	          *item_show_first_tab, *item_urgent_bell, *item_audible_bell, *item_blinking_cursor,
+	          *item_urgent_bell, *item_audible_bell, *item_blinking_cursor,
 	          *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
 	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions,
 	          *item_disable_numbered_tabswitch; // *item_use_fading;
-	GtkWidget *options_menu, *cursor_menu;
+	GtkWidget *options_menu, *show_tab_bar_menu, *cursor_menu;
 
 	sakura.item_open_mail = gtk_menu_item_new_with_label(_("Open mail"));
 	sakura.item_open_link = gtk_menu_item_new_with_label(_("Open link"));
@@ -2278,11 +2310,16 @@ sakura_init_popup()
 
 	item_select_font = gtk_menu_item_new_with_label(_("Select font..."));
 	item_select_colors = gtk_menu_item_new_with_label(_("Select colors..."));
-	item_show_first_tab = gtk_check_menu_item_new_with_label(_("Always show tab bar"));
+	item_show_tab_bar = gtk_menu_item_new_with_label(_("Show tab bar"));
+	item_show_tab_bar_always = gtk_radio_menu_item_new_with_label(NULL, _("Always"));
+	item_show_tab_bar_multiple = gtk_radio_menu_item_new_with_label_from_widget(
+		GTK_RADIO_MENU_ITEM(item_show_tab_bar_always), _("When there's more than one tab"));
+	item_show_tab_bar_never = gtk_radio_menu_item_new_with_label_from_widget(
+		GTK_RADIO_MENU_ITEM(item_show_tab_bar_always), _("Never"));
 	item_tabs_on_bottom = gtk_check_menu_item_new_with_label(_("Tabs at bottom"));
 	item_show_close_button = gtk_check_menu_item_new_with_label(_("Show close button on tabs"));
 	item_toggle_scrollbar = gtk_check_menu_item_new_with_label(_("Show scrollbar"));
-	item_less_questions = gtk_check_menu_item_new_with_label(_("Less questions at exit time"));
+	item_less_questions = gtk_check_menu_item_new_with_label(_("Fewer questions at exit time"));
 	item_urgent_bell = gtk_check_menu_item_new_with_label(_("Set urgent bell"));
 	item_audible_bell = gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_blinking_cursor = gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
@@ -2294,10 +2331,15 @@ sakura_init_popup()
 	item_cursor_ibeam = gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_cursor_block), _("IBeam"));
 
 	/* Show defaults in menu items */
-		if (sakura.first_tab) {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_first_tab), TRUE);
-	} else {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_first_tab), FALSE);
+	switch (sakura.show_tab_bar) {
+		case SHOW_TAB_BAR_ALWAYS:
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_tab_bar_always), TRUE);
+			break;
+		case SHOW_TAB_BAR_MULTIPLE:
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_tab_bar_multiple), TRUE);
+			break;
+		case SHOW_TAB_BAR_NEVER:
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_tab_bar_never), TRUE);
 	}
 
 	if (sakura.show_closebutton) {
@@ -2380,12 +2422,16 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(sakura.menu), item_options);
 
 	options_menu = gtk_menu_new();
+	show_tab_bar_menu = gtk_menu_new();
 	cursor_menu = gtk_menu_new();
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_select_colors);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_select_font);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
-	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_first_tab);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_tab_bar);
+	gtk_menu_shell_append(GTK_MENU_SHELL(show_tab_bar_menu), item_show_tab_bar_always);
+	gtk_menu_shell_append(GTK_MENU_SHELL(show_tab_bar_menu), item_show_tab_bar_multiple);
+	gtk_menu_shell_append(GTK_MENU_SHELL(show_tab_bar_menu), item_show_tab_bar_never);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_tabs_on_bottom);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_close_button);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
@@ -2402,6 +2448,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(cursor_menu), item_cursor_ibeam);
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), options_menu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_show_tab_bar), show_tab_bar_menu);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_cursor), cursor_menu);
 
 	/* ... and finally assign callbacks to menuitems */
@@ -2413,7 +2460,9 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_paste), "activate", G_CALLBACK(sakura_paste_cb), NULL);
 	g_signal_connect(G_OBJECT(item_select_colors), "activate", G_CALLBACK(sakura_color_dialog_cb), NULL);
 
-	g_signal_connect(G_OBJECT(item_show_first_tab), "activate", G_CALLBACK(sakura_show_first_tab_cb), NULL);
+	g_signal_connect(G_OBJECT(item_show_tab_bar_always), "activate", G_CALLBACK(sakura_show_tab_bar_cb), "always");
+	g_signal_connect(G_OBJECT(item_show_tab_bar_multiple), "activate", G_CALLBACK(sakura_show_tab_bar_cb), "multiple");
+	g_signal_connect(G_OBJECT(item_show_tab_bar_never), "activate", G_CALLBACK(sakura_show_tab_bar_cb), "never");
 	g_signal_connect(G_OBJECT(item_tabs_on_bottom), "activate", G_CALLBACK(sakura_tabs_on_bottom_cb), NULL);
 	g_signal_connect(G_OBJECT(item_less_questions), "activate", G_CALLBACK(sakura_less_questions_cb), NULL);
 	g_signal_connect(G_OBJECT(item_show_close_button), "activate", G_CALLBACK(sakura_show_close_button_cb), NULL);
@@ -2433,7 +2482,6 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_fullscreen), "activate", G_CALLBACK(sakura_fullscreen_cb), NULL);
 
 	gtk_widget_show_all(sakura.menu);
-
 }
 
 
@@ -2452,7 +2500,6 @@ sakura_destroy()
 	free(sakura.configfile);
 
 	gtk_main_quit();
-
 }
 
 
@@ -2622,7 +2669,7 @@ sakura_set_size (void)
 	sakura.width = pad_x + (char_width * sakura.columns);
 	sakura.height = pad_y + (char_height * sakura.rows);
 
-	if (npages>=2 || sakura.first_tab) {
+	if (sakura.show_tab_bar == SHOW_TAB_BAR_ALWAYS || (sakura.show_tab_bar == SHOW_TAB_BAR_MULTIPLE && npages > 1)) {
 
 		/* TODO: Yeah i know, this is utter shit. Remove this ugly hack and set geometry hints*/
 		if (!sakura.show_scrollbar)
@@ -2723,7 +2770,6 @@ sakura_set_colors ()
 
 	/* Main window opacity must be set. Otherwise vte widget will remain opaque */
 	gtk_widget_set_opacity(sakura.main_window, sakura.backcolors[sk_tab->colorset].alpha);
-
 }
 
 
@@ -2822,7 +2868,7 @@ sakura_add_tab()
 	int index; int npages;
 	gchar *cwd = NULL; gchar *default_label_text = NULL;
 
-	sk_tab = g_new0( struct sakura_tab, 1 );
+	sk_tab = g_new0(struct sakura_tab, 1);
 
 	/* Create the tab label */
 	sk_tab->label = gtk_label_new(NULL);
@@ -2914,7 +2960,7 @@ sakura_add_tab()
 	/* First tab */
 	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	if (npages == 1) {
-		if (sakura.first_tab) {
+		if (sakura.show_tab_bar == SHOW_TAB_BAR_ALWAYS) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		} else {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);
@@ -3011,7 +3057,7 @@ sakura_add_tab()
 			gtk_widget_hide(sk_tab->scrollbar);
 		}
 
-		if (npages == 2) {
+		if (npages == 2 && sakura.show_tab_bar != SHOW_TAB_BAR_NEVER) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 			sakura_set_size();
 		}
@@ -3102,7 +3148,7 @@ sakura_del_tab(gint page)
 	/* Do the first tab checks BEFORE deleting the tab, to ensure correct
 	 * sizes are calculated when the tab is deleted */
 	if (npages == 2) {
-		if (sakura.first_tab) {
+		if (sakura.show_tab_bar == SHOW_TAB_BAR_ALWAYS) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
 		} else {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), FALSE);

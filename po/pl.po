@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 07:17+0200\n"
+"POT-Creation-Date: 2021-12-18 14:36-0500\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -162,8 +162,17 @@ msgstr "Wybierz czcionkę..."
 msgid "Select colors..."
 msgstr "Wybierz kolory..."
 
-msgid "Always show tab bar"
-msgstr "Zawsze wyświetlaj pasek kart"
+msgid "Show tab bar"
+msgstr "Wyświetlaj pasek kart"
+
+msgid "Always"
+msgstr "Zawsze"
+
+msgid "When there's more than one tab"
+msgstr "Kiedy jest więcej niż jeden"
+
+msgid "Never"
+msgstr "Nigdy"
 
 msgid "Tabs at bottom"
 msgstr "Karty na dole"
@@ -174,7 +183,7 @@ msgstr "Pokaż przyciski zamykania na kartach"
 msgid "Show scrollbar"
 msgstr "Pokaż pasek przesuwania"
 
-msgid "Less questions at exit time"
+msgid "Fewer questions at exit time"
 msgstr ""
 
 #, fuzzy

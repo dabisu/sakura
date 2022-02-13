@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 07:17+0200\n"
+"POT-Creation-Date: 2021-12-18 10:39-0500\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -110,7 +110,7 @@ msgid "Palette"
 msgstr "Палитра"
 
 msgid "Use bright colors for bold text"
-msgstr ""
+msgstr "Изображать толстый шрифт яркими цветами"
 
 msgid "Set window title"
 msgstr "Изменение заголовка окна"
@@ -154,8 +154,17 @@ msgstr "Выбрать шрифт..."
 msgid "Select colors..."
 msgstr "Выбрать цвета..."
 
-msgid "Always show tab bar"
-msgstr "Всегда показывать панель вкладок"
+msgid "Show tab bar"
+msgstr "Показывать панель вкладок"
+
+msgid "Always"
+msgstr "Всегда"
+
+msgid "When there's more than one tab"
+msgstr "Если имеется более чем одна"
+
+msgid "Never"
+msgstr "Никогда"
 
 msgid "Tabs at bottom"
 msgstr "Панель вкладок внизу"
@@ -166,8 +175,8 @@ msgstr "Показывать кнопку закрытия на вкладке"
 msgid "Show scrollbar"
 msgstr "Показать линейку прокрутки"
 
-msgid "Less questions at exit time"
-msgstr ""
+msgid "Fewer questions at exit time"
+msgstr "Меньше вопросов при выходе"
 
 msgid "Set urgent bell"
 msgstr "Установить срочный звонок"
