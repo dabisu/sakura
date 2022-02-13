@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-15 02:50+0200\n"
+"POT-Creation-Date: 2021-12-18 10:39-0500\n"
 "PO-Revision-Date: 2020-05-06 05:00+0000\n"
 "Last-Translator: Milo Ivir <Unknown>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -160,8 +160,17 @@ msgstr "Schrift auswählen …"
 msgid "Select colors..."
 msgstr "Farben auswählen …"
 
-msgid "Always show tab bar"
-msgstr "Reiterleiste immer anzeigen"
+msgid "Show tab bar"
+msgstr "Reiterleiste anzeigen"
+
+msgid "Always"
+msgstr "Immer"
+
+msgid "When there's more than one tab"
+msgstr "Wenn es mehrere sind"
+
+msgid "Never"
+msgstr "Niemals"
 
 msgid "Tabs at bottom"
 msgstr "Reiter unten"
@@ -172,7 +181,7 @@ msgstr "Schließen-Knopf auf Reitern anzeigen"
 msgid "Show scrollbar"
 msgstr "Bildlaufleiste anzeigen"
 
-msgid "Less questions at exit time"
+msgid "Fewer questions at exit time"
 msgstr "Weniger Fragen bei Beenden des Programms"
 
 msgid "Set urgent bell"

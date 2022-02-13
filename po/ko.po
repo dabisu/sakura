@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-15 02:50+0200\n"
+"POT-Creation-Date: 2021-12-18 10:39-0500\n"
 "PO-Revision-Date: 2019-09-30 05:48+0000\n"
 "Last-Translator: Minho Park <parkmino@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -159,8 +159,17 @@ msgstr "글꼴 선택..."
 msgid "Select colors..."
 msgstr "색상 선택..."
 
-msgid "Always show tab bar"
-msgstr "탭바 항상 보기"
+msgid "Show tab bar"
+msgstr "탭바 보기"
+
+msgid "Always"
+msgstr "항상"
+
+msgid "When there's more than one tab"
+msgstr ""
+
+msgid "Never"
+msgstr ""
 
 msgid "Tabs at bottom"
 msgstr "탭을 아래에 표시"
@@ -171,7 +180,7 @@ msgstr "탭에 닫기 단추 보기"
 msgid "Show scrollbar"
 msgstr "스크롤바 보기"
 
-msgid "Less questions at exit time"
+msgid "Fewer questions at exit time"
 msgstr "종료 시 적은 질문"
 
 msgid "Set urgent bell"

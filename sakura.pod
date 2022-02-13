@@ -123,6 +123,16 @@ Make all warnings fatal
 
 =back
 
+=head1 CONFIGURATION
+
+=over 8
+
+=item show_tab_bar=[always | multiple | never]
+
+This list of options is currently incomplete.
+
+=back
+
 =head1 KEYBINDINGS SUPPORT
 
 B<sakura> supports keyboard bindings. They are configurable by setting the following properties in your sakura config file (~/.config/sakura/sakura.conf).

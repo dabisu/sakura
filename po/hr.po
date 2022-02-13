@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sakura 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-15 02:50+0200\n"
+"POT-Creation-Date: 2021-12-18 10:39-0500\n"
 "PO-Revision-Date: 2020-05-06 05:00+0000\n"
 "Last-Translator: Milo Ivir <Unknown>\n"
 "Language-Team: \n"
@@ -160,8 +160,17 @@ msgstr "Odaberi font …"
 msgid "Select colors..."
 msgstr "Odaberi boje …"
 
-msgid "Always show tab bar"
-msgstr "Uvijek prikaži traku s karticama"
+msgid "Show tab bar"
+msgstr "Prikaži traku s karticama"
+
+msgid "Always"
+msgstr "Uvijek"
+
+msgid "When there's more than one tab"
+msgstr ""
+
+msgid "Never"
+msgstr ""
 
 msgid "Tabs at bottom"
 msgstr "Kartice dolje"
@@ -172,7 +181,7 @@ msgstr "Prikaži gumb zatvaranja na karticama"
 msgid "Show scrollbar"
 msgstr "Prikaži kliznu traku"
 
-msgid "Less questions at exit time"
+msgid "Fewer questions at exit time"
 msgstr "Manje pitanja pri zatvaranju programa"
 
 msgid "Set urgent bell"

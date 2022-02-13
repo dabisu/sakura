@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-15 02:50+0200\n"
+"POT-Creation-Date: 2021-12-18 10:39-0500\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -158,8 +158,17 @@ msgstr "Sélectionner la police de caractères..."
 msgid "Select colors..."
 msgstr "Sélectionner les couleurs..."
 
-msgid "Always show tab bar"
-msgstr "Toujours afficher la barre d'onglets"
+msgid "Show tab bar"
+msgstr "Afficher la barre d'onglets"
+
+msgid "Always"
+msgstr "Toujours "
+
+msgid "When there's more than one tab"
+msgstr ""
+
+msgid "Never"
+msgstr "Rien"
 
 msgid "Tabs at bottom"
 msgstr "Onglets en bas"
@@ -170,7 +179,7 @@ msgstr "Afficher le bouton fermer sur les onglets"
 msgid "Show scrollbar"
 msgstr "Afficher la barre de défilement"
 
-msgid "Less questions at exit time"
+msgid "Fewer questions at exit time"
 msgstr "Moins de questions au moment de la sortie"
 
 msgid "Set urgent bell"
