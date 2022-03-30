@@ -163,13 +163,13 @@ msgid "Show tab bar"
 msgstr "Show tab bar"
 
 msgid "Always"
-msgstr ""
+msgstr "Always"
 
 msgid "When there's more than one tab"
-msgstr ""
+msgstr "When there's more than one tab"
 
 msgid "Never"
-msgstr ""
+msgstr "Never"
 
 msgid "Tabs at bottom"
 msgstr "Tabs at bottom"
@@ -181,7 +181,7 @@ msgid "Show scrollbar"
 msgstr "Show scrollbar"
 
 msgid "Fewer questions at exit time"
-msgstr ""
+msgstr "Fewer questions at exit time"
 
 msgid "Set urgent bell"
 msgstr "Set urgent bell"
