@@ -53,10 +53,10 @@ To change default keys, set the key value you want to modify to your desired key
 	Ctrl + Shift + V                 -> Paste selected text
 	Ctrl + Shift + N                 -> Set tab name
 
-	Ctrl  + Left cursor              -> Previous tab
-	Ctrl  + Right cursor             -> Next tab
-	Ctrl  + Shift + Left cursor      -> Move tab to the left
-	Ctrl  + Shift + Right cursor     -> Move tab to the right
+	Alt  + Left cursor               -> Previous tab
+	Alt  + Right cursor              -> Next tab
+	Alt  + Shift + Left cursor       -> Move tab to the left
+	Alt  + Shift + Right cursor      -> Move tab to the right
 	Ctrl + [1-9]                     -> Switch to tab N (1-9)
 
 	Ctrl + Shift + S                 -> Toggle/Untoggle scrollbar
