@@ -333,8 +333,8 @@ struct sakura_tab {
 #define ICON_FILE "terminal-tango.svg"
 #define SCROLL_LINES 4096
 #define DEFAULT_SCROLL_LINES 4096
-#define HTTP_REGEXP "(ftp|http)s?://[^ \t\n\b()<>{}«»\\[\\]\'\"]+[^.]"
-#define MAIL_REGEXP "[^ \t\n\b]+@([^ \t\n\b]+\\.)+([a-zA-Z]{2,4})"
+#define HTTP_REGEXP "(ftp|http)s?://[^ \t\n\b]+[^.,!? \t\n\b()<>{}«»„“”‚‘’\\[\\]\'\"]"
+#define MAIL_REGEXP "[^ \t\n\b()<>{}«»„“”‚‘’\\[\\]\'\"][^ \t\n\b]*@([^ \t\n\b()<>{}«»„“”‚‘’\\[\\]\'\"]+\\.)+([a-zA-Z]{2,})"
 #define DEFAULT_CONFIGFILE "sakura.conf"
 #define DEFAULT_COLUMNS 80
 #define DEFAULT_ROWS 24
