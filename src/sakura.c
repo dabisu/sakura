@@ -2256,13 +2256,13 @@ sakura_init()
 	sakura.externally_modified = false;
 
 	gerror = NULL;
-	sakura.http_vteregexp = vte_regex_new_for_match(HTTP_REGEXP, strlen(HTTP_REGEXP), 0, &gerror);
+	sakura.http_vteregexp = vte_regex_new_for_match(HTTP_REGEXP, strlen(HTTP_REGEXP), PCRE2_MULTILINE, &gerror);
 	if (!sakura.http_vteregexp) {
 		SAY("http_regexp: %s", gerror->message);
 		g_error_free(gerror);
 	}
 	gerror=NULL;
-	sakura.mail_vteregexp = vte_regex_new_for_match(MAIL_REGEXP, strlen(MAIL_REGEXP), 0, &gerror);
+	sakura.mail_vteregexp = vte_regex_new_for_match(MAIL_REGEXP, strlen(MAIL_REGEXP), PCRE2_MULTILINE, &gerror);
 	if (!sakura.mail_vteregexp) {
 		SAY("mail_regexp: %s", gerror->message);
 		g_error_free(gerror);
