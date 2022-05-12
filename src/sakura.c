@@ -896,6 +896,9 @@ sakura_term_buttonreleased_cb (GtkWidget *widget, GdkEventButton *button_event, 
 	if (button_event->type != GDK_BUTTON_RELEASE)
 		return FALSE;
 
+	if (button_event->button == 1)
+		sakura_copy();
+
 	return FALSE;
 }
 
@@ -922,6 +925,14 @@ sakura_term_buttonpressed_cb (GtkWidget *widget, GdkEventButton *button_event, g
 
 		sakura_open_url_cb(NULL, NULL);
 
+		return TRUE;
+	}
+
+	/* Paste when paste button is pressed */
+	if (button_event->button == sakura.paste_button) {
+		sakura_paste();
+
+		/* Do not propagate. vte has his own copy-on-select and we'll end with duplicates pastes */
 		return TRUE;
 	}
 
