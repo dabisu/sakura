@@ -2159,6 +2159,17 @@ sakura_init()
 
 	sakura.dont_save = g_key_file_get_boolean(sakura.cfg, cfg_group, "dont_save", NULL);
 
+	/* Default terminal size*/
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "window_columns", NULL)) {
+		sakura_set_config_integer("window_columns", DEFAULT_COLUMNS);
+	}
+	sakura.columns = g_key_file_get_integer(sakura.cfg, cfg_group, "window_columns", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "window_rows", NULL)) {
+		sakura_set_config_integer("window_rows", DEFAULT_ROWS);
+	}
+	sakura.rows = g_key_file_get_integer(sakura.cfg, cfg_group, "window_rows", NULL);
+
 	/*** Sakura window initialization ***/
 
 	/* Use always GTK header bar*/
@@ -2186,10 +2197,6 @@ sakura_init()
 	gtk_css_provider_load_from_data(provider, FADE_WINDOW_CSS, -1, NULL);
 	gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 	g_object_unref(provider);
-
-	/* Default terminal size*/
-	sakura.columns = DEFAULT_COLUMNS;
-	sakura.rows = DEFAULT_ROWS;
 
 	/* Create notebook and set style */
 	sakura.notebook = gtk_notebook_new();
@@ -3505,3 +3512,4 @@ main(int argc, char **argv)
 
 	return 0;
 }
+
