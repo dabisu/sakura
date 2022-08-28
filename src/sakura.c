@@ -265,6 +265,7 @@ static struct {
 	bool show_closebutton;
 	bool tabs_on_bottom;
 	bool less_questions;
+        bool copy_on_select;
 	bool urgent_bell;
 	bool audible_bell;
 	bool blinking_cursor;
@@ -453,6 +454,7 @@ static void     sakura_paste_cb (GtkWidget *, void *);
 static void     sakura_show_tab_bar_cb (GtkWidget *, void *);
 static void     sakura_tabs_on_bottom_cb (GtkWidget *, void *);
 static void     sakura_less_questions_cb (GtkWidget *, void *);
+static void     sakura_copy_on_select_cb (GtkWidget *, void *);
 static void     sakura_show_close_button_cb (GtkWidget *, void *);
 static void     sakura_show_scrollbar_cb (GtkWidget *, void *);
 static void     sakura_disable_numbered_tabswitch_cb (GtkWidget *, void *);
@@ -896,6 +898,10 @@ sakura_term_buttonreleased_cb (GtkWidget *widget, GdkEventButton *button_event, 
 	if (button_event->type != GDK_BUTTON_RELEASE)
 		return FALSE;
 
+	if (sakura.copy_on_select)
+		if (button_event->button == 1)
+			sakura_copy();
+
 	return FALSE;
 }
 
@@ -923,6 +929,16 @@ sakura_term_buttonpressed_cb (GtkWidget *widget, GdkEventButton *button_event, g
 		sakura_open_url_cb(NULL, NULL);
 
 		return TRUE;
+	}
+
+	/* Paste when paste button is pressed */
+	if (sakura.copy_on_select) {
+		if (button_event->button == sakura.paste_button) {
+			sakura_paste();
+
+			/* Do not propagate. vte has his own copy-on-select and we'll end with duplicates pastes */
+			return TRUE;
+		}
 	}
 
 	/* Show the popup menu when menu button is pressed */
@@ -1618,6 +1634,19 @@ sakura_less_questions_cb (GtkWidget *widget, void *data)
 	}
 }
 
+
+static void
+sakura_copy_on_select_cb (GtkWidget *widget, void *data)
+{
+        sakura.copy_on_select = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+        if (sakura.copy_on_select) {
+                sakura_set_config_boolean("copy_on_select", TRUE);
+        } else {
+                sakura_set_config_boolean("copy_on_select", FALSE);
+        }
+}
+
+
 static void
 sakura_show_close_button_cb (GtkWidget *widget, void *data)
 {
@@ -1965,6 +1994,11 @@ sakura_init()
 	}
 	sakura.less_questions = g_key_file_get_boolean(sakura.cfg, cfg_group, "less_questions", NULL);
 
+        if (!g_key_file_has_key(sakura.cfg, cfg_group, "copy_on_select", NULL)) {
+                sakura_set_config_boolean("copy_on_select", FALSE);
+        }
+        sakura.copy_on_select = g_key_file_get_boolean(sakura.cfg, cfg_group, "copy_on_select", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "disable_numbered_tabswitch", NULL)) {
 		sakura_set_config_boolean("disable_numbered_tabswitch", FALSE);
 	}
@@ -2292,7 +2326,8 @@ sakura_init_popup()
 	          *item_toggle_scrollbar, *item_options,
 	          *item_urgent_bell, *item_audible_bell, *item_blinking_cursor,
 	          *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
-	          *item_show_close_button, *item_tabs_on_bottom, *item_less_questions,
+	          *item_show_close_button, *item_tabs_on_bottom,
+                  *item_less_questions, *item_copy_on_select,
 	          *item_disable_numbered_tabswitch; // *item_use_fading;
 	GtkWidget *options_menu, *show_tab_bar_menu, *cursor_menu;
 
@@ -2320,6 +2355,7 @@ sakura_init_popup()
 	item_show_close_button = gtk_check_menu_item_new_with_label(_("Show close button on tabs"));
 	item_toggle_scrollbar = gtk_check_menu_item_new_with_label(_("Show scrollbar"));
 	item_less_questions = gtk_check_menu_item_new_with_label(_("Fewer questions at exit time"));
+        item_copy_on_select = gtk_check_menu_item_new_with_label(_("Automatically copy selected text"));
 	item_urgent_bell = gtk_check_menu_item_new_with_label(_("Set urgent bell"));
 	item_audible_bell = gtk_check_menu_item_new_with_label(_("Set audible bell"));
 	item_blinking_cursor = gtk_check_menu_item_new_with_label(_("Set blinking cursor"));
@@ -2359,6 +2395,10 @@ sakura_init_popup()
 	} else {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_less_questions), FALSE);
 	}
+
+        if (sakura.copy_on_select) {
+                gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_copy_on_select), TRUE);
+        }
 
 	if (sakura.show_scrollbar) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_toggle_scrollbar), TRUE);
@@ -2437,6 +2477,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_toggle_scrollbar);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_less_questions);
+        gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_copy_on_select);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_urgent_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_audible_bell);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_disable_numbered_tabswitch);
@@ -2465,6 +2506,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_show_tab_bar_never), "activate", G_CALLBACK(sakura_show_tab_bar_cb), "never");
 	g_signal_connect(G_OBJECT(item_tabs_on_bottom), "activate", G_CALLBACK(sakura_tabs_on_bottom_cb), NULL);
 	g_signal_connect(G_OBJECT(item_less_questions), "activate", G_CALLBACK(sakura_less_questions_cb), NULL);
+        g_signal_connect(G_OBJECT(item_copy_on_select), "activate", G_CALLBACK(sakura_copy_on_select_cb), NULL);
 	g_signal_connect(G_OBJECT(item_show_close_button), "activate", G_CALLBACK(sakura_show_close_button_cb), NULL);
 	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar_cb), NULL);
 	g_signal_connect(G_OBJECT(item_urgent_bell), "activate", G_CALLBACK(sakura_urgent_bell_cb), NULL);
