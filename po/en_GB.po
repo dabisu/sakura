@@ -184,7 +184,7 @@ msgid "Fewer questions at exit time"
 msgstr "Fewer questions at exit time"
 
 msgid "Automatically copy selected text"
-msgstr ""
+msgstr "Automatically copy selected text"
 
 msgid "Set urgent bell"
 msgstr "Set urgent bell"

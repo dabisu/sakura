@@ -182,7 +182,7 @@ msgid "Fewer questions at exit time"
 msgstr "Menos preguntas al cerrar"
 
 msgid "Automatically copy selected text"
-msgstr ""
+msgstr "Copiar automáticamente el texto seleccionado"
 
 msgid "Set urgent bell"
 msgstr "Activar campana de urgencia"
