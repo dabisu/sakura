@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 3.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Rahut <genghiskhan@gmx.ca>\n"
@@ -24,6 +24,10 @@ msgstr ""
 # CLI: Do not translate!
 msgid "Print version number"
 msgstr "Print version number"
+
+# CLI: Do not translate!
+msgid "Set window title"
+msgstr "Set window title"
 
 # CLI: Do not translate!
 msgid "Select initial terminal font"
@@ -139,10 +143,6 @@ msgstr "לוח צבעים"
 msgid "Use bright colors for bold text"
 msgstr ""
 
-# CLI: Do not translate!
-msgid "Set window title"
-msgstr "Set window title"
-
 msgid "New window title"
 msgstr "כותרת חלון חדשה"
 
@@ -206,6 +206,9 @@ msgid "Show scrollbar"
 msgstr "הצג פס גלילה"
 
 msgid "Fewer questions at exit time"
+msgstr ""
+
+msgid "Automatically copy selected text"
 msgstr ""
 
 #, fuzzy

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2019-08-12 16:27+0000\n"
 "Last-Translator: Andreas Rönnquist <andreas@ronnquist.net>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -20,6 +20,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Skriv ut versionsnummer"
+
+msgid "Set window title"
+msgstr "Sätt fönstertitel"
 
 msgid "Select initial terminal font"
 msgstr "Välj initialt terminaltypsnitt"
@@ -117,9 +120,6 @@ msgstr "Palett"
 msgid "Use bright colors for bold text"
 msgstr ""
 
-msgid "Set window title"
-msgstr "Sätt fönstertitel"
-
 msgid "New window title"
 msgstr "Ny fönstertitel"
 
@@ -181,6 +181,9 @@ msgid "Show scrollbar"
 msgstr "Visa rullningslist"
 
 msgid "Fewer questions at exit time"
+msgstr ""
+
+msgid "Automatically copy selected text"
 msgstr ""
 
 msgid "Set urgent bell"

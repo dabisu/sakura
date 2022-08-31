@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: ManDrive <roman_romul@mail.ru>\n"
 "Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
@@ -15,6 +15,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Вывести номер версии"
+
+msgid "Set window title"
+msgstr "Изменение заголовка окна"
 
 msgid "Select initial terminal font"
 msgstr "Выбрать начальный шрифт терминала"
@@ -112,9 +115,6 @@ msgstr "Палитра"
 msgid "Use bright colors for bold text"
 msgstr "Изображать толстый шрифт яркими цветами"
 
-msgid "Set window title"
-msgstr "Изменение заголовка окна"
-
 msgid "New window title"
 msgstr "Новый заголовок окна:"
 
@@ -177,6 +177,9 @@ msgstr "Показать линейку прокрутки"
 
 msgid "Fewer questions at exit time"
 msgstr "Меньше вопросов при выходе"
+
+msgid "Automatically copy selected text"
+msgstr ""
 
 msgid "Set urgent bell"
 msgstr "Установить срочный звонок"

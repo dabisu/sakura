@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -20,6 +20,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Mostrar número da versão"
+
+msgid "Set window title"
+msgstr "Definir título da janela"
 
 msgid "Select initial terminal font"
 msgstr "Escolha o tipo inicial de letra do terminal"
@@ -117,9 +120,6 @@ msgstr "Palete"
 msgid "Use bright colors for bold text"
 msgstr ""
 
-msgid "Set window title"
-msgstr "Definir título da janela"
-
 msgid "New window title"
 msgstr "Título da nova janela"
 
@@ -181,6 +181,9 @@ msgid "Show scrollbar"
 msgstr "Mostrar barra de deslocação"
 
 msgid "Fewer questions at exit time"
+msgstr ""
+
+msgid "Automatically copy selected text"
 msgstr ""
 
 msgid "Set urgent bell"

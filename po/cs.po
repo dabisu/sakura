@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 2.3.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2018-05-03 16:14+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -20,6 +20,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Vytiskne informaci o verzi"
+
+msgid "Set window title"
+msgstr "Nastaví titulek okna"
 
 msgid "Select initial terminal font"
 msgstr "Volba výchozího písma terminálu"
@@ -117,9 +120,6 @@ msgstr "Paletu"
 msgid "Use bright colors for bold text"
 msgstr ""
 
-msgid "Set window title"
-msgstr "Nastaví titulek okna"
-
 msgid "New window title"
 msgstr "Název nového okna"
 
@@ -181,6 +181,9 @@ msgid "Show scrollbar"
 msgstr "Zobrazit posuvník"
 
 msgid "Fewer questions at exit time"
+msgstr ""
+
+msgid "Automatically copy selected text"
 msgstr ""
 
 msgid "Set urgent bell"

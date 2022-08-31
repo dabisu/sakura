@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2019-08-12 16:55+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -17,6 +17,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "バージョン番号を表示"
+
+msgid "Set window title"
+msgstr "ウィンドウタイトルを設定"
 
 msgid "Select initial terminal font"
 msgstr "ターミナルのフォントを選択"
@@ -114,9 +117,6 @@ msgstr "パレット"
 msgid "Use bright colors for bold text"
 msgstr "太字のテキストには明るい色を使用する"
 
-msgid "Set window title"
-msgstr "ウィンドウタイトルを設定"
-
 msgid "New window title"
 msgstr "新しいウィンドウタイトル"
 
@@ -179,6 +179,9 @@ msgstr "スクロールバーを表示"
 
 msgid "Fewer questions at exit time"
 msgstr "終了時の質問が少なくする"
+
+msgid "Automatically copy selected text"
+msgstr ""
 
 msgid "Set urgent bell"
 msgstr "救急ベルを有効にする"

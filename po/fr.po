@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: <fabrice.thiroux@free.fr>\n"
@@ -19,6 +19,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Afficher le numéro de version"
+
+msgid "Set window title"
+msgstr "Définir le titre de la fenêtre"
 
 msgid "Select initial terminal font"
 msgstr "Sélectionner la police de caractères à utiliser au démarrage"
@@ -116,9 +119,6 @@ msgstr "Palette"
 msgid "Use bright colors for bold text"
 msgstr "Utilisez des couleurs vives pour le text en gras"
 
-msgid "Set window title"
-msgstr "Définir le titre de la fenêtre"
-
 msgid "New window title"
 msgstr "Définir le titre de la fenêtre"
 
@@ -181,6 +181,9 @@ msgstr "Afficher la barre de défilement"
 
 msgid "Fewer questions at exit time"
 msgstr "Moins de questions au moment de la sortie"
+
+msgid "Automatically copy selected text"
+msgstr ""
 
 msgid "Set urgent bell"
 msgstr "Définir un avertissement d'urgence"

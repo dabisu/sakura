@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2019-09-30 05:43+0000\n"
 "Last-Translator: Adolfo Jayme <Unknown>\n"
 "Language-Team: Jordi Jané Cardo <jordi.jane@gmail.com>\n"
@@ -18,6 +18,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Imprimir el número de versió"
+
+msgid "Set window title"
+msgstr "Definir el nom de la finestra"
 
 msgid "Select initial terminal font"
 msgstr "Sel·leccionar el tipus de font inicial"
@@ -115,9 +118,6 @@ msgstr "Paleta"
 msgid "Use bright colors for bold text"
 msgstr "Utilitzeu colors brillants per al text en negreta"
 
-msgid "Set window title"
-msgstr "Definir el nom de la finestra"
-
 msgid "New window title"
 msgstr "Definiu el nom de la finestra"
 
@@ -179,6 +179,9 @@ msgid "Show scrollbar"
 msgstr "Mostrar la barra de desplaçament"
 
 msgid "Fewer questions at exit time"
+msgstr ""
+
+msgid "Automatically copy selected text"
 msgstr ""
 
 msgid "Set urgent bell"

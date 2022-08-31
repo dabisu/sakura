@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2019-08-12 17:06+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: Chinese/Simplified <i18n-translation@lists.linux.net.cn>\n"
@@ -20,6 +20,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "显示版本号"
+
+msgid "Set window title"
+msgstr "设置窗口标题"
 
 msgid "Select initial terminal font"
 msgstr "选择初始终端字体"
@@ -117,9 +120,6 @@ msgstr "调色板"
 msgid "Use bright colors for bold text"
 msgstr "为了粗体字使用鲜艳的色彩"
 
-msgid "Set window title"
-msgstr "设置窗口标题"
-
 msgid "New window title"
 msgstr "新窗口标题"
 
@@ -183,6 +183,9 @@ msgstr "显示滚动条"
 
 msgid "Fewer questions at exit time"
 msgstr "退出时的问题较少"
+
+msgid "Automatically copy selected text"
+msgstr ""
 
 msgid "Set urgent bell"
 msgstr "设定紧急铃"

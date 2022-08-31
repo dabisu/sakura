@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2019-09-30 05:48+0000\n"
 "Last-Translator: Minho Park <parkmino@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -20,6 +20,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "버전 보기"
+
+msgid "Set window title"
+msgstr "창 제목 설정"
 
 msgid "Select initial terminal font"
 msgstr "터미널 초기 글꼴 선택"
@@ -117,9 +120,6 @@ msgstr "파레트"
 msgid "Use bright colors for bold text"
 msgstr "굵은 텍스트에 밝은 색상 사용"
 
-msgid "Set window title"
-msgstr "창 제목 설정"
-
 msgid "New window title"
 msgstr "새 창 제목"
 
@@ -182,6 +182,9 @@ msgstr "스크롤바 보기"
 
 msgid "Fewer questions at exit time"
 msgstr "종료 시 적은 질문"
+
+msgid "Automatically copy selected text"
+msgstr ""
 
 msgid "Set urgent bell"
 msgstr "긴급 종 설정"

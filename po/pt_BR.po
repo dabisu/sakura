@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-18 10:39-0500\n"
+"POT-Creation-Date: 2022-08-29 01:01+0200\n"
 "PO-Revision-Date: 2018-04-29 13:18+0000\n"
 "Last-Translator: David Gómez <david@pleyades.net>\n"
 "Language-Team: fabio.antunes@hotmail.com <fabio.antunes@hotmail.com>\n"
@@ -15,6 +15,9 @@ msgstr ""
 
 msgid "Print version number"
 msgstr "Mostrar número da versão"
+
+msgid "Set window title"
+msgstr "Definir título da janela"
 
 msgid "Select initial terminal font"
 msgstr "Selecionar fonte inicial do terminal"
@@ -115,9 +118,6 @@ msgstr "Paleta"
 msgid "Use bright colors for bold text"
 msgstr ""
 
-msgid "Set window title"
-msgstr "Definir título da janela"
-
 msgid "New window title"
 msgstr "Definir título da janela"
 
@@ -180,6 +180,9 @@ msgid "Show scrollbar"
 msgstr "Mostra barra de rolagem"
 
 msgid "Fewer questions at exit time"
+msgstr ""
+
+msgid "Automatically copy selected text"
 msgstr ""
 
 #, fuzzy
