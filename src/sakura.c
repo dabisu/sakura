@@ -494,6 +494,7 @@ static void     sakura_search_dialog (void);
 static void     sakura_search (const char *, bool);
 static void     sakura_copy (void);
 static void     sakura_paste (void);
+static void     sakura_paste_primary (void);
 static void     sakura_show_scrollbar (void);
 
 
@@ -941,7 +942,7 @@ sakura_term_buttonpressed_cb (GtkWidget *widget, GdkEventButton *button_event, g
 	/* Paste when paste button is pressed */
 	if (sakura.copy_on_select) {
 		if (button_event->button == sakura.paste_button) {
-			sakura_paste();
+			sakura_paste_primary(); /* This is the expected X11 behaviour, to copy the PRIMARY clipboard with the middle click. TODO: Maybe add an option to use the secondary one? */
 
 			/* Do not propagate. vte has his own copy-on-select and we'll end with duplicates pastes */
 			return TRUE;
@@ -1537,8 +1538,8 @@ sakura_copy_url_cb (GtkWidget *widget, void *data)
 
 	clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
 	gtk_clipboard_set_text(clip, sakura.current_match, -1 );
-	clip = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
-	gtk_clipboard_set_text(clip, sakura.current_match, -1 );
+	//clip = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+	//gtk_clipboard_set_text(clip, sakura.current_match, -1 );
 
 }
 
@@ -2668,6 +2669,19 @@ sakura_paste ()
 	sk_tab = sakura_get_sktab(sakura, page);
 
 	vte_terminal_paste_clipboard(VTE_TERMINAL(sk_tab->vte));
+}
+
+
+static void
+sakura_paste_primary ()
+{
+	gint page;
+	struct sakura_tab *sk_tab;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	sk_tab = sakura_get_sktab(sakura, page);
+
+	vte_terminal_paste_primary(VTE_TERMINAL(sk_tab->vte));
 }
 
 
