@@ -557,25 +557,21 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	/* Use keycodes instead of keyvals. With keyvals, key bindings work only in US/ISO8859-1 and similar locales */
 	guint keycode = event->hardware_keycode;
 
+	/* Get the GDK accel mask to compare with our accelerators */
+	GdkModifierType accel_mask = gtk_accelerator_get_default_mod_mask();
+
 	/* Add/delete tab keybinding pressed */
-	if ( (event->state & sakura.add_tab_accelerator) == sakura.add_tab_accelerator &&
-			keycode == sakura_tokeycode(sakura.add_tab_key)) {
+	if ((event->state & accel_mask) == sakura.add_tab_accelerator && keycode == sakura_tokeycode(sakura.add_tab_key)) {
 		sakura_add_tab();
 		return TRUE;
-	} else if ( (event->state & sakura.del_tab_accelerator) == sakura.del_tab_accelerator &&
-			keycode == sakura_tokeycode(sakura.del_tab_key) ) {
+	} else if ((event->state & accel_mask) == sakura.del_tab_accelerator && keycode == sakura_tokeycode(sakura.del_tab_key)) {
 		/* Delete current tab */
 		sakura_close_tab(page);
 		return TRUE;
 	}
 
 	/* Switch tab keybinding pressed (numbers or next/prev) */
-	/* In cases when the user configured accelerators like these ones:
-	   switch_tab_accelerator=4  for ctrl+next[prev]_tab_key
-	   move_tab_accelerator=5  for ctrl+shift+next[prev]_tab_key
-	   move never works, because switch will be processed first, so it needs to be fixed with the following condition */
-	if ( ((event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator) &&
-	     ((event->state & sakura.move_tab_accelerator) != sakura.move_tab_accelerator) ) {
+	if ((event->state & accel_mask) == sakura.switch_tab_accelerator) {
 
 		/* Just propagate the event if there is only one tab */
 		if (npages < 2) return FALSE;
@@ -615,7 +611,7 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* Move tab keybinding pressed */
-	if ( ((event->state & sakura.move_tab_accelerator) == sakura.move_tab_accelerator)) {
+	if ((event->state & accel_mask) == sakura.move_tab_accelerator) {
 		if (keycode == sakura_tokeycode(sakura.prev_tab_key)) {
 			sakura_move_tab(BACKWARDS);
 			return TRUE;
@@ -626,7 +622,7 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* Copy/paste keybinding pressed */
-	if ( (event->state & sakura.copy_accelerator) == sakura.copy_accelerator ) {
+	if ((event->state & accel_mask) == sakura.copy_accelerator) {
 		if (keycode == sakura_tokeycode(sakura.copy_key)) {
 			sakura_copy();
 			return TRUE;
@@ -637,7 +633,7 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* Show scrollbar keybinding pressed */
-	if ( (event->state & sakura.scrollbar_accelerator) == sakura.scrollbar_accelerator ) {
+	if ((event->state & accel_mask) == sakura.scrollbar_accelerator) {
 		if (keycode == sakura_tokeycode(sakura.scrollbar_key)) {
 			sakura_show_scrollbar();
 			return TRUE;
@@ -645,7 +641,7 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* Set tab name keybinding pressed */
-	if ( (event->state & sakura.set_tab_name_accelerator) == sakura.set_tab_name_accelerator ) {
+	if ((event->state & accel_mask) == sakura.set_tab_name_accelerator) {
 		if (keycode == sakura_tokeycode(sakura.set_tab_name_key)) {
 			sakura_set_name_dialog_cb(NULL, NULL);
 			return TRUE;
@@ -653,7 +649,7 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* Search keybinding pressed */
-	if ( (event->state & sakura.search_accelerator) == sakura.search_accelerator ) {
+	if ((event->state & accel_mask) == sakura.search_accelerator) {
 		if (keycode == sakura_tokeycode(sakura.search_key)) {
 			sakura_search_dialog();
 			return TRUE;
@@ -661,7 +657,7 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* Increase/decrease font size keybinding pressed */
-	if ( (event->state & sakura.font_size_accelerator) == sakura.font_size_accelerator ) {
+	if ((event->state & accel_mask) == sakura.font_size_accelerator) {
 		if (keycode == sakura_tokeycode(sakura.increase_font_size_key)) {
 			sakura_increase_font_cb(NULL, NULL);
 			return TRUE;
@@ -678,7 +674,7 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* Change in colorset */
-	if ( (event->state & sakura.set_colorset_accelerator) == sakura.set_colorset_accelerator ) {
+	if ((event->state & accel_mask) == sakura.set_colorset_accelerator) {
 		int i;
 		for (i=0; i<NUM_COLORSETS; i++) {
 			if (keycode == sakura_tokeycode(sakura.set_colorset_keys[i])) {
