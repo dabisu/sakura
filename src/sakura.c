@@ -1365,7 +1365,7 @@ sakura_color_dialog_cb (GtkWidget *widget, void *data)
 	palette_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
 	palette_label = gtk_label_new(_("Palette"));
 	palette_combo = gtk_combo_box_text_new();
-	for (i=0; i < sizeof(&palettes_names)-1; i++) {
+	for (i=0; i < (sizeof(palettes_names)) / (sizeof(palettes_names[0])); i++) {
 		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(palette_combo), NULL, palettes_names[i]);
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(palette_combo), sakura.palette_idx);
