@@ -1,6 +1,8 @@
 #
 # Eyyüb Akçaer <gurbetcii_@hotmail.com>, 2022.
 #
+# madanadam <madanadam@gmail.com>, 2023.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
@@ -97,9 +99,9 @@ msgstr "_Seç"
 msgid "Colorset"
 msgstr "Renk seti"
 
-#, fuzzy
+
 msgid "Color scheme"
-msgstr "Renk seti"
+msgstr "Renk şeması"
 
 msgid "Foreground color"
 msgstr "Önplan rengi"
@@ -113,12 +115,12 @@ msgstr "İmleç rengi"
 msgid "Opacity level (%)"
 msgstr "Opaklık düzeyi (%)"
 
-#, fuzzy
+
 msgid "Palette"
-msgstr "Paleti ayarla"
+msgstr "Renk paleti"
 
 msgid "Use bright colors for bold text"
-msgstr ""
+msgstr "Kalın yazı için parlak renk kullan"
 
 msgid "New window title"
 msgstr "Yeni pencere başlığı"
@@ -130,7 +132,7 @@ msgid "Open link"
 msgstr "Bağlantı aç"
 
 msgid "Copy link"
-msgstr "Bağlantıyı kopyala"
+msgstr "Bağlantı kopyala"
 
 msgid "New tab"
 msgstr "Yeni sekme"
@@ -159,18 +161,17 @@ msgstr "Yazı tipini seç..."
 msgid "Select colors..."
 msgstr "Renkleri seç..."
 
-#, fuzzy
 msgid "Show tab bar"
-msgstr "Sekme çubuğunu her zaman göster"
+msgstr "Sekme çubuğunu göster"
 
 msgid "Always"
-msgstr ""
+msgstr "Daima"
 
 msgid "When there's more than one tab"
-msgstr ""
+msgstr "Birden çoksa"
 
 msgid "Never"
-msgstr ""
+msgstr "Asla"
 
 msgid "Tabs at bottom"
 msgstr "Sekmeler altta"
@@ -181,12 +182,11 @@ msgstr "Sekmelerde kapatma butonunu göster"
 msgid "Show scrollbar"
 msgstr "Kaydırma çubuğunu göster"
 
-#, fuzzy
 msgid "Fewer questions at exit time"
 msgstr "Çıkış süresinde daha az soru"
 
 msgid "Automatically copy selected text"
-msgstr ""
+msgstr "Seçilen yazıyı otomatik kopyala"
 
 msgid "Set urgent bell"
 msgstr "Acil zilini ayarla"
