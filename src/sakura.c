@@ -992,9 +992,13 @@ sakura_beep_cb (GtkWidget *widget, void *data)
 	/* TODO: this is already set in focus_in, so DO we really need it here? */
 	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
 
-	if (sakura.urgent_bell) {
-		gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), TRUE);
+	/* If the window is active(focused), ignore and don't set the urgency hint */
+	if (!gtk_window_is_active(GTK_WINDOW(sakura.main_window))) {
+		if (sakura.urgent_bell) {
+			gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), TRUE);
 	}
+	}
+
 }
 
 
