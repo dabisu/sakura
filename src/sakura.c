@@ -705,10 +705,10 @@ static gboolean
 sakura_focus_in_cb (GtkWidget *widget, GdkEvent *event, void *data)
 {
 	if (event->type != GDK_FOCUS_CHANGE) return FALSE;
-	if (!sakura.use_fading) return FALSE;
+	//if (!sakura.use_fading) return FALSE;
 
 	/* Got the focus, hide the fade */
-	gtk_widget_hide(sakura.fade_window);
+	//gtk_widget_hide(sakura.fade_window);
 
 	/* Reset urgency hint */
 	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
@@ -989,6 +989,7 @@ sakura_beep_cb (GtkWidget *widget, void *data)
 {
 	/* Remove the urgency hint. This is necessary to signal the window manager  */
 	/* that a new urgent event happened when the urgent hint is set after this. */
+	/* TODO: this is already set in focus_in, so DO we really need it here? */
 	gtk_window_set_urgency_hint(GTK_WINDOW(sakura.main_window), FALSE);
 
 	if (sakura.urgent_bell) {
