@@ -9,7 +9,7 @@ How to compile and install this beast ?
 ```bash
 $ cmake .
 $ make
-$ sudo 'make install'
+$ sudo make install
 ```
 **sakura** now uses the CMake building system (RIP our old system MOBS, we'll remember you ;)).
 
