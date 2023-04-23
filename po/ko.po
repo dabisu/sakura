@@ -166,10 +166,10 @@ msgid "Always"
 msgstr "항상"
 
 msgid "When there's more than one tab"
-msgstr ""
+msgstr "하나 이상의 탭이 있는 경우"
 
 msgid "Never"
-msgstr ""
+msgstr "절대"
 
 msgid "Tabs at bottom"
 msgstr "탭을 아래에 표시"
@@ -184,7 +184,7 @@ msgid "Fewer questions at exit time"
 msgstr "종료 시 적은 질문"
 
 msgid "Automatically copy selected text"
-msgstr ""
+msgstr "선택한 텍스트를 자동으로 복사"
 
 msgid "Set urgent bell"
 msgstr "긴급 종 설정"

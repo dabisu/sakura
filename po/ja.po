@@ -163,10 +163,10 @@ msgid "Always"
 msgstr "常に"
 
 msgid "When there's more than one tab"
-msgstr ""
+msgstr "複数のタブがある時"
 
 msgid "Never"
-msgstr ""
+msgstr "一度もない"
 
 msgid "Tabs at bottom"
 msgstr "タブを下に表示"
@@ -181,7 +181,7 @@ msgid "Fewer questions at exit time"
 msgstr "終了時の質問が少なくする"
 
 msgid "Automatically copy selected text"
-msgstr ""
+msgstr "選択したテキストを自動的にコーピーする"
 
 msgid "Set urgent bell"
 msgstr "救急ベルを有効にする"
