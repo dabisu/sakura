@@ -265,6 +265,7 @@ static struct {
 	GtkWidget *menu;
 	GtkWidget *fade_window;  /* Window used for fading effect */
 	PangoFontDescription *font;
+	gdouble line_height; /* Font line height */
 	GdkRGBA forecolors[NUM_COLORSETS];
 	GdkRGBA backcolors[NUM_COLORSETS];
 	GdkRGBA curscolors[NUM_COLORSETS];
@@ -366,6 +367,7 @@ struct sakura_tab {
 #define DEFAULT_MIN_WIDTH_CHARS 20
 #define DEFAULT_MIN_HEIGHT_CHARS 1
 #define DEFAULT_FONT "Ubuntu Mono,monospace 13"
+#define DEFAULT_LINE_HEIGHT 1.0
 #define FONT_MINIMAL_SIZE (PANGO_SCALE*6)
 #define DEFAULT_WORD_CHARS "-,./?%&#_~:"
 #define TAB_MAX_SIZE 40
@@ -431,6 +433,11 @@ static GQuark term_data_id = 0;
 
 #define  sakura_set_config_boolean(key, value) do {\
 	g_key_file_set_boolean(sakura.cfg, cfg_group, key, value);\
+	sakura.config_modified=TRUE;\
+	} while(0);
+
+#define  sakura_set_config_double(key, value) do {\
+	g_key_file_set_double(sakura.cfg, cfg_group, key, value);\
 	sakura.config_modified=TRUE;\
 	} while(0);
 
@@ -1989,6 +1996,11 @@ sakura_init()
 	}
 	sakura.scroll_lines = g_key_file_get_integer(sakura.cfg, cfg_group, "scroll_lines", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "line_height", NULL)) {
+		sakura_set_config_double("line_height", DEFAULT_LINE_HEIGHT);
+	}
+	sakura.line_height = g_key_file_get_double(sakura.cfg, cfg_group, "line_height", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "font", NULL)) {
 		sakura_set_config_string("font", DEFAULT_FONT);
 	}
@@ -2799,6 +2811,7 @@ sakura_set_size (void)
 	//SAY("padding x %d y %d", pad_x, pad_y);
 	char_width = vte_terminal_get_char_width(VTE_TERMINAL(sk_tab->vte));
 	char_height = vte_terminal_get_char_height(VTE_TERMINAL(sk_tab->vte));
+	char_height = (int) (sakura.line_height * char_height);
 
 	sakura.width = pad_x + (char_width * sakura.columns);
 	sakura.height = pad_y + (char_height * sakura.rows);
@@ -2854,6 +2867,7 @@ sakura_set_font()
 	for (i = (n_pages - 1); i >= 0; i--) {
 		sk_tab = sakura_get_sktab(sakura, i);
 		vte_terminal_set_font(VTE_TERMINAL(sk_tab->vte), sakura.font);
+		vte_terminal_set_cell_height_scale(VTE_TERMINAL(sk_tab->vte), sakura.line_height);
 	}
 }
 
