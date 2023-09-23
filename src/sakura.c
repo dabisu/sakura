@@ -194,8 +194,27 @@ const GdkRGBA rxvt_palette[PALETTE_SIZE] = {
 	{1,        1,        1,        1}
 };
 
-const char *palettes_names[]= {"Solarized", "Tango", "Gruvbox","Nord","Xterm","Linux", "Rxvt", NULL};
-const GdkRGBA *palettes[] = {solarized_palette, tango_palette, gruvbox_palette, nord_palette, xterm_palette, linux_palette, rxvt_palette, NULL};
+const GdkRGBA hybrid_palette[PALETTE_SIZE] = {
+	{0.1568627450980392  , 0.16470588235294117 , 0.1803921568627451  , 1} ,
+	{0.6470588235294118  , 0.25882352941176473 , 0.25882352941176473 , 1} ,
+	{0.5490196078431373  , 0.5803921568627451  , 0.25098039215686274 , 1} ,
+	{0.8705882352941177  , 0.5764705882352941  , 0.37254901960784315 , 1} ,
+	{0.37254901960784315 , 0.5058823529411764  , 0.615686274509804   , 1} ,
+	{0.5215686274509804  , 0.403921568627451   , 0.5607843137254902  , 1} ,
+	{0.3686274509803922  , 0.5529411764705883  , 0.5294117647058824  , 1} ,
+	{0.4392156862745098  , 0.47058823529411764 , 0.5019607843137255  , 1} ,
+	{0.21568627450980393 , 0.23137254901960785 , 0.2549019607843137  , 1} ,
+	{0.8                 , 0.4                 , 0.4                 , 1} ,
+	{0.7098039215686275  , 0.7411764705882353  , 0.40784313725490196 , 1} ,
+	{0.9411764705882353  , 0.7764705882352941  , 0.4549019607843137  , 1} ,
+	{0.5058823529411764  , 0.6352941176470588  , 0.7450980392156863  , 1} ,
+	{0.6980392156862745  , 0.5803921568627451  , 0.7333333333333333  , 1} ,
+	{0.5411764705882353  , 0.7450980392156863  , 0.7176470588235294  , 1} ,
+	{0.7725490196078432  , 0.7843137254901961  , 0.7764705882352941  , 1}
+};
+
+const char *palettes_names[]= {"Solarized", "Tango", "Gruvbox", "Nord", "Xterm", "Linux", "Rxvt", "Hybrid", NULL};
+const GdkRGBA *palettes[] = {solarized_palette, tango_palette, gruvbox_palette, nord_palette, xterm_palette, linux_palette, rxvt_palette, hybrid_palette, NULL};
 #define DEFAULT_PALETTE 1 /* Tango palette */
 
 /* Color schemes (fg&bg) for sakura. Each colorset can use a different scheme */
