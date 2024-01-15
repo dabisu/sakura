@@ -590,7 +590,9 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* Switch tab keybinding pressed (numbers or next/prev) */
-	if ((event->state & accel_mask) == sakura.switch_tab_accelerator) {
+	//if ((event->state & accel_mask) == sakura.switch_tab_accelerator) {
+	 /* If we use accel_mask, GDK_MOD4_MASK (windows key) it's not detected... */
+        if ((event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator) {
 
 		/* Just propagate the event if there is only one tab */
 		if (npages < 2) return FALSE;
