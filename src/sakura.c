@@ -297,6 +297,7 @@ static struct {
 	bool scrollable_tabs;
 	bool bold_is_bright;             /* Show bold characters as bright */
 	bool dont_save;                  /* Don't save config file */
+	bool first_run;                  /* To only execute commands first time sakura is launched */
 	GtkWidget *item_copy_link;       /* We include here only the items which need to be hidden */
 	GtkWidget *item_open_link;
 	GtkWidget *item_open_mail;
@@ -2336,6 +2337,7 @@ sakura_init()
 	sakura.fullscreen = FALSE;
 	sakura.resized = FALSE;
 	sakura.externally_modified = false;
+	sakura.first_run=true;
 
 	gerror = NULL;
 	sakura.http_vteregexp = vte_regex_new_for_match(HTTP_REGEXP, strlen(HTTP_REGEXP), PCRE2_MULTILINE, &gerror);
@@ -3060,7 +3062,7 @@ sakura_add_tab()
 	/* Since vte-2.91 env is properly overwritten */
 	char *command_env[2] = {"TERM=xterm-256color",0};
 
-	/* First tab */
+	/******* First tab **********/
 	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	if (npages == 1) {
 		if (sakura.show_tab_bar == SHOW_TAB_BAR_ALWAYS) {
@@ -3120,6 +3122,7 @@ sakura_add_tab()
 
 		int command_argc = 0; char **command_argv = NULL;
 
+		/* Execute command for the fist tab if we have one */
 		if (option_execute||option_xterm_execute) {
 			char *path;
 
@@ -3137,12 +3140,12 @@ sakura_add_tab()
 						       	         G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, sk_tab);
 
 				free(path);
-				g_strfreev(command_argv); g_strfreev(option_xterm_args);
+				g_strfreev(command_argv);
 			}
-		} // else { /* No execute option */
+		} 
 
-		/* Only fork if there is no execute option or if it has failed */
-		if ( (!option_execute && !option_xterm_args) || (command_argc==0)) {
+		/* Fork shell if there is no execute option or if the command is not valid */
+		if ( (!option_execute && !option_xterm_execute) || (command_argc==0)) {
 			if (option_hold == TRUE) {
 				sakura_error("Hold option given without any command");
 				option_hold = FALSE;
@@ -3151,7 +3154,7 @@ sakura_add_tab()
 					        G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, sk_tab);
 		}
 
-	/* Not the first tab */
+	/********** Not the first tab ************/
 	} else {
 		sakura_set_font();
 		sakura_set_colors();
@@ -3168,8 +3171,40 @@ sakura_add_tab()
 		 * function in the window is not visible *sigh*. Gtk documentation
 		 * says this is for "historical" reasons. Me arse */
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), index);
-		vte_terminal_spawn_async(VTE_TERMINAL(sk_tab->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
-		                         G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, sk_tab);
+
+		int command_argc = 0; char **command_argv = NULL;
+
+		/* Execute command (only in the first run) for additional tabs if we have one */
+		if ((option_execute||option_xterm_execute) && sakura.first_run) {
+			char *path;
+
+			sakura_build_command(&command_argc, &command_argv);
+
+			/* If the command is valid, run it */
+			if (command_argc > 0) {
+				path = g_find_program_in_path(command_argv[0]);
+
+				if (!path) {
+					sakura_error("%s command not found", command_argv[0]);
+					command_argc = 0;
+				}
+				vte_terminal_spawn_async(VTE_TERMINAL(sk_tab->vte), VTE_PTY_NO_HELPER, NULL, command_argv, command_env,
+						       	         G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, sk_tab);
+
+				free(path);
+				g_strfreev(command_argv);
+			}
+		}
+
+		/* Fork shell if there is no execute option or if the command is not valid */
+		if ( (!option_execute && !option_xterm_execute) || (command_argc==0)) {
+			if (option_hold == TRUE) {
+				sakura_error("Hold option given without any command");
+				option_hold = FALSE;
+			}
+			vte_terminal_spawn_async(VTE_TERMINAL(sk_tab->vte), VTE_PTY_NO_HELPER, cwd, sakura.argv, command_env,
+					        G_SPAWN_SEARCH_PATH|G_SPAWN_FILE_AND_ARGV_ZERO, NULL, NULL, NULL, -1, NULL, sakura_spawn_callback, sk_tab);
+		}
 	}
 
 	free(cwd);
@@ -3601,6 +3636,10 @@ main(int argc, char **argv)
 	/* Add initial tabs (1 by default) */
 	for (i=0; i<option_ntabs; i++)
 		sakura_add_tab();
+
+	/* Post init stuff */
+	sakura.first_run=false;
+	g_strfreev(option_xterm_args);
 
 	sakura_sanitize_working_directory();
 
