@@ -567,7 +567,7 @@ static gboolean
 sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	gint page, npages;
-	unsigned int topage = 0;
+	guint topage = 0;
 
 	if (event->type != GDK_KEY_PRESS) return FALSE;
 
