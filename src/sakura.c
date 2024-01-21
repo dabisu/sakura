@@ -3397,7 +3397,7 @@ sakura_build_command(int *command_argc, char ***command_argv)
 	GError *gerror = NULL;
 
 	if (option_execute) {
-		/* -x option */
+		/* -x option: only one argument */
 		if (!g_shell_parse_argv(option_execute, command_argc, command_argv, &gerror)) {
 			switch (gerror->code) {
 			case G_SHELL_ERROR_EMPTY_STRING:
@@ -3415,10 +3415,22 @@ sakura_build_command(int *command_argc, char ***command_argv)
 			g_error_free(gerror);
 		}
 	} else {
-		/* -e option - last in the command line, takes all extra arguments */
+		/* -e option: last in the command line, takes all extra arguments */
 		if (option_xterm_args) {
-			gchar *command_joined;
-			command_joined = g_strjoinv(" ", option_xterm_args);
+
+			guint size=0, i=0; gchar **quoted_args=NULL;
+
+			do { size++; } while (option_xterm_args[size]); /* Get option_xterm_args size */
+
+			/* Quote all arguments to be able to use parameters with spaces like filenames */
+			quoted_args = malloc(sizeof(char *) * (size+1));
+			while (option_xterm_args[i]) {
+				quoted_args[i] = g_shell_quote(option_xterm_args[i]); i++;
+			} 
+			quoted_args[i]=NULL;
+
+			/* Join all arguments and parse them to create argc&argv */
+			gchar *command_joined= command_joined = g_strjoinv(" ", quoted_args);
 			if (!g_shell_parse_argv(command_joined, command_argc, command_argv, &gerror)) {
 				switch (gerror->code) {
 				case G_SHELL_ERROR_EMPTY_STRING:
@@ -3433,9 +3445,11 @@ sakura_build_command(int *command_argc, char ***command_argv)
 					exit(1);
 				}
 			}
+
 			if (gerror != NULL)
 				g_error_free(gerror);
 			g_free(command_joined);
+			g_strfreev(quoted_args);
 		}
 	}
 }
