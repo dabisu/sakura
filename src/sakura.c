@@ -794,6 +794,10 @@ sakura_conf_changed_cb (GtkWidget *widget, void *data)
 static gboolean
 sakura_notebook_scroll_cb (GtkWidget *widget, GdkEventScroll *event)
 {
+	/* This callback cause undesirable scroll (when the mouse is over the vte window) when using
+	 * input methods like hime. Disable it by now */
+
+	/*
 	gint page, npages;
 
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
@@ -811,6 +815,7 @@ sakura_notebook_scroll_cb (GtkWidget *widget, GdkEventScroll *event)
 		case GDK_SCROLL_SMOOTH:
 			break;
 	}
+	*/
 
 	return FALSE;
 }
