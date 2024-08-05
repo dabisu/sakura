@@ -305,6 +305,7 @@ static struct {
 	GKeyFile *cfg;
 	char *configfile;
 	char *icon;
+	char *shell_path;
 	char *main_title;		/* Main window static title from user input */
 	gchar *tab_default_title;
 	gint add_tab_accelerator;
@@ -2238,6 +2239,9 @@ sakura_init()
 	}
 	sakura.rows = g_key_file_get_integer(sakura.cfg, cfg_group, "window_rows", NULL);
 
+	/* Optional only, no need to set it if not found */
+	sakura.shell_path = g_key_file_get_string(sakura.cfg, cfg_group, "shell_path", NULL);
+
 	/*** Sakura window initialization ***/
 
 	/* Use always GTK header bar*/
@@ -2284,11 +2288,17 @@ sakura_init()
 
 	/* Set argv for forked childs. Real argv vector starts at argv[1] because we're
 	   using G_SPAWN_FILE_AND_ARGV_ZERO to be able to launch login shells */
-	sakura.argv[0] = g_strdup(g_getenv("SHELL"));
-	if (option_login) {
-		sakura.argv[1] = g_strdup_printf("-%s", g_getenv("SHELL"));
+	/* If the shell_path has been set in the config file it takes priority over the envvar */
+	if (sakura.shell_path != NULL) {
+		sakura.argv[0] = g_strdup(sakura.shell_path);
+		sakura.argv[1] = g_strdup(sakura.shell_path);
 	} else {
-		sakura.argv[1] = g_strdup(g_getenv("SHELL"));
+		sakura.argv[0] = g_strdup(g_getenv("SHELL"));
+		if (option_login) {
+			sakura.argv[1] = g_strdup_printf("-%s", g_getenv("SHELL"));
+		} else {
+			sakura.argv[1] = g_strdup(g_getenv("SHELL"));
+		}
 	}
 	sakura.argv[2]=NULL;
 
