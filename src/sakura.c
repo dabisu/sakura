@@ -307,6 +307,7 @@ static struct {
 	char *icon;
 	char *shell_path;
 	char *main_title;		/* Main window static title from user input */
+	char *term;
 	gchar *tab_default_title;
 	gint add_tab_accelerator;
 	gint del_tab_accelerator;
@@ -2235,7 +2236,7 @@ sakura_init()
 
 	sakura.dont_save = g_key_file_get_boolean(sakura.cfg, cfg_group, "dont_save", NULL);
 
-	/* Default terminal size*/
+	/* Default terminal size */
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "window_columns", NULL)) {
 		sakura_set_config_integer("window_columns", DEFAULT_COLUMNS);
 	}
@@ -2248,6 +2249,9 @@ sakura_init()
 
 	/* Optional only, no need to set it if not found */
 	sakura.shell_path = g_key_file_get_string(sakura.cfg, cfg_group, "shell_path", NULL);
+	
+	/* Default terminal. Only in config file */
+	sakura.term = g_key_file_get_value(sakura.cfg, cfg_group, "term", NULL);
 
 	/*** Sakura window initialization ***/
 
@@ -3076,8 +3080,13 @@ sakura_add_tab()
 		g_signal_connect(G_OBJECT(close_button), "clicked", G_CALLBACK(sakura_closebutton_clicked_cb), sk_tab->hbox);
 	}
 
-	/* Since vte-2.91 env is properly overwritten */
-	char *command_env[2] = {"TERM=xterm-256color",0};
+	/* Allow the user to use a different TERM value */
+	char *command_env[2]; command_env[1]=NULL;
+	if (sakura.term != NULL) {
+		command_env[0] = g_strdup_printf ("TERM=%s", sakura.term);
+	} else {
+		command_env[0] = g_strdup_printf ("TERM=xterm-256color");
+	}
 
 	/******* First tab **********/
 	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
