@@ -966,7 +966,8 @@ sakura_term_buttonpressed_cb (GtkWidget *widget, GdkEventButton *button_event, g
 	/* Paste when paste button is pressed */
 	if (sakura.copy_on_select) {
 		if (button_event->button == sakura.paste_button) {
-			sakura_paste_primary(); /* This is the expected X11 behaviour, to copy the PRIMARY clipboard with the middle click. TODO: Maybe add an option to use the secondary one? */
+			sakura_paste_primary(); /* This is the expected X11 behaviour, to copy the PRIMARY clipboard with the middle click. 
+						   TODO: Maybe add an option to use the secondary one? */
 
 			/* Do not propagate. vte has his own copy-on-select and we'll end with duplicates pastes */
 			return TRUE;
@@ -976,7 +977,8 @@ sakura_term_buttonpressed_cb (GtkWidget *widget, GdkEventButton *button_event, g
 	/* Show the popup menu when menu button is pressed */
 	if (button_event->button == sakura.menu_button) {
 		GtkMenu *menu;
-		menu = GTK_MENU (widget);
+
+		menu = GTK_MENU (user_data);
 
 		if (sakura.current_match) {
 			/* Show the extra options in the menu */
@@ -3064,7 +3066,7 @@ sakura_add_tab()
 	sk_tab->exit_handler_id = g_signal_connect(G_OBJECT(sk_tab->vte), "child-exited", G_CALLBACK(sakura_child_exited_cb), NULL);
 	g_signal_connect(G_OBJECT(sk_tab->vte), "eof", G_CALLBACK(sakura_eof_cb), NULL);
 	g_signal_connect(G_OBJECT(sk_tab->vte), "window-title-changed", G_CALLBACK(sakura_title_changed_cb), NULL);
-	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-press-event", G_CALLBACK(sakura_term_buttonpressed_cb), sakura.menu);
+	g_signal_connect_after(G_OBJECT(sk_tab->vte), "button-press-event", G_CALLBACK(sakura_term_buttonpressed_cb), sakura.menu);
 	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-release-event", G_CALLBACK(sakura_term_buttonreleased_cb), sakura.menu);
 
 	/* Label & button signals */
