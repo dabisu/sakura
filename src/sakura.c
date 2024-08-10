@@ -282,6 +282,7 @@ static struct {
 	ShowTabBar show_tab_bar;         /* Show the tab bar: always, multiple, never */
 	bool show_scrollbar;
 	bool show_closebutton;
+	bool new_tab_after_current;
 	bool tabs_on_bottom;
 	bool less_questions;
         bool copy_on_select;
@@ -478,7 +479,7 @@ static void     sakura_show_tab_bar_cb (GtkWidget *, void *);
 static void     sakura_tabs_on_bottom_cb (GtkWidget *, void *);
 static void     sakura_less_questions_cb (GtkWidget *, void *);
 static void     sakura_copy_on_select_cb (GtkWidget *, void *);
-static void     sakura_show_close_button_cb (GtkWidget *, void *);
+static void     sakura_new_tab_after_current_cb (GtkWidget *, void *);
 static void     sakura_show_scrollbar_cb (GtkWidget *, void *);
 static void     sakura_disable_numbered_tabswitch_cb (GtkWidget *, void *);
 //static void     sakura_use_fading_cb (GtkWidget *, void *);
@@ -1689,12 +1690,14 @@ sakura_copy_on_select_cb (GtkWidget *widget, void *data)
 
 
 static void
-sakura_show_close_button_cb (GtkWidget *widget, void *data)
+sakura_new_tab_after_current_cb (GtkWidget *widget, void *data)
 {
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-		sakura_set_config_boolean("closebutton", TRUE);
+		sakura.new_tab_after_current=TRUE;
+		sakura_set_config_boolean("new_tab_after_current", TRUE);
 	} else {
-		sakura_set_config_boolean("closebutton", FALSE);
+		sakura.new_tab_after_current=FALSE;
+		sakura_set_config_boolean("new_tab_after_current", FALSE);
 	}
 }
 
@@ -2024,6 +2027,11 @@ sakura_init()
 		sakura_set_config_boolean("closebutton", TRUE);
 	}
 	sakura.show_closebutton = g_key_file_get_boolean(sakura.cfg, cfg_group, "closebutton", NULL);
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "new_tab_after_current", NULL)) {
+		sakura_set_config_boolean("new_tab_after_current", TRUE);
+	}
+	sakura.new_tab_after_current = g_key_file_get_boolean(sakura.cfg, cfg_group, "new_tab_after_current", NULL);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "tabs_on_bottom", NULL)) {
 		sakura_set_config_boolean("tabs_on_bottom", FALSE);
@@ -2397,9 +2405,8 @@ sakura_init_popup()
 	          *item_toggle_scrollbar, *item_options,
 	          *item_urgent_bell, *item_audible_bell, *item_blinking_cursor,
 	          *item_cursor, *item_cursor_block, *item_cursor_underline, *item_cursor_ibeam,
-	          *item_show_close_button, *item_tabs_on_bottom,
-                  *item_less_questions, *item_copy_on_select,
-	          *item_disable_numbered_tabswitch; // *item_use_fading;
+		  *item_tabs_on_bottom, *item_less_questions, *item_copy_on_select,
+	          *item_disable_numbered_tabswitch, *item_new_tab_after_current; // *item_use_fading;
 	GtkWidget *options_menu, *show_tab_bar_menu, *cursor_menu;
 
 	sakura.item_open_mail = gtk_menu_item_new_with_label(_("Open mail"));
@@ -2423,7 +2430,7 @@ sakura_init_popup()
 	item_show_tab_bar_never = gtk_radio_menu_item_new_with_label_from_widget(
 		GTK_RADIO_MENU_ITEM(item_show_tab_bar_always), _("Never"));
 	item_tabs_on_bottom = gtk_check_menu_item_new_with_label(_("Tabs at bottom"));
-	item_show_close_button = gtk_check_menu_item_new_with_label(_("Show close button on tabs"));
+	item_new_tab_after_current = gtk_check_menu_item_new_with_label(_("New tab after current tab"));
 	item_toggle_scrollbar = gtk_check_menu_item_new_with_label(_("Show scrollbar"));
 	item_less_questions = gtk_check_menu_item_new_with_label(_("Fewer questions at exit time"));
         item_copy_on_select = gtk_check_menu_item_new_with_label(_("Automatically copy selected text"));
@@ -2449,10 +2456,10 @@ sakura_init_popup()
 			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_tab_bar_never), TRUE);
 	}
 
-	if (sakura.show_closebutton) {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_close_button), TRUE);
+	if (sakura.new_tab_after_current) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_new_tab_after_current), TRUE);
 	} else {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_show_close_button), FALSE);
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_new_tab_after_current), FALSE);
 	}
 
 	if (sakura.tabs_on_bottom) {
@@ -2544,7 +2551,7 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(show_tab_bar_menu), item_show_tab_bar_multiple);
 	gtk_menu_shell_append(GTK_MENU_SHELL(show_tab_bar_menu), item_show_tab_bar_never);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_tabs_on_bottom);
-	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_show_close_button);
+	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_new_tab_after_current);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), gtk_separator_menu_item_new());
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_toggle_scrollbar);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_less_questions);
@@ -2578,7 +2585,7 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(item_tabs_on_bottom), "activate", G_CALLBACK(sakura_tabs_on_bottom_cb), NULL);
 	g_signal_connect(G_OBJECT(item_less_questions), "activate", G_CALLBACK(sakura_less_questions_cb), NULL);
         g_signal_connect(G_OBJECT(item_copy_on_select), "activate", G_CALLBACK(sakura_copy_on_select_cb), NULL);
-	g_signal_connect(G_OBJECT(item_show_close_button), "activate", G_CALLBACK(sakura_show_close_button_cb), NULL);
+        g_signal_connect(G_OBJECT(item_new_tab_after_current), "activate", G_CALLBACK(sakura_new_tab_after_current_cb), NULL);
 	g_signal_connect(G_OBJECT(item_toggle_scrollbar), "activate", G_CALLBACK(sakura_show_scrollbar_cb), NULL);
 	g_signal_connect(G_OBJECT(item_urgent_bell), "activate", G_CALLBACK(sakura_urgent_bell_cb), NULL);
 	g_signal_connect(G_OBJECT(item_audible_bell), "activate", G_CALLBACK(sakura_audible_bell_cb), NULL);
@@ -2991,7 +2998,7 @@ sakura_add_tab()
 	struct sakura_tab *sk_tab;
 	GtkWidget *tab_title_hbox; GtkWidget *close_button; /* We could put them inside struct sakura_tab, but it is not necessary */
 	GtkWidget *event_box;
-	int index; int npages;
+	gint index, page, npages;
 	gchar *cwd = NULL; gchar *default_label_text = NULL;
 
 	sk_tab = g_new0(struct sakura_tab, 1);
@@ -3041,22 +3048,31 @@ sakura_add_tab()
 
 	sk_tab->colorset = sakura.last_colorset-1;
 
-	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	/* -1 if there is no pages yet */
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 
 	/* Use previous terminal (if there is one) cwd and colorset */
-	if (index >= 0) {
+	if (page >= 0) {
 		struct sakura_tab *prev_term;
-		prev_term = sakura_get_sktab(sakura, index);
+		prev_term = sakura_get_sktab(sakura, page);
 		cwd = sakura_get_term_cwd(prev_term); /* FIXME: Use current_uri from vte */
 
 		sk_tab->colorset = prev_term->colorset;
 	}
+
 	if (!cwd)
 		cwd = g_get_current_dir();
 
-	if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), sk_tab->hbox, tab_title_hbox))==-1) {
-		sakura_error("Cannot create a new tab");
-		exit(1);
+	if (!sakura.new_tab_after_current) {
+		if ((index=gtk_notebook_append_page(GTK_NOTEBOOK(sakura.notebook), sk_tab->hbox, tab_title_hbox))==-1) {
+			sakura_error("Cannot create a new tab");
+			exit(1);
+		}
+	} else {
+		if ((index=gtk_notebook_insert_page(GTK_NOTEBOOK(sakura.notebook), sk_tab->hbox, tab_title_hbox, page+1))==-1) {
+			sakura_error("Cannot create a new tab");
+			exit(1);
+		}
 	}
 
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(sakura.notebook), sk_tab->hbox, TRUE);
@@ -3089,7 +3105,7 @@ sakura_add_tab()
 	}
 
 	/******* First tab **********/
-	npages=gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
+	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 	if (npages == 1) {
 		if (sakura.show_tab_bar == SHOW_TAB_BAR_ALWAYS) {
 			gtk_notebook_set_show_tabs(GTK_NOTEBOOK(sakura.notebook), TRUE);
@@ -3244,7 +3260,7 @@ sakura_add_tab()
 	}
 
 	/* Set the default title text (NULL is valid) */
-	gint page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	sakura_set_tab_label_text(default_label_text, page);
 
 	/* Init vte terminal */

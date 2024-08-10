@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-31 20:14+0200\n"
+"POT-Creation-Date: 2024-08-10 19:15+0200\n"
 "PO-Revision-Date: 2022-11-11 17:45+0300\n"
 "Last-Translator: Eyyüb Akçaer <gurbetcii_@hotmail.com>\n"
 "Language-Team: Turkish <tr_TR>\n"
@@ -99,7 +99,6 @@ msgstr "_Seç"
 msgid "Colorset"
 msgstr "Renk seti"
 
-
 msgid "Color scheme"
 msgstr "Renk şeması"
 
@@ -114,7 +113,6 @@ msgstr "İmleç rengi"
 
 msgid "Opacity level (%)"
 msgstr "Opaklık düzeyi (%)"
-
 
 msgid "Palette"
 msgstr "Renk paleti"
@@ -176,8 +174,8 @@ msgstr "Asla"
 msgid "Tabs at bottom"
 msgstr "Sekmeler altta"
 
-msgid "Show close button on tabs"
-msgstr "Sekmelerde kapatma butonunu göster"
+msgid "New tab after current tab"
+msgstr ""
 
 msgid "Show scrollbar"
 msgstr "Kaydırma çubuğunu göster"
@@ -245,6 +243,9 @@ msgstr "- vte- tabanlı uçbirim öykünücüsü"
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura sürümü: %s\n"
+
+#~ msgid "Show close button on tabs"
+#~ msgstr "Sekmelerde kapatma butonunu göster"
 
 #~ msgid "Enable focus fade"
 #~ msgstr "Odak kaybını etkinleştir"
