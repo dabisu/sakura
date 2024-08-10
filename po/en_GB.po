@@ -175,7 +175,7 @@ msgid "Tabs at bottom"
 msgstr "Tabs at bottom"
 
 msgid "New tab after current tab"
-msgstr ""
+msgstr "New tab after current tab"
 
 msgid "Show scrollbar"
 msgstr "Show scrollbar"

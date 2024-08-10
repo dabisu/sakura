@@ -173,7 +173,7 @@ msgid "Tabs at bottom"
 msgstr "Pestañas en la parte inferior"
 
 msgid "New tab after current tab"
-msgstr ""
+msgstr "Nueva pestaña tras la pestaña actual"
 
 msgid "Show scrollbar"
 msgstr "Mostrar barra de desplazamiento"
