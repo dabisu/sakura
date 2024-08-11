@@ -1994,14 +1994,14 @@ sakura_init()
 	}
 	cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "font", NULL);
 	sakura.font = pango_font_description_from_string(cfgtmp);
-	free(cfgtmp);
+	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "show_tab_bar", NULL)) {
 		/* legacy option "show_always_first_tab" now sets "show_tab_bar = always | multiple" */
 		if (g_key_file_has_key(sakura.cfg, cfg_group, "show_always_first_tab", NULL)) {
 			cfgtmp = g_key_file_get_value(sakura.cfg, cfg_group, "show_always_first_tab", NULL);
 			sakura_set_config_string("show_tab_bar", (strcmp(cfgtmp, "Yes")==0) ? "always" : "multiple");
-			free(cfgtmp);
+			g_free(cfgtmp);
 		} else {
 			sakura_set_config_string("show_tab_bar", "multiple");
 		}
@@ -2017,7 +2017,7 @@ sakura_init()
 		fprintf(stderr, "Invalid configuration value: show_tab_bar=%s (valid values: always|multiple|never)\n", cfgtmp);
 		sakura.show_tab_bar = SHOW_TAB_BAR_MULTIPLE;
 	}
-	free(cfgtmp);
+	g_free(cfgtmp);
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "scrollbar", NULL)) {
 		sakura_set_config_boolean("scrollbar", FALSE);
@@ -3367,6 +3367,7 @@ sakura_config_done()
 	gchar *cfgdata = g_key_file_to_data(sakura.cfg, &len, &gerror);
 	if (!cfgdata) {
 		fprintf(stderr, "%s\n", gerror->message);
+		g_error_free(gerror);
 		exit(EXIT_FAILURE);
 	}
 
@@ -3425,7 +3426,7 @@ sakura_error(const char *format, ...)
 	char* buff;
 
 	va_start(args, format);
-	buff = malloc(sizeof(char)*ERROR_BUFFER_LENGTH);
+	buff = g_malloc(sizeof(char)*ERROR_BUFFER_LENGTH);
 	vsnprintf(buff, sizeof(char)*ERROR_BUFFER_LENGTH, format, args);
 	va_end(args);
 
@@ -3434,7 +3435,7 @@ sakura_error(const char *format, ...)
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Error message"));
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
-	free(buff);
+	g_free(buff);
 }
 
 
@@ -3470,7 +3471,7 @@ sakura_build_command(int *command_argc, char ***command_argv)
 			do { size++; } while (option_xterm_args[size]); /* Get option_xterm_args size */
 
 			/* Quote all arguments to be able to use parameters with spaces like filenames */
-			quoted_args = malloc(sizeof(char *) * (size+1));
+			quoted_args = g_malloc(sizeof(char *) * (size+1));
 			while (option_xterm_args[i]) {
 				quoted_args[i] = g_shell_quote(option_xterm_args[i]); i++;
 			} 
@@ -3556,7 +3557,7 @@ sakura_get_term_cwd(struct sakura_tab* sk_tab)
 			return cwd;
 		}
 
-		buf = malloc(sb.st_size + 1);
+		buf = g_malloc(sb.st_size + 1);
 
 		if (buf == NULL) {
 			g_free(file);
