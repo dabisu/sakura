@@ -22,6 +22,11 @@ $ cmake -DCMAKE_INSTALL_PREFIX=/usr .
 
 Use CMAKE_BUILD_TYPE=Debug if you need debug symbols. Default type is "Release".
 
+Make sure your distribution sources the vte script for OSC 7 support in no login shells. If not, please add the following line to you .bashrc:
+
+```bash
+. /etc/profile.d/vte-2.91.sh
+```
 
 ## Usage
 

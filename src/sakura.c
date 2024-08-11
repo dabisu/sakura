@@ -493,6 +493,7 @@ static void     sakura_urgent_bell_cb (GtkWidget *, void *);
 static void     sakura_error (const char *, ...);
 static void     sakura_build_command (int *, char ***);
 static char *   sakura_get_term_cwd (struct sakura_tab *);
+static char *   sakura_get_term_cwd_osc7 (struct sakura_tab *);
 static guint    sakura_tokeycode (guint key);
 static void     sakura_set_keybind (const gchar *, guint);
 static guint    sakura_get_keybind (const gchar *);
@@ -3055,7 +3056,11 @@ sakura_add_tab()
 	if (page >= 0) {
 		struct sakura_tab *prev_term;
 		prev_term = sakura_get_sktab(sakura, page);
-		cwd = sakura_get_term_cwd(prev_term); /* FIXME: Use current_uri from vte */
+		/* If OSC7 method doesn't work, use the old one as fallback */
+		if ((cwd = sakura_get_term_cwd_osc7(prev_term)) == NULL) {
+			SAY("osc7 is null");
+			sakura_get_term_cwd(prev_term); 
+		}
 
 		sk_tab->colorset = prev_term->colorset;
 	}
@@ -3531,9 +3536,9 @@ sakura_get_keybind(const gchar *key)
 }
 
 
-/* Retrieve the cwd of the specified sk_tab page.
- * Original function was from terminal-screen.c of gnome-terminal, copyright (C) 2001 Havoc Pennington
- * Adapted by Hong Jen Yee, non-linux shit removed by David Gómez */
+/* Legacy function to use as fallback if our shell doesn't emit OSC7.
+ * Retrieves the CWD of the specified sk_tab page.Original borrowed 
+ * from gnome-terminal. Adapted by Hong Jen Yee and David Gómez */
 static char *
 sakura_get_term_cwd(struct sakura_tab* sk_tab)
 {
@@ -3567,6 +3572,25 @@ sakura_get_term_cwd(struct sakura_tab* sk_tab)
 
 		g_free(buf);
 		g_free(file);
+	}
+
+	return cwd;
+}
+
+
+static char *
+sakura_get_term_cwd_osc7(struct sakura_tab* sk_tab)
+{
+	gchar *cwd = NULL; gchar *osc7_hostname = NULL; 
+	const char *osc7_uri = NULL; const char *hostname = NULL;
+
+	osc7_uri = vte_terminal_get_current_directory_uri(VTE_TERMINAL(sk_tab->vte));
+
+	if (osc7_uri) {
+		cwd = g_filename_from_uri(osc7_uri, &osc7_hostname, NULL);
+		/* Check if the hostname matchs. If not, return NULL */
+		hostname = g_get_host_name();
+		if ((strcmp(osc7_hostname, hostname) != 0) || (strcmp(osc7_hostname, "localhost") == 0)) cwd = NULL;
 	}
 
 	return cwd;
