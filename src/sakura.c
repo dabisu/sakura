@@ -36,6 +36,7 @@
 #include <libintl.h>
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <gio/gdesktopappinfo.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkx.h>
 #include <gtk/gtk.h>
@@ -321,6 +322,7 @@ static struct {
 	gint set_tab_name_accelerator;
 	gint search_accelerator;
 	gint set_colorset_accelerator;
+	gint new_window_accelerator;
 	gint add_tab_key;
 	gint del_tab_key;
 	gint prev_tab_key;
@@ -336,6 +338,7 @@ static struct {
 	gint set_colorset_keys[NUM_COLORSETS];
 	gint paste_button;
 	gint menu_button;
+	gint new_window_key;
 	VteRegex *http_vteregexp, *mail_vteregexp;
 	char *word_chars;                /* Exceptions for word selection */
 	char *argv[3];
@@ -383,6 +386,7 @@ struct sakura_tab {
 #define DEFAULT_SET_TAB_NAME_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SEARCH_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SELECT_COLORSET_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
+#define DEFAULT_NEW_WINDOW_ACCELERATOR (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_ADD_TAB_KEY  GDK_KEY_T
 #define DEFAULT_DEL_TAB_KEY  GDK_KEY_W
 #define DEFAULT_PREV_TAB_KEY  GDK_KEY_Left
@@ -395,6 +399,7 @@ struct sakura_tab {
 #define DEFAULT_FULLSCREEN_KEY  GDK_KEY_F11
 #define DEFAULT_INCREASE_FONT_SIZE_KEY GDK_KEY_plus
 #define DEFAULT_DECREASE_FONT_SIZE_KEY GDK_KEY_minus
+#define DEFAULT_NEW_WINDOW_KEY GDK_KEY_O
 #define DEFAULT_SCROLLABLE_TABS TRUE
 #define DEFAULT_PASTE_BUTTON 2
 #define DEFAULT_MENU_BUTTON 3
@@ -520,6 +525,7 @@ static void     sakura_copy (void);
 static void     sakura_paste (void);
 static void     sakura_paste_primary (void);
 static void     sakura_show_scrollbar (void);
+static void     sakura_new_window (void);
 
 
 /* Globals for command line parameters */
@@ -591,6 +597,13 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	} else if ((event->state & accel_mask) == sakura.del_tab_accelerator && keycode == sakura_tokeycode(sakura.del_tab_key)) {
 		/* Delete current tab */
 		sakura_close_tab(page);
+		return TRUE;
+	}
+
+	/* New window keybinding pressed */
+	if ( (event->state & sakura.new_window_accelerator) == sakura.new_window_accelerator &&
+			keycode == sakura_tokeycode(sakura.new_window_key)) {
+		sakura_new_window();
 		return TRUE;
 	}
 
@@ -2160,6 +2173,11 @@ sakura_init()
 	}
 	sakura.search_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "search_accelerator", NULL);
 
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "new_window_accelerator", NULL)) {
+		sakura_set_config_integer("new_window_accelerator", DEFAULT_NEW_WINDOW_ACCELERATOR);
+	}
+	sakura.new_window_accelerator = g_key_file_get_integer(sakura.cfg, cfg_group, "new_window_accelerator", NULL);
+
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "add_tab_key", NULL)) {
 		sakura_set_keybind("add_tab_key", DEFAULT_ADD_TAB_KEY);
 	}
@@ -2219,6 +2237,11 @@ sakura_init()
 		sakura_set_keybind("fullscreen_key", DEFAULT_FULLSCREEN_KEY);
 	}
 	sakura.fullscreen_key = sakura_get_keybind("fullscreen_key");
+
+	if (!g_key_file_has_key(sakura.cfg, cfg_group, "new_window_key", NULL)) {
+		sakura_set_keybind("new_window_key", DEFAULT_NEW_WINDOW_KEY);
+	}
+	sakura.new_window_key = sakura_get_keybind("new_window_key");
 
 	if (!g_key_file_has_key(sakura.cfg, cfg_group, "set_colorset_accelerator", NULL)) {
 		sakura_set_config_integer("set_colorset_accelerator", DEFAULT_SELECT_COLORSET_ACCELERATOR);
@@ -3353,6 +3376,83 @@ sakura_del_tab(gint page)
 }
 
 
+/* New window -- launch a new instance */
+/* Save original arguments to start a new instance if needed */
+static int orig_argc = 0;
+static char** orig_argv = NULL;
+
+static void
+sakura_new_window()
+{
+	GPid pid;
+	GError* error = NULL;
+	char** spawn_argv = malloc(sizeof(char*) * ((orig_argc ? orig_argc : 1) + 1));
+	if(!spawn_argv) {
+		fprintf(stderr, "Error allocating memory for starting new instance!\n");
+		return;
+	}
+
+#ifdef __linux__
+	/* We try to get the full path of the currently running instance of sakura and use
+	 * that for spawning a new process. This is to take care of the case when running
+	 * an instance of sakura no in PATH. Unfortunately, procfs is not universally
+	 * supported, we restrict it to Linux (and we assume that if we build on Linux,
+	 * we will run on Linux as well) */
+	char cmdline[PATH_MAX + 1];
+	ssize_t tmp = readlink("/proc/self/exe", cmdline, PATH_MAX);
+	cmdline[tmp] = 0;
+	spawn_argv[0] = cmdline;
+#else
+	/* Otherwise, we rely on sakura being in PATH */
+	spawn_argv[0] = "sakura";
+#endif
+
+	/* remove command arguments so that the new window will be in interactive mode */
+	char** dst;
+	char** src;
+	if(orig_argc) for(dst = spawn_argv + 1, src = orig_argv + 1; *src; ++dst, ++src) {
+		if(!strcmp(*src, "-e") || !strcmp(*src, "--xterm-execute")) {
+			break;
+		}
+		if(!strcmp(*src, "-x") || !strcmp(*src, "--xterm")) {
+			++src;
+			if(!(*src)) {
+				break;
+			}
+		} else {
+			*dst = *src;
+		}
+	}
+	*dst = NULL;
+
+	/* get a startup notification ID / xdg-activation token and add it to the environment */
+	char **envp = NULL;
+	/* TODO: keep this instead of recreating every time */
+	GAppInfo *info = G_APP_INFO(g_desktop_app_info_new("sakura.desktop"));
+	if (!info) info = g_app_info_create_from_commandline("sakura", "sakura", G_APP_INFO_CREATE_SUPPORTS_STARTUP_NOTIFICATION, NULL);
+	if (info) {
+		GdkAppLaunchContext *ctx = gdk_display_get_app_launch_context(gdk_display_get_default());
+		char *startup_id = g_app_launch_context_get_startup_notify_id(G_APP_LAUNCH_CONTEXT(ctx), info, NULL);
+		if (startup_id) {
+			envp = g_get_environ();
+			envp = g_environ_setenv(envp, "DESKTOP_STARTUP_ID", startup_id, TRUE);
+			envp = g_environ_setenv(envp, "XDG_ACTIVATION_TOKEN", startup_id, TRUE);
+		}
+		g_object_unref(ctx);
+	}
+
+	if (!g_spawn_async(NULL, spawn_argv, envp,
+			G_SPAWN_STDOUT_TO_DEV_NULL | G_SPAWN_STDERR_TO_DEV_NULL,
+			NULL, NULL, &pid, &error)) {
+		fprintf(stderr, "Error starting new instance:\n%s\n", error->message);
+		g_error_free(error);
+	}
+	g_spawn_close_pid(pid);
+	free(spawn_argv);
+	if (envp) g_strfreev(envp);
+	if (info) g_object_unref(info);
+}
+
 /* Save configuration */
 static void
 sakura_config_done()
@@ -3664,6 +3764,8 @@ main(int argc, char **argv)
 	nargv = (char**)calloc((argc+1), sizeof(char*));
 	n = 0; nargc = argc;
 	have_e = FALSE;
+	orig_argc = argc;
+	orig_argv = argv;
 
 	for (i=0; i<argc; i++) {
 		if (!have_e && g_strcmp0(argv[i],"-e") == 0)
