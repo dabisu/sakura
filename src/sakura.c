@@ -600,39 +600,39 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
         if ((event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator) {
 
 		/* Just propagate the event if there is only one tab */
-		if (npages < 2) return FALSE;
+		if (npages >= 2) {
+			if ((keycode >= sakura_tokeycode(GDK_KEY_1)) && (keycode <= sakura_tokeycode( GDK_KEY_9))) {
 
-		if ((keycode >= sakura_tokeycode(GDK_KEY_1)) && (keycode <= sakura_tokeycode( GDK_KEY_9))) {
+				/* User has explicitly disabled this branch, make sure to propagate the event */
+				if (sakura.disable_numbered_tabswitch) return FALSE;
 
-			/* User has explicitly disabled this branch, make sure to propagate the event */
-			if (sakura.disable_numbered_tabswitch) return FALSE;
-
-			if      (sakura_tokeycode(GDK_KEY_1) == keycode) topage = 0;
-			else if (sakura_tokeycode(GDK_KEY_2) == keycode) topage = 1;
-			else if (sakura_tokeycode(GDK_KEY_3) == keycode) topage = 2;
-			else if (sakura_tokeycode(GDK_KEY_4) == keycode) topage = 3;
-			else if (sakura_tokeycode(GDK_KEY_5) == keycode) topage = 4;
-			else if (sakura_tokeycode(GDK_KEY_6) == keycode) topage = 5;
-			else if (sakura_tokeycode(GDK_KEY_7) == keycode) topage = 6;
-			else if (sakura_tokeycode(GDK_KEY_8) == keycode) topage = 7;
-			else if (sakura_tokeycode(GDK_KEY_9) == keycode) topage = 8;
-			if (topage <= npages)
-				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
-			return TRUE;
-		} else if (keycode == sakura_tokeycode(sakura.prev_tab_key)) {
-			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
-				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), npages-1);
-			} else {
-				gtk_notebook_prev_page(GTK_NOTEBOOK(sakura.notebook));
+				if      (sakura_tokeycode(GDK_KEY_1) == keycode) topage = 0;
+				else if (sakura_tokeycode(GDK_KEY_2) == keycode) topage = 1;
+				else if (sakura_tokeycode(GDK_KEY_3) == keycode) topage = 2;
+				else if (sakura_tokeycode(GDK_KEY_4) == keycode) topage = 3;
+				else if (sakura_tokeycode(GDK_KEY_5) == keycode) topage = 4;
+				else if (sakura_tokeycode(GDK_KEY_6) == keycode) topage = 5;
+				else if (sakura_tokeycode(GDK_KEY_7) == keycode) topage = 6;
+				else if (sakura_tokeycode(GDK_KEY_8) == keycode) topage = 7;
+				else if (sakura_tokeycode(GDK_KEY_9) == keycode) topage = 8;
+				if (topage <= npages)
+					gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), topage);
+				return TRUE;
+			} else if (keycode == sakura_tokeycode(sakura.prev_tab_key)) {
+				if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook))==0) {
+					gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), npages-1);
+				} else {
+					gtk_notebook_prev_page(GTK_NOTEBOOK(sakura.notebook));
+				}
+				return TRUE;
+			} else if (keycode == sakura_tokeycode(sakura.next_tab_key)) {
+				if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)) == (npages-1)) {
+					gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), 0);
+				} else {
+					gtk_notebook_next_page(GTK_NOTEBOOK(sakura.notebook));
+				}
+				return TRUE;
 			}
-			return TRUE;
-		} else if (keycode == sakura_tokeycode(sakura.next_tab_key)) {
-			if (gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook)) == (npages-1)) {
-				gtk_notebook_set_current_page(GTK_NOTEBOOK(sakura.notebook), 0);
-			} else {
-				gtk_notebook_next_page(GTK_NOTEBOOK(sakura.notebook));
-			}
-			return TRUE;
 		}
 	}
 
