@@ -3608,6 +3608,8 @@ sakura_tokeycode (guint key)
 
 	keymap = gdk_keymap_get_for_display(gdk_display_get_default());
 
+	if (key == 0) return 0;
+
 	if (gdk_keymap_get_entries_for_keyval(keymap, key, &keys, &n_keys)) {
 		if (n_keys > 0) {
 			res = keys[0].keycode;
