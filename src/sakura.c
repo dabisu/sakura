@@ -340,6 +340,8 @@ static struct {
 	gint paste_button;
 	gint menu_button;
 	gint new_window_key;
+	int orig_argc; /* Used for new windows */
+	char** orig_argv; /* Used for new windows */
 	VteRegex *http_vteregexp, *mail_vteregexp;
 	char *word_chars;                /* Exceptions for word selection */
 	char *argv[3];
@@ -3391,16 +3393,12 @@ sakura_del_tab(gint page)
 
 
 /* New window -- launch a new instance */
-/* Save original arguments to start a new instance if needed */
-static int orig_argc = 0;
-static char** orig_argv = NULL;
-
 static void
 sakura_new_window()
 {
 	GPid pid;
 	GError* error = NULL;
-	char** spawn_argv = malloc(sizeof(char*) * ((orig_argc ? orig_argc : 1) + 1));
+	char** spawn_argv = malloc(sizeof(char*) * ((sakura.orig_argc ? sakura.orig_argc : 1) + 1));
 	if(!spawn_argv) {
 		fprintf(stderr, "Error allocating memory for starting new instance!\n");
 		return;
@@ -3424,7 +3422,7 @@ sakura_new_window()
 	/* remove command arguments so that the new window will be in interactive mode */
 	char** dst;
 	char** src;
-	if(orig_argc) for(dst = spawn_argv + 1, src = orig_argv + 1; *src; ++dst, ++src) {
+	if(sakura.orig_argc) for(dst = spawn_argv + 1, src = sakura.orig_argv + 1; *src; ++dst, ++src) {
 		if(!strcmp(*src, "-e") || !strcmp(*src, "--xterm-execute")) {
 			break;
 		}
@@ -3439,7 +3437,7 @@ sakura_new_window()
 	}
 	*dst = NULL;
 
-	/* get a startup notification ID / xdg-activation token and add it to the environment */
+	/* Get a startup notification ID / xdg-activation token and add it to the environment */
 	char **envp = NULL;
 	/* TODO: keep this instead of recreating every time */
 	GAppInfo *info = G_APP_INFO(g_desktop_app_info_new("sakura.desktop"));
@@ -3466,6 +3464,7 @@ sakura_new_window()
 	if (envp) g_strfreev(envp);
 	if (info) g_object_unref(info);
 }
+
 
 /* Save configuration */
 static void
@@ -3781,8 +3780,9 @@ main(int argc, char **argv)
 	nargv = (char**)calloc((argc+1), sizeof(char*));
 	n = 0; nargc = argc;
 	have_e = FALSE;
-	orig_argc = argc;
-	orig_argv = argv;
+	/* Save original arguments to start a new instance if needed */
+	sakura.orig_argc = argc;
+	sakura.orig_argv = argv;
 
 	for (i=0; i<argc; i++) {
 		if (!have_e && g_strcmp0(argv[i],"-e") == 0)
