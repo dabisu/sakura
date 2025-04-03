@@ -1,3 +1,5 @@
+[![Sponsor sakura!!](https://github.com/sponsors/dabisu/card)](https://github.com/sponsors/dabisu)
+
 # sakura
 
 **sakura** is a simple [gtk](http://www.gtk.org) and [vte](https://gitlab.gnome.org/GNOME/vte) based terminal emulator. It uses tabs to provide several terminals in one window and allows to change configuration options via a contextual menu. No more no less.
