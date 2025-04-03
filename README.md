@@ -55,6 +55,7 @@ To change default keys, set the key value you want to modify to your desired key
 ### Default keybindings
 
 	Ctrl + Shift + T                 -> New tab
+	Ctrl + Shift + O                 -> New window		
 	Ctrl + Shift + W                 -> Close current tab
 	Ctrl + Shift + C                 -> Copy selected text
 	Ctrl + Shift + V                 -> Paste selected text
