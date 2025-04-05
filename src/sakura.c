@@ -2307,6 +2307,7 @@ sakura_init()
 	/* Create our windows */
 	sakura.main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(sakura.main_window), "sakura");
+	gtk_widget_set_name(sakura.main_window, "sakura");
 
 	sakura.fade_window = gtk_window_new(GTK_WINDOW_POPUP);
 	gtk_widget_set_name(sakura.fade_window, "fade_window");
