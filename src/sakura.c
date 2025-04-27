@@ -1863,12 +1863,12 @@ sakura_close_tab_cb (GtkWidget *widget, void *data)
 static void
 sakura_fullscreen_cb (GtkWidget *widget, void *data)
 {
-	if (sakura.fullscreen != TRUE) {
+	if (!sakura.fullscreen) {
 		sakura.fullscreen = TRUE;
 		gtk_window_fullscreen(GTK_WINDOW(sakura.main_window));
 	} else {
-		gtk_window_unfullscreen(GTK_WINDOW(sakura.main_window));
 		sakura.fullscreen = FALSE;
+		gtk_window_unfullscreen(GTK_WINDOW(sakura.main_window));
 	}
 }
 
@@ -2395,14 +2395,11 @@ sakura_init()
 		sakura.last_colorset = option_colorset;
 	}
 
-	/* These options are exclusive */
-	if (option_fullscreen) {
-		sakura_fullscreen_cb(NULL, NULL);
-	} else if (option_maximize) {
-		gtk_window_maximize(GTK_WINDOW(sakura.main_window));
-	}
-
 	sakura.fullscreen = FALSE;
+	if (option_fullscreen) {
+		sakura_fullscreen_cb(NULL, NULL); /* FIXME: Move to sakura_set_size?? */
+	}
+	
 	sakura.resized = FALSE;
 	sakura.externally_modified = false;
 	sakura.first_run=true;
@@ -2865,14 +2862,11 @@ sakura_set_size (void)
 		sakura.width += min_width;
 	}
 
-	/* GTK does not ignore resize for maximized windows on some systems,
-	so we do need check if it's maximized or not */
-	GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(sakura.main_window));
-	if (gdk_window != NULL) {
-		if (gdk_window_get_state(gdk_window) & GDK_WINDOW_STATE_MAXIMIZED) {
-			SAY("window is maximized, will not resize");
-			return;
-		}
+	/* Maximize window at init time when command line option is used */
+	if (option_maximize && sakura.first_run) {
+		gtk_window_maximize(GTK_WINDOW(sakura.main_window));
+		gtk_widget_show_all(GTK_WIDGET(sakura.main_window));
+		return; /* No need to resize */
 	}
 
 	gtk_window_resize(GTK_WINDOW(sakura.main_window), sakura.width, sakura.height);
