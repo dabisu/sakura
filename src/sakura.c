@@ -1919,15 +1919,14 @@ sakura_init()
 	sakura.cfg = g_key_file_new();
 	sakura.config_modified=false;
 
-	configdir = g_build_filename( g_get_user_config_dir(), "sakura", NULL );
-	if ( ! g_file_test( g_get_user_config_dir(), G_FILE_TEST_EXISTS) )
-		g_mkdir( g_get_user_config_dir(), 0755 );
-	if ( ! g_file_test( configdir, G_FILE_TEST_EXISTS) )
-		g_mkdir( configdir, 0755 );
-	if (option_config_file) {
-		sakura.configfile = g_build_filename(configdir, option_config_file, NULL);
+	configdir = g_build_filename( g_get_user_config_dir(), "sakura", NULL);
+	if (!g_file_test(g_get_user_config_dir(), G_FILE_TEST_EXISTS))
+		g_mkdir(g_get_user_config_dir(), 0755 );
+	if (!g_file_test(configdir, G_FILE_TEST_EXISTS))
+		g_mkdir( configdir, 0755);
+	if (option_config_file) { /* Don't force the config path for user conf file */
+		sakura.configfile = option_config_file;
 	} else {
-		/* Use more standard-conforming path for config files, if available. */
 		sakura.configfile = g_build_filename(configdir, DEFAULT_CONFIGFILE, NULL);
 	}
 	g_free(configdir);
