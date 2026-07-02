@@ -450,7 +450,7 @@ static GQuark term_data_id = 0;
 
 
 /* Spawn callback */
-void sakura_spawm_callback (VteTerminal *, GPid, GError, gpointer);
+void sakura_spawn_callback (VteTerminal *, GPid, GError *, gpointer);
 /* VTE callbacks */
 static gboolean sakura_term_buttonpressed_cb (GtkWidget *, GdkEventButton *, gpointer);
 static gboolean sakura_term_buttonreleased_cb (GtkWidget *, GdkEventButton *, gpointer);
@@ -3449,8 +3449,8 @@ sakura_new_window()
 	}
 
 	if (!g_spawn_async(NULL, spawn_argv, envp,
-			G_SPAWN_STDOUT_TO_DEV_NULL | G_SPAWN_STDERR_TO_DEV_NULL,
-			NULL, NULL, &pid, &error)) {
+			   G_SPAWN_SEARCH_PATH | G_SPAWN_STDOUT_TO_DEV_NULL | G_SPAWN_STDERR_TO_DEV_NULL,
+			   NULL, NULL, &pid, &error)) {
 		fprintf(stderr, "Error starting new instance:\n%s\n", error->message);
 		g_error_free(error);
 	}
