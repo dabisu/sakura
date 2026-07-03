@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sakura git\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-27 12:22+0200\n"
+"POT-Creation-Date: 2026-07-02 10:55+0200\n"
 "PO-Revision-Date: 2026-04-13 15:28+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -17,71 +17,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.9\n"
 
-#: src/sakura.c:560
 msgid "Print version number"
 msgstr "ვერსიის ნომრის გამოტანა"
 
-#: src/sakura.c:561 src/sakura.c:1552
 msgid "Set window title"
 msgstr "ფანჯრის სათაურის შეცვლა"
 
-#: src/sakura.c:562
 msgid "Select initial terminal font"
 msgstr "აირჩიეთ ტერმინალის საწყისი ფონტი"
 
-#: src/sakura.c:563
 msgid "Select initial number of tabs"
 msgstr "აირჩიეთ ჩანართების საწყისი რაოდენობა"
 
-#: src/sakura.c:564
 msgid "Set working directory"
 msgstr "სამუშაო საქაღალდის დაყენება"
 
-#: src/sakura.c:565
 msgid "Execute command"
 msgstr "ბრძანების შესრულება"
 
-#: src/sakura.c:566
 msgid "Execute command (last option in the command line)"
 msgstr "ბრძანების შესრულება (ბრძანების სტრიქონის ბოლო პარამეტრი)"
 
-#: src/sakura.c:568
 msgid "Login shell"
 msgstr "შესვლს გარსი"
 
-#: src/sakura.c:569
 msgid "Set window icon"
 msgstr "ფანჯრის ხატულას დაყენება"
 
-#: src/sakura.c:570
 msgid "Set columns number"
 msgstr "სვეტების რაოდენობის დაყენება"
 
-#: src/sakura.c:571
 msgid "Set rows number"
 msgstr "მწკრივების რაოდენობის დაყენება"
 
-#: src/sakura.c:572
 msgid "Hold window after execute command"
 msgstr "ფანჯრის შენარჩუნება ბრძანების შესრულების შემდეგ"
 
-#: src/sakura.c:573
 msgid "Maximize window"
 msgstr "ფანჯრის გადიდება"
 
-#: src/sakura.c:574
 msgid "Fullscreen mode"
 msgstr "სრული ეკრანის რეჟიმი"
 
-#: src/sakura.c:575
 msgid "Use alternate configuration file"
 msgstr "ალტერნატიული კონფიგურაციის ფაილის გამოყენება"
 
-#: src/sakura.c:576
 msgid "Select initial colorset"
 msgstr "საწყისი ფერთა ნაკრების არჩევა"
 
-#: src/sakura.c:1178
 msgid ""
 "There are running processes.\n"
 "\n"
@@ -91,196 +74,148 @@ msgstr ""
 "\n"
 "მართლა გნებავთ Sakura-ის დახურვა?"
 
-#: src/sakura.c:1217
 msgid "Select font"
 msgstr "აირჩიეთ ფონტი"
 
-#: src/sakura.c:1248
 msgid "Set tab name"
 msgstr "ჩანართის სახელის დაყენება"
 
-#: src/sakura.c:1251 src/sakura.c:1380 src/sakura.c:1555 src/sakura.c:2673
 msgid "_Cancel"
 msgstr "გაუ_ქმება"
 
-#: src/sakura.c:1252 src/sakura.c:1556 src/sakura.c:2674
 msgid "_Apply"
 msgstr "გ_ადატარება"
 
-#: src/sakura.c:1264
 msgid "New text"
 msgstr "ახალი ტექსტი"
 
-#: src/sakura.c:1378
 msgid "Select colors"
 msgstr "ფერების არჩევა"
 
-#: src/sakura.c:1380
 msgid "_Select"
 msgstr "_მონიშვნა"
 
-#: src/sakura.c:1389
 msgid "Colorset"
 msgstr "ფერების ნაკრები"
 
-#: src/sakura.c:1400
 msgid "Color scheme"
 msgstr "ფერების სქემა"
 
-#: src/sakura.c:1411
 msgid "Foreground color"
 msgstr "წინა პლანის ფერი"
 
-#: src/sakura.c:1412
 msgid "Background color"
 msgstr "ფონის ფერი"
 
-#: src/sakura.c:1413
 msgid "Cursor color"
 msgstr "კურსორის ფერი"
 
-#: src/sakura.c:1422
 msgid "Opacity level (%)"
 msgstr "გაუმჭვირვალობის დონე (%)"
 
-#: src/sakura.c:1426
 msgid "Palette"
 msgstr "პალიტრა"
 
-#: src/sakura.c:1435
 msgid "Use bright colors for bold text"
 msgstr "კაშკაშა ფერები სქელი ტექსტისთვის"
 
-#: src/sakura.c:1565
 msgid "New window title"
 msgstr "ფანჯრის ახალი სათაური"
 
-#: src/sakura.c:2448
 msgid "Open mail"
 msgstr "ელფოსტის გახსნა"
 
-#: src/sakura.c:2449
 msgid "Open link"
 msgstr "ბმულის გახსნა"
 
-#: src/sakura.c:2450
 msgid "Copy link"
 msgstr "ბმულის კოპირება"
 
-#: src/sakura.c:2451
 msgid "New tab"
 msgstr "ახალი ჩანართი"
 
-#: src/sakura.c:2452
 msgid "Set tab name..."
 msgstr "ჩანართის სახელის დაყენება..."
 
-#: src/sakura.c:2453
 msgid "Close tab"
 msgstr "ჩანართის დახურვა"
 
-#: src/sakura.c:2454
 msgid "Full screen"
 msgstr "სრულ ეკრანზე"
 
-#: src/sakura.c:2455
 msgid "Copy"
 msgstr "კოპირება"
 
-#: src/sakura.c:2456
 msgid "Paste"
 msgstr "ჩასმა"
 
-#: src/sakura.c:2458
 msgid "Options"
 msgstr "მორგება"
 
-#: src/sakura.c:2460
 msgid "Select font..."
 msgstr "ფონტის არჩევა..."
 
-#: src/sakura.c:2461
 msgid "Select colors..."
 msgstr "ფერების არჩევა..."
 
-#: src/sakura.c:2462
 msgid "Show tab bar"
 msgstr "ჩანართის ზოლის ჩვენება"
 
-#: src/sakura.c:2463
 msgid "Always"
 msgstr "ყოველთვის"
 
-#: src/sakura.c:2465
 msgid "When there's more than one tab"
 msgstr "როცა არსებობს ერთზე მეტი ჩანართი"
 
-#: src/sakura.c:2467
 msgid "Never"
 msgstr "არასდროს"
 
-#: src/sakura.c:2468
 msgid "Tabs at bottom"
 msgstr "ჩანართები ქვემოთ"
 
-#: src/sakura.c:2469
 msgid "New tab after current tab"
 msgstr "ახალი ჩანართი მიმდინარე ჩანართის შემდეგ"
 
-#: src/sakura.c:2470
 msgid "Show scrollbar"
 msgstr "ჩოჩიის ჩვენება"
 
-#: src/sakura.c:2471
 msgid "Fewer questions at exit time"
 msgstr "ნაკლები კითხვა გასვლისას"
 
-#: src/sakura.c:2472
 msgid "Automatically copy selected text"
 msgstr "მონიშნული ტექსტის ავტომატური კოპირება"
 
-#: src/sakura.c:2473
 msgid "Set urgent bell"
 msgstr "სასწრაფოობის ზარის დაყენება"
 
-#: src/sakura.c:2474
 msgid "Set audible bell"
 msgstr "გასაგონი ზარის დაყენება"
 
-#: src/sakura.c:2475
 msgid "Set blinking cursor"
 msgstr "მოციმციმე კურსორის დაყენება"
 
-#: src/sakura.c:2476
 msgid "Disable numbered tabswitch"
 msgstr "დანომრილი ჩანართების გადართვის გამორთვა"
 
-#: src/sakura.c:2478
 msgid "Set cursor type"
 msgstr "კურსორის ტიპის დაყენება"
 
-#: src/sakura.c:2479
 msgid "Block"
 msgstr "ბლოკი"
 
-#: src/sakura.c:2480
 msgid "Underline"
 msgstr "ხაზგასმული"
 
-#: src/sakura.c:2481
 msgid "IBeam"
 msgstr "IBeam"
 
-#: src/sakura.c:2670 src/sakura.c:2683
 msgid "Search"
 msgstr "ძებნა"
 
-#: src/sakura.c:3009
 #, c-format
 msgid "Terminal %d"
 msgstr "ტერმინალი %d"
 
-#: src/sakura.c:3341
 msgid ""
 "There is a running process in this terminal.\n"
 "\n"
@@ -290,24 +225,19 @@ msgstr ""
 "\n"
 "მართლა გნებავთ მისი დახურვა?"
 
-#: src/sakura.c:3492
 msgid "Configuration has been modified by another process. Overwrite?"
 msgstr "კონფიგურაცია შეიცვალა სხვა პროცესის მიერ. გადავაწერო თავზე?"
 
-#: src/sakura.c:3543
 msgid "Error message"
 msgstr "შეცდომის შეტყობინება"
 
-#: src/sakura.c:3744 src/sakura.c:3814
 #, c-format
 msgid "Cannot change working directory\n"
 msgstr "სამუშაო საქაღალდის შეცვლა შეუძლებელია\n"
 
-#: src/sakura.c:3800
 msgid "- vte-based terminal emulator"
 msgstr "- vte-ზე დაფუძნებული ტერმინალის ემულატორი"
 
-#: src/sakura.c:3819
 #, c-format
 msgid "sakura version is %s\n"
 msgstr "sakura-ის ვერსიაა %s\n"

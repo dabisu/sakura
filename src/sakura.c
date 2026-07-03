@@ -610,7 +610,7 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	}
 
 	/* New window keybinding pressed */
-	if ( (event->state & sakura.new_window_accelerator) == sakura.new_window_accelerator &&
+	if ( (event->state & accel_mask) == sakura.new_window_accelerator &&
 			keycode == sakura_tokeycode(sakura.new_window_key)) {
 		sakura_new_window();
 		return TRUE;
@@ -620,7 +620,6 @@ sakura_key_press_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	if ((event->state & accel_mask) == sakura.switch_tab_accelerator) {
 	/* If we use accel_mask, GDK_MOD4_MASK (windows key) it's not detected... */
         //if ((event->state & sakura.switch_tab_accelerator) == sakura.switch_tab_accelerator) {
-
 		/* Just propagate the event if there is only one tab */
 		if (npages >= 2) {
 			if ((keycode >= sakura_tokeycode(GDK_KEY_1)) && (keycode <= sakura_tokeycode( GDK_KEY_9))) {

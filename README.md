@@ -65,7 +65,7 @@ To change default keys, set the key value you want to modify to your desired key
 	Alt  + Right cursor              -> Next tab
 	Alt  + Shift + Left cursor       -> Move tab to the left
 	Alt  + Shift + Right cursor      -> Move tab to the right
-	Ctrl + [1-9]                     -> Switch to tab N (1-9)
+	Alt  + [1-9]                     -> Switch to tab N (1-9)
 
 	Ctrl + Shift + S                 -> Toggle/Untoggle scrollbar
 	Ctrl + Shift + Mouse left button -> Open link

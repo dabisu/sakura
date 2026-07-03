@@ -165,12 +165,16 @@ Before sakura used keycodes instead of strings. They're still valid.
 =head2 DEFAULTS
 
     Ctrl + Shift + T                 -> New tab
+    Ctrl + Shift + O                 -> New window
     Ctrl + Shift + W                 -> Close current tab
     Ctrl + Shift + C                 -> Copy selected text
     Ctrl + Shift + V                 -> Paste selected text
-    Ctrl + Left cursor               -> Previous tab
-    Ctrl + Right cursor              -> Next tab
-    Ctrl + [1-9]                     -> Switch to tab N (1-9)
+
+    Alt + Left cursor                -> Previous tab
+    Alt + Right cursor               -> Next tab
+    Alt + Shift + Left cursor        -> Move tab to the left
+    Alt + Shift + Right cursor       -> Move tab to the right
+    Alt + [1-9]                     -> Switch to tab N (1-9)
     Ctrl + Shift + S                 -> Toggle scrollbar
     Ctrl + Shift + Mouse left button -> Open link
     F11                              -> Fullscreen
@@ -178,6 +182,7 @@ Before sakura used keycodes instead of strings. They're still valid.
     Shift + PageDown                 -> Move down through scrollback by page
     Ctrl + Shift + Up                -> Move up through scrollback by line
     Ctrl + Shift + Down              -> Move down through scrollback by line
+    Ctrl + Shift + [F1-F6]           -> Select the colorset for the current tab
 
 You can also increase and decrease the font size in the GTK+ standard way (not configurable):
 
