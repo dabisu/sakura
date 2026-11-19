@@ -452,6 +452,7 @@ static GQuark term_data_id = 0;
 /* Spawn callback */
 void sakura_spawn_callback (VteTerminal *, GPid, GError *, gpointer);
 /* VTE callbacks */
+static gboolean sakura_term_buttonurl_cb (GtkWidget *, GdkEventButton *, gpointer);
 static gboolean sakura_term_buttonpressed_cb (GtkWidget *, GdkEventButton *, gpointer);
 static gboolean sakura_term_buttonreleased_cb (GtkWidget *, GdkEventButton *, gpointer);
 static void     sakura_beep_cb (GtkWidget *, void *);
@@ -963,6 +964,34 @@ sakura_term_buttonreleased_cb (GtkWidget *widget, GdkEventButton *button_event, 
 
 
 static gboolean
+sakura_term_buttonurl_cb (GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
+{
+	struct sakura_tab *sk_tab;
+	gint page, tag;
+	char *match;
+
+	if (button_event->type != GDK_BUTTON_PRESS || button_event->button != 1)
+		return FALSE;
+
+	if ((button_event->state & sakura.open_url_accelerator) != sakura.open_url_accelerator)
+		return FALSE;
+
+	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	sk_tab = sakura_get_sktab(sakura, page);
+
+	match = vte_terminal_match_check_event(VTE_TERMINAL(sk_tab->vte), (GdkEvent *) button_event, &tag);
+	if (!match)
+		return FALSE;
+
+	g_free(sakura.current_match);
+	sakura.current_match = match;
+	sakura_open_url_cb(NULL, NULL);
+
+	return TRUE;
+}
+
+
+static gboolean
 sakura_term_buttonpressed_cb (GtkWidget *widget, GdkEventButton *button_event, gpointer user_data)
 {
 	struct sakura_tab *sk_tab;
@@ -976,16 +1005,6 @@ sakura_term_buttonpressed_cb (GtkWidget *widget, GdkEventButton *button_event, g
 
 	/* Find out if cursor it's over a matched expression...*/
 	sakura.current_match = vte_terminal_match_check_event(VTE_TERMINAL(sk_tab->vte), (GdkEvent *) button_event, &tag);
-
-	/* Left button with accelerator: open the URL if any */
-	if (button_event->button == 1 &&
-	    ((button_event->state & sakura.open_url_accelerator) == sakura.open_url_accelerator) &&
-	    sakura.current_match) {
-
-		sakura_open_url_cb(NULL, NULL);
-
-		return TRUE;
-	}
 
 	/* Paste when paste button is pressed */
 	if (sakura.copy_on_select) {
@@ -3123,6 +3142,7 @@ sakura_add_tab()
 	sk_tab->exit_handler_id = g_signal_connect(G_OBJECT(sk_tab->vte), "child-exited", G_CALLBACK(sakura_child_exited_cb), NULL);
 	g_signal_connect(G_OBJECT(sk_tab->vte), "eof", G_CALLBACK(sakura_eof_cb), NULL);
 	g_signal_connect(G_OBJECT(sk_tab->vte), "window-title-changed", G_CALLBACK(sakura_title_changed_cb), NULL);
+	g_signal_connect(G_OBJECT(sk_tab->vte), "button-press-event", G_CALLBACK(sakura_term_buttonurl_cb), NULL);
 	g_signal_connect_after(G_OBJECT(sk_tab->vte), "button-press-event", G_CALLBACK(sakura_term_buttonpressed_cb), sakura.menu);
 	g_signal_connect_swapped(G_OBJECT(sk_tab->vte), "button-release-event", G_CALLBACK(sakura_term_buttonreleased_cb), sakura.menu);
 
